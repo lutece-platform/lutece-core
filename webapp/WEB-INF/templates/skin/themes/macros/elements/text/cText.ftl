@@ -30,7 +30,7 @@ Snippet:
 -->
 <#macro cText type='p' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type}<#if class!=''> class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<${type}<#if class?has_content> class="${class!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if>>
 <#nested/>
 </${type}>
 </#macro>

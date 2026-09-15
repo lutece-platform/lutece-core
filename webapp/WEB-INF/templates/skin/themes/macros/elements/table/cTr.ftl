@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro cTr class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<tr<#if class!=''> class="${class!}"</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params!}</#if> >
+<tr<#if class?has_content> class="${class!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if> >
 <#nested>
 </tr>
 </#macro>

@@ -36,11 +36,11 @@ Snippet:
 <#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-<#if orientation='vertical'><div class="radio"<#if params!=''> ${params}</#if>>	</#if>
-<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass!=''> ${labelClass!}</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
-<input class="<#if class!=''> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!='' && orientation !='vertical'> ${params}</#if><#if mandatory> required</#if>>
-<#if labelKey!=''>
-<span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
+<#if orientation='vertical'><div class="radio"<#if params?has_content> ${params}</#if>>	</#if>
+<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass?has_content> ${labelClass!}</#if>"<#if labelFor?has_content> for="${labelFor}"</#if>>
+<input class="<#if class?has_content> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params?has_content && orientation !='vertical'> ${params}</#if><#if mandatory> required</#if>>
+<#if labelKey?has_content>
+<span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>"><#if labelKey?has_content>${labelKey}<#else><#nested></#if></span>
 </#if>
 <#nested>
 </label>

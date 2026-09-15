@@ -42,22 +42,22 @@ Snippet:
 -->
 <#macro empty title='' subtitle='' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="empty<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+<div class="empty<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if>>
 <#if img=''>
-	<div class="empty-icon<#if iconClass!=''> ${iconClass}</#if>"><@icon prefix='ti ti-' style='${iconName}' params='style="font-size:48px"' /></div>
+	<div class="empty-icon<#if iconClass?has_content> ${iconClass}</#if>"><@icon prefix='ti ti-' style='${iconName}' params='style="font-size:48px"' /></div>
 <#else>
-	<div class="empty-img<#if imgClass!=''> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div>
+	<div class="empty-img<#if imgClass?has_content> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div>
 </#if>
 	<p class="empty-title"><#if title=''>#i18n{portal.util.message.emptyTitle}	<#else>${title}</#if></p>
-<#if subtitle !=''>
+<#if subtitle?has_content>
 	<p class="empty-subtitle text-muted">${subtitle}</p>
 <#else>
 	<p class="empty-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}</p>
 </#if>
 <#nested>
-<#if actionTitle !=''>
-	<div class="empty-action<#if actionClass!=''> ${actionClass}</#if>">
-		<a href="${actionUrl}" class="btn btn-${actionBtn}"><#if actionIcon !=''><@icon prefix='ti ti-' style='${actionIcon}' /></#if> ${actionTitle}</a>
+<#if actionTitle?has_content>
+	<div class="empty-action<#if actionClass?has_content> ${actionClass}</#if>">
+		<a href="${actionUrl}" class="btn btn-${actionBtn}"><#if actionIcon?has_content><@icon prefix='ti ti-' style='${actionIcon}' /></#if> ${actionTitle}</a>
 	</div>
 </#if>
 </div>

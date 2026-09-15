@@ -25,8 +25,8 @@ Snippet:
 -->
 <#macro tabContent class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card-body<#if class!=''> ${class}</#if>">
-<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-body<#if class?has_content> ${class}</#if>">
+<div class="tab-content"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </div>
 </div>

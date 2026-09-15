@@ -25,7 +25,7 @@ Snippet:
 -->
 <#macro chItem id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li<#if class != ''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<li<#if class?has_content> class="${class}"</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </li>
 </#macro>

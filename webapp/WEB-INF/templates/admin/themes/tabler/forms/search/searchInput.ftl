@@ -27,6 +27,7 @@ Snippet:
 
 -->
 <#macro searchInput name label="" value="" type="" minWidth="" mandatory=false deprecated...>
+<#local type = type?is_markup_output?then(type?markup_string, type) />
 <@deprecatedWarning args=deprecated />
   <div class="col-md">
     <div class="form-floating">

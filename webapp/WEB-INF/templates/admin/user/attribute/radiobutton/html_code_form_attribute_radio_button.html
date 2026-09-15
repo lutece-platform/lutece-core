@@ -21,8 +21,9 @@ set is the labelNone missing value of non mandatory comboxes
 <#if default_values_list?has_content><#list default_values_list as default_value><#if default_value.idUserField != 0><#return true></#if></#list></#if>
 <#return false>
 </#function>
-<#if attribute.helpMessage?exists&&attribute.helpMessage!=''><#assign helpKey = attribute.helpMessage></#if>
-<@formGroup labelKey='${attribute.title?html}' rows=2 helpKey=helpKey mandatory=attribute.mandatory>
+<#if attribute.helpMessage?exists&&attribute.helpMessage?has_content><#assign helpKey = attribute.helpMessage></#if>
+<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+<@formGroup labelKey='${esc1}' rows=2 helpKey=helpKey mandatory=attribute.mandatory>
 <#if attribute.fieldInLine><#assign orientation = 'horizontal'><#else><#assign orientation = 'vertical'></#if>
 <#--
 first pass to see if a value has been stored.
@@ -31,7 +32,7 @@ the 'default' attribute of the field to prefill the form
 -->
 <#assign hasStoredValue = false>
 <#list attribute.listAttributeFields as attributeField>
-<#if attributeField.title?exists && attributeField.value != "">
+<#if attributeField.title?exists && attributeField.value?has_content>
 <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
     <#assign hasStoredValue = true>
 </#if>
@@ -54,7 +55,7 @@ If not, we want to check the "novalue" radio button.
 <@radioButton name='attribute_${attribute.idAttribute}' value='' checked=checked labelKey='#i18n{portal.users.attribute.labelNone}' orientation=orientation />
 </#if>
 <#list attribute.listAttributeFields as attributeField>
-<#if attributeField.title?exists && attributeField.value != "">
+<#if attributeField.title?exists && attributeField.value?has_content>
 <#assign checkedStoredAttribute = hasStoredValue && default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
 <#assign checkedDefaultAttribute = !hasStoredValue && attributeField.defaultValue>
 <#assign checked = checkedStoredAttribute || checkedDefaultAttribute>

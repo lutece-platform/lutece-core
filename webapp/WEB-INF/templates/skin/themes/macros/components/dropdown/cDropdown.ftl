@@ -52,10 +52,10 @@ Snippet:
 <#if centered>
 <div class="btn-group ${direction}">
 </#if>
-<div class="dropdown<#if class!=''> ${class}</#if>"<#if id!=''> id="${id!}"</#if><#if params!=''>${params!}</#if>>
+<div class="dropdown<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id!}"</#if><#if params?has_content>${params!}</#if>>
 <#if !nobutton>
     <#if type !='split'>
-    <button class="btn btn-${btnClass!} dropdown-toggle" type="button" data-bs-toggle="dropdown"<#if autoclose !=''> data-bs-auto-close="${autoclose!}" </#if> aria-expanded="false"<#if disabled> disabled</#if>>
+    <button class="btn btn-${btnClass!} dropdown-toggle" type="button" data-bs-toggle="dropdown"<#if autoclose?has_content> data-bs-auto-close="${autoclose!}" </#if> aria-expanded="false"<#if disabled> disabled</#if>>
         ${label!}
     </button>
     <#else>
@@ -66,7 +66,7 @@ Snippet:
     </#if>
 </#if>
     <${dropDownMenuType} class="dropdown-menu<#if dark> dropdown-menu-dark</#if>">
-        <#if header !=''><li><h4 class="dropdown-header">${header!}</h6></li></#if>
+        <#if header?has_content><li><h4 class="dropdown-header">${header!}</h6></li></#if>
         <#if items?has_content && items?size gt 0>
             <#list items as item>
                 <li><#if itemType='link'><a class="dropdown-item<#if item.active='true'> active</#if><#if item.disabled='true'> disabled</#if>"<#if item.disabled='true'> aria-disabled="true"</#if> href="${item.action!}">${item.label!}</a><#else><button class="dropdown-item<#if item.active='true'> active</#if><#if item.disabled='true'> disabled</#if>"<#if item.disabled='true'> aria-disabled="true"</#if> type="${item.action}">${item.label!}</button></#if></li>
@@ -111,12 +111,12 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <li>
 <#if type='link'>
-<a class="dropdown-<#if !header>item<#else>header</#if><#if class!=''> ${class}</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if><#if id!=''> id="${id!}"</#if><#if params!=''>${params!}</#if> href="${href!}">
-<#if header><h4></#if><#if nestedPos='before'><#nested></#if><#if label!=''>${label!}</#if><#if nestedPos='after'><#nested></#if><#if header></h4></#if>
+<a class="dropdown-<#if !header>item<#else>header</#if><#if class?has_content> ${class}</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content>${params!}</#if> href="${href!}">
+<#if header><h4></#if><#if nestedPos='before'><#nested></#if><#if label?has_content>${label!}</#if><#if nestedPos='after'><#nested></#if><#if header></h4></#if>
 </a>
 <#else>
 <button class="dropdown-<#if !header>item<#else>header</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if> type="${type}">
-<#if header><h4></#if><#if nestedPos='before'><#nested></#if><#if label!=''>${label!}</#if><#if nestedPos='after'><#nested></#if><#if header></h4></#if>
+<#if header><h4></#if><#if nestedPos='before'><#nested></#if><#if label?has_content>${label!}</#if><#if nestedPos='after'><#nested></#if><#if header></h4></#if>
 </button>
 </#if>
 </li>

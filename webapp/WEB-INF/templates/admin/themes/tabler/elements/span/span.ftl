@@ -27,10 +27,11 @@ Snippet:
 
 -->
 <#macro span id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
-<span<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<span<#if class?trim?has_content> class="${class?trim}"</#if><#if params?has_content> ${params}</#if><#if id?has_content> id="${id}"</#if>>
 	<#nested>
 </span>
 </#macro>

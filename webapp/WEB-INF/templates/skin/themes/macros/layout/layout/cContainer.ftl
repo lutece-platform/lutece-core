@@ -33,10 +33,10 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local tpl=.caller_template_name?keep_after("skin/") />
 <@cTpl tpl=tpl>
-<#if class!=''>
-    <#local cClass>container<#if type!=''>-${type}</#if> ${class}</#local> 
+<#if class?has_content>
+    <#local cClass>container<#if type?has_content>-${type}</#if> ${class}</#local> 
 <#else>
-    <#local cClass>container<#if type!=''>-fluid</#if></#local>
+    <#local cClass>container<#if type?has_content>-fluid</#if></#local>
 </#if>
 <@cSection type='div' class=cClass id=id params=params>
 <#nested>

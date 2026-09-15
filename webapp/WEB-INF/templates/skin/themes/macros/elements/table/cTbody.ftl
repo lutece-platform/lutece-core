@@ -25,7 +25,7 @@ Snippet:
 -->
 <#macro cTbody class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<tbody <#if class!=''>${class!}</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params!}</#if> >
+<tbody <#if class?has_content>${class!}</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if> >
 <#nested>
 </tbody>
 </#macro>

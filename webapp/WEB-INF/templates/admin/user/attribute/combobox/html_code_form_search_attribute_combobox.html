@@ -9,19 +9,21 @@
 </#function>
 <#function isSelected nIdField default_values_list>
 <#list default_values_list as default_value>
-	<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value != "">  		
+	<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value?has_content>  		
 		<#return true>
 	</#if>
 </#list>
 <#return false>
 </#function>
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=mandatory rows=2>
+<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+<@formGroup labelKey='${esc1}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=mandatory rows=2>
 <#if isMultiple( attribute.listAttributeFields )><#assign multiple = 10></#if>
 <@select name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' multiple=multiple>
 <#if !isMultiple( attribute.listAttributeFields )><@option label='#i18n{portal.users.attribute.labelAll}' value='' /></#if>
 <#list attribute.listAttributeFields as attributeField>
-	<#if attributeField.title?exists && attributeField.value != "">
-		<@option value=attributeField.idField! label=attributeField.title!?html selected=(default_values_list?has_content && isSelected( attributeField.idField,default_values_list )) /> 
+	<#if attributeField.title?exists && attributeField.value?has_content>
+		<#assign escLabel><#outputformat "HTML">${attributeField.title!}</#outputformat></#assign>
+		<@option value=attributeField.idField! label=escLabel selected=(default_values_list?has_content && isSelected( attributeField.idField,default_values_list )) /> 
 	</#if>
 </#list>
 </@select>

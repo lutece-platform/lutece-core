@@ -17,7 +17,7 @@
 <@deprecatedWarningSite args=deprecated />	
 <#assign editorPath='${editorPath!}' >
 <#assign isEditorLoaded=false>
-<#if editorSelector != '' && editorPath !='' >
+<#if editorSelector?has_content && editorPath?has_content >
 <!-- Include the default theme -->
 <#if !isEditorLoaded>
 <link rel="stylesheet" href="${editorPath}/themes/${skin}.min.css" />
@@ -37,8 +37,8 @@ const editorTxt = document.querySelector('${editorSelector!}');
 sceditor.create( editorTxt, {
 	format: '<#if format == 'bbcode'>bbcode'<#else>'xhtml'</#if>,
 	style: '${editorPath}/themes/content/${skin}.min.css'<#if !emo>,
-	emoticonsEnabled: false</#if><#if icons !=''>,
-	icons: ${icons}</#if><#if plugins !=''>,
+	emoticonsEnabled: false</#if><#if icons?has_content>,
+	icons: ${icons}</#if><#if plugins?has_content>,
 	plugins: ${plugins}</#if>
 });
 </script>

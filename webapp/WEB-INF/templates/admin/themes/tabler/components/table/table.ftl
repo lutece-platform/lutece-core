@@ -61,6 +61,7 @@ Snippet:
 
 -->
 <#macro table id='' class='' responsive=true condensed=true hover=true striped=false headBody=false bordered=false narrow=false collapsed=false caption='' params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local class = class />
 <#if condensed> <#local class += ' table-condensed' /> </#if>
@@ -69,8 +70,8 @@ Snippet:
 <#if bordered>  <#local class += ' table-bordered'  /> </#if>
 <#if collapsed> <#local class += ' collapse' /> </#if>
 <#if responsive><div class="table-responsive"></#if>
-<table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#if caption!=''><caption>${caption}</caption></#if>
+<table class="table ${class?trim}" <#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
+<#if caption?has_content><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>
 	<#nested>
 <#if headBody></tbody></#if>

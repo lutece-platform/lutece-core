@@ -30,8 +30,9 @@ Snippet:
 
 -->
 <#macro cImg src alt='' id='' class='img-fluid' labelDescribedBy='' showLabelDescribedBy=false params='' deprecated...>
+<#local alt = alt?is_markup_output?then(alt?markup_string, alt) />
 <@deprecatedWarning args=deprecated />
-<#local localId><#if id !=''>${id}<#else>${alt?js_string?lower_case?replace(' ','_')}</#if></#local> 
-<img src="${src!}" alt="${alt!}" class="<#if class!=''>${class!}</#if>"<#if labelDescribedBy !=''> aria-descridedby="descridedby_${localId!}"</#if><#if localId!=''> id="${localId!}"</#if><#if params!=''> ${params!}</#if>>
-<#if labelDescribedBy !=''><p id="descridedby_${localId!}"<#if !showLabelDescribedBy> class="visually-hidden"</#if>>${labelDescribedBy!}</p></#if>
+<#local localId><#if id?has_content>${id}<#else>${alt?js_string?lower_case?replace(' ','_')}</#if></#local> 
+<img src="${src!}" alt="${alt!}" class="<#if class?has_content>${class!}</#if>"<#if labelDescribedBy?has_content> aria-descridedby="descridedby_${localId!}"</#if><#if localId?has_content> id="${localId!}"</#if><#if params?has_content> ${params!}</#if>>
+<#if labelDescribedBy?has_content><p id="descridedby_${localId!}"<#if !showLabelDescribedBy> class="visually-hidden"</#if>>${labelDescribedBy!}</p></#if>
 </#macro>

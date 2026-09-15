@@ -30,7 +30,7 @@ Snippet:
 -->
 <#macro cInputGroupAddonText tag='span' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="input-group-text<#if class!=''> ${class!}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${tag} class="input-group-text<#if class?has_content> ${class!}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </${tag}>
 </#macro>

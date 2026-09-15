@@ -65,17 +65,18 @@ Snippet:
 
 -->
 <#macro cTile title url level=3 target='' detail='' imgName='' badge='' badgeClass='' horizontal=false download=false tooltip=false tooltipPos='top' disabled=false class='' id='' params='' deprecated...>
+<#local detail = detail?is_markup_output?then(detail?markup_string, detail) />
 <@deprecatedWarning args=deprecated />
 <#if title?has_content && url?has_content>
 <#local r=random() />
 <#local tileLevel><#if level=1>2<#else>${level!}</#if></#local>
 <#local tileLinkClass>tile-link<#if disabled> disabled</#if></#local>
-<#local tileClass>tile<#if class !=''> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
+<#local tileClass>tile<#if class?has_content> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
 <#local tileDownload><#if download> download</#if></#local>
 <#local tileTarget><#if download><#else>${target!}</#if></#local>
-<#local tileparams><#if params !=''>${params}</#if><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
+<#local tileparams><#if params?has_content>${params}</#if><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
 <@cBlock class=tileClass id=id params=tileparams>
-	<#if imgName!=''>
+	<#if imgName?has_content>
 	<@cBlock class='tile-header'>
 		<@cBlock class='tile-img'>
 			<@cIcon name=imgName />
@@ -83,11 +84,11 @@ Snippet:
 	</@cBlock>
 	</#if>
 	<@cBlock class="tile-body">
-		<#if badge !=''><@cBlock class="tile-badge"><@cBadge label=badge class=badgeClass /></@cBlock ></#if>
+		<#if badge?has_content><@cBlock class="tile-badge"><@cBadge label=badge class=badgeClass /></@cBlock ></#if>
 		<@cLink href=url! class=tileLinkClass label='' target=tileTarget params=tileDownload>
 			<@cTitle level=tileLevel class='tile-title truncate'>${title}</@cTitle>
 		</@cLink>
-		<#if detail !=''><@cText class="tile-detail truncate">${detail}</@cText></#if>
+		<#if detail?has_content><@cText class="tile-detail truncate">${detail}</@cText></#if>
 		<#nested>
 	</@cBlock>
 </@cBlock>

@@ -28,8 +28,8 @@ Snippet:
 -->
 <#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="alert alert-important alert-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#if title!=''><${titleLevel} class='mb-0'><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
+<div class="alert alert-important alert-${color}"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
+	<#if title?has_content><${titleLevel} class='mb-0'><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
 	<#nested>
 </div>
 </#macro>

@@ -1,15 +1,18 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.users.modify_attribute_field.pageTitle} : ${attribute.title?html}' />
+        <#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+        <@pageHeader title='#i18n{portal.users.modify_attribute_field.pageTitle} : ${esc1}' />
 		<@tform id='modify-attr-field' action='jsp/admin/user/attribute/DoModifyAttributeField.jsp#list' method='post' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 			<@input type='hidden' value='${attribute_field.idField}' name='id_field' />
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute_field.labelTitle}' labelFor='attr_title' mandatory=true>
-				<@input type='text' name='title' id='attr_title' value='${attribute_field.title?html}' maxlength=255 />
+				<#assign esc2><#outputformat "HTML">${attribute_field.title}</#outputformat></#assign>
+				<@input type='text' name='title' id='attr_title' value='${esc2}' maxlength=255 />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute_field.labelValue}' labelFor='value' mandatory=true>
-				<@input type='text' name='value' id='value' value='${attribute_field.value?html}' />
+				<#assign esc3><#outputformat "HTML">${attribute_field.value}</#outputformat></#assign>
+				<@input type='text' name='value' id='value' value='${esc3}' />
 			</@formGroup>
 			<@formGroup>
 				<@checkBox orientation='switch' name='default_value' id='default_value' value='1' checked=attribute_field.defaultValue labelKey='#i18n{portal.users.modify_attribute_field.labelDefaultValue}' />

@@ -32,7 +32,7 @@ Snippet:
 
 -->
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-<div class="card<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card<#if color?has_content> bg-${color}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#if collapsed>
 	<#assign aClass = 'collapsed'>
 	<#assign expanded = 'false'>

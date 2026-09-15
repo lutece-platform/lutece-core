@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro iconStack class='fa-2x' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<span class="fa-stack ${class}"<#if id!=''> ${id}</#if><#if params!=''> ${params}</#if>>
+<span class="fa-stack ${class}"<#if id?has_content> ${id}</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </span>
 </#macro>

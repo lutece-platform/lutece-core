@@ -34,5 +34,5 @@ Snippet:
 -->
 <#macro cOption label value id='' class='' selected=false disabled=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<option <#if id!=''>id="${id}"</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params!=''>${params}</#if>>${label!}</option>
+<option <#if id?has_content>id="${id}"</#if><#if class?has_content> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params?has_content>${params}</#if>>${label!}</option>
 </#macro>

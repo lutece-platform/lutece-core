@@ -24,7 +24,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <@pageContainer>
 <@pageColumn>
-<div class="error-page"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="error-page"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<h2 class="headline text-${color}">${errorType}</h2>
 	<div class="error-content">
 		<h3>

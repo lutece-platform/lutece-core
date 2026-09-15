@@ -25,7 +25,7 @@ Snippet:
 -->
 <#macro coloredBg color='' type='p' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type} class="bg-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${type} class="bg-${color}"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </${type}>
 </#macro>

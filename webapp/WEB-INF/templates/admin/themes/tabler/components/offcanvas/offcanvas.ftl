@@ -53,11 +53,11 @@
 <#macro offcanvas id position='end' class='' title='' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false keepPageHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnDropdown><div class="btn-group"></#if>
-<a id="btn-${id}" title="${title}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params!=''> ${params}</#if>>
-    <#if btnIcon!=''><@icon style='${btnIcon}' /></#if>
+<a id="btn-${id}" title="${title}" class="btn<#if btnColor?has_content> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass?has_content> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params?has_content> ${params}</#if>>
+    <#if btnIcon?has_content><@icon style='${btnIcon}' /></#if>
     <#-- Visibility of button title -->
     <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
-    <#if displayTitleClass != ''><span class="${displayTitleClass}"></#if>${btnTitle}<#if displayTitleClass != ''></span></#if>
+    <#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${btnTitle}<#if displayTitleClass?has_content></span></#if>
     <#if badgeContent?has_content><#if badgeColor?has_content><#assign bgColor="bg-" + badgeColor><#else><#assign bgColor=" text-dark"></#if>
         <@tag color=badgeColor class='position-absolute top-0 start-100 translate-middle z-2'>${badgeContent}</@tag>
     </#if>
@@ -73,7 +73,7 @@ ${btnDropdownContent!}
     if ( btn ) {
         btn.setAttribute('data-lutece-offcanvas-id', '${id}'); 
         btn.setAttribute('data-lutece-offcanvas-title', '#i18n{portal.util.labelModify}'); 
-        btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position}<#if size !=''> w-${size}</#if><#if class!=''> ${class}</#if>');
+        btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position}<#if size?has_content> w-${size}</#if><#if class?has_content> ${class}</#if>');
         btn.setAttribute('data-lutece-use-iframe', 'true');
         btn.setAttribute('data-lutece-load-content-url', '${targetUrl}');
         btn.setAttribute('data-lutece-load-content-target', '${targetElement}');
@@ -84,12 +84,12 @@ ${btnDropdownContent!}
 })();
 </script>
 <#else>
-<div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if><#if class!=''> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> data-lutece-reload-on-close=<#if reloadOnClose>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
+<div class="offcanvas offcanvas-${position} <#if size?has_content>w-${size}</#if><#if class?has_content> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> data-lutece-reload-on-close=<#if reloadOnClose>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
     <div class="offcanvas-header border-bottom text-break <#if title=''>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
         <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="Fermer">
             <i class="ti ti-x fs-5"></i>
         </button>
-        <#if title!=''><h2 class="offcanvas-title fw-bolder me-5 text-start" id="${id}Label">${title}</h2></#if>
+        <#if title?has_content><h2 class="offcanvas-title fw-bolder me-5 text-start" id="${id}Label">${title}</h2></#if>
     </div>
     <div id="offcanvas-body-${id}" class="offcanvas-body <#if bodyClass?has_content>${bodyClass}</#if> text-break">
         <#nested>

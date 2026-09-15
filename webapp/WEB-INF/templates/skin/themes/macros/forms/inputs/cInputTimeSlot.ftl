@@ -44,7 +44,7 @@ Snippet:
 -->
 <#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{portal.theme.labelFrom}' labelTo='#i18n{portal.theme.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
+<#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
 <#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
 <@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg helpPos='after' params=params >
 	<@cRow>
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	const browserInfo = getBrowserInfo();
 	// Polyfill for IE / FF / Safari
 	if ( browserInfo.name.includes( 'IE') || browserInfo.name.includes('Firefox') || browserInfo.name.includes('Safari') ) {
-		<#if btnAction !=''>const btnSendStep = document.querySelector('${btnAction}');</#if>
+		<#if btnAction?has_content>const btnSendStep = document.querySelector('${btnAction}');</#if>
 		const timeInputs = document.querySelectorAll('input[type="time"]');
 		// Replace time inputs with text inputs with class "time-polyfill"
 		timeInputs.forEach( input => {
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						break;
 				}
 			}
-        <#if btnAction !=''>
+        <#if btnAction?has_content>
 		// Validate before submitting the form
 		if( btnSendStep != null ){
 			btnSendStep.addEventListener('click', function(e) {

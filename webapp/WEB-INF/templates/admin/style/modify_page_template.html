@@ -3,14 +3,16 @@
     <@columns>
         <@box color='info'>
             <@boxHeader title='#i18n{portal.style.modify_page_template.boxTitle} <strong>${page_template.description}</strong>' skipHeader=true boxTools=true>
-                <@img url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='' title='${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}' />
+                <#assign escPictureAlt><#outputformat "HTML">${i18n("portal.style.manage_page_templates.picturealt",page_template.description)}</#outputformat></#assign>
+                <@img url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='' title=escPictureAlt />
             </@boxHeader>
             <@boxBody>
                 <@tform method='post' params='enctype="multipart/form-data"' id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
                     <@input type='hidden' name='page_template_id' value='${page_template.id}' />
                     <@input type='hidden' name='token' value='${token}' />
                     <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
-                        <@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description?html}' maxlength=50 />
+                        <#assign esc1><#outputformat "HTML">${page_template.description}</#outputformat></#assign>
+                        <@input type='text' name='page_template_description' id='page_template_description' value='${esc1}' maxlength=50 />
                     </@formGroup>
                     <@formGroup>
                         <@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}' size='' />

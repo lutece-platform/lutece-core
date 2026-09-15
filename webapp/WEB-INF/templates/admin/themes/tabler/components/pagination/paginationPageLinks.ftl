@@ -27,59 +27,69 @@ Snippet:
 <@ul class='pagination'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<@li class='page-item'>
-		<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>
+		<#local esc1><#outputformat "HTML">${paginator.firstPageLink}</#outputformat></#local>
+		<@link href='${esc1}' class='page-link'>
 			${paginator.labelFirst}
 		</@link>
 	</@li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<@li class='page-item'>
-		<@link href='${paginator.previousPageLink?xhtml}' class='page-link'>
+		<#local esc2><#outputformat "HTML">${paginator.previousPageLink}</#outputformat></#local>
+		<@link href='${esc2}' class='page-link'>
 			${paginator.labelPrevious}
 		</@link>
 	</@li>
 <#else>
 	<@li class='page-item disabled'>
-		<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>${paginator.labelPrevious}</@link>
+		<#local esc3><#outputformat "HTML">${paginator.firstPageLink}</#outputformat></#local>
+		<@link href='${esc3}' class='page-link'>${paginator.labelPrevious}</@link>
 	</@li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<@li class='page-item'>
-		<@link href='${(paginator.pagesLinks?first).url?xhtml}' class='page-link'><strong>...</strong></@link>
+		<#local esc4><#outputformat "HTML">${(paginator.pagesLinks?first).url}</#outputformat></#local>
+		<@link href='${esc4}' class='page-link'><strong>...</strong></@link>
 	</@li>
 </#if>
 <#list paginator.pagesLinks as pageLink>
 	<#if ( pageLink.index == paginator.pageCurrent )>
 		<@li class='page-item active'>
-			<@link href='${pageLink.url?xhtml}' class='page-link'>${pageLink.name}</@link>
+			<#local esc5><#outputformat "HTML">${pageLink.url}</#outputformat></#local>
+			<@link href='${esc5}' class='page-link'>${pageLink.name}</@link>
 		</@li>
 	<#else>
 		<@li class='page-item'>
-			<@link href='${pageLink.url?xhtml}' class='page-link'>${pageLink.name}</@link>
+			<#local esc6><#outputformat "HTML">${pageLink.url}</#outputformat></#local>
+			<@link href='${esc6}' class='page-link'>${pageLink.name}</@link>
 		</@li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 	<@li class='page-item'>
-		<@link href='${(paginator.pagesLinks?last).url?xhtml}' class='page-link'><strong>...</strong></@link>
+		<#local esc7><#outputformat "HTML">${(paginator.pagesLinks?last).url}</#outputformat></#local>
+		<@link href='${esc7}' class='page-link'><strong>...</strong></@link>
 	</@li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<@li class='page-item next'>
-		<@link href="${paginator.nextPageLink?xhtml}" class='page-link'>
+		<#local esc8><#outputformat "HTML">${paginator.nextPageLink}</#outputformat></#local>
+		<@link href="${esc8}" class='page-link'>
 			${paginator.labelNext}
 		</@link>
 	</@li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<@li class='page-item next'>
-			<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>
+			<#local esc9><#outputformat "HTML">${paginator.lastPageLink}</#outputformat></#local>
+			<@link href='${esc9}' class='page-link'>
 				${paginator.labelLast}
 			</@link>
 		</@li>
 	</#if>
 <#else>
 	<@li class='page-item disabled'>
-		<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>${paginator.labelNext}</@link>
+		<#local esc10><#outputformat "HTML">${paginator.lastPageLink}</#outputformat></#local>
+		<@link href='${esc10}' class='page-link'>${paginator.labelNext}</@link>
 	</@li>
 </#if>
 </@ul>

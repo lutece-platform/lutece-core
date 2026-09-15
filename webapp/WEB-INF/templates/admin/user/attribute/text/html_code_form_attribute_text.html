@@ -1,7 +1,8 @@
-<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+<#if attribute.helpMessage?exists&&attribute.helpMessage?has_content>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' mandatory=attribute.mandatory helpKey=helpKey rows=2>
+<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+<@formGroup labelKey='${esc1}' labelFor='attribute_${attribute.idAttribute}' mandatory=attribute.mandatory helpKey=helpKey rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.width?? && ( attributeField.width > 0 )>
 			<#assign size = 'attributeField.width'>

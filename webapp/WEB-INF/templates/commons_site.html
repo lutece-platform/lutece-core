@@ -81,59 +81,59 @@
 <ul class="pagination pagination-sm">
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 <li class="page-item">
-	<a class="page-link" href="${paginator.firstPageLink?xhtml}">
+	<a class="page-link" href="<#outputformat "HTML">${paginator.firstPageLink}</#outputformat>">
 		${paginator.labelFirst}
 	</a>
 </li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 <li class="page-item previous">
-	<a class="page-link" href="${paginator.previousPageLink?xhtml}">
+	<a class="page-link" href="<#outputformat "HTML">${paginator.previousPageLink}</#outputformat>">
 		${paginator.labelPrevious}
 	</a>
 </li>
 <#else>
 <li class="page-item disabled">
-	<a class="page-link" href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
+	<a class="page-link" href="<#outputformat "HTML">${paginator.firstPageLink}</#outputformat>">${paginator.labelPrevious}</a>
 </li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 <li class="page-item">
-	<a class="page-link" href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
+	<a class="page-link" href="<#outputformat "HTML">${(paginator.pagesLinks?first).url}</#outputformat>"><strong>...</strong></a>
 </li>
 </#if>
 <#list paginator.pagesLinks as link>
 <#if ( link.index == paginator.pageCurrent )>
 	<li class="page-item active">
-		<a class="page-link" href="${link.url?xhtml}">${link.name}</a>
+		<a class="page-link" href="<#outputformat "HTML">${link.url}</#outputformat>">${link.name}</a>
 	</li>
 <#else>
 	<li class="page-item">
-		<a class="page-link" href="${link.url?xhtml}">${link.name}</a>
+		<a class="page-link" href="<#outputformat "HTML">${link.url}</#outputformat>">${link.name}</a>
 	</li>
 </#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 <li class="page-item">
-	<a class="page-link" href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
+	<a class="page-link" href="<#outputformat "HTML">${(paginator.pagesLinks?last).url}</#outputformat>"><strong>...</strong></a>
 </li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 <li class="page-item next">
-	<a class="page-link" href="${paginator.nextPageLink?xhtml}">
+	<a class="page-link" href="<#outputformat "HTML">${paginator.nextPageLink}</#outputformat>">
 	${paginator.labelNext}
 	</a>
 </li>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 	<li class="page-item next">
-		<a class="page-link" href="${paginator.lastPageLink?xhtml}">
+		<a class="page-link" href="<#outputformat "HTML">${paginator.lastPageLink}</#outputformat>">
 			${paginator.labelLast}
 		</a>
 	</li>
 </#if>
 <#else>
 <li class="page-item disabled">
-	<a class="page-link" href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
+	<a class="page-link" href="<#outputformat "HTML">${paginator.lastPageLink}</#outputformat>">${paginator.labelNext}</a>
 </li>
 </#if>
 </ul>
@@ -168,13 +168,13 @@
 <#macro item_navigationSite item_navigator>
 <div id="item-navigator">
 <#if (item_navigator.currentItemId > 0)>
-<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
+<a href="<#outputformat "HTML">${item_navigator.previousPageLink}</#outputformat>" title="#i18n{portal.util.labelPrevious}">
 	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" /><path d="M8 12l4 4" /><path d="M8 12h8" /><path d="M12 8l-4 4" /></svg>
 	#i18n{portal.util.labelPrevious}
 </a>
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
+<a href="<#outputformat "HTML">${item_navigator.nextPageLink}</#outputformat>" title="#i18n{portal.util.labelNext}">
 	#i18n{portal.util.labelNext}
 	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" /><path d="M16 12l-4 -4" /><path d="M16 12h-8" /><path d="M12 16l4 -4" /></svg>
 </a>
@@ -233,14 +233,14 @@
 <#elseif column.typeColumn = "EMAIL">
 	<#assign propName = "item." + column.parameterName>
 	<#assign value = propName?eval>
-	<td><#if value?? && value != ""><a href="mailto:${value}" title="${value}" >${value}</a></#if></td>
+	<td><#if value?? && value?has_content><a href="mailto:${value}" title="${value}" >${value}</a></#if></td>
 <#elseif column.typeColumn = "ACTION">
-	<#if column.parameterName?? && column.parameterName != "">
+	<#if column.parameterName?? && column.parameterName?has_content>
 		<#assign macroName = column.parameterName>
-	<#elseif actionMacro?? && actionMacro != "">
+	<#elseif actionMacro?? && actionMacro?has_content>
 		<#assign macroName = actionMacro>
 	</#if>
-	<#if macroName?? && macroName != "">
+	<#if macroName?? && macroName?has_content>
 		<td><@.vars[macroName] item=item /></td>
 	</#if>
 </#if>
@@ -307,7 +307,7 @@
 <div class="mb-3">
 	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
 	<input class="form-control ${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" aria-describedby="${inputName}HelpBlock"<#if maxlength &gt; 0>maxlength=${maxlength}</#if>>
-	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 	</div>
 </div>
 </#macro>
@@ -318,7 +318,7 @@
 		<span class="input-group-text"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg></span>
 		<input class="form-control${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" aria-describedby="${inputName}HelpBlock">
 	</div>
-	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 </div>
 <@getDatePicker idField=inputName language=language />
 </#macro>
@@ -326,7 +326,7 @@
 <div class="mb-3">
 	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label>
 	<input class="form-control ${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
-	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 </div>
 </#macro>
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
@@ -334,21 +334,21 @@
 	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
 	<#assign params = "class='" + cssClass + "'" >
 	<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
-	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 </div>
 </#macro>
 <#macro fieldTextAreaSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 <div class="mb-3">
 	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
 	<textarea class="form-control ${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
-	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 </div>
 </#macro>
 <#macro autocompleteFO id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" placeHolder="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" >
 <div id="${id}" class="lutece-autocomplete dropdown form-group form-floating" data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-itemValueFieldName=${itemValueFieldName} data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
 <label for="${id}-input">${searchLabel}</label>
 <div class="input-group">
-	<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" role="combobox" autocomplete="off" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
+	<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" role="combobox" autocomplete="off" value="<#if currentValue?has_content>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
 	<span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
 		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
 	</span>

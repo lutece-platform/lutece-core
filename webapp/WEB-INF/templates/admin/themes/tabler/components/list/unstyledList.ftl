@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro unstyledList id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="unstyled"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<ul class="unstyled"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#assign liClass = "margin">
 	<#nested>
 </ul>

@@ -29,7 +29,7 @@ Snippet:
 <#macro cMainFooter title=mainSite nested_pos='after'  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if !dskey('theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
-<footer role="contentinfo"<#if params !=''> ${params!}</#if>>
+<footer role="contentinfo"<#if params?has_content> ${params!}</#if>>
   <div class="container">
      <div class="foot__grid">
         <div>

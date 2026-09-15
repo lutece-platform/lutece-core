@@ -39,9 +39,9 @@ Snippet:
 -->
 <#macro cMainNavItem title url urlClass='' target='' role='' showTitle=false id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="nav-item<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><#if params!=''> ${params}</#if>>
-<#if url !=''>
-    <a class="nav-link<#if urlClass !='' > ${urlClass!}</#if>"<#if role !=''> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target!=''> target="${target}"</#if>>
+<li class="nav-item<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><#if params?has_content> ${params}</#if>>
+<#if url?has_content>
+    <a class="nav-link<#if urlClass?has_content > ${urlClass!}</#if>"<#if role?has_content> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target?has_content> target="${target}"</#if>>
         ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{portal.theme.newWindowLink}</span></#if>
         <#nested>
     </a>

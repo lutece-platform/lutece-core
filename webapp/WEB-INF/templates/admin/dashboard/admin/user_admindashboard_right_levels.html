@@ -7,7 +7,8 @@
             <@manageFeatureItem>
                 <@manageFeatureItemColumn>${level.name}</@manageFeatureItemColumn>
                 <@manageFeatureItemColumn auto=true>
-                    <@offcanvas targetUrl="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${level.name?html}" btnTitle="#i18n{portal.features.manage_groups.buttonModify}" btnIcon="edit" btnColor="primary" position="end" />
+                    <#assign esc1><#outputformat "HTML">${level.name}</#outputformat></#assign>
+                    <@offcanvas targetUrl="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${esc1}" btnTitle="#i18n{portal.features.manage_groups.buttonModify}" btnIcon="edit" btnColor="primary" position="end" />
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>
         </#list>

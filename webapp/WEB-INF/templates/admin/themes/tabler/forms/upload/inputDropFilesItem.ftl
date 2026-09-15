@@ -69,7 +69,7 @@ Snippet:
 </#switch>
 </#if>
 <#if ext = ''><#local ext=name?keep_after_last('.') /></#if>
-<li class="files-item<#if class!=''> ${class}</#if>" id="_file_uploaded_${name}${idx}">
+<li class="files-item<#if class?has_content> ${class}</#if>" id="_file_uploaded_${name}${idx}">
     <label class="files-item-label<#if image=true> image</#if>" for="${cId}">
         <#if image=true><img src="themes/shared/images/none.svg" alt="" width="80" class="img-fluid img-thumbnail"></#if>
         <a href="${cUrlDl}" class="files-item-link" title="#i18n{portal.util.labelDownload} ${label}" data-type="${ext!}" data-img="">
@@ -77,7 +77,7 @@ Snippet:
             <span class="file-item-info"><#if fileSize?has_content>${octetNumber?string["0"]} ${octetUnit}</#if></span>
         </a>
     </label>
-    <button type="button" class="btn btn-link main-color deleteSingleFile p-0"<#if cUrlRm !=''> data-url="${cUrlRm!}"</#if> data-item="#_file_uploaded_${name}${idx}" fieldName="${name}" handlerName="${handlerName!}" index="${idx}" title="#i18n{portal.util.labelDelete} ${fileLabel}"> 
+    <button type="button" class="btn btn-link main-color deleteSingleFile p-0"<#if cUrlRm?has_content> data-url="${cUrlRm!}"</#if> data-item="#_file_uploaded_${name}${idx}" fieldName="${name}" handlerName="${handlerName!}" index="${idx}" title="#i18n{portal.util.labelDelete} ${fileLabel}"> 
         <svg class="paris-icon paris-icon-close" role="img" aria-hidden="true" focusable="false">
             <use xlink:href="#paris-icon-close"></use>
         </svg>

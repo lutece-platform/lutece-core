@@ -11,10 +11,11 @@
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post' boxed=true>
 					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
-						<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255   />
+						<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+						<@input type='text' name='title' id='attr_title' value='${esc1}' maxlength=255   />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.modify_attribute.labelHelpMessageComment}'>
-						<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5>${attribute.helpMessage?html}</@input>
+						<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5><#outputformat "HTML">${attribute.helpMessage}</#outputformat></@input>
 					</@formGroup>
 					<@formGroup>
 						<@checkBox orientation='switch' name='is_shown_in_search' id='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
@@ -66,16 +67,20 @@
 									<@manageFeatureItemColumn align='end'>
 										<#if cpt != 1>
 											<@tform method='post' action='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp#list'>
-												<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
-												<@input type='hidden' name='id_field' value='${attribute_field.idField?html}' />
+												<#assign esc2><#outputformat "HTML">${attribute.idAttribute}</#outputformat></#assign>
+												<@input type='hidden' name='id_attribute' value='${esc2}' />
+												<#assign esc3><#outputformat "HTML">${attribute_field.idField}</#outputformat></#assign>
+												<@input type='hidden' name='id_field' value='${esc3}' />
 												<@input type='hidden' name='token' value='${token}' />
 												<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' hideTitle=['all'] />
 											</@tform>
 										</#if>
 										<#if attribute_field_has_next>
 											<@tform method='post' action='jsp/admin/user/attribute/DoMoveDownAttributeField.jsp#list'>
-												<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
-												<@input type='hidden' name='id_field' value='${attribute_field.idField?html}' />
+												<#assign esc4><#outputformat "HTML">${attribute.idAttribute}</#outputformat></#assign>
+												<@input type='hidden' name='id_attribute' value='${esc4}' />
+												<#assign esc5><#outputformat "HTML">${attribute_field.idField}</#outputformat></#assign>
+												<@input type='hidden' name='id_field' value='${esc5}' />
 												<@input type='hidden' name='token' value='${token}' />
 												<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' hideTitle=['all'] />
 											</@tform>

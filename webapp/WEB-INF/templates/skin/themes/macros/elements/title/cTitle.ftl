@@ -32,7 +32,7 @@ Snippet:
 -->
 <#macro cTitle level=1 id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<h${level}<#if class!=''> class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<h${level}<#if class?has_content> class="${class!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if>>
 <#nested/>
 </h${level}>
 </#macro>

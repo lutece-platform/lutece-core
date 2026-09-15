@@ -29,7 +29,7 @@ Snippet:
 <#macro pageContainer id='lutece-main' template='' height='' class='' actions='' params='' deprecated...> 
 <@deprecatedWarning args=deprecated />
 <!-- Begin page content -->
-<main role="main" <#if id!=''> id="${id}"</#if>  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>" ${params!}>
+<main role="main" <#if id?has_content> id="${id}"</#if>  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>" ${params!}>
 <#nested>
 </main>
 <#if height='full'>
@@ -37,7 +37,7 @@ Snippet:
 footer {display: none;}
 </style>
 </#if>
-<#if actions!=''>
+<#if actions?has_content>
 <script>
 document.addEventListener( "DOMContentLoaded", function() {
     const actions = `${actions}`;

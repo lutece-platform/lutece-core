@@ -1,6 +1,7 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html) class='col-md-6'>
+		<#assign escTitle><#outputformat "HTML">${i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key)}</#outputformat></#assign>
+		<@pageHeader title=escTitle class='col-md-6'>
 		<@tform method='post' type='inline'>
 			<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 				<@inputGroup>
@@ -12,13 +13,13 @@
 		</@pageHeader>
 			<@ul class='steps steps-counter mt-4'>
 				<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</@li>
-				<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</@li>
+				<@li class="step-item"><#outputformat "HTML">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</#outputformat></@li>
 			</@ul>
 			<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids' boxed=true>
 			<@input type='hidden' name='role_key' value='${role_key}' />
 			<@input type='hidden' name='resource_type' value='${resource_type}' />
 			<@input type='hidden' name='select_resources' value='${select_resources}' />
-			<@h level=2 class='mb-3'>${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label?html)}</@h>
+			<@h level=2 class='mb-3'><#outputformat "HTML">${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label)}</#outputformat></@h>
 			<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList'>
 				<#list resource_id_list?sort_by('name') as item>
 					<@checkBox orientation='switch' name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' labelClass='searchable' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />

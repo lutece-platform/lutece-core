@@ -24,5 +24,5 @@ Snippet:
 -->
 <#macro img url='' alt='' title='' class='img-fluid' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated /> 
-<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}"<#if class!=''> class=" ${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
+<img src="${url}" alt="<#if alt?has_content>${alt!}<#else>${title!}</#if>" title="${title}"<#if class?has_content> class=" ${class}"</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> />
 </#macro>

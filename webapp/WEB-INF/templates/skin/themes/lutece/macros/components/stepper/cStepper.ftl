@@ -40,8 +40,8 @@ Snippet:
     <#if steps?has_content>
 		<#assign nbSteps = steps?size >
     	<#list steps as step>
-			<li class="step <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
-			<#if hasidx><div class="step_num<#if step.status?? && step.status != ''> ${step.status}</#if>" >${step?index + 1}</div></#if>
+			<li class="step <#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
+			<#if hasidx><div class="step_num<#if step.status?? && step.status?has_content> ${step.status}</#if>" >${step?index + 1}</div></#if>
 			<#if haspicto>
 				<figure class="p-3 mb-0" data-idx="${step?index + 1}">
 					<img src="${step.url!}" class="img-fluid" alt="${step.title!}">

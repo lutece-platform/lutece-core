@@ -22,7 +22,7 @@ Snippet:
 -->  
 <#macro cSearchSetResultPageTitle >
 <script>
-<#if query?? && query!=''>
+<#if query?? && query?has_content>
 window.addEventListener( "load", function() {
     const pageTitle = document.querySelector('title');
     const title = pageTitle.textContent

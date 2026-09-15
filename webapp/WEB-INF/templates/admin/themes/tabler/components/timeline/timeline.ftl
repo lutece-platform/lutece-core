@@ -32,7 +32,7 @@ Snippet:
 -->
 <#macro timeline class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="list list-timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<ul class="list list-timeline<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </ul>
 </#macro>

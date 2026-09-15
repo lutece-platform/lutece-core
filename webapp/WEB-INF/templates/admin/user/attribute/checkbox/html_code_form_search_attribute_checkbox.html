@@ -1,14 +1,15 @@
 <#function isSelected nIdField default_values_list>
 	<#list default_values_list as default_value>
-		<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value != "">  		
+		<#if default_value.attributeField?exists && default_value.attributeField.idField = nIdField && default_value.value?has_content>  		
 			<#return true>
 		</#if>
 	</#list>
 	<#return false>
 </#function>
-<@formGroup labelKey='${attribute.title?html}' rows=2>
+<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+<@formGroup labelKey='${esc1}' rows=2>
 	<#list attribute.listAttributeFields as attributeField>
-		<#if attributeField.title?exists && attributeField.value != "">
+		<#if attributeField.title?exists && attributeField.value?has_content>
 			<#if attribute.fieldInLine>
 				<#assign orientation = horizontal>
 			<#else>

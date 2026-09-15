@@ -23,9 +23,10 @@ Snippet:
 
 -->
 <#macro li id='' params='' class='' hide=[] align='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<li<#if class?trim?has_content> class="${class?trim}"</#if><#if params?has_content> ${params}</#if><#if id?has_content> id="${id}"</#if>>
 <#nested>
 </li>
 </#macro>

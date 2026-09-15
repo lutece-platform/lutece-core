@@ -28,9 +28,10 @@ Snippet:
 
 -->
 <#macro tr id='' class='' hide=[] params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
-<tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tr<#if id?has_content> id="${id}"</#if><#if class?trim?has_content> class="${class?trim}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </tr>
 </#macro>

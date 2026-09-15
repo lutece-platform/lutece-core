@@ -31,8 +31,8 @@ Snippet:
 -->
 <#macro cFigure caption='' id='' class='figure' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<figure <#if class!=''>class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<figure <#if class?has_content>class="${class!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if>>
 <#nested/>
-<#if caption!=''><@cFigCaption class='figure-caption'>${caption!}</@cFigCaption></#if>
+<#if caption?has_content><@cFigCaption class='figure-caption'>${caption!}</@cFigCaption></#if>
 </figure>
 </#macro>

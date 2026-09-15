@@ -33,9 +33,9 @@ Snippet:
 <#assign styleParams='' />
 <#assign toastParams=params />
 <#if duration?number == 0><#assign autohide=false ><#else><#assign autohide=true ></#if>
-<#if position !=''><#assign styleParams> style="${position}"</#assign></#if>
-<#if styleParams !=''><#assign toastParams += styleParams /></#if>
-<div<#if id !=''> id="${id}"</#if> class="toast-container ${position} p-3<#if class !=''> ${class}</#if>"<#if toastParams !=''> ${toastParams}</#if>>
+<#if position?has_content><#assign styleParams> style="${position}"</#assign></#if>
+<#if styleParams?has_content><#assign toastParams += styleParams /></#if>
+<div<#if id?has_content> id="${id}"</#if> class="toast-container ${position} p-3<#if class?has_content> ${class}</#if>"<#if toastParams?has_content> ${toastParams}</#if>>
 <#nested>
 </div>
 <script>
@@ -107,10 +107,10 @@ Snippet:
 -->
 <#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<#if id !=''> id="${id}"</#if> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<#if params !=''> ${params}"</#if>>
-  <#if title !=''>
+<div<#if id?has_content> id="${id}"</#if> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<#if params?has_content> ${params}"</#if>>
+  <#if title?has_content>
     <div class="toast-header">
-      <#if imgUrl !=''><img src="${imgUrl}" class="rounded me-2"></#if>
+      <#if imgUrl?has_content><img src="${imgUrl}" class="rounded me-2"></#if>
       <@cTitle level=titleLevel class='me-auto my-0 ${titleClass}'>${title}</@cTitle>
       <#if delay = 0><button type="button" class="ms-auto btn-close" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}">&times;</button></#if>
     </div>

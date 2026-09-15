@@ -33,6 +33,6 @@ Snippet:
 <#macro cIcon name='check' class='' id='' title='' params='' prefix='ti ti-' type='span' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local params = params />
-<#if title !=''><#local params>${params} title="${title}"</#local></#if>
+<#if title?has_content><#local params>${params} title="${title}"</#local></#if>
 <@cInline type=type class='${prefix}${name} ${class}' id=id params=params />
 </#macro>

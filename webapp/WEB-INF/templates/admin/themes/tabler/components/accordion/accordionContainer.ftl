@@ -32,7 +32,7 @@ Snippet:
    <#if accordionContainerId?? == false><#assign accordionContainerId = 1 ><#else><#assign accordionContainerId = accordionContainerId + 1 ></#if>
    <#local id = 'accCont_'+ accordionContainerId >
 </#if>
-<div class="accordion<#if class!=''> ${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
+<div class="accordion<#if class?has_content> ${class}</#if>" id="${id}"<#if params?has_content> ${params}</#if>>
 <#assign parentId = id>
 <#nested>
 </div>

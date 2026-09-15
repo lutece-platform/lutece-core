@@ -32,7 +32,7 @@ Snippet:
 -->  
 <#macro cThead class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<thead <#if class!=''>thead-${class!}</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params!}</#if> >
+<thead <#if class?has_content>thead-${class!}</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if> >
 <#nested>
 </thead>
 </#macro>

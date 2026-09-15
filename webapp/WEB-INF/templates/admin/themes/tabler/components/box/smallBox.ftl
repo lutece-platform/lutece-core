@@ -31,19 +31,19 @@ Snippet:
 -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card card-sm mb-3 box-widget" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card card-sm mb-3 box-widget" draggable='true' <#if id?has_content> id="${id}" data-id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<div class="card-body">
 		<div class="row align-items-center">
 			<div class="col-auto">
-				<#if color !=''><span class="bg-${color} text-white avatar"></#if>
+				<#if color?has_content><span class="bg-${color} text-white avatar"></#if>
 					<@icon style=boxIcon  />
-				<#if color !=''></span></#if>
+				<#if color?has_content></span></#if>
 			</div>
 			<div class="col">
-			<#if url!=''><a class="card-link" href="${url}"></#if>
-			<${titleLevel} class="font-weight-medium"><span class="counter">${title}</span><#if unit!=''> ${unit}</#if></${titleLevel}>
+			<#if url?has_content><a class="card-link" href="${url}"></#if>
+			<${titleLevel} class="font-weight-medium"><span class="counter">${title}</span><#if unit?has_content> ${unit}</#if></${titleLevel}>
 			<div class="text-muted">${text}</div>
-			<#if url!=''></a></#if>
+			<#if url?has_content></a></#if>
 			</div>
 		</div>
 	</div>

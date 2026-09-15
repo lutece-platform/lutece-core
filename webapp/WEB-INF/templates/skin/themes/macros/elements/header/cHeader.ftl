@@ -34,8 +34,8 @@ Snippet:
 -->
 <#macro cHeader title='' titleClass='' titleUrl='' titleUrlClass='' titleLevel=2 class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<header <#if class!=''> class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if> >
-    <#if title !=''><@cTitle level=titleLevel class=titleClass ><#if titleUrl !=''><a href="${titleUrl!}"<#if titleUrlClass !=''> class="${titleUrlClass!}"</#if> title="${title!}"></#if>${title!}<#if titleUrl !=''></a></#if></@cTitle></#if>
+<header <#if class?has_content> class="${class!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if> >
+    <#if title?has_content><@cTitle level=titleLevel class=titleClass ><#if titleUrl?has_content><a href="${titleUrl!}"<#if titleUrlClass?has_content> class="${titleUrlClass!}"</#if> title="${title!}"></#if>${title!}<#if titleUrl?has_content></a></#if></@cTitle></#if>
     <#nested>
 </header>
 </#macro>

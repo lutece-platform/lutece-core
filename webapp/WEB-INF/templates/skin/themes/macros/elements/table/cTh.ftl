@@ -29,7 +29,7 @@ Snippet:
 -->
 <#macro cTh id='' class='' scope='col' role='columnheader' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<th scope="${scope!}" class="<#if class != ''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+<th scope="${scope!}" class="<#if class?has_content>${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
     <#nested>
 </th>
 </#macro>

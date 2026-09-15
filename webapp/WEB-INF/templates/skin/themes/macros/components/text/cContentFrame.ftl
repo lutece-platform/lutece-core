@@ -33,8 +33,8 @@ Snippet:
 -->
 <#macro cContentFrame title class='content-frame-primary' titleLevel=2 titleClass='' contentClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="content-frame ${class}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
-<#if title?? && title !=''><@cTitle level=titleLevel class='h4 content-frame-title ${titleClass}'>${title}</@cTitle></#if>
-<div class="content-frame-content<#if contentClass!=''> ${contentClass}</#if>"><#nested></div>
+<div class="content-frame ${class}" <#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
+<#if title?? && title?has_content><@cTitle level=titleLevel class='h4 content-frame-title ${titleClass}'>${title}</@cTitle></#if>
+<div class="content-frame-content<#if contentClass?has_content> ${contentClass}</#if>"><#nested></div>
 </div>
 </#macro>

@@ -21,7 +21,7 @@ Snippet:
 -->
 <#function alignmentSettings align='' style=''>
 <#local x = ''>
-<#if align !=''>
+<#if align?has_content>
 	<#if align = 'left'>
 		<#if style = 'text'>
 			<#local x = 'text-left' />

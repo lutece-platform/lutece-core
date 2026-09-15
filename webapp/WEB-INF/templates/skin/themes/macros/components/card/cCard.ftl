@@ -58,15 +58,15 @@ Snippet:
 <#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if orientation='v'>
-<div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
-    <#if header!=''>
-    <div class="card-header<#if headerClass !=''> ${headerClass}</#if><#if headerImg!=''> card-header-img</#if>"<#if headerImg!=''>style="background-image:url(${headerImg});"</#if>>
-    <#if headerLabelClass!=''><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
+<div class="card ${class!}"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params!}</#if>>
+    <#if header?has_content>
+    <div class="card-header<#if headerClass?has_content> ${headerClass}</#if><#if headerImg?has_content> card-header-img</#if>"<#if headerImg?has_content>style="background-image:url(${headerImg});"</#if>>
+    <#if headerLabelClass?has_content><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
     </div>
     </#if>
-    <#if subHeader!=''><div class="card-sub-header<#if subHeaderClass !=''> ${subHeaderClass}</#if>">${subHeader!}</div>
+    <#if subHeader?has_content><div class="card-sub-header<#if subHeaderClass?has_content> ${subHeaderClass}</#if>">${subHeader!}</div>
     </#if>
-    <#if img!=''>
+    <#if img?has_content>
     <figure<#if hoverEffect> class="card-figure ${imgClass}"</#if>>
     <#if imgType !='svg'>
         <@cImg src=img! class='card-img-top' alt=imgAlt! />
@@ -76,16 +76,16 @@ Snippet:
     </figure>
     </#if>
     <@cBlock class='card-body'>
-        <#if title!=''><@cTitle level=titleLevel class='card-title ${titleClass}'><#if titleUrl!=''><a href="${titleUrl}" class="card-title-link"<#if titleUrlTitle!=''> title="${titleUrlTitle!}"</#if>></#if>${title}<#if titleUrl!=''></a></#if></@cTitle></#if>
-        <#if subtitle!=''><@cTitle level=subtitleLevel class='card-subtitle mb-2 text-muted ${subtitleClass}'>${subtitle}</@cTitle></#if>
+        <#if title?has_content><@cTitle level=titleLevel class='card-title ${titleClass}'><#if titleUrl?has_content><a href="${titleUrl}" class="card-title-link"<#if titleUrlTitle?has_content> title="${titleUrlTitle!}"</#if>></#if>${title}<#if titleUrl?has_content></a></#if></@cTitle></#if>
+        <#if subtitle?has_content><@cTitle level=subtitleLevel class='card-subtitle mb-2 text-muted ${subtitleClass}'>${subtitle}</@cTitle></#if>
         <#nested>
     </@cBlock>
-    <#if footer!=''><div class="card-footer text-muted<#if footerClass !=''> ${footerClass}</#if>">${footer!}</div></#if>
+    <#if footer?has_content><div class="card-footer text-muted<#if footerClass?has_content> ${footerClass}</#if>">${footer!}</div></#if>
 </div>
 <#else>
-<div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
+<div class="card ${class!}"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params!}</#if>>
 	<@cRow class='m-0'>
-		<#if img!=''>
+		<#if img?has_content>
 			<div class="<#if vcolsInit gt 0>col-${vcolsInit} col-md-${vcols[0]}<#else>col-${vcols[0]}</#if> ${imgClass} p-0">
 			    <figure<#if hoverEffect> class="card-figure ${imgClass}"</#if>>
 				    <#if imgType !='svg'>
@@ -96,16 +96,16 @@ Snippet:
 			    </figure>
 			</div>
 		</#if>
-		<div class="<#if img!=''><#if vcolsInit gt 0>col-${vcolsInit} col-md-${vcols[1]}<#else>col-${vcols[1]}</#if><#else>col</#if> p-0">
+		<div class="<#if img?has_content><#if vcolsInit gt 0>col-${vcolsInit} col-md-${vcols[1]}<#else>col-${vcols[1]}</#if><#else>col</#if> p-0">
 			<@cBlock  class='card-body'>
-				<#if title!=''>
+				<#if title?has_content>
                     <@cTitle level=titleLevel class='card-title'>
-                        <#if titleUrl!=''><a href="${titleUrl}" class="card-title-link"<#if titleUrlTitle!=''> title="${titleUrlTitle!}"</#if>></#if>${title}<#if titleUrl!=''></a></#if>
+                        <#if titleUrl?has_content><a href="${titleUrl}" class="card-title-link"<#if titleUrlTitle?has_content> title="${titleUrlTitle!}"</#if>></#if>${title}<#if titleUrl?has_content></a></#if>
                     </@cTitle>
                 </#if>
-                    <#if subtitle!=''><@cTitle level=subtitleLevel class="card-subtitle mb-2 text-muted">${subtitle}</@cTitle></#if>
+                    <#if subtitle?has_content><@cTitle level=subtitleLevel class="card-subtitle mb-2 text-muted">${subtitle}</@cTitle></#if>
                     <#nested>
-                <#if footer!=''><@cBlock class='card-footer text-muted'>${footer!}</@cBlock></#if>
+                <#if footer?has_content><@cBlock class='card-footer text-muted'>${footer!}</@cBlock></#if>
 			</@cBlock >
 		</div>
 	</@cRow>

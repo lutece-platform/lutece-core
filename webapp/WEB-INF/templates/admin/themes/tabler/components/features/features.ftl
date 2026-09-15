@@ -31,7 +31,7 @@ Snippet:
 -->
 <#macro manageFeature class='mt-2' colClass='space-y' listClass='space-y' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row row-cards<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="row row-cards<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
     <div class="col ${colClass}">
         <ul class="list-unstyled ${listClass}">
             <#nested>
@@ -83,9 +83,9 @@ Snippet:
 -->
 <#macro manageFeatureItem class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="<#if liClass !=''> ${liClass}</#if>">
-    <div class="card<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
-        <div class="card-body<#if bodyClass !=''> ${bodyClass}</#if>">
+<li class="<#if liClass?has_content> ${liClass}</#if>">
+    <div class="card<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
+        <div class="card-body<#if bodyClass?has_content> ${bodyClass}</#if>">
             <div class="row g-3 justify-content-${align} align-items-${valign}">
             <#nested>
             </div>
@@ -141,7 +141,7 @@ Snippet:
 -->
 <#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols !=''> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols?has_content> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </div>
 </#macro>

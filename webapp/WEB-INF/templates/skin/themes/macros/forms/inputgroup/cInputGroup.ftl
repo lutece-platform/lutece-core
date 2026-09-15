@@ -34,7 +34,7 @@ Snippet:
 
 <#macro cInputGroup class='' size='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="input-group<#if class!=''> ${class!}</#if><#if size!=''> input-group-${size!}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="input-group<#if class?has_content> ${class!}</#if><#if size?has_content> input-group-${size!}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </div>
 </#macro>

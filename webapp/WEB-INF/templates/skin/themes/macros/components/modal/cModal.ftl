@@ -46,8 +46,8 @@ Snippet:
 -->
 <#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=1 class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal cmodal fade<#if class!=''> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <#if params!=''> ${params}</#if>>
-    <div class="modal-dialog <#if pos!=''>modal-dialog-${pos} </#if> <#if scrollable>modal-dialog-scrollable</#if><#if size!=''>modal-${size}</#if>"<#if role !=''> role="${role}"</#if>>
+<div class="modal cmodal fade<#if class?has_content> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <#if params?has_content> ${params}</#if>>
+    <div class="modal-dialog <#if pos?has_content>modal-dialog-${pos} </#if> <#if scrollable>modal-dialog-scrollable</#if><#if size?has_content>modal-${size}</#if>"<#if role?has_content> role="${role}"</#if>>
         <div class="modal-content">
             <div class="modal-header">
                 <@cTitle level=titleLevel class="modal-title h5 main-color" id="modal${id}Title">${title}</@cTitle>

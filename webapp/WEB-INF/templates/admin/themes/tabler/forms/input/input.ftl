@@ -67,19 +67,20 @@ Snippet:
 
 -->
 <#macro input name id='' type='text' value='' class='' size='' helpKey=helpKey!'' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] deprecated...>
+<#local datalist = datalist?is_markup_output?then(datalist?markup_string, datalist) />
 <@deprecatedWarning args=deprecated />
-<#local id><#if id !=''>${id}<#else>${name}</#if></#local>
+<#local id><#if id?has_content>${id}<#else>${name}</#if></#local>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if type='textarea'>
-	<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if> <#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
+	<textarea name="${name}" class="form-control<#if size?has_content> form-control-${size}</#if><#if class?has_content> ${class}</#if> <#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if helpKey?has_content && id?has_content> aria-describedby="help_${id}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if><#if pattern?has_content>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor?has_content && helpKey?? && helpKey?has_content> aria-describedby="${labelFor}_help"</#if>><#if value?has_content >${value}<#else><#nested></#if></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='url'  || type='range' || type='tel' || type='datalist'>
-	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if> <#if patternValidationRules?? && patternValidationRules?size!=0>input-validation</#if>"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if> type="${type}" name="${name}" value="${value}"<#if autoComplete !=''> autocomplete="${autoComplete}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if accept!='' && type='file'>accept=${accept}</#if><#if min?number!=max?number> min="${min}"</#if><#if max?number!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
+	<input class="form-control<#if size?has_content> form-control-${size}</#if><#if type='color'> input-color</#if><#if class?has_content> ${class}</#if> <#if patternValidationRules?? && patternValidationRules?size!=0>input-validation</#if>"<#if helpKey?has_content && id?has_content> aria-describedby="help_${id}"</#if> type="${type}" name="${name}" value="${value}"<#if autoComplete?has_content> autocomplete="${autoComplete}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if><#if pattern?has_content>pattern=${pattern}</#if><#if accept?has_content && type='file'>accept=${accept}</#if><#if min?number!=max?number> min="${min}"</#if><#if max?number!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor?has_content && helpkey?? && helpKey?has_content> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
 	<#if type='file'>
 		<input type="hidden" id=${id}Key name="${name}Key" value="${value}" />
 		<#if showFileUrl && fileURL?? && fileName??><@link href="${fileURL}">${fileName}</@link></#if>
 	</#if>
 	<#if type='datalist'>
-		<#if id !='' && datalist !='' >
+		<#if id?has_content && datalist?has_content >
 			<datalist id="${name}_list">
 			<#assign options = datalist?split(',')>
 			<#list options as opt>
@@ -94,7 +95,7 @@ Snippet:
 		<@dynamicColorizedSpansForInputFeedback id=id patternValidationRules=patternValidationRules/>
 	</#if>
 <#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
-	<input class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<input class="form-control<#if size?has_content> form-control-${size}</#if><#if class?has_content> ${class}</#if>" type="text" name="${name}" value="${value}"<#if helpKey?has_content && id?has_content> aria-describedby="help_${id}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if><#if pattern?has_content>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor?has_content && helpkey?? && helpKey?has_content> aria-describedby="${labelFor}_help"</#if> />
 	<#if type='date'>
 		<#if value?has_content>
 			<#local defaultDate=value />
@@ -106,7 +107,7 @@ Snippet:
 		</#if>
 		<@getDateTime idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate defaultTime=defaultTime minTime=minTime maxTime=maxTime dateOptions=dateParams />
 	<#elseif type='daterange'>
-		<#if dateRangeEndId != ''>
+		<#if dateRangeEndId?has_content>
 			<#if value?has_content>
 				<#local defaultDate=value />
 			</#if>
@@ -115,7 +116,7 @@ Snippet:
 			<@alert class='danger'>${i18n("portal.util.datepicker.rangeEndId.mandatory")}</@alert>
 		</#if>
 	<#elseif type='datetimerange'>
-		<#if dateRangeEndId != ''>
+		<#if dateRangeEndId?has_content>
 			<#if value?has_content>
 				<#local defaultDate=value />
 			</#if>
@@ -131,9 +132,9 @@ Snippet:
 	</#if>
 	<#if id=''><@alert class='danger'>${i18n("portal.util.datepicker.id.mandatory")}</@alert></#if>
 <#elseif type='html5date' || type='html5datetime' || type='html5time' || type='html5month'>
-	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if> type="<#if type='html5date'>date<#elseif type='html5datetime'>datetime-local<#elseif type='html5time'>time<#elseif type='html5month'>month<#else>unsupported date type</#if>" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>>
+	<input class="form-control<#if size?has_content> form-control-${size}</#if><#if type='color'> input-color</#if><#if class?has_content> ${class}</#if>"<#if helpKey?has_content && id?has_content> aria-describedby="help_${id}"</#if> type="<#if type='html5date'>date<#elseif type='html5datetime'>datetime-local<#elseif type='html5time'>time<#elseif type='html5month'>month<#else>unsupported date type</#if>" name="${name}" value="${value}"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor?has_content && helpkey?? && helpKey?has_content> aria-describedby="${labelFor}_help"</#if>>
 <#elseif type='hidden'>
-	<input type="hidden"<#if class!=''> class="${class}"</#if> name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
+	<input type="hidden"<#if class?has_content> class="${class}"</#if> name="${name}" <#if id?has_content>id="${id}"</#if> value="${value}" />
 <#else><@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
 </#if>
 </#macro>

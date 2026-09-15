@@ -32,7 +32,7 @@ Snippet:
 -->
 <#macro cCol cols='' default='col' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if cols!=''>
+<#if cols?has_content>
     <#local cClass>col-${cols} ${class}</#local> 
 <#else>
     <#local cClass>${default!} ${class}</#local>

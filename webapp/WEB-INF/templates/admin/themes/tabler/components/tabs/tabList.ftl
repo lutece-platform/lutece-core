@@ -33,7 +33,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
 <div class="card-header">
-<ul class="nav nav-${style} card-header-tabs<#if vertical> flex-column mb-3</#if><#if class!=''> ${class}</#if>" data-bs-toggle="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+<ul class="nav nav-${style} card-header-tabs<#if vertical> flex-column mb-3</#if><#if class?has_content> ${class}</#if>" data-bs-toggle="tabs"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> role="tablist">
 <#nested>
 </ul>
 </div>

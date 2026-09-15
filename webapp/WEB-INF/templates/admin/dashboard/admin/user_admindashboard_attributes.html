@@ -19,9 +19,9 @@
 <#list attributes_list as attribute >
 	<#assign cpt = cpt + 1>
 	<@manageFeatureItem>
-		<@manageFeatureItemColumn>${attribute.title?html} - ${attribute.attributeType.name} -	<#if attribute.plugin?exists && attribute.plugin.name?has_content>${attribute.plugin.name}<#else>#i18n{portal.users.manage_attributes.labelCore}</#if></@manageFeatureItemColumn>
+		<@manageFeatureItemColumn><#outputformat "HTML">${attribute.title}</#outputformat> - ${attribute.attributeType.name} -	<#if attribute.plugin?exists && attribute.plugin.name?has_content>${attribute.plugin.name}<#else>#i18n{portal.users.manage_attributes.labelCore}</#if></@manageFeatureItemColumn>
 		<@manageFeatureItemColumn auto=true>
-		<#if attribute.plugin?exists && attribute.plugin.name != "">
+		<#if attribute.plugin?exists && attribute.plugin.name?has_content>
 			<#if cpt != 1>
 				<@tform type="inline" align='middle' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
 					<@input type='hidden' name='token' value='${token}' />

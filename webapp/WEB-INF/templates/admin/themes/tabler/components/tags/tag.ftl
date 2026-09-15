@@ -30,8 +30,8 @@ Snippet:
 -->
 <#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-<span class="badge<#if color!=''> bg-${color} text-${color}-fg</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
-	<#if tagIcon !=''>
+<span class="badge<#if color?has_content> bg-${color} text-${color}-fg</#if><#if class?has_content> ${class}</#if>"<#if title?has_content> title='${title}'</#if><#if id?has_content>id='${id}'</#if><#if params?has_content>${params}</#if>>
+	<#if tagIcon?has_content>
 	<@icon style=tagIcon />
 	</#if>
 	<#nested>

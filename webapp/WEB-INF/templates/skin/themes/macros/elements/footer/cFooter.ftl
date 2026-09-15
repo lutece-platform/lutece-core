@@ -31,8 +31,8 @@ Snippet:
 -->
 <#macro cFooter title='' titleLevel=2 class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<footer<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
-    <#if title !=''><@cTitle level=titleLevel>${title}</@cTitle></#if>
+<footer<#if class?has_content> class="${class}"</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
+    <#if title?has_content><@cTitle level=titleLevel>${title}</@cTitle></#if>
     <#nested>
 </footer>
 </#macro>

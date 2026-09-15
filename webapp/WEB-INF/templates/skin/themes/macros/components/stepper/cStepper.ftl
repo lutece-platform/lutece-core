@@ -37,12 +37,12 @@ Snippet:
 <#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="stepper">
-    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
     <#if steps?has_content>
 		<#assign nbSteps = steps?size >
         <#list steps as step>
 	        <#if class='pie'>
-	            <li class="step-${step?index + 1}<#if step.status!=''> ${step.status!}</#if>">
+	            <li class="step-${step?index + 1}<#if step.status?has_content> ${step.status!}</#if>">
 		            <span>${step?index + 1} - ${step.title!}</span>
 		            <#if step.status?contains('active')><span class="visually-hidden">${a11StatusMsg}</span></#if>
 	            </li>

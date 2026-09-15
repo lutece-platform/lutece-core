@@ -10,14 +10,16 @@
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
-				<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255 />
+				<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+				<@input type='text' name='title' id='attr_title' value='${esc1}' maxlength=255 />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.modify_attribute.labelHelpMessageComment}'>
-				<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5>${attribute.helpMessage?html}</@input>
+				<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5><#outputformat "HTML">${attribute.helpMessage}</#outputformat></@input>
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.users.create_attribute.labelDefaultValue}' labelFor='value'>
 				<#list attribute_fields_list as attribute_field>
-				<@input type='text' name='value' id='value' value='${attribute_field.value?html}'/>
+				<#assign esc2><#outputformat "HTML">${attribute_field.value}</#outputformat></#assign>
+				<@input type='text' name='value' id='value' value='${esc2}'/>
 				</#list>
 			</@formGroup>
 			<@formGroup>

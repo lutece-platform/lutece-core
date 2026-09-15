@@ -1,11 +1,11 @@
 <@coreAdminCSSLinks />
-<#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate /></#if>
+<#if portletType.modifyScriptTemplate?has_content ><#include portletType.modifyScriptTemplate /></#if>
 <@tform typ='inline' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
 <@input type='hidden' name='portlet_id' value='${portlet.id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <@box class='manage-portlet'>
 	<@boxHeader title='${portletType.name}' boxTools=true >
-	<#if portletType.modifySpecificTemplate != "" || portletType.modifySpecificFormTemplate != "">
+	<#if portletType.modifySpecificTemplate?has_content || portletType.modifySpecificFormTemplate?has_content>
 		<@button buttonIcon='layout-navbar-expand' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params='aria-expanded="false"'/>
 	</#if>	
 	</@boxHeader>
@@ -79,8 +79,8 @@
 		</@div>
 		<@row class='m-1'>
 			<@columns>
-				<#if portletType.modifySpecificTemplate != "" ><#include portletType.modifySpecificTemplate /></#if>
-				<#if portletType.modifySpecificFormTemplate != "" ><#include portletType.modifySpecificFormTemplate /></#if>
+				<#if portletType.modifySpecificTemplate?has_content ><#include portletType.modifySpecificTemplate /></#if>
+				<#if portletType.modifySpecificFormTemplate?has_content ><#include portletType.modifySpecificFormTemplate /></#if>
 			</@columns>
 		</@row>
 		<@row class='m-1'>
@@ -94,7 +94,7 @@
 	</@boxBody>
 </@box>
 </@tform>
-<#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate! /></#if>
+<#if portletType.modifyScriptTemplate?has_content ><#include portletType.modifyScriptTemplate! /></#if>
 <script>
 const btnProp = document.getElementById('btn-toggle-properties');
 const portletProp = document.getElementById('portlet-properties');

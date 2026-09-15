@@ -76,11 +76,12 @@ Snippet:
 
 -->
 <#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local iconType><#if class?contains('danger')>danger<#elseif class?contains('warning')>warning<#elseif class?contains('success')>success<#else>info</#if></#local>
 <#local accordionRole><#if class?contains('danger')>alert<#elseif class?contains('warning')>alert<#elseif class?contains('success')>status<#else>status</#if></#local>
 <div class="accordion" id="acc${id!}" <#if class?contains('outline')>role="${accordionRole}"</#if> >
-    <div class="card ${class!}<#if border> with-border</#if><#if subTitle !=''> with-subtitle</#if>" ${params!}>
+    <div class="card ${class!}<#if border> with-border</#if><#if subTitle?has_content> with-subtitle</#if>" ${params!}>
         <#local cardTitleClass>card-header m-0<#if !state> collapsed</#if></#local>
         <#local titleParams>data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" <#if hasCollapse>aria-expanded="<#if state>true<#else>false</#if></#if>" aria-controls="collapseAcc${id}"</#local>
         <@cTitle level=titleLevel class=cardTitleClass params=titleParams>
@@ -91,20 +92,20 @@ Snippet:
 <#local cardAlertIcon = {'danger':'alert-triangle','warning':'alert-triangle','success':'circle-check','info':'info-circle'}[iconType]!'info-circle' />
                 <@cIcon name=cardAlertIcon params='aria-hidden="true"' />
                 </span>
-                <span<#if titleClass !=''>class="d-block ${titleClass}"</#if> id="headingAcc${id}">${title}</span>
-                <#if header !=''>${header}</#if>
-                <#if subTitle !=''><span class="card-subtitle w-100<#if subTitleClass !=''> ${subTitleClass}</#if>">${subTitle}</span></#if>
+                <span<#if titleClass?has_content>class="d-block ${titleClass}"</#if> id="headingAcc${id}">${title}</span>
+                <#if header?has_content>${header}</#if>
+                <#if subTitle?has_content><span class="card-subtitle w-100<#if subTitleClass?has_content> ${subTitleClass}</#if>">${subTitle}</span></#if>
                 <#if hasCollapse><span class="card-header-separator"></span></#if>
             <#else>
-                <span class="card-title d-block<#if titleClass !=''> ${titleClass}</#if>" id="headingAcc${id}">${title}</span>
-                <#if header !=''>${header}</#if>
-                <#if subTitle !=''><span class="card-subtitle w-100<#if subTitleClass !=''> ${subTitleClass}</#if>">${subTitle}</span></#if>
+                <span class="card-title d-block<#if titleClass?has_content> ${titleClass}</#if>" id="headingAcc${id}">${title}</span>
+                <#if header?has_content>${header}</#if>
+                <#if subTitle?has_content><span class="card-subtitle w-100<#if subTitleClass?has_content> ${subTitleClass}</#if>">${subTitle}</span></#if>
             </#if>
             </span>
             <#if hasCollapse>
             <span class="accordion-toggle ms-auto">
-                <#if btnTitle !=''><span class="btn-label-accordion d-none d-md-inline-block<#if iconType != 'info'> main-${iconType}-color-text</#if>">${btnTitle}</span></#if>
-                <span class="btn-accordion<#if btnClass !=''> ${btnClass}</#if>">
+                <#if btnTitle?has_content><span class="btn-label-accordion d-none d-md-inline-block<#if iconType != 'info'> main-${iconType}-color-text</#if>">${btnTitle}</span></#if>
+                <span class="btn-accordion<#if btnClass?has_content> ${btnClass}</#if>">
                     <#local btnClass>${btnClass}<#if iconType != 'info'> main-${iconType}-color-text</#if></#local>
                     <@cIcon name='chevron-down' class=btnClass title='' />
                 </span>

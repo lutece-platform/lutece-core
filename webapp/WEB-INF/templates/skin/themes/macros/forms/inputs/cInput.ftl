@@ -60,16 +60,16 @@ Snippet:
 <#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=false disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
-<#local hasError = (errorMsg != '')>
-<#assign idMsg><#if id!=''>${id}<#else>${name!}</#if></#assign>
+<#local hasError = (errorMsg?has_content)>
+<#assign idMsg><#if id?has_content>${id}<#else>${name!}</#if></#assign>
 <#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
-<input type="${type!}" class="<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder!=''> placeholder="${placeholder!}"<#if ariaLabel!=''> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if pattern!=''> pattern="${pattern}"</#if><#if accept !=''> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId!=''> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg!=''> aria-describedby="help_${idMsg!}"</#if>>
-<#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
-<#if errorMsg !='' && errorMsg !='_error'><@cFormError idMsg errorMsg errorClass /></#if>
+<input type="${type!}" class="<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder?has_content> placeholder="${placeholder!}"<#if ariaLabel?has_content> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params?has_content> ${params}</#if><#if pattern?has_content> pattern="${pattern}"</#if><#if accept?has_content> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId?has_content> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
+<#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
+<#if errorMsg?has_content && errorMsg !='_error'><@cFormError idMsg errorMsg errorClass /></#if>
 <#nested>
-<#if datalistId !=''>
+<#if datalistId?has_content>
 <datalist id="${datalistId}">
-<#if datalist !=''><#list datalist as dl><option value="${dl.id}">${dl.label}</option></#list></#if>
+<#if datalist?has_content><#list datalist as dl><option value="${dl.id}">${dl.label}</option></#list></#if>
 </datalist>
 </#if>
 <#if type == 'tel' && phoneCountry == 'FR'>

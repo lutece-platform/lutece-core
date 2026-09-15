@@ -49,13 +49,13 @@ Password with confirmation field sync:
 -->
 <#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
-<#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
-<#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
-<#if label !=''><@cLabel label=label for=passId required=required class=labelClass /></#if>
-<#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
+<#local passId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
+<#local passLabel><#if pmLabel?has_content>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
+<#local passClass>form-control pwd<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if></#local>
+<#if label?has_content><@cLabel label=label for=passId required=required class=labelClass /></#if>
+<#if helpMsg?has_content><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>
-    <#if icon !=''><@cIcon name='${icon!}' /></#if>
+    <#if icon?has_content><@cIcon name='${icon!}' /></#if>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
     <#if btnShowPassword>
     <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
@@ -64,7 +64,7 @@ Password with confirmation field sync:
     </#if>
     </@cInput>
 </@cInputGroup>
-<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
+<#if errorMsg?has_content><@cFormError passId errorMsg /></#if>
 <#nested>
 <#if isScriptPasswordLoaded?? && isScriptPasswordLoaded>
 <#else>
@@ -278,9 +278,9 @@ document.addEventListener( "DOMContentLoaded", function(e){
 <#if passwordMeter>
     const btnGenerate = document.getElementById('password-${passId!}-generator');
     const fieldDest = document.getElementById('${passId!}');
-    <#if pmConfirmFieldId !=''>const fieldConfirmDest = document.getElementById('${pmConfirmFieldId!}');</#if>
+    <#if pmConfirmFieldId?has_content>const fieldConfirmDest = document.getElementById('${pmConfirmFieldId!}');</#if>
     btnGenerate.addEventListener( "click", (e) => {
-      <#if pmUrl !=''>
+      <#if pmUrl?has_content>
         fetch("${pmUrl!}", {
         method: "GET",
         headers: {
@@ -291,7 +291,7 @@ document.addEventListener( "DOMContentLoaded", function(e){
         .then(data => {
         fieldDest.value = data.password;
         togglePasswordIcon('#${passId}', true);
-        <#if pmConfirmFieldId !=''>
+        <#if pmConfirmFieldId?has_content>
         fieldConfirmDest.value = data.password;
         togglePasswordIcon('#${pmConfirmFieldId}', true);
         </#if>
@@ -303,7 +303,7 @@ document.addEventListener( "DOMContentLoaded", function(e){
       <#else>
         fieldDest.value = generateLocalPassword()
         togglePasswordIcon( '#${passId}', true ) 	
-        <#if pmConfirmFieldId !=''>
+        <#if pmConfirmFieldId?has_content>
         fieldConfirmDest.value = fieldDest.value
         togglePasswordIcon( '#${pmConfirmFieldId}', true )
         </#if>

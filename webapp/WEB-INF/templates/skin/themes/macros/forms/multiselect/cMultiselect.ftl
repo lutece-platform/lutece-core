@@ -39,7 +39,7 @@ Snippet:
 -->
 <#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id!=''>${id}<#else>msg-${random()!}</#if></#local>
+<#local cId><#if id?has_content>${id}<#else>msg-${random()!}</#if></#local>
 <div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}">
 	<div class="tags-container mt-s"></div>
     <div class="dropdown">
@@ -51,6 +51,6 @@ Snippet:
         </ul>
     </div>
 </div>
-<#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
-<#if errorMsg!=''><@cFormError cId errorMsg /></#if>
+<#if helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
+<#if errorMsg?has_content><@cFormError cId errorMsg /></#if>
 </#macro>

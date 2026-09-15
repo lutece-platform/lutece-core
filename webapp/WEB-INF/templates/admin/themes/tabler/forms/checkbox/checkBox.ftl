@@ -39,17 +39,17 @@ Snippet:
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
 <#if orientation!='switch'>
-	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass!=''> ${wrapperClass!}</#if>"<#if params!=''> ${params}</#if>></#if>
-	<input type="checkbox" class="custom-control-input<#if class!=''> ${class}</#if>" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
-	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if><#if labelClass!=''> ${labelClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if>>
-	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
+	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass?has_content> ${wrapperClass!}</#if>"<#if params?has_content> ${params}</#if>></#if>
+	<input type="checkbox" class="custom-control-input<#if class?has_content> ${class}</#if>" id="${id}" name="${name}"<#if value?has_content> value="${value}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
+	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if><#if labelClass?has_content> ${labelClass!}</#if>" for="${id}" <#if title?has_content> title="${title}"</#if>>
+	<#if labelKey?has_content>${labelKey}<#else><#nested></#if>
 	</label>
 	<#if orientation='vertical'></div></#if>
 <#else>
-	<label class="form-check form-switch<#if wrapperClass!=''> ${wrapperClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
-    	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
+	<label class="form-check form-switch<#if wrapperClass?has_content> ${wrapperClass!}</#if>" for="${id}" <#if title?has_content> title="${title}"</#if><#if params?has_content> ${params}</#if>>
+    	<input class="form-check-input<#if class?has_content> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params?has_content> ${params}</#if><#if mandatory> required</#if>>
    		<#assign nestedLabel><#nested></#assign>
-		<#if labelKey!=''><span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>">${nestedLabel}</span></#if>
+		<#if labelKey?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${nestedLabel}</span></#if>
   </label>
 </#if>
 </#macro>

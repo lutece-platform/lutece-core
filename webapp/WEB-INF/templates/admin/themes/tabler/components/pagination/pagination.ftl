@@ -26,12 +26,14 @@ Snippet:
 </#if>
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-		<@link href='${paginator.firstPageLink?xhtml}'>
+		<#local esc1><#outputformat "HTML">${paginator.firstPageLink}</#outputformat></#local>
+		<@link href='${esc1}'>
 			<@icon style='double-left' /> #i18n{portal.util.labelFirst}
 		</@link>
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
-		<@link href='${paginator.previousPageLink?xhtml}'>
+		<#local esc2><#outputformat "HTML">${paginator.previousPageLink}</#outputformat></#local>
+		<@link href='${esc2}'>
 			<@icon style='angle-left' /> #i18n{portal.util.labelPrevious}
 		</@link>
 	<#else>
@@ -43,18 +45,21 @@ Snippet:
 		<#if link.index == paginator.pageCurrent>
 			<strong>${link.name}</strong>
 		<#else>
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<#local esc3><#outputformat "HTML">${link.url}</#outputformat></#local>
+			<@link href='${esc3}'>${link.name}</@link>
 		</#if>
 	</#list>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<strong>...</strong>
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
-		<@link href='${paginator.nextPageLink?xhtml}'>
+		<#local esc4><#outputformat "HTML">${paginator.nextPageLink}</#outputformat></#local>
+		<@link href='${esc4}'>
 			<@icon style='angle-right' /> #i18n{portal.util.labelNext}
 		</@link>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-			<@link href='${paginator.lastPageLink?xhtml}'>
+			<#local esc5><#outputformat "HTML">${paginator.lastPageLink}</#outputformat></#local>
+			<@link href='${esc5}'>
 				<@icon style='angle-double-right' /> #i18n{portal.util.labelLast}
 			</@link>
 		</#if>

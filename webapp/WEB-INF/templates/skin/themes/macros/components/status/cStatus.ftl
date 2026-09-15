@@ -32,9 +32,9 @@ Snippet:
 -->  
 <#macro cStatus level='forthcoming' class='' id='' label='' labelClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="status ${level}<#if class !=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="status ${level}<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#if level='tobecompleted'><svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="5" fill="currentColor"/></svg></#if>
-<span class="status-label fw-bold<#if labelClass !=''> ${labelClass}</#if>"><#if label!=''>${label!}<#else>#i18n{portal.theme.status.level.${level}.label}</#if></span>
+<span class="status-label fw-bold<#if labelClass?has_content> ${labelClass}</#if>"><#if label?has_content>${label!}<#else>#i18n{portal.theme.status.level.${level}.label}</#if></span>
 <#nested>
 </div>
 </#macro>

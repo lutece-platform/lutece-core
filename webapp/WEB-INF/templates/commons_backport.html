@@ -84,14 +84,14 @@
 					<#elseif column.typeColumn = "EMAIL">
 						<#assign propName = "item." + column.parameterName>
 						<#assign value = propName?eval>
-						<@td><#if value?? && value != ""><@link href='mailto:${value}' title='${value}'>${value}</@link></#if></@td>
+						<@td><#if value?? && value?has_content><@link href='mailto:${value}' title='${value}'>${value}</@link></#if></@td>
 					<#elseif column.typeColumn = "ACTION">
-						<#if column.parameterName?? && column.parameterName != "">
+						<#if column.parameterName?? && column.parameterName?has_content>
 							<#assign macroName = column.parameterName>
-						<#elseif actionMacro?? && actionMacro != "">
+						<#elseif actionMacro?? && actionMacro?has_content>
 							<#assign macroName = actionMacro>
 						</#if>
-						<#if macroName?? && macroName != "">
+						<#if macroName?? && macroName?has_content>
 							<@td><@.vars[macroName] item=item /></@td>
 						</#if>
 					</#if>

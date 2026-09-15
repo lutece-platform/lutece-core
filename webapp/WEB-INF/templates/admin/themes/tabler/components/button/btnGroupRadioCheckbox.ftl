@@ -36,7 +36,7 @@ Snippet:
 -->
 <#macro btnGroupRadioCheckbox type='checkbox' color='primary' size='' name='' id='' params='' ariaLabel='' labelFor='' labelKey='' labelParams='' tabIndex='' value='' checked=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<label class="btn btn-${color}<#if size!=''> btn-${size}</#if>" for="${labelFor}"<#if labelParams!=''> ${labelParams}</#if>>
-<input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if> /><#if labelKey!=''><span class="ms-1">${labelKey}<span></#if>
+<label class="btn btn-${color}<#if size?has_content> btn-${size}</#if>" for="${labelFor}"<#if labelParams?has_content> ${labelParams}</#if>>
+<input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value?has_content> value="${value}"</#if><#if params?has_content> ${params}</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if> /><#if labelKey?has_content><span class="ms-1">${labelKey}<span></#if>
 </label>
 </#macro>

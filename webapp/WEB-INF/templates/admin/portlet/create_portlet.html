@@ -4,7 +4,7 @@
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <@box class='manage-portlet'>
 	<@boxHeader title='${portletType.name}' boxTools=true >
-	<#if portletType.createSpecificTemplate != "" || portletType.createSpecificFormTemplate != "">
+	<#if portletType.createSpecificTemplate?has_content || portletType.createSpecificFormTemplate?has_content>
 		<@button buttonIcon='layout-navbar-expand' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params='aria-expanded="false"'/>
 	</#if>
 	</@boxHeader>
@@ -70,8 +70,8 @@
 		</@row>
 		<@row class='m-1'>
 			<@columns>
-				<#if portletType.createSpecificTemplate != "" ><#include portletType.createSpecificTemplate /></#if>
-				<#if portletType.createSpecificFormTemplate != "" ><#include portletType.createSpecificFormTemplate /></#if>
+				<#if portletType.createSpecificTemplate?has_content ><#include portletType.createSpecificTemplate /></#if>
+				<#if portletType.createSpecificFormTemplate?has_content ><#include portletType.createSpecificFormTemplate /></#if>
 			</@columns>
 		</@row>
 		<@row class='m-1'>
@@ -85,7 +85,7 @@
 	</@boxBody>
 </@box>
 </@tform>
-<#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate! /></#if>
+<#if portletType.createScriptTemplate?has_content ><#include portletType.createScriptTemplate! /></#if>
 <script>
 const btnProp = document.getElementById('btn-toggle-properties');
 if ( btnProp != null ){

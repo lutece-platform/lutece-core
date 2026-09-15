@@ -29,7 +29,7 @@ Snippet:
 <#macro initToast class='' id='' position='top-0 end-0' showAll=true autohide=false animation=true duration=2000 params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div aria-live="polite" aria-atomic="true" class="position-static z-3">
-	<div<#if id !=''> id="${id}"</#if> class="toast-container ${position} p-3<#if class !=''> ${class}</#if>"<#if params !=''> ${params}"</#if>>
+	<div<#if id?has_content> id="${id}"</#if> class="toast-container ${position} p-3<#if class?has_content> ${class}</#if>"<#if params?has_content> ${params}"</#if>>
 	<#nested>
 	</div>
 </div>

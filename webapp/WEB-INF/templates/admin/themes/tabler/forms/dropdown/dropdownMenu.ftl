@@ -27,7 +27,7 @@ Snippet:
 -->
 <#macro dropdownMenu class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<ul class="dropdown-menu ${class}"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </ul>
 </#macro>

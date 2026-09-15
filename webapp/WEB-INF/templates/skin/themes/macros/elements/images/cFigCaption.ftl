@@ -25,7 +25,7 @@ Snippet:
 -->
 <#macro cFigCaption id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<figcaption <#if class!=''>class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<figcaption <#if class?has_content>class="${class!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params!}</#if>>
 <#nested/>
 </figcaption>
 </#macro>

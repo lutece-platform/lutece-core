@@ -48,8 +48,8 @@ Snippet:
 	</svg>
 	</a>
 	<div class="dropdown-menu dropdown-menu-end">
-		<#if actionMenu!=''>${actionMenu!}</#if>
-		<#if url!=''><@aButton color='link' class='dropdown-item' href=url! title='#i18n{portal.util.labelShow} ${title!}' /></#if>
+		<#if actionMenu?has_content>${actionMenu!}</#if>
+		<#if url?has_content><@aButton color='link' class='dropdown-item' href=url! title='#i18n{portal.util.labelShow} ${title!}' /></#if>
 		<@button color='link' class='dropdown-item text-danger' style='card-control remove' buttonTargetId='#${id}_dashboard_card' title='#i18n{portal.util.labelHide}' />
 	</div>
 </div>
@@ -61,7 +61,7 @@ Snippet:
 <@columns>
 <#nested>
 </@columns>
-<#if !hasHeader && actionMenu !=''>
+<#if !hasHeader && actionMenu?has_content>
 <@columns md=1>
 <div class="dropdown ">
 	<a href="#" class="btn-action" data-bs-toggle="dropdown">
@@ -79,7 +79,7 @@ Snippet:
 </#if>
 </@row>
 </@boxBody>
-<#if boxContentFooter != ''>
+<#if boxContentFooter?has_content>
 <@boxFooter>
 ${boxContentFooter!}
 </@boxFooter>

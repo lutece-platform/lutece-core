@@ -31,10 +31,10 @@ Snippet:
 -->
 <#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' listClass='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<#if params!=''> ${params!}</#if>>
+<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class?has_content> ${class!}</#if>"<#if params?has_content> ${params!}</#if>>
 	<div class="container<#if type='fluid'>-fluid</#if> rounded">
-		<ol class="breadcrumb<#if listClass!=''> ${listClass!}</#if>">
-        <#if home!=''>
+		<ol class="breadcrumb<#if listClass?has_content> ${listClass!}</#if>">
+        <#if home?has_content>
             <li class="breadcrumb-item">
                 <a target="_top" href=".">${home!}</a>
             </li>

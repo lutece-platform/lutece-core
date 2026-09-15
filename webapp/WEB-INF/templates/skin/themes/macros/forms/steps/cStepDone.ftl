@@ -47,10 +47,12 @@ Snippet:
                 <@cText type='span'>${title?replace('- hidden','')}</@cText>
             </@cTitle>
             <@cSection type='span' class='d-none d-sm-block'>
-            <#if actionHref !=''>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${i18n(actionAriaLabelKey, title)?html}" ${actionParams!}' />
-            <#elseif actionName !=''>
-                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${i18n(actionAriaLabelKey, title)?html}" formnovalidate' />
+            <#if actionHref?has_content>
+                <#local esc1><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${esc1}" ${actionParams!}' />
+            <#elseif actionName?has_content>
+                <#local esc2><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
+                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${esc2}" formnovalidate' />
             </#if>
             </@cSection>    
         </@cContainer>    
@@ -61,10 +63,12 @@ Snippet:
             <#nested>   
             </@chList>
             <@cSection type='div' class='d-block d-sm-none mt-m'>
-            <#if actionHref !=''>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${i18n(actionAriaLabelKey, title)?html}" ${actionParams!}' />
-            <#elseif actionName !=''>
-                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${i18n(actionAriaLabelKey, title)?html}" formnovalidate' />
+            <#if actionHref?has_content>
+                <#local esc3><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${esc3}" ${actionParams!}' />
+            <#elseif actionName?has_content>
+                <#local esc4><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
+                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${esc4}" formnovalidate' />
             </#if>
             </@cSection>    
         </@cSection>

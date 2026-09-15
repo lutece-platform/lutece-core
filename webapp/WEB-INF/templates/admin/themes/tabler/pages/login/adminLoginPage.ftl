@@ -54,15 +54,15 @@ Snippet:
 })();
 </script>
 </head>
-<body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
+<body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params?has_content> ${params}</#if>>
 <main class="<#if loginIsCover?number == 1>row g-0 flex-fill<#else>page page-center"</#if>">
-<#if loginIsCover?number == 0 && loginLayoutImg==''><div class="container container-tight py-4"> </#if>
+<#if loginIsCover?number == 0 && !loginLayoutImg?has_content><div class="container container-tight py-4"> </#if>
 <#if loginIsCover?number == 1>
 <!-- COVER -->
 	<div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
 		<div class="container container-tight my-5 px-lg-5">
 </#if>	
-<#if loginIsCover?number == 0 && loginLayoutImg!='' >		 
+<#if loginIsCover?number == 0 && loginLayoutImg?has_content >		 
 	<!-- Illustration -->
 	<div class="container container-normal py-4">
 		<div class="row align-items-center g-4">
@@ -72,7 +72,7 @@ Snippet:
 					<div class="text-center mb-4">
 						<!-- BEGIN NAVBAR LOGO -->
 						<a href="." aria-label="#i18n{portal.admin.admin_login.gotoFO} ${site_name!}" target="_blank" class="navbar-brand navbar-brand-autodark">
-							<#if logoUrl !=''>
+							<#if logoUrl?has_content>
 							<@img url='${logoUrl}' alt='${site_name!}' class='logo' params='aria-hidden="true" height="24" width="24"' />
 							<span class="ms-1 fs-2 d-inline-block">${site_name!''}</span>
 							<#else>
@@ -87,7 +87,7 @@ Snippet:
 						</div>
 					</div>
 				</div>
-<#if loginIsCover?number == 0 && loginLayoutImg!='' >	
+<#if loginIsCover?number == 0 && loginLayoutImg?has_content >	
 		</div>
 		<div class="col-lg d-none d-lg-block">
 			<img src="${loginLayoutImg!}" class="img d-block mx-auto" />
@@ -130,7 +130,7 @@ document.addEventListener( "DOMContentLoaded", function(){
 	const backImages = '#dskey{portal.site.site_property.back_images}'.split(',');
 	login.randomImages = aImages;
 	login.randomBgImages = backImages;
-	<#if loginLayoutImg != '' >login.element = '.bg-cover';</#if>	
+	<#if loginLayoutImg?has_content >login.element = '.bg-cover';</#if>	
 	login.init( )
 	/* Password Toggler */
 	password.initPassToggler( );

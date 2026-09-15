@@ -11,7 +11,7 @@
       <@cInput type='hidden' name='page' value='mylutece' class='' />
       <@cInput type='hidden' name='action' value='doLogin' class='' />
       <@cInput type='hidden' name='token' value='${token}' class='' />
-      <#if error_message?? && error_message != ''><@cAlert type='warning' title='${error_message!}'><#if error_details?? && error_details !=''>${error_detail!}</#if></@cAlert></#if>
+      <#if error_message?? && error_message?has_content><@cAlert type='warning' title='${error_message!}'><#if error_details?? && error_details?has_content>${error_detail!}</#if></@cAlert></#if>
       <#-- first display delegated authentications [oauth etc...] -->
       <#if list_authentications??>
       <#list list_authentications as authentication>

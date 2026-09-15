@@ -14,17 +14,17 @@ Snippet:
 
 -->
 <#macro _footerMenu>
-<#if footerLinkLegal !=''>
+<#if footerLinkLegal?has_content>
 <#if !dskey('theme.site_property.Url.legalURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.legalURLLabel') !=''>
 <#local title=dskey('theme.site_property.Url.legalURLLabel') /><#else><#local title='#i18n{portal.theme.labelLegalInfo}' /></#if>
 <@_footerLinkItem title=title url=footerLinkLegal role='' target='_blank'  />
 </#if>
-<#if footerLinkCgu !=''>
+<#if footerLinkCgu?has_content>
 <#if !dskey('theme.site_property.Url.cguURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.cguURLLabel') !=''>
 <#local title=dskey('theme.site_property.Url.cguURLLabel') /><#else><#local title='#i18n{portal.theme.labelCgu}' /></#if>
 <@_footerLinkItem title=title url=footerLinkCgu role='' target='_blank' />
 </#if>
-<#if footerLinkAccessibility !=''>
+<#if footerLinkAccessibility?has_content>
 <#if !dskey('theme.site_property.Url.accessibilityLabel')?starts_with('DS') && dskey('theme.site_property.Url.accessibilityLabel') !=''>
 <#local title=dskey('theme.site_property.Url.accessibilityLabel') /><#else><#local title='#i18n{portal.theme.labelAccessibility}' /></#if>
 <@_footerLinkItem title=title url=footerLinkAccessibility role='' target='_blank' />
@@ -33,13 +33,13 @@ Snippet:
 <#if hasSiteMap?boolean>
 <@_footerLinkItem title='#i18n{portal.site.site_map.pageTitle} 'role='' url="jsp/site/Portal.jsp?page=map" />
 </#if>
-<#if footerLinkWiki !=''>
+<#if footerLinkWiki?has_content>
 <#if !dskey('theme.site_property.Url.wikiURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.wikiURLLabel') !=''>
 <#local title=dskey('theme.site_property.Url.wikiURLLabel') /><#else><#local title='#i18n{portal.theme.labelWiki}' /></#if>
 <@_footerLinkItem title=title url=footerLinkWiki role='' target='_blank' />
 </#if>
 <#--
-<#if footerLinkDataProtection !=''>
+<#if footerLinkDataProtection?has_content>
 <#if !dskey('theme.site_property.Url.dataURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.dataURLLabel') !=''>
 <#local title=dskey('theme.site_property.Url.dataURLLabel') /><#else><#local title='#i18n{portal.theme.labelDataProtection}' /></#if>
 <@_footerLinkItem title=title url=footerLinkDataProtection role='' target='_blank' />
@@ -80,9 +80,9 @@ Snippet:
 -->
 <#macro _footerLinkItem title url urlClass='' target='' role='navitem' showTitle=false id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="list-inline-item<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><#if params!=''> ${params}</#if>>
-<#if url !=''>
-    <a <#if urlClass !='' >class="${urlClass!}"</#if><#if role !=''> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target!=''> target="${target}"</#if>>
+<li class="list-inline-item<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><#if params?has_content> ${params}</#if>>
+<#if url?has_content>
+    <a <#if urlClass?has_content >class="${urlClass!}"</#if><#if role?has_content> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target?has_content> target="${target}"</#if>>
         ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{portal.theme.newWindowLink}</span></#if>
         <#nested>
     </a>

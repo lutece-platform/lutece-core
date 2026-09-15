@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro inputGroupItem id='' class='' pos='append' type='text'  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<span class="<#if type='icon'>input-icon-addon<#else>input-group-${type}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<span class="<#if type='icon'>input-icon-addon<#else>input-group-${type}</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#nested>
 </span>
 </#macro>

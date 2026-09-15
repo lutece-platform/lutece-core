@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro nav tag='nav' type='tab' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="nav nav-${type!}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${tag} class="nav nav-${type!}<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </${tag}>
 </#macro>

@@ -7,10 +7,10 @@
 			<@pre>${service.infos}</@pre>
 			<#if service.cacheEnable && service.statistics??>
 			<@h level=3>Statistics</@h>
-			<@pre>${service.statistics?html}</@pre>
+			<@pre><#outputformat "HTML">${service.statistics}</#outputformat></@pre>
 			</#if>
 			<@h level=3>Keys</@h>
-			<@ul><#list service.keys?sort as key ><@li>${key?html}</@li></#list></@ul>
+			<@ul><#list service.keys?sort as key ><@li><#outputformat "HTML">${key}</#outputformat></@li></#list></@ul>
 		</@div>
 	</#list>
 	</@pageColumn>

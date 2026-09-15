@@ -14,15 +14,16 @@
 <#return false>
 </#function>
 <#function isEmptyString default_values_list>
-<#if default_values_list?has_content><#list default_values_list as default_value><#if default_value.value == ""> <#return true></#if></#list></#if>
+<#if default_values_list?has_content><#list default_values_list as default_value><#if !default_value.value?has_content> <#return true></#if></#list></#if>
 <#return false>
 </#function>
 <#function isMultiple listAttributeFields>
 <#list listAttributeFields as attributeField><#if attributeField.multiple = true><#return true></#if><#break></#list>
 <#return false>
 </#function>
-<#if attribute.helpMessage?exists&&attribute.helpMessage!=''><#assign helpKey = attribute.helpMessage></#if>
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=attribute.mandatory rows=2>
+<#if attribute.helpMessage?exists&&attribute.helpMessage?has_content><#assign helpKey = attribute.helpMessage></#if>
+<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+<@formGroup labelKey='${esc1}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=attribute.mandatory rows=2>
 <#if isMultiple( attribute.listAttributeFields )><#assign multiple = 10> </#if>
 <@select name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' multiple=multiple>
 <#if !attribute.mandatory && !isMultiple( attribute.listAttributeFields ) ><@option value='' label='#i18n{portal.users.attribute.labelNone}' /> </#if>
@@ -33,7 +34,7 @@
 -->
 <#assign hasStoredValue = false>
 <#list attribute.listAttributeFields as attributeField>
-    <#if attributeField.title?exists && attributeField.value != "">
+    <#if attributeField.title?exists && attributeField.value?has_content>
         <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
             <#assign hasStoredValue = true>
         </#if>
@@ -44,10 +45,11 @@
     <#assign hasStoredValue = true>
 </#if>
 <#list attribute.listAttributeFields as attributeField>
-    <#if attributeField.title?exists && attributeField.value != "">
+    <#if attributeField.title?exists && attributeField.value?has_content>
         <#assign selectedStoredAttribute = hasStoredValue && default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
         <#assign selectedDefaultAttribute = !hasStoredValue && attributeField.defaultValue> 
-        <@option value=attributeField.idField! label=attributeField.title!?html selected=(selectedStoredAttribute || selectedDefaultAttribute) /> 
+        <#assign escLabel><#outputformat "HTML">${attributeField.title!}</#outputformat></#assign>
+        <@option value=attributeField.idField! label=escLabel selected=(selectedStoredAttribute || selectedDefaultAttribute) /> 
     </#if>
 </#list>
 </@select>

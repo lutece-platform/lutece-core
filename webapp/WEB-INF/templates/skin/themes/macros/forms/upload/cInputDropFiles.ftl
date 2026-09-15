@@ -51,27 +51,27 @@ Snippet:
 -->
 <#macro cInputDropFiles name handler={} type='dropzone' icon='upload' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
+<#local cId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
 <#local nbFiles = nbFiles?number >
 <#local maxFileSize = maxFileSize?number >
 <#local isDisabled><#if nbFiles?number = nbUplodadedFiles?number >true<#elseif disabled>true<#else>false</#if></#local>
 <#if handler?has_content>
 <#local deleteBtnName='_form_upload_delete_${cId}' >
 <@cInput type='hidden' name='asynchronousupload.handler' value=handler.handlerName />
-<div class="group-files ${type} <#if image> image-file</#if><#if !multiple> one-file</#if><#if nbUplodadedFiles?number=nbFiles?number> no-file</#if><#if errorMsg!=''> is-invalid</#if>">
+<div class="group-files ${type} <#if image> image-file</#if><#if !multiple> one-file</#if><#if nbUplodadedFiles?number=nbFiles?number> no-file</#if><#if errorMsg?has_content> is-invalid</#if>">
 	<div class="col">
         <#if labelPos == 1>
-        <label id="lb${cId!}" class="form-label<#if showLabel=0> visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> is-invalid</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if></label>
+        <label id="lb${cId!}" class="form-label<#if showLabel=0> visually-hidden visually-hidden-focusable</#if><#if errorMsg?has_content> is-invalid</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if></label>
         </#if>
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
-                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if><#if params!=''> ${params}</#if>>
+                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class?has_content> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg?has_content> aria-describedby="help_${cId}"</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept?has_content> accept="${accept}" data-atf="${accept}"</#if><#if params?has_content> ${params}</#if>>
                  <@cIcon name=icon params='aria-hidden="true"' />
                 <p class="flex-1 text-start ms-xs my-0">#i18n{portal.theme.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>
         <#elseif type="button">
-            <div id="group-${cId!}"<#if errorMsg !=''> class="is-invalid"</#if>>
-                <input type="file" <#if required>aria-required="true"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> name="${name}" id="${cId}" class="form-control<#if isDisabled?boolean> disabled</#if><#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if multiple> multiple</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if>>
+            <div id="group-${cId!}"<#if errorMsg?has_content> class="is-invalid"</#if>>
+                <input type="file" <#if required>aria-required="true"</#if><#if helpMsg?has_content> aria-describedby="help_${cId}"</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> name="${name}" id="${cId}" class="form-control<#if isDisabled?boolean> disabled</#if><#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class?has_content> ${class}</#if>"<#if multiple> multiple</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept?has_content> accept="${accept}" data-atf="${accept}"</#if>>
                 <button hidden class="btn btn-link-primary" name="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" id="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" value="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" type="submit" >
                     <span class="file-input-text-noscript">#i18n{asynchronousupload.action.send.name}</span>
                     <span class="file-input-text-js" style="display:none;">#i18n{asynchronousupload.action.browse.name}</span>
@@ -79,10 +79,10 @@ Snippet:
             </div>	
         </#if>	
         <#if labelPos != 1>
-        <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable<#else>mt-m</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}</label>
+        <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable<#else>mt-m</#if><#if errorMsg?has_content> main-danger-color</#if>" for="${cId!}">${label}</label>
         </#if>
-        <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
-        <#if errorMsg !=''><@cFormError cId errorMsg /></#if>
+        <#if helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
+        <#if errorMsg?has_content><@cFormError cId errorMsg /></#if>
     <#if !multiple>
     </div>
     <div class="col">

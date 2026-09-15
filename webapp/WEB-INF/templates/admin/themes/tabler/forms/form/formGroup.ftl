@@ -40,14 +40,16 @@ Snippet:
 
 -->
 <#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
+<#local labelClass = labelClass?is_markup_output?then(labelClass?markup_string, labelClass) />
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'><#local validation = 'is-valid'><#elseif groupStyle='error'><#local validation = 'is-invalid'></#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="<#if formStyle='col'>row</#if><#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'> mb-3<#elseif formStyle='inline' > g-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle='col'>row</#if><#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'> mb-3<#elseif formStyle='inline' > g-3</#if><#if class?has_content> ${class?trim}</#if><#if validation?? && validation?has_content> ${validation}</#if>" <#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 <#local labelClass = labelClass >
 <#if rows=1>
-	<#if labelKey!='' && formStyle='horizontal'>
+	<#if labelKey?has_content && formStyle='horizontal'>
 		<#local labelClass += ' form-label'>
 		<#if displayLabelClass?contains('d-none')>
 			<#local divClass='col'>
@@ -67,14 +69,14 @@ Snippet:
 	<#local labelClass += ' form-label'>
 	<#local divClass = 'col-12'>
 </#if>
-<#if labelKey!=''>
+<#if labelKey?has_content>
 	<@formLabel class=labelClass?trim labelFor=labelFor labelKeyDesc=labelKeyDesc labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 </#if>
 <#assign propagateMandatory = mandatory>
 <div class="${divClass}">
 <#nested>
 <#assign propagateMandatory = false>
-<#if helpKey!=''><#if formStyle!='inline'><p class="mb-0"></#if><small class="text-muted form-text"<#if labelFor!=''> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
+<#if helpKey?has_content><#if formStyle!='inline'><p class="mb-0"></#if><small class="text-muted form-text"<#if labelFor?has_content> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
 </div>
 </div>
 </#macro>

@@ -52,7 +52,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
 <@cBlock class='step-group'>
-<#if title != ''>
+<#if title?has_content>
 	<#if isFieldset>
 		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
 		<#local legendClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
@@ -73,7 +73,7 @@ Snippet:
 			</#if>
 			</@cInline>
 		</@cLegend>
-		<#if help!=''>
+		<#if help?has_content>
 			<@cRow>
 				<@cCol>${help}</@cCol>
 			</@cRow>
@@ -98,7 +98,7 @@ Snippet:
 				<#if iterable && iteration gt 0></div></#if>
 				</#if>
 			</@cTitle>
-			<#if help!=''>
+			<#if help?has_content>
 				<@cRow>
 					<@cCol>${help}</@cCol>
 				</@cRow>
@@ -108,7 +108,7 @@ Snippet:
 	</#if>
 <#else>
 	<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
-		<#if help!=''><@cRow><@cCol>${help}</@cCol></@cRow></#if>
+		<#if help?has_content><@cRow><@cCol>${help}</@cCol></@cRow></#if>
 		<#nested>
 	</@cBlock>
 </#if>

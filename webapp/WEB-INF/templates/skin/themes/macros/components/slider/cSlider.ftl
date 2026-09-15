@@ -56,22 +56,22 @@ Snippet:
         </#if>
     </@cRow>
     <#nested>
-    <#if slides?size gt 0 && ( buttonNext != '' || buttonPrev != '' || linkAll != '' )>
+    <#if slides?size gt 0 && ( buttonNext?has_content || buttonPrev?has_content || linkAll?has_content )>
         <@cBlock class='slider-buttons'>
             <@cContainer>
                 <@cBlock class='d-flex justify-content-end pt-4 pb-md-5 mb-md-5'>
-                    <#if linkAll != ''>
+                    <#if linkAll?has_content>
                         <@cLink class=linkAllClass label=linkAllLabel href=linkAll />
                     </#if>
                     <@cBlock class='d-flex align-items-center justify-content-end gap-1'>
-                        <#if buttonPrev != ''>
+                        <#if buttonPrev?has_content>
                             <#assign prevBtnClass = buttonClass + ' disabled prev-slide'>
                             <#assign prevBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonPrev!} ${slideLabel}"</#assign>
                             <@cBtn label='' class=prevBtnClass type='button' disabled=true params=prevBtnParams>
                                 <@cIcon name='arrow-left' />
                             </@cBtn>
                         </#if>
-                        <#if buttonNext != ''>
+                        <#if buttonNext?has_content>
                             <#assign nextBtnClass = buttonClass + ' ms-sm next-slide'>
                             <#assign nextBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonNext!} ${slideLabel}"</#assign>
                             <@cBtn label='' class=nextBtnClass type='button' params=nextBtnParams>
@@ -180,14 +180,14 @@ Snippet:
 -->
 <#macro cSlide slide={} currentIndex=1 lastIndex=1 params=''>
 <#if slide?size gt 0>
-    <#assign slideIndex><#if slide.index?? && slide.index!=''>${slide.index!}<#else>${currentIndex!}</#if></#assign>
-    <#assign slideId><#if slide.id?? && slide.id!=''>${slide.id!}</#if></#assign>
-    <#assign slideClass>slide p-0<#if slide.class?? && slide.class!=''> ${slide.class!}</#if></#assign>
-    <#assign slideImg><#if slide.img?? && slide.img!=''>${slide.img!}</#if></#assign>
-    <#assign slideImgAlt><#if slide.imgAlt?? && slide.imgAlt!=''>${slide.imgAlt!}</#if></#assign>
-    <#assign slideUrl><#if slide.link?? && slide.link!=''>${slide.url!}</#if></#assign>
-    <#assign slideLinkLabel><#if slide.linkLabel?? && slide.linkLabel!=''>${slide.linkLabel!}</#if></#assign>
-    <#assign slideContent><#if slide.content?? && slide.content!=''>${slide.content!}</#if></#assign>
+    <#assign slideIndex><#if slide.index?? && slide.index?has_content>${slide.index!}<#else>${currentIndex!}</#if></#assign>
+    <#assign slideId><#if slide.id?? && slide.id?has_content>${slide.id!}</#if></#assign>
+    <#assign slideClass>slide p-0<#if slide.class?? && slide.class?has_content> ${slide.class!}</#if></#assign>
+    <#assign slideImg><#if slide.img?? && slide.img?has_content>${slide.img!}</#if></#assign>
+    <#assign slideImgAlt><#if slide.imgAlt?? && slide.imgAlt?has_content>${slide.imgAlt!}</#if></#assign>
+    <#assign slideUrl><#if slide.link?? && slide.link?has_content>${slide.url!}</#if></#assign>
+    <#assign slideLinkLabel><#if slide.linkLabel?? && slide.linkLabel?has_content>${slide.linkLabel!}</#if></#assign>
+    <#assign slideContent><#if slide.content?? && slide.content?has_content>${slide.content!}</#if></#assign>
     <#assign slideParams>role="group" aria-roledescription="slide" aria-label="${slideIndex!} / ${lastIndex}" ${params}</#assign>
     <@cCard class=slideClass id=slideId title=slideLinkLabel titleUrl=slideUrl img=slideImg params=slideParams>
         <@cText class='card-text'>${slideContent}</@cText>

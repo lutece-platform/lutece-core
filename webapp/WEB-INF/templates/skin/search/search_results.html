@@ -72,12 +72,12 @@
                     </@cSelect>
                 </@cBlock>
                 <#if taglist?has_content>
-                <#if tag_filter == "1" && taglist?trim != ''>
+                <#if tag_filter == "1" && taglist?trim?has_content>
                 <@cBlock class='filter-group'>
                     <@cBlock class='filter-group-title'>Tags</@cBlock>
                     <#-- tag_filter -->
                     <#list taglist?split(" ") as tag>
-                        <#if tag?? && tag?trim != ''>
+                        <#if tag?? && tag?trim?has_content>
                             <@cFormCheck type='checkbox' checked=true labelClass='filter-check' label='${tag?lower_case?capitalize}' />
                         </#if>
                     </#list>
@@ -106,7 +106,7 @@
         <@cSection class='results-col'>
         <#-- Toolbar -->
             <@cBlock class='toolbar'>
-              <#if query?? && query?trim != ''>
+              <#if query?? && query?trim?has_content>
               <@cBlock class='toolbar__right ms-auto'>
                 <@cBlock type='label' params='style="display:flex;align-items:center;gap:8px;"'>
                   <@cInline>Trier :</@cInline>
@@ -170,7 +170,7 @@
                         </#list>
                         </@chList>
                     <#else>
-                        <#if query?? && query?trim != ''>
+                        <#if query?? && query?trim?has_content>
                             <@cEmpty title='#i18n{portal.search.search_results.labelNoResult}' subtitle='#i18n{portal.search.search_results.labelTryOther}' />
                         <#else>
                         <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--lutece-ds-primary);" viewBox="-50 50 700 400"><g><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:currentColor"></path><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:#fff;opacity:0.7000000000000001;isolation:isolate"></path></g><g><path d="M275.92,380.77V360.45H216.08v20.32A29.43,29.43,0,0,1,209.72,399l-2.62,3.3h77.8l-2.62-3.3A29.43,29.43,0,0,1,275.92,380.77Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M212.4,395h67.2a29.38,29.38,0,0,1-3.68-14.23V360.45H216.08v20.32A29.38,29.38,0,0,1,212.4,395Z" style="fill:currentColor"></path><rect x="125.74" y="186.47" width="240.51" height="180.39" rx="8.48" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M125.74,338.82H366.26v19.55a8.48,8.48,0,0,1-8.48,8.48H134.23a8.48,8.48,0,0,1-8.48-8.48h0V338.82Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="137.84" y="197.7" width="216.32" height="127.44" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M250.44,352.84a4.44,4.44,0,1,0-4.44,4.44,4.44,4.44,0,0,0,4.44-4.44Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="207.1" y="402.34" width="77.81" height="3.63" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><rect x="139.54" y="206.68" width="212.59" height="11.17" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><polygon points="174.62 217.85 172.07 210.95 139.54 210.95 139.54 217.85 139.54 227 139.54 319.71 352.13 319.71 352.13 217.85 174.62 217.85" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polygon><line x1="196.76" y1="268.36" x2="296.44" y2="268.36" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="278.16" x2="296.44" y2="278.16" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="287.96" x2="296.44" y2="287.96" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="297.77" x2="296.44" y2="297.77" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><path d="M291.17,242.23H200.84a7.08,7.08,0,0,1-7.09-7.07v0h0a7.08,7.08,0,0,1,7.07-7.09h90.35a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M291.17,242.23H278.83V228.05h12.34a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M288.42,229.85a4.07,4.07,0,1,0,.19,5.75h0a4.05,4.05,0,0,0-.18-5.74Zm-.4,5.2a3.26,3.26,0,1,1-.15-4.62,3.27,3.27,0,0,1,.15,4.62l0,0Z" style="fill:#fff"></path><path d="M291.48,237.08a.65.65,0,0,0-.69-.14l-1.47-1.38a.4.4,0,0,0-.56,0l-.13.14a.42.42,0,0,0,0,.57l1.45,1.36a.69.69,0,0,0,.17.72l2.5,2.45a.88.88,0,0,0,1.24,0h0a.88.88,0,0,0,0-1.24Z" style="fill:#fff"></path></g><g><path d="M317.3,285a5.83,5.83,0,0,0,3.21,3.22c1.13.46,2.64.36,4.38,1.34,3.93,2.21,13.74.24,20.85,1s16.69-7.11,16.69-7.11L390.64,285V257s-29.44,1.23-35.82-1.23-13.49-7.6-16.68-7.36-29.44,3.19-29.44,3.19L317.29,285Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M310,172.1a29.63,29.63,0,1,0,32.71,26.19h0A29.61,29.61,0,0,0,310,172.1Zm5.88,53.08a23.77,23.77,0,1,1,21-26.25,23.77,23.77,0,0,1-21,26.25Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="314.5" y="229.86" width="7.17" height="26.42" rx="2.88" transform="translate(-24.82 36.49) rotate(-6.32)" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect></g></svg>

@@ -71,7 +71,8 @@
 	<#if is_email_pattern_set_manually>
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelEmailPattern}' labelFor='email_pattern' class='has-addons'>
 			<@inputGroup class=''>
-				<@input type='text' id='email_pattern' name='email_pattern' value='${email_pattern?html}' />
+				<#assign esc1><#outputformat "HTML">${email_pattern}</#outputformat></#assign>
+				<@input type='text' id='email_pattern' name='email_pattern' value='${esc1}' />
 				<@button type="submit" name="reset" value="reset" buttonIcon='refresh' title='#i18n{portal.users.manage_advanced_parameters.buttonResetEmailPattern}' />
 			</@inputGroup>
 		</@formGroup>

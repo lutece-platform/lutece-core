@@ -24,7 +24,7 @@ Snippet:
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local layoutBoxed><#attempt><#if dskey('portal.site.site_property.layout.menu.boxed.checkbox')?number==1> layout-boxed</#if><#recover></#attempt></#local>
 <#local layoutFluid><#attempt><#if dskey('portal.site.site_property.layout.fluid.checkbox')?number==1> layout-fluid</#if><#recover></#attempt></#local>
-<#local bodyClass><#if layoutBoxed!=''>${layoutBoxed!}</#if><#if layoutFluid!=''> ${layoutFluid!}</#if></#local>
+<#local bodyClass><#if layoutBoxed?has_content>${layoutBoxed!}</#if><#if layoutFluid?has_content> ${layoutFluid!}</#if></#local>
 <#local navbarSticky><#attempt><#if dskey('portal.site.site_property.layout.menu.sticky.checkbox')?number==1> sticky-top</#if><#recover></#attempt></#local>
 <#local menuCondensed><#attempt><#if dskey('portal.site.site_property.layout.menu.condensed.checkbox')?number==1>condensed</#if><#recover></#attempt></#local>
 <#local menuVertical><#attempt><#if dskey('portal.site.site_property.layout.menu.vertical.checkbox')?number==1>vertical</#if><#recover></#attempt></#local>
@@ -66,18 +66,18 @@ if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
 </#if>
 <#-- End of Optional Jquery Inclusion -->
 </head>
-<body<#if bodyClass!=''> class="${bodyClass!}"</#if> ${readMode} data-bs-theme-base="neutral" data-bs-theme-radius="2">
+<body<#if bodyClass?has_content> class="${bodyClass!}"</#if> ${readMode} data-bs-theme-base="neutral" data-bs-theme-radius="2">
 <@adminSkipNav />
 <#--  <div class="page" data-userdarkmode="${userDarkMode}" data-usermenu="${userMenuMode}">  -->
 <div class="page" data-userdarkmode="${userDarkMode}">
 <#if menuVertical == 'vertical'>
 <!--  BEGIN SIDEBAR  -->
-      <aside class="navbar navbar-vertical navbar-expand-lg<#if menuTransparent!=''>${menuTransparent}</#if>"<#if menuTransparent=''> data-bs-theme="dark"</#if> >
+      <aside class="navbar navbar-vertical navbar-expand-lg<#if menuTransparent?has_content>${menuTransparent}</#if>"<#if menuTransparent=''> data-bs-theme="dark"</#if> >
       <div class="container-fluid">
 <#else>
 	<!-- BEGIN NAVBAR  -->
-	<#if navbarSticky !=''><div class="${navbarSticky!}"></#if>
-    <header class="navbar navbar-expand-md<#if navbarSticky !=''> ${navbarSticky!}</#if> d-print-none">
+	<#if navbarSticky?has_content><div class="${navbarSticky!}"></#if>
+    <header class="navbar navbar-expand-md<#if navbarSticky?has_content> ${navbarSticky!}</#if> d-print-none">
     	<div class="container-xl">
 </#if>
         <!-- BEGIN NAVBAR TOGGLER -->
@@ -88,7 +88,7 @@ if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
           	<!-- BEGIN NAVBAR LOGO -->
           	<div class="navbar-brand navbar-brand-autodark<#if menuVertical != 'vertical'> navbar-horizontal pe-0 pe-md-3</#if>">
             	<a href="jsp/admin/AdminMenu.jsp" aria-label="${site_name}"> 
-					<#if logoSvg?trim !=''>
+					<#if logoSvg?trim?has_content>
 						${logoSvg!} 
 					<#else>
             			<img src="${logoUrl}" class="me-1" height="${logoHeight}" width="${logoWidth}" alt="Logo ${site_name}" aria-hidden="true">
@@ -305,7 +305,7 @@ if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
 		</div>
 	</div>
 	</header>
-	<#if navbarSticky !=''></div></#if>
+	<#if navbarSticky?has_content></div></#if>
 	</#if>
 <#else>
 	<#if menuVertical == 'vertical'>

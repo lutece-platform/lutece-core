@@ -48,10 +48,10 @@ Snippet:
 -->
 <#macro cTextArea name class='form-control' id='' placeholder='' required=false html5Required=false disabled=false readonly=false title='' autocomplete='' maxlength=0 helpMsg='' rows=0 errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#assign idMsg><#if id!=''>${id}<#else>${name!}</#if></#assign>
-<textarea class="<#if class!=''> ${class!}</#if><#if errorMsg!=''> is-invalid</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" <#if placeholder!=''> placeholder="${placeholder!}"</#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength?number gt 0> maxlength="${maxlength!}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if rows?number!=0>rows="${rows}"</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if errorMsg!=''> is-invalid aria-invalid="true" aria-describedby="error_<#if id!=''>${id!}<#else>${name}</#if>"<#elseif helpMsg!=''> aria-describedby="help_<#if id!=''>${id!}<#else>${name}</#if>"</#if>>
+<#assign idMsg><#if id?has_content>${id}<#else>${name!}</#if></#assign>
+<textarea class="<#if class?has_content> ${class!}</#if><#if errorMsg?has_content> is-invalid</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" <#if placeholder?has_content> placeholder="${placeholder!}"</#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength?number gt 0> maxlength="${maxlength!}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params?has_content> ${params}</#if><#if rows?number!=0>rows="${rows}"</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if errorMsg?has_content> is-invalid aria-invalid="true" aria-describedby="error_<#if id?has_content>${id!}<#else>${name}</#if>"<#elseif helpMsg?has_content> aria-describedby="help_<#if id?has_content>${id!}<#else>${name}</#if>"</#if>>
 <#nested>
 </textarea>
-<#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
-<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
+<#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
+<#if errorMsg?has_content><@cFormError idMsg errorMsg /></#if>
 </#macro>

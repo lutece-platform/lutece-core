@@ -32,8 +32,8 @@ Snippet:
 <#macro cDropNav title icon='' caret='' expanded=false id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId='id-' + random()>
-<#if id !=''><#local cId=id /></#if>
-<div class="dropdown-group" <#if class !='' > ${class!}</#if>"<#if params!=''> ${params}</#if>>
+<#if id?has_content><#local cId=id /></#if>
+<div class="dropdown-group" <#if class?has_content > ${class!}</#if>"<#if params?has_content> ${params}</#if>>
     <button type="button" class="nav-link dropdown-toggle" href="#" id="dropdownMenu${cId!}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="${expanded?c}">
         ${icon!} ${title!} ${caret!}
     </button>

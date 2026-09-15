@@ -27,7 +27,7 @@ Snippet:
 -->
 <#macro cOptgroup label class='' disabled=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<optgroup label="${label!}" <#if class!=''>class="${class}"</#if><#if disabled> disabled</#if><#if params!=''>${params}</#if>>
+<optgroup label="${label!}" <#if class?has_content>class="${class}"</#if><#if disabled> disabled</#if><#if params?has_content>${params}</#if>>
 <#nested>
 </optgroup>
 </#macro>

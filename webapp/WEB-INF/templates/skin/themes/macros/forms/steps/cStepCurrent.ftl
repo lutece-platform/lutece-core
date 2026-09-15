@@ -91,32 +91,32 @@ Snippet:
 		<#if hasMandatory><@cText class='mandatory-warning ms-xs'>#i18n{portal.theme.msgMandatory}</@cText></#if>
 		<@cBlock class='step-current-toolbar d-flex justify-content-center justify-content-sm-end'>
 			<@chList class='list-unstyled d-flex justify-content-end flex-column flex-sm-row align-items-center mt-0 me-xs'>
-			<#if actionPrevStep !='' && showPrevStep >
-				<#assign paramsPrevStep> name="${actionPrevStep}" formnovalidate<#if titlePrevStep !=''> title="${titlePrevStep}"</#if></#assign>
+			<#if actionPrevStep?has_content && showPrevStep >
+				<#assign paramsPrevStep> name="${actionPrevStep}" formnovalidate<#if titlePrevStep?has_content> title="${titlePrevStep}"</#if></#assign>
 				<@chItem>
 					<@cBtn class='tertiary ms-sm' id=actionPrevStep params=paramsPrevStep label=labelPrevStep />
 				</@chItem>
 			</#if> 
-			<#if actionSaveForBackUpStep !=''>
-				<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep !=''> title="${titleSaveForBackUpStep}"</#if></#assign>
+			<#if actionSaveForBackUpStep?has_content>
+				<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep?has_content> title="${titleSaveForBackUpStep}"</#if></#assign>
 				<@chItem>
 					<@cBtn class='tertiary ms-sm' id=actionSaveForBackUpStep params=paramsSaveForBackUpStep label='#i18n{portal.theme.labelSaveStep}' />
 				</@chItem>
 			</#if>
-			<#if actionResetBackUpStep !=''>    
-				<#assign paramsResetBackUpStep> name="${actionResetBackUpStep}" formnovalidate<#if titleResetBackUpStep !=''> title="${titleResetBackUpStep}"</#if></#assign>
+			<#if actionResetBackUpStep?has_content>    
+				<#assign paramsResetBackUpStep> name="${actionResetBackUpStep}" formnovalidate<#if titleResetBackUpStep?has_content> title="${titleResetBackUpStep}"</#if></#assign>
 				<@chItem id='reset-backup' >
 					<@cBtn class='tertiary  ms-sm' id=actionResetBackUpStep params=paramsResetBackUpStep label=labelResetBackUpStep />
 				</@chItem>
 			</#if>
-			<#if actionNextStep !=''>
-				<#assign paramsNextStep> name="${actionNextStep}"<#if titleNextStep !=''> title="${titleNextStep}"</#if></#assign>
+			<#if actionNextStep?has_content>
+				<#assign paramsNextStep> name="${actionNextStep}"<#if titleNextStep?has_content> title="${titleNextStep}"</#if></#assign>
 				<@chItem>
 					<@cBtn class='primary ms-sm' id=actionNextStep params=paramsNextStep label=labelNextStep />
 				</@chItem>
 			</#if>
-			<#if actionSaveStep !=''>    
-				<#assign paramsSaveStep> name="${actionSaveStep}" <#if titleSaveStep !=''> title="${titleSaveStep}"</#if></#assign>
+			<#if actionSaveStep?has_content>    
+				<#assign paramsSaveStep> name="${actionSaveStep}" <#if titleSaveStep?has_content> title="${titleSaveStep}"</#if></#assign>
 				<@chItem>
 					<@cBtn class='secondary' id=actionSaveStep params=paramsSaveStep label=labelSaveStep />
 				</@chItem>
@@ -168,10 +168,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			stepTitle.focus();
 		}
 	}
-	<#assign actionStep><#if actionNextStep !=''>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
-	const formValidate = document.getElementById('${formId!}')<#if actionStep?? && actionStep !=''>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
+	<#assign actionStep><#if actionNextStep?has_content>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
+	const formValidate = document.getElementById('${formId!}')<#if actionStep?? && actionStep?has_content>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
 	<#if step?number gt 1 >
-	<#if actionStep?? && actionStep !=''>
+	<#if actionStep?? && actionStep?has_content>
 	formValidateButton && formValidateButton.addEventListener('click', (e) => {
 		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
 		const arrInvalids = Array.prototype.slice.call(invalids);
@@ -179,7 +179,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			invalid.classList.add('is-invalid')
 			invalid.setAttribute('aria-invalid', 'true');
 			const isRequired = invalid.getAttributeNode('required'); 
-			if( isRequired !='' ){
+			if( isRequired?has_content ){
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				<#assign invalidLabel>#i18n{portal.theme.msgMandatory}</#assign>

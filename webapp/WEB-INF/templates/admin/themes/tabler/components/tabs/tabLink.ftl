@@ -31,8 +31,9 @@ Snippet:
 
 -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params='' deprecated...>
+<#local href = href?is_markup_output?then(href?markup_string, href) />
 <@deprecatedWarning args=deprecated />
-<li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
 <#local tabLinkSettings = 'role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
@@ -46,7 +47,7 @@ Snippet:
 	<#nested>
 <#else>
 	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-		<#if tabIcon!=''><@icon style=tabIcon class='mr-1 me-1'/></#if> <#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if>
+		<#if tabIcon?has_content><@icon style=tabIcon class='mr-1 me-1'/></#if> <#if tabLabel?has_content>${tabLabel!}<#else>${title!}</#if>
 		<#nested>
 	</@link>
 </#if>

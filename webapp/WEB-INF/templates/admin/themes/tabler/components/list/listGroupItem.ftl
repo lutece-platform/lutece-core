@@ -24,7 +24,7 @@ Snippet:
 -->
 <#macro listGroupItem id='' class='' active=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if><#if active> active</#if>"<#if id!=''> id="${id}"</#if><#if active> aria-current="true"</#if><#if params!=''> ${params}</#if>>
+<li class="list-group-item list-group-item-action<#if class?has_content> ${class}</#if><#if active> active</#if>"<#if id?has_content> id="${id}"</#if><#if active> aria-current="true"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </li>
 </#macro>

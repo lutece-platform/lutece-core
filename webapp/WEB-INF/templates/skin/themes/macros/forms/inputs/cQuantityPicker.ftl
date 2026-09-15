@@ -42,9 +42,9 @@ Snippet:
 <#macro cQuantityPicker name label='#i18n{portal.theme.labelFormQuantityChoose}' showLabel=false labelDecrease='#i18n{portal.theme.labelFormQuantityDecrease}' labelIncrease='#i18n{portal.theme.labelFormQuantityIncrease}' paramsDecrease='' paramsIncrease='' minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
-<#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
+<#local cId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
 <#local params>data-min="${minQty}" data-max="${maxQty}" ${params}</#local>
-<#if errorMsg!=''><#assign isInvalid>is-invalid</#assign></#if>
+<#if errorMsg?has_content><#assign isInvalid>is-invalid</#assign></#if>
 <#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
@@ -54,8 +54,8 @@ Snippet:
         <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1" ${paramsIncrease}' />
     </@cInputGroup>
 </@cBlock>
-<#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
-<#if errorMsg !=''><@cFormError cId errorMsg errorClass /></#if>
+<#if helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
+<#if errorMsg?has_content><@cFormError cId errorMsg errorClass /></#if>
 <script>
 document.addEventListener( 'DOMContentLoaded', function() {
   document.addEventListener( 'click', function(ev) {

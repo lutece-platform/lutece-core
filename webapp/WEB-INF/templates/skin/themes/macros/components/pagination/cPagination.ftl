@@ -29,7 +29,7 @@ Snippet:
 -->
 <#macro cPagination paginator label='Pagination' fragment='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="${label!}" <#if id!=''> id="${id}"</#if><#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if> >
+<nav aria-label="${label!}" <#if id?has_content> id="${id}"</#if><#if class?has_content> class="${class}"</#if><#if params?has_content> ${params}</#if> >
 <#if (paginator.pagesCount > 1) >
 	<@cPaginationLinks paginator=paginator class=class fragment=fragment />
 </#if>

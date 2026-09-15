@@ -50,13 +50,14 @@ Snippet:
 
 -->
 <#macro cAlert id='' title='' isHtmlTitle=false htmlTitleLevel=3 type='primary' iconType='informative' class='' classText='' dismissible=false params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local type=type! /> 
 <#local hasClass=false /> 
 <#local allClass=class?split(' ')! /> 
 <#local typeClass=allClass[0]! /> 
 <#local types=["warning","primary","danger","success"]>
-<#if typeClass !='' && types?seq_contains(typeClass)><#local type=typeClass /></#if>
+<#if typeClass?has_content && types?seq_contains(typeClass)><#local type=typeClass /></#if>
 <#local alertIconName='info-circle' />
 <#local alertIconTitle='#i18n{portal.theme.labelInfo}' />
 <#local ariaRole='status' />
@@ -77,7 +78,7 @@ Snippet:
 <@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id!>
     <@cBlock class='alert-header'>
         <@cBlock class='alert-icon'><@cIcon name=alertIconName! type=iconType title=alertIconTitle! /></@cBlock>
-        <@cBlock class='alert-text ${classText!}'><#if title !=''><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
+        <@cBlock class='alert-text ${classText!}'><#if title?has_content><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
         <#if dismissible>
         <@cBlock class="alert-dismiss">
             <@cBtn type='button' label='' class='close py-xs px-xs' params='data-bs-dismiss="alert" aria-label="#i18n{portal.theme.labelClose}"' />
@@ -85,6 +86,6 @@ Snippet:
         </#if>
     </@cBlock>
     <#local _nested><#nested /></#local>
-    <#if _nested?? && _nested !=''><@cBlock class='alert-content'>${_nested}</@cBlock></#if>
+    <#if _nested?? && _nested?has_content><@cBlock class='alert-content'>${_nested}</@cBlock></#if>
 </@cBlock>
 </#macro>

@@ -37,10 +37,11 @@ Snippet:
 
 -->
 <#macro ul id='' class='' align='' hide=[] collapsed=false params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<ul<#if class?trim?has_content> class="${class?trim}"</#if><#if params?has_content> ${params}</#if><#if id?has_content> id="${id}"</#if>>
 <#nested>
 </ul>
 </#macro>

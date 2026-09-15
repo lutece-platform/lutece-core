@@ -61,9 +61,10 @@ Snippet:
 
 -->
 <#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
+<#if align?has_content><#local class+= ' ' + alignmentSettings(align,'') /></#if>
 <#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
 <#if offset?has_content>
 	<#local class += ' ' + responsiveDisplay('offset',offset) />
@@ -77,7 +78,7 @@ Snippet:
 		<#local class += ' ' + responsiveDisplay('order',order) />
 	</#if>
 </#if>
-<${tag} class="<#if class?trim!=''>${class?trim}<#else>col</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${tag} class="<#if class?trim?has_content>${class?trim}<#else>col</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </${tag}>
 </#macro>

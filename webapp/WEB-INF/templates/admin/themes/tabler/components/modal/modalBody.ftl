@@ -25,7 +25,7 @@ Snippet:
 -->
 <#macro modalBody id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal-body"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="modal-body"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>

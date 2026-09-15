@@ -24,6 +24,7 @@ Snippet:
 
 -->
 <#macro icon prefix='ti ti-' style='' class='' title='' id='' params='' deprecated...>
+<#local style = style?is_markup_output?then(style?markup_string, style) />
 <@deprecatedWarning args=deprecated />
 <#-- Compat from Font Awesome to Tabler Icons -->
 <#local cssStyle = ' ' + style?keep_after(' ') />
@@ -146,6 +147,6 @@ Snippet:
     <#default>
         <#local iconStyle = style />
 </#switch>
-<#if cssStyle?trim !=''><#local iconStyle = iconStyle + cssStyle /></#if>
-<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+<#if cssStyle?trim?has_content><#local iconStyle = iconStyle + cssStyle /></#if>
+<i class="${prefix}${iconStyle}<#if class?has_content> ${class}</#if>" aria-hidden="true"<#if title?has_content> title='${title}'</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>></i>
 </#macro>

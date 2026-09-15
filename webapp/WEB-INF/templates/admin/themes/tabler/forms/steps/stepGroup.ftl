@@ -55,7 +55,7 @@ Snippet:
 					</#if>
 				</#local>
 				<@cLegend label=legend class=legendClass params=headerParams />
-				<#if help!=''>
+				<#if help?has_content>
 					<@row>
 						<@columns>${help}</@columns>
 					</@row>

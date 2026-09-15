@@ -27,9 +27,9 @@ Snippet:
 -->
 <#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' headerIcon='' >
 <div class="accordion-item">
-	<h2 class="accordion-header ${class}" id="${childId}-header"<#if params!=''> ${params}</#if>>
-		<button class="accordion-button<#if aClass!=''> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
-		<#if headerIcon!=''><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
+	<h2 class="accordion-header ${class}" id="${childId}-header"<#if params?has_content> ${params}</#if>>
+		<button class="accordion-button<#if aClass?has_content> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
+		<#if headerIcon?has_content><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
 	</h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content><#if boxTools><div class="box-tools"></#if>${nested}<#if boxTools></div></#if></#if>

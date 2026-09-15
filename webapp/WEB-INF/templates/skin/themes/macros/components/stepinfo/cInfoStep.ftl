@@ -66,7 +66,7 @@ Snippet:
         <ol class="d-flex info-step-figure">
         <#list steps as step>
         <li>
-            <div<#if imgClass!=''> class="${imgClass!}"</#if>>
+            <div<#if imgClass?has_content> class="${imgClass!}"</#if>>
                 <img src="${step.url!}" class="img-fluid" title="${step.title!}" alt="${step.title!}" aria-hidden="true">
             </div>
         </li>
@@ -74,7 +74,7 @@ Snippet:
         </ol>
     </#if>
     </#if>
-    <ol class="info-step-list<#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+    <ol class="info-step-list<#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
     <#if steps?has_content>
         <#list steps as step>
             <li<#if step.status??> class="${step.status}"</#if>>
@@ -117,14 +117,14 @@ Snippet:
 </#macro>
 <#macro cInfoStep steps haspicto=false verticalStepper=false hasidx=false title=false titleLevel=3 showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' imgClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="c-info-step-wrapper<#if verticalStepper> stepper-vertical<#else> stepper-horizontal c-info-step-default</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
-  <ol class="c-info-step<#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="c-info-step-wrapper<#if verticalStepper> stepper-vertical<#else> stepper-horizontal c-info-step-default</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
+  <ol class="c-info-step<#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
     <#if steps?has_content>
         <#list steps as step>
             <li class="c-info-step__item<#if step.status??> ${step.status}</#if>">
                 <#if haspicto>
                     <div class="c-info-step__icon">
-                        <div class="mb-0<#if imgClass!=''> ${imgClass!}</#if>">
+                        <div class="mb-0<#if imgClass?has_content> ${imgClass!}</#if>">
                             <img src="${step.url!}" class="img-fluid" alt="">
                         </div>
                     </div>

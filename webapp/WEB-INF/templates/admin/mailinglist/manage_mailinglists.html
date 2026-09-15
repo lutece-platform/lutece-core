@@ -6,13 +6,13 @@
 <#function buildSortSearchAttribute filter>
 <#assign sortSearchAttribute = "" />
 <#if filter??>
-    <#if filter.name?? && filter.name != "">
+    <#if filter.name?? && filter.name?has_content>
         <#assign sortSearchAttribute = sortSearchAttribute + "&amp;name=" + filter.name! />
     </#if>
-    <#if filter.description?? && filter.description != "">
+    <#if filter.description?? && filter.description?has_content>
         <#assign sortSearchAttribute = sortSearchAttribute + "&amp;description=" + filter.description! />
     </#if>
-    <#if filter.workgroup?? && filter.workgroup != "">
+    <#if filter.workgroup?? && filter.workgroup?has_content>
         <#assign sortSearchAttribute = sortSearchAttribute + "&amp;workgroup=" + filter.workgroup! />
     </#if>
 </#if>
@@ -47,7 +47,8 @@
                     </@manageFeatureItemColumn>
                     <@manageFeatureItemColumn auto=true>
                         <@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' hideTitle=['xs'] />
-                        <@offcanvas targetUrl='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' targetElement='#mailinglist-users-table' redirectForm=false id='mailinglist-users-${mailinglist.id}' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' btnTitle='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' btnIcon='user' position='end' hideTitle=['xs'] />
+                        <#assign esc1><#outputformat "HTML">${mailinglist.name}</#outputformat></#assign>
+                        <@offcanvas targetUrl='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' targetElement='#mailinglist-users-table' redirectForm=false id='mailinglist-users-${mailinglist.id}' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${esc1})' btnTitle='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' btnIcon='user' position='end' hideTitle=['xs'] />
                         <@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' color='danger' hideTitle=['xs'] />
                     </@manageFeatureItemColumn>
                 </@manageFeatureItem>

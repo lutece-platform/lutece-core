@@ -16,7 +16,7 @@
 			</#assign>
 			<@boxHeader title=path skipHeader=true />
 			<@boxBody id="file-system-data">
-				<@pre>${file_system_data?html}</@pre>
+				<@pre><#outputformat "HTML">${file_system_data}</#outputformat></@pre>
 			</@boxBody>
 		</@box>
 	</@columns>

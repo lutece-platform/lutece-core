@@ -4,7 +4,7 @@
 <@row>
 <@columns>
 <#list listExtendableResourceActions as resourceTypeAction>
-<#if resourceTypeAction.buttonTemplate?? && resourceTypeAction.buttonTemplate!=''>
+<#if resourceTypeAction.buttonTemplate?? && resourceTypeAction.buttonTemplate?has_content>
 <@extendableResourceActionList action=resourceTypeAction />
 </#if>
 </#list>

@@ -29,7 +29,7 @@ Snippet:
 -->
 <#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${class}"</#if><#if params!=''> ${params}</#if>>
+<div class="row<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${class}"</#if><#if params?has_content> ${params}</#if>>
 	<div class="${anchorColClass}">
 		<@cAnchor id=anchorId class=anchorClass anchors=anchors listClass=anchorListClass listItemClass=anchorListItemClass anchorsClass=anchorsLinkClass params=anchorsParams />
 	</div>

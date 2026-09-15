@@ -23,7 +23,7 @@ Snippet:
 -->
 <#macro modalFooter id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal-footer"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="modal-footer"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>

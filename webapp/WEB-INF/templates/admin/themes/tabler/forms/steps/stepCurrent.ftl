@@ -72,32 +72,32 @@ Snippet:
 		<@row>	
 			<@columns class='d-flex justify-content-end align-items-center'>
 				<@ul class='list-unstyled d-flex justify-content-end flex-column flex-sm-row align-items-center mb-0'>
-				<#if actionNextStep !=''>
-					<#assign paramsNextStep> name="${actionNextStep}"<#if titleNextStep !=''> title="${titleNextStep}"</#if></#assign>
+				<#if actionNextStep?has_content>
+					<#assign paramsNextStep> name="${actionNextStep}"<#if titleNextStep?has_content> title="${titleNextStep}"</#if></#assign>
 					<@li class='order-5'>
 						<@button class='primary mt-xs ms-sm' type='submit' id=actionNextStep params=paramsNextStep title=labelNextStep />
 					</@li>
 				</#if>    
-				<#if actionSaveStep !=''>    
-					<#assign paramsSaveStep> name="${actionSaveStep}" formnovalidate<#if titleSaveStep !=''> title="${titleSaveStep}"</#if></#assign>
+				<#if actionSaveStep?has_content>    
+					<#assign paramsSaveStep> name="${actionSaveStep}" formnovalidate<#if titleSaveStep?has_content> title="${titleSaveStep}"</#if></#assign>
 					<@li class='order-5'>
 						<@button class='secondary' type='submit' id=actionSaveStep params=paramsSaveStep title=labelSaveStep />
 					</@li>
 				</#if>
-				<#if actionPrevStep !='' && showPrevStep >
-					<#assign paramsPrevStep> name="${actionPrevStep}" formnovalidate<#if titlePrevStep !=''> title="${titlePrevStep}"</#if></#assign>
+				<#if actionPrevStep?has_content && showPrevStep >
+					<#assign paramsPrevStep> name="${actionPrevStep}" formnovalidate<#if titlePrevStep?has_content> title="${titlePrevStep}"</#if></#assign>
 					<@li class='order-2'>
 						<@button class='tertiary ms-sm' type='submit' id=actionPrevStep params=paramsPrevStep title=labelPrevStep />
 					</@li>
 				</#if> 
-				<#if actionSaveForBackUpStep !=''>
-					<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep !=''> title="${titleSaveForBackUpStep}"</#if></#assign>
+				<#if actionSaveForBackUpStep?has_content>
+					<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep?has_content> title="${titleSaveForBackUpStep}"</#if></#assign>
 					<@li class='order-3'>
 						<@button class='tertiary ms-sm' type='submit' id=actionSaveForBackUpStep params=paramsSaveForBackUpStep title='#i18n{forms.step.save}' />
 					</@li>
 				</#if>
-				<#if actionResetBackUpStep !=''>    
-					<#assign paramsResetBackUpStep> name="${actionResetBackUpStep}" formnovalidate<#if titleResetBackUpStep !=''> title="${titleResetBackUpStep}"</#if></#assign>
+				<#if actionResetBackUpStep?has_content>    
+					<#assign paramsResetBackUpStep> name="${actionResetBackUpStep}" formnovalidate<#if titleResetBackUpStep?has_content> title="${titleResetBackUpStep}"</#if></#assign>
 					<@li id='reset-backup' class='order-4 visually-hidden'>
 						<@button class='tertiary  ms-sm' type='submit' id=actionResetBackUpStep params=paramsResetBackUpStep title=labelResetBackUpStep />
 					</@li>
@@ -110,7 +110,7 @@ Snippet:
 <script>
 window.addEventListener('DOMContentLoaded', (event) => {
 <#if step?number gt 1 >
-	<#assign actionStep><#if actionNextStep !=''>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
+	<#assign actionStep><#if actionNextStep?has_content>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
 	const formValidateButton = document.querySelector('#${actionStep!}');
 	formValidateButton.addEventListener('click', (e) => {
 		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			invalid.classList.add('is-invalid')
 			invalid.setAttribute('aria-invalid', 'true');
 			const isRequired = invalid.getAttributeNode('required'); 
-			if( isRequired !='' ){
+			if( isRequired?has_content ){
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				pInvalid.setAttribute( 'role', 'alert' );

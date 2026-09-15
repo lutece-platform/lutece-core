@@ -55,16 +55,16 @@ Snippet:
 -->
 <#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
+<#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
-<#local valLocal><#if value !=''>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
-<#local errorInput><#if errorMsg !=''>_error</#if></#local>
-<#local inputClass><#if errorMsg !=''>is-invalid</#if></#local>
+<#local valLocal><#if value?has_content>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
+<#local errorInput><#if errorMsg?has_content>_error</#if></#local>
+<#local inputClass><#if errorMsg?has_content>is-invalid</#if></#local>
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local isHtml5Required = ( typeLocal='date' && isRequired ) || html5Required />
-<#if label!=''><@cLabel label=label for='${idLocal}' /></#if>
-<#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
-<#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
+<#if label?has_content><@cLabel label=label for='${idLocal}' /></#if>
+<#if helpMsg?has_content><@cFormHelp idLocal helpMsg /></#if>
+<#if errorMsg?has_content && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
   <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=isRequired html5Required=isHtml5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
@@ -254,16 +254,16 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
 -->
 <#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false]  html5Required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' separator=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
+<#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
-<#local valLocal><#if value !=''>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
+<#local valLocal><#if value?has_content>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
 <#local isRequired0 = ( propagateRequired?? && propagateRequired) || required[0] />
 <#local isRequired1 = ( propagateRequired?? && propagateRequired) || required[1] />
 <#local isHtml5Required0 = ( typeLocal='date' && isRequired0 ) || html5Required[0] />
 <#local isHtml5Required1 = ( typeLocal='date' && isRequired1 ) || html5Required[1] />
-<#assign errorClass = (errorMsg !='')?then('is-invalid','') >
-<#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
-<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
+<#assign errorClass = (errorMsg?has_content)?then('is-invalid','') >
+<#if helpMsg?has_content><@cFormHelp idLocal helpMsg /></#if>
+<#if errorMsg?has_content><@cFormError idMsg errorMsg /></#if>
 <@cBlock class='daterange ${class!} ${errorClass!}' id='${idLocal}' params=params >
   <@cRow>
     <@cCol>

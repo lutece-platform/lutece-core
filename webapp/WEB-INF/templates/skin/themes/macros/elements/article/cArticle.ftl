@@ -31,8 +31,8 @@ Snippet:
 -->
 <#macro cArticle title='' titleLevel=2 titleClass='' class='portlet' content=false id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<article class="<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
-<#if title!=''><@cTitle level=titleLevel class=titleClass>${title}</@cTitle></#if> 
+<article class="<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> >
+<#if title?has_content><@cTitle level=titleLevel class=titleClass>${title}</@cTitle></#if> 
 <#if !content>
 <#nested>
 <#else>

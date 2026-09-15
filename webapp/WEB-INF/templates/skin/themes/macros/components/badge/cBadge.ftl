@@ -31,7 +31,7 @@ Snippet:
 -->
 <#macro cBadge label='' class='' hasp=true dismissible=false id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="badge <#if class !=''> ${class}</#if><#if dismissible> dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="badge <#if class?has_content> ${class}</#if><#if dismissible> dismissible</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#if dismissible> 
 	<div class="badge-content">
 		<#if hasp><p class="badge-label">${label!}</p><#else>${label!}</#if>

@@ -56,29 +56,30 @@ Snippet:
 
 -->
 <#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
+<#local labelClass = labelClass?is_markup_output?then(labelClass?markup_string, labelClass) />
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>${name}-${random()}<#else>${id}</#if></#local>
-<#local idMsg><#if id!=''>${id}<#else>${name!}</#if></#local>
-<#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
-<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
+<#local idMsg><#if id?has_content>${id}<#else>${name!}</#if></#local>
+<#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
+<#if errorMsg?has_content><@cFormError idMsg errorMsg /></#if>
 <#if !button>
-<div class="<#if class='form-check'>form-check<#else> ${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg!=''> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
+<div class="<#if class='form-check'>form-check<#else> ${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg?has_content> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
 <#if selectionButton><div class="selection-check"></#if>
-    <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value!=''>value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
-    <#local cFCLabel><#if labelClass!=''><span class="${labelClass}"></#if>${label!}<#if labelClass!=''></span></#if> <#nested></#local>
-    <#local cFCClass>form-check-label<#if labelClass!=''> ${labelClass}</#if><#if textCenter> w-100 justify-content-center</#if></#local>
+    <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value?has_content>value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params?has_content> ${params!}</#if>>
+    <#local cFCLabel><#if labelClass?has_content><span class="${labelClass}"></#if>${label!}<#if labelClass?has_content></span></#if> <#nested></#local>
+    <#local cFCClass>form-check-label<#if labelClass?has_content> ${labelClass}</#if><#if textCenter> w-100 justify-content-center</#if></#local>
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
     <@cLabel label=cFCLabel class=cFCClass for=cId required=cFCRequired showRequiredLabel=showRequiredLabel >
     <#if !selectionButton>${nestedContent}</#if>
-    <#if selectionLabel!=''><p class="selection-subtitle my-sm<#if textCenter> text-center</#if>">${selectionLabel}</p></#if>
+    <#if selectionLabel?has_content><p class="selection-subtitle my-sm<#if textCenter> text-center</#if>">${selectionLabel}</p></#if>
     </@cLabel>
 <#if selectionButton></div></#if>
 <#if selectionButton && nestedContent?has_content><div class="selection-content">${nestedContent}</div></#if>
 </div>
 <#else>
-    <input type="${type!}" name="${name!}" class="btn-check<#if class!=''> ${class}</#if><#if errorMsg!=''> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
-    <#local cFCClass><#if btnClass!=''>${btnClass}<#else>btn btn-outline-primary</#if><#if labelClass!=''> ${labelClass}</#if></#local>
+    <input type="${type!}" name="${name!}" class="btn-check<#if class?has_content> ${class}</#if><#if errorMsg?has_content> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value?has_content> value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params?has_content> ${params!}</#if>>
+    <#local cFCClass><#if btnClass?has_content>${btnClass}<#else>btn btn-outline-primary</#if><#if labelClass?has_content> ${labelClass}</#if></#local>
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
     <@cLabel label=label! class=cFCClass for=cId required=cFCRequired  />

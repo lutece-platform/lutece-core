@@ -42,6 +42,7 @@ Snippet:
 
 -->
 <#macro th id='' title='' scope='' class='' align='' valign='' hide=[] cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'text') />
 <#if cols!=0>
@@ -53,9 +54,9 @@ Snippet:
 		<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 	</#if>
 </#list>
-<#if valign!=''><#local class += ' align-' + valign /></#if>
+<#if valign?has_content><#local class += ' align-' + valign /></#if>
 <#if flex><#local class += ' d-flex' /></#if>
-<th<#if class?trim != ''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<th<#if class?trim?has_content> class="${class?trim}"</#if><#if id?has_content> id="${id}"</#if><#if title?has_content> title="${title}"</#if><#if scope?has_content> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </th>
 </#macro>

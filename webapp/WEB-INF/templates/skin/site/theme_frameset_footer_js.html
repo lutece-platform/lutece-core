@@ -57,7 +57,7 @@ window.addEventListener( "load", function() {
 <!-- CNIL Consent -->
 <@cConsent title=favourite />
 <!-- End CNIL Consent -->
-<#if urlAccount !=''>
+<#if urlAccount?has_content>
 <!-- MyLutece User Connexion -->
 </#if>
 <#-- User message toastr notification - Parameter in back office - Menu Site / Site Properties -> Theme Paris.fr 	-->

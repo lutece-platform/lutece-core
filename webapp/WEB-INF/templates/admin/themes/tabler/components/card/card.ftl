@@ -49,14 +49,14 @@ Snippet:
 -->
 <#macro card class='mb-3' id='' headerTitle='' headerClass='bg-info' headerIcon='' headerActions='' status='' statusPos='start' ribbon='' ribbonColor='primary' ribbonPos='top' stamp='' stampColor='primary' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card ${class}"<#if id !=''> id="${id}"</#if>>
-	<#if stamp !=''><div class="card-stamp"><div class="card-stamp-icon bg-${stampColor}">${stamp}</div></div></#if>
-	<#if status !=''><div class="card-status-start bg-${status}"></div></#if>
-	<#if ribbon !=''><div class="ribbon ribbon-${ribbonPos} bg-${ribbonColor}">${ribbon}</div></#if>
-	<#if headerTitle !='' || headerActions !=''>
+<div class="card ${class}"<#if id?has_content> id="${id}"</#if>>
+	<#if stamp?has_content><div class="card-stamp"><div class="card-stamp-icon bg-${stampColor}">${stamp}</div></div></#if>
+	<#if status?has_content><div class="card-status-start bg-${status}"></div></#if>
+	<#if ribbon?has_content><div class="ribbon ribbon-${ribbonPos} bg-${ribbonColor}">${ribbon}</div></#if>
+	<#if headerTitle?has_content || headerActions?has_content>
 	<div class="card-header ${headerClass}">
-		<#if headerIcon!=''><@icon style='${headerIcon}' />&#160;</#if>${headerTitle}
-		<#if headerActions !=''>
+		<#if headerIcon?has_content><@icon style='${headerIcon}' />&#160;</#if>${headerTitle}
+		<#if headerActions?has_content>
 		<div class="card-actions">${headerActions}</div>
 		</#if>
 	</div>

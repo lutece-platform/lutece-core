@@ -44,23 +44,23 @@ Snippet:
 -->
 <#macro pageColumn id='' width='' class='' containerClass='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='end' responsiveMenuBodyClass='' responsiveMenuClose=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if responsiveMenuSize != '' || responsiveMenuClose >
-<div class="<#if responsiveMenuClose>offcanvas<#else>offcanvas-${responsiveMenuSize}</#if> offcanvas-${responsiveMenuPlacement} w-auto border-end overflow-x-hidden" style="<#if width != ''>min-width:${width}</#if>" tabindex="-1" <#if id != ''> id="${id}"</#if>>
+<#if responsiveMenuSize?has_content || responsiveMenuClose >
+<div class="<#if responsiveMenuClose>offcanvas<#else>offcanvas-${responsiveMenuSize}</#if> offcanvas-${responsiveMenuPlacement} w-auto border-end overflow-x-hidden" style="<#if width?has_content>min-width:${width}</#if>" tabindex="-1" <#if id?has_content> id="${id}"</#if>>
     <div class="offcanvas-header border-bottom text-break px-4">
         <h2 class="offcanvas-title fw-bolder" id="template-create-page-roleLabel">${responsiveMenuTitle}</h2>
-        <button type="button" class="ms-3 border btn btn-light btn-rounded btn-icon" data-bs-dismiss="offcanvas" data-bs-target="#<#if id != ''>${id}</#if>" aria-label="Close">
+        <button type="button" class="ms-3 border btn btn-light btn-rounded btn-icon" data-bs-dismiss="offcanvas" data-bs-target="#<#if id?has_content>${id}</#if>" aria-label="Close">
             <i class="ti ti-x fs-5"></i>
         </button>
     </div>
     <div class="offcanvas-body p-0 overflow-hidden-x ${responsiveMenuBodyClass}">
 </#if>
-<div class="<#if width = '' >w-100<#else>border-start border-end</#if> ${class}" style="<#if width != '' >width:${width};min-width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
-    <#if containerClass != ''><div class="${containerClass}"></#if>
-        <#if title!=''><h1 class="fw-bolder <#if responsiveMenuSize !=''>d-none d-${responsiveMenuSize}-block</#if>">${title}</h1></#if>
+<div class="<#if width = '' >w-100<#else>border-start border-end</#if> ${class}" style="<#if width?has_content >width:${width};min-width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
+    <#if containerClass?has_content><div class="${containerClass}"></#if>
+        <#if title?has_content><h1 class="fw-bolder <#if responsiveMenuSize?has_content>d-none d-${responsiveMenuSize}-block</#if>">${title}</h1></#if>
         <#nested>
-    <#if containerClass != ''></div></#if>
+    <#if containerClass?has_content></div></#if>
 </div>
-<#if responsiveMenuSize != ''>
+<#if responsiveMenuSize?has_content>
 </div>
 </div>
 </#if>

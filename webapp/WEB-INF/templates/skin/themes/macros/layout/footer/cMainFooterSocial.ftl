@@ -36,9 +36,9 @@ Snippet:
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
 <#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
 <#if !dskey('theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
-<footer class="social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
+<footer class="social z-1" role="contentinfo"<#if params?has_content> ${params!}</#if>>
     <div class="row m-0 ps-xl">
-        <div class="col-12 <#if classColMain !=''> ${classColMain}</#if>">
+        <div class="col-12 <#if classColMain?has_content> ${classColMain}</#if>">
             <div class="main-footer justify-content-${align}">
                 <div class="d-flex align-items-center justify-content-center justify-content-lg-start w-100">
                     <a class="logo hide-icon-target" href="${logoUrl}" target="_blank">
@@ -59,9 +59,9 @@ Snippet:
                 </div>
             </div>
         </div>
-        <div class="col-12 <#if classColSocial !=''> ${classColSocial}</#if> d-flex justify-align-items">
+        <div class="col-12 <#if classColSocial?has_content> ${classColSocial}</#if> d-flex justify-align-items">
             <div class="social-links ">
-                <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
+                <#if socialNested?has_content><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
                 <h2 class="paris-footer-social-title text-center text-white">#i18n{portal.theme.labelFollow}</h2>
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">

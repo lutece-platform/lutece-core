@@ -28,7 +28,7 @@ Snippet:
 <#macro pageWrapper class='' template='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <!-- BEGIN PAGE BODY -->
-<div class="page-body<#if class!=''> ${class}</#if>">
+<div class="page-body<#if class?has_content> ${class}</#if>">
     <div class="container-xl ${template}">
     <#nested>
     </div>

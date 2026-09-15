@@ -29,7 +29,7 @@ Snippet:
 -->
 <#macro cCarouselItem img active=false id='manege' idx=1 max=1 alt='' title='' titleLevel=3 subtitle='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="carousel-item<#if active> active</#if><#if class !=''> ${class}</#if>"  id="${id}-item-${idx}" role="group" aria-roledescription="slide" aria-label="${idx} of ${max}"<#if params !=''> ${params}</#if>>
+<div class="carousel-item<#if active> active</#if><#if class?has_content> ${class}</#if>"  id="${id}-item-${idx}" role="group" aria-roledescription="slide" aria-label="${idx} of ${max}"<#if params?has_content> ${params}</#if>>
     <div class="item__third">
 	    <img src="${img!}" class="d-block w-100" alt="${alt!'...'}">
 	    <div class="carousel-caption">

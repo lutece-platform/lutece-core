@@ -1,15 +1,17 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=i18n('portal.rbac.add_control_to_role.titleAddControl', role_key?html) skipHeader=true />
+        <#assign escTitle><#outputformat "HTML">${i18n('portal.rbac.add_control_to_role.titleAddControl', role_key)}</#outputformat></#assign>
+        <@pageHeader title=escTitle skipHeader=true />
 		<@ul class='steps steps-counter mt-4'>
 			<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</@li>
-			<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</@li>
+			<@li class="step-item"><#outputformat "HTML">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</#outputformat></@li>
 		</@ul>
 		<@tform method='post' class='d-flex justify-content-center align-items-center flex-column' action='jsp/admin/rbac/DoSelectResources.jsp' name='add_control' boxed=true>
 			<@input type='hidden' name='role_key' value='${role_key}' />
 			<@input type='hidden' name='resource_type' value='${resource_type}' />
 			<@formGroup>
-				<@radioButton name='select_resources' value='all' checked=true labelKey=i18n('portal.rbac.add_control_to_role.labelSelectAllResources', resource_label?html) />
+				<#assign escLabelAll><#outputformat "HTML">${i18n('portal.rbac.add_control_to_role.labelSelectAllResources', resource_label)}</#outputformat></#assign>
+				<@radioButton name='select_resources' value='all' checked=true labelKey=escLabelAll />
 				<#if resource_list_available=true>
 					<@radioButton name='select_resources' value='choose' labelKey='#i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList}'/>
 				<#else>

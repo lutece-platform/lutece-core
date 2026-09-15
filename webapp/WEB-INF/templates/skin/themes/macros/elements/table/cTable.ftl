@@ -58,13 +58,13 @@ Snippet:
 <#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- ATTENTION : Risque de duplication d'id ! --></#if>
-<div class="<#if id!=''>d-none d-md-block </#if>table-responsive<#if breakpoint!=''>${breakpoint}</#if>">
-<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if> >
-<#if caption !=''> <caption class="visually-hidden">${caption!}</caption></#if>
+<div class="<#if id?has_content>d-none d-md-block </#if>table-responsive<#if breakpoint?has_content>${breakpoint}</#if>">
+<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class?has_content> ${class}</#if>"<#if summary?has_content> summary="${summary!}"</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params}</#if> >
+<#if caption?has_content> <caption class="visually-hidden">${caption!}</caption></#if>
 <#nested>
 </table>
 </div>
-<#if id !=''><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
+<#if id?has_content><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
 <#macro sortSite jsp_url attribute asc=false desc=true id="" >
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>

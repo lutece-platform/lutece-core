@@ -22,12 +22,12 @@ Snippet:
 -->
 <#macro addToast title='' content='' titleImg='' titleInfo='' dismiss=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<#if id !=''> id="${id}"</#if> class="toast<#if class !=''> ${class}</#if>" role="alert" aria-live="assertive" aria-atomic="true"<#if params !=''> ${params}"</#if>>
-  <#if title !=''>
+<div<#if id?has_content> id="${id}"</#if> class="toast<#if class?has_content> ${class}</#if>" role="alert" aria-live="assertive" aria-atomic="true"<#if params?has_content> ${params}"</#if>>
+  <#if title?has_content>
     <div class="toast-header">
-      <#if titleImg !=''><img src="${titleImg}" class="rounded me-2" alt="..."></#if>
+      <#if titleImg?has_content><img src="${titleImg}" class="rounded me-2" alt="..."></#if>
       <strong class="me-auto">${title}</strong>
-      <#if titleInfo !=''><small>${titleInfo}</small></#if>
+      <#if titleInfo?has_content><small>${titleInfo}</small></#if>
       <#if dismiss><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}"></button></#if>
     </div>
     <div class="toast-body">

@@ -26,7 +26,7 @@ Snippet:
 -->  
 <#macro cSetPageTitle title srcElement='' init=false type='text' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if title?? && title!=''>
+<#if title?? && title?has_content>
 const pageTitle = document.querySelector('title');
 <#if init>
 pageTitle.textContent = '${title}';

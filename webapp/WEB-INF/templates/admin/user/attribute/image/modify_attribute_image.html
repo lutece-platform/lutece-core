@@ -10,10 +10,11 @@
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
-				<@input name='title' id='attr_title' maxlength=255 value='${attribute.title?html}' />
+				<#assign esc1><#outputformat "HTML">${attribute.title}</#outputformat></#assign>
+				<@input name='title' id='attr_title' maxlength=255 value='${esc1}' />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.modify_attribute.labelHelpMessageComment}'>
-				<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5>${attribute.helpMessage?html}</@input>
+				<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5><#outputformat "HTML">${attribute.helpMessage}</#outputformat></@input>
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelType}'>
 				<@staticText>${attribute.attributeType.name}</@staticText>

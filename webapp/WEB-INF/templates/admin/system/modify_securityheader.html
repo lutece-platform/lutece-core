@@ -1,6 +1,7 @@
 <@pageContainer>
     <@pageColumn> 
-        <@pageHeader title='${securityheader.name?html}' />
+        <#assign esc1><#outputformat "HTML">${securityheader.name}</#outputformat></#assign>
+        <@pageHeader title='${esc1}' />
 		<@tform method='post' id='modify-securityheader-form' action='jsp/admin/system/ManageSecurityHeaders.jsp' boxed=true>
 			<@input type='hidden' id='id_securityheader' name='id_securityheader' value='${securityheader.id}' />
 			<@input type='hidden' id='name' name='name' value='${securityheader.name}' />

@@ -33,11 +33,12 @@ Snippet:
 
 -->
 <#macro div id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
+<#if align?has_content><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div<#if class?trim?has_content> class="${class?trim}"</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>

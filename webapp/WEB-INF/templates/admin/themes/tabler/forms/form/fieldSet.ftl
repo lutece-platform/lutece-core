@@ -38,11 +38,12 @@ Snippet:
 
 -->
 <#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false deprecated...>
+<#local legendClass = legendClass?is_markup_output?then(legendClass?markup_string, legendClass) />
 <@deprecatedWarning args=deprecated />
-<fieldset class="mb-3<#if class!=''> ${class}</#if>"<#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
-<#if legend!=''>
+<fieldset class="mb-3<#if class?has_content> ${class}</#if>"<#if fieldsetId?has_content> id="${fieldsetId}"</#if><#if fieldsetParams?has_content> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
+<#if legend?has_content>
 	<#local legendClass += ' ' +  displaySettings(hideLegend,'block') />
-	<legend<#if legendClass!=''> class="${legendClass?trim}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>><#if legendIcon!=''><@icon style=legendIcon /> </#if>${legend}</legend>
+	<legend<#if legendClass?has_content> class="${legendClass?trim}"</#if><#if legendId?has_content> id="${legendId}"</#if><#if legendParams?has_content> ${legendParams}</#if>><#if legendIcon?has_content><@icon style=legendIcon /> </#if>${legend}</legend>
 </#if>
 <#nested>
 </fieldset>

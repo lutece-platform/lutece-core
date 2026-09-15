@@ -12,15 +12,15 @@
 		<hr />
 		Document :
 		
-		<h1><#if resource_url?? && resource_url != ""><a href="${base_url}${resource_url}"></#if>${resource.extendableResourceName}<#if resource_url?? && resource_url != ""></a></#if></h1>
+		<h1><#if resource_url?? && resource_url?has_content><a href="${base_url}${resource_url}"></#if>${resource.extendableResourceName}<#if resource_url?? && resource_url?has_content></a></#if></h1>
 		
 		
-		<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl != "">
-			<#if resource_url?? && resource_url != "">
+		<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl?has_content>
+			<#if resource_url?? && resource_url?has_content>
 				<a href="${base_url}${resource_url}">
 			</#if>
 			<img src="${base_url}${resource.extendableResourceImageUrl}" alt="${resource.extendableResourceName}" title="${resource.extendableResourceName}" />
-			<#if resource_url?? && resource_url != "">
+			<#if resource_url?? && resource_url?has_content>
 				</a>
 			</#if>
 		</#if>

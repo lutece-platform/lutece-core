@@ -38,9 +38,9 @@ Snippet:
 -->
 <#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' iconClass='' dismissible=false id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="alert">
-<#if iconTitle!=''> <div class="alert-icon"><@icon style=iconTitle class=iconClass /></div></#if>
-<#if title!=''><${titleLevel} class="alert-heading ${titleClass}">${title}</${titleLevel}></#if>
+<div class="alert<#if color?has_content> alert-${color}</#if><#if class?has_content> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if> role="alert">
+<#if iconTitle?has_content> <div class="alert-icon"><@icon style=iconTitle class=iconClass /></div></#if>
+<#if title?has_content><${titleLevel} class="alert-heading ${titleClass}">${title}</${titleLevel}></#if>
 <#nested>
 <#if dismissible><a class="btn-close" data-bs-dismiss="alert" aria-label="#i18n{portal.util.labelClose}"></a></#if>
 </div>

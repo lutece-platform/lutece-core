@@ -72,7 +72,7 @@ ${rss?default("<!-- no RSS feed -->")}
 <!-- jQuery JS is no more included ! -- USE optionnal lib Jquery if needed for compat purpose [https://github.com/lutece-platform/lutece-tech-library-theme-jquery] -->
 </#if>
 </head>
-<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if> dir="<#if isRtl?boolean>rtl<#else>ltr</#if>">
+<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name?has_content>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if> dir="<#if isRtl?boolean>rtl<#else>ltr</#if>">
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav skipMenu=skipLinkMenu?boolean target=skipLinkMainId!'main' />
 <!-- Page Header -->
@@ -86,7 +86,7 @@ ${page_path}
 </#if>
 <#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
-<main id="main"<#if mainNavClass !=''> class="${mainNavClass!}"</#if> role="main">
+<main id="main"<#if mainNavClass?has_content> class="${mainNavClass!}"</#if> role="main">
 <#if hasBanner?boolean>
 	<#assign optMainBanner=.get_optional_template('theme_frameset_main_banner.html')>
 	<#if optMainBanner.exists><@optMainBanner.include /></#if>
@@ -116,11 +116,11 @@ ${contextinclude_2!}
 <#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
 <script>
 <#assign xssChars = dskey('portal.theme.site_property.xss.xssChars')!''>
-var xssChars='<#if xssChars != '' && !xssChars?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssChars")!}</#if>';
+var xssChars='<#if xssChars?has_content && !xssChars?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssChars")!}</#if>';
 <#assign xssMsg = dskey('portal.theme.site_property.xss.xssMsg')!''>
-var xssMsg='<#if xssMsg != '' && !xssMsg?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssMsg")!}</#if>';
+var xssMsg='<#if xssMsg?has_content && !xssMsg?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssMsg")!}</#if>';
 <#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
-var urlDoLogout='<#if urlDoLogout != '' && !urlDoLogout?starts_with('DS') >${urlDoLogout?js_string}</#if>';
+var urlDoLogout='<#if urlDoLogout?has_content && !urlDoLogout?starts_with('DS') >${urlDoLogout?js_string}</#if>';
 </script>
 <#if themeJSLinks?? >
 <@themeJSLinks />

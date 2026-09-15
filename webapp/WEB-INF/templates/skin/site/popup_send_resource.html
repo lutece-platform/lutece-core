@@ -1,6 +1,6 @@
 <@cTpl>
-<#if resource_url?? && resource_url != ""><#assign ressourceLink><@cLink href='${base_url}${resource_url}' label='${resource.extendableResourceName} : ${resource.extendableResourceDescription}' class='btn btn-link' /></#assign></#if>
-<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl != ""><#assign ressourceImg><@cImg src='${resource.extendableResourceImageUrl}' alt='${resource.extendableResourceName}' title='${resource.extendableResourceName}' /></#assign></#if>
+<#if resource_url?? && resource_url?has_content><#assign ressourceLink><@cLink href='${base_url}${resource_url}' label='${resource.extendableResourceName} : ${resource.extendableResourceDescription}' class='btn btn-link' /></#assign></#if>
+<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl?has_content><#assign ressourceImg><@cImg src='${resource.extendableResourceImageUrl}' alt='${resource.extendableResourceName}' title='${resource.extendableResourceName}' /></#assign></#if>
 <#assign page_title>#i18n{portal.theme.popup_send_resource.title}<#if resource??> : ${resource.extendableResourceName}</#if></#assign>
 <#assign theme={ "pathCss": "css" } />
 <#include "minimal_header.html" />
@@ -11,7 +11,7 @@
 			<@cForm action='jsp/site/SendResource.jsp' >
 			<input type="hidden" name="extendableResourceType" value="${resource.extendableResourceType}" >
 			<input type="hidden" name="idExtendableResource" value="${resource.idExtendableResource}" >
-			<#if error?? && error != "">
+			<#if error?? && error?has_content>
 				<@cAlert class='danger'>${error}</@cAlert>
 			</#if>
 			<#if success??>

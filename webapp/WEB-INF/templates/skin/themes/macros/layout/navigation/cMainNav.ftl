@@ -58,20 +58,20 @@ Snippet:
 <#assign pageId><#if page_id??>${page_id!'1'}<#else>0</#if></#assign>
 <#if isSidebar>
 <#assign isMainSidebarMenu=isSidebar >
-<#if mainSidebarMenuCols?? && mainSidebarMenuCols != ''><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=sidebarCol?number /></#if>
+<#if mainSidebarMenuCols?? && mainSidebarMenuCols?has_content><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=sidebarCol?number /></#if>
 <#local mainCalcCol=12 - sidebarCol />
 <#local asideCol>col-md-${sidebarCol+1} col-lg-${sidebarCol}</#local>
 <#local mainCol>col-md-${mainCalcCol-1} col-lg-${mainCalcCol}</#local>
-<#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}"</#if><#if mainClass !=''> ${mainClass!}</#if></#assign>
+<#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}"</#if><#if mainClass?has_content> ${mainClass!}</#if></#assign>
 <#else>
 <header class="sticky-top navigation<#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if>" id="main-banner-${page_id!'theme'}" role="banner">
 </#if>
 <#local logoAltDS=dskey('portal.theme.site_property.menu.logo.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /></#if>
-<div class="container-md main-header<#if class !=''> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role !=''> role='${role!}'</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if>>
+<div class="container-md main-header<#if class?has_content> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass?has_content> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role?has_content> role='${role!}'</#if><#if id?has_content> id="${id!}"</#if><#if params?has_content> ${params}</#if>>
 <nav class="navbar navbar-expand-lg navbar-light topnav lutece-ds-topbar" aria-labelledby="main-nav-title">
     <a class="navbar-brand topnav__brand" href="${href!'.'}">
-       <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
+       <#if logoHeader?has_content><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
         <span class="main-service-title visually-hidden">${title}</span>
     </a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{portal.theme.showmenu}" aria-controls="navbarMainMenu">
@@ -102,7 +102,7 @@ Snippet:
                 <@cMainNavItem title='' url='' class='ms-md-auto' >
                     <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
                         <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
-                        <#if searchParams !=''>${searchParams!}</#if>
+                        <#if searchParams?has_content>${searchParams!}</#if>
                         <@cLabel for='header-query-top' class='visually-hidden' label='#i18n{portal.util.labelSearch}' />
                         <@cInputGroup class='mt-0'>
                             <@cInput name='query' id='header-query-top' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' autocomplete='on' />
@@ -120,7 +120,7 @@ Snippet:
                 </@cMainNavItem>
             </#if>
             <#if hasLogin>
-                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-md-auto" aria-label="#i18n{portal.theme.labelAccount}">
+                <li class="nav-item navbar-user<#if loginClass?has_content > ${loginClass!}</#if> ms-md-auto" aria-label="#i18n{portal.theme.labelAccount}">
                     ${pageinclude_userlogin?default("")}
                 </li>
             </#if>
@@ -133,7 +133,7 @@ Snippet:
 <#assign menu=page_main_menu!>
 <nav id="sidebar-brand">
     <a class="navbar-brand navbar-brand-sidebar" href="${href!'.'}">
-        <#if logoHeader !=''><img src="${logoHeader!}" class="img-fluid" width="120" alt="${logoAlt!}" aria-hidden="true"></#if>
+        <#if logoHeader?has_content><img src="${logoHeader!}" class="img-fluid" width="120" alt="${logoAlt!}" aria-hidden="true"></#if>
         <span class="main-service-title visually-hidden">${title}</span>
     </a>
     <#if isSibebarCollapsible>
@@ -143,12 +143,12 @@ Snippet:
     </#if>
 </nav>
 <div id="layout-sidebar-wrapper">
-    <header class="theme-main-header<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
+    <header class="theme-main-header<#if sidebarMenuClass?has_content> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
         <div id="sidebar-main-menu">
             <nav class="navbar-main sidebar-nav lutece-ds-topbar" id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
                 <#--
                 <a class="navbar-brand sidebar-brand" href="${href!'.'}">
-                <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
+                <#if logoHeader?has_content><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
                     <span class="main-service-title visually-hidden">${title}</span>
                 </a>
                 -->
@@ -165,7 +165,7 @@ Snippet:
                         <@cMainNavItem title='' url='' class='ms-md-auto' >
                             <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
                                 <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
-                                <#if searchParams !=''>${searchParams!}</#if>
+                                <#if searchParams?has_content>${searchParams!}</#if>
                                 <@cLabel for='header-query-top' class='visually-hidden' label='#i18n{portal.util.labelSearch}' />
                                 <@cInputGroup class='mt-0'>
                                     <@cInput name='query' id='header-query-top' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' autocomplete='on' />
@@ -179,7 +179,7 @@ Snippet:
                         </@cMainNavItem>
                     </#if>
                     <#if hasLogin>
-                        <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if>" aria-label="#i18n{portal.theme.labelAccount}">
+                        <li class="nav-item navbar-user<#if loginClass?has_content > ${loginClass!}</#if>" aria-label="#i18n{portal.theme.labelAccount}">
                             ${pageinclude_userlogin?default("")}
                         </li>
                     </#if>
