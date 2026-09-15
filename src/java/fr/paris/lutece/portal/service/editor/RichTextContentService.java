@@ -39,6 +39,11 @@ import java.util.stream.Collectors;
 
 import jakarta.enterprise.inject.spi.CDI;
 
+import fr.paris.lutece.portal.service.html.XSSSanitizerException;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
+
+import freemarker.template.TemplateModel;
+
 
 /**
  * Service pour gérer le contenu de texte enrichi.
@@ -70,5 +75,37 @@ public class RichTextContentService
             }
         }
         return content;
+    }
+
+    /**
+     * Récupère le contenu, l'assainit, et le renvoie sous une forme directement affichable par un template.
+     *
+     * <p>
+     * C'est le point de rendu à utiliser depuis un JspBean ou un XPage pour du contenu enrichi. Contrairement à
+     * {@link #getContent(String)}, qui renvoie une <code>String</code> destinée à être retraitée côté Java, cette
+     * méthode renvoie une valeur <em>markup output</em> FreeMarker : le template écrit simplement
+     * <code>${content}</code> et obtient le même rendu que la propriété
+     * <code>service.freemarker.templateAutoEscape</code> soit à <code>true</code> ou à <code>false</code>, sans
+     * <code>?no_esc</code> — lequel serait de toute façon une erreur de parsing en mode <code>false</code>.
+     * </p>
+     *
+     * <p>
+     * La conversion (Markdown, BBCode, ...) est suivie d'une sanitisation systématique : le HTML produit par un parser
+     * n'est jamais sûr par construction, et un contenu sans préfixe reconnu est du HTML arbitraire. C'est cette étape
+     * qui rend la valeur affichable sans échappement.
+     * </p>
+     *
+     * @param content
+     *            Le contenu à traiter, éventuellement <code>null</code>.
+     * @return Le contenu converti et assaini, sous forme de valeur markup, jamais <code>null</code>.
+     * @throws RichTextParsingException
+     *             si la conversion échoue
+     * @throws XSSSanitizerException
+     *             si la sanitisation échoue
+     * @since 8.0.2
+     */
+    public static TemplateModel getSafeContent( String content ) throws RichTextParsingException, XSSSanitizerException
+    {
+        return HtmlMarkup.ofSanitized( getContent( content ) );
     }
 }

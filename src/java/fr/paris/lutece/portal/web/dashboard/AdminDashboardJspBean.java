@@ -61,6 +61,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 /**
  * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
@@ -121,7 +122,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             String strColumnData = _adminDashboardService.getDashboardData( user, nColumn, request );
 
-            model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, strColumnData );
+            model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, HtmlMarkup.of( strColumnData ) );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_DASHBOARDS, user.getLocale( ), model );

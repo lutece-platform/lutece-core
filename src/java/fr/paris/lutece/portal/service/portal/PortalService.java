@@ -69,6 +69,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 /**
  * This class provides methods to build the pages of the portal and manage the cache
@@ -273,15 +274,15 @@ public final class PortalService
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
 
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
-        model.put( Markers.PAGE_HEADER, tHeader.getHtml( ) );
+        model.put( Markers.PAGE_HEADER, HtmlMarkup.of( tHeader.getHtml( ) ) );
         model.put( MARKER_PAGE_DATA, data );
         model.put( Markers.PAGE_NAME, data.getName( ) == null ? "" : data.getName( ) );
-        model.put( Markers.PAGE_CONTENT, data.getContent( ) == null ? "" : data.getContent( ) );
-        model.put( Markers.PAGE_PATH, data.getPagePath( ) == null ? "" : data.getPagePath( ) );
-        model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml( ) );
+        model.put( Markers.PAGE_CONTENT, HtmlMarkup.of( data.getContent( ) ) );
+        model.put( Markers.PAGE_PATH, HtmlMarkup.of( data.getPagePath( ) ) );
+        model.put( Markers.PAGE_TOOLS_MENU, HtmlMarkup.of( tToolsMenu.getHtml( ) ) );
         model.put( Markers.PAGE_ID, nCurrentPageId );
 
-        model.put( Markers.PAGE_FOOTER, tFooter.getHtml( ) );
+        model.put( Markers.PAGE_FOOTER, HtmlMarkup.of( tFooter.getHtml( ) ) );
 
         String strBaseUrl = request != null ? AppPathService.getBaseUrl( request ) : ""; // request could be null
                                                                                          // (method called by daemons

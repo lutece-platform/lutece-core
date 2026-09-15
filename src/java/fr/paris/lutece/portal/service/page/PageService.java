@@ -88,6 +88,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 /**
  * This class delivers pages to web componants. It handles XML tranformation to HTML and provides a cache feature in order to reduce the number of
@@ -529,7 +530,7 @@ public class PageService implements IPageService, ImageResourceProvider
     private String addColumnOutline( int columnId, String content, Locale locale )
     {
         Map<String, Object> model = new HashMap<>( 2 );
-        model.put( MARK_COLUMN_CONTENT, content );
+        model.put( MARK_COLUMN_CONTENT, HtmlMarkup.of( content ) );
         model.put( MARK_COLUMN_ID, columnId );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_COLUMN_OUTLINE, locale, model );
