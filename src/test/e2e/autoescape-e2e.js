@@ -116,6 +116,8 @@ function normalise( html )
         .replace( /JSESSIONID=[^;"'\s]*/g, 'JSESSIONID=S' )
         .replace( /\?ts=\d+/g, '?ts=T' )
         .replace( /\s+/g, ' ' )
+        // one tag per line, so a diff points at the element that changed instead of the whole page
+        .replace( />\s*</g, '>\n<' )
         .trim( );
 }
 
@@ -138,29 +140,11 @@ async function visit( page, entry )
         return;
     }
 
-    // Some admin pages redirect from JavaScript right after load; retrieving the content while the
-    // navigation is in flight throws. Settle first, and retry once.
-    let html;
-
-    try
-    {
-        await page.waitForLoadState( 'networkidle', { timeout: 10_000 } );
-    }
-    catch( ignored )
-    {
-        // networkidle is best effort — a page with a poller never reaches it
-    }
-
-    try
-    {
-        html = await page.content( );
-    }
-    catch( e )
-    {
-        await page.waitForTimeout( 1000 );
-        html = await page.content( );
-    }
-
+    // What we assert on, and snapshot, is the RAW SERVER RESPONSE: that is the FreeMarker output,
+    // and it is deterministic. The live DOM is not — scripts add classes, a translation widget
+    // injects nodes, a dashboard reorders itself — and comparing it across two runs only produces
+    // noise. The live page is still used below, but only for structural checks.
+    const html = await response.text( );
     const markup = withoutScripts( html );
 
     // 1. not an error page
@@ -182,11 +166,23 @@ async function visit( page, entry )
     const directive = markup.match( RAW_DIRECTIVE );
     check( entry.name, !directive, `an unrendered FreeMarker construct reached the page — "${directive && directive[ 0 ]}"` );
 
-    // 3. structural invariants: attributes built by the macros must be real attributes
-    const attributeCount = await page.evaluate( ( ) => {
-        const selectors = [ '[data-bs-toggle]', '[data-bs-target]', '[data-bs-placement]', '[aria-label]', '[title]' ];
-        return selectors.reduce( ( total, s ) => total + document.querySelectorAll( s ).length, 0 );
-    } );
+    // 3. structural invariants: attributes built by the macros must be real DOM attributes, which
+    // is exactly what stops being true when ${params} gets escaped. Read from the live page.
+    let attributeCount = 0;
+
+    try
+    {
+        attributeCount = await page.evaluate( ( ) => {
+            const selectors = [ '[data-bs-toggle]', '[data-bs-target]', '[data-bs-placement]', '[aria-label]', '[title]' ];
+            return selectors.reduce( ( total, s ) => total + document.querySelectorAll( s ).length, 0 );
+        } );
+    }
+    catch( e )
+    {
+        notes.push( `${entry.name} : (live DOM unavailable — ${e.message.split( '\n' )[ 0 ]})` );
+    }
+
+    check( entry.name, attributeCount > 0, 'no macro-built attribute survived as a real DOM attribute' );
     notes.push( `${entry.name} : ${attributeCount} macro-built attribute(s), ${html.length} bytes` );
 
     writeSnapshot( entry.name, html );
