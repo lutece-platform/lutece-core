@@ -43,6 +43,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -143,7 +144,7 @@ public class SecurityTokenHandler
         }
 
         String strPageName = request.getParameter( PARAMETER_PAGE );
-        String strPath = request.getServletPath( ).substring( 1 );
+        String strPath = AppPathService.getRequestedPath( request );
         if ( null != strPageName )
         {
             return shouldNotFilterXPageAction( request, strPageName, strAction );

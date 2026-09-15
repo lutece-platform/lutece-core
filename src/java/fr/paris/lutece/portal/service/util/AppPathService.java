@@ -348,6 +348,21 @@ public final class AppPathService
     }
 
     /**
+     * Return the path requested inside the webapp (servlet path followed by the path info), without its leading slash, so that it can be appended to
+     * {@link #getBaseUrl(HttpServletRequest)}. Never fails when the container reports an empty servlet path (root request or "/*" servlet mapping).
+     *
+     * @param request
+     *            The HttpServletRequest
+     * @return the requested path relative to the webapp root, empty if none
+     */
+    public static String getRequestedPath( HttpServletRequest request )
+    {
+        String strPath = StringUtils.defaultString( request.getServletPath( ) ) + StringUtils.defaultString( request.getPathInfo( ) );
+
+        return strPath.startsWith( SLASH ) ? strPath.substring( 1 ) : strPath;
+    }
+
+    /**
      * Return the url of the webapp, built from the request
      *
      * @param request
