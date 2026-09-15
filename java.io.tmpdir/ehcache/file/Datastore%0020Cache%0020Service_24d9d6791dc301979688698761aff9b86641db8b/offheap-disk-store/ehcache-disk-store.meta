@@ -1,0 +1,4 @@
+#Key and value types
+#Wed Sep 09 19:04:42 CEST 2026
+valueType=fr.paris.lutece.portal.business.datastore.DataEntity
+keyType=java.lang.String
