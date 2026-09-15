@@ -55,7 +55,6 @@ Snippet:
 <#local size = size?is_markup_output?then(size?markup_string, size) />
 <#local style = style?is_markup_output?then(style?markup_string, style) />
 <#local buttonIcon = buttonIcon?is_markup_output?then(buttonIcon?markup_string, buttonIcon) />
-<#local params = params?is_markup_output?then(params?markup_string, params) />
 <@deprecatedWarning args=deprecated />
 <#local params = params />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
@@ -98,12 +97,15 @@ Snippet:
 	</#if>
 	<#-- Size class -->
 	<#local buttonSize = '' />
+	<#-- accumulated next to params, never into it: params may be a markup value and
+	     concatenating it would turn it back into an escapable String -->
+	<#local paramsExtra = '' />
 	<#if size?starts_with('style') == true >
-		<#local params = params + ' ' + size />
+		<#local paramsExtra = ' ' + size />
 	<#else>
 		<#local buttonSize = size />
 	</#if>	
-	<button class="<#if style!='close'>btn</#if><#if buttonSize?has_content> btn-${buttonSize}</#if><#if buttonColor?has_content && !dropdownMenu> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle?has_content> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class?has_content> ${class}</#if>" type="${type}"<#if tooltip?has_content>title="${tooltip}"<#else><#if title?has_content> title="${title}"</#if></#if><#if name?has_content> name="${name}"</#if><#if id?has_content> id="${id}"</#if><#if value?has_content> value="${value}"</#if><#if params?has_content> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction?has_content><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId?has_content> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId?has_content> form="${formId}"</#if>>
+	<button class="<#if style!='close'>btn</#if><#if buttonSize?has_content> btn-${buttonSize}</#if><#if buttonColor?has_content && !dropdownMenu> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle?has_content> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class?has_content> ${class}</#if>" type="${type}"<#if tooltip?has_content>title="${tooltip}"<#else><#if title?has_content> title="${title}"</#if></#if><#if name?has_content> name="${name}"</#if><#if id?has_content> id="${id}"</#if><#if value?has_content> value="${value}"</#if><#if params?has_content> ${params}</#if>${paramsExtra}<#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction?has_content><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId?has_content> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId?has_content> form="${formId}"</#if>>
 		<#if buttonIcon?has_content && iconPosition='left'>
 			<#local buttonIcon = buttonIcon />
 			<#if buttonIcon?starts_with('<svg')>

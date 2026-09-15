@@ -41,7 +41,6 @@ Snippet:
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' deprecated...>
 <#local size = size?is_markup_output?then(size?markup_string, size) />
 <#local class = class?is_markup_output?then(class?markup_string, class) />
-<#local params = params?is_markup_output?then(params?markup_string, params) />
 <@deprecatedWarning args=deprecated />
 <#local params = params />
 <#-- Visibility of button title -->
@@ -59,8 +58,9 @@ Snippet:
 <#local class += alignmentSettings(align,'') />
 <#-- Size class -->
 <#local buttonSize = '' />
-<#if size?starts_with('style') == true ><#local params = params + ' ' + size /><#else><#local buttonSize = size /></#if>	
-<a class="${style}<#if buttonSize?has_content> btn-${buttonSize}</#if><#if color?has_content> ${buttonColor}</#if><#if class?has_content> ${class}</#if>"<#if name?has_content> name="${name}"</#if><#if id?has_content> id="${id}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if params?has_content> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+<#local paramsExtra = '' />
+<#if size?starts_with('style') == true ><#local paramsExtra = ' ' + size /><#else><#local buttonSize = size /></#if>	
+<a class="${style}<#if buttonSize?has_content> btn-${buttonSize}</#if><#if color?has_content> ${buttonColor}</#if><#if class?has_content> ${class}</#if>"<#if name?has_content> name="${name}"</#if><#if id?has_content> id="${id}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if params?has_content> ${params}</#if>${paramsExtra}<#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon?has_content && iconPosition='left'><#local buttonIcon = buttonIcon  /><@icon style=buttonIcon /></#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon?has_content && iconPosition='right'><#local buttonIcon = buttonIcon  /><@icon style=buttonIcon /></#if>

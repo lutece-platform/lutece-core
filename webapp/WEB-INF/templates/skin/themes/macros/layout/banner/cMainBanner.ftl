@@ -33,7 +33,6 @@ Snippet:
 
 -->
 <#macro cMainBanner title='${favourite!}' titleClass='' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome?boolean imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params=''  >
-<#local params = params?is_markup_output?then(params?markup_string, params) />
 <#local isOnlyHome=isBannerOnlyHome  />
 <#-- TODO data n'est pas disponible dans ce contexte, à vérifier -->
 <#local isHomePage=false />
@@ -69,10 +68,11 @@ Snippet:
 <#if bannerTitleColor?has_content><#local titleStyle ='color:${bannerTitleColor};' /></#if>
 <#if bannerTitleBGColor?has_content><#local titleStyle +='background-color:${bannerTitleBGColor};' /></#if>
 <#if bannerTitlePadding?has_content><#local titleStyle +='padding:${bannerTitlePadding};' /></#if>
-<#if imageStyle?has_content ><#local params +='style="${imageStyle!}"' /></#if>
+<#local paramsExtra = '' />
+<#if imageStyle?has_content ><#local paramsExtra>style="${imageStyle!}"</#local></#if>
 <#if isInternal && !isHomePage><#local bannerClass +=' internal' /></#if>
 <#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass?has_content > ${bannerClass!}</#if>"></#if>
-<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><#if params?has_content> ${params}</#if> >
+<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><#if params?has_content> ${params}</#if>${paramsExtra} >
 <#if hasBannerTitle?boolean && title?trim?has_content><h1 id="main-banner-title"<#if titleStyle?has_content> style="${titleStyle}"</#if><#if titleClass?has_content> class="${titleClass}"</#if>>${title}</h1></#if>
 <#nested> 
 </div> 

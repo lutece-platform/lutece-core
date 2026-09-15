@@ -28,7 +28,8 @@
 				<#assign paramsAttr2>data-plugin="${core.name}"</#assign>
 				<@columns xs=12 sm=6 lg=4 params=paramsAttr2>
 					<@box>
-						<#assign logo><@img url=core.iconUrl alt='logo' title=core.name  class='thumbnail thumbnail-sm' params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/apps.svg'\"" /></#assign>
+						<#assign paramsAttrCore> onerror="this.onerror=null;this.src='themes/admin/shared/images/apps.svg'"</#assign>
+<#assign logo><@img url=core.iconUrl alt='logo' title=core.name  class='thumbnail thumbnail-sm' params=paramsAttrCore /></#assign>
 						<@boxHeader title='${logo} ${core.name}' class="searchable" boxTools=true>
 							<small>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${core.version}</strong></small>
 						</@boxHeader>
