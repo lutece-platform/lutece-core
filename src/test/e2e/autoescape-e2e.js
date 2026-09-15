@@ -144,7 +144,17 @@ async function visit( page, entry )
     // and it is deterministic. The live DOM is not — scripts add classes, a translation widget
     // injects nodes, a dashboard reorders itself — and comparing it across two runs only produces
     // noise. The live page is still used below, but only for structural checks.
-    const html = await response.text( );
+    let html;
+
+    try
+    {
+        html = await response.text( );
+    }
+    catch( e )
+    {
+        // a response served from cache has no retrievable body; fall back to the rendered DOM
+        html = await page.content( );
+    }
     const markup = withoutScripts( html );
 
     // 1. not an error page
