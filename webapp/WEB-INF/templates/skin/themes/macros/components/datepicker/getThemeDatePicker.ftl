@@ -29,12 +29,13 @@
 <#global isDatePickerLoaded = true />
 <@initThemeDatePicker />
 </#if>
-<#local dtThemeOptions>${dskey('portal.site.site_property.config.datepicker.textblock')!}</#local>
-<#local dtThemeOptions = dtThemeOptions?is_markup_output?then(dtThemeOptions?markup_string, dtThemeOptions) />
+<#-- assigned by expression: capturing ${dskey(...)} would escape the JSON fragment inside the
+     capture, and it is injected into a JavaScript object literal below -->
+<#local dtThemeOptions = dskey('portal.site.site_property.config.datepicker.textblock')!'' />
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {
   const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'</#if>,</#list></#if> };
-  const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions}</#if>};
+  const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')><#noautoesc>${dtThemeOptions}</#noautoesc></#if>};
   const dtLocale = navigator.language.split('-')[0] == 'en' ? 'en' : navigator.language.split('-')[0];
   
   let showFormat=<#if !showFormat?has_content>getDatePickerDateFormat( dtLocale )<#else>'${showFormat}'</#if>;

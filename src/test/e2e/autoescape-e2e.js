@@ -42,9 +42,6 @@ const OUT_DIR = path.join( process.env.OUT_DIR || path.join( __dirname, 'snapsho
 // Front office
 const FO_PAGES = [
     { name: 'fo-portal', url: '/jsp/site/Portal.jsp' },
-    // the login page renders the admin logo and the theme includes without a session — it was the
-    // one back-office screen the suite never looked at
-    { name: 'bo-login', url: '/jsp/admin/AdminLogin.jsp' },
 ];
 
 // Back office — the entry point plus whatever the admin menu actually links to. Discovering the
@@ -55,6 +52,10 @@ const BO_ENTRY = { name: 'bo-home', url: '/jsp/admin/AdminMenu.jsp' };
 // Pages worth visiting that the admin menu does not link to directly.
 const BO_EXTRA = [
     { name: 'bo-site-preview', url: '/jsp/admin/site/AdminSite.jsp?plugin_name=' },
+    // The login page renders the admin logo and the theme includes; it was the one back-office
+    // screen the suite never asserted. It is visited after authenticating, not before: fetching it
+    // first consumes the form's CSRF token and the login then fails.
+    { name: 'bo-login', url: '/jsp/admin/AdminLogin.jsp' },
 ];
 
 // Never follow these: they change state or end the session.
