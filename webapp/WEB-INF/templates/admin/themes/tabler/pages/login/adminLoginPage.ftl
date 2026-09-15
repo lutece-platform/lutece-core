@@ -36,7 +36,7 @@ Snippet:
 <#-- Assigned by expression, like adminHeader does: capturing ${dskey(...)} would escape the SVG
      INSIDE the capture, and no amount of <#noautoesc> at the output can undo that. -->
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
-<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, 'themes/admin/shared/images/logo-header-icon.min.svg')>
+<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local loginIsCover><#attempt>${dskey('portal.site.site_property.layout.login.cover.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginIsCover = loginIsCover?is_markup_output?then(loginIsCover?markup_string, loginIsCover) />
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
