@@ -163,11 +163,20 @@ async function visit( page, entry )
     }
     catch( e )
     {
-        // a response served from cache has no retrievable body. Do NOT fall back to the rendered
-        // DOM: if the page navigated away we would snapshot a different page under this name and
-        // the two modes would be compared on unrelated content.
-        notes.push( `${entry.name} : response body unavailable — not snapshotted` );
-        return;
+        // The body can be unavailable when the page navigated while we were reading it. Retry once
+        // with the cache bypassed. Never fall back to the rendered DOM: if the browser did move on
+        // we would snapshot a different page under this name, and the two modes would end up being
+        // compared on unrelated content.
+        try
+        {
+            const retry = await page.goto( BASE_URL + entry.url, { waitUntil: 'load' } );
+            html = await retry.text( );
+        }
+        catch( again )
+        {
+            notes.push( `${entry.name} : response body unavailable — not snapshotted` );
+            return;
+        }
     }
     const markup = withoutScripts( html );
 
