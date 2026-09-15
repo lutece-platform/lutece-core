@@ -5,6 +5,16 @@
 UPDATE core_admin_right SET level_right = 0 WHERE id_right = 'CORE_XSL_EXPORT_MANAGEMENT';
 
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2.sql-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Legacy XSL style tables are absent from databases created with the 8.x scripts: skip instead of failing the run
+-- precondition-sql-check expectedResult:3 SELECT COUNT(1) from INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=database() AND TABLE_NAME IN ('core_style_mode_stylesheet','core_stylesheet','core_style');
+DELETE FROM core_style_mode_stylesheet WHERE id_style = 3 AND id_mode = 0 and id_stylesheet = 211;
+DELETE FROM core_style_mode_stylesheet WHERE id_style = 4 AND id_mode = 0 and id_stylesheet = 213;
+DELETE FROM core_style_mode_stylesheet WHERE id_style = 5 AND id_mode = 0 and id_stylesheet = 215;
+DELETE FROM core_style_mode_stylesheet WHERE id_style = 6 AND id_mode = 0 and id_stylesheet = 217;
+DELETE FROM core_style_mode_stylesheet WHERE id_style = 7 AND id_mode = 0 and id_stylesheet = 253;
+DELETE FROM core_style_mode_stylesheet WHERE id_style = 8 AND id_mode = 1 and id_stylesheet = 279;
+
 DELETE FROM core_stylesheet where id_stylesheet = 211;
 DELETE FROM core_stylesheet where id_stylesheet = 213;
 DELETE FROM core_stylesheet where id_stylesheet = 215;
