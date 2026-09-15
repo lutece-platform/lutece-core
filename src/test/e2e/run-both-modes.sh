@@ -84,21 +84,10 @@ done
 
 stop_liberty
 
-say "diff of the two modes"
-if diff -rq "${HERE}/snapshots/false" "${HERE}/snapshots/true" > "${HERE}/snapshots/diff.txt" 2>&1; then
-    echo "  identical — every page renders the same with auto-escaping on and off"
+say "comparison of the two modes"
+if python3 "${HERE}/compare-modes.py" "${HERE}/snapshots"; then
+    :
 else
-    echo "  DIFFERENCES:"
-    sed 's/^/    /' "${HERE}/snapshots/diff.txt"
-    echo
-    echo "  per-page detail:"
-    for f in "${HERE}/snapshots/false"/*.html; do
-        n="$( basename "${f}" )"
-        if ! diff -q "${f}" "${HERE}/snapshots/true/${n}" > /dev/null 2>&1; then
-            echo "    --- ${n} ---"
-            diff "${f}" "${HERE}/snapshots/true/${n}" | head -20 | sed 's/^/      /'
-        fi
-    done
     RC=1
 fi
 

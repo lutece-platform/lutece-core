@@ -61,7 +61,7 @@ const LEAKED_MARKUP = /&lt;\s*(div|span|a\s|p\s|p>|ul|li|button|img|table|tr|td|
 const ESCAPED_ATTRIBUTE = /=&quot;/;
 
 // A value escaped twice: &amp;lt; instead of &lt;
-const DOUBLE_ESCAPED = /&amp;(lt|gt|quot|amp);/;
+const DOUBLE_ESCAPED = /&amp;(lt|gt|quot|amp|apos|#\d+);/;
 
 // A FreeMarker construct that reached the output — means a template was not parsed as expected.
 // Checked outside <script> blocks only: JavaScript template literals use the same ${...} syntax.
@@ -137,6 +137,17 @@ async function visit( page, entry )
     if ( status >= 400 )
     {
         failures.push( `${entry.name} : HTTP ${status} on ${entry.url}` );
+        return;
+    }
+
+    // A page that redirected elsewhere must not be snapshotted under the requested name: the two
+    // modes would then be compared on two different pages and the diff would be meaningless.
+    const landed = page.url( ).replace( BASE_URL, '' ).split( '?' )[ 0 ];
+    const asked = entry.url.split( '?' )[ 0 ];
+
+    if ( landed !== asked )
+    {
+        notes.push( `${entry.name} : redirected to ${landed} — not snapshotted` );
         return;
     }
 
