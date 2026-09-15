@@ -104,7 +104,7 @@ if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
           	<div class="navbar-brand navbar-brand-autodark<#if menuVertical != 'vertical'> navbar-horizontal pe-0 pe-md-3</#if>">
             	<a href="jsp/admin/AdminMenu.jsp" aria-label="${site_name}"> 
 					<#if logoSvg?trim?has_content>
-						${logoSvg!} 
+						<#noautoesc>${logoSvg!}</#noautoesc> 
 					<#else>
             			<img src="${logoUrl}" class="me-1" height="${logoHeight}" width="${logoWidth}" alt="Logo ${site_name}" aria-hidden="true">
 					</#if>

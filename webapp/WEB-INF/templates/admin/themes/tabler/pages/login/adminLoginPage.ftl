@@ -81,7 +81,7 @@ Snippet:
 							<@img url='${logoUrl}' alt='${site_name!}' class='logo' params=paramsAttr1 />
 							<span class="ms-1 fs-2 d-inline-block">${site_name!''}</span>
 							<#else>
-							${logoSvg!}
+							<#noautoesc>${logoSvg!}</#noautoesc>
 							</#if>
 						</a>
 						<!-- END NAVBAR LOGO -->
