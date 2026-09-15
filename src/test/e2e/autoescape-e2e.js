@@ -42,6 +42,9 @@ const OUT_DIR = path.join( process.env.OUT_DIR || path.join( __dirname, 'snapsho
 // Front office
 const FO_PAGES = [
     { name: 'fo-portal', url: '/jsp/site/Portal.jsp' },
+    // the login page renders the admin logo and the theme includes without a session — it was the
+    // one back-office screen the suite never looked at
+    { name: 'bo-login', url: '/jsp/admin/AdminLogin.jsp' },
 ];
 
 // Back office — the entry point plus whatever the admin menu actually links to. Discovering the
@@ -49,13 +52,18 @@ const FO_PAGES = [
 // and covers every feature the logged-in account can reach.
 const BO_ENTRY = { name: 'bo-home', url: '/jsp/admin/AdminMenu.jsp' };
 
+// Pages worth visiting that the admin menu does not link to directly.
+const BO_EXTRA = [
+    { name: 'bo-site-preview', url: '/jsp/admin/site/AdminSite.jsp?plugin_name=' },
+];
+
 // Never follow these: they change state or end the session.
 const BO_EXCLUDED = /Do[A-Z]|Logout|Remove|Delete|Confirm|Export|Download|\.pdf|Indexing|DoAdmin/;
 
 /* ------------------------------------------------------------- assertions */
 
 // Markup that reached the browser as text instead of being parsed.
-const LEAKED_MARKUP = /&lt;\s*(div|span|a\s|p\s|p>|ul|li|button|img|table|tr|td|form|input|i\s|i>|strong|small|h[1-6])/i;
+const LEAKED_MARKUP = /&lt;\s*\/?\s*(div|span|a\s|p\s|p>|ul|li|button|img|table|tr|td|form|input|i\s|i>|strong|small|h[1-6]|link\s|script|meta\s|svg|path\s|rect|nav|section|header|footer|iframe|style\s|style>|br|hr)/i;
 
 // An attribute whose delimiting quotes were escaped: <btn title=&quot;x&quot;>
 const ESCAPED_ATTRIBUTE = /=&quot;/;
@@ -315,7 +323,7 @@ async function login( page )
         await visit( page, BO_ENTRY );
         visited++;
 
-        for ( const entry of await discoverBackOfficePages( page ) )
+        for ( const entry of BO_EXTRA.concat( await discoverBackOfficePages( page ) ) )
         {
             await visit( page, entry );
             visited++;

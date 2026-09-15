@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.menu.MenuItem;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -98,7 +99,7 @@ public class TreeMenuInclude implements PageInclude
             }
 
             data.setTreeMenu( buildTreeMenuContentTemplate( nCurrentPageId, nMode, request ) );
-            rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu( ) == null ) ? "" : data.getTreeMenu( ) );
+            rootModel.put( Markers.PAGE_TREE_MENU, HtmlMarkup.of( data.getTreeMenu( ) ) );
         }
     }
 

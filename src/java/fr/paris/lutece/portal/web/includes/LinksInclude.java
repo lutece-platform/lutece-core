@@ -60,6 +60,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 /**
  * Page include that insert links into the head part of HTML pages
@@ -178,8 +179,8 @@ public class LinksInclude implements PageInclude
         }
 
         links = new HashMap<>( 2 );
-        links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
-        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
+        links.put( MARK_PLUGINS_CSS_LINKS, HtmlMarkup.of( sbCssLinks.toString( ) ) );
+        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, HtmlMarkup.of( sbJsLinks.toString( ) ) );
         if(cacheService.isCacheEnable() && !cacheService.isClosed( )) {
         	cacheService.put( strKey, links );
         }

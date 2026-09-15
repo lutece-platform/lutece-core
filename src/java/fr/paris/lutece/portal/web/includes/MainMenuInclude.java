@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.portal.PortalMenuService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 import java.util.Map;
 
@@ -79,8 +80,8 @@ public class MainMenuInclude implements PageInclude
             }
             
             PortalMenuService portalMenuService = CDI.current( ).select( PortalMenuService.class ).get( );
-            rootModel.put( Markers.PAGE_MAIN_MENU,
-                    portalMenuService.getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+            rootModel.put( Markers.PAGE_MAIN_MENU, HtmlMarkup
+                    .of( portalMenuService.getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) ) );
         }
     }
 }
