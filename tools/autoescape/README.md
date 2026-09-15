@@ -64,6 +64,7 @@ python3 $CORE/01-comparisons-normalize-legacy-escape.py $T --apply
 python3 $CORE/03-single-equals-comparisons.py          $T --apply
 python3 $CORE/04-text-captures.py                      $T --apply --report
 python3 $CORE/05-html-entities-in-macro-args.py        $T --apply
+python3 $CORE/06-attribute-bundles-in-macro-args.py    $T --apply
 ```
 
 | script | what it does |
@@ -73,6 +74,7 @@ python3 $CORE/05-html-entities-in-macro-args.py        $T --apply
 | `03` | `x = ''` → `!x?has_content`, strictly inside `<#if>` / `<#elseif>` so a JavaScript assignment is never touched |
 | `04` | normalizes captures whose body carries no markup (flags, labels, paths). Captures that really hold HTML are left alone |
 | `05` | hoists hand-written HTML entities (`&amp;`) from macro arguments, so they are not escaped a second time |
+| `06` | hoists literal attribute bundles (`params='aria-hidden="true"'`) into captures — the most frequent case, 189 sites in core |
 
 **The trap to know about.** A blind rewrite of `x != ''` also catches JavaScript comparisons inside
 `<script>` blocks, and silently breaks the page. Script `03` is bounded to FreeMarker tags for that
