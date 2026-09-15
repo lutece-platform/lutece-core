@@ -39,6 +39,12 @@ Verified identical under both settings by `FreeMarkerAutoEscapeCompatibilityTest
 | Turn a capture back into a String | `?markup_string` alone | `x?is_markup_output?then(x?markup_string, x)` |
 | Pass a bundle of attributes | `<#assign p = 'title="x"'>` | `<#assign p>title="x"</#assign>` |
 | Print HTML built in Java | `${x?no_esc}` | `HtmlMarkup.of( html )` on the model, plain `${x}` in the template |
+| Interpolate inside a `<script>` | `${x}`, `${x?js_string}` alone | `<#noautoesc>${x?js_string}</#noautoesc>` |
+
+The JavaScript row is the one people get wrong. HTML escaping is not JavaScript escaping: with
+auto-escaping on, `var m = '${x}'` turns an apostrophe into `&#39;` inside a JS string literal, and
+`?js_string` on its own is then HTML-escaped on top. `<#noautoesc>` around `?js_string` is the only
+form that produces correct JavaScript under both settings.
 
 `<#noautoesc>` and `<#outputformat>` are *directives*, not output-format-bound built-ins: they parse
 under both settings. `?no_esc` and `?esc` are a **ParseException** when the property is `false` — the

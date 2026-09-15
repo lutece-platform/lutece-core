@@ -163,8 +163,11 @@ async function visit( page, entry )
     }
     catch( e )
     {
-        // a response served from cache has no retrievable body; fall back to the rendered DOM
-        html = await page.content( );
+        // a response served from cache has no retrievable body. Do NOT fall back to the rendered
+        // DOM: if the page navigated away we would snapshot a different page under this name and
+        // the two modes would be compared on unrelated content.
+        notes.push( `${entry.name} : response body unavailable — not snapshotted` );
+        return;
     }
     const markup = withoutScripts( html );
 

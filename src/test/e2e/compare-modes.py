@@ -30,6 +30,8 @@ VOLATILE = [
     (re.compile(r"\d{1,2}:\d{2}:\d{2}"), "TIME"),
     (re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I), "UUID"),
     (re.compile(r"\b\d{10,}\b"), "NUM"),
+    # compteurs d'etat applicatif, sans rapport avec l'echappement
+    (re.compile(r"(en cache|in cache|objets?|objects?)\s*:?\s*\d+", re.I), r"\1 N"),
 ]
 
 
@@ -46,9 +48,15 @@ def canonical(path):
 
     # re-tokenise from scratch rather than trusting the stored line breaks: an HTML comment or a
     # stray newline can make the two sides split differently and produce a diff that is pure noise
+    # les <script> contiennent des < et > qui ne sont pas des balises : on les sort du flux
+    scripts = []
+    text = re.sub(r"<script\b[\s\S]*?</script>",
+                  lambda m: scripts.append(re.sub(r"\s+", " ", m.group(0))) or "\x00SCRIPT\x00", text)
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
     text = re.sub(r"\s+", " ", text)
     text = re.sub(r">\s*<", ">\n<", text)
+    for s_ in scripts:
+        text = text.replace("\x00SCRIPT\x00", "\n" + s_ + "\n", 1)
 
     return [line.strip() for line in text.split("\n") if line.strip()]
 

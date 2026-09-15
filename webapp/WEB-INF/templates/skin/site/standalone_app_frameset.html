@@ -78,8 +78,8 @@ ${plugins_javascript_links!}
 <!-- Theme - Base JS init  -->
 <script>
 var longMenu=${dskey('theme.site_property.menu.longMenu.checkbox')!};
-var xssChars='${dskey("theme.site_property.xss.xssChars")!}';
-var xssMsg='${dskey("theme.site_property.xss.xssMsg")!}';
+var xssChars='<#noautoesc>${dskey("theme.site_property.xss.xssChars")!?js_string}</#noautoesc>';
+var xssMsg='<#noautoesc>${dskey("theme.site_property.xss.xssMsg")!?js_string}</#noautoesc>';
 </script>
 <#if dskey('theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
 <!-- Browser detection and warning old browser -->

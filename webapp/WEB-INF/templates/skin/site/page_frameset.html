@@ -116,11 +116,11 @@ ${contextinclude_2!}
 <#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
 <script>
 <#assign xssChars = dskey('portal.theme.site_property.xss.xssChars')!''>
-var xssChars='<#if xssChars?has_content && !xssChars?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssChars")!}</#if>';
+var xssChars='<#if xssChars?has_content && !xssChars?starts_with('DS') ><#noautoesc>${dskey("portal.theme.site_property.xss.xssChars")!?js_string}</#noautoesc></#if>';
 <#assign xssMsg = dskey('portal.theme.site_property.xss.xssMsg')!''>
-var xssMsg='<#if xssMsg?has_content && !xssMsg?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssMsg")!}</#if>';
+var xssMsg='<#if xssMsg?has_content && !xssMsg?starts_with('DS') ><#noautoesc>${dskey("portal.theme.site_property.xss.xssMsg")!?js_string}</#noautoesc></#if>';
 <#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
-var urlDoLogout='<#if urlDoLogout?has_content && !urlDoLogout?starts_with('DS') >${urlDoLogout?js_string}</#if>';
+var urlDoLogout='<#if urlDoLogout?has_content && !urlDoLogout?starts_with('DS') ><#noautoesc>${urlDoLogout?js_string}</#noautoesc></#if>';
 </script>
 <#if themeJSLinks?? >
 <@themeJSLinks />
