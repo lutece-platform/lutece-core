@@ -154,30 +154,24 @@ async function visit( page, entry )
     // What we assert on, and snapshot, is the RAW SERVER RESPONSE: that is the FreeMarker output,
     // and it is deterministic. The live DOM is not — scripts add classes, a translation widget
     // injects nodes, a dashboard reorders itself — and comparing it across two runs only produces
-    // noise. The live page is still used below, but only for structural checks.
+    // noise. The live page above is still used, but only for the structural checks below.
+    //
+    // The body is fetched through the context's request API rather than read back from the
+    // navigation response: on a large page the browser can no longer hand back the body it already
+    // consumed, and falling back to the rendered DOM would snapshot a different thing.
     let html;
 
     try
     {
-        html = await response.text( );
+        const fetched = await page.context( ).request.get( BASE_URL + entry.url, { maxRedirects: 0 } );
+        html = await fetched.text( );
     }
     catch( e )
     {
-        // The body can be unavailable when the page navigated while we were reading it. Retry once
-        // with the cache bypassed. Never fall back to the rendered DOM: if the browser did move on
-        // we would snapshot a different page under this name, and the two modes would end up being
-        // compared on unrelated content.
-        try
-        {
-            const retry = await page.goto( BASE_URL + entry.url, { waitUntil: 'load' } );
-            html = await retry.text( );
-        }
-        catch( again )
-        {
-            notes.push( `${entry.name} : response body unavailable — not snapshotted` );
-            return;
-        }
+        notes.push( `${entry.name} : response body unavailable — not snapshotted` );
+        return;
     }
+
     const markup = withoutScripts( html );
 
     // 1. not an error page
