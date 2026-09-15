@@ -25,19 +25,19 @@ Snippet:
 	<#if align = 'left'>
 		<#if style = 'text'>
 			<#local x = 'text-left' />
-		<#elseif style = ''>
+		<#elseif !style?has_content>
 			<#local x = 'd-flex justify-content-start' />
 		</#if>
 	<#elseif align = 'right'>
 		<#if style = 'text'>
 			<#local x = 'text-right' />
-		<#elseif style = ''>
+		<#elseif !style?has_content>
 			<#local x = 'd-flex justify-content-end' />
 		</#if>
 	<#elseif align = 'center'>
 		<#if style = 'text'>
 			<#local x = 'text-center' />
-		<#elseif style = ''>
+		<#elseif !style?has_content>
 			<#local x = 'd-flex justify-content-center' />
 		</#if>
 	</#if>

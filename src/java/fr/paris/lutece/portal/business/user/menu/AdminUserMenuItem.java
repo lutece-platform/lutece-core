@@ -33,9 +33,13 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
+
+import freemarker.template.TemplateModel;
+
 /**
  * Admin user menu item
- * 
+ *
  * @since 6.2.0
  */
 public class AdminUserMenuItem
@@ -86,5 +90,22 @@ public class AdminUserMenuItem
     public String getContent( )
     {
         return _strContent;
+    }
+
+    /**
+     * Get the content of the item as a value a template can print as-is.
+     *
+     * <p>
+     * Templates must use <code>${item.markup}</code> rather than <code>${item.content}</code>: the content is HTML
+     * assembled by the item itself, and a plain <code>String</code> would be escaped and displayed as text when
+     * <code>service.freemarker.templateAutoEscape</code> is <code>true</code>.
+     * </p>
+     *
+     * @return the HTML content as a FreeMarker markup value
+     * @since 8.0.2
+     */
+    public TemplateModel getMarkup( )
+    {
+        return HtmlMarkup.of( _strContent );
     }
 }

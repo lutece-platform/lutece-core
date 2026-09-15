@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.menu.MenuItem;
 import fr.paris.lutece.portal.web.menu.MenuItem.MenuTreeBuilder;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,7 +92,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE, page );
-        model.put( MARKER_MAP_SITE, map );
+        model.put( MARKER_MAP_SITE, HtmlMarkup.of( map ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
 

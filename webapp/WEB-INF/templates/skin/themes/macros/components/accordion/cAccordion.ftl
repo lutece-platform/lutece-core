@@ -79,14 +79,17 @@ Snippet:
 <#local class = class?is_markup_output?then(class?markup_string, class) />
 <@deprecatedWarning args=deprecated />
 <#local iconType><#if class?contains('danger')>danger<#elseif class?contains('warning')>warning<#elseif class?contains('success')>success<#else>info</#if></#local>
+<#local iconType = iconType?is_markup_output?then(iconType?markup_string, iconType) />
 <#local accordionRole><#if class?contains('danger')>alert<#elseif class?contains('warning')>alert<#elseif class?contains('success')>status<#else>status</#if></#local>
+<#local accordionRole = accordionRole?is_markup_output?then(accordionRole?markup_string, accordionRole) />
 <div class="accordion" id="acc${id!}" <#if class?contains('outline')>role="${accordionRole}"</#if> >
     <div class="card ${class!}<#if border> with-border</#if><#if subTitle?has_content> with-subtitle</#if>" ${params!}>
         <#local cardTitleClass>card-header m-0<#if !state> collapsed</#if></#local>
+<#local cardTitleClass = cardTitleClass?is_markup_output?then(cardTitleClass?markup_string, cardTitleClass) />
         <#local titleParams>data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" <#if hasCollapse>aria-expanded="<#if state>true<#else>false</#if></#if>" aria-controls="collapseAcc${id}"</#local>
         <@cTitle level=titleLevel class=cardTitleClass params=titleParams>
             <button class="btn btn-link btn-header-accordion w-100<#if iconType != 'info'> main-${iconType}-color-text</#if>" type="button" data-bs-toggle="collapse" data-show-label="${btnShowLabel}" data-hide-label="${btnHideLabel}" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-labelledby="headingAcc${id}">
-            <span class="d-flex<#if !class?contains('outline') && header =''> flex-column<#else> align-items-center</#if> flex-1">
+            <span class="d-flex<#if !class?contains('outline') && !header?has_content> flex-column<#else> align-items-center</#if> flex-1">
             <#if class?contains('outline')>
                 <span class="card-header-prepend">
 <#local cardAlertIcon = {'danger':'alert-triangle','warning':'alert-triangle','success':'circle-check','info':'info-circle'}[iconType]!'info-circle' />
@@ -107,6 +110,7 @@ Snippet:
                 <#if btnTitle?has_content><span class="btn-label-accordion d-none d-md-inline-block<#if iconType != 'info'> main-${iconType}-color-text</#if>">${btnTitle}</span></#if>
                 <span class="btn-accordion<#if btnClass?has_content> ${btnClass}</#if>">
                     <#local btnClass>${btnClass}<#if iconType != 'info'> main-${iconType}-color-text</#if></#local>
+<#local btnClass = btnClass?is_markup_output?then(btnClass?markup_string, btnClass) />
                     <@cIcon name='chevron-down' class=btnClass title='' />
                 </span>
             </span>

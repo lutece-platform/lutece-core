@@ -54,7 +54,7 @@ Snippet:
     </div>
     <div class="offcanvas-body p-0 overflow-hidden-x ${responsiveMenuBodyClass}">
 </#if>
-<div class="<#if width = '' >w-100<#else>border-start border-end</#if> ${class}" style="<#if width?has_content >width:${width};min-width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
+<div class="<#if !width?has_content >w-100<#else>border-start border-end</#if> ${class}" style="<#if width?has_content >width:${width};min-width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
     <#if containerClass?has_content><div class="${containerClass}"></#if>
         <#if title?has_content><h1 class="fw-bolder <#if responsiveMenuSize?has_content>d-none d-${responsiveMenuSize}-block</#if>">${title}</h1></#if>
         <#nested>

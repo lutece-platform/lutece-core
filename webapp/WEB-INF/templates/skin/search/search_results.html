@@ -51,6 +51,7 @@
                         <@cSelect id='type_filter' name='type_filter'>
                             <#list list_type_and_link as map>
                                 <#assign optLabel><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+<#assign optLabel = optLabel?is_markup_output?then(optLabel?markup_string, optLabel) />
                                 <@cOption value=map.type! label=optLabel selected=(selected_types![])?seq_contains(map.type) />
                             </#list>
                         </@cSelect>
@@ -58,6 +59,7 @@
                         <#list list_type_and_link as map>
                             <#if type_filter != "checkbox" || map_index != 0>
                             <#assign tfLabel><#if map_index != 0>${map.type?lower_case?capitalize}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+<#assign tfLabel = tfLabel?is_markup_output?then(tfLabel?markup_string, tfLabel) />
                             <@cFormCheck type=type_filter! name='type_filter' value=map.type! labelClass='filter-check' checked=(selected_types![])?seq_contains(map.type) label=tfLabel />
                             </#if>
                         </#list>

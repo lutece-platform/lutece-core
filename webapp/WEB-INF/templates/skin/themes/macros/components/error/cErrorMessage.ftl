@@ -30,6 +30,7 @@ Snippet:
 <#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local linkLabelUrl>${linkLabelUrl}</#local>
+<#local linkLabelUrl = linkLabelUrl?is_markup_output?then(linkLabelUrl?markup_string, linkLabelUrl) />
 <@cContainer class='d-flex align-items-center justify-content-center vh-100'>
   <@cRow>
     <@cCol class=class! id=id params=params >
@@ -43,7 +44,8 @@ Snippet:
             <@cLink href='.' label='#i18n{portal.theme.home}' class='btn btn-secondary' />
           </@chItem>
           <@chItem>
-            <#if linkLabelUrl=''><#local linkLabelUrl>#i18n{portal.util.labelBackHome}</#local></#if>
+            <#if linkLabelUrl=''><#local linkLabelUrl>#i18n{portal.util.labelBackHome}</#local>
+<#local linkLabelUrl = linkLabelUrl?is_markup_output?then(linkLabelUrl?markup_string, linkLabelUrl) /></#if>
             <@cLink href=linkUrl label=linkLabelUrl class='btn btn-primary' />
           </@chItem>
         </@chList>

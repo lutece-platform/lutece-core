@@ -66,7 +66,9 @@ window.addEventListener( "load", function() {
 <!-- USER MESSAGE NOTIF		                                   -->
 <!-- ========================================================   -->
 <#assign bannerMessageDuration>${dskey('portal.theme.site_property.bannerMessage.Duration')!}</#assign>
+<#assign bannerMessageDuration = bannerMessageDuration?is_markup_output?then(bannerMessageDuration?markup_string, bannerMessageDuration) />
 <#assign bannerMessagePosition>${dskey('portal.theme.site_property.bannerMessage.Position')!}</#assign>
+<#assign bannerMessagePosition = bannerMessagePosition?is_markup_output?then(bannerMessagePosition?markup_string, bannerMessagePosition) />
 <@cInitToast showAll=true duration=bannerMessageDuration?number position=bannerMessagePosition >
     <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock') delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
 </@cInitToast>

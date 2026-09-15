@@ -48,7 +48,7 @@ Snippet:
 <#local displayTitleClass = displaySettings( hideTitle, 'block' ) />
 <#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 	<#local buttonColor = 'btn-default' />
-<#elseif color=''>
+<#elseif !color?has_content>
 	<#local buttonColor = 'btn-primary' />
 <#else>
 	<#local buttonColor = 'btn-' + color />

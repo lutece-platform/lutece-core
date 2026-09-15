@@ -58,8 +58,10 @@ Snippet:
 <#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
 <#local labelClass = labelClass?is_markup_output?then(labelClass?markup_string, labelClass) />
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id=''>${name}-${random()}<#else>${id}</#if></#local>
+<#local cId><#if !id?has_content>${name}-${random()}<#else>${id}</#if></#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 <#local idMsg><#if id?has_content>${id}<#else>${name!}</#if></#local>
+<#local idMsg = idMsg?is_markup_output?then(idMsg?markup_string, idMsg) />
 <#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
 <#if errorMsg?has_content><@cFormError idMsg errorMsg /></#if>
 <#if !button>
@@ -68,6 +70,7 @@ Snippet:
     <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value?has_content>value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params?has_content> ${params!}</#if>>
     <#local cFCLabel><#if labelClass?has_content><span class="${labelClass}"></#if>${label!}<#if labelClass?has_content></span></#if> <#nested></#local>
     <#local cFCClass>form-check-label<#if labelClass?has_content> ${labelClass}</#if><#if textCenter> w-100 justify-content-center</#if></#local>
+<#local cFCClass = cFCClass?is_markup_output?then(cFCClass?markup_string, cFCClass) />
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
     <@cLabel label=cFCLabel class=cFCClass for=cId required=cFCRequired showRequiredLabel=showRequiredLabel >
@@ -80,6 +83,7 @@ Snippet:
 <#else>
     <input type="${type!}" name="${name!}" class="btn-check<#if class?has_content> ${class}</#if><#if errorMsg?has_content> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value?has_content> value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params?has_content> ${params!}</#if>>
     <#local cFCClass><#if btnClass?has_content>${btnClass}<#else>btn btn-outline-primary</#if><#if labelClass?has_content> ${labelClass}</#if></#local>
+<#local cFCClass = cFCClass?is_markup_output?then(cFCClass?markup_string, cFCClass) />
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
     <@cLabel label=label! class=cFCClass for=cId required=cFCRequired  />
@@ -115,7 +119,8 @@ Snippet:
 -->
 <#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id=''>form-check-group-${random()}<#else>${id}</#if></#local>
+<#local cId><#if !id?has_content>form-check-group-${random()}<#else>${id}</#if></#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 <@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params helpMsg=helpMsg required=required >
 <#nested>
 </@cFieldset>

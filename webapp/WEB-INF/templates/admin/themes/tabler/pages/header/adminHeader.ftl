@@ -18,23 +18,38 @@ Snippet:
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
+<#local userReadMode = userReadMode?is_markup_output?then(userReadMode?markup_string, userReadMode) />
 <#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
+<#local userDarkMode = userDarkMode?is_markup_output?then(userDarkMode?markup_string, userDarkMode) />
 <#local adminDarkMode><#attempt>${dskey('portal.site.site_property.layout.darkmode.checkbox')?number}<#recover>0</#attempt></#local>
-<#--  <#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>  -->
+<#local adminDarkMode = adminDarkMode?is_markup_output?then(adminDarkMode?markup_string, adminDarkMode) />
+<#--  <#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>
+<#local userMenuMode = userMenuMode?is_markup_output?then(userMenuMode?markup_string, userMenuMode) />  -->
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local layoutBoxed><#attempt><#if dskey('portal.site.site_property.layout.menu.boxed.checkbox')?number==1> layout-boxed</#if><#recover></#attempt></#local>
+<#local layoutBoxed = layoutBoxed?is_markup_output?then(layoutBoxed?markup_string, layoutBoxed) />
 <#local layoutFluid><#attempt><#if dskey('portal.site.site_property.layout.fluid.checkbox')?number==1> layout-fluid</#if><#recover></#attempt></#local>
+<#local layoutFluid = layoutFluid?is_markup_output?then(layoutFluid?markup_string, layoutFluid) />
 <#local bodyClass><#if layoutBoxed?has_content>${layoutBoxed!}</#if><#if layoutFluid?has_content> ${layoutFluid!}</#if></#local>
+<#local bodyClass = bodyClass?is_markup_output?then(bodyClass?markup_string, bodyClass) />
 <#local navbarSticky><#attempt><#if dskey('portal.site.site_property.layout.menu.sticky.checkbox')?number==1> sticky-top</#if><#recover></#attempt></#local>
+<#local navbarSticky = navbarSticky?is_markup_output?then(navbarSticky?markup_string, navbarSticky) />
 <#local menuCondensed><#attempt><#if dskey('portal.site.site_property.layout.menu.condensed.checkbox')?number==1>condensed</#if><#recover></#attempt></#local>
+<#local menuCondensed = menuCondensed?is_markup_output?then(menuCondensed?markup_string, menuCondensed) />
 <#local menuVertical><#attempt><#if dskey('portal.site.site_property.layout.menu.vertical.checkbox')?number==1>vertical</#if><#recover></#attempt></#local>
+<#local menuVertical = menuVertical?is_markup_output?then(menuVertical?markup_string, menuVertical) />
 <#local menuTransparent><#attempt><#if dskey('portal.site.site_property.layout.menu.transparent.checkbox')?number==1> navbar-transparent</#if><#recover></#attempt></#local>
+<#local menuTransparent = menuTransparent?is_markup_output?then(menuTransparent?markup_string, menuTransparent) />
 <#local menuHome><#attempt>${dskey('portal.site.site_property.layout.menu.home.checkbox')?number}<#recover>0</#attempt></#local>
+<#local menuHome = menuHome?is_markup_output?then(menuHome?markup_string, menuHome) />
 <#local showSiteName><#attempt>${dskey('portal.site.site_property.show_site_name.checkbox')?number}<#recover>1</#attempt></#local>
+<#local showSiteName = showSiteName?is_markup_output?then(showSiteName?markup_string, showSiteName) />
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
 <#local logoWidth><#attempt>${dskey('portal.site.site_property.logo.width')}<#recover>24</#attempt></#local>
+<#local logoWidth = logoWidth?is_markup_output?then(logoWidth?markup_string, logoWidth) />
 <#local logoHeight><#attempt>${dskey('portal.site.site_property.logo.height')}<#recover>24</#attempt></#local>
+<#local logoHeight = logoHeight?is_markup_output?then(logoHeight?markup_string, logoHeight) />
 <script>
 // Expose the current admin access code so per-user client storage keys can be namespaced.
 // This keeps one user's dashboard widget layout from overwriting another's on a shared computer.
@@ -72,7 +87,7 @@ if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
 <div class="page" data-userdarkmode="${userDarkMode}">
 <#if menuVertical == 'vertical'>
 <!--  BEGIN SIDEBAR  -->
-      <aside class="navbar navbar-vertical navbar-expand-lg<#if menuTransparent?has_content>${menuTransparent}</#if>"<#if menuTransparent=''> data-bs-theme="dark"</#if> >
+      <aside class="navbar navbar-vertical navbar-expand-lg<#if menuTransparent?has_content>${menuTransparent}</#if>"<#if !menuTransparent?has_content> data-bs-theme="dark"</#if> >
       <div class="container-fluid">
 <#else>
 	<!-- BEGIN NAVBAR  -->
@@ -206,7 +221,7 @@ if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
 					<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow <#if menuVertical == 'vertical'>border-0 show</#if>">
 						<div class="dropdown-item text-muted">${dashboard_zone_4!}</div>
 						<div class="dropdown-item text-muted">${user.dateLastLogin!}</div>
-						<#if userMenuItems?has_content><#list userMenuItems as item>${item.content}</#list></#if>
+						<#if userMenuItems?has_content><#list userMenuItems as item>${item.markup}</#list></#if>
 						<div class="dropdown-divider"></div>
 						<#if user.userLevel == 0>
 						<a href="jsp/admin/AdminTechnicalMenu.jsp" class="dropdown-item">#i18n{portal.admindashboard.view_dashboards.title}</a>

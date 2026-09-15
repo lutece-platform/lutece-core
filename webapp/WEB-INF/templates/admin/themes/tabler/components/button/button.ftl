@@ -60,7 +60,7 @@ Snippet:
 <#local params = params />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
-	<#elseif !cancel && color=''>
+	<#elseif !cancel && !color?has_content>
 		<#local buttonColor = 'primary' />
 	<#else>
 		<#local buttonColor = color />
@@ -113,8 +113,9 @@ Snippet:
 			</#if>
 		</#if>
 		<#local nestedContent><#nested /></#local>
+<#local nestedContent = nestedContent?is_markup_output?then(nestedContent?markup_string, nestedContent) />
 		<#local nestedContent = nestedContent?trim />
-		<#if nestedContent=''><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
+		<#if !nestedContent?has_content><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
 		<#if nestedContent?has_content && !dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass?has_content></span></#if></#if>
 		<#if title?has_content && dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
 		<#if buttonIcon?has_content && iconPosition='right'>

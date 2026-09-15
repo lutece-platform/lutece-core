@@ -50,12 +50,14 @@ Snippet:
 -->
 <#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
+<#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 <@cBlock class='step-group'>
 <#if title?has_content>
 	<#if isFieldset>
 		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
 		<#local legendClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
+<#local legendClass = legendClass?is_markup_output?then(legendClass?markup_string, legendClass) />
 		<@cLegend label='' id='legend-${cId}' class=legendClass params='tabindex="-1" ${headerParams}'>
 			<@cInline class='${titleClass} group-title'>	
 			${title!}<#if iteration gt 0> (${iteration+1})</#if>
@@ -83,6 +85,7 @@ Snippet:
 	<#else>
 		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
 			<#local localTitleClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
+<#local localTitleClass = localTitleClass?is_markup_output?then(localTitleClass?markup_string, localTitleClass) />
 			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params='tabindex="-1" ${headerParams}'>
 				${title!}<#if iteration gt 0> (${iteration+1})</#if>
 				<#if iterable && iteration gt 0>

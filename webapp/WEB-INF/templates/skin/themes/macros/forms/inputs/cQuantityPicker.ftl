@@ -43,9 +43,12 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
 <#local cId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 <#local params>data-min="${minQty}" data-max="${maxQty}" ${params}</#local>
-<#if errorMsg?has_content><#assign isInvalid>is-invalid</#assign></#if>
+<#if errorMsg?has_content><#assign isInvalid>is-invalid</#assign>
+<#assign isInvalid = isInvalid?is_markup_output?then(isInvalid?markup_string, isInvalid) /></#if>
 <#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
+<#local errorClass = errorClass?is_markup_output?then(errorClass?markup_string, errorClass) />
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>

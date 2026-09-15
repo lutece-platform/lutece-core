@@ -32,6 +32,7 @@ Snippet:
 		<#if headerIcon?has_content><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
 	</h2>
 	<#local nested><#nested></#local>
+<#local nested = nested?is_markup_output?then(nested?markup_string, nested) />
 	<#if nested?has_content><#if boxTools><div class="box-tools"></#if>${nested}<#if boxTools></div></#if></#if>
 </div>
 <#assign parentId = parentId />

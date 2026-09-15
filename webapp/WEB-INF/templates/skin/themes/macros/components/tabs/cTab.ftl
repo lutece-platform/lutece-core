@@ -37,12 +37,12 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#if navigation>
 <li class="nav-item" role="presentation">
-	<a id="<#if id=''>tab_${url!?remove_beginning("#")}<#else>${id}</#if>" aria-controls="<#if id=''>${url!?remove_beginning("#")}<#else>${id}</#if>" class="nav-link<#if active> active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>"<#if disabled> disabled tabindex="-1" aria-disabled="true"</#if><#if !active && !disabled> tabindex="-1"</#if> data-bs-toggle="tab" role="tab"<#if active> aria-selected="true"<#else> aria-selected="false"</#if> href="${url!}">
+	<a id="<#if !id?has_content>tab_${url!?remove_beginning("#")}<#else>${id}</#if>" aria-controls="<#if !id?has_content>${url!?remove_beginning("#")}<#else>${id}</#if>" class="nav-link<#if active> active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>"<#if disabled> disabled tabindex="-1" aria-disabled="true"</#if><#if !active && !disabled> tabindex="-1"</#if> data-bs-toggle="tab" role="tab"<#if active> aria-selected="true"<#else> aria-selected="false"</#if> href="${url!}">
 		<#nested>
 	</a>
 </li>
 <#else>
-<button type="button" id="<#if id=''>tab_${url!?remove_beginning("#")}<#else>${id}</#if>" aria-controls="<#if id=''>${url!?remove_beginning("#")}<#else>${id}</#if>" data-bs-toggle="tab" role="tab" data-bs-target="#<#if id=''>${url!?remove_beginning("#")}<#else>${id}</#if>"  class="nav-link<#if active> active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>" <#if disabled> disabled tabindex="-1" aria-disabled="true"</#if><#if !active && !disabled> tabindex="-1"</#if><#if active> aria-selected="true"<#else> aria-selected="false"</#if>>
+<button type="button" id="<#if !id?has_content>tab_${url!?remove_beginning("#")}<#else>${id}</#if>" aria-controls="<#if !id?has_content>${url!?remove_beginning("#")}<#else>${id}</#if>" data-bs-toggle="tab" role="tab" data-bs-target="#<#if !id?has_content>${url!?remove_beginning("#")}<#else>${id}</#if>"  class="nav-link<#if active> active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>" <#if disabled> disabled tabindex="-1" aria-disabled="true"</#if><#if !active && !disabled> tabindex="-1"</#if><#if active> aria-selected="true"<#else> aria-selected="false"</#if>>
 	<#nested>
 </button>
 </#if>

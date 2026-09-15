@@ -138,7 +138,29 @@ async function visit( page, entry )
         return;
     }
 
-    const html = await page.content( );
+    // Some admin pages redirect from JavaScript right after load; retrieving the content while the
+    // navigation is in flight throws. Settle first, and retry once.
+    let html;
+
+    try
+    {
+        await page.waitForLoadState( 'networkidle', { timeout: 10_000 } );
+    }
+    catch( ignored )
+    {
+        // networkidle is best effort — a page with a poller never reaches it
+    }
+
+    try
+    {
+        html = await page.content( );
+    }
+    catch( e )
+    {
+        await page.waitForTimeout( 1000 );
+        html = await page.content( );
+    }
+
     const markup = withoutScripts( html );
 
     // 1. not an error page

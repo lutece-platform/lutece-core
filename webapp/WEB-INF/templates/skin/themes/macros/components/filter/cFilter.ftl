@@ -38,6 +38,7 @@ Snippet:
 	</@cRow>
 	<@cRow id='filters-container' class=class! params=params!>
 		<#local legendClass><#if !showLegend>visually-hidden</#if></#local>
+<#local legendClass = legendClass?is_markup_output?then(legendClass?markup_string, legendClass) />
 		<@cFieldset legend=fieldSetLabel legendClass=legendClass class="d-flex m-0 flex-wrap w-auto">
 			<#list checkboxes as checkbox>
 		        <@cField class='mt-0'>

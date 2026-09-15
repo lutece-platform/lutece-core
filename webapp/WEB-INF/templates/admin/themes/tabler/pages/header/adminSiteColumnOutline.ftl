@@ -21,6 +21,7 @@ Snippet:
 <#macro adminSiteColumnOutline columnid='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local content><#compress><#nested></#compress></#local>
+<#local content = content?is_markup_output?then(content?markup_string, content) />
 <@div id='lutece-column-${columnid}' class='lutece-admin-column'>
     <@div class='lutece-column-toolbar'>
 		<@tag class='lutece-admin-column-id' color='dark'>${i18n("portal.site.columnId",columnid)}</@tag>

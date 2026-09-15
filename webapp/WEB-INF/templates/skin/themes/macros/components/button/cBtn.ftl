@@ -42,7 +42,7 @@ Snippet:
 -->
 <#macro cBtn label class='primary' btnClass='' noclass=false href='' id='' params='' type='submit' nestedPos='before' disabled=false size='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if href=''>
+<#if !href?has_content>
 <button class="<#if !noclass>btn btn-</#if>${class!}<#if size == 'mini'> btn-mini</#if>" type="${type!}"<#if id?has_content> id="${id!}"</#if><#if params?has_content>${params!}</#if><#if disabled> disabled</#if>>
 <#if nestedPos='before'><#nested></#if><#if label?has_content><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
 </button>

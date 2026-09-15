@@ -34,9 +34,13 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
 <#local logoSvg><#attempt>${dskey('portal.site.site_property.logo_svg.textblock')}<#recover>${dskey('portal.site.site_property.logo_svg.textblock')}!=''?then(${dskey('portal.site.site_property.logo_svg.textblock')}, '')></#attempt></#local>
+<#local logoSvg = logoSvg?is_markup_output?then(logoSvg?markup_string, logoSvg) />
 <#local logoUrl><#attempt>${dskey('portal.site.site_property.logo_url')}<#recover>${dskey('portal.site.site_property.logo_url')}!=''?then(${dskey('portal.site.site_property.logo_url')},'themes/admin/shared/images/logo-header-icon.min.svg')</#attempt></#local>
+<#local logoUrl = logoUrl?is_markup_output?then(logoUrl?markup_string, logoUrl) />
 <#local loginIsCover><#attempt>${dskey('portal.site.site_property.layout.login.cover.checkbox')?number}<#recover>0</#attempt></#local>
+<#local loginIsCover = loginIsCover?is_markup_output?then(loginIsCover?markup_string, loginIsCover) />
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
+<#local loginIsCoverContain = loginIsCoverContain?is_markup_output?then(loginIsCoverContain?markup_string, loginIsCoverContain) />
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim />
 <script>
 // Apply the user's stored theme mode synchronously, before first paint, so the login page matches the admin theme.

@@ -33,7 +33,7 @@ Snippet:
 <#local alerttype='primary' />
 <#local iconcolor='primary' />
 <#local icontype='<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-exclamation-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /> <path d="M12 9v4" /><path d="M12 16v.01" /></svg>' />
-<#if title??><#if title?trim='' ><#local title='Information' /></#if></#if>		
+<#if title??><#if !title?trim?has_content ><#local title='Information' /></#if></#if>		
 <#switch message.type >
 	<#case 2 >
 		<#local alerttype='danger' />

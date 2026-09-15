@@ -29,17 +29,27 @@ Snippet:
 <#macro inputDropFilesItem name label idx handler image=false fileSize=0 ext='' unit='' maxChars=60 urlDl='' urlRm='' class='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local fileLabel><#if label?length gt maxChars>${label[0..maxChars]}...<#else>${label}</#if></#local>
+<#local fileLabel = fileLabel?is_markup_output?then(fileLabel?markup_string, fileLabel) />
 <#if handler?has_content>
     <#local handlerName>${handler.handlerName}</#local>
+<#local handlerName = handlerName?is_markup_output?then(handlerName?markup_string, handlerName) />
     <#local cUrlDl>jsp/site/plugins/asynchronousupload/DoDownloadFile.jsp?fieldname=${name}&field_index=${idx}&fileName=${label}&asynchronousupload.handler=${handler.handlerName}</#local>
+<#local cUrlDl = cUrlDl?is_markup_output?then(cUrlDl?markup_string, cUrlDl) />
     <#local cUrlRm></#local>
+<#local cUrlRm = cUrlRm?is_markup_output?then(cUrlRm?markup_string, cUrlRm) />
     <#local cName>${handler.uploadCheckboxPrefix}${name}${idx}</#local>
+<#local cName = cName?is_markup_output?then(cName?markup_string, cName) />
     <#local cId>${handler.uploadCheckboxPrefix}${name}${idx}</#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 <#else>
     <#local cUrlDl>${urlDl}</#local>
+<#local cUrlDl = cUrlDl?is_markup_output?then(cUrlDl?markup_string, cUrlDl) />
     <#local cUrlRm>${urlRm!}</#local>
+<#local cUrlRm = cUrlRm?is_markup_output?then(cUrlRm?markup_string, cUrlRm) />
     <#local cName>_form_upload_checkbox_${name}${idx}</#local>
+<#local cName = cName?is_markup_output?then(cName?markup_string, cName) />
     <#local cId>_form_upload_checkbox_${name}${idx}</#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 </#if>
 <#if fileSize??>
 <#switch unit>
@@ -68,7 +78,7 @@ Snippet:
     </#if>
 </#switch>
 </#if>
-<#if ext = ''><#local ext=name?keep_after_last('.') /></#if>
+<#if !ext?has_content><#local ext=name?keep_after_last('.') /></#if>
 <li class="files-item<#if class?has_content> ${class}</#if>" id="_file_uploaded_${name}${idx}">
     <label class="files-item-label<#if image=true> image</#if>" for="${cId}">
         <#if image=true><img src="themes/shared/images/none.svg" alt="" width="80" class="img-fluid img-thumbnail"></#if>

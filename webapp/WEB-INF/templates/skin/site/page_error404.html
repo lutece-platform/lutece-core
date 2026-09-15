@@ -1,7 +1,9 @@
 <#include "minimal_header.html" />
 <@cTpl>
 <#assign errorTitle>#i18n{portal.theme.error404.title}</#assign>
+<#assign errorTitle = errorTitle?is_markup_output?then(errorTitle?markup_string, errorTitle) />
 <#assign errorText>#i18n{portal.theme.error404.text}</#assign>
+<#assign errorText = errorText?is_markup_output?then(errorText?markup_string, errorText) />
 <@cErrorMessage title=errorTitle text=errorText linkUrl='.' />
 </@cTpl>
 <#include "minimal_footer.html" />

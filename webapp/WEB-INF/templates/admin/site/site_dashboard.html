@@ -9,7 +9,8 @@
 		</@columns>
 		<@div class='col-auto'>
 			<@button type='button' class='btn-action' buttonIcon='dots-vertical fs-2' dropdownMenu=true>
-				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.buttonModify}' color='' class='dropdown-item' />
+				<#assign hrefEnt1>jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2</#assign>
+				<@aButton href=hrefEnt1 title='#i18n{portal.site.admin_page.buttonModify}' color='' class='dropdown-item' />
 				<@aButton href='jsp/site/Portal.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.labelShowPage}' color='' class='dropdown-item' target='_blank' />
 			</@button>
 		</@div>

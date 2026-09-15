@@ -41,6 +41,7 @@ Snippet:
 <div class="card-header<#if class?has_content> ${class}</#if><#if skipHeader> skip-header</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 	<${titleLevel} class="card-title<#if titleClass?has_content> ${titleClass}</#if><#if showTitle=false> visually-hidden</#if>"<#if titleParams?has_content> ${titleParams}</#if>><#if title?has_content>${title}</#if><#if i18nTitleKey?has_content>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
+<#local nested = nested?is_markup_output?then(nested?markup_string, nested) />
 	<#if nested?has_content>
 	<#if titleActions>
 		<div class="card-actions btn-actions">

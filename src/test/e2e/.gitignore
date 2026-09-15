@@ -1,0 +1,8 @@
+# produced by run-both-modes.sh / autoescape-e2e.js
+liberty.log
+snapshots/
+results-*.json
+node_modules/
+package-lock.json
+test-results/
+playwright-report/

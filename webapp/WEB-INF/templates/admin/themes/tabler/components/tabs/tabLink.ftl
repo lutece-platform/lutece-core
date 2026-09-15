@@ -43,7 +43,7 @@ Snippet:
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
-<#if href=''>
+<#if !href?has_content>
 	<#nested>
 <#else>
 	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>

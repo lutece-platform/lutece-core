@@ -30,6 +30,7 @@
 <@initThemeDatePicker />
 </#if>
 <#local dtThemeOptions>${dskey('portal.site.site_property.config.datepicker.textblock')!}</#local>
+<#local dtThemeOptions = dtThemeOptions?is_markup_output?then(dtThemeOptions?markup_string, dtThemeOptions) />
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {
   const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'</#if>,</#list></#if> };

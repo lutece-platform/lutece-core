@@ -56,10 +56,15 @@ Snippet:
 <#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
+<#local idLocal = idLocal?is_markup_output?then(idLocal?markup_string, idLocal) />
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
+<#local typeLocal = typeLocal?is_markup_output?then(typeLocal?markup_string, typeLocal) />
 <#local valLocal><#if value?has_content>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
+<#local valLocal = valLocal?is_markup_output?then(valLocal?markup_string, valLocal) />
 <#local errorInput><#if errorMsg?has_content>_error</#if></#local>
+<#local errorInput = errorInput?is_markup_output?then(errorInput?markup_string, errorInput) />
 <#local inputClass><#if errorMsg?has_content>is-invalid</#if></#local>
+<#local inputClass = inputClass?is_markup_output?then(inputClass?markup_string, inputClass) />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local isHtml5Required = ( typeLocal='date' && isRequired ) || html5Required />
 <#if label?has_content><@cLabel label=label for='${idLocal}' /></#if>
@@ -255,8 +260,11 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
 <#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false]  html5Required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' separator=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
+<#local idLocal = idLocal?is_markup_output?then(idLocal?markup_string, idLocal) />
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
+<#local typeLocal = typeLocal?is_markup_output?then(typeLocal?markup_string, typeLocal) />
 <#local valLocal><#if value?has_content>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
+<#local valLocal = valLocal?is_markup_output?then(valLocal?markup_string, valLocal) />
 <#local isRequired0 = ( propagateRequired?? && propagateRequired) || required[0] />
 <#local isRequired1 = ( propagateRequired?? && propagateRequired) || required[1] />
 <#local isHtml5Required0 = ( typeLocal='date' && isRequired0 ) || html5Required[0] />
@@ -295,6 +303,7 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
 <#nested>
 </@cBlock>
 <#local optionsLocal><#if options?size = 0>{inputs:["${idLocal}_range_start","${idLocal}_range_start"]}</#if></#local>
+<#local optionsLocal = optionsLocal?is_markup_output?then(optionsLocal?markup_string, optionsLocal) />
 <#if type='datepicker'><@getThemeDatePicker idField='' range=true rangeIdWrapper='${idLocal}' options=options /></#if>
 <#if separator && type != 'date'>
 <@cInputDateTypingSeparator idField='${idLocal}_range_start' hasDatepicker=(type='datepicker') />

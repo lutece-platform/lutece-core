@@ -56,13 +56,17 @@ Snippet:
 <#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign pageId><#if page_id??>${page_id!'1'}<#else>0</#if></#assign>
+<#assign pageId = pageId?is_markup_output?then(pageId?markup_string, pageId) />
 <#if isSidebar>
 <#assign isMainSidebarMenu=isSidebar >
 <#if mainSidebarMenuCols?? && mainSidebarMenuCols?has_content><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=sidebarCol?number /></#if>
 <#local mainCalcCol=12 - sidebarCol />
 <#local asideCol>col-md-${sidebarCol+1} col-lg-${sidebarCol}</#local>
+<#local asideCol = asideCol?is_markup_output?then(asideCol?markup_string, asideCol) />
 <#local mainCol>col-md-${mainCalcCol-1} col-lg-${mainCalcCol}</#local>
+<#local mainCol = mainCol?is_markup_output?then(mainCol?markup_string, mainCol) />
 <#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}"</#if><#if mainClass?has_content> ${mainClass!}</#if></#assign>
+<#assign mainNavClass = mainNavClass?is_markup_output?then(mainNavClass?markup_string, mainNavClass) />
 <#else>
 <header class="sticky-top navigation<#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if>" id="main-banner-${page_id!'theme'}" role="banner">
 </#if>
@@ -98,7 +102,8 @@ Snippet:
                 </@cMainNavItem>
             </#if>
             <#if hasMenu && hasSearchMenu && typeSearch='field'>
-                <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
+                <#assign formSearchAction><#if !searchAction?has_content>${urlSearch!}<#else>${searchAction!}</#if></#assign>
+<#assign formSearchAction = formSearchAction?is_markup_output?then(formSearchAction?markup_string, formSearchAction) />
                 <@cMainNavItem title='' url='' class='ms-md-auto' >
                     <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
                         <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
@@ -161,7 +166,8 @@ Snippet:
                     <#nested>
                     </#if>
                     <#if hasMenu && hasSearchMenu>
-                        <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
+                        <#assign formSearchAction><#if !searchAction?has_content>${urlSearch!}<#else>${searchAction!}</#if></#assign>
+<#assign formSearchAction = formSearchAction?is_markup_output?then(formSearchAction?markup_string, formSearchAction) />
                         <@cMainNavItem title='' url='' class='ms-md-auto' >
                             <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
                                 <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">

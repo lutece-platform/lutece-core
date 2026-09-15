@@ -111,6 +111,7 @@ Snippet:
 window.addEventListener('DOMContentLoaded', (event) => {
 <#if step?number gt 1 >
 	<#assign actionStep><#if actionNextStep?has_content>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
+<#assign actionStep = actionStep?is_markup_output?then(actionStep?markup_string, actionStep) />
 	const formValidateButton = document.querySelector('#${actionStep!}');
 	formValidateButton.addEventListener('click', (e) => {
 		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
@@ -124,6 +125,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				pInvalid.classList.add( 'invalid-feedback' );
 				pInvalid.setAttribute( 'role', 'alert' );
 				<#assign invalidLabel>#i18n{theme.msgMandatory}</#assign>
+<#assign invalidLabel = invalidLabel?is_markup_output?then(invalidLabel?markup_string, invalidLabel) />
 				pInvalid.innerHTML = `${invalidLabel}`;
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);

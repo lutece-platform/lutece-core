@@ -1,4 +1,5 @@
 <#assign boxTitle>#i18n{portal.admin.admin_form_contact.boxTitle}</#assign>
+<#assign boxTitle = boxTitle?is_markup_output?then(boxTitle?markup_string, boxTitle) />
 <@adminLoginPage title=boxTitle site_name=site_name>
 <@tform name='form_contact' id='form_contact' action='jsp/admin/DoAdminFormContact.jsp'>
 	<p class="font-weight-bold text-center">#i18n{portal.admin.message.admin_form_contact.sendingError}</p>

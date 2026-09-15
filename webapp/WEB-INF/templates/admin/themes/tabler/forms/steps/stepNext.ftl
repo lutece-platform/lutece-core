@@ -24,6 +24,7 @@ Snippet:
 <#macro stepNext step title titleLevel=2 class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass>step step-next<#if class?has_content>${class}</#if></#local>
+<#local stepClass = stepClass?is_markup_output?then(stepClass?markup_string, stepClass) />
 <@div class=stepClass id=id params=params>
 	<@div class='step-title'>
 		<@h class='title' level=titleLevel params='title="${title}" data-step="${step}"'>

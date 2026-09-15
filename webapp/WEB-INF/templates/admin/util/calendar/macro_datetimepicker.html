@@ -172,6 +172,7 @@ loadStyle( '${libUrl}bootstrap-flatpickr.min.css' );
 </#macro>
 <#function setFlatPickerOptions options>
 <#assign strOptions=''>
-<#if options?size gt 0><#assign strOptions><#list options as optionKey, optionVal>"${optionKey}" : <#if optionVal?is_boolean>${optionVal?c}<#elseif optionVal?is_number>${optionVal}<#else>"${optionVal}"</#if>,</#list> </#assign></#if>
+<#if options?size gt 0><#assign strOptions><#list options as optionKey, optionVal>"${optionKey}" : <#if optionVal?is_boolean>${optionVal?c}<#elseif optionVal?is_number>${optionVal}<#else>"${optionVal}"</#if>,</#list> </#assign>
+<#assign strOptions = strOptions?is_markup_output?then(strOptions?markup_string, strOptions) /></#if>
 <#return strOptions>
 </#function>

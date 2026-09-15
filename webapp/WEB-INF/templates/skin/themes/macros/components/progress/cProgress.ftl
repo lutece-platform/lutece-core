@@ -47,13 +47,13 @@ Snippet:
 <#if role='progressbar'>
 <div class="progress<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
     <div id="${progressId}" aria-labelledby="${progressId}-label" class="progress-bar bg-${color}<#if token?has_content> progressmanager</#if>" <#if role?has_content>role="${role}"</#if> style="width:${progPercent?replace(',','.')}%;" <#if role='progressbar'>aria-valuenow="${value}"  aria-valuemin="${min}" aria-valuemax="${max}"</#if> <#if token?has_content>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
-        <#if text=''>${progPercent}%<#else>${text}</#if>
+        <#if !text?has_content>${progPercent}%<#else>${text}</#if>
     </div>
 </div>
 <#else>
 <div class="progress<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
     <p id="${progressId}" aria-hidden="true" class="progress-bar bg-${color}<#if token?has_content> progressmanager</#if>" style="width:${progPercent?replace(',','.')}%;">
-        <#if text=''>${progPercent}%<#else>${text}</#if>
+        <#if !text?has_content>${progPercent}%<#else>${text}</#if>
     </p>
 </div>
 </#if>

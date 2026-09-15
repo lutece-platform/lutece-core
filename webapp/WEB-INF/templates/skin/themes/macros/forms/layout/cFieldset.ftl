@@ -53,7 +53,8 @@ Snippet:
 -->
 <#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
+<#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
+<#local cId = cId?is_markup_output?then(cId?markup_string, cId) />
 <fieldset<#if class?has_content> class="${class}"</#if><#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<#if params?has_content> ${params}</#if><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>
 <#if legend?has_content><legend <#if legendClass?has_content || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
 <#if helpPos == 'top' && helpMsg?has_content><@cFormHelp cId helpMsg /></#if>

@@ -181,13 +181,21 @@ Snippet:
 <#macro cSlide slide={} currentIndex=1 lastIndex=1 params=''>
 <#if slide?size gt 0>
     <#assign slideIndex><#if slide.index?? && slide.index?has_content>${slide.index!}<#else>${currentIndex!}</#if></#assign>
+<#assign slideIndex = slideIndex?is_markup_output?then(slideIndex?markup_string, slideIndex) />
     <#assign slideId><#if slide.id?? && slide.id?has_content>${slide.id!}</#if></#assign>
+<#assign slideId = slideId?is_markup_output?then(slideId?markup_string, slideId) />
     <#assign slideClass>slide p-0<#if slide.class?? && slide.class?has_content> ${slide.class!}</#if></#assign>
+<#assign slideClass = slideClass?is_markup_output?then(slideClass?markup_string, slideClass) />
     <#assign slideImg><#if slide.img?? && slide.img?has_content>${slide.img!}</#if></#assign>
+<#assign slideImg = slideImg?is_markup_output?then(slideImg?markup_string, slideImg) />
     <#assign slideImgAlt><#if slide.imgAlt?? && slide.imgAlt?has_content>${slide.imgAlt!}</#if></#assign>
+<#assign slideImgAlt = slideImgAlt?is_markup_output?then(slideImgAlt?markup_string, slideImgAlt) />
     <#assign slideUrl><#if slide.link?? && slide.link?has_content>${slide.url!}</#if></#assign>
+<#assign slideUrl = slideUrl?is_markup_output?then(slideUrl?markup_string, slideUrl) />
     <#assign slideLinkLabel><#if slide.linkLabel?? && slide.linkLabel?has_content>${slide.linkLabel!}</#if></#assign>
+<#assign slideLinkLabel = slideLinkLabel?is_markup_output?then(slideLinkLabel?markup_string, slideLinkLabel) />
     <#assign slideContent><#if slide.content?? && slide.content?has_content>${slide.content!}</#if></#assign>
+<#assign slideContent = slideContent?is_markup_output?then(slideContent?markup_string, slideContent) />
     <#assign slideParams>role="group" aria-roledescription="slide" aria-label="${slideIndex!} / ${lastIndex}" ${params}</#assign>
     <@cCard class=slideClass id=slideId title=slideLinkLabel titleUrl=slideUrl img=slideImg params=slideParams>
         <@cText class='card-text'>${slideContent}</@cText>

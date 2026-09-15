@@ -34,6 +34,7 @@ Snippet:
   		<#if showall ==1>
   			<#if paginator.itemsCount &gt; 100 >
 				<#assign isItemSelected><#if nb_items_per_page?number = paginator.itemsCount?number >true<#else>false</#if></#assign>
+<#assign isItemSelected = isItemSelected?is_markup_output?then(isItemSelected?markup_string, isItemSelected) />
   				<@option selected=isItemSelected?boolean value=paginator.itemsCount class=nb_items_per_page label='#i18n{portal.util.labelAll}' />
   			</#if>
   		</#if>

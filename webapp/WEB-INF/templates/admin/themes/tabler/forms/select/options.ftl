@@ -27,7 +27,9 @@ Snippet:
 <#if items??>
 	<#list items as item>
 		<#local idItem><#if id>${item.code}_${item?index}<#else></#if></#local>
+<#local idItem = idItem?is_markup_output?then(idItem?markup_string, idItem) />
 		<#local selectedItem><#if selected?has_content><#if item.code?string=selected>true<#else>false</#if><#else>${item.selected?c}</#if></#local>
+<#local selectedItem = selectedItem?is_markup_output?then(selectedItem?markup_string, selectedItem) />
 		<@option label=item.name value=item.code id=idItem class=class selected=selectedItem?boolean disabled=item.disabled params=params /> 
 	</#list>
 </#if>

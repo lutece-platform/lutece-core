@@ -2,6 +2,7 @@
 <#if resource_url?? && resource_url?has_content><#assign ressourceLink><@cLink href='${base_url}${resource_url}' label='${resource.extendableResourceName} : ${resource.extendableResourceDescription}' class='btn btn-link' /></#assign></#if>
 <#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl?has_content><#assign ressourceImg><@cImg src='${resource.extendableResourceImageUrl}' alt='${resource.extendableResourceName}' title='${resource.extendableResourceName}' /></#assign></#if>
 <#assign page_title>#i18n{portal.theme.popup_send_resource.title}<#if resource??> : ${resource.extendableResourceName}</#if></#assign>
+<#assign page_title = page_title?is_markup_output?then(page_title?markup_string, page_title) />
 <#assign theme={ "pathCss": "css" } />
 <#include "minimal_header.html" />
 <@cContainer class='mt-5'>

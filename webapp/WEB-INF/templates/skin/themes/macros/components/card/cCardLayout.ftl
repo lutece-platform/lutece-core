@@ -38,11 +38,14 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#if type == 'group'>
     <#local cClass>row g-0</#local>
+<#local cClass = cClass?is_markup_output?then(cClass?markup_string, cClass) />
 <#elseif type == 'deck'>
     <#local cClass>row g-4 row-cols-${rowCols!} ${class!}</#local>
+<#local cClass = cClass?is_markup_output?then(cClass?markup_string, cClass) />
 <#elseif type == 'columns'>
     <#local cParams>data-masonry='{"percentPosition": true }' ${params!}</#local>
     <#local cClass>row ${class!}</#local>
+<#local cClass = cClass?is_markup_output?then(cClass?markup_string, cClass) />
 </#if>
 <@cBlock class=cClass id=id params=cParams>
 <#nested>

@@ -26,15 +26,20 @@ Snippet:
 			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
 			<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all']  />
 			</#if>
-			<@offcanvas id="page-properties" redirectForm=false title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" hideTitle=['all'] size="" />
-			<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5' targetElement='#childpage' btnColor="portet" btnIcon="file-plus me-1" btnTitle="#i18n{portal.site.admin_page.titleAddChildPage}" hideTitle=['all'] size=""  redirectForm=false/>
+			<#local targetUrlEnt1>jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2</#local>
+			<@offcanvas id="page-properties" redirectForm=false title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl=targetUrlEnt1 targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" hideTitle=['all'] size="" />
+			<#local targetUrlEnt2>jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5</#local>
+			<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl=targetUrlEnt2 targetElement='#childpage' btnColor="portet" btnIcon="file-plus me-1" btnTitle="#i18n{portal.site.admin_page.titleAddChildPage}" hideTitle=['all'] size=""  redirectForm=false/>
 			<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="portet" btnIcon="apps" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" hideTitle=['all'] >
 			<@listGroup>
 				<#list portlet_types_list?sort_by("name") as portlet_type>
 					<#if portlet_type.name?has_content>
 						<#assign iconPortlet><#if portlet_type.iconName??>${portlet_type.iconName!'puzzle'}<#else>puzzle</#if></#assign>
-						<@listGroupItem class='p-2' params='data-portlet-type-id="${portlet_type.id}" data-portlet-type-icon="${iconPortlet!}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" data-portlet-type-name="${portlet_type.name}"'>
-							<@aButton color='link w-100 btn-portlet d-flex justify-content-start' buttonIcon='${iconPortlet!} me-2 me-2' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}' />
+<#assign iconPortlet = iconPortlet?is_markup_output?then(iconPortlet?markup_string, iconPortlet) />
+						<#local paramsEnt3>data-portlet-type-id="${portlet_type.id}" data-portlet-type-icon="${iconPortlet!}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" data-portlet-type-name="${portlet_type.name}"</#local>
+						<@listGroupItem class='p-2' params=paramsEnt3>
+							<#local hrefEnt4>jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}</#local>
+							<@aButton color='link w-100 btn-portlet d-flex justify-content-start' buttonIcon='${iconPortlet!} me-2 me-2' href=hrefEnt4 target='preview' title='${portlet_type.name}' />
 						</@listGroupItem>	
 					</#if>
 				</#list>

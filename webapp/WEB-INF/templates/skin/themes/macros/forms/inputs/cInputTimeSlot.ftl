@@ -45,6 +45,7 @@ Snippet:
 <#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{portal.theme.labelFrom}' labelTo='#i18n{portal.theme.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
+<#local idLocal = idLocal?is_markup_output?then(idLocal?markup_string, idLocal) />
 <#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
 <@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg helpPos='after' params=params >
 	<@cRow>

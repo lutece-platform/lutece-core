@@ -50,13 +50,20 @@ Snippet:
 <#macro cSessionTimeout deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign sessionTimeoutEnabled><#if !dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign sessionTimeoutEnabled = sessionTimeoutEnabled?is_markup_output?then(sessionTimeoutEnabled?markup_string, sessionTimeoutEnabled) />
 <#if sessionTimeoutEnabled == 'true'>
 <#assign sessionTimeoutDuration><#if !dskey('portal.theme.site_property.sessiontimeout.duration')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.duration') != ''>${dskey('portal.theme.site_property.sessiontimeout.duration')}<#else>1800</#if></#assign>
+<#assign sessionTimeoutDuration = sessionTimeoutDuration?is_markup_output?then(sessionTimeoutDuration?markup_string, sessionTimeoutDuration) />
 <#assign sessionWarningDelay><#if !dskey('portal.theme.site_property.sessiontimeout.warningDelay')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.warningDelay') != ''>${dskey('portal.theme.site_property.sessiontimeout.warningDelay')}<#else>120</#if></#assign>
+<#assign sessionWarningDelay = sessionWarningDelay?is_markup_output?then(sessionWarningDelay?markup_string, sessionWarningDelay) />
 <#assign sessionKeepAliveUrl><#if !dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') != ''>${dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')}<#else>${base_url!}jsp/site/Portal.jsp</#if></#assign>
+<#assign sessionKeepAliveUrl = sessionKeepAliveUrl?is_markup_output?then(sessionKeepAliveUrl?markup_string, sessionKeepAliveUrl) />
 <#assign sessionMaxExtensions><#if !dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.maxExtensions') != ''>${dskey('portal.theme.site_property.sessiontimeout.maxExtensions')}<#else>10</#if></#assign>
+<#assign sessionMaxExtensions = sessionMaxExtensions?is_markup_output?then(sessionMaxExtensions?markup_string, sessionMaxExtensions) />
 <#assign sessionPosition><#if !dskey('portal.theme.site_property.sessiontimeout.position')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.position') != ''>${dskey('portal.theme.site_property.sessiontimeout.position')}<#else>top-0 end-0</#if></#assign>
+<#assign sessionPosition = sessionPosition?is_markup_output?then(sessionPosition?markup_string, sessionPosition) />
 <#assign sessionLoginUrl><#if urlAuth?? && urlAuth?has_content>${urlAuth}<#else>jsp/site/Portal.jsp?page=mylutece&action=doLogin</#if></#assign>
+<#assign sessionLoginUrl = sessionLoginUrl?is_markup_output?then(sessionLoginUrl?markup_string, sessionLoginUrl) />
 <script>
 (function() {
     var pluginConfig = window.__sessionTimeoutConfig || {};

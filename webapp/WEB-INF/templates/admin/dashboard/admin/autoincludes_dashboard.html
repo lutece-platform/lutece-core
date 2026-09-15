@@ -57,6 +57,7 @@
 	</@columns>	
 	<@columns sm=12 md=4 lg=6>
 		<#assign preview><@commonsPreview /></#assign>
+<#assign preview = preview?is_markup_output?then(preview?markup_string, preview) />
 		<#assign boxTitle>#i18n{portal.templates.manage_autoincludes.commonsInfos} <br> <@span class='text-primary'>${currentTitle}</@span></#assign>
 		<@box class='mt-3'>
 			<@boxHeader title=boxTitle />

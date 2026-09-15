@@ -32,7 +32,7 @@ const pageTitle = document.querySelector('title');
 pageTitle.textContent = '${title}';
 <#else>
 const mainTitleText = pageTitle.textContent;
-const complementaryTitleText = <#if srcElement=''>'${title!}'<#else><#if type='text'>document.querySelector('${srcElement}').textContent<#else>document.querySelector('${srcElement}').value</#if></#if>;
+const complementaryTitleText = <#if !srcElement?has_content>'${title!}'<#else><#if type='text'>document.querySelector('${srcElement}').textContent<#else>document.querySelector('${srcElement}').value</#if></#if>;
 pageTitle.textContent = `<#noparse>${mainTitleText} ${complementaryTitleText}</#noparse>`;
 </#if>
 <#nested>

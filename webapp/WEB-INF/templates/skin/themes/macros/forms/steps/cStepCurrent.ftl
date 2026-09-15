@@ -59,6 +59,7 @@ Snippet:
 <#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass><#if !showTitle> step-no-title</#if></#local>
+<#local stepClass = stepClass?is_markup_output?then(stepClass?markup_string, stepClass) />
 <@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params >
 <#if showTitle>
 <@cBlock class='step-title'>
@@ -169,6 +170,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	}
 	<#assign actionStep><#if actionNextStep?has_content>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
+<#assign actionStep = actionStep?is_markup_output?then(actionStep?markup_string, actionStep) />
 	const formValidate = document.getElementById('${formId!}')<#if actionStep?? && actionStep?has_content>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
 	<#if step?number gt 1 >
 	<#if actionStep?? && actionStep?has_content>
@@ -183,6 +185,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				<#assign invalidLabel>#i18n{portal.theme.msgMandatory}</#assign>
+<#assign invalidLabel = invalidLabel?is_markup_output?then(invalidLabel?markup_string, invalidLabel) />
 				pInvalid.innerHTML = `${invalidLabel}`;
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);

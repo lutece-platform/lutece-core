@@ -27,7 +27,8 @@ Snippet:
 -->
 <#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local charcounterTitle><#if title=''>#i18n{portal.util.labelCharCount}<#else>${title}</#if></#local>
+<#local charcounterTitle><#if !title?has_content>#i18n{portal.util.labelCharCount}<#else>${title}</#if></#local>
+<#local charcounterTitle = charcounterTitle?is_markup_output?then(charcounterTitle?markup_string, charcounterTitle) />
 // Limite la saisie du Titre a n chars
 const counterElements = document.querySelectorAll( '${selector}' );
 let maxChar = ${maxChars}, titleCount = '${title}',	n = 1

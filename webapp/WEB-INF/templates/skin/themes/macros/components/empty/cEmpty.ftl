@@ -41,8 +41,8 @@ Snippet:
 <#macro cEmpty title='' subtitle='default' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="lutece-ds-empty<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if>>
-<#if img=''><div class="icon<#if iconClass?has_content> ${iconClass}</#if>"><@cIcon name='${iconName}' params='style="font-size:48px"' /></div><#else>	<div class="illustration<#if imgClass?has_content> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div></#if>
-<p class="title"><#if title=''>#i18n{portal.util.message.emptyTitle} <#else>${title}</#if></p>
+<#if !img?has_content><div class="icon<#if iconClass?has_content> ${iconClass}</#if>"><@cIcon name='${iconName}' params='style="font-size:48px"' /></div><#else>	<div class="illustration<#if imgClass?has_content> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div></#if>
+<p class="title"><#if !title?has_content>#i18n{portal.util.message.emptyTitle} <#else>${title}</#if></p>
 <#if subtitle !='default'><p class="text">${subtitle}</p><#else><p class="text">#i18n{portal.util.message.emptySubTitle}</p></#if>
 <#nested>
 <#if actionTitle?has_content>

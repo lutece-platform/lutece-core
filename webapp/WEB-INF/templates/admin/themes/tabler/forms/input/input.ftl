@@ -70,6 +70,7 @@ Snippet:
 <#local datalist = datalist?is_markup_output?then(datalist?markup_string, datalist) />
 <@deprecatedWarning args=deprecated />
 <#local id><#if id?has_content>${id}<#else>${name}</#if></#local>
+<#local id = id?is_markup_output?then(id?markup_string, id) />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if type='textarea'>
 	<textarea name="${name}" class="form-control<#if size?has_content> form-control-${size}</#if><#if class?has_content> ${class}</#if> <#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if helpKey?has_content && id?has_content> aria-describedby="help_${id}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if><#if pattern?has_content>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor?has_content && helpKey?? && helpKey?has_content> aria-describedby="${labelFor}_help"</#if>><#if value?has_content >${value}<#else><#nested></#if></textarea>
@@ -130,7 +131,7 @@ Snippet:
 		</#if>
 		<@getTime idField='${id}' language=language format='H:i' showFormat='H:i' minTime=minTime maxTime=maxTime time_24hr=time_24hr defaultDate=defaultDate dateOptions=dateParams />
 	</#if>
-	<#if id=''><@alert class='danger'>${i18n("portal.util.datepicker.id.mandatory")}</@alert></#if>
+	<#if !id?has_content><@alert class='danger'>${i18n("portal.util.datepicker.id.mandatory")}</@alert></#if>
 <#elseif type='html5date' || type='html5datetime' || type='html5time' || type='html5month'>
 	<input class="form-control<#if size?has_content> form-control-${size}</#if><#if type='color'> input-color</#if><#if class?has_content> ${class}</#if>"<#if helpKey?has_content && id?has_content> aria-describedby="help_${id}"</#if> type="<#if type='html5date'>date<#elseif type='html5datetime'>datetime-local<#elseif type='html5time'>time<#elseif type='html5month'>month<#else>unsupported date type</#if>" name="${name}" value="${value}"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor?has_content && helpkey?? && helpKey?has_content> aria-describedby="${labelFor}_help"</#if>>
 <#elseif type='hidden'>

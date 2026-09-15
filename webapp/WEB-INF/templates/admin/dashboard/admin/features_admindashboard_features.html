@@ -17,6 +17,7 @@
 			<#assign title>#i18n{${groupDisplay.feature_group.labelKey}} <@link name='${groupDisplay.feature_group.id?if_exists}'> </@link></#assign>
 		<#else>
 			<#assign title>#i18n{portal.features.nogroup.title}</#assign>
+<#assign title = title?is_markup_output?then(title?markup_string, title) />
 		</#if>
 		<#if groupDisplay.feature_list?has_content>
 			<#assign boxTools=true>

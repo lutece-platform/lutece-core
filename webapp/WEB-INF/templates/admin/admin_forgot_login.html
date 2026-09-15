@@ -1,4 +1,5 @@
 <#assign boxTitle>#i18n{portal.admin.admin_forgot_login.boxTitle}</#assign>
+<#assign boxTitle = boxTitle?is_markup_output?then(boxTitle?markup_string, boxTitle) />
 <@adminLoginPage title=boxTitle site_name=site_name>
 <@tform name='forgot_login' id='forgot_login' action='jsp/admin/DoAdminForgotLogin.jsp'>
 	<#list params_list as param><@input type='hidden' name='${param.code}' value='${param.name}' /></#list>

@@ -70,10 +70,15 @@ Snippet:
 <#if title?has_content && url?has_content>
 <#local r=random() />
 <#local tileLevel><#if level=1>2<#else>${level!}</#if></#local>
+<#local tileLevel = tileLevel?is_markup_output?then(tileLevel?markup_string, tileLevel) />
 <#local tileLinkClass>tile-link<#if disabled> disabled</#if></#local>
+<#local tileLinkClass = tileLinkClass?is_markup_output?then(tileLinkClass?markup_string, tileLinkClass) />
 <#local tileClass>tile<#if class?has_content> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
+<#local tileClass = tileClass?is_markup_output?then(tileClass?markup_string, tileClass) />
 <#local tileDownload><#if download> download</#if></#local>
+<#local tileDownload = tileDownload?is_markup_output?then(tileDownload?markup_string, tileDownload) />
 <#local tileTarget><#if download><#else>${target!}</#if></#local>
+<#local tileTarget = tileTarget?is_markup_output?then(tileTarget?markup_string, tileTarget) />
 <#local tileparams><#if params?has_content>${params}</#if><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
 <@cBlock class=tileClass id=id params=tileparams>
 	<#if imgName?has_content>

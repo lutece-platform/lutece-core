@@ -49,6 +49,7 @@ Snippet:
 <#macro cTextArea name class='form-control' id='' placeholder='' required=false html5Required=false disabled=false readonly=false title='' autocomplete='' maxlength=0 helpMsg='' rows=0 errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign idMsg><#if id?has_content>${id}<#else>${name!}</#if></#assign>
+<#assign idMsg = idMsg?is_markup_output?then(idMsg?markup_string, idMsg) />
 <textarea class="<#if class?has_content> ${class!}</#if><#if errorMsg?has_content> is-invalid</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" <#if placeholder?has_content> placeholder="${placeholder!}"</#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength?number gt 0> maxlength="${maxlength!}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params?has_content> ${params}</#if><#if rows?number!=0>rows="${rows}"</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if errorMsg?has_content> is-invalid aria-invalid="true" aria-describedby="error_<#if id?has_content>${id!}<#else>${name}</#if>"<#elseif helpMsg?has_content> aria-describedby="help_<#if id?has_content>${id!}<#else>${name}</#if>"</#if>>
 <#nested>
 </textarea>

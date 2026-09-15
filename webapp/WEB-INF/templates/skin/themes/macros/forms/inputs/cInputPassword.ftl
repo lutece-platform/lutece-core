@@ -50,8 +50,11 @@ Password with confirmation field sync:
 <#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
+<#local passId = passId?is_markup_output?then(passId?markup_string, passId) />
 <#local passLabel><#if pmLabel?has_content>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
+<#local passLabel = passLabel?is_markup_output?then(passLabel?markup_string, passLabel) />
 <#local passClass>form-control pwd<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if></#local>
+<#local passClass = passClass?is_markup_output?then(passClass?markup_string, passClass) />
 <#if label?has_content><@cLabel label=label for=passId required=required class=labelClass /></#if>
 <#if helpMsg?has_content><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>

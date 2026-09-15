@@ -1,4 +1,5 @@
 <#assign imageHelpKey>#i18n{portal.style.modify_page_template.labelCurrentPicture}</#assign>
+<#assign imageHelpKey = imageHelpKey?is_markup_output?then(imageHelpKey?markup_string, imageHelpKey) />
 <@row>
     <@columns>
         <@box color='info'>

@@ -38,6 +38,7 @@ Snippet:
 <#macro cBtnGroup label buttonList={} class='' id='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-group<#if type='vertical'> btn-group-vertical</#if><#if class?has_content> ${class}</#if></#local>
+<#local btnClass = btnClass?is_markup_output?then(btnClass?markup_string, btnClass) />
 <@cSection type='div' class=btnClass id=id params='${params} role="group" aria-label="${label}"'>
 	<#if buttonList?has_content>
 		<#if type == 'vertical'>

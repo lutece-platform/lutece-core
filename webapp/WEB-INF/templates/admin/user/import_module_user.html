@@ -1,6 +1,7 @@
 <#assign boxtitle>
 #i18n{portal.users.import_module_user.searchBoxTitle}
 </#assign>
+<#assign boxtitle = boxtitle?is_markup_output?then(boxtitle?markup_string, boxtitle) />
 <@row>
     <@columns>
         <@box>
@@ -28,6 +29,7 @@
 		<#if import_user_list?has_content>
 		<@box>
 			<#assign boxtitle>#i18n{portal.users.import_module_user.resultBoxTitle}</#assign>
+<#assign boxtitle = boxtitle?is_markup_output?then(boxtitle?markup_string, boxtitle) />
 			<@boxHeader title=boxtitle />
 			<@boxBody>
 				<@table headBody=true>

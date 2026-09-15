@@ -34,9 +34,11 @@ Snippet:
 <#local tpl=.caller_template_name?keep_after("skin/") />
 <@cTpl tpl=tpl>
 <#if class?has_content>
-    <#local cClass>container<#if type?has_content>-${type}</#if> ${class}</#local> 
+    <#local cClass>container<#if type?has_content>-${type}</#if> ${class}</#local>
+<#local cClass = cClass?is_markup_output?then(cClass?markup_string, cClass) /> 
 <#else>
     <#local cClass>container<#if type?has_content>-fluid</#if></#local>
+<#local cClass = cClass?is_markup_output?then(cClass?markup_string, cClass) />
 </#if>
 <@cSection type='div' class=cClass id=id params=params>
 <#nested>

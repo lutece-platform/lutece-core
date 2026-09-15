@@ -85,7 +85,7 @@ ${btnDropdownContent!}
 </script>
 <#else>
 <div class="offcanvas offcanvas-${position} <#if size?has_content>w-${size}</#if><#if class?has_content> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> data-lutece-reload-on-close=<#if reloadOnClose>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
-    <div class="offcanvas-header border-bottom text-break <#if title=''>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
+    <div class="offcanvas-header border-bottom text-break <#if !title?has_content>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
         <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="Fermer">
             <i class="ti ti-x fs-5"></i>
         </button>

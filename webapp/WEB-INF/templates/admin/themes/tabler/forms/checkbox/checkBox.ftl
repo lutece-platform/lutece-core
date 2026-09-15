@@ -37,7 +37,7 @@ Snippet:
 -->
 <#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
-<#if id = ''><#local id = name /></#if>
+<#if !id?has_content><#local id = name /></#if>
 <#if orientation!='switch'>
 	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass?has_content> ${wrapperClass!}</#if>"<#if params?has_content> ${params}</#if>></#if>
 	<input type="checkbox" class="custom-control-input<#if class?has_content> ${class}</#if>" id="${id}" name="${name}"<#if value?has_content> value="${value}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
@@ -49,6 +49,7 @@ Snippet:
 	<label class="form-check form-switch<#if wrapperClass?has_content> ${wrapperClass!}</#if>" for="${id}" <#if title?has_content> title="${title}"</#if><#if params?has_content> ${params}</#if>>
     	<input class="form-check-input<#if class?has_content> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params?has_content> ${params}</#if><#if mandatory> required</#if>>
    		<#assign nestedLabel><#nested></#assign>
+<#assign nestedLabel = nestedLabel?is_markup_output?then(nestedLabel?markup_string, nestedLabel) />
 		<#if labelKey?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${nestedLabel}</span></#if>
   </label>
 </#if>

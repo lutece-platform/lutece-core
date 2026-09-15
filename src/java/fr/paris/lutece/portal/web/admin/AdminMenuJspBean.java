@@ -84,6 +84,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
@@ -262,20 +263,20 @@ public class AdminMenuJspBean implements Serializable
             // Personnalized dashboards for the nColumnCount first zones
             for ( int i = 1; i <= nColumnCount; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, _dashboardService.getDashboardData( listDashboards, user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, HtmlMarkup.of( _dashboardService.getDashboardData( listDashboards, user, i, request ) ) );
             }
 
             // Default dashboards for the nColumnCount to nZoneMax zones
             for ( int i = nColumnCount + 1; i < nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, _dashboardService.getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, HtmlMarkup.of( _dashboardService.getDashboardData( user, i, request ) ) );
             }
         }
         else
         {
             for ( int i = 1; i < nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, _dashboardService.getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, HtmlMarkup.of( _dashboardService.getDashboardData( user, i, request ) ) );
             }
         }
     }
@@ -294,7 +295,7 @@ public class AdminMenuJspBean implements Serializable
      */
     private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request, int nDashboardZone )
     {
-        model.put( MARK_DASHBOARD_ZONE + nDashboardZone, _dashboardService.getDashboardData( user, nDashboardZone, request ) );
+        model.put( MARK_DASHBOARD_ZONE + nDashboardZone, HtmlMarkup.of( _dashboardService.getDashboardData( user, nDashboardZone, request ) ) );
     }
 
     /**

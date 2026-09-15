@@ -75,6 +75,7 @@ Snippet:
 <#local ariaRole='status' />
 </#if>
 <#local alertClass>alert alert-outline alert-${type}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
+<#local alertClass = alertClass?is_markup_output?then(alertClass?markup_string, alertClass) />
 <@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id!>
     <@cBlock class='alert-header'>
         <@cBlock class='alert-icon'><@cIcon name=alertIconName! type=iconType title=alertIconTitle! /></@cBlock>
@@ -86,6 +87,7 @@ Snippet:
         </#if>
     </@cBlock>
     <#local _nested><#nested /></#local>
+<#local _nested = _nested?is_markup_output?then(_nested?markup_string, _nested) />
     <#if _nested?? && _nested?has_content><@cBlock class='alert-content'>${_nested}</@cBlock></#if>
 </@cBlock>
 </#macro>
