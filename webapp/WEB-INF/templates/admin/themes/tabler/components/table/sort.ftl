@@ -37,8 +37,8 @@ Snippet:
 </#if>
 <#switch type>
 	<#case 'date'>
-		<#local sortLabels = ['#i18n{portal.util.sort.date.asc}','#i18n{portal.util.sort.date.desc}'] />
-		<#local sortIcons = ['sort-ascending','sort-descending'] />
+		<#local sortLabels = ['#i18n{portal.util.sort.date.desc}','#i18n{portal.util.sort.date.asc}'] />
+		<#local sortIcons = ['sort-descending','sort-ascending'] />
 		<#break>
 	<#case 'boolean'>
 		<#local sortLabels = ['#i18n{portal.util.sort.boolean.asc}','#i18n{portal.util.sort.boolean.desc}'] />
