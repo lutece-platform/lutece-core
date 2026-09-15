@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			invalid.classList.add('is-invalid')
 			invalid.setAttribute('aria-invalid', 'true');
 			const isRequired = invalid.getAttributeNode('required'); 
-			if( isRequired?has_content ){
+			if( isRequired !='' ){
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				pInvalid.setAttribute( 'role', 'alert' );

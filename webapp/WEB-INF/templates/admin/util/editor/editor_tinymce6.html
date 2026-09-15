@@ -55,7 +55,7 @@ const customEditorConfig = {<#if config?size gt 0><#list config as opt, val>${op
 
 let tinyToolbar = ''
 let tinyQuickbarMenu = ''
-if( luteceToolbar?has_content ){
+if( luteceToolbar != '' ){
   tinyToolbar = editorToolbar.replace( 'lutece', luteceToolbar )
   tinyQuickbarMenu = editorQuickbarMenu.replace( 'lutece', luteceToolbar )
 } else {

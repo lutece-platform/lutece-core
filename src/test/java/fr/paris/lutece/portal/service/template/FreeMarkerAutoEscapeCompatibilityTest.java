@@ -249,6 +249,154 @@ public class FreeMarkerAutoEscapeCompatibilityTest
         }
     }
 
+    @Test
+    @DisplayName( "No FreeMarker built-in leaked into JavaScript or plain text" )
+    public void noBuiltInLeakedOutsideADirective( ) throws IOException
+    {
+        List<String> listFailures = new ArrayList<>( );
+
+        for ( Path path : listCoreTemplates( ) )
+        {
+            String strSource = new String( Files.readAllBytes( path ), StandardCharsets.UTF_8 );
+            List<int [ ]> listSpans = freeMarkerSpans( strSource );
+
+            int nIndex = strSource.indexOf( BUILTIN_MARKER );
+
+            while ( nIndex >= 0 )
+            {
+                if ( !isInsideFreeMarker( nIndex, listSpans ) )
+                {
+                    listFailures.add( path + " line " + lineOf( strSource, nIndex ) + " : \"" + BUILTIN_MARKER
+                            + "\" sits in JavaScript or plain text, where FreeMarker never evaluates it — "
+                            + "a mass rewrite of \"x != ''\" most likely caught a JavaScript comparison" );
+                }
+
+                nIndex = strSource.indexOf( BUILTIN_MARKER, nIndex + 1 );
+            }
+        }
+
+        if ( !listFailures.isEmpty( ) )
+        {
+            fail( listFailures.size( ) + " leaked built-in(s):\n  " + String.join( "\n  ", listFailures ) );
+        }
+    }
+
+    /** The built-in the migration introduces in bulk, and therefore the one that can be misplaced in bulk. */
+    private static final String BUILTIN_MARKER = "?has_content";
+
+    /**
+     * Returns the character ranges covered by a FreeMarker construct: a <code>&lt;#...&gt;</code> directive, a
+     * <code>&lt;@...&gt;</code> macro call, or a <code>${...}</code> interpolation. Quotes and nested braces inside a
+     * tag are honoured so that an HTML attribute quote does not close the span.
+     */
+    private static List<int [ ]> freeMarkerSpans( String strSource )
+    {
+        List<int [ ]> listSpans = new ArrayList<>( );
+        int nLength = strSource.length( );
+        int i = 0;
+
+        while ( i < nLength )
+        {
+            char c = strSource.charAt( i );
+
+            if ( c == '<' && i + 1 < nLength && ( strSource.charAt( i + 1 ) == '#' || strSource.charAt( i + 1 ) == '@' ) )
+            {
+                int j = i + 2;
+                char cQuote = 0;
+                int nDepth = 0;
+
+                while ( j < nLength )
+                {
+                    char d = strSource.charAt( j );
+
+                    if ( cQuote != 0 )
+                    {
+                        if ( d == cQuote )
+                        {
+                            cQuote = 0;
+                        }
+                    }
+                    else
+                        if ( d == '\'' || d == '"' )
+                        {
+                            cQuote = d;
+                        }
+                        else
+                            if ( d == '{' )
+                            {
+                                nDepth++;
+                            }
+                            else
+                                if ( d == '}' )
+                                {
+                                    nDepth--;
+                                }
+                                else
+                                    if ( d == '>' && nDepth <= 0 )
+                                    {
+                                        break;
+                                    }
+
+                    j++;
+                }
+
+                listSpans.add( new int [ ] {
+                        i, Math.min( j, nLength - 1 )
+                } );
+                i = j + 1;
+            }
+            else
+                if ( c == '$' && i + 1 < nLength && strSource.charAt( i + 1 ) == '{' )
+                {
+                    int j = strSource.indexOf( '}', i + 2 );
+                    int nEnd = j < 0 ? nLength - 1 : j;
+                    listSpans.add( new int [ ] {
+                            i, nEnd
+                    } );
+                    i = nEnd + 1;
+                }
+                else
+                {
+                    i++;
+                }
+        }
+
+        return listSpans;
+    }
+
+    private static boolean isInsideFreeMarker( int nPosition, List<int [ ]> listSpans )
+    {
+        for ( int [ ] span : listSpans )
+        {
+            if ( span [0] <= nPosition && nPosition <= span [1] )
+            {
+                return true;
+            }
+
+            if ( span [0] > nPosition )
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    private static int lineOf( String strSource, int nPosition )
+    {
+        int nLine = 1;
+
+        for ( int i = 0; i < nPosition; i++ )
+        {
+            if ( strSource.charAt( i ) == '\n' )
+            {
+                nLine++;
+            }
+        }
+
+        return nLine;
+    }
+
     private static List<Path> listCoreTemplates( ) throws IOException
     {
         Path root = Paths.get( TEMPLATES_ROOT );

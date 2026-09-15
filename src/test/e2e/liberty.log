@@ -1,0 +1,946 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< fr.paris.lutece:lutece-core >---------------------
+[INFO] Building Lutece 8.0.2-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] ----------------------------[ lutece-core ]-----------------------------
+[INFO] 
+[INFO] --- liberty:3.12.3-SNAPSHOT:dev (default-cli) @ lutece-core ---
+[INFO] The recompileDependencies parameter is set to "false". On a file change only the affected classes will be recompiled.
+[INFO] Running maven-resources-plugin:resources
+[INFO] Copying 8 resources from src/main/resources to target/classes
+[INFO] Copying 48 resources from src/java to target/classes
+[INFO] Running maven-compiler-plugin:compile on /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/pom.xml
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] Running maven-resources-plugin:testResources
+[INFO] Not copying test resources
+[INFO] Running maven-compiler-plugin:testCompile on /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/pom.xml
+[INFO] Not compiling test sources
+[INFO] Running liberty:create
+[INFO] CWWKM2102I: Utilisation de artifact based assembly archive : io.openliberty:openliberty-kernel:null:26.0.0.9:zip.
+[INFO] CWWKM2102I: Utilisation de installDirectory : /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp.
+[INFO] CWWKM2102I: Utilisation de serverName : luteceServer.
+[INFO] CWWKM2102I: Utilisation de serverDirectory : /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/usr/servers/luteceServer.
+[INFO] CWWKM2112I: Réutilisation de lassemblage précédemment installé.
+[INFO] Copying 8 files to /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/usr/servers/luteceServer
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur server.xml à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/server.xml.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur jvm.options à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/jvm.options.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur bootstrap.properties à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/bootstrap.properties.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur server.env à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/server.env.
+[INFO] CWWKM2185I: The liberty-maven-plugin configuration parameter "appsDirectory" value defaults to "apps".
+[INFO] Running liberty:install-feature
+[INFO] Feature signature verify option: enforce
+[INFO] Parsing the server file for features and includes: luteceServer/configDropins/defaults/liberty-plugin-variable-config.xml
+[INFO] Parsing the server file for features and includes: luteceServer/server.xml
+[INFO] plugin listed esa: []
+
+[INFO] Resolving features: [mpconfig-3.1, jsonb-3.0, jndi-1.0, jdbc-4.2, xmlbinding-4.0, pages-3.1, mptelemetry-2.0, transportsecurity-1.0, concurrent-3.0, mphealth-4.0, restfulws-3.1, jsonp-2.1, beanvalidation-3.0, cdi-4.0, servlet-6.0]
+[INFO] The features are already installed, so no action is needed.
+[INFO] Running liberty:deploy
+[INFO] Copying 8 files to /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/usr/servers/luteceServer
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur server.xml à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/server.xml.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur jvm.options à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/jvm.options.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur bootstrap.properties à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/bootstrap.properties.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur server.env à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/server.env.
+[INFO] CWWKM2185I: The liberty-maven-plugin configuration parameter "appsDirectory" value defaults to "apps".
+[INFO] Application configuration is found in server.xml : lutece-core-8.0.2-SNAPSHOT.war
+[INFO] CWWKM2160I: Installation de l'application lutece-core-8.0.2-SNAPSHOT.war.xml.
+[INFO] Running lutece-maven-plugin:exploded-lite
+[INFO]  __        __    __   ________  ________  ________  ________
+[INFO]    |         |     |          |         |         |         |
+[INFO]    |         |     |       |      |__       |         |__    
+[INFO]    |         |     |       |         |      |            |   
+[INFO]    |____     |___  |       |      |_____    |_____    |_____ 
+[INFO]         |          |       |            |         |         |
+[INFO]               LUTECE Maven Plugin - Version : 7.2.0-SNAPSHOT
+[INFO] Updating webapp in /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/lutece-core-8.0.2-SNAPSHOT...
+[INFO] Copying 1 files
+[INFO] Nothing to update - all files are up to date
+[INFO] Nothing to update - all files are up to date
+[INFO] Local configuration directory is /home/yahiaoui/lutece/conf/lutece-core
+[INFO] Copying SQL files into WEB-INF/classes/sql/
+[WARNING] The following upgrade scripts do not follow the Lutece SQL naming convention. They have not been copied to WEB-INF/classes/sql/ and will NOT be run by Liquibase :
+[WARNING]  - sql/upgrade/update_db_lutece_core-7.1.x-8.0.0.sql
+[INFO] Generating file /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/lutece-core-8.0.2-SNAPSHOT/WEB-INF/classes/META-INF/microprofile-config.properties
+[WARNING] Default local configuration directory ${localConfDirectory} does not exist
+[INFO] Copying 8 files to /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/usr/servers/luteceServer
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur server.xml à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/server.xml.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur jvm.options à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/jvm.options.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur bootstrap.properties à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/bootstrap.properties.
+[INFO] CWWKM2144I: Mettez à jour le fichier de configuration du serveur server.env à partir de /home/yahiaoui/lutece/openlibertyConfigFirectory/main/liberty/config/server.env.
+[INFO] CWWKM2185I: The liberty-maven-plugin configuration parameter "appsDirectory" value defaults to "apps".
+[INFO] CWWKM2001I: Invoke command est [/home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/bin/server, debug, luteceServer].
+[INFO] 
+[INFO] OpenJDK 64-Bit Server VM warning: Options -Xverify:none and -noverify were deprecated in JDK 13 and will likely be removed in a future release.
+[INFO] Listening for transport dt_socket at address: 7777
+[INFO] Lancement de luteceServer (Open Liberty 26.0.0.9/wlp-1.0.117.cl260920260824-0859) sur OpenJDK 64-Bit Server VM, version 17.0.7+7 (fr_FR)
+[INFO] [AUDIT   ] CWWKE0001I: Le serveur luteceServer a été lancé.
+[INFO] [AUDIT   ] CWWKG0093A: Traitement de la ressource de suppression de configuration : /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/usr/servers/luteceServer/configDropins/defaults/liberty-plugin-variable-config.xml
+[INFO] CWWKM2010I: Recherche de CWWKF0011I: dans /home/yahiaoui/lutece/workspace-plugins/tools-git-scripts/tools-git-scripts/lutece-core-3/target/liberty/wlp/usr/servers/luteceServer/logs/messages.log. Cette recherche arrive à expiration après 90 secondes.
+[INFO] [AUDIT   ] CWWKZ0058I: Recherche d'applications dans dropins.
+[INFO] OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] [AUDIT   ] CWWKT0016I: Application Web disponible, (default_host) : http://10.5.11.129:9080/health/
+[INFO] [AUDIT   ] CWWKT0016I: Application Web disponible, (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] 2026-09-15 12:56:00  WARN 986019 --- [ Executor-thread-3] lutece.application  : Absolute Path not found with the relative path : /WEB-INF/conf/override/
+[INFO] 2026-09-15 12:56:02  INFO 986019 --- [ Executor-thread-3] lutece.init         : 
+[INFO]  _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ 
+[INFO] | |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \ \ \ / / | __| | _ \
+[INFO] | |__  | |_| |   | |   | _|  | (__  | _|      \__ \ | _|  |   /  \ V /  | _|  |   /
+[INFO] |____|  \___/    |_|   |___|  \___| |___|     |___/ |___| |_|_\   \_/   |___| |_|_\  started successfully
+[INFO]    Front office http(s)://localhost:9080/lutece-core/jsp/site/Portal.jsp
+[INFO]    Back office  http(s)://localhost:9080/lutece-core/jsp/admin/AdminMenu.jsp
+[INFO]    Lutece https port: [9443]
+[INFO]    Lutece application services started in : 2.272 secondes 
+[INFO] [AUDIT   ] CWWKZ0001I: Application lutece démarrée en 5,168 secondes.
+[INFO] [AUDIT   ] CWWKF0012I: Le serveur a installé les fonctions suivantes : [beanValidation-3.0, cdi-4.0, concurrent-3.0, expressionLanguage-5.0, jdbc-4.2, jndi-1.0, json-1.0, jsonb-3.0, jsonp-2.1, monitor-1.0, mpConfig-3.1, mpHealth-4.0, mpTelemetry-2.0, pages-3.1, restfulWS-3.1, restfulWSClient-3.1, servlet-6.0, ssl-1.0, transportSecurity-1.0, xmlBinding-4.0].
+[INFO] [AUDIT   ] CWWKF0011I: Le serveur luteceServer est prêt pour une planète plus intelligente. Il a démarré en 6,675 secondes.
+[INFO] [AUDIT   ] CWWKT0017I: Application Web supprimée (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] [AUDIT   ] CWWKZ0009I: L'application lutece s'est arrêtée correctement.
+[INFO] CWWKM2015I: Le numéro correspondant est 1 à la ligne [15/09/2026 12:56:02:284 CEST] 00000024 com.ibm.ws.kernel.feature.internal.FeatureManager            A CWWKF0011I: Le serveur luteceServer est prêt pour une planète plus intelligente. Il a démarré en 6,675 secondes..
+[INFO] Recompile skipped for lutece-core since earlier compilation is successful
+[INFO] [AUDIT   ] CWWKT0016I: Application Web disponible, (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] 2026-09-15 12:56:05  WARN 986019 --- [ Executor-thread-6] lutece.application  : Absolute Path not found with the relative path : /WEB-INF/conf/override/
+[INFO] 2026-09-15 12:56:05  INFO 986019 --- [ Executor-thread-6] lutece.init         : 
+[INFO]  _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ 
+[INFO] | |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \ \ \ / / | __| | _ \
+[INFO] | |__  | |_| |   | |   | _|  | (__  | _|      \__ \ | _|  |   /  \ V /  | _|  |   /
+[INFO] |____|  \___/    |_|   |___|  \___| |___|     |___/ |___| |_|_\   \_/   |___| |_|_\  started successfully
+[INFO]    Front office http(s)://localhost:9080/lutece-core/jsp/site/Portal.jsp
+[INFO]    Back office  http(s)://localhost:9080/lutece-core/jsp/admin/AdminMenu.jsp
+[INFO]    Lutece https port: [9443]
+[INFO]    Lutece application services started in : 1.142 secondes 
+[INFO] [AUDIT   ] CWWKZ0003I: Application lutece mise à jour en 3,318 secondes.
+[INFO] [ERREUR  ] Error executing FreeMarker template
+[INFO] For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 2026-09-15 12:56:10 ERROR 986019 --- [Executor-thread-13] lutece.application  : For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:186)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:171)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalService.getAdminCssLinks(PortalService.java:594)
+[INFO] 	at com.ibm._jsp._AdminHeaderSessionLess._jspService(_AdminHeaderSessionLess.java:193)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:63)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at com.ibm._jsp._AdminLogin._jspService(_AdminLogin.java:152)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterAdmin.doFilter(SecurityTokenFilterAdmin.java:98)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.AdminMultipartFilter.doFilter(AdminMultipartFilter.java:68)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.user.AuthenticationFilter.doFilter(AuthenticationFilter.java:177)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 
+[INFO] .java:1069)
+[INFO] 	at com.ibm.ws.webcontainer.filter.WebAppFilterManager.invokeFilters(WebAppFilterManager.java:1260)
+[INFO] 	at [internal classes]
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[INFO] 	at java.base/java.lang.Thread.run(Thread.java:833)
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 95 more
+[INFO] [ERREUR  ] Error executing FreeMarker template
+[INFO] For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 2026-09-15 12:56:10 ERROR 986019 --- [Executor-thread-13] lutece.application  : fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] jakarta.el.ELException: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:164)
+[INFO] 	at [internal classes]
+[INFO] 	at org.jboss.weld.module.web.el.WeldValueExpression.getValue(WeldValueExpression.java:50)
+[INFO] 	at org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate(PageContextImpl.java:811)
+[INFO] 	at com.ibm._jsp._AdminLogin._jspService(_AdminLogin.java:154)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterAdmin.doFilter(SecurityTokenFilterAdmin.java:98)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.AdminMultipartFilter.doFilter(AdminMultipartFilter.java:68)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.user.AuthenticationFilter.doFilter(AuthenticationFilter.java:177)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:63
+[INFO] 5)
+[INFO] 	at java.base/java.lang.Thread.run(Thread.java:833)
+[INFO] Caused by: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.web.user.AdminLoginJspBean.getLogin(AdminLoginJspBean.java:251)
+[INFO] 	at jdk.internal.reflect.GeneratedMethodAccessor999.invoke(Unknown Source)
+[INFO] 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:158)
+[INFO] 	... 74 more
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 82 more
+[INFO] [ERREUR  ] Error executing FreeMarker template
+[INFO] For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] [ERREUR  ] SRVE0777E: Exception émise par la classe d'application 'fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate:418'
+[INFO] fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.buildMenuContentTemplate(PortalMenuService.java:207)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.buildMenuContent(PortalMenuService.java:171)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.getMenuContent(PortalMenuService.java:145)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService$Proxy$_$$_WeldClientProxy.getMenuContent(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.web.includes.MainMenuInclude.fillTemplate(MainMenuInclude.java:83)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.getPageContent(PageService.java:511)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.buildPageContent(PageService.java:426)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.getPage(PageService.java:227)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService$Proxy$_$$_WeldClientProxy.getPage(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalService.getDefaultPage(PortalService.java:197)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getContent(PortalJspBean.java:215)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getContent(PortalJspBean.java:156)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean$Proxy$_$$_WeldClientProxy.getContent(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.web.PortalServlet.doPost(PortalServlet.java:87)
+[INFO] 	at fr.paris.lutece.portal.web.PortalServlet.doGet(PortalServlet.java:132)
+[INFO] 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterSite.doFilter(SecurityTokenFilterSite.java:67)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 45 more
+[INFO] 
+[INFO] [ERREUR  ] SRVE0315E: Une exception s'est produite : java.lang.Throwable: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at com.ibm.ws.webcontainer.webapp.WebApp.handleRequest(WebApp.java:5164)
+[INFO] 	at [internal classes]
+[INFO] Caused by: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.buildMenuContentTemplate(PortalMenuService.java:207)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.buildMenuContent(PortalMenuService.java:171)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.getMenuContent(PortalMenuService.java:145)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService$Proxy$_$$_WeldClientProxy.getMenuContent(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.web.includes.MainMenuInclude.fillTemplate(MainMenuInclude.java:83)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.getPageContent(PageService.java:511)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.buildPageContent(PageService.java:426)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.getPage(PageService.java:227)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService$Proxy$_$$_WeldClientProxy.getPage(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalService.getDefaultPage(PortalService.java:197)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getContent(PortalJspBean.java:215)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getContent(PortalJspBean.java:156)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean$Proxy$_$$_WeldClientProxy.getContent(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.web.PortalServlet.doPost(PortalServlet.java:87)
+[INFO] 	at fr.paris.lutece.portal.web.PortalServlet.doGet(PortalServlet.java:132)
+[INFO] 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterSite.doFilter(SecurityTokenFilterSite.java:67)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	... 1 more
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 45 more
+[INFO] 
+[INFO] 2026-09-15 12:56:11 ERROR 986019 --- [Executor-thread-15] lutece.application  : Error 500 : fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For &quot;#include&quot; template name: Expected a string or something automatically convertible to string &#40;number, date or boolean&#41;, but this has evaluated to a markup_output &#40;wrapper: f.c.TemplateHTMLOutputModel&#41;:
+[INFO] ==&gt; &quot;${commonsGlobalThemeCode}/_theme.ftl&quot;  [in template &quot;skin/themes/global_theme_commons.ftl&quot; at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace &#40;&quot;~&quot; means nesting-related&#41;:
+[INFO] 	- Failed at: #include &quot;${commonsGlobalThemeCode}/_...  [in template &quot;skin/themes/global_theme_commons.ftl&quot; at line 41, column 1]
+[INFO] ----
+[INFO] com.ibm.ws.webcontainer.webapp.WebAppErrorReport: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For &quot;#include&quot; template name: Expected a string or something automatically convertible to string &#40;number, date or boolean&#41;, but this has evaluated to a markup_output &#40;wrapper: f.c.TemplateHTMLOutputModel&#41;:
+[INFO] ==&gt; &quot;${commonsGlobalThemeCode}/_theme.ftl&quot;  [in template &quot;skin/themes/global_theme_commons.ftl&quot; at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace &#40;&quot;~&quot; means nesting-related&#41;:
+[INFO] 	- Failed at: #include &quot;${commonsGlobalThemeCode}/_...  [in template &quot;skin/themes/global_theme_commons.ftl&quot; at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.buildMenuContentTemplate(PortalMenuService.java:207)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.buildMenuContent(PortalMenuService.java:171)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService.getMenuContent(PortalMenuService.java:145)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalMenuService$Proxy$_$$_WeldClientProxy.getMenuContent(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.web.includes.MainMenuInclude.fillTemplate(MainMenuInclude.java:83)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.getPageContent(PageService.java:511)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.buildPageContent(PageService.java:426)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService.getPage(PageService.java:227)
+[INFO] 	at fr.paris.lutece.portal.service.page.PageService$Proxy$_$$_WeldClientProxy.getPage(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalService.getDefaultPage(PortalService.java:197)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getContent(PortalJspBean.java:215)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getContent(PortalJspBean.java:156)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean$Proxy$_$$_WeldClientProxy.getContent(Unknown Source)
+[INFO] 	at fr.paris.lutece.portal.web.PortalServlet.doPost(PortalServlet.java:87)
+[INFO] 	at fr.paris.lutece.portal.web.PortalServlet.doGet(PortalServlet.java:132)
+[INFO] 	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:527)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterSite.doFilter(SecurityTokenFilterSite.java:67)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at com.ibm.ws.tcpchannel.internal.NewConnectionI
+[INFO] nitialReadCallback.sendToDiscriminators(NewConnectionInitialReadCallback.java:169)
+[INFO] 	at com.ibm.ws.tcpchannel.internal.NewConnectionInitialReadCallback.complete(NewConnectionInitialReadCallback.java:77)
+[INFO] 	at [internal classes]
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[INFO] 	at java.base/java.lang.Thread.run(Thread.java:833)
+[INFO] Caused by: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	... 80 more
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 79 more
+[INFO] [ERREUR  ] Error executing FreeMarker template
+[INFO] For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] [ERREUR  ] SRVE0777E: Exception émise par la classe d'application 'jakarta.el.BeanELResolver.invoke:164'
+[INFO] jakarta.el.ELException: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:164)
+[INFO] 	at [internal classes]
+[INFO] 	at org.jboss.weld.module.web.el.WeldValueExpression.getValue(WeldValueExpression.java:50)
+[INFO] 	at org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate(PageContextImpl.java:811)
+[INFO] 	at [internal classes]
+[INFO] 	at com.ibm._jsp._Error500._jspService(_Error500.java:161)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] Caused by: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getError500Page(PortalJspBean.java:404)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getError500Page(PortalJspBean.java:385)
+[INFO] 	at jdk.internal.reflect.GeneratedMethodAccessor1010.invoke(Unknown Source)
+[INFO] 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:158)
+[INFO] 	... 10 more
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 19 more
+[INFO] 
+[INFO] [ERREUR  ] Exception de page d'erreur: 
+[INFO]                                                                                                                lutece-core-8.0.2-SNAPSHOT
+[INFO]                                                                                                                /lutece-core
+[INFO]                                                                                                                Exception de page d'erreur
+[INFO]                                                                                                                com.ibm.ws.webcontainer.webapp.WebAppErrorReport: jakarta.el.ELException: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For &quot;#include&quot; template name: Expected a string or something automatically convertible to string &#40;number, date or boolean&#41;, but this has evaluated to a markup_output &#40;wrapper: f.c.TemplateHTMLOutputModel&#41;:
+[INFO] ==&gt; &quot;${commonsGlobalThemeCode}/_theme.ftl&quot;  [in template &quot;skin/themes/global_theme_commons.ftl&quot; at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace &#40;&quot;~&quot; means nesting-related&#41;:
+[INFO] 	- Failed at: #include &quot;${commonsGlobalThemeCode}/_...  [in template &quot;skin/themes/global_theme_commons.ftl&quot; at line 41, column 1]
+[INFO] ----
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:164)
+[INFO] 	at [internal classes]
+[INFO] 	at org.jboss.weld.module.web.el.WeldValueExpression.getValue(WeldValueExpression.java:50)
+[INFO] 	at org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate(PageContextImpl.java:811)
+[INFO] 	at [internal classes]
+[INFO] 	at com.ibm._jsp._Error500._jspService(_Error500.java:161)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] Caused by: jakarta.el.ELException: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	... 12 more
+[INFO] Caused by: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getError500Page(PortalJspBean.java:404)
+[INFO] 	at fr.paris.lutece.portal.web.PortalJspBean.getError500Page(PortalJspBean.java:385)
+[INFO] 	at jdk.internal.reflect.GeneratedMethodAccessor1010.invoke(Unknown Source)
+[INFO] 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:158)
+[INFO] 	... 10 more
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 19 more
+[INFO] 
+[INFO] [ERREUR  ] Error executing FreeMarker template
+[INFO] For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 2026-09-15 12:56:11 ERROR 986019 --- [ Executor-thread-1] lutece.application  : For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:186)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:171)
+[INFO] 	at fr.paris.lutece.portal.service.portal.PortalService.getAdminCssLinks(PortalService.java:594)
+[INFO] 	at com.ibm._jsp._AdminHeaderSessionLess._jspService(_AdminHeaderSessionLess.java:193)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:63)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at com.ibm._jsp._AdminLogin._jspService(_AdminLogin.java:152)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterAdmin.doFilter(SecurityTokenFilterAdmin.java:98)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.AdminMultipartFilter.doFilter(AdminMultipartFilter.java:68)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.user.AuthenticationFilter.doFilter(AuthenticationFilter.java:177)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 
+[INFO] .java:1069)
+[INFO] 	at com.ibm.ws.webcontainer.filter.WebAppFilterManager.invokeFilters(WebAppFilterManager.java:1260)
+[INFO] 	at [internal classes]
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[INFO] 	at java.base/java.lang.Thread.run(Thread.java:833)
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 96 more
+[INFO] [ERREUR  ] Error executing FreeMarker template
+[INFO] For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 2026-09-15 12:56:11 ERROR 986019 --- [ Executor-thread-1] lutece.application  : fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] jakarta.el.ELException: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:164)
+[INFO] 	at [internal classes]
+[INFO] 	at org.jboss.weld.module.web.el.WeldValueExpression.getValue(WeldValueExpression.java:50)
+[INFO] 	at org.apache.jasper.runtime.PageContextImpl.proprietaryEvaluate(PageContextImpl.java:811)
+[INFO] 	at com.ibm._jsp._AdminLogin._jspService(_AdminLogin.java:154)
+[INFO] 	at com.ibm.ws.jsp.runtime.HttpJspBase.service(HttpJspBase.java:102)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.security.SecurityTokenFilterAdmin.doFilter(SecurityTokenFilterAdmin.java:98)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.MultipartCleanFilter.doFilter(MultipartCleanFilter.java:53)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.AdminMultipartFilter.doFilter(AdminMultipartFilter.java:68)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.xss.SafeRequestFilter.doFilter(SafeRequestFilter.java:116)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.MainFilter.doFilter(MainFilter.java:108)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.upload.DosGuardFilter.doFilter(DosGuardFilter.java:118)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.user.AuthenticationFilter.doFilter(AuthenticationFilter.java:177)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.web.encoding.EncodingFilter.doFilter(EncodingFilter.java:93)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter.doFilter(PageSecurityHeaderFilter.java:110)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at org.apache.logging.log4j.web.Log4jServletFilter.doFilter(Log4jServletFilter.java:70)
+[INFO] 	at com.ibm.ws.webcontainer.filter.FilterInstanceWrapper.doFilter(FilterInstanceWrapper.java:203)
+[INFO] 	at [internal classes]
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor
+[INFO] .runWorker(ThreadPoolExecutor.java:1136)
+[INFO] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+[INFO] 	at java.base/java.lang.Thread.run(Thread.java:833)
+[INFO] Caused by: fr.paris.lutece.util.html.exception.LuteceFreemarkerException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:418)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.loadTemplate(AbstractFreeMarkerTemplateService.java:194)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.loadTemplate(AppTemplateService.java:331)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:248)
+[INFO] 	at fr.paris.lutece.portal.service.template.AppTemplateService.getTemplate(AppTemplateService.java:224)
+[INFO] 	at fr.paris.lutece.portal.web.user.AdminLoginJspBean.getLogin(AdminLoginJspBean.java:251)
+[INFO] 	at jdk.internal.reflect.GeneratedMethodAccessor999.invoke(Unknown Source)
+[INFO] 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+[INFO] 	at jakarta.el.BeanELResolver.invoke(BeanELResolver.java:158)
+[INFO] 	... 75 more
+[INFO] Caused by: freemarker.core.NonStringException: For "#include" template name: Expected a string or something automatically convertible to string (number, date or boolean), but this has evaluated to a markup_output (wrapper: f.c.TemplateHTMLOutputModel):
+[INFO] ==> "${commonsGlobalThemeCode}/_theme.ftl"  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 11]
+[INFO] 
+[INFO] ----
+[INFO] FTL stack trace ("~" means nesting-related):
+[INFO] 	- Failed at: #include "${commonsGlobalThemeCode}/_...  [in template "skin/themes/global_theme_commons.ftl" at line 41, column 1]
+[INFO] ----
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:536)
+[INFO] 	at freemarker.core.EvalUtil.coerceModelToPlainText(EvalUtil.java:464)
+[INFO] 	at freemarker.core.Expression.evalAndCoerceToPlainText(Expression.java:117)
+[INFO] 	at freemarker.core.Include.accept(Include.java:122)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:344)
+[INFO] 	at freemarker.core.Environment.visit(Environment.java:350)
+[INFO] 	at freemarker.core.Environment.include(Environment.java:3139)
+[INFO] 	at freemarker.template.Configuration.doAutoIncludes(Configuration.java:3728)
+[INFO] 	at freemarker.template.Configuration.doAutoImportsAndIncludes(Configuration.java:3683)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Configurable.doAutoImportsAndIncludes(Configurable.java:3211)
+[INFO] 	at freemarker.core.Environment.process(Environment.java:322)
+[INFO] 	at freemarker.template.Template.process(Template.java:383)
+[INFO] 	at fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService.processTemplate(AbstractFreeMarkerTemplateService.java:413)
+[INFO] 	... 83 more
+[INFO] [AUDIT   ] CWWKT0017I: Application Web supprimée (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] [AUDIT   ] CWWKZ0009I: L'application lutece s'est arrêtée correctement.
+[INFO] [AUDIT   ] CWWKT0016I: Application Web disponible, (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] 2026-09-15 12:56:15  WARN 986019 --- [Executor-thread-22] lutece.application  : Absolute Path not found with the relative path : /WEB-INF/conf/override/
+[INFO] 2026-09-15 12:56:15  INFO 986019 --- [Executor-thread-22] lutece.init         : 
+[INFO]  _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ 
+[INFO] | |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \ \ \ / / | __| | _ \
+[INFO] | |__  | |_| |   | |   | _|  | (__  | _|      \__ \ | _|  |   /  \ V /  | _|  |   /
+[INFO] |____|  \___/    |_|   |___|  \___| |___|     |___/ |___| |_|_\   \_/   |___| |_|_\  started successfully
+[INFO]    Front office http(s)://localhost:9080/lutece-core/jsp/site/Portal.jsp
+[INFO]    Back office  http(s)://localhost:9080/lutece-core/jsp/admin/AdminMenu.jsp
+[INFO]    Lutece https port: [9443]
+[INFO]    Lutece application services started in : 0.991 secondes 
+[INFO] [AUDIT   ] CWWKZ0003I: Application lutece mise à jour en 2,907 secondes.
+[INFO] Recompiling with compiler options: [-nowarn, --release, 17, -encoding, UTF-8]
+[INFO] Tests compilation was successful.
+[INFO] [AUDIT   ] CWWKT0017I: Application Web supprimée (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] [AUDIT   ] CWWKZ0009I: L'application lutece s'est arrêtée correctement.
+[INFO] [AUDIT   ] CWWKT0016I: Application Web disponible, (default_host) : http://10.5.11.129:9080/lutece-core/
+[INFO] 2026-09-15 12:56:55  WARN 986019 --- [Executor-thread-32] lutece.application  : Absolute Path not found with the relative path : /WEB-INF/conf/override/
+[INFO] 2026-09-15 12:56:56  INFO 986019 --- [Executor-thread-32] lutece.init         : 
+[INFO]  _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ 
+[INFO] | |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \ \ \ / / | __| | _ \
+[INFO] | |__  | |_| |   | |   | _|  | (__  | _|      \__ \ | _|  |   /  \ V /  | _|  |   /
+[INFO] |____|  \___/    |_|   |___|  \___| |___|     |___/ |___| |_|_\   \_/   |___| |_|_\  started successfully
+[INFO]    Front office http(s)://localhost:9080/lutece-core/jsp/site/Portal.jsp
+[INFO]    Back office  http(s)://localhost:9080/lutece-core/jsp/admin/AdminMenu.jsp
+[INFO]    Lutece https port: [9443]
+[INFO]    Lutece application services started in : 1.483 secondes 
+[INFO] [AUDIT   ] CWWKZ0003I: Application lutece mise à jour en 3,981 secondes.

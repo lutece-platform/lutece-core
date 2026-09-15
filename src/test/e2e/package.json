@@ -1,0 +1,13 @@
+{
+  "name": "lutece-core-autoescape-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "End-to-end checks for LUT-33153: the rendered pages must be identical with service.freemarker.templateAutoEscape set to false and to true.",
+  "scripts": {
+    "test": "playwright test",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
