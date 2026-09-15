@@ -25,16 +25,19 @@
 			<@cAlert title='${messageTitle!}${title!}' type=messageClass>${text}</@cAlert>
 			<@cSection class='w-50 d-flex mt-l justify-content-evenly'>
 			<#if url?has_content>
-				<@cForm action='${url!}' params=' target="${target!}" '>
+				<#assign paramsAttr1> target="${target!}" </#assign>
+				<@cForm action='${url!}' params=paramsAttr1>
 					<#if list_parameters?exists><#assign keys = list_parameters?keys><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
 					<@cBtn label='#i18n{portal.util.labelValidate}' />
 				</@cForm>
 			</#if>
 			<#if back_url?has_content>
-				<@cForm action='${back_url!}' params=' target="${target!}" '>
+				<#assign paramsAttr2> target="${target!}" </#assign>
+				<@cForm action='${back_url!}' params=paramsAttr2>
 					<#if list_parameters?exists><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
 					<#if cancel_button gte 1 > 
-						<@cBtn label='#i18n{portal.util.labelBack}' class='primary me-2' params='name="cancel"' />
+						<#assign paramsAttr3>name="cancel"</#assign>
+						<@cBtn label='#i18n{portal.util.labelBack}' class='primary me-2' params=paramsAttr3 />
 					</#if>
 				</@cForm>
 			<#else>

@@ -56,7 +56,8 @@
 					</@formGroup>
 				</@tform>
 			</@offcanvas>
-			<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
+			<#assign hrefAttr1>jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}</#assign>
+			<@aButton href=hrefAttr1 title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
 			<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='' class='me-1' />
 			<@item_navigation display='inline' item_navigator=item_navigator />
 		</@pageHeader>

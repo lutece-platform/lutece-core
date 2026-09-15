@@ -33,7 +33,8 @@
 				</@cTextArea>
 			</@cField>
 			<@cRow>
-				<@cBtn label='#i18n{portal.theme.popup_send_resource.sendResource}' params='name="send" value="send" ' >
+				<#assign paramsAttr1>name="send" value="send" </#assign>
+				<@cBtn label='#i18n{portal.theme.popup_send_resource.sendResource}' params=paramsAttr1 >
 					<@cIcon name='#i18n{portal.theme.popup_send_resource.sendResource}' class='envelope' />
 				</@cBtn>
 				<@cLink label='#i18n{portal.theme.popup_send_resource.close}' class='btn btn-outline-primary ms-2' href='javascript:window.close();'>

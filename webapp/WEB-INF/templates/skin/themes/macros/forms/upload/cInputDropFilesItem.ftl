@@ -88,7 +88,8 @@ Snippet:
         </a>
     </label>
     <button type="button" class="btn btn-link main-color deleteSingleFile p-0"<#if cUrlRm?has_content> data-url="${cUrlRm!}"</#if> data-item="#_file_uploaded_${name}${idx}" fieldName="${name}" handlerName="${handlerName!}" index="${idx}" title="#i18n{portal.util.labelDelete} ${fileLabel}"> 
-        <@cIcon name='x' params='aria-hidden="true"' />
+        <#local paramsAttr1>aria-hidden="true"</#local>
+        <@cIcon name='x' params=paramsAttr1 />
     </button>
 </li>
 </#macro>

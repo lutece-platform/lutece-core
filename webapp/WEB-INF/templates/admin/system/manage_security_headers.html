@@ -4,7 +4,8 @@
 	<@tform method='post' type='inline'>
 			<@formGroup labelFor='search_security_header' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 				<@inputGroup>
-					<@input type='text' name='search_security_header' id='search_security_header' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+					<#assign paramsAttr1>autocomplete="off" addons</#assign>
+					<@input type='text' name='search_security_header' id='search_security_header' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params=paramsAttr1 />
 					<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 				</@inputGroup>
 			</@formGroup>
@@ -23,10 +24,13 @@
 					</#if>
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn class='align-self-baseline searchable' cols='12 col-md-3' flex=false>
-					<@p class='mb-1 text-truncate' params='style="max-width: 250px;"  data-bs-toggle="tooltip" title="${security_header.description}"' >#i18n{portal.system.manage_security_headers.columnTitleName} : <strong>${security_header.name}</strong></@p>
-					<@p class='mb-1 text-truncate' params='style="max-width: 250px;"'>#i18n{portal.system.manage_security_headers.columnTitleType} : <strong>#i18n{${"portal.securityheader.type.label."+"${security_header.type}"}}</strong></@p>
+					<#assign paramsAttr2>style="max-width: 250px;"  data-bs-toggle="tooltip" title="${security_header.description}"</#assign>
+					<@p class='mb-1 text-truncate' params=paramsAttr2 >#i18n{portal.system.manage_security_headers.columnTitleName} : <strong>${security_header.name}</strong></@p>
+					<#assign paramsAttr3>style="max-width: 250px;"</#assign>
+					<@p class='mb-1 text-truncate' params=paramsAttr3>#i18n{portal.system.manage_security_headers.columnTitleType} : <strong>#i18n{${"portal.securityheader.type.label."+"${security_header.type}"}}</strong></@p>
 					<#if (security_header.pageCategory??)>
-						<@p class='mb-1 text-truncate' params='style="max-width: 250px;" data-bs-toggle="tooltip" title="#i18n{${"portal.securityheader.category.label."+"${security_header.pageCategory}"}}"'>#i18n{portal.system.manage_security_headers.columnTitlePageCategory} : <strong>#i18n{${"portal.securityheader.category.label."+"${security_header.pageCategory}"}}</strong></@p>
+						<#assign paramsAttr4>style="max-width: 250px;" data-bs-toggle="tooltip" title="#i18n{${"portal.securityheader.category.label."+"${security_header.pageCategory}"}}"</#assign>
+						<@p class='mb-1 text-truncate' params=paramsAttr4>#i18n{portal.system.manage_security_headers.columnTitlePageCategory} : <strong>#i18n{${"portal.securityheader.category.label."+"${security_header.pageCategory}"}}</strong></@p>
 					</#if>
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn cols='12 col-md-5' >

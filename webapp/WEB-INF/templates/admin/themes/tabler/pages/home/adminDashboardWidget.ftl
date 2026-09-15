@@ -35,7 +35,8 @@ Snippet:
 -->
 <#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='vmax-dvh-50 overflow-y-auto ' boxContentFooter='' actions=true actionMenu='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
+<#local paramsAttr1> data-id="${id}" draggable="true"</#local>
+<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=paramsAttr1>
 <#if hasHeader>
 <@boxHeader titleLevel='h3' title=title! titleActions=actions>
 <div class="dropdown">

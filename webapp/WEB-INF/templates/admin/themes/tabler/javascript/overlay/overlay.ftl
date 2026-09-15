@@ -24,7 +24,8 @@ Snippet:
     </@overlay>
 
 -->
-<#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center ' params='style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"' deprecated...>
+<#assign paramsAttr1>style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"</#assign>
+<#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center ' params=paramsAttr1 deprecated...>
 <@deprecatedWarning args=deprecated />
 <!-- Loading overlay -->
 <div id="${id}" class="${class}" ${params}>

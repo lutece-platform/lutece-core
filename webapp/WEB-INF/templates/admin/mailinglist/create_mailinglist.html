@@ -14,7 +14,8 @@
 			</@formGroup>
 			<@formGroup>
 				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.mailinglist.create_mailinglist.buttonCreate}' color='primary' />
-				<@button buttonIcon='times' title='#i18n{portal.util.labelCancel}' cancel=true params='onclick="javascript:window.history.go(-1);"' />
+				<#assign paramsAttr1>onclick="javascript:window.history.go(-1);"</#assign>
+				<@button buttonIcon='times' title='#i18n{portal.util.labelCancel}' cancel=true params=paramsAttr1 />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

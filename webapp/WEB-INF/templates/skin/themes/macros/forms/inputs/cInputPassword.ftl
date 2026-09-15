@@ -59,9 +59,11 @@ Password with confirmation field sync:
 <#if helpMsg?has_content><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>
     <#if icon?has_content><@cIcon name='${icon!}' /></#if>
-    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
+    <#local paramsAttr1>autocomplete="off" ${params!}</#local>
+    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params=paramsAttr1>
     <#if btnShowPassword>
-    <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
+    <#local paramsAttr2>data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"</#local>
+    <@cBtn class='secondary toggle-password' type='button' label='' params=paramsAttr2>
          <@cIcon name='eye-off' class='main-info-color' />
     </@cBtn>
     </#if>

@@ -45,17 +45,20 @@ Snippet:
 <@div class='step step-done ${class!}' id=id params=params>
 	<@div class='step-title'>
         <@div class='d-flex justify-content-between align-items-baseline w-100'>
-            <@h class='title' level=titleLevel params='title="${title}"' >
+            <#local paramsAttr1>title="${title}"</#local>
+            <@h class='title' level=titleLevel params=paramsAttr1 >
                 <@span class='step-number'>${stepNumber}</@span>
                 <@span>${title?replace('- hidden','')}</@span>
             </@h>
             <@span class='d-none d-sm-block pl-2'>
             <#if actionHref?has_content>
                 <#local esc1><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-                <@aButton label=actionLabel! class='btn btn-outline-primary ${actionClass!}' href=actionHref params='aria-label="${esc1}" ${actionParams!}' />
+                <#local paramsAttr2>aria-label="${esc1}" ${actionParams!}</#local>
+                <@aButton label=actionLabel! class='btn btn-outline-primary ${actionClass!}' href=actionHref params=paramsAttr2 />
             <#elseif actionName?has_content>
                 <#local esc2><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-                <@button class='outline-primary' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${esc2}" formnovalidate' />
+                <#local paramsAttr3>name="${actionName}"value="${idx!}" aria-label="${esc2}" formnovalidate</#local>
+                <@button class='outline-primary' label=actionLabel! params=paramsAttr3 />
             </#if>
             </@span>    
         </@div>    
@@ -67,10 +70,12 @@ Snippet:
         <@div class='d-block d-sm-none mt-m'>
         <#if actionHref?has_content>
             <#local esc3><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-            <@aButton label=actionLabel! class='btn btn-primary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${esc3}" ${actionParams!}' />
+            <#local paramsAttr4>aria-label="${esc3}" ${actionParams!}</#local>
+            <@aButton label=actionLabel! class='btn btn-primary btn-sm-block ${actionClass!}' href=actionHref params=paramsAttr4 />
         <#elseif actionName?has_content>
             <#local esc4><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-            <@button class='primary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${esc4}" formnovalidate' />
+            <#local paramsAttr5>name="${actionName}"value="${idx!}" aria-label="${esc4}" formnovalidate</#local>
+            <@button class='primary btn-sm-block' label=actionLabel! params=paramsAttr5 />
         </#if>
         </@div>    
     </@div>

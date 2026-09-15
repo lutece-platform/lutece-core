@@ -21,7 +21,8 @@
 						</@p>
 					</@boxBody>
 					<@div class='p-3 bg-light'>
-						<@div class='img-responsive img-responsive-21x9 card-img-bottom' params='style="background-image: url(./themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png);background-size:contain"'></@div>
+						<#assign paramsAttr1>style="background-image: url(./themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png);background-size:contain"</#assign>
+						<@div class='img-responsive img-responsive-21x9 card-img-bottom' params=paramsAttr1></@div>
 					</@div>
 				</@box>
 			</@columns>
@@ -43,7 +44,8 @@
                     	</@p>
 					</@boxBody>
 					<@div class='p-3 bg-light'>
-						<@div class='img-responsive img-responsive-21x9 card-img-bottom' params='style="background-image: url(./themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png);background-size:contain"'></@div>
+						<#assign paramsAttr2>style="background-image: url(./themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png);background-size:contain"</#assign>
+						<@div class='img-responsive img-responsive-21x9 card-img-bottom' params=paramsAttr2></@div>
 					</@div>
 				</@box>
 			</@columns>

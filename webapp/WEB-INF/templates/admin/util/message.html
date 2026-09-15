@@ -24,7 +24,8 @@
             <@button type='submit' color='default' class='mt-3' title='${i18n("portal.admin.message.buttonCancel")}' buttonIcon='times' />
         </@tform>
     <#else>
-        <@button type='button' color='default' class='mt-3' title='${i18n("portal.admin.message.buttonCancel")}' buttonIcon='times' params='onclick="javascript:window.history.go(-1)"' />
+        <#assign paramsAttr1>onclick="javascript:window.history.go(-1)"</#assign>
+        <@button type='button' color='default' class='mt-3' title='${i18n("portal.admin.message.buttonCancel")}' buttonIcon='times' params=paramsAttr1 />
     </#if>
 <#else>
     <#if url?has_content>

@@ -220,7 +220,8 @@
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 <#-- WARNING : macro fieldTextArea is deprecated 			-->
 <@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-	<#if maxlength gt 0><#local params='maxlength="${maxlength}"' /></#if>
+	<#local paramsAttr1>maxlength="${maxlength}"</#local>
+	<#if maxlength gt 0><#local params=paramsAttr1 /></#if>
 	<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
 </@formGroup>
 </#macro>

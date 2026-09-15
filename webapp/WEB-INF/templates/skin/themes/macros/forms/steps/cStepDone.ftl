@@ -42,17 +42,20 @@ Snippet:
 <@cSection class='step step-done ${class!}' id=id params=params>
 	<@cSection class='step-title'>
         <@cContainer class='d-flex justify-content-between align-items-center'>
-            <@cTitle class='title mt-0' level=titleLevel params='title="${title}"' >
+            <#local paramsAttr1>title="${title}"</#local>
+            <@cTitle class='title mt-0' level=titleLevel params=paramsAttr1 >
                 <@cText type='span' class='step-number'><svg width="32" height="32" role="img" aria-hidden="true" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@cText>
                 <@cText type='span'>${title?replace('- hidden','')}</@cText>
             </@cTitle>
             <@cSection type='span' class='d-none d-sm-block'>
             <#if actionHref?has_content>
                 <#local esc1><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${esc1}" ${actionParams!}' />
+                <#local paramsAttr2>aria-label="${esc1}" ${actionParams!}</#local>
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=paramsAttr2 />
             <#elseif actionName?has_content>
                 <#local esc2><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${esc2}" formnovalidate' />
+                <#local paramsAttr3>name="${actionName}"value="${idx!}" aria-label="${esc2}" formnovalidate</#local>
+                <@cBtn class='secondary btn-sm-block' label=actionLabel! params=paramsAttr3 />
             </#if>
             </@cSection>    
         </@cContainer>    
@@ -65,10 +68,12 @@ Snippet:
             <@cSection type='div' class='d-block d-sm-none mt-m'>
             <#if actionHref?has_content>
                 <#local esc3><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${esc3}" ${actionParams!}' />
+                <#local paramsAttr4>aria-label="${esc3}" ${actionParams!}</#local>
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=paramsAttr4 />
             <#elseif actionName?has_content>
                 <#local esc4><#outputformat "HTML">${i18n(actionAriaLabelKey, title)}</#outputformat></#local>
-                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${esc4}" formnovalidate' />
+                <#local paramsAttr5>name="${actionName}"value="${idx!}" aria-label="${esc4}" formnovalidate</#local>
+                <@cBtn class='secondary btn-sm-block' label=actionLabel! params=paramsAttr5 />
             </#if>
             </@cSection>    
         </@cSection>

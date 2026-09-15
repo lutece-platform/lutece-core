@@ -1,8 +1,11 @@
 <@columns>
-<@radioButton orientation='h' class='form-imagecheck-input' name='page_template_id' id='page_template_id_${page_template.id}' value='${page_template.id}' checked=checked='checked="checked"' labelFor='page_template_id_${page_template.id}' labelClass='form-imagecheck mb-2 ps-0' >
+<#assign checkedAttr1>checked="checked"</#assign>
+<@radioButton orientation='h' class='form-imagecheck-input' name='page_template_id' id='page_template_id_${page_template.id}' value='${page_template.id}' checked=checked=checkedAttr1 labelFor='page_template_id_${page_template.id}' labelClass='form-imagecheck mb-2 ps-0' >
 <@span class='form-imagecheck-figure'>
-	<@img class='form-imagecheck-image' url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='${page_template.description}' title='${page_template.description}' params='aria-hidden="true" style="width:64px;height:64px;"' /> 
-	<@span class='text-center text-muted fw-medium text-truncate d-inline-block pt-1 ps-1' params='style="width:66px"'>${page_template.description}</@span>
+	<#assign paramsAttr2>aria-hidden="true" style="width:64px;height:64px;"</#assign>
+	<@img class='form-imagecheck-image' url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='${page_template.description}' title='${page_template.description}' params=paramsAttr2 /> 
+	<#assign paramsAttr3>style="width:66px"</#assign>
+	<@span class='text-center text-muted fw-medium text-truncate d-inline-block pt-1 ps-1' params=paramsAttr3>${page_template.description}</@span>
 </@span>
 </@radioButton>
 </@columns>

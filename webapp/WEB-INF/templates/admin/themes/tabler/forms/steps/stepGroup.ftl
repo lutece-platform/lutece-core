@@ -50,7 +50,8 @@ Snippet:
 				<#local legend>
 					<@span class='h3 title main-info-color'>${title!}<#if iteration gt 0> (${iteration+1})</#if></@span>
 					<#if iterable && iteration gt 0>
-					<@button label='' class='danger btn-mini me-sm mt-0' params='name="action_removeIteration" value="rm_${iteration}"' >
+					<#local paramsAttr1>name="action_removeIteration" value="rm_${iteration}"</#local>
+					<@button label='' class='danger btn-mini me-sm mt-0' params=paramsAttr1 >
 						<@icon style='trash' /><@span class='btn-label'>${labelDelIteration}</@span>
 					</@button>
 					</#if>
@@ -65,7 +66,8 @@ Snippet:
 				<#if iterable && iteration lte iterationMax>
 					<@row>
 						<@columns class='d-flex justify-content-end'>
-							<@button label='' class='primary ms-m' params='name="action_addIteration" value="add_${iteration}"'>
+							<#local paramsAttr2>name="action_addIteration" value="add_${iteration}"</#local>
+							<@button label='' class='primary ms-m' params=paramsAttr2>
 								<@icon style='plus' /><@span class='btn-label'>${labelAddIteration}</@span>
 							</@button>
 						</@columns>

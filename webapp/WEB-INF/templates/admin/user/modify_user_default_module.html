@@ -19,7 +19,8 @@
 				<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 			</@tabList>
 			<@tabContent>
-				<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params='enctype="multipart/form-data"'>
+				<#assign paramsAttr1>enctype="multipart/form-data"</#assign>
+				<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params=paramsAttr1>
 				<@input type='hidden' name='id_user' value='${user.userId}' />
 				<@input type='hidden' name='token' value='${token}' />
 				<@row>

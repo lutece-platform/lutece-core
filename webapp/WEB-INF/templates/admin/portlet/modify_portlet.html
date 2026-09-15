@@ -1,12 +1,14 @@
 <@coreAdminCSSLinks />
 <#if portletType.modifyScriptTemplate?has_content ><#include portletType.modifyScriptTemplate /></#if>
-<@tform typ='inline' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
+<#assign paramsAttr1>target="_top"</#assign>
+<@tform typ='inline' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params=paramsAttr1>
 <@input type='hidden' name='portlet_id' value='${portlet.id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <@box class='manage-portlet'>
 	<@boxHeader title='${portletType.name}' boxTools=true >
 	<#if portletType.modifySpecificTemplate?has_content || portletType.modifySpecificFormTemplate?has_content>
-		<@button buttonIcon='layout-navbar-expand' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params='aria-expanded="false"'/>
+		<#assign paramsAttr2>aria-expanded="false"</#assign>
+		<@button buttonIcon='layout-navbar-expand' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params=paramsAttr2/>
 	</#if>	
 	</@boxHeader>
 	<@boxBody class='p-0'>
@@ -57,13 +59,17 @@
 			</@columns>
 			<@columns sm=4 md=2 params='hidden'>
 				<@formGroup labelKey='#i18n{portal.site.create_portlet.labelDisplayOnDevice}' rows=2>
-					<#if small_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
+					<#assign small_checkedAttr3>checked="checked"</#assign>
+					<#if small_checked=small_checkedAttr3><#assign checked = true><#else><#assign checked = false></#if>
 					<@checkBox orientation='switch' name='display_on_small_device' id='display_on_small_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
-					<#if normal_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
+					<#assign normal_checkedAttr4>checked="checked"</#assign>
+					<#if normal_checked=normal_checkedAttr4><#assign checked = true><#else><#assign checked = false></#if>
 					<@checkBox orientation='switch' name='display_on_normal_device' id='display_on_normal_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
-					<#if large_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
+					<#assign large_checkedAttr5>checked="checked"</#assign>
+					<#if large_checked=large_checkedAttr5><#assign checked = true><#else><#assign checked = false></#if>
 					<@checkBox orientation='switch' name='display_on_large_device' id='display_on_large_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxLargeDevice}' />
-					<#if xlarge_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
+					<#assign xlarge_checkedAttr6>checked="checked"</#assign>
+					<#if xlarge_checked=xlarge_checkedAttr6><#assign checked = true><#else><#assign checked = false></#if>
 					<@checkBox orientation='switch' name='display_on_xlarge_device' id='display_on_xlarge_device'value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
 				</@formGroup>
 			</@columns>
@@ -87,7 +93,8 @@
 			<@columns>
 				<@formGroup rows=2>
 					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
+					<#assign paramsAttr7>target="_top"</#assign>
+					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params=paramsAttr7 color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 				</@formGroup>
 			</@columns>	
 		</@row>

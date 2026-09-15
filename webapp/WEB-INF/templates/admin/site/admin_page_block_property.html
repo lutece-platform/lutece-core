@@ -2,7 +2,8 @@
     <@pageColumn>
 		<@pageHeader title='#i18n{portal.site.admin_page.tabPageManagement}' />
 		<@div id='properties'>
-		<@tform method='post' action='jsp/admin/site/DoModifyPage.jsp' params='enctype="multipart/form-data"'>
+		<#assign paramsAttr1>enctype="multipart/form-data"</#assign>
+		<@tform method='post' action='jsp/admin/site/DoModifyPage.jsp' params=paramsAttr1>
 		<@input type='hidden' name='page_id' value='${page.id}' />
 		<@input type='hidden' name='token' value='${token}' />
 		<#if authorization != "1">
@@ -80,7 +81,8 @@
 		<@row>
 			<@columns class='d-flex justify-content-center '>
 				<@figure class="position-relative border-2 border-black">
-					<@img id='preview_image' url='${image_url}' class='img-thumbnail img-fluid p-5' alt='#i18n{portal.site.admin_page.addNewImage}' title='#i18n{portal.site.admin_page.titlePictureProperties}' params='aria-hidden="true"' />
+					<#assign paramsAttr2>aria-hidden="true"</#assign>
+					<@img id='preview_image' url='${image_url}' class='img-thumbnail img-fluid p-5' alt='#i18n{portal.site.admin_page.addNewImage}' title='#i18n{portal.site.admin_page.titlePictureProperties}' params=paramsAttr2 />
 					<@button color='danger' buttonIcon='trash' class='position-absolute bottom-0 end-0 rounded' size='sm' id='deleteImage' label='#i18n{portal.site.util.labelRemove}' />
 				</@figure>
 			</@columns>

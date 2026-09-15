@@ -25,7 +25,8 @@
             <@cInput type='hidden' name='page' value='search' class='' />
             <svg class="icon-search" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <@cInput type='search' id='q' name='query' value='${query!}' autocomplete='off' placeholder='Démarche, rendez-vous, contact, document…' />
-            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=' aria-label="Effacer"'>
+            <#assign paramsAttr1> aria-label="Effacer"</#assign>
+            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=paramsAttr1>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
             </@cBtn>
             <@cBtn type='submit' label='#i18n{portal.search.search_results.buttonSearch}' />
@@ -37,7 +38,8 @@
 <@cContainer class='search-body'>
      <@cBlock class='layout'>
         <#-- ====== FILTERS ====== -->
-            <@cBlock type='aside' class='filter-panel' params='aria-label="Filtres"'>
+            <#assign paramsAttr2>aria-label="Filtres"</#assign>
+            <@cBlock type='aside' class='filter-panel' params=paramsAttr2>
                 <@cBlock class='filter-panel__head'>
                     <@cInline>Affiner</@cInline>
                     <@cBtn type='button' noclass=true class='filter-reset' label='Tout effacer' />
@@ -110,20 +112,25 @@
             <@cBlock class='toolbar'>
               <#if query?? && query?trim?has_content>
               <@cBlock class='toolbar__right ms-auto'>
-                <@cBlock type='label' params='style="display:flex;align-items:center;gap:8px;"'>
+                <#assign paramsAttr3>style="display:flex;align-items:center;gap:8px;"</#assign>
+                <@cBlock type='label' params=paramsAttr3>
                   <@cInline>Trier :</@cInline>
-                  <@cSelect name='sort' class='sort-select' params='aria-label="Trier par"'>
+                  <#assign paramsAttr4>aria-label="Trier par"</#assign>
+                  <@cSelect name='sort' class='sort-select' params=paramsAttr4>
                     <@cOption value='relevance' label='Pertinence' />
                     <@cOption value='date' label='Date (récent)' />
                     <@cOption value='alpha' label='Alphabétique (A → Z)' />
                     <@cOption value='duration' label='Durée' />
                   </@cSelect>
                 </@cBlock>
-                <@cBlock class='view-toggle' params='role="group" aria-label="Affichage"'>
-                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="true" aria-label="Vue liste" title="Vue liste" data-view="list"'>
+                <#assign paramsAttr5>role="group" aria-label="Affichage"</#assign>
+                <@cBlock class='view-toggle' params=paramsAttr5>
+                  <#assign paramsAttr6> aria-pressed="true" aria-label="Vue liste" title="Vue liste" data-view="list"</#assign>
+                  <@cBtn type='button' noclass=true class='' label='' params=paramsAttr6>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
                   </@cBtn>
-                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="false" aria-label="Vue grille" title="Vue grille" data-view="grid"'>
+                  <#assign paramsAttr7> aria-pressed="false" aria-label="Vue grille" title="Vue grille" data-view="grid"</#assign>
+                  <@cBtn type='button' noclass=true class='' label='' params=paramsAttr7>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
                   </@cBtn>
                 </@cBlock>
@@ -164,7 +171,8 @@
                                         <@cInline>Carte nationale d'identité</@cInline>
                                     </@cBlock>
                                 </@cBlock>
-                                <@cInline class='result-card__arrow' params='aria-hidden="true"'>
+                                <#assign paramsAttr8>aria-hidden="true"</#assign>
+                                <@cInline class='result-card__arrow' params=paramsAttr8>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                 </@cInline>
                             </@cLink>

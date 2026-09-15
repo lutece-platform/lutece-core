@@ -16,7 +16,8 @@ Snippet:
 
     Active breadcrumb item (current page):
 
-    <@breadcrumbItem class='active' params='aria-current="page"'>
+    <#assign paramsAttr1>aria-current="page"</#assign>
+    <@breadcrumbItem class='active' params=paramsAttr1>
         User Profile
     </@breadcrumbItem>
 

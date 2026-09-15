@@ -32,7 +32,8 @@ Samples :
     <@cAccordion id='acc1' title='Titre de l\'accordéon' subTitle='...et son sous-titre'>
     Contenu de l'accordéon
     </@cAccordion>
-    <@cAccordion id='acc2' title='accordéon avec titleClass et header...' class='primary' titleClass='main-info-color' header='<p class="ms-auto text-danger fw-bold">Header</p>'>
+    <#assign headerAttr1><p class="ms-auto text-danger fw-bold">Header</p></#assign>
+    <@cAccordion id='acc2' title='accordéon avec titleClass et header...' class='primary' titleClass='main-info-color' header=headerAttr1>
     Contenu de l'accordéon
     </@cAccordion>
     <@cAccordion id='acc3' title='accordéon avec bouton action' subTitle='Sous titre' subTitleClass='text-muted' btnClass='btn-secondary'>
@@ -93,7 +94,8 @@ Snippet:
             <#if class?contains('outline')>
                 <span class="card-header-prepend">
 <#local cardAlertIcon = {'danger':'alert-triangle','warning':'alert-triangle','success':'circle-check','info':'info-circle'}[iconType]!'info-circle' />
-                <@cIcon name=cardAlertIcon params='aria-hidden="true"' />
+                <#local paramsAttr2>aria-hidden="true"</#local>
+                <@cIcon name=cardAlertIcon params=paramsAttr2 />
                 </span>
                 <span<#if titleClass?has_content>class="d-block ${titleClass}"</#if> id="headingAcc${id}">${title}</span>
                 <#if header?has_content>${header}</#if>
@@ -125,7 +127,8 @@ Snippet:
             </div>
             <div class="card-footer d-block d-sm-none text-center<#if class?contains('alert')> bg-transparent</#if>">
                 <button class="btn btn-link btn-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-label="${btnShowLabel}">
-                    <@cIcon name='chevron-down' params='aria-hidden="true"' />
+                    <#local paramsAttr3>aria-hidden="true"</#local>
+                    <@cIcon name='chevron-down' params=paramsAttr3 />
                 </button>
             </div>
         </#if>

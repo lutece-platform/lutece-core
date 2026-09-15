@@ -58,17 +58,20 @@ Snippet:
 		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
 		<#local legendClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
 <#local legendClass = legendClass?is_markup_output?then(legendClass?markup_string, legendClass) />
-		<@cLegend label='' id='legend-${cId}' class=legendClass params='tabindex="-1" ${headerParams}'>
+		<#local paramsAttr1>tabindex="-1" ${headerParams}</#local>
+		<@cLegend label='' id='legend-${cId}' class=legendClass params=paramsAttr1>
 			<@cInline class='${titleClass} group-title'>	
 			${title!}<#if iteration gt 0> (${iteration+1})</#if>
 			<#if iterable && iteration gt 0>
 			<div class="btn btn-group ms-auto mt-0">
-			<@cBtn label='' class='danger me-sm ms-auto mt-0' params='name="action_removeIteration" value="rm_${iteration}"' >
+			<#local paramsAttr2>name="action_removeIteration" value="rm_${iteration}"</#local>
+			<@cBtn label='' class='danger me-sm ms-auto mt-0' params=paramsAttr2 >
 				<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
 			</@cBtn>
 			</#if>
 			<#if iterable && iteration lte iterationMax>
-			<@cBtn label='' class='primary ms-auto' params='name="action_addIteration" value="add_${iteration}"'>
+			<#local paramsAttr3>name="action_addIteration" value="add_${iteration}"</#local>
+			<@cBtn label='' class='primary ms-auto' params=paramsAttr3>
 				<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
 			</@cBtn>
 			<#if iterable && iteration gt 0></div></#if>
@@ -86,16 +89,19 @@ Snippet:
 		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
 			<#local localTitleClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
 <#local localTitleClass = localTitleClass?is_markup_output?then(localTitleClass?markup_string, localTitleClass) />
-			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params='tabindex="-1" ${headerParams}'>
+			<#local paramsAttr4>tabindex="-1" ${headerParams}</#local>
+			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params=paramsAttr4>
 				${title!}<#if iteration gt 0> (${iteration+1})</#if>
 				<#if iterable && iteration gt 0>
 				<div class="btn btn-group ms-auto mt-0">
-				<@cBtn label='' class='danger me-sm ms-auto mt-0' params='name="action_removeIteration" value="rm_${iteration}"' >
+				<#local paramsAttr5>name="action_removeIteration" value="rm_${iteration}"</#local>
+				<@cBtn label='' class='danger me-sm ms-auto mt-0' params=paramsAttr5 >
 					<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
 				</@cBtn>
 				</#if>
 				<#if iterable && iteration lte iterationMax>
-				<@cBtn label='' class='primary ms-auto' params='name="action_addIteration" value="add_${iteration}"'>
+				<#local paramsAttr6>name="action_addIteration" value="add_${iteration}"</#local>
+				<@cBtn label='' class='primary ms-auto' params=paramsAttr6>
 					<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
 				</@cBtn>
 				<#if iterable && iteration gt 0></div></#if>

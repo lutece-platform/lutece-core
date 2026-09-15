@@ -8,7 +8,8 @@
                 <@img url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='' title=escPictureAlt />
             </@boxHeader>
             <@boxBody>
-                <@tform method='post' params='enctype="multipart/form-data"' id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
+                <#assign paramsAttr1>enctype="multipart/form-data"</#assign>
+                <@tform method='post' params=paramsAttr1 id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
                     <@input type='hidden' name='page_template_id' value='${page_template.id}' />
                     <@input type='hidden' name='token' value='${token}' />
                     <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>

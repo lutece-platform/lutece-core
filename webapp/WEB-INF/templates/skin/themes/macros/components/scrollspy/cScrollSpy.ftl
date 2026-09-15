@@ -25,7 +25,8 @@ Snippet:
 		{"label":"Item 4", "href":"#anchor-scroll-item-4"},
 		{"label":"Item 5", "href":"#anchor-scroll-item-5"}
 	]>
-	<@cScrollSpy anchorId='scrollspy-sample' anchors= anchorsLinkClass='btn btn-primary' anchorsParams='style="top:100px;"' />
+	<#assign anchorsParamsAttr1>style="top:100px;"</#assign>
+	<@cScrollSpy anchorId='scrollspy-sample' anchors= anchorsLinkClass='btn btn-primary' anchorsParams=anchorsParamsAttr1 />
 -->
 <#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

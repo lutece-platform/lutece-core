@@ -42,10 +42,12 @@ Snippet:
 	</html>
 
 -->
-<#macro noScriptMessage id='main' styles='height:50vh;width:100vw;' wrapperClass='d-flex justify-content-center align-items-center' alertType='warning' alertTitle='#i18n{portal.util.noscript.alert.message}' linkUrl='.' linkClass='btn btn-primary' linkLabel='#i18n{portal.util.noscript.link.label}' linkIcon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-reload ms-2"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg> '>
+<#assign linkIconAttr1><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-reload ms-2"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg> </#assign>
+<#macro noScriptMessage id='main' styles='height:50vh;width:100vw;' wrapperClass='d-flex justify-content-center align-items-center' alertType='warning' alertTitle='#i18n{portal.util.noscript.alert.message}' linkUrl='.' linkClass='btn btn-primary' linkLabel='#i18n{portal.util.noscript.link.label}' linkIcon=linkIconAttr1>
 <noscript>
 <style>#${id}{ display : none };.breadcrumb-nav{ display : none };</style>
-<@cBlock id='no-script-wrapper' class=wrapperClass params='style="${styles}"' >
+<#local paramsAttr2>style="${styles}"</#local>
+<@cBlock id='no-script-wrapper' class=wrapperClass params=paramsAttr2 >
     <@cAlert type=alertType title=alertTitle >
 		<@cText class='text-center'><@cLink href=linkUrl class=linkClass label=''>${linkIcon} ${linkLabel}</@cLink></@cText>
 	</@cAlert> 

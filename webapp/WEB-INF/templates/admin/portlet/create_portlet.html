@@ -1,11 +1,13 @@
 <@coreAdminCSSLinks />
-<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>  
+<#assign paramsAttr1>target="_top"</#assign>
+<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params=paramsAttr1>  
 <@input type='hidden' name='page_id' value='${portlet_page_id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <@box class='manage-portlet'>
 	<@boxHeader title='${portletType.name}' boxTools=true >
 	<#if portletType.createSpecificTemplate?has_content || portletType.createSpecificFormTemplate?has_content>
-		<@button buttonIcon='layout-navbar-expand' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params='aria-expanded="false"'/>
+		<#assign paramsAttr2>aria-expanded="false"</#assign>
+		<@button buttonIcon='layout-navbar-expand' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params=paramsAttr2/>
 	</#if>
 	</@boxHeader>
 	<@boxBody class='p-0' id='portlet-properties'>
@@ -78,7 +80,8 @@
 			<@columns>
 				<@formGroup rows=2>
 					<@button type='submit' buttonIcon='check me-1' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
-					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params='target="_top"' color='secondary' buttonIcon='x me-1' title='#i18n{portal.util.labelCancel}' size=''  />
+					<#assign paramsAttr3>target="_top"</#assign>
+					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params=paramsAttr3 color='secondary' buttonIcon='x me-1' title='#i18n{portal.util.labelCancel}' size=''  />
 				</@formGroup>
 			</@columns>	
 		</@row>

@@ -65,19 +65,22 @@ Snippet:
 <@cBlock class='step-title'>
 	<@cContainer>
 		<#if hasSteps>
-			<@cTitle class='title ${titleClass}' level=titleLevel params='data-step="${step}" title="${title} - #i18n{portal.theme.labelCurrentStep}" aria-current="step" tabindex="0"'>
+			<#local paramsAttr1>data-step="${step}" title="${title} - #i18n{portal.theme.labelCurrentStep}" aria-current="step" tabindex="0"</#local>
+			<@cTitle class='title ${titleClass}' level=titleLevel params=paramsAttr1>
 				<#if step?number!=0><@cText type='span' class='step-number'>${step}</@cText></#if>
 				<@cText type='span'>${title?replace('- hidden','')}</@cText>
 			</@cTitle>
 		<#else>
-			<@cTitle level=titleLevel class='title no-step' params='title="${title?replace(\'- hidden\',\'\')}- #i18n{portal.theme.labelCurrentStep}" tabindex="0"'>
+			<#local paramsAttr2>title="${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}" tabindex="0"</#local>
+			<@cTitle level=titleLevel class='title no-step' params=paramsAttr2>
 				${title} <@cText type='span' class='step-number visually-hidden'>${step}</@cText>
 			</@cTitle>
 		</#if>
 	</@cContainer>
 </@cBlock>
 <#else>
-<@cTitle level=titleLevel class='step-title visually-hidden' params='title="${title?replace(\'- hidden\',\'\')}- #i18n{portal.theme.labelCurrentStep}" tabindex="0"'>
+<#local paramsAttr3>title="${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}" tabindex="0"</#local>
+<@cTitle level=titleLevel class='step-title visually-hidden' params=paramsAttr3>
 	${title} <@cText type='span' class='step-number'>${step}</@cText>
 </@cTitle>
 </#if>
@@ -126,7 +129,8 @@ Snippet:
 		</@cBlock>
 	</@cContainer>
 </@cBlock>
-<@cModal title='#i18n{portal.theme.labelRemoveSaveStep}' dismissLabel='#i18n{portal.theme.labelDismissSaveStep}' id='reset-step' footer='<button class="btn btn-primary" id="modal-reset-backup" type="button"><span class="btn-label">#i18n{portal.theme.labelRemoveSaveStepInfo}</span></button>' />
+<#local footerAttr4><button class="btn btn-primary" id="modal-reset-backup" type="button"><span class="btn-label">#i18n{portal.theme.labelRemoveSaveStepInfo}</span></button></#local>
+<@cModal title='#i18n{portal.theme.labelRemoveSaveStep}' dismissLabel='#i18n{portal.theme.labelDismissSaveStep}' id='reset-step' footer=footerAttr4 />
 <script>
 window.addEventListener('DOMContentLoaded', (event) => {
 	/* Error Scroll                           */

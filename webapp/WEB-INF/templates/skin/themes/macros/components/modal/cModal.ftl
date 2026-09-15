@@ -33,7 +33,8 @@ Snippet:
 
     Modal with footer buttons and scrollable body:
 
-    <@cModal title='Terms and conditions' id='terms' size='xl' scrollable=true footer='<button type="submit" class="btn btn-primary">Accept</button>'>
+    <#assign footerAttr1><button type="submit" class="btn btn-primary">Accept</button></#assign>
+    <@cModal title='Terms and conditions' id='terms' size='xl' scrollable=true footer=footerAttr1>
         <p>Long content here...</p>
     </@cModal>
 
@@ -61,7 +62,8 @@ Snippet:
             </div>
             <div class="modal-footer">
                 <#if dismissible>
-	                <@cBtn label='${dismissLabel}' class='tertiary m-1' params='data-bs-dismiss="modal"'/>
+	                <#local paramsAttr2>data-bs-dismiss="modal"</#local>
+	                <@cBtn label='${dismissLabel}' class='tertiary m-1' params=paramsAttr2/>
                 </#if>
                 ${footer!}
             </div>

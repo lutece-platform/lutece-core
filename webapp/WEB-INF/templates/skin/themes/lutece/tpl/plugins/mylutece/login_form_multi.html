@@ -7,7 +7,8 @@
       <@cBreadCrumb home='Accueil' type='fluid' items=loginCrumbItems class='login-crumbs' />
       <@cTitle level=2 >Connectez-vous à votre espace</@cTitle>
       <#-- Email/password form -->
-      <@cForm method='post' action='${url_dologin}' class='login-form' params='autocomplete="on"'>
+      <#assign paramsAttr1>autocomplete="on"</#assign>
+      <@cForm method='post' action='${url_dologin}' class='login-form' params=paramsAttr1>
       <@cInput type='hidden' name='page' value='mylutece' class='' />
       <@cInput type='hidden' name='action' value='doLogin' class='' />
       <@cInput type='hidden' name='token' value='${token}' class='' />
@@ -57,8 +58,10 @@
           <@cIcon name='arrow-right' class='ms-2' />
         </@cBtn>
         <@cBlock class='lost-row'>
-          <#if lostPasswordUrl??><@cLink href='${lostPasswordUrl!}' label='#i18n{mylutece.xpage.login_form.labelButtonLostPassword}' params='title="#i18n{mylutece.xpage.login_form.labelButtonLostPassword}"' /></#if>
-          <#if lostLoginUrl??><@cLink href='${lostLoginUrl!}' label='#i18n{mylutece.xpage.login_form.labelButtonLostLogin}' params='title="#i18n{mylutece.xpage.login_form.labelButtonLostLogin}"' /></#if>
+          <#assign paramsAttr2>title="#i18n{mylutece.xpage.login_form.labelButtonLostPassword}"</#assign>
+          <#if lostPasswordUrl??><@cLink href='${lostPasswordUrl!}' label='#i18n{mylutece.xpage.login_form.labelButtonLostPassword}' params=paramsAttr2 /></#if>
+          <#assign paramsAttr3>title="#i18n{mylutece.xpage.login_form.labelButtonLostLogin}"</#assign>
+          <#if lostLoginUrl??><@cLink href='${lostLoginUrl!}' label='#i18n{mylutece.xpage.login_form.labelButtonLostLogin}' params=paramsAttr3 /></#if>
         </@cBlock>
       </#if>
       <#if !bHasInternalAuth || (bHasInternalAuth && lostPasswordUrl??)>
@@ -67,7 +70,8 @@
             <@cText class='mb-0'>
               <@cInline class='signup-row__txt'>Pas encore de compte ? <@cInline type='strong'>Créez-en un en 2 min.</@cInline></@cInline>
             </@cText>
-            <@cLink href='${url_new_account}' label='#i18n{mylutece.xpage.login_form.labelButtonCreateAccount}' class='secondary' params='title="#i18n{mylutece.xpage.login_form.labelButtonCreateAccount}"' />
+            <#assign paramsAttr4>title="#i18n{mylutece.xpage.login_form.labelButtonCreateAccount}"</#assign>
+            <@cLink href='${url_new_account}' label='#i18n{mylutece.xpage.login_form.labelButtonCreateAccount}' class='secondary' params=paramsAttr4 />
           </@cBlock>
         </#if>
       </#if>
@@ -81,7 +85,8 @@
     </@cBlock>
   </@cSection>
   <#-- ============ RIGHT — BRAND ============ -->
-  <@cBlock type='aside' class='brand-col' params='aria-hidden="true"'>
+  <#assign paramsAttr5>aria-hidden="true"</#assign>
+  <@cBlock type='aside' class='brand-col' params=paramsAttr5>
     <@cBlock class='brand-col__inner'>
       <@cInline class='brand-tag'>Une authentification simplifiée</@cInline>
       <@cTitle level=2>Faites bénéficier vos utilisateurs une interface de connexion moderne et accessible.</@cTitle>

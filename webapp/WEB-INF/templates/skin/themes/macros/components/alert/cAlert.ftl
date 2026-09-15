@@ -76,13 +76,15 @@ Snippet:
 </#if>
 <#local alertClass>alert alert-outline alert-${type}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
 <#local alertClass = alertClass?is_markup_output?then(alertClass?markup_string, alertClass) />
-<@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id!>
+<#local paramsAttr1>role="${ariaRole!}" ${params!}</#local>
+<@cBlock class=alertClass! params=paramsAttr1 id=id!>
     <@cBlock class='alert-header'>
         <@cBlock class='alert-icon'><@cIcon name=alertIconName! type=iconType title=alertIconTitle! /></@cBlock>
         <@cBlock class='alert-text ${classText!}'><#if title?has_content><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
         <#if dismissible>
         <@cBlock class="alert-dismiss">
-            <@cBtn type='button' label='' class='close py-xs px-xs' params='data-bs-dismiss="alert" aria-label="#i18n{portal.theme.labelClose}"' />
+            <#local paramsAttr2>data-bs-dismiss="alert" aria-label="#i18n{portal.theme.labelClose}"</#local>
+            <@cBtn type='button' label='' class='close py-xs px-xs' params=paramsAttr2 />
         </@cBlock>
         </#if>
     </@cBlock>

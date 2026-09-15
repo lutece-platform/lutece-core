@@ -4,7 +4,8 @@
             <@tform method='post' type='inline'>
 				<@formGroup labelFor='search_role' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
-						<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<#assign paramsAttr1>autocomplete="off" addons</#assign>
+						<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params=paramsAttr1 />
 						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>

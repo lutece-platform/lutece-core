@@ -46,7 +46,8 @@ Snippet:
 			</@listGroup>
 			</@offcanvas>
 			<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>${extendableResourceActionsHtml!}</#if>
-			<@button class='d-block d-md-none' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params='data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"' >
+			<#local paramsAttr1>data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"</#local>
+			<@button class='d-block d-md-none' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params=paramsAttr1 >
 				<@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span>
 			</@button>
 		</@btnGroup>
@@ -66,7 +67,8 @@ Snippet:
 			<@inputGroup>
 				<@input type='number' name='page_id' id='page_id' min=1 title='${i18n("portal.site.admin_page.buttonSearchPage")}' value=page.id!  pattern='\\d' />
 				<@button type='submit' color='primary' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' />
-				<@button buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params='data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"' >
+				<#local paramsAttr2>data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"</#local>
+				<@button buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params=paramsAttr2 >
 					<@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span>
 				</@button>
 			</@inputGroup>

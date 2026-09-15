@@ -15,7 +15,8 @@ Snippet:
 
     Modal footer with ID and custom attributes:
 
-    <@modalFooter id='wizardFooter' params='data-step="final"'>
+    <#assign paramsAttr1>data-step="final"</#assign>
+    <@modalFooter id='wizardFooter' params=paramsAttr1>
         <button type='button' class='btn btn-outline-secondary'>Previous</button>
         <button type='submit' class='btn btn-success'>Submit</button>
     </@modalFooter>

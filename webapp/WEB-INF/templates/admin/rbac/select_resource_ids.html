@@ -5,7 +5,8 @@
 		<@tform method='post' type='inline'>
 			<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 				<@inputGroup>
-					<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' size='' />
+					<#assign paramsAttr1>autocomplete="off"</#assign>
+					<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params=paramsAttr1 size='' />
 					<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] size='' />
 				</@inputGroup>
 			</@formGroup>
@@ -22,7 +23,8 @@
 			<@h level=2 class='mb-3'><#outputformat "HTML">${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label)}</#outputformat></@h>
 			<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList'>
 				<#list resource_id_list?sort_by('name') as item>
-					<@checkBox orientation='switch' name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' labelClass='searchable' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
+					<#assign paramsAttr2> aria-labelledby="resourceList" data-role="${item.name}" </#assign>
+					<@checkBox orientation='switch' name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' labelClass='searchable' params=paramsAttr2 />
 				</#list>
 			</@formGroup>
 			<@formGroup>

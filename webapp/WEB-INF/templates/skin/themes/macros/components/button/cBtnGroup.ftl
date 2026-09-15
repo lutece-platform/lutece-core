@@ -39,7 +39,8 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-group<#if type='vertical'> btn-group-vertical</#if><#if class?has_content> ${class}</#if></#local>
 <#local btnClass = btnClass?is_markup_output?then(btnClass?markup_string, btnClass) />
-<@cSection type='div' class=btnClass id=id params='${params} role="group" aria-label="${label}"'>
+<#local paramsAttr1>${params} role="group" aria-label="${label}"</#local>
+<@cSection type='div' class=btnClass id=id params=paramsAttr1>
 	<#if buttonList?has_content>
 		<#if type == 'vertical'>
 		    <@chList class="list-unstyled d-flex flex-column m-0">

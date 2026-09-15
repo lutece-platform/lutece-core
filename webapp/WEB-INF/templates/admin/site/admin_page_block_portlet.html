@@ -1,7 +1,8 @@
 <@row>
 	<@columns>
 		<#if portlet_types_list?has_content>
-			<@tform method='post' action='jsp/admin/DoCreatePortlet.jsp' params='target="preview"'>
+			<#assign paramsAttr1>target="preview"</#assign>
+			<@tform method='post' action='jsp/admin/DoCreatePortlet.jsp' params=paramsAttr1>
 				<@fieldSet legend='#i18n{portal.site.admin_page.titlePortletProperties}'>
 					<@input type='hidden' name='page_id' value='${page.id}' />
 					<strong>#i18n{portal.site.admin_page.labelPortletType}</strong>

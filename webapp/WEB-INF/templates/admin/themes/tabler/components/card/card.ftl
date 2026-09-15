@@ -36,13 +36,15 @@ Snippet:
 
     Card with ribbon and stamp:
 
-    <@card headerTitle='Premium Plan' ribbon='NEW' ribbonColor='success' stamp='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg>' stampColor='yellow'>
+    <#assign stampAttr1><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg></#assign>
+    <@card headerTitle='Premium Plan' ribbon='NEW' ribbonColor='success' stamp=stampAttr1 stampColor='yellow'>
         <p>Unlock all features with the premium plan.</p>
     </@card>
 
     Card with header actions:
 
-    <@card headerTitle='Tasks' headerActions='<a href="#" class="btn btn-sm btn-primary">Add Task</a>'>
+    <#assign headerActionsAttr2><a href="#" class="btn btn-sm btn-primary">Add Task</a></#assign>
+    <@card headerTitle='Tasks' headerActions=headerActionsAttr2>
         <p>No tasks yet.</p>
     </@card>
 

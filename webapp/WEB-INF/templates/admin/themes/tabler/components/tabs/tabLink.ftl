@@ -36,7 +36,8 @@ Snippet:
 <li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
-<#local tabLinkSettings = 'role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
+<#local tabLinkSettingsAttr1>role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"</#local>
+<#local tabLinkSettings=tabLinkSettingsAttr1 />
 <#if href?contains('#') && href?contains('.jsp') == false>
 	<#local tabLinkSettings += ' data-bs-toggle="tab"' />
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />

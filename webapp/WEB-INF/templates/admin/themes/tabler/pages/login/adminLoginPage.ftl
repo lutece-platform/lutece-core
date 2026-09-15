@@ -77,7 +77,8 @@ Snippet:
 						<!-- BEGIN NAVBAR LOGO -->
 						<a href="." aria-label="#i18n{portal.admin.admin_login.gotoFO} ${site_name!}" target="_blank" class="navbar-brand navbar-brand-autodark">
 							<#if logoUrl?has_content>
-							<@img url='${logoUrl}' alt='${site_name!}' class='logo' params='aria-hidden="true" height="24" width="24"' />
+							<#local paramsAttr1>aria-hidden="true" height="24" width="24"</#local>
+							<@img url='${logoUrl}' alt='${site_name!}' class='logo' params=paramsAttr1 />
 							<span class="ms-1 fs-2 d-inline-block">${site_name!''}</span>
 							<#else>
 							${logoSvg!}

@@ -6,7 +6,8 @@
 				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
 					formStyle='inline'>
 					<@inputGroup>
-						<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<#assign paramsAttr1>autocomplete="off" addons</#assign>
+						<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params=paramsAttr1 />
 						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>
@@ -24,7 +25,8 @@
 		</@pageHeader>
 		<#if plugins_list?has_content>
 			<@row id='plugins'>
-				<@columns xs=12 sm=6 lg=4 params='data-plugin="${core.name}"'>
+				<#assign paramsAttr2>data-plugin="${core.name}"</#assign>
+				<@columns xs=12 sm=6 lg=4 params=paramsAttr2>
 					<@box>
 						<#assign logo><@img url=core.iconUrl alt='logo' title=core.name  class='thumbnail thumbnail-sm' params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/apps.svg'\"" /></#assign>
 						<@boxHeader title='${logo} ${core.name}' class="searchable" boxTools=true>
@@ -41,9 +43,11 @@
 					</@box>
 				</@columns>
 				<#list plugins_list?sort_by('name') as plugin>
-					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"'>
+					<#assign paramsAttr3>data-plugin="${plugin.name}"</#assign>
+					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params=paramsAttr3>
 						<@box>
-							<#assign logo><@img url='${plugin.iconUrl}' alt='logo' class='thumbnail thumbnail-sm img-invert' title='${plugin.name}' params=' onerror="this.onerror=null;this.src=\'themes/admin/shared/images/apps.svg\'"' /></#assign>
+							<#assign paramsAttr4> onerror="this.onerror=null;this.src='themes/admin/shared/images/apps.svg'"</#assign>
+							<#assign logo><@img url='${plugin.iconUrl}' alt='logo' class='thumbnail thumbnail-sm img-invert' title='${plugin.name}' params=paramsAttr4 /></#assign>
 							<@boxHeader title='${logo} ${plugin.name}' class='searchable' titleAuto=false boxTools=true>
 								<small>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${plugin.version}</strong></small>
 								<@p class='my-1'>

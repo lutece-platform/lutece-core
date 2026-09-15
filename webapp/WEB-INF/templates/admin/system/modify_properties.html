@@ -10,7 +10,8 @@
         <@tform>
             <@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
                 <@inputGroup>
-                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+                    <#assign paramsAttr1>autocomplete="off" addons</#assign>
+                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params=paramsAttr1 />
                     <@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
                 </@inputGroup>
             </@formGroup>
@@ -42,7 +43,8 @@
                         <@row class='g-3' params=masonryRowParams>
                         <#list groupList?sort as groupCol>
                         <#if groupCol?trim?has_content>
-                        <@columns xs=12 sm=6 md=4 class='mb-3' params='data-prop="${groupCol}"'>
+                        <#assign paramsAttr2>data-prop="${groupCol}"</#assign>
+                        <@columns xs=12 sm=6 md=4 class='mb-3' params=paramsAttr2>
                            <@box class='properties-group'>
                               <@boxBody>
                                 <#assign groupName=''>
@@ -64,7 +66,8 @@
                                         <#assign helpText=groupItem.help!''>
                                         <@box id='box_${groupItem.key}' class=boxClass>
                                             <@boxBody class='searchable'>
-                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                            <#assign paramsAttr3> data-property="${groupItem.key}"</#assign>
+                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=paramsAttr3 rows=2>
                                                 <#if groupItem.key?ends_with( ".textblock" )>
                                                     <@input type='textarea' name=groupItem.key id=groupItem.key><#outputformat "HTML">${groupItem.value}</#outputformat></@input>
                                                 <#elseif groupItem.key?ends_with( ".htmlblock" )>
@@ -132,7 +135,8 @@
         </@tabs>
     </@pageColumn>
     <@row class='position-fixed bottom-0 end-0 w-100 h-10'>
-        <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
+        <#assign paramsAttr4>style="background-color:rgba(255,255,255,.8)"</#assign>
+        <@columns class='d-flex justify-content-center align-items-center col-12' params=paramsAttr4>
             <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
         </@columns>
     </@row>

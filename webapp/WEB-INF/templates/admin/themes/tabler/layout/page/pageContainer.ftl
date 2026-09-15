@@ -21,7 +21,8 @@ Snippet:
 
     Full-height page container with custom class and header actions:
 
-    <@pageContainer height='full' class='my-custom-page' actions='<a class="btn btn-primary" href="#">New Item</a>'>
+    <#assign actionsAttr1><a class="btn btn-primary" href="#">New Item</a></#assign>
+    <@pageContainer height='full' class='my-custom-page' actions=actionsAttr1>
         <p>Full-height page content</p>
     </@pageContainer>
 

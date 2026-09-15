@@ -23,7 +23,8 @@ Snippet:
 
     Dropdown with icon and custom id:
 
-    <@cDropNav title='My Account' icon='<i class="ti ti-user"></i>' id='account-menu'>
+    <#assign iconAttr1><i class="ti ti-user"></i></#assign>
+    <@cDropNav title='My Account' icon=iconAttr1 id='account-menu'>
         <li><a class="dropdown-item" href="/profile">Profile</a></li>
         <li><a class="dropdown-item" href="/settings">Settings</a></li>
     </@cDropNav>

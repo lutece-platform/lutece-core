@@ -27,7 +27,8 @@ Snippet:
 <#local stepClass = stepClass?is_markup_output?then(stepClass?markup_string, stepClass) />
 <@div class=stepClass id=id params=params>
 	<@div class='step-title'>
-		<@h class='title' level=titleLevel params='title="${title}" data-step="${step}"'>
+		<#local paramsAttr1>title="${title}" data-step="${step}"</#local>
+		<@h class='title' level=titleLevel params=paramsAttr1>
 			<@span class='step-number'>${step}</@span>
 			<@span>${title}</@span>
 		</@h>

@@ -44,7 +44,8 @@ Snippet:
 <#assign sliderRowClass = 'theme-slider ' + class!>
 <#assign sliderParams>aria-roledescription="slide" aria-label="${sliderLabel!}" ${params}</#assign>
 <@cSection id=id class='theme-slider-wrapper' params=sliderParams>
-    <@cRow id=sliderInnerId class=sliderRowClass params='aria-live="off"'>
+    <#local paramsAttr1>aria-live="off"</#local>
+    <@cRow id=sliderInnerId class=sliderRowClass params=paramsAttr1>
         <#if slides?size gt 0>
             <#assign slideIdx=1 />
             <#list slides as slideItem>

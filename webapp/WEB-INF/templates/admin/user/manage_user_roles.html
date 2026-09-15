@@ -28,7 +28,8 @@
 							<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}' class='me-2' hideTitle=['xs','sm'] />
 						</#if>
 						<#if can_delegate>
-							<@button type='submit' buttonIcon='users-plus' title='#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}' hideTitle=['xs','sm'] params=' data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="#i18n{portal.users.modify_user_rights.informationRightModification}"' />
+							<#assign paramsAttr1> data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="#i18n{portal.users.modify_user_rights.informationRightModification}"</#assign>
+							<@button type='submit' buttonIcon='users-plus' title='#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}' hideTitle=['xs','sm'] params=paramsAttr1 />
 						</#if>
 					</@tform>
 				</@div>

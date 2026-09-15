@@ -26,8 +26,10 @@
                     <@input type='hidden' name='token' value='${token}' />
                     <@div class='d-flex justify-content-between pb-3'>
                         <@btnGroup>
-                            <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check"' hideTitle=['all'] />
-                            <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck"' hideTitle=['all'] />
+                            <#assign paramsAttr1> data-check="check"</#assign>
+                            <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=paramsAttr1 hideTitle=['all'] />
+                            <#assign paramsAttr2> data-check="uncheck"</#assign>
+                            <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=paramsAttr2 hideTitle=['all'] />
                         </@btnGroup>
                         <@btnGroup>
                             <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' />
@@ -55,8 +57,10 @@
                     <#if all_right_list?size gt 25>
                     <@div class='d-flex justify-content-between pt-3'>
                         <@btnGroup>
-                            <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                            <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                            <#assign paramsAttr3> data-check="check" </#assign>
+                            <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=paramsAttr3 hideTitle=['all'] />
+                            <#assign paramsAttr4> data-check="uncheck" </#assign>
+                            <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=paramsAttr4  hideTitle=['all'] />
                         </@btnGroup>
                         <@btnGroup> 
                             <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />

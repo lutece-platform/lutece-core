@@ -27,7 +27,8 @@ Snippet:
 
     As an inline element with extra attributes:
 
-    <@cIcon name='alert-circle' class='text-danger' params='aria-hidden="true"' />
+    <#assign paramsAttr1>aria-hidden="true"</#assign>
+    <@cIcon name='alert-circle' class='text-danger' params=paramsAttr1 />
 
 -->
 <#macro cIcon name='check' class='' id='' title='' params='' prefix='ti ti-' type='span' deprecated...>

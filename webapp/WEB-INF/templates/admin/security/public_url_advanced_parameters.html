@@ -32,7 +32,8 @@
           <@columns md=4 offsetMd=4>
               <@button type='submit' buttonIcon='plus' title='#i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}' /> 
               <@p>#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</@p>
-              <@button color="btn-default" params=' onclick="javascript:window.history.back();" ' buttonIcon='times' title='#i18n{portal.security.public_url_advanced_parameters.buttonCancel}' /> 
+              <#assign paramsAttr1> onclick="javascript:window.history.back();" </#assign>
+              <@button color="btn-default" params=paramsAttr1 buttonIcon='times' title='#i18n{portal.security.public_url_advanced_parameters.buttonCancel}' /> 
           </@columns>    
         </@row> 
       </@tform>

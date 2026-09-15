@@ -66,22 +66,26 @@ Snippet:
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
-                            <@cIcon name='brand-facebook' params='aria-hidden="true"' />
+                            <#local paramsAttr1>aria-hidden="true"</#local>
+                            <@cIcon name='brand-facebook' params=paramsAttr1 />
                         </a>    
                     </li>
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
-                            <@cIcon name='brand-x' params='aria-hidden="true"' />
+                            <#local paramsAttr2>aria-hidden="true"</#local>
+                            <@cIcon name='brand-x' params=paramsAttr2 />
                         </a>    
                     </li>
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
-                            <@cIcon name='brand-instagram' params='aria-hidden="true"' />
+                            <#local paramsAttr3>aria-hidden="true"</#local>
+                            <@cIcon name='brand-instagram' params=paramsAttr3 />
                         </a>    
                     </li>
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
-                            <@cIcon name='brand-linkedin' params='aria-hidden="true"' />
+                            <#local paramsAttr4>aria-hidden="true"</#local>
+                            <@cIcon name='brand-linkedin' params=paramsAttr4 />
                         </a>    
                     </li>
                 </ul>
