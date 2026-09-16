@@ -288,6 +288,25 @@
             <artifactId>library-core-utils</artifactId>
             <version>1.0.0</version>
             <type>jar</type> 
+        </dependency>        
+        <!-- LUT-33380 : ships the runAfter ordering (RunAfterOrdering, RunAfterResourceComparator) into WEB-INF/lib
+        
+             for the Ant database initialization of build-config (typedef with ../lib as classpath) : a plugin test
+        
+             build or a site, with or without plugin-liquibase, orders its SQL scripts with the runAfter header
+        
+             directive, as the liquibase startup does. Not used by core at runtime. Keep the version aligned with
+        
+             the one plugin-liquibase consumes. -->
+        
+        <dependency>
+        
+            <groupId>fr.paris.lutece.tools</groupId>
+        
+            <artifactId>library-sql-utils</artifactId>
+        
+            <version>2.1.0-SNAPSHOT</version>
+        
         </dependency>
         
         <!-- JUnit -->
