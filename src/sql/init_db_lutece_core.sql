@@ -219,6 +219,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.home.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sticky.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.transparent.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.vertical.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select', 'default');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select.options', 'default|folded|folded-hover');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '0');

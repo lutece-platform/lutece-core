@@ -1,8 +1,13 @@
 /* ****************************************************************
  *
- * BS 5.3 + Tabler 1.4
+ * Tabler 1.5 (Bootstrap 5.3 included)
  *
  * ****************************************************************/
+/* Tabler 1.5 bundles Bootstrap and exposes its components under window.tabler (tabler.Modal, tabler.Tooltip...).
+   Alias the historical window.bootstrap namespace so templates and plugins written against bootstrap.* keep working. */
+if( typeof window.bootstrap === 'undefined' && typeof window.tabler !== 'undefined' ){
+	window.bootstrap = window.tabler.bootstrap || window.tabler;
+}
 const themeRoot = document.querySelector('html'); 
 
 /* Specific script for back office */
@@ -78,8 +83,8 @@ function themeMenu( ){
 
 	const mainMenu = document.getElementById('main-menu');
 	if( mainMenu != null ){
-		const mainNav = document.getElementById('main-nav');
-		const userMenu = mainNav.querySelector('.user-initials');
+		// The avatar lives in #main-nav (horizontal navbar) or in the sidebar .navbar-footer (vertical navbar)
+		const userMenu = document.querySelector('.user-initials');
 		const userName = userMenu != null ? userMenu.dataset.username : '';
 
 		// Set the main menu as active
@@ -119,7 +124,7 @@ function setSkipLinks( ){
 
 /* Wire up the read direction (rtl/ltr) toggle. Restoring the stored value is handled by themeMenu() */
 function readMode( ){
-	const switchReadMode =  document.querySelector( 'header.navbar #lutece-rtl');
+	const switchReadMode =  document.querySelector( '.navbar #lutece-rtl');
     const userDropdownMenu = document.querySelector( '.dropdown-menu-arrow' );
 	// Single source of truth for restoring user stored preferences on load.
 	if( switchReadMode != null ){
@@ -161,6 +166,10 @@ function wireLogout( ){
 			}
 			if( localStorage.getItem( 'lutece-bo-readmode' ) === 'rtl' ){
 				url.searchParams.set( 'lutece-bo-readmode', 'rtl' );
+			}
+			const sidebar = localStorage.getItem( 'tabler-sidebar' );
+			if( sidebar !== null ){
+				url.searchParams.set( 'tabler-sidebar', sidebar );
 			}
 			const go = () => window.location.assign( url.toString() );
 			// Persist the admin home dashboard widget layout to core_admin_user_preferences so it
@@ -218,13 +227,19 @@ document.addEventListener( "DOMContentLoaded", function(){
 	wireLogout( );
 	setSkipLinks( )
 
+	// tabler.js instantiates every [data-bs-toggle="popover"] at load with its own options : replace those instances
+	// with the Lutece ones (unsanitized HTML content, body container), Bootstrap refuses two instances on one element.
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		const existing = bootstrap.Popover.getInstance( popoverTriggerEl );
+		if( existing != null ){
+			existing.dispose();
+		}
 		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})
 	})
 
 	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerEl))
 
 	const tgCheck = document.querySelectorAll('.toggleCheck')
 	tgCheck.forEach( (tg) => {
