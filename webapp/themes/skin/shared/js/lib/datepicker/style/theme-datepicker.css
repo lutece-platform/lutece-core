@@ -115,6 +115,7 @@
   border: 0;
   box-shadow: var(--lutece-ds-shadow-md);
   width: max-content;
+  max-width: 320px;
 }
 
 .datepicker-header .datepicker-controls {
