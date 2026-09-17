@@ -27,27 +27,6 @@ ${ adminPageJspBean.init( pageContext.request, AdminPageJspBean.RIGHT_MANAGE_ADM
 %>
 ${ adminPageJspBean.getAdminPagePreview( pageContext.request ) }
 <!--JSP -->
-<!-- A modal dialog containing a form -->
-<dialog id="addPortletDialog" class="lutece-dialog" aria-labelledby="portletModalLabel" aria-hidden="true" tabindex="-1">
-    <div class="lutece-dialog lutece-dialog-fullscreen">
-        <div class="lutece-dialog-content">
-            <div class="lutece-dialog-header">
-                <h2 class="lutece-dialog-title h4 text-dark m-0" id="portletModalLabel"><%= I18nService.getLocalizedString(PROPERTY_LABELPORTLETTYPE_CREATE, request.getLocale() ) %></h2>
-                <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="<%= I18nService.getLocalizedString(PROPERTY_LABEL_CANCEL, request.getLocale() ) %>"><i class="ti ti-x"></i></button>
-            </div>
-            <div class="lutece-dialog-body">
-                <div class="container">
-                    <div id='portlet_type_id' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"></div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary btn-cancel" value="cancel" >
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg><%= I18nService.getLocalizedString(PROPERTY_LABEL_CLOSE, request.getLocale() ) %></button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</dialog>
 <!-- Add CSS theme selected theme default file -->
 <%
     Theme globalTheme = ThemesService.getGlobalThemeObject( );
@@ -83,6 +62,27 @@ html::-webkit-scrollbar-thumb:hover {
   background: #555;
 }   
 </style>
+<!-- A modal dialog containing a form -->
+<dialog id="addPortletDialog" class="lutece-dialog" aria-labelledby="portletModalLabel" aria-hidden="true" tabindex="-1">
+    <div class="lutece-dialog">
+        <div class="lutece-dialog-content">
+            <div class="lutece-dialog-header">
+                <h2 class="lutece-dialog-title h4 text-dark m-0" id="portletModalLabel"><%= I18nService.getLocalizedString(PROPERTY_LABELPORTLETTYPE_CREATE, request.getLocale() ) %></h2>
+                <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="<%= I18nService.getLocalizedString(PROPERTY_LABEL_CANCEL, request.getLocale() ) %>"><i class="ti ti-x"></i></button>
+            </div>
+            <div class="lutece-dialog-body">
+                <div class="container">
+                    <div id='portlet_type_id' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"></div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary btn-cancel" value="cancel" >
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg><%= I18nService.getLocalizedString(PROPERTY_LABEL_CLOSE, request.getLocale() ) %></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</dialog>
 <script type="module">
 document.addEventListener( "DOMContentLoaded", function(){
     const parentPortletTypeNodes = window.parent.document.querySelectorAll( '#offcanvas-body-portlet-type-wrapper ul li' );

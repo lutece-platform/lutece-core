@@ -42,6 +42,11 @@
 	if( urlParams.get('lutece-bo-readmode') === 'rtl' ){
 		localStorage.setItem('lutece-bo-readmode', 'rtl');
 	}
+	// Sidebar fold state chosen with the Tabler pin button (see adminHeader.ftl)
+	const paramSidebar = urlParams.get('tabler-sidebar');
+	if( paramSidebar === 'default' || paramSidebar === 'folded' || paramSidebar === 'folded-hover' ){
+		localStorage.setItem('tabler-sidebar', paramSidebar);
+	}
 	const localTheme = localStorage.getItem('lutece-tabler-theme');
 	if( localTheme !== null ){
 		document.documentElement.dataset.bsTheme = localTheme;

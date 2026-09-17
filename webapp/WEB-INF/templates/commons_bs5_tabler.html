@@ -5,9 +5,9 @@
 <#-- Do not remove this comment -->
 <#-- Information about this commons file -->
 <#macro commonsFile>commons_bs5_tabler.html</#macro>
-<#macro commonsName>Commons Bootstrap 5 + Tabler 1.4</#macro>
+<#macro commonsName>Commons Bootstrap 5 + Tabler 1.5</#macro>
 <#macro commonsPreview>themes/admin/tabler/images/preview.png</#macro>
-<#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1.4</#macro>
+<#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1.5</#macro>
 <#-- Path               -->
 <#assign commonsJsPath='js/' /> 
 <#assign commonsCssPath='css/' /> 
@@ -25,6 +25,7 @@
 <!-- Shared CSS -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/bootstrap/bootstrap-icons.min.css" rel="stylesheet" > <#-- Bootstrap Icons -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-icons-filled.min.css" rel="stylesheet"><#-- Tabler filled icons (separate webfont since 3.38, loaded after the outline one) -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
 <link href="${commonsSharedPath}${commonsJsPath}lib/polipop/css/polipop.core.min.css" rel="stylesheet"><#-- Polipop main -->
@@ -41,7 +42,9 @@
 <script src="${commonsSharedPath}${commonsJsPath}lib/sortable/Sortable.min.js"></script> <#-- Sortable lib main -->
 <script src="${commonsSharedPath}${commonsJsPath}lib/polipop/polipop.min.js"></script><#-- Polipop main -->
 <!-- Theme <@commonsName /> JS -->
-<script src="${commonsSharedPath}${commonsJsPath}lib/bootstrap/bootstrap.bundle.min.js"></script> 
-<script src="${commonsThemePath}${commonsJsPath}admin.min.js"></script><#-- Theme main JS -->  
+<#-- Tabler 1.5 ships Bootstrap 5.3.8 (+ Popper) inside tabler.min.js : do not load bootstrap.bundle.min.js as well, components would start twice.
+     The Bootstrap components are exposed under window.tabler (window.tabler.Modal...) ; admin.js aliases window.bootstrap for backward compatibility. -->
+<script src="${commonsThemePath}${commonsJsPath}vendor/tabler.min.js"></script><#-- Tabler main JS (Bootstrap 5 included) -->
+<script src="${commonsThemePath}${commonsJsPath}admin.min.js"></script><#-- Theme main JS -->
 </#macro>
 <#include "commons_macros.html" />
