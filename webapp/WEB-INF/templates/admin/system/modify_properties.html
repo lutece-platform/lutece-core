@@ -124,12 +124,14 @@
                 </#list>
             </@tabContent>
         </@tabs>
+        <#-- Save bar : sticky (not fixed) so it stays at the bottom of the viewport in every layout. Since Tabler 1.5 the boxed
+             layout sets contain:layout on .page, which turns a position-fixed bar into one anchored to the bottom of the page box. -->
+        <@row class='sticky-bottom w-100 py-2' params='style="background-color:rgba(255,255,255,.8)"'>
+            <@columns class='d-flex justify-content-center align-items-center col-12'>
+                <@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+            </@columns>
+        </@row>
     </@pageColumn>
-    <@row class='position-fixed bottom-0 end-0 w-100 h-10'>
-        <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
-            <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
-        </@columns>
-    </@row>
 </@pageContainer>
 </@tform>
 <@overlay />
@@ -147,7 +149,10 @@
         return ( window.Masonry && Masonry.data ) ? Masonry.data( grid ) : null;
     }
     function relayout( scope ) {
-        ( scope || document ).querySelectorAll( '[data-masonry]' ).forEach( function ( grid ) {
+        scope = scope || document;
+        // querySelectorAll only returns descendants : when the scope is the grid itself (change handler below), lay it out directly
+        var grids = ( scope.matches && scope.matches( '[data-masonry]' ) ) ? [ scope ] : scope.querySelectorAll( '[data-masonry]' );
+        grids.forEach( function ( grid ) {
             var m = getInstance( grid );
             if ( !m && window.Masonry ) { m = new Masonry( grid, { percentPosition: true } ); }
             if ( m ) { 
@@ -306,19 +311,18 @@ document.addEventListener( "DOMContentLoaded", function(){
         });
     }
 
-    // Bo vertical menu transparent option
+    // Bo vertical menu options (transparent background, sidebar mode) only make sense with the vertical menu
     const verticalMenu = document.getElementById('portal.site.site_property.layout.menu.vertical.checkbox');
     if( verticalMenu ){
-        if( !verticalMenu.checked ){
-               document.getElementById('box_portal.site.site_property.layout.menu.transparent.checkbox').classList.add('d-none');
-        }
-        verticalMenu.addEventListener('change', function(){
-            if( this.checked ){
-                document.getElementById('box_portal.site.site_property.layout.menu.transparent.checkbox').classList.remove('d-none');
-            } else {
-                document.getElementById('box_portal.site.site_property.layout.menu.transparent.checkbox').classList.add('d-none');
-            }
-        });
+        const verticalMenuOptions = [
+            'box_portal.site.site_property.layout.menu.transparent.checkbox',
+            'box_portal.site.site_property.layout.menu.sidebar.select'
+        ].map( id => document.getElementById( id ) ).filter( box => box != null );
+        const toggleVerticalMenuOptions = () => {
+            verticalMenuOptions.forEach( box => box.classList.toggle( 'd-none', !verticalMenu.checked ) );
+        };
+        toggleVerticalMenuOptions();
+        verticalMenu.addEventListener('change', toggleVerticalMenuOptions );
     }
 
     // Login cover options

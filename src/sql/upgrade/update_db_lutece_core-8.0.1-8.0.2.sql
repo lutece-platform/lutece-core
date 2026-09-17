@@ -139,3 +139,10 @@ UPDATE core_datastore SET entity_key='portal.theme.site_property.consent.platfor
 -- Add default value for the active user's favorites menu checkbox
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.activeUserFavs.checkbox';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.activeUserFavs.checkbox', '0');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev12.sql
+-- Tabler 1.5 : BO vertical menu sidebar mode (default | folded | folded-hover), see adminHeader.ftl
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.menu.sidebar.select';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select', 'default');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.menu.sidebar.select.options';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select.options', 'default|folded|folded-hover');
