@@ -5,15 +5,15 @@
 
 .datepicker {
   /* Cell size drives the whole calendar: width also rules the view and panel widths (x7 columns) */
-  --dp-cell-width: calc(var(--lutece-ds-size-base, .4rem) * 16);
-  --dp-cell-height: calc(var(--lutece-ds-size-base, .4rem) * 13);
+  --dp-cell-width: calc(var(--lutece-ds-size-base, .4rem) * 10);
+  --dp-cell-height: calc(var(--lutece-ds-size-base, .4rem) * 10);
   /* Corner rounding: panel and day cells can be tuned independently */
   --dp-radius: var(--lutece-ds-radius-lg, 14px);
   --dp-cell-radius: var(--lutece-ds-radius-md, 10px);
   --lutece-ds-white: var(--lutece-ds-white, #fff);
   width: -moz-max-content;
   width: max-content;
-  /*  max-width: 320px; */
+  max-width: 320px;
 }
 
 .datepicker-dropdown {
@@ -115,6 +115,7 @@
   border: 0;
   box-shadow: var(--lutece-ds-shadow-md);
   width: max-content;
+  max-width: 320px;
 }
 
 .datepicker-header .datepicker-controls {

@@ -39,7 +39,8 @@
 	box-shadow: 0 0 0 3px rgba(61, 194, 174, 0.25);
 }
 
-.search-hero h1 {
+.search-hero h2 {
+	color: #fff;
 	font-size: 44px;
 	font-weight: 900;
 	letter-spacing: -0.025em;
@@ -188,7 +189,6 @@
 	font-size: 14px;
 	font-weight: 500;
 	cursor: pointer;
-	padding: 5px 0;
 }
 
 .filter-check input {

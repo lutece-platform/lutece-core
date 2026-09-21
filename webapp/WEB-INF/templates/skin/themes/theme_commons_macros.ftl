@@ -41,6 +41,7 @@
 <@cMacro name='cTheme' group='components/theme' />
 <@cMacro name='cContentFrame' group='components/text' />
 <@cMacro name='cDivider' group='components/text' />
+<@cMacro name='cTile' group='components/tile' />
 <@cMacro name='cSetPageTitle' group='components/title' />
 <@cMacro name='cArticle' group='elements/article' />
 <@cMacro name='cFooter' group='elements/footer' />

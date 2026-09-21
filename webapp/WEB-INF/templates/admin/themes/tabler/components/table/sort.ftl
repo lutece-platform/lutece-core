@@ -37,8 +37,8 @@ Snippet:
 </#if>
 <#switch type>
 	<#case 'date'>
-		<#local sortLabels = ['#i18n{portal.util.sort.date.asc}','#i18n{portal.util.sort.date.desc}'] />
-		<#local sortIcons = ['sort-ascending','sort-descending'] />
+		<#local sortLabels = ['#i18n{portal.util.sort.date.desc}','#i18n{portal.util.sort.date.asc}'] />
+		<#local sortIcons = ['sort-descending','sort-ascending'] />
 		<#break>
 	<#case 'boolean'>
 		<#local sortLabels = ['#i18n{portal.util.sort.boolean.asc}','#i18n{portal.util.sort.boolean.desc}'] />
@@ -61,12 +61,12 @@ Snippet:
 	</button>
 	<ul class="dropdown-menu">
 		<li>
-			<a class="dropdown-item" href="${sort_url}true#${sortId}" title="${sortLabels[0]}" data-asc="true" data-sort-icon="ti ti-${sortIcons[0]}">
+			<a class="dropdown-item" href="${sort_url}true#${sortId}" title="${sortLabels[0]}" data-asc="false" data-sort-icon="ti ti-${sortIcons[0]}">
 				<@icon style=sortIcons[0] class='me-1' /> ${sortLabels[0]}
 			</a>
 		</li>
 		<li>
-			<a class="dropdown-item" href="${sort_url}false#${sortId}" title="${sortLabels[1]}" data-asc="false" data-sort-icon="ti ti-${sortIcons[1]}">
+			<a class="dropdown-item" href="${sort_url}false#${sortId}" title="${sortLabels[1]}" data-asc="true" data-sort-icon="ti ti-${sortIcons[1]}">
 				<@icon style=sortIcons[1] class='me-1' /> ${sortLabels[1]}
 			</a>
 		</li>

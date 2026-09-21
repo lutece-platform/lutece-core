@@ -1,6 +1,12 @@
 /****************************************************/
 /* SPECIFIC THEME CUSTOM SITE STYLES OVERRIDES      */
 /****************************************************/
+@import url(components/hero.min.css?ver=8.0.2);
+@import url(components/empty.min.css?ver=8.0.2);
+@import url(components/icon.min.css?ver=8.0.2);
+@import url(components/portlet.min.css?ver=8.0.2);
+@import url(components/post.min.css?ver=8.0.2);
+@import url(components/status.min.css?ver=8.0.2);
 [data-bs-theme="dark"] #bd-theme > .icon-tabler-moon,
 [data-bs-theme="light"] #bd-theme > .icon-tabler-sun{
     display: block;
@@ -15,15 +21,11 @@
     color: var(--lutece-ds-primary-soft)
 }
 
-
 /* Translation styles   */
 #google_translate_element,
 .goog-te-banner-frame.skiptranslate,
 .goog-te-banner-frame,
 .skiptranslate iframe { display: none !important; }
-/* .goog-tooltip,
-.goog-tooltip:hover { display: none !important; }
-.goog-text-highlight { background: transparent !important; box-shadow: none !important; } */
 
 #lang-btn + .dropdown-menu .dropdown-item.active {
     color: var( --lutece-ds-white ) !important;

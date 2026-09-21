@@ -5,10 +5,12 @@ Description: Generates a quantity picker with increment/decrement buttons and a 
 
 Parameters:
 - name (string, required): the name attribute of the input.
-- label (string, optional): the label text for the picker. Default: 'Choisir une quantite'.
+- label (string, optional): the label text for the picker. Default: '#i18n{portal.theme.labelFormQuantityChoose}'.
 - showLabel (boolean, optional): displays or hides the label. Default: false.
-- labelDecrease (string, optional): accessible label for the decrease button. Default: 'Retirer une unite'.
-- labelIncrease (string, optional): accessible label for the increase button. Default: 'Ajouter une unite'.
+- labelDecrease (string, optional): accessible label for the decrease button. Default: '#i18n{portal.theme.labelFormQuantityDecrease}'.
+- labelIncrease (string, optional): accessible label for the increase button. Default: '#i18n{portal.theme.labelFormQuantityIncrease}'.
+- paramsDecrease (string, optional): parameters for the button for exemple "disabled". Default: ''.
+- paramsIncrease (string, optional): parameters for the button for exemple "disabled". Default: ''.
 - minQty (string, optional): minimum selectable value. Default: '0'.
 - maxQty (string, optional): maximum selectable value. Default: '10'.
 - id (string, optional): the ID of the input. Default: ''.
@@ -37,7 +39,7 @@ Snippet:
     <@cQuantityPicker name='seats' label='Number of seats' showLabel=true minQty='1' maxQty='20' required=true />
 
 -->
-<#macro cQuantityPicker name label='Choisir une quantité' showLabel=false labelDecrease='Retirer une unité' labelIncrease='Ajouter une unité'  minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
+<#macro cQuantityPicker name label='#i18n{portal.theme.labelFormQuantityChoose}' showLabel=false labelDecrease='#i18n{portal.theme.labelFormQuantityDecrease}' labelIncrease='#i18n{portal.theme.labelFormQuantityIncrease}' paramsDecrease='' paramsIncrease='' minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
@@ -47,9 +49,9 @@ Snippet:
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>
-        <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' params='aria-label="${labelDecrease}" data-direction="-1"' />
+        <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' params='aria-label="${labelDecrease}" data-direction="-1" ${paramsDecrease}' />
         <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=params />
-        <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1"'  />
+        <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1" ${paramsIncrease}' />
     </@cInputGroup>
 </@cBlock>
 <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>

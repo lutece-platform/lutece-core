@@ -33,6 +33,7 @@ img {
 
 .main-content {
    min-height: 80vh;
+   padding-top: 20px;
 }
 
 .section {

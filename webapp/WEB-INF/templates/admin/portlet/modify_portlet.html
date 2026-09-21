@@ -25,7 +25,7 @@
 					<@radioButton name='display_portlet_title' id='display_portlet_title_no' value='1' orientation='h' checked=checked labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}' labelFor='display_portlet_title_no'/>
 				</@formGroup> 
 			</@columns>
-			<#if !portletType.id?starts_with('ALIAS') && !portletType.id?starts_with('BLOG') && !portletType.id?starts_with('HTML_UNTRANSFORMED') >
+			<#if portletType.id?starts_with('DOCUMENT') >
 				<@columns sm=4 md=2>
 					<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
 						<@select name='style' default_value='${portlet.styleId}' items=portlet_style_combo />

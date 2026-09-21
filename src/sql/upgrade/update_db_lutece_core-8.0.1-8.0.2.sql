@@ -5,6 +5,9 @@
 UPDATE core_admin_right SET level_right = 0 WHERE id_right = 'CORE_XSL_EXPORT_MANAGEMENT';
 
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2.sql-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Legacy XSL style tables are absent from databases created with the 8.x scripts: skip instead of failing the run
+-- precondition-sql-check expectedResult:3 SELECT COUNT(1) from INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=database() AND TABLE_NAME IN ('core_style_mode_stylesheet','core_stylesheet','core_style');
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 3 AND id_mode = 0 and id_stylesheet = 211;
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 4 AND id_mode = 0 and id_stylesheet = 213;
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 5 AND id_mode = 0 and id_stylesheet = 215;
@@ -131,3 +134,8 @@ UPDATE core_page_template SET file_name = 'skin/site/page_demo.html' WHERE file_
 -- options key as '<select key>.options', so the consent platform select was rendered empty
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.consent.platform.select.options';
 UPDATE core_datastore SET entity_key='portal.theme.site_property.consent.platform.select.options' WHERE entity_key='portal.theme.site_property.consent.select.options';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev11.sql
+-- Add default value for the active user's favorites menu checkbox
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.activeUserFavs.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.activeUserFavs.checkbox', '0');

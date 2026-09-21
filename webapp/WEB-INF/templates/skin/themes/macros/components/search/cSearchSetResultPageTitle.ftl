@@ -21,14 +21,15 @@ Snippet:
 
 -->  
 <#macro cSearchSetResultPageTitle >
+<#if query?? && query?has_content>
+<div id="searchQuery" hidden data-query="${query!?html}"></div>
 <script>
-<#if query?? && query!=''>
-window.addEventListener( "load", function() {
-    const pageTitle = document.querySelector('title');
-    const title = pageTitle.textContent
-    pageTitle.textContent = `<#noparse>${title}</#noparse> - ${query!}`;
+window.addEventListener("load", function () {
+    var q = document.getElementById('searchQuery').dataset.query;
+    var t = document.querySelector('title');
+    t.textContent = t.textContent + ' - ' + q;
     <#nested>
-})
-</#if>
+});
 </script>
+</#if>
 </#macro>

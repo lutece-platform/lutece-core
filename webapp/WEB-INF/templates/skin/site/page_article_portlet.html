@@ -1,21 +1,18 @@
 <@cTpl>
-<div id="two-zones-first">
-	<div id="two-zones-first-content">
-
+<^@cContainer>
+	<@cRow>
+		<@cCol cols='12 col-md-9'>
 	    ${page_article}
-
-	    <div class="article-comments">
+	    <@cRow>
+			<@cCol class='comments'>
 			${article_comments}
-		</div>
-
-	</div>
-</div>
-
-<div id="two-zones-second">
-	<div id="two-zones-second-content">
-
-	    ${page_article_list_portlet}
-
-	</div>
-</div>
+			</@cCol>
+		</@cRow>
+		<@cCol cols='12 col-md-3'>
+			<@cBlock type='aside' class="article-list">
+			${page_article_list_portlet}
+			</@cBlock>
+		</@cCol>
+	</@cRow>
+</@cContainer>
 </@cTpl>

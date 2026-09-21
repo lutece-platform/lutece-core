@@ -419,7 +419,7 @@ public class AuthenticationFilter implements Filter
      */
     private String getResquestedUrl( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );
+        return AppPathService.getBaseUrl( request ) + AppPathService.getRequestedPath( request );
     }
 
     /**
