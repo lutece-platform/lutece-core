@@ -37,19 +37,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,22 +61,17 @@ import freemarker.template.Template;
  *
  * <p>
  * The property is read by <code>FreeMarkerTemplateService</code> and defaults to <code>false</code>. When it is
- * <code>true</code>, <code>AbstractFreeMarkerTemplateService</code> installs
- * <code>HTMLOutputFormat.INSTANCE</code> plus <code>ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY</code>. That single switch
- * changes the type produced by block-capture assignments (<code>&lt;#assign x&gt;...&lt;/#assign&gt;</code>) from
- * <code>String</code> to markup output, and makes a family of built-ins illegal in one mode or the other.
+ * <code>true</code>, <code>AbstractFreeMarkerTemplateService</code> installs <code>HTMLOutputFormat.INSTANCE</code>
+ * plus <code>ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY</code>. That single switch changes the type produced by
+ * block-capture assignments (<code>&lt;#assign x&gt;...&lt;/#assign&gt;</code>) from <code>String</code> to markup
+ * output, and makes a family of built-ins illegal in one mode or the other.
  * </p>
  *
  * <p>
- * Two guarantees are enforced here:
+ * The plain helper functions this test needs (scanning the template tree, locating FreeMarker spans in the source,
+ * ...) live in {@link FreeMarkerAutoEscapeTestUtils} instead of being duplicated here, so another module can call
+ * them too — see that class for how to depend on it (lutece-core's test-jar).
  * </p>
- * <ol>
- * <li>{@link #everyCoreTemplateParsesInBothModes()} — every template shipped in <code>webapp/WEB-INF/templates</code>
- * must PARSE under both configurations. This catches <code>?no_esc</code> / <code>?esc</code> (ParseException when
- * auto-escaping is off) and <code>?html</code> / <code>?xhtml</code> (ParseException when it is on) across the whole
- * tree, at build time, with no per-template work.</li>
- * <li>The idiom tests — the vocabulary that plugins are asked to use must render identically in both modes.</li>
- * </ol>
  *
  * <p>
  * This test deliberately does not extend <code>LuteceTestCase</code>: it needs no container, no datasource and no
@@ -101,24 +92,8 @@ public class FreeMarkerAutoEscapeCompatibilityTest
             "?html", "?xhtml"
     };
 
-    // ------------------------------------------------------------------------------------------------
-    // Engine plumbing — mirrors AbstractFreeMarkerTemplateService.buildConfiguration()
-    // ------------------------------------------------------------------------------------------------
-
-    private static Configuration newConfiguration( boolean bAutoEscape )
-    {
-        Configuration cfg = new Configuration( Configuration.VERSION_2_3_31 );
-        cfg.setTemplateLoader( new StringTemplateLoader( ) );
-        cfg.setLocalizedLookup( false );
-
-        if ( bAutoEscape )
-        {
-            cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
-            cfg.setAutoEscapingPolicy( Configuration.ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY );
-        }
-
-        return cfg;
-    }
+    /** The built-in the migration introduces in bulk, and therefore the one that can be misplaced in bulk. */
+    private static final String BUILTIN_MARKER = "?has_content";
 
     /**
      * Renders a set of templates, the first one being the entry point.
@@ -140,7 +115,7 @@ public class FreeMarkerAutoEscapeCompatibilityTest
             loader.putTemplate( namesAndSources [i], namesAndSources [i + 1] );
         }
 
-        Configuration cfg = newConfiguration( bAutoEscape );
+        Configuration cfg = FreeMarkerAutoEscapeTestUtils.newConfiguration( bAutoEscape );
         cfg.setTemplateLoader( loader );
 
         StringWriter out = new StringWriter( );
@@ -182,7 +157,7 @@ public class FreeMarkerAutoEscapeCompatibilityTest
     @DisplayName( "Every core template parses with auto-escaping both on and off" )
     public void everyCoreTemplateParsesInBothModes( ) throws IOException
     {
-        List<Path> listTemplates = listCoreTemplates( );
+        List<Path> listTemplates = FreeMarkerAutoEscapeTestUtils.listPluginTemplates( TEMPLATES_ROOT );
 
         assertTrue( listTemplates.size( ) > 100,
                 "Expected to find the core template tree under " + TEMPLATES_ROOT + ", found " + listTemplates.size( ) + " files" );
@@ -200,11 +175,11 @@ public class FreeMarkerAutoEscapeCompatibilityTest
             {
                 try
                 {
-                    new Template( strName, strSource, newConfiguration( bAutoEscape ) );
+                    new Template( strName, strSource, FreeMarkerAutoEscapeTestUtils.newConfiguration( bAutoEscape ) );
                 }
                 catch( Exception e )
                 {
-                    listFailures.add( strName + " [autoEscape=" + bAutoEscape + "] : " + firstLine( e.getMessage( ) ) );
+                    listFailures.add( strName + " [autoEscape=" + bAutoEscape + "] : " + FreeMarkerAutoEscapeTestUtils.firstLine( e.getMessage( ) ) );
                 }
             }
         }
@@ -221,7 +196,7 @@ public class FreeMarkerAutoEscapeCompatibilityTest
     {
         List<String> listFailures = new ArrayList<>( );
 
-        for ( Path path : listCoreTemplates( ) )
+        for ( Path path : FreeMarkerAutoEscapeTestUtils.listPluginTemplates( TEMPLATES_ROOT ) )
         {
             String strSource = new String( Files.readAllBytes( path ), StandardCharsets.UTF_8 );
 
@@ -255,18 +230,18 @@ public class FreeMarkerAutoEscapeCompatibilityTest
     {
         List<String> listFailures = new ArrayList<>( );
 
-        for ( Path path : listCoreTemplates( ) )
+        for ( Path path : FreeMarkerAutoEscapeTestUtils.listPluginTemplates( TEMPLATES_ROOT ) )
         {
             String strSource = new String( Files.readAllBytes( path ), StandardCharsets.UTF_8 );
-            List<int [ ]> listSpans = freeMarkerSpans( strSource );
+            List<int [ ]> listSpans = FreeMarkerAutoEscapeTestUtils.freeMarkerSpans( strSource );
 
             int nIndex = strSource.indexOf( BUILTIN_MARKER );
 
             while ( nIndex >= 0 )
             {
-                if ( !isInsideFreeMarker( nIndex, listSpans ) )
+                if ( !FreeMarkerAutoEscapeTestUtils.isInsideFreeMarker( nIndex, listSpans ) )
                 {
-                    listFailures.add( path + " line " + lineOf( strSource, nIndex ) + " : \"" + BUILTIN_MARKER
+                    listFailures.add( path + " line " + FreeMarkerAutoEscapeTestUtils.lineOf( strSource, nIndex ) + " : \"" + BUILTIN_MARKER
                             + "\" sits in JavaScript or plain text, where FreeMarker never evaluates it — "
                             + "a mass rewrite of \"x != ''\" most likely caught a JavaScript comparison" );
                 }
@@ -279,152 +254,6 @@ public class FreeMarkerAutoEscapeCompatibilityTest
         {
             fail( listFailures.size( ) + " leaked built-in(s):\n  " + String.join( "\n  ", listFailures ) );
         }
-    }
-
-    /** The built-in the migration introduces in bulk, and therefore the one that can be misplaced in bulk. */
-    private static final String BUILTIN_MARKER = "?has_content";
-
-    /**
-     * Returns the character ranges covered by a FreeMarker construct: a <code>&lt;#...&gt;</code> directive, a
-     * <code>&lt;@...&gt;</code> macro call, or a <code>${...}</code> interpolation. Quotes and nested braces inside a
-     * tag are honoured so that an HTML attribute quote does not close the span.
-     */
-    private static List<int [ ]> freeMarkerSpans( String strSource )
-    {
-        List<int [ ]> listSpans = new ArrayList<>( );
-        int nLength = strSource.length( );
-        int i = 0;
-
-        while ( i < nLength )
-        {
-            char c = strSource.charAt( i );
-
-            if ( c == '<' && i + 1 < nLength && ( strSource.charAt( i + 1 ) == '#' || strSource.charAt( i + 1 ) == '@' ) )
-            {
-                int j = i + 2;
-                char cQuote = 0;
-                int nDepth = 0;
-
-                while ( j < nLength )
-                {
-                    char d = strSource.charAt( j );
-
-                    if ( cQuote != 0 )
-                    {
-                        if ( d == cQuote )
-                        {
-                            cQuote = 0;
-                        }
-                    }
-                    else
-                        if ( d == '\'' || d == '"' )
-                        {
-                            cQuote = d;
-                        }
-                        else
-                            if ( d == '{' )
-                            {
-                                nDepth++;
-                            }
-                            else
-                                if ( d == '}' )
-                                {
-                                    nDepth--;
-                                }
-                                else
-                                    if ( d == '>' && nDepth <= 0 )
-                                    {
-                                        break;
-                                    }
-
-                    j++;
-                }
-
-                listSpans.add( new int [ ] {
-                        i, Math.min( j, nLength - 1 )
-                } );
-                i = j + 1;
-            }
-            else
-                if ( c == '$' && i + 1 < nLength && strSource.charAt( i + 1 ) == '{' )
-                {
-                    int j = strSource.indexOf( '}', i + 2 );
-                    int nEnd = j < 0 ? nLength - 1 : j;
-                    listSpans.add( new int [ ] {
-                            i, nEnd
-                    } );
-                    i = nEnd + 1;
-                }
-                else
-                {
-                    i++;
-                }
-        }
-
-        return listSpans;
-    }
-
-    private static boolean isInsideFreeMarker( int nPosition, List<int [ ]> listSpans )
-    {
-        for ( int [ ] span : listSpans )
-        {
-            if ( span [0] <= nPosition && nPosition <= span [1] )
-            {
-                return true;
-            }
-
-            if ( span [0] > nPosition )
-            {
-                break;
-            }
-        }
-
-        return false;
-    }
-
-    private static int lineOf( String strSource, int nPosition )
-    {
-        int nLine = 1;
-
-        for ( int i = 0; i < nPosition; i++ )
-        {
-            if ( strSource.charAt( i ) == '\n' )
-            {
-                nLine++;
-            }
-        }
-
-        return nLine;
-    }
-
-    private static List<Path> listCoreTemplates( ) throws IOException
-    {
-        Path root = Paths.get( TEMPLATES_ROOT );
-
-        if ( !Files.isDirectory( root ) )
-        {
-            root = Paths.get( "." + File.separator + TEMPLATES_ROOT );
-        }
-
-        try ( Stream<Path> stream = Files.walk( root ) )
-        {
-            return stream.filter( Files::isRegularFile ).filter( p -> {
-                String strName = p.getFileName( ).toString( );
-                return strName.endsWith( ".ftl" ) || strName.endsWith( ".html" );
-            } ).collect( Collectors.toList( ) );
-        }
-    }
-
-    private static String firstLine( String strMessage )
-    {
-        if ( strMessage == null )
-        {
-            return "(no message)";
-        }
-
-        String strFirst = strMessage.split( "\n" ) [0].trim( );
-
-        return strFirst.length( ) > 160 ? strFirst.substring( 0, 160 ) + "..." : strFirst;
     }
 
     // ------------------------------------------------------------------------------------------------
@@ -558,7 +387,7 @@ public class FreeMarkerAutoEscapeCompatibilityTest
         catch( Exception e )
         {
             assertTrue( String.valueOf( e.getMessage( ) ).contains( "compare" ),
-                    "Expected a comparison error, got: " + firstLine( e.getMessage( ) ) );
+                    "Expected a comparison error, got: " + FreeMarkerAutoEscapeTestUtils.firstLine( e.getMessage( ) ) );
         }
     }
 }
