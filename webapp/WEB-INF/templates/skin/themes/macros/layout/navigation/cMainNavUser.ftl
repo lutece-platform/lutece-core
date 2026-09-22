@@ -55,29 +55,29 @@ Snippet:
         <div class="dropdown-menu<#if class ='show' > ${class!}</#if>" aria-labelledby="dropdownAuthUser">
             <div class="dropdown-content d-flex flex-column align-items-center">
                 <#if !connected>
-                    <h2 class="h3">#i18n{portal.theme.labelMonAuthAccount}</h2>
-                    <p class="mt-xl pb-l">#i18n{portal.theme.labelMonAuthAccountExists}</p>
+                    <h2 class="h3">#i18n{portal.theme.labelAccountAccount}</h2>
+                    <p class="mt-xl pb-l">#i18n{portal.theme.labelAccountAccountExists}</p>
                     <a class="btn btn-primary btn-user btn-default-user" href="${urlConnect!'jsp/site/Portal.jsp?page=mylutece&amp;action=login'}" aria-label="#i18n{portal.theme.titleConnect}">
                         <span>#i18n{portal.theme.labelBtnConnect}</span>
                     </a>
-                    <p class="py-m lh-sm">#i18n{portal.theme.labelMonAuthHelp}</p>
+                    <p class="py-m lh-sm">#i18n{portal.theme.labelAccountHelp}</p>
                     <a class="btn btn-primary btn-user btn-outline-user" href="jsp/site/Portal.jsp?page=myluteceusergu&view=createAccount" aria-label="#i18n{portal.theme.titleConnect}">
-                        <span>#i18n{portal.theme.labelMonAuthCreateAccount} #i18n{portal.theme.labelMonAuth}</span>
+                        <span>#i18n{portal.theme.labelCreateAccount}</span>
                     </a>
                 <#else>    
                     <h2 class="h3" id="myluteceusername">${userFullName!}</h2>
                     <p class="font-bold">${userEmail!}</p>
                     <p>
                         <a class="btn btn-primary" href="jsp/site/Portal.jsp?page=mydashboard" aria-label="#i18n{portal.theme.titleConnect}" title="#i18n{portal.theme.titleConnect}">
-                            #i18n{portal.theme.labelMonAuthHome}
+                            #i18n{portal.theme.labelAccountHome}
                         </a>
                     </p>
                     <p class="border-bottom border-b-md main-info-border-color pb-1">
-                        <a href="jsp/site/Portal.jsp?page=mydashboard&panel=datas#datas" class="fs-sm font-bold main-info-color">#i18n{portal.theme.labelMonAuthManagement}</a>
+                        <a href="jsp/site/Portal.jsp?page=mydashboard&panel=datas#datas" class="fs-sm font-bold main-info-color">#i18n{portal.theme.labelAccountManagement}</a>
                     </p>
                     <#nested>
                     <hr>
-                    <p class="services show main-color font-bold">#i18n{portal.theme.labelMonAuthFavorites}</p>
+                    <p class="services show main-color font-bold">#i18n{portal.theme.labelAccountFavorites}</p>
                     <div id="auth-favs" class="d-flex flex-wrap justify-content-center align-items-center"></div>
                     <div id="auth-apps" class="d-flex flex-wrap justify-content-center align-items-center"></div>
                     <p class="show">

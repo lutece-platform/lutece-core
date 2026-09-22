@@ -7,7 +7,7 @@
           <@tform action='jsp/admin/security/DoModifyPublicUrl.jsp' >
             <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
                 <@input type='hidden' name='public_url_code' value='${public_url.code}' />
-                <@input type='text' name='public_url_code' id='public_url_code' value='${public_url.name!}' disabled/>
+                <@input type='text' name='public_url_code' id='public_url_code' value='${public_url.name!}' disabled=true />
             </@formGroup>  
             <@formGroup formStyle='inline' labelFor='public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
                 <@input type='text' name='public_url_value' id='public_url_value' value='${public_url.name!}' />
@@ -15,7 +15,7 @@
             <@row>
               <@columns md=4 offsetMd=4>
                   <@button type='submit' name='submit' buttonIcon='check' title='#i18n{portal.security.public_url_advanced_parameters.buttonValidate}' /> 
-                  <@aButton color='danger' title='Supprimer' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
+                  <@aButton color='danger' title='#i18n{portal.util.labelDelete}' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
               </@columns>    
             </@row> 
           </@tform>

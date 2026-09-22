@@ -59,7 +59,7 @@
 							${daemon.lastRunDate} - <#if daemon.lastRunEndDate?has_content>${daemon.lastRunEndDate}</#if>
 							<@h level=4>#i18n{portal.system.manage_daemons.columnTitleLogs}</@h>
 							<@h level=5>#i18n{portal.system.manage_daemons.columnTitleLastRun} ${daemon.lastRunDate}</@h>
-							<@pre><#if daemon.lastRunLogs?length lt log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt; log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
+							<@pre><#if daemon.lastRunLogs?length lt log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length gt log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
 							</@offcanvas>
 						<#else>
 							<@p class='mb-0 ms-2'>#i18n{portal.system.manage_daemons.columnTitleLastRun} <strong>${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}</strong></@p>
