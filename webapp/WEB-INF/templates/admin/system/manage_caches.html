@@ -34,7 +34,7 @@
 			<@p>#i18n{portal.system.manage_caches.columnTitleCacheSize} : ${service.cacheSize!}</@p>
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn cols='12 col-md-5' class='ms-auto' >
-				<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye me-2" btnTitle="#i18n{portal.util.labelMore}" btnTitleShow=false  btnColor="outline-secondary w-50" position="end" />
+				<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye me-2" btnTitle="#i18n{portal.util.labelMore}" hideTitle=['all']  btnColor="outline-secondary w-50" position="end" />
 				<@tform method='post' type='inline' align="middle"
 					action='jsp/admin/system/ConfirmToggleCache.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
