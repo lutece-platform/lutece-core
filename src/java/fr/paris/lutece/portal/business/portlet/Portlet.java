@@ -68,6 +68,7 @@ public abstract class Portlet implements XmlContent
     private int _nId;
     private int _nPageId;
     private int _nStyleId;
+    private int _nIdTemplate;
     private int _nColumn;
     private int _nOrder;
     private int _nStatus;
@@ -127,6 +128,29 @@ public abstract class Portlet implements XmlContent
     public void setStyleId( int nStyleId )
     {
         _nStyleId = nStyleId;
+    }
+
+    /**
+     * Returns the identifier of the FreeMarker template chosen to render this portlet. 0 means that the portlet uses the default template of its type.
+     *
+     * @return the template identifier
+     * @see PortletTemplate
+     */
+    public int getIdTemplate( )
+    {
+        return _nIdTemplate;
+    }
+
+    /**
+     * Sets the identifier of the FreeMarker template chosen to render this portlet
+     *
+     * @param nIdTemplate
+     *            the template identifier, 0 for the default template of the portlet type
+     * @see PortletTemplate
+     */
+    public void setIdTemplate( int nIdTemplate )
+    {
+        _nIdTemplate = nIdTemplate;
     }
 
     /**
@@ -496,6 +520,7 @@ public abstract class Portlet implements XmlContent
         setPortletTypeId( portlet.getPortletTypeId( ) );
         setPageId( portlet.getPageId( ) );
         setStyleId( portlet.getStyleId( ) );
+        setIdTemplate( portlet.getIdTemplate( ) );
         setName( portlet.getName( ) );
         setPortletTypeName( portlet.getPortletTypeName( ) );
         setUrlCreation( portlet.getUrlCreation( ) );
