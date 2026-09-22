@@ -12,10 +12,10 @@
 			</@tform>
             <@offcanvas id='search-workgroups' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' position='end' btnTitle='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' btnIcon='search'>
                 <@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch'>
-                    <@formGroup title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key' rows=2>
+                    <@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key' rows=2>
                         <@input type='text' id='key' name='search_key' value='${search_admin_workgroup_filter.key}' maxlength=50 placeHolder='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' size=''/>
                     </@formGroup>
-                    <@formGroup title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' labelFor='description' rows=2>
+                    <@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' labelFor='description' rows=2>
                         <@input type='text' id='description' name='search_description' value='${search_admin_workgroup_filter.description}' maxlength=50 placeHolder='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' size=''/>
                     </@formGroup>
                     <@formGroup rows=2>
@@ -39,7 +39,7 @@
                 <@manageFeatureItem class='item-labels'>
 				    <@manageFeatureItemColumn class='searchable' auto=true ><strong>${workgroup.key}</strong> - ${workgroup.description}</@manageFeatureItemColumn>
 				    <@manageFeatureItemColumn align='end'>
-                        <@offcanvas targetUrl='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' targetElement='#modify_workgroup_form' redirectForm=false id='template-modify-workgroup_${workgroup.key}' title='#i18n{portal.util.modify_workgroup.titleModificationForm}' btnTitle='#i18n{portal.workgroup.modify_workgroup.titleModificationForm}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit me-1' position='end' />
+                        <@offcanvas targetUrl='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' targetElement='#modify_workgroup_form' redirectForm=false id='template-modify-workgroup_${workgroup.key}' title='#i18n{portal.workgroup.modify_workgroup.titleModificationForm}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit me-1' position='end' />
                         <@aButton href='jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers} ' buttonIcon='user'   />
                         <@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete} ' buttonIcon='trash' color='danger' class='ms-1'  />
                     </@manageFeatureItemColumn>
@@ -52,6 +52,7 @@
 	    <#if workgroups_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>	
 	</@pageColumn>
 </@pageContainer>
+<#if workgroups_list?size gt 0>
 <script type="module">
 import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
 const searchInput = document.querySelector("#search_workgroup");
@@ -61,3 +62,4 @@ new LuteceSearchList( searchInput, searchElementList, {
 	highlight: true,
 });
 </script>
+</#if>

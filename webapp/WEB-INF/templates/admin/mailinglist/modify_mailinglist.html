@@ -13,7 +13,7 @@
                 <@offcanvas targetUrl="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id!}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-view-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"  btnIcon="eye" position="end" />
                 </#list>
             <#else>
-                <@alert type='info' iconTitle='circle-info' titleLevel='h3' title='#i18n{portal.mailinglist.modify_mailinglist.message.noUsers} Blak azpdij azidjpazd jjazdji' />
+                <@alert color='info' iconTitle='info-circle' titleLevel='h3' title='#i18n{portal.mailinglist.modify_mailinglist.message.noUsers}' />
             </#if>
             <@offcanvas targetUrl='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id!}' targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
         </@pageHeader>
