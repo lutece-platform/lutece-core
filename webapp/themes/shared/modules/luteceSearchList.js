@@ -50,8 +50,11 @@ export default class LuteceSearchList {
   }
    /**
    * Initializes the search functionality by adding an event listener to the search input element.
+   * Does nothing without a search input: the screens that own one keep it behind an empty-list condition while
+   * they instantiate this component unconditionally, so an empty list must not break the page's scripts.
    */
   init() {
+    if ( !this.searchInput ) { return; }
     // Restore a previously persisted filter value before wiring events, so the
     // initial filtering below reflects it.
     if ( this.options.persist ) {
