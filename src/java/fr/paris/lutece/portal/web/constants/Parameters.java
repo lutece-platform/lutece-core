@@ -55,6 +55,7 @@ public final class Parameters
     public static final String DISPLAY_PORTLET_TITLE = "display_portlet_title";
     public static final String ORDER = "order";
     public static final String STYLE = "style";
+    public static final String PORTLET_TEMPLATE_ID = "id_template";
     public static final String COLUMN = "column";
     public static final String STYLESHEET_ID = "stylesheet_id";
     public static final String SEARCH_MESSAGE = "search_message";

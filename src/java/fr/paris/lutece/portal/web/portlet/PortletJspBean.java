@@ -42,6 +42,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
+import fr.paris.lutece.portal.business.portlet.PortletTemplateHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
@@ -58,6 +59,8 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class represents user interface Portlet. It is the base class of all user interface portlets. It is abstract and the implementation of the interface
@@ -83,6 +86,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_ORDER_COMBO = "portlet_order_combo";
     private static final String MARK_PORTLET_COLUMNS_COMBO = "portlet_columns_combo";
     private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
+    private static final String MARK_PORTLET_TEMPLATES_COMBO = "portlet_template_combo";
     private static final String MARK_PORTLET_ROLES_COMBO = "portlet_role_combo";
     private static final String MARK_SMALL_CHECKED = "small_checked";
     private static final String MARK_NORMAL_CHECKED = "normal_checked";
@@ -101,6 +105,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
     // Messages
     private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
+    private static final String MESSAGE_INVALID_TEMPLATE = "portal.site.message.portletTemplateInvalid";
 
     // Jsp
     private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
@@ -198,6 +203,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         // get portlet attributes
         String strName = request.getParameter( Parameters.PORTLET_NAME );
         String strStyleId = request.getParameter( Parameters.STYLE );
+        String strIdTemplate = request.getParameter( Parameters.PORTLET_TEMPLATE_ID );
         String strColumn = request.getParameter( Parameters.COLUMN );
         String strOrder = request.getParameter( Parameters.ORDER );
         String strAcceptAlias = request.getParameter( Parameters.ACCEPT_ALIAS );
@@ -248,6 +254,26 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
+        // the template is mandatory when templates are registered for the portlet type, and must be one of them
+        String strTemplatePortletTypeId = StringUtils.isNotBlank( strPortletTypeId ) ? strPortletTypeId : portlet.getPortletTypeId( );
+        ReferenceList listTemplates = PortletTemplateHome.findReferenceList( strTemplatePortletTypeId );
+        int nIdTemplate = PortletTemplateHome.NO_TEMPLATE_ID;
+
+        if ( !listTemplates.isEmpty( ) )
+        {
+            if ( StringUtils.isBlank( strIdTemplate ) )
+            {
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
+            }
+
+            if ( !StringUtils.isNumeric( strIdTemplate ) || listTemplates.stream( ).noneMatch( item -> item.getCode( ).equals( strIdTemplate ) ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_TEMPLATE, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
+            }
+
+            nIdTemplate = Integer.parseInt( strIdTemplate );
+        }
+
         int nOrder = Integer.parseInt( strOrder );
         int nColumn = Integer.parseInt( strColumn );
         int nAcceptAlias = Integer.parseInt( strAcceptAlias );
@@ -281,6 +307,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setOrder( nOrder );
         portlet.setColumn( nColumn );
         portlet.setStyleId( nStyleId );
+        portlet.setIdTemplate( nIdTemplate );
         portlet.setPageId( nPageId );
         portlet.setAcceptAlias( nAcceptAlias );
         portlet.setDisplayPortletTitle( nAcceptPortletTitle );
@@ -327,6 +354,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList( ) );
         model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList( ) );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( strPortletTypeId ) );
+        model.put( MARK_PORTLET_TEMPLATES_COMBO, PortletTemplateHome.findReferenceList( strPortletTypeId ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
 
         return AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
@@ -362,6 +390,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList( ) );
         model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList( ) );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( portlet.getPortletTypeId( ) ) );
+        model.put( MARK_PORTLET_TEMPLATES_COMBO, PortletTemplateHome.findReferenceList( portlet.getPortletTypeId( ) ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
         putCheckBox( model, MARK_SMALL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE ) );
         putCheckBox( model, MARK_NORMAL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ) );
