@@ -1,7 +1,7 @@
 <@cTpl>
 <#if resource_url?? && resource_url != ""><#assign ressourceLink><@cLink href='${base_url}${resource_url}' label='${resource.extendableResourceName} : ${resource.extendableResourceDescription}' class='btn btn-link' /></#assign></#if>
-<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl != ""><#assign ressourceImg><@cImg src='${resource.extendableResourceImageUrl}' alt='${resource.extendableResourceName}' title='${resource.extendableResourceName}' /></#assign></#if>
-<#assign page_title>#i18n{portal.theme.popup_send_resource.title}<#if resource??> : ${resource.extendableResourceName}</#if></#assign>
+<#if resource.extendableResourceImageUrl?? && resource.extendableResourceImageUrl != ""><#assign ressourceImg><@cImg src='${resource.extendableResourceImageUrl}' alt='${resource.extendableResourceName}' /></#assign></#if>
+<#assign page_title>#i18n{portal.site.popup_send_resource.title}<#if resource??> : ${resource.extendableResourceName}</#if></#assign>
 <#assign theme={ "pathCss": "css" } />
 <#include "minimal_header.html" />
 <@cContainer class='mt-5'>
@@ -9,34 +9,34 @@
 		<@cCol class='col-6 offset-2'>
 			<@cText>${ressourceImg!} ${ressourceLink}</@cText>
 			<@cForm action='jsp/site/SendResource.jsp' >
-			<input type="hidden" name="extendableResourceType" value="${resource.extendableResourceType}" >
-			<input type="hidden" name="idExtendableResource" value="${resource.idExtendableResource}" >
+			<@cInput type='hidden' name='extendableResourceType' value='${resource.extendableResourceType}' />
+			<@cInput type='hidden' name='idExtendableResource' value='${resource.idExtendableResource}' />
 			<#if error?? && error != "">
 				<@cAlert class='danger'>${error}</@cAlert>
 			</#if>
 			<#if success??>
-				<@cAlert class='success mt-5'>#i18n{portal.theme.popup_send_resource.labelSent}.</@cAlert>
+				<@cAlert class='success mt-5'>#i18n{portal.site.popup_send_resource.labelSent}.</@cAlert>
 			</#if>
-			<@cField label='#i18n{portal.theme.popup_send_resource.senderName}' for='senderName' required=true>
+			<@cField label='#i18n{portal.site.popup_send_resource.senderName}' for='senderName' required=true>
 				<@cInput name='senderName' placeholder='Ex: Dupont' value='${senderName!}'/>
 			</@cField>
-			<@cField label='#i18n{portal.theme.popup_send_resource.senderFirstname}' for='senderFirstname' required=true>
+			<@cField label='#i18n{portal.site.popup_send_resource.senderFirstname}' for='senderFirstname' required=true>
 				<@cInput name='senderFirstname' placeholder='Ex: Jean' value='${senderFirstname!}'/>
 			</@cField>
-			<@cField label='#i18n{portal.theme.popup_send_resource.email}' for='email' required=true >
+			<@cField label='#i18n{portal.site.popup_send_resource.email}' for='email' required=true >
 				<@cInput name='email' placeholder='Ex: jean.dupont@paris.fr' value='${email!}'/>
 			</@cField>
-			<@cField label='#i18n{portal.theme.popup_send_resource.content}' for='content' required=true >
+			<@cField label='#i18n{portal.site.popup_send_resource.content}' for='content' required=true >
 				<@cTextArea class='form-control richtext' name='content' rows=5 placeholder='Saisir le contenu de mon message' >
 					${content!}
 				</@cTextArea>
 			</@cField>
 			<@cRow>
-				<@cBtn label='#i18n{portal.theme.popup_send_resource.sendResource}' params='name="send" value="send" ' >
-					<@cIcon name='#i18n{portal.theme.popup_send_resource.sendResource}' class='envelope' />
+				<@cBtn label='#i18n{portal.site.popup_send_resource.sendResource}' params='name="send" value="send" ' >
+					<@cIcon name='mail' />
 				</@cBtn>
-				<@cLink label='#i18n{portal.theme.popup_send_resource.close}' class='btn btn-outline-primary ms-2' href='javascript:window.close();'>
-					<@cIcon name='#i18n{portal.theme.popup_send_resource.close}' class='times' /> 
+				<@cLink label='#i18n{portal.site.popup_send_resource.close}' class='btn btn-outline-primary ms-2' href='javascript:window.close();'>
+					<@cIcon name='x' /> 
 				</@cLink>
 			</@cRow>
 			</@cForm>

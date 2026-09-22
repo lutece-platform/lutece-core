@@ -8,5 +8,5 @@
 	<@input type='hidden' name='update_attribute_${attribute.idAttribute}' value='true' />
 </#if>
 <@input type='file' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' />
-<#if default_values_list??><@checkBox orientation='switch' name='update_attribute_${attribute.idAttribute}' id='update_attribute_${attribute.idAttribute}'  labelKey='#i18n{portal.users.attribute.labelUpdate}' /></#if>
+<#if default_values_list??><@checkBox orientation='switch' value='1' name='update_attribute_${attribute.idAttribute}' id='update_attribute_${attribute.idAttribute}'  labelKey='#i18n{portal.users.attribute.labelUpdate}' /></#if>
 </@formGroup>

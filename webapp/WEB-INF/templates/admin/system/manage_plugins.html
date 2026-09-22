@@ -1,6 +1,6 @@
 <@pageContainer>
     <@pageColumn>
-		<@pageHeader title='#i18n{portal.system.manage_plugins.labelTitleList}' actions=true>
+		<@pageHeader title='#i18n{portal.system.manage_plugins.labelTitleList}'>
 		<@div>
 			<@tform method='post' type='inline'>
 				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
@@ -49,11 +49,11 @@
 								<@p class='my-1'>
 								<#if plugin.installed>
 									<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
-										<@icon style='check-circle' /> #i18n{portal.system.manage_caches.imgAltEnable}
+										<@icon style='circle-check' /> #i18n{portal.system.manage_caches.imgAltEnable}
 									</@tag>
 								<#else>
 									<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'>
-										<@icon style='times-circle' /> #i18n{portal.system.manage_caches.imgAltDisable}
+										<@icon style='circle-x' /> #i18n{portal.system.manage_caches.imgAltDisable}
 									</@tag>
 								</#if>
 								</@p>

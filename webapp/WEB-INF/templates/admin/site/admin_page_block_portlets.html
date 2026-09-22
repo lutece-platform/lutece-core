@@ -8,9 +8,9 @@
                         <@div class='d-flex'>
                             <@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params='target="preview"'>
                                 <@input type='hidden' name='portlet_id' value=portlet.id />
-                                <@button params='data-bs-dismiss="offcanvas"' type='submit' color='default' buttonIcon='edit' size='xs' title='#i18n{portal.site.util.labelModify}' hideTitle=['all'] />
+                                <@button params='data-bs-dismiss="offcanvas"' type='submit' color='default' buttonIcon='edit' size='xs' title='#i18n{portal.util.labelModify}' hideTitle=['all'] />
                             </@tform>
-                            <@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='danger' buttonIcon='trash' size='xs' title='#i18n{portal.site.util.labelRemove}' hideTitle=['all'] />
+                            <@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='danger' buttonIcon='trash' size='xs' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] />
                         </@div>
                     </@div>
                 </@listGroupItem>

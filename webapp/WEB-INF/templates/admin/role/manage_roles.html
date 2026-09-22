@@ -11,7 +11,7 @@
 			</@tform>
             <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" btnClass="ms-2" position="end" />
         </@pageHeader>
-        <#if roles_list?size gt 1>
+        <#if roles_list?has_content>
             <@manageFeature>
             <#list roles_list as role>
                 <#if role.role !="none">

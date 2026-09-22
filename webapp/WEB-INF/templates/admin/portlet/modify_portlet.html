@@ -1,6 +1,6 @@
 <@coreAdminCSSLinks />
 <#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate /></#if>
-<@tform typ='inline' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
+<@tform type='inline' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
 <@input type='hidden' name='portlet_id' value='${portlet.id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <@box class='manage-portlet'>
@@ -97,6 +97,7 @@
 <#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate! /></#if>
 <script>
 const btnProp = document.getElementById('btn-toggle-properties');
+if ( btnProp != null ){
 const portletProp = document.getElementById('portlet-properties');
 
 btnProp.addEventListener( 'click',  (e) => {
@@ -111,4 +112,5 @@ btnProp.addEventListener( 'click',  (e) => {
         btn.setAttribute("aria-expanded", "true");
       }
   })
+}
 </script>

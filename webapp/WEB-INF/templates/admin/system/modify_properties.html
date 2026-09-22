@@ -79,12 +79,12 @@
                                                     <#assign optionsRaw = dskey(optionsKey)!''>
                                                     <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
                                                     <@input type='hidden' name='${groupItem.key}' value=groupItem.value?html id='${groupItem.key}_value' />
-                                                    <select class="form-select property-select" id="${groupItem.key}" data-target="${groupItem.key}_value">
+                                                    <@select name='${groupItem.key}_select' id='${groupItem.key}' class='form-select property-select' params='data-target="${groupItem.key}_value"'>
                                                     <#list optionsRaw?split('|') as opt>
                                                         <#assign optValue = opt?trim>
-                                                        <#if optValue != ''><option value="${optValue}"<#if optValue == groupItem.value> selected</#if>>${optValue?replace('_', ' ')}</option></#if>
+                                                        <#if optValue != ''><@option value=optValue selected=(optValue == groupItem.value) label=optValue?replace('_', ' ') /></#if>
                                                     </#list>
-                                                    </select>
+                                                    </@select>
                                                 <#elseif groupItem.key?ends_with( ".radio" )>
                                                     <#assign optionsKey = groupItem.key + ".options">
                                                     <#assign optionsRaw = dskey(optionsKey)!''>
@@ -102,7 +102,7 @@
                                                     <@inputGroup class='color-wrapper-input'>
                                                         <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                                         <@inputGroupItem>
-                                                            <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
+                                                            <@input type='color' class='color-input' name='color-input' value=groupItem.value?html params='colorspace="display-p3" alpha' />
                                                         </@inputGroupItem>
                                                     </@inputGroup>
                                                 <#else>
