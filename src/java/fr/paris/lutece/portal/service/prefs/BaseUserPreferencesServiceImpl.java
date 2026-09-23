@@ -85,7 +85,12 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
         if ( strValue == null )
         {
             strValue = _dao.load( strUserId, strKey, strDefault );
-            _cache.put( strCacheKey, strValue );
+
+            // JCache does not accept null values (e.g. missing preference with a null default)
+            if ( strValue != null )
+            {
+                _cache.put( strCacheKey, strValue );
+            }
         }
 
         return strValue;
@@ -119,7 +124,16 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void put( String strUserId, String strKey, String strValue )
     {
         _dao.store( strUserId, strKey, strValue );
-        _cache.put( _cache.getCacheKey( strUserId, strKey ), strValue );
+        String strCacheKey = _cache.getCacheKey( strUserId, strKey );
+
+        if ( strValue != null )
+        {
+            _cache.put( strCacheKey, strValue );
+        }
+        else
+        {
+            _cache.remove( strCacheKey );
+        }
     }
 
     /**
