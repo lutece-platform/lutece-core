@@ -35,59 +35,46 @@ Snippet:
 <#local logoAltDS=dskey('portal.theme.site_property.layout.footer.logoFooter.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
 <#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
-<#if !dskey('theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
-<footer class="social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
-    <div class="row m-0 ps-xl">
-        <div class="col-12 <#if classColMain !=''> ${classColMain}</#if>">
-            <div class="main-footer justify-content-${align}">
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start w-100">
-                    <a class="logo hide-icon-target" href="${logoUrl}" target="_blank">
-                        <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' />
-                    </a>
-                    <a class="site ms-m" title="#i18n{portal.theme.labelGoToSite} ${title}" href="."> - ${title}</a>
-                </div>
-            </div>  
-            <div class="main-footer justify-content-${align}">
-                <div class="d-flex align-items-center">
-                    <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{portal.theme.footerInfo}" >
-                        <#if nested_pos='before'><#nested></#if>
-                        <@_footerMenu />
-                        <#if nested_pos='after'>
-                            <#nested>
-                        </#if>    
-                    </ul>    
-                </div>
-            </div>
-        </div>
-        <div class="col-12 <#if classColSocial !=''> ${classColSocial}</#if> d-flex justify-align-items">
-            <div class="social-links ">
-                <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
-                <h2 class="paris-footer-social-title text-center text-white">#i18n{portal.theme.labelFollow}</h2>
-                <ul class="list-inline text-center">
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
-                            <@cIcon name='brand-facebook' params='aria-hidden="true"' />
-                        </a>    
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
-                            <@cIcon name='brand-x' params='aria-hidden="true"' />
-                        </a>    
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
-                            <@cIcon name='brand-instagram' params='aria-hidden="true"' />
-                        </a>    
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
-                            <@cIcon name='brand-linkedin' params='aria-hidden="true"' />
-                        </a>    
-                    </li>
-                </ul>
-                <p class="paris-footer-social-title text-center text-white">#i18n{portal.theme.footerSocialText}</p>
-            </div>
-        </div>
+<#if !dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
+<footer class="foot__grid_social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
+    <div class="main-footer">
+        <a class="logo" href="${logoUrl}" target="_blank" title="#i18n{portal.theme.labelGoToSite} ${title}">
+            <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' /><@cInline> - ${title}</@cInline>
+        </a>
+        <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{portal.theme.footerInfo}" >
+            <#if nested_pos='before'><#nested></#if>
+            <@_footerMenu />
+            <#if nested_pos='after'>
+                <#nested>
+            </#if>    
+        </ul>    
+    </div>
+    <div class="social-links">
+        <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
+        <h2 class="paris-footer-social-title text-center text-white">#i18n{portal.theme.labelFollow}</h2>
+        <ul class="list-inline text-center">
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
+                    <@cIcon name='brand-facebook' params='aria-hidden="true"' />
+                </a>    
+            </li>
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
+                    <@cIcon name='brand-x' params='aria-hidden="true"' />
+                </a>    
+            </li>
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
+                    <@cIcon name='brand-instagram' params='aria-hidden="true"' />
+                </a>    
+            </li>
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
+                    <@cIcon name='brand-linkedin' params='aria-hidden="true"' />
+                </a>    
+            </li>
+        </ul>
+        <p class="paris-footer-social-title text-center text-white">#i18n{portal.theme.footerSocialText}</p>
     </div>
 </footer>
 </#macro>

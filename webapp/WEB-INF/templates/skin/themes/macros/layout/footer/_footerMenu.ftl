@@ -15,18 +15,18 @@ Snippet:
 -->
 <#macro _footerMenu>
 <#if footerLinkLegal !=''>
-<#if !dskey('theme.site_property.Url.legalURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.legalURLLabel') !=''>
-<#local title=dskey('theme.site_property.Url.legalURLLabel') /><#else><#local title='#i18n{portal.theme.labelLegalInfo}' /></#if>
+<#if !dskey('portal.theme.site_property.Url.legalURLLabel')?starts_with('DS') && dskey('portal.theme.site_property.Url.legalURLLabel') !=''>
+<#local title=dskey('portal.theme.site_property.Url.legalURLLabel') /><#else><#local title='#i18n{portal.theme.labelLegalInfo}' /></#if>
 <@_footerLinkItem title=title url=footerLinkLegal role='' target='_blank'  />
 </#if>
 <#if footerLinkCgu !=''>
-<#if !dskey('theme.site_property.Url.cguURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.cguURLLabel') !=''>
-<#local title=dskey('theme.site_property.Url.cguURLLabel') /><#else><#local title='#i18n{portal.theme.labelCgu}' /></#if>
+<#if !dskey('portal.theme.site_property.Url.cguURLLabel')?starts_with('DS') && dskey('portal.theme.site_property.Url.cguURLLabel') !=''>
+<#local title=dskey('portal.theme.site_property.Url.cguURLLabel') /><#else><#local title='#i18n{portal.theme.labelCgu}' /></#if>
 <@_footerLinkItem title=title url=footerLinkCgu role='' target='_blank' />
 </#if>
 <#if footerLinkAccessibility !=''>
-<#if !dskey('theme.site_property.Url.accessibilityLabel')?starts_with('DS') && dskey('theme.site_property.Url.accessibilityLabel') !=''>
-<#local title=dskey('theme.site_property.Url.accessibilityLabel') /><#else><#local title='#i18n{portal.theme.labelAccessibility}' /></#if>
+<#if !dskey('portal.theme.site_property.Url.accessibilityLabel')?starts_with('DS') && dskey('portal.theme.site_property.Url.accessibilityLabel') !=''>
+<#local title=dskey('portal.theme.site_property.Url.accessibilityLabel') /><#else><#local title='#i18n{portal.theme.labelAccessibility}' /></#if>
 <@_footerLinkItem title=title url=footerLinkAccessibility role='' target='_blank' />
 </#if>
 <@_footerLinkItem title='${mainSite}' url=urlMainSite role='' target='_blank' />
@@ -34,18 +34,18 @@ Snippet:
 <@_footerLinkItem title='#i18n{portal.site.site_map.pageTitle} 'role='' url="jsp/site/Portal.jsp?page=map" />
 </#if>
 <#if footerLinkWiki !=''>
-<#if !dskey('theme.site_property.Url.wikiURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.wikiURLLabel') !=''>
-<#local title=dskey('theme.site_property.Url.wikiURLLabel') /><#else><#local title='#i18n{portal.theme.labelWiki}' /></#if>
+<#if !dskey('portal.theme.site_property.Url.wikiURLLabel')?starts_with('DS') && dskey('portal.theme.site_property.Url.wikiURLLabel') !=''>
+<#local title=dskey('portal.theme.site_property.Url.wikiURLLabel') /><#else><#local title='#i18n{portal.theme.labelWiki}' /></#if>
 <@_footerLinkItem title=title url=footerLinkWiki role='' target='_blank' />
 </#if>
 <#--
 <#if footerLinkDataProtection !=''>
-<#if !dskey('theme.site_property.Url.dataURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.dataURLLabel') !=''>
-<#local title=dskey('theme.site_property.Url.dataURLLabel') /><#else><#local title='#i18n{portal.theme.labelDataProtection}' /></#if>
+<#if !dskey('portal.theme.site_property.Url.dataURLLabel')?starts_with('DS') && dskey('portal.theme.site_property.Url.dataURLLabel') !=''>
+<#local title=dskey('portal.theme.site_property.Url.dataURLLabel') /><#else><#local title='#i18n{portal.theme.labelDataProtection}' /></#if>
 <@_footerLinkItem title=title url=footerLinkDataProtection role='' target='_blank' />
 </#if>
-<#if !dskey('theme.site_property.Url.cookieURLLabel')?starts_with('DS') && dskey('theme.site_property.Url.cookieURLLabel') !=''>
-<#local title=dskey('theme.site_property.Url.cookieURLLabel') /><#else><#local title='#i18n{portal.theme.labelCookies}' /></#if>
+<#if !dskey('portal.theme.site_property.Url.cookieURLLabel')?starts_with('DS') && dskey('portal.theme.site_property.Url.cookieURLLabel') !=''>
+<#local title=dskey('portal.theme.site_property.Url.cookieURLLabel') /><#else><#local title='#i18n{portal.theme.labelCookies}' /></#if>
 <@_footerLinkItem title=title url=footerLinkCookies role='' target='_blank' />
 -->
 </#macro>
