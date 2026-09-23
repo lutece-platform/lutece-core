@@ -54,6 +54,12 @@ const FormValidation = (function() {
     // Store for custom validators
     const customValidators = new Map();
 
+    // Set while a pointer is pressed on a submit control.
+    // A blur triggered by that press must not re-validate the field: adding or removing
+    // the error message shifts the layout under the pointer and the click can miss the
+    // button, forcing the user to click twice. The submit handler validates everything anyway.
+    let submitControlPressed = false;
+
     /**
      * Initialize validation on a form or container
      * @param {string|HTMLElement} selector - Form selector or element
@@ -86,6 +92,11 @@ const FormValidation = (function() {
                 }
             });
 
+            // Track presses on submit controls (see submitControlPressed)
+            container.addEventListener('pointerdown', handlePointerDown, true);
+            container.addEventListener('pointerup', handlePointerUp, true);
+            container.addEventListener('pointercancel', handlePointerUp, true);
+
             // Handle form submission
             if (container.tagName === 'FORM') {
                 container.addEventListener('submit', handleSubmit);
@@ -114,7 +125,36 @@ const FormValidation = (function() {
      */
     function handleBlur(event) {
         const input = event.target;
+        if (submitControlPressed) {
+            return; // the pending submit will validate the whole form
+        }
         validateField(input);
+    }
+
+    /**
+     * Whether an element is (inside) a control that submits the form
+     * @param {EventTarget} target
+     * @returns {boolean}
+     */
+    function isSubmitControl(target) {
+        if (!target || typeof target.closest !== 'function') return false;
+        const control = target.closest('button, input[type="submit"], input[type="image"]');
+        if (!control) return false;
+        if (control.tagName === 'BUTTON') {
+            return (control.getAttribute('type') || 'submit').toLowerCase() === 'submit';
+        }
+        return true;
+    }
+
+    function handlePointerDown(event) {
+        if (isSubmitControl(event.target)) {
+            submitControlPressed = true;
+        }
+    }
+
+    function handlePointerUp() {
+        // Let the click and the resulting submit event fire before re-enabling blur validation
+        setTimeout(() => { submitControlPressed = false; }, 0);
     }
 
     /**
@@ -392,7 +432,7 @@ const FormValidation = (function() {
      * Check whether a file input already has files uploaded through the
      * asynchronous upload plugin. Uppy hands the file to the server and
      * then clears the input, so input.files is empty even though a file
-     * is attached to the field (LUTECE site-deontologie override).
+     * is attached to the field
      * @param {HTMLElement} input
      * @returns {boolean}
      */
