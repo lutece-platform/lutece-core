@@ -130,6 +130,41 @@ public final class PortletTemplateHome
     }
 
     /**
+     * Returns the templates whose identifiers are given. It is serializable as a method reference, which lets a session pager load a page of templates
+     * from their identifiers.
+     *
+     * @param listIdTemplates
+     *            the template identifiers
+     * @return the templates, ordered by portlet type then identifier
+     */
+    public static List<PortletTemplate> findByPrimaryKeyList( List<Integer> listIdTemplates )
+    {
+        return _dao.selectByPrimaryKeyList( listIdTemplates );
+    }
+
+    /**
+     * Returns the identifiers of every template
+     *
+     * @return the identifiers, ordered by portlet type then identifier
+     */
+    public static List<Integer> findAllIds( )
+    {
+        return _dao.selectAllIds( );
+    }
+
+    /**
+     * Returns the identifiers of the templates registered for a portlet type
+     *
+     * @param strPortletTypeId
+     *            the portlet type identifier
+     * @return the identifiers, ordered by identifier
+     */
+    public static List<Integer> findIdsByPortletType( String strPortletTypeId )
+    {
+        return _dao.selectIdsByPortletType( strPortletTypeId );
+    }
+
+    /**
      * Returns the templates registered for a portlet type as a reference list for a select
      *
      * @param strPortletTypeId
