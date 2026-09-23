@@ -1,4 +1,4 @@
-/* BEWARE THIS UTIL IS JQUERY dependant */
+/* Lutece progress manager - vanilla JS (no jQuery dependency) */
 function getProgress(id, feedToken, intervalTime) {
     fetch('servlet/plugins/core/progressManager/progressFeed?progress&token=' + feedToken, {
         method: 'POST'
@@ -29,7 +29,7 @@ function getReport(id, feedToken, nfromLine, intervalTime) {
         if (data.status != "ERROR") {
             updateProgressReport(id, data.result, true);
             if (getProgressValue(id) < getProgressMaxValue(id)) {
-                setTimeout(() => getReport(id, feedToken, parseInt(document.getElementById(id + "-report").getAttribute("lastline"))), intervalTime);
+                setTimeout(() => getReport(id, feedToken, parseInt(document.getElementById(id + "-report").getAttribute("lastline"), 10) || 0, intervalTime), intervalTime);
             }
         } else {
             updateProgressReport(id, { "lines": [data.status, data.errorCode], "lastLine": 0 }, true);
@@ -94,8 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.progressmanager').forEach(element => {
         const id = element.getAttribute("id");
         const token = element.getAttribute("token");
-        const showReport = element.getAttribute("showReport");
-        const intervalTime = element.getAttribute("intervalTime");
+        const showReport = element.getAttribute("showReport") === "true";
+        const intervalTime = parseInt(element.getAttribute("intervalTime"), 10) || 2000;
         
         // get progress
         getProgress(id, token, intervalTime);
