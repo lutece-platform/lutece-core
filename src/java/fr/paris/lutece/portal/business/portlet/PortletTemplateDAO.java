@@ -37,7 +37,9 @@ import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -51,6 +53,9 @@ public final class PortletTemplateDAO implements IPortletTemplateDAO
     private static final String SQL_QUERY_SELECTALL = SQL_QUERY_SELECT_COLUMNS + " ORDER BY id_portlet_type, id_template";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_COLUMNS + " WHERE id_template = ?";
     private static final String SQL_QUERY_SELECT_BY_PORTLET_TYPE = SQL_QUERY_SELECT_COLUMNS + " WHERE id_portlet_type = ? ORDER BY id_template";
+    private static final String SQL_QUERY_SELECT_BY_IDS = SQL_QUERY_SELECT_COLUMNS + " WHERE id_template IN ( %s ) ORDER BY id_portlet_type, id_template";
+    private static final String SQL_QUERY_SELECTALL_IDS = "SELECT id_template FROM core_portlet_template ORDER BY id_portlet_type, id_template";
+    private static final String SQL_QUERY_SELECT_IDS_BY_PORTLET_TYPE = "SELECT id_template FROM core_portlet_template WHERE id_portlet_type = ? ORDER BY id_template";
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_portlet_template ( id_portlet_type, description, template_path ) VALUES ( ?, ?, ? )";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_portlet_template SET id_portlet_type = ?, description = ?, template_path = ? WHERE id_template = ?";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet_template WHERE id_template = ?";
@@ -170,6 +175,83 @@ public final class PortletTemplateDAO implements IPortletTemplateDAO
         }
 
         return listTemplates;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<PortletTemplate> selectByPrimaryKeyList( List<Integer> listIdTemplates )
+    {
+        if ( listIdTemplates == null || listIdTemplates.isEmpty( ) )
+        {
+            return Collections.emptyList( );
+        }
+
+        List<PortletTemplate> listTemplates = new ArrayList<>( );
+        String strQuery = String.format( SQL_QUERY_SELECT_BY_IDS, listIdTemplates.stream( ).map( id -> "?" ).collect( Collectors.joining( "," ) ) );
+
+        try ( DAOUtil daoUtil = new DAOUtil( strQuery ) )
+        {
+            int nIndex = 1;
+
+            for ( Integer nIdTemplate : listIdTemplates )
+            {
+                daoUtil.setInt( nIndex++, nIdTemplate );
+            }
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listTemplates.add( dataToObject( daoUtil ) );
+            }
+        }
+
+        return listTemplates;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Integer> selectAllIds( )
+    {
+        List<Integer> listIdTemplates = new ArrayList<>( );
+
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_IDS ) )
+        {
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdTemplates.add( daoUtil.getInt( 1 ) );
+            }
+        }
+
+        return listIdTemplates;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public List<Integer> selectIdsByPortletType( String strPortletTypeId )
+    {
+        List<Integer> listIdTemplates = new ArrayList<>( );
+
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_IDS_BY_PORTLET_TYPE ) )
+        {
+            daoUtil.setString( 1, strPortletTypeId );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdTemplates.add( daoUtil.getInt( 1 ) );
+            }
+        }
+
+        return listIdTemplates;
     }
 
     /**

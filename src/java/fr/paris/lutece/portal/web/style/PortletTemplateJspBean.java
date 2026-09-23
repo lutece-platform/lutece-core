@@ -61,7 +61,6 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -141,7 +140,7 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
 
     @Inject
     @Pager( listBookmark = MARK_TEMPLATE_LIST, defaultItemsPerPage = PROPERTY_ITEMS_PER_PAGE, baseUrl = CONTROLLER_PATH + CONTROLLER_JSP )
-    private IPager<PortletTemplate, PortletTemplate> _pager;
+    private IPager<Integer, PortletTemplate> _pager;
 
     /**
      * Displays the templates, grouped by portlet type, optionally restricted to one portlet type. The model tells, for each template, whether the user may
@@ -157,13 +156,9 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
     public String getManagePortletTemplates( HttpServletRequest request, Models model )
     {
         String strPortletTypeFilter = StringUtils.trimToEmpty( request.getParameter( PARAMETER_PORTLET_TYPE_ID ) );
-        List<PortletTemplate> listTemplates = PortletTemplateHome.findAll( );
-
-        if ( StringUtils.isNotEmpty( strPortletTypeFilter ) )
-        {
-            listTemplates = listTemplates.stream( ).filter( template -> strPortletTypeFilter.equals( template.getPortletTypeId( ) ) )
-                    .collect( Collectors.toList( ) );
-        }
+        // the pager lives in the session : it keeps only the identifiers and loads the templates of the displayed page
+        List<Integer> listIdTemplates = StringUtils.isNotEmpty( strPortletTypeFilter ) ? PortletTemplateHome.findIdsByPortletType( strPortletTypeFilter )
+                : PortletTemplateHome.findAllIds( );
 
         // the pager links must keep the filter
         UrlItem urlPager = new UrlItem( CONTROLLER_PATH + CONTROLLER_JSP );
@@ -174,11 +169,17 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
             urlPager.addParameter( PARAMETER_PORTLET_TYPE_ID, strPortletTypeFilter );
         }
 
+        _pager.withBaseUrl( urlPager.getUrl( ) ).withIdList( listIdTemplates ).populateModels( request, model, PortletTemplateHome::findByPrimaryKeyList,
+                getLocale( ) );
+
+        // the permissions and the usage are only needed for the templates of the displayed page
+        @SuppressWarnings( "unchecked" )
+        List<PortletTemplate> listPageTemplates = (List<PortletTemplate>) model.get( MARK_TEMPLATE_LIST );
         Map<String, Boolean> mapPermissionsModify = new HashMap<>( );
         Map<String, Boolean> mapPermissionsDelete = new HashMap<>( );
         Map<String, Boolean> mapTemplatesUsed = new HashMap<>( );
 
-        for ( PortletTemplate template : listTemplates )
+        for ( PortletTemplate template : listPageTemplates )
         {
             mapPermissionsModify.put( template.getResourceId( ), isAuthorized( template, PortletTemplateResourceIdService.PERMISSION_MODIFY ) );
             mapPermissionsDelete.put( template.getResourceId( ), isAuthorized( template, PortletTemplateResourceIdService.PERMISSION_DELETE ) );
@@ -192,7 +193,6 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
         model.put( MARK_PORTLET_TYPE_NAMES, getPortletTypeNames( ) );
         model.put( MARK_PORTLET_TYPE_FILTER_LIST, getPortletTypeFilterList( ) );
         model.put( MARK_CURRENT_PORTLET_TYPE, strPortletTypeFilter );
-        _pager.withBaseUrl( urlPager.getUrl( ) ).withListItem( listTemplates ).populateModels( request, model, getLocale( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_TEMPLATES, TEMPLATE_MANAGE_TEMPLATES, model );
     }

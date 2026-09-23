@@ -90,6 +90,31 @@ public interface IPortletTemplateDAO
     List<PortletTemplate> selectByPortletType( String strPortletTypeId );
 
     /**
+     * Loads the templates whose identifiers are given
+     *
+     * @param listIdTemplates
+     *            the template identifiers
+     * @return the templates, ordered by portlet type then identifier
+     */
+    List<PortletTemplate> selectByPrimaryKeyList( List<Integer> listIdTemplates );
+
+    /**
+     * Loads the identifiers of every template
+     *
+     * @return the identifiers, ordered by portlet type then identifier
+     */
+    List<Integer> selectAllIds( );
+
+    /**
+     * Loads the identifiers of the templates registered for a portlet type
+     *
+     * @param strPortletTypeId
+     *            the portlet type identifier
+     * @return the identifiers, ordered by identifier
+     */
+    List<Integer> selectIdsByPortletType( String strPortletTypeId );
+
+    /**
      * Tells whether at least one portlet uses a template
      *
      * @param nIdTemplate
