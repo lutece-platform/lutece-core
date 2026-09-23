@@ -52,7 +52,7 @@ document.querySelectorAll('${selector!}').forEach(elem => {
 	<#if btn>
 	const btn = document.createElement('button');
 	btn.type = 'button';
-	btn.className = 'btn btn-sm btn-${btnClass} ms-2 px-1';
+	btn.className = 'btn btn-sm btn-${btnClass} ms-1 p-1 align-items-baseline';
 	btn.title = btnLabel;
 	btn.setAttribute('aria-label', btnLabel);
 	btn.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i>';
