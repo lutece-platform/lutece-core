@@ -5,6 +5,7 @@
         <@table headBody=true >
             <@tr>            
                 <@th>#i18n{portal.features.manage_rights.columnTitleName}</@th>
+                <@th>#i18n{portal.features.manage_rights.columnTitlePlugin}</@th>
                 <@th>#i18n{portal.features.manage_rights.columnTitleDescription}</@th>
                 <@th>#i18n{portal.features.manage_rights.columnTitleLevel}</@th>
                 <@th>#i18n{portal.features.manage_rights.columnTitleActions}</@th>
@@ -13,6 +14,7 @@
             <#list rights_list?sort_by('name') as right >
                 <@tr>
                     <@td>${right.name}</@td>
+                    <@td><span class="badge bg-secondary-lt"><#if (right.pluginName)?has_content>${right.pluginName}<#else>#i18n{portal.features.manage_rights.coreLabel}</#if></span></@td>
                     <@td>${right.description}</@td>
                     <@td>${right.level}</@td>
                     <@td>
