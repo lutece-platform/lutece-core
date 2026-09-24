@@ -100,7 +100,7 @@ let editorConfig = {
   quickbars_insert_toolbar: tinyQuickbarMenu,
   quickbars_selection_toolbar: selectionToolbar,
   language: '${editorLocale}',
-  document_base_url : '${webapp_url}',
+  document_base_url : '${webapp_url}' || document.baseURI,
   color_map: colorMap,
   image_caption: true,
   image_advtab: true,
