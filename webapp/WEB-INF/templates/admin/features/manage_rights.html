@@ -6,7 +6,10 @@
             <@manageFeatureItem>            
                 <@manageFeatureItemColumn>
                     <@h level=3>${right.name}</@h>
-                </@manageFeatureItemColumn> 
+                </@manageFeatureItemColumn>
+                <@manageFeatureItemColumn>
+                    <@p>#i18n{portal.features.manage_rights.columnTitlePlugin} : <strong><span class="badge bg-secondary-lt"><#if (right.pluginName)?has_content>${right.pluginName}<#else>#i18n{portal.features.manage_rights.coreLabel}</#if></span></strong></@p>
+                </@manageFeatureItemColumn>
                 <@manageFeatureItemColumn auto=true>
                     <@p>#i18n{portal.features.manage_rights.columnTitleLevel} : <strong>${right.level}</strong></@p>
                 </@manageFeatureItemColumn> 
