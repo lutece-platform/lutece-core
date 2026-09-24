@@ -98,7 +98,7 @@ let editorConfig = {
   quickbars_selection_toolbar: selectionToolbar,
   block_formats: 'Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5',
   language: '${editorLocale}',
-  document_base_url : '${webapp_url}',
+  document_base_url : '${webapp_url}' || document.baseURI,
   color_map: colorMap,
   image_caption: true,
   image_advtab: true,
@@ -120,8 +120,7 @@ let editorConfig = {
 document.addEventListener( "DOMContentLoaded", function() {
   	const tinyInst = tinymce.init( editorConfig );
     tinyInst.then( (ti) => {
-      // TODO : Add a way to set the theme in the editor
-      ti[0].contentDocument.body.dataset.bsTheme = 'light';
+      ti.forEach( ( editor ) => { editor.contentDocument.body.dataset.bsTheme = 'light'; } );
     });
 })
 </script>
