@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.datastore.DataEntity;
@@ -113,5 +121,46 @@ public class DatastoreServiceTest extends LuteceTestCase
         assertFalse( DatastoreService.insertDataValueIfAbsent( strKey, VALUE2 ) );
         assertEquals( VALUE1, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
         DatastoreService.removeData( strKey );
+    }
+
+    /**
+     * setDataValue called at the same time for a key that does not exist yet stores one of the values and never
+     * fails on the primary key.
+     *
+     * @throws Exception
+     *             if a write fails
+     */
+    @Test
+    public void testConcurrentSetOfNewKey( ) throws Exception
+    {
+        int nThreads = 8;
+        ExecutorService pool = Executors.newFixedThreadPool( nThreads );
+        try
+        {
+            for ( int nRound = 0; nRound < 20; nRound++ )
+            {
+                String strKey = "junit.concurrent." + nRound;
+                CyclicBarrier barrier = new CyclicBarrier( nThreads );
+                List<Future<Object>> futures = new ArrayList<>( );
+                for ( int nThread = 0; nThread < nThreads; nThread++ )
+                {
+                    futures.add( pool.submit( ( ) -> {
+                        barrier.await( );
+                        DatastoreService.setDataValue( strKey, VALUE1 );
+                        return null;
+                    } ) );
+                }
+                for ( Future<Object> future : futures )
+                {
+                    future.get( 10, TimeUnit.SECONDS );
+                }
+                assertEquals( VALUE1, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+                DatastoreService.removeData( strKey );
+            }
+        }
+        finally
+        {
+            pool.shutdownNow( );
+        }
     }
 }
