@@ -43,6 +43,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.util.html.*;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.right.Level;
@@ -63,9 +64,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.html.AbstractPaginator;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -94,6 +92,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+    private static final String PARAMETER_PAGE_INDEX = "page_index";
 
     // Parameters
     private static final String PARAMETER_ID_RIGHT = "id_right";
@@ -127,7 +126,16 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         reinitItemNavigator( );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList( ), getLocale( ) ) );
+        UrlItem url = new UrlItem( request.getRequestURI( ) );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+
+        int defaultItemsPerPage = 20;
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
+
+        IPaginator<Right> paginator = new Paginator<Right>(new ArrayList<>(RightHome.getRightsList()), _nItemsPerPage, url.getUrl( ), PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( paginator.getPageItems(), getLocale( ) ) );
+        model.put( MARK_PAGINATOR, paginator);
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale( ), model );
 
