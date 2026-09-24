@@ -224,13 +224,9 @@ public final class DatastoreService
                 DataEntity p = new DataEntity( strKey, strValue );
                 DataEntity entity = DataEntityHome.findByPrimaryKey( strKey );
 
-                if ( entity != null )
+                if ( entity != null || !DataEntityHome.createIfAbsent( p ) )
                 {
                     DataEntityHome.update( p );
-                }
-                else
-                {
-                    DataEntityHome.create( p );
                 }
             }
         }
