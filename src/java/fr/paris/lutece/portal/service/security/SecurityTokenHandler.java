@@ -40,19 +40,28 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.BeforeControllerEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -76,24 +85,43 @@ public class SecurityTokenHandler
     private static final String PATH_ADMIN = "/jsp/admin";
     private static final String ACTION_METHOD_PREFIX = "do";
 
-    private Set<String> _actionMethods = new HashSet<String>( );
-    private Map<String, HashSet<String>> _mapDisabledActionMethods = new HashMap<String, HashSet<String>>( );
-    private Set<String> _handledControllers = new HashSet<String>( );
+    private Set<String> _actionMethods = ConcurrentHashMap.newKeySet( );
+    private Map<String, Set<String>> _mapDisabledActionMethods = new ConcurrentHashMap<>( );
+    private Set<String> _handledControllers = ConcurrentHashMap.newKeySet( );
     @Inject 
     private HttpServletRequest request;
     @Inject
     private SecurityTokenService _securityTokenService;
+    @Inject
+    private BeanManager _beanManager;
+
+    /**
+     * Registers the actions of every back office MVC controller with the security token enabled, at application startup, so that the token is checked
+     * from the first request, before the controller has ever been displayed.
+     *
+     * @param context
+     *            The servlet context
+     */
+    public void registerAdminControllers( @Observes @Initialized( ApplicationScoped.class ) ServletContext context )
+    {
+        for ( Bean<?> bean : _beanManager.getBeans( MVCAdminJspBean.class, Any.Literal.INSTANCE ) )
+        {
+            Class<?> clazz = bean.getBeanClass( );
+            Controller controller = clazz.getAnnotation( Controller.class );
+            if ( null != controller && controller.securityTokenEnabled( ) )
+            {
+                registerActions( controller.controllerPath( ) + controller.controllerJsp( ), ReflectionUtils.getAllDeclaredMethods( clazz ) );
+            }
+        }
+    }
 
     /**
      * Registers disabled action methods from XPage or MVCAdminJspBean
      */
     public void registerActions( String strName, Method [ ] methods )
     {
-        if ( !_mapDisabledActionMethods.containsKey( strName ) )
-        {
-            _handledControllers.add( strName );
-            _mapDisabledActionMethods.put( strName, new HashSet<String>( ) );
-            HashSet<String> dis = _mapDisabledActionMethods.get( strName );
+        _mapDisabledActionMethods.computeIfAbsent( strName, name -> {
+            Set<String> dis = new HashSet<>( );
             for ( Method m : methods )
             {
                 if ( m.isAnnotationPresent( Action.class ) )
@@ -111,7 +139,9 @@ public class SecurityTokenHandler
                     dis.add( m.getName( ) );
                 }
             }
-        }
+            _handledControllers.add( name );
+            return dis;
+        } );
     }
 
     /**
@@ -145,14 +175,11 @@ public class SecurityTokenHandler
 
         String strPageName = request.getParameter( PARAMETER_PAGE );
         String strPath = AppPathService.getRequestedPath( request );
-        if ( null != strPageName )
+        if ( null != strPageName && !request.getServletPath( ).startsWith( PATH_ADMIN ) )
         {
             return shouldNotFilterXPageAction( request, strPageName, strAction );
         }
-        else
-        {
-            return shouldNotFilterPath( request, strPath, strAction );
-        }
+        return shouldNotFilterPath( request, strPath, strAction );
     }
 
     /**
