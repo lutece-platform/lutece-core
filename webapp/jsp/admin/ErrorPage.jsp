@@ -6,6 +6,9 @@
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
 <%@ page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
+<%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
+<%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
+<%@ page pageEncoding="UTF-8" %>
 
 <%@ page buffer="1024kb"%>
 <%@ page autoFlush="false"%>
@@ -50,7 +53,32 @@
     }
     else
     {
+		String strBase = AppPathService.getBaseUrl( request );
 %>
+<!DOCTYPE html>
+<html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr">
+<head>
+<base href="<%= strBase %>">
+<title><%= PortalService.getSiteName(  ) %> - Administration</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Styles -->
+<%= PortalService.getAdminCssLinks() %>
+<link rel="shortcut icon" href="<%= strBase %>favicon.ico">
+<!-- Apply the user's stored theme mode before first paint -->
+<script>
+(function () {
+	const localTheme = localStorage.getItem('lutece-tabler-theme');
+	if( localTheme !== null ){
+		document.documentElement.dataset.bsTheme = localTheme;
+	}
+	if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
+		document.documentElement.setAttribute('dir','rtl');
+	}
+})();
+</script>
+</head>
+<body>
 <script>
 if( document.getElementById('navbar-menu') != null ){
 	document.getElementById('navbar-menu').remove()
@@ -113,7 +141,7 @@ out.println(cw.toString());
 									</code>
 								</pre>
 								<p class="text-center">
-									<a class="btn btn-outline-primary" href="jsp/site/Portal.jsp">
+									<a class="btn btn-outline-primary" href="<%= AppPathService.getBaseUrl( request ) %>jsp/site/Portal.jsp">
 										<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
 									</a>
 								</p>
@@ -155,7 +183,7 @@ out.println(cw.toString());
                 <li class="list-inline-item">
                     <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="<%= I18nService.getLocalizedString(PROPERTY_LABELPORTAL, request.getLocale() ) %>">
                         <span class="me-2"></span>
-                        <img src="themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
+                        <img src="<%= AppPathService.getBaseUrl( request ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
                         <span class="visually-hidden">LUTECE</span>
                         <!-- <span class="text-muted ms-2" rel="noopener">Version</span> -->
                     </a>
