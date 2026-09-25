@@ -17,7 +17,7 @@
 						<@input type='text' name='email_subject' id='email_subject' value="${email_subject!}" />
 					</@formGroup>
 					<@formGroup labelFor='email_body' labelKey='${i18n("portal.users.accountLifeTime.labelBodyEmail")}' mandatory=true rows=2>
-						<@input type='textarea' name='email_body' richtext=true id='email_body' value="${email_body!}" />
+						<@input type='textarea' name='email_body' richtext=true id='email_body' value="${email_body!}" bypassXssFilter=true />
 					</@formGroup>
 					<@row>
 						<@columns sm=9 offsetSm=3 md=3 offsetMd=3>

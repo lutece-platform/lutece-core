@@ -52,6 +52,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.util.string.StringUtil;
+
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -2627,7 +2629,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUserService.updateSecurityParameter( strSenderKey, request.getParameter( MARK_EMAIL_SENDER ) );
         AdminUserService.updateSecurityParameter( strSubjectKey, request.getParameter( MARK_EMAIL_SUBJECT ) );
-        DatabaseTemplateService.updateTemplate( strBodyKey, request.getParameter( MARK_EMAIL_BODY ) );
+        DatabaseTemplateService.updateTemplate( strBodyKey, StringUtil.decodeXssBypass( request.getParameter( MARK_EMAIL_BODY ) ) );
 
         return getAdminDashboardsUrl( request, ANCHOR_LIFE_TIME_EMAILS );
     }
