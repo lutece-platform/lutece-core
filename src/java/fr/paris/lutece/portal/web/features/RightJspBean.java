@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import fr.paris.lutece.util.html.*;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,9 +66,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.html.AbstractPaginator;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -98,6 +96,8 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+    private static final String MARK_SORTED_ATTRIBUTE_NAME = "sorted_attribute_name";
+    private static final String MARK_ASC_SORT = "asc_sort";
 
     // Parameters
     private static final String PARAMETER_ID_RIGHT = "id_right";
@@ -112,9 +112,26 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT = "jsp/admin/features/AssignUsersRight.jsp";
     private static final String JSP_ASSIGN_USERS_TO_RIGHT = "AssignUsersRight.jsp";
+
+    // Sort and pagination
+    /** Attribute used to sort the rights when no sort is requested */
+    private static final String DEFAULT_SORT_ATTRIBUTE = "name";
+    /** Default number of rights displayed per page */
+    private static final int DEFAULT_RIGHTS_PER_PAGE = 20;
+    /** Index of the first page of the paginator */
+    private static final String FIRST_PAGE_INDEX = "1";
+
+    // Variables
+    /** Number of items displayed per page */
     private int _nItemsPerPage;
+    /** Index of the current page */
     private String _strCurrentPageIndex;
+    /** Navigator between rights */
     private ItemNavigator _itemNavigator;
+    /** Number of rights displayed per page */
+    private int _nRightsPerPage;
+    /** Index of the current page of the rights list */
+    private String _strRightsPageIndex;
 
     /**
      * Returns the list of rights
@@ -126,16 +143,73 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     public String getManageRights( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_RIGHTS_PAGETITLE );
-
         // Reinit session
         reinitItemNavigator( );
 
+        _strRightsPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strRightsPageIndex );
+        _nRightsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nRightsPerPage, DEFAULT_RIGHTS_PER_PAGE );
+
+        if ( isNewSort( request ) )
+        {
+            _strRightsPageIndex = FIRST_PAGE_INDEX;
+        }
+
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList( ), getLocale( ) ) );
+        UrlItem url = new UrlItem( request.getRequestURI( ) );
+        List<Right> listRights = new ArrayList<>( I18nService.localizeCollection( RightHome.getRightsList( ), getLocale( ) ) );
+        sortRights( request, listRights, url );
+
+        LocalizedPaginator<Right> paginator = new LocalizedPaginator<>( listRights, _nRightsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strRightsPageIndex, getLocale( ) );
+        model.put( MARK_RIGHTS_LIST, paginator.getPageItems( ) );
+        model.put( MARK_PAGINATOR, paginator );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nRightsPerPage ) );
+        model.put( MARK_SORTED_ATTRIBUTE_NAME, request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME ) );
+        model.put( MARK_ASC_SORT, request.getParameter( Parameters.SORTED_ASC ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Sorts the rights list and adds the sort parameters to the paginator URL
+     *
+     * @param request
+     *            The Http request
+     * @param listRights
+     *            The list of rights to sort
+     * @param url
+     *            The paginator URL
+     */
+    private static void sortRights( HttpServletRequest request, List<Right> listRights, UrlItem url )
+    {
+        String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
+
+        if ( strSortedAttributeName == null )
+        {
+            listRights.sort( new AttributeComparator( DEFAULT_SORT_ATTRIBUTE, true ) );
+            return;
+        }
+
+        String strAscSort = request.getParameter( Parameters.SORTED_ASC );
+        boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
+        listRights.sort( new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+        url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
+        url.addParameter( Parameters.SORTED_ASC, strAscSort );
+    }
+
+    /**
+     * Checks if a new sort has been requested
+     *
+     * @param request
+     *            The Http request
+     * @return true if a sort is requested without a page index, false otherwise
+     */
+    private static boolean isNewSort( HttpServletRequest request )
+    {
+        return request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME ) != null
+                && request.getParameter( AbstractPaginator.PARAMETER_PAGE_INDEX ) == null;
     }
 
     /**

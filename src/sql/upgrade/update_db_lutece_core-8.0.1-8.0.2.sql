@@ -179,3 +179,11 @@ DELETE FROM core_user_right WHERE id_right = 'CORE_PORTLET_TEMPLATE_MANAGEMENT';
 DELETE FROM core_admin_right WHERE id_right = 'CORE_PORTLET_TEMPLATE_MANAGEMENT';
 INSERT INTO core_admin_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT', 'portal.style.adminFeature.portlet_template_management.name', 0, 'jsp/admin/style/ManagePortletTemplates.jsp', 'portal.style.adminFeature.portlet_template_management.description', 0, '', 'STYLE', 'ti ti-template', NULL, 2, 0);
 INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',1);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev15.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- Fix i18n keys of CORE_LEVEL_MANAGEMENT right (keys are defined in users_messages.properties)
+UPDATE core_admin_right
+SET name = 'portal.users.adminFeature.level_management.name',
+    description = 'portal.users.adminFeature.level_management.description'
+WHERE id_right = 'CORE_LEVEL_MANAGEMENT';
