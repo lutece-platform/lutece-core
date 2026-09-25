@@ -333,6 +333,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_RANDOM_PASSWORD_SIZE = "randomPasswordSize";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
     private static final String MARK_DEFAULT_MODE_USED = "defaultModeUsed";
+    private static final String MARK_USER_IDENTITY_EDITABLE = "userIdentityEditable";
     private static final String MARK_EXPORT_USERS = "users";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
@@ -897,6 +898,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        model.put( MARK_USER_IDENTITY_EDITABLE, AdminAuthenticationService.getInstance( ).isUserIdentityEditable( ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_MODIFY_USER ) );
 
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
@@ -946,6 +948,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( message != null )
         {
             return message;
+        }
+
+        // If the user information is not editable, preserve its existing values.
+        if ( !AdminAuthenticationService.getInstance( ).isUserIdentityEditable( ) )
+        {
+            strAccessCode = userToModify.getAccessCode( );
+            strLastName = userToModify.getLastName( );
+            strFirstName = userToModify.getFirstName( );
+            strEmail = userToModify.getEmail( );
         }
 
         int checkCode = AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode );
