@@ -54,7 +54,7 @@ const FormValidation = (function() {
     // Store for custom validators
     const customValidators = new Map();
 
-    // Set while a pointer is pressed on a submit control.
+    // Set while a pointer is pressed on a submit control (site-deontologie override).
     // A blur triggered by that press must not re-validate the field: adding or removing
     // the error message shifts the layout under the pointer and the click can miss the
     // button, forcing the user to click twice. The submit handler validates everything anyway.
@@ -180,6 +180,12 @@ const FormValidation = (function() {
      */
     function handleChange(event) {
         const input = event.target;
+        // A file input firing "change" with an empty list means the asynchronous upload script
+        // already took the files (or the picker was cancelled): validating now would wrongly
+        // flag a required field while the upload is in flight. The sync afterwards re-triggers "input".
+        if (input.type === 'file' && (!input.files || input.files.length === 0)) {
+            return;
+        }
         validateField(input);
     }
 
@@ -432,17 +438,20 @@ const FormValidation = (function() {
      * Check whether a file input already has files uploaded through the
      * asynchronous upload plugin. Uppy hands the file to the server and
      * then clears the input, so input.files is empty even though a file
-     * is attached to the field
+     * is attached to the field (LUTECE site-deontologie override).
      * @param {HTMLElement} input
      * @returns {boolean}
      */
     function hasAsyncUploadedFiles(input) {
         if (input.type !== 'file') return false;
         const uploaded = parseInt(input.dataset.nbuploadedfiles, 10);
-        if (!isNaN(uploaded) && uploaded > 0) return true;
+        if (!isNaN(uploaded) && uploaded > 0) return true; // kept in sync by the asynchronous upload script
+        // Fallback: items listed in a visible files list (a hidden list may keep stale items)
         const list = document.getElementById('_file_deletion_' + input.name)
             || document.getElementById('_file_deletion_' + input.id);
-        return !!list && list.querySelectorAll('li').length > 0;
+        if (!list || list.querySelectorAll('li').length === 0) return false;
+        const wrapper = list.closest('.form-files-group');
+        return !wrapper || getComputedStyle(wrapper).display !== 'none';
     }
 
     /**
