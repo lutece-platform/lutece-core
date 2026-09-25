@@ -41,6 +41,13 @@ sceditor.create( editorTxt, {
 	icons: ${icons}</#if><#if plugins !=''>,
 	plugins: ${plugins}</#if>
 });
+// Register save hook for luteceXssBypass
+window.luteceEditorSaveHooks = window.luteceEditorSaveHooks || [];
+window.luteceEditorSaveHooks.push( function( )
+{
+	var instance = sceditor.instance( editorTxt );
+	if ( instance ) { instance.updateOriginal( ); }
+});
 </script>
 <#else>
 <!-- WARNING :  No textarea selector or editor path defined -->
