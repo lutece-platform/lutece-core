@@ -1,8 +1,33 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}'/>
+        <#assign sortAttr = sorted_attribute_name!'name' />
+        <#assign sortAsc = asc_sort!'true' />
+        <#assign sortOptions = [
+            { 'attribute': 'name', 'asc': 'true', 'label': '#i18n{portal.features.manage_rights.sortNameAsc}' },
+            { 'attribute': 'name', 'asc': 'false', 'label': '#i18n{portal.features.manage_rights.sortNameDesc}' },
+            { 'attribute': 'pluginName', 'asc': 'true', 'label': '#i18n{portal.features.manage_rights.sortPluginAsc}' },
+            { 'attribute': 'pluginName', 'asc': 'false', 'label': '#i18n{portal.features.manage_rights.sortPluginDesc}' },
+            { 'attribute': 'level', 'asc': 'true', 'label': '#i18n{portal.features.manage_rights.sortLevelAsc}' },
+            { 'attribute': 'level', 'asc': 'false', 'label': '#i18n{portal.features.manage_rights.sortLevelDesc}' }
+        ] />
+        <#assign currentSortLabel = '' />
+        <#list sortOptions as sortOption>
+            <#if sortOption.attribute == sortAttr && sortOption.asc == sortAsc><#assign currentSortLabel = sortOption.label /></#if>
+        </#list>
+        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}'>
+            <div class="dropdown">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <@icon style='arrows-sort' class='me-1' /> #i18n{portal.util.sort.label}<#if currentSortLabel?has_content> : ${currentSortLabel}</#if>
+                </button>
+                <@dropdownMenu class='dropdown-menu-end'>
+                    <#list sortOptions as sortOption>
+                    <@dropdownItem href='jsp/admin/features/ManageRights.jsp?sorted_attribute_name=${sortOption.attribute}&amp;asc_sort=${sortOption.asc}' title=sortOption.label class=( sortOption.attribute == sortAttr && sortOption.asc == sortAsc )?then( 'active', '' ) />
+                    </#list>
+                </@dropdownMenu>
+            </div>
+        </@pageHeader>
         <@manageFeature class='mt-0'>
-            <#list rights_list?sort_by('name') as right >
+            <#list rights_list as right >
             <@manageFeatureItem>            
                 <@manageFeatureItemColumn>
                     <@h level=3>${right.name}</@h>
