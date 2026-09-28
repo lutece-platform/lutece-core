@@ -20,6 +20,7 @@
                 </@div>
             </@div>
         </@tform>
+        <#if rights_list?has_content>
         <@table headBody=true >
             <@tr>
                 <@th>#i18n{portal.features.manage_rights.columnTitleName}
@@ -48,6 +49,9 @@
             </#list>
         </@table>
         <@paginationAdmin paginator=paginator combo=1 />
+        <#else>
+        <@alert color='info'>#i18n{portal.features.manage_rights.filterNoResult}</@alert>
+        </#if>
     </@pageColumn>
 </@pageContainer>
 
