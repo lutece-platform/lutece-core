@@ -21,11 +21,32 @@
                 </button>
                 <@dropdownMenu class='dropdown-menu-end'>
                     <#list sortOptions as sortOption>
-                    <@dropdownItem href='jsp/admin/features/ManageRights.jsp?sorted_attribute_name=${sortOption.attribute}&amp;asc_sort=${sortOption.asc}' title=sortOption.label class=( sortOption.attribute == sortAttr && sortOption.asc == sortAsc )?then( 'active', '' ) />
+                    <@dropdownItem href='jsp/admin/features/ManageRights.jsp?sorted_attribute_name=${sortOption.attribute}&asc_sort=${sortOption.asc}' title=sortOption.label class=( sortOption.attribute == sortAttr && sortOption.asc == sortAsc )?then( 'active', '' ) />
                     </#list>
                 </@dropdownMenu>
             </div>
         </@pageHeader>
+        <#assign searchValue><#outputformat "HTML">${search!}</#outputformat></#assign>
+        <@tform method='get' action='jsp/admin/features/ManageRights.jsp' name='SearchRightsForm'>
+            <@div class='row g-2 align-items-center mb-3'>
+                <@div class='col-12 col-md-4'>
+                    <@inputGroup>
+                        <@button type='submit' color='default' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['all'] />
+                        <@input type='search' name='search' id='rights-search' value=searchValue placeHolder='#i18n{portal.features.manage_rights.filterSearchPlaceholder}' autoComplete='off' title='#i18n{portal.features.manage_rights.filterSearchPlaceholder}' />
+                    </@inputGroup>
+                </@div>
+                <@div class='col-6 col-md-2'>
+                    <@select name='plugin' id='filter-plugin' items=plugins_list default_value=selected_plugin title='#i18n{portal.features.manage_rights.filterAllPlugins}' />
+                </@div>
+                <@div class='col-6 col-md-2'>
+                    <@select name='level' id='filter-level' items=levels_list default_value=selected_level title='#i18n{portal.features.manage_rights.filterAllLevels}' />
+                </@div>
+                <@div class='col-auto'>
+                    <@aButton href='jsp/admin/features/ManageRights.jsp?search=&level=&plugin=' color='default' buttonIcon='refresh' title='#i18n{portal.util.labelReset}' />
+                </@div>
+            </@div>
+        </@tform>
+        <@paginationItemCount paginator=paginator showcount=1 />
         <@manageFeature class='mt-0'>
             <#list rights_list as right >
             <@manageFeatureItem>            
@@ -47,6 +68,19 @@
             </@manageFeatureItem>
             </#list>
         </@manageFeature>
-        <@paginationAdmin paginator=paginator combo=1 />
+        <@paginationAdmin paginator=paginator combo=1 showcount=0 />
     </@pageColumn>
 </@pageContainer>
+<script>
+document.addEventListener( 'DOMContentLoaded', function( ) {
+    const form = document.forms[ 'SearchRightsForm' ];
+    if ( !form ) {
+        return;
+    }
+    form.querySelectorAll( 'select' ).forEach( function( select ) {
+        select.addEventListener( 'change', function( ) {
+            form.submit( );
+        } );
+    } );
+} );
+</script>

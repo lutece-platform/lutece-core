@@ -47,6 +47,8 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -85,6 +87,9 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MANAGE_RIGHTS_PAGETITLE = "portal.features.manage_rights.pageTitle";
     private static final String PROPERTY_ASSIGN_USERS_PAGETITLE = "portal.features.assign_users.pageTitle";
     private static final String PROPERTY_USERS_PER_PAGE = "paginator.user.itemsPerPage";
+    private static final String PROPERTY_CORE_LABEL = "portal.features.manage_rights.coreLabel";
+    private static final String PROPERTY_ALL_PLUGINS = "portal.features.manage_rights.filterAllPlugins";
+    private static final String PROPERTY_ALL_LEVELS = "portal.features.manage_rights.filterAllLevels";
 
     // Markers
     private static final String MARK_RIGHTS_LIST = "rights_list";
@@ -98,12 +103,20 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_SORTED_ATTRIBUTE_NAME = "sorted_attribute_name";
     private static final String MARK_ASC_SORT = "asc_sort";
+    private static final String MARK_SEARCH = "search";
+    private static final String MARK_SELECTED_LEVEL = "selected_level";
+    private static final String MARK_PLUGINS_LIST = "plugins_list";
+    private static final String MARK_LEVELS_LIST = "levels_list";
+    private static final String MARK_SELECTED_PLUGIN = "selected_plugin";
 
     // Parameters
     private static final String PARAMETER_ID_RIGHT = "id_right";
     private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
     private static final String PARAMETER_ID_USER = "id_user";
     private static final String PARAMETER_ANCHOR = "anchor";
+    private static final String PARAMETER_SEARCH = "search";
+    private static final String PARAMETER_LEVEL = "level";
+    private static final String PARAMETER_PLUGIN = "plugin";
 
     // Templates files path
     private static final String TEMPLATE_MANAGE_RIGHTS = "admin/features/manage_rights.html";
@@ -120,6 +133,10 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final int DEFAULT_RIGHTS_PER_PAGE = 20;
     /** Index of the first page of the paginator */
     private static final String FIRST_PAGE_INDEX = "1";
+    /** Value of the plugin filter selecting the core rights */
+    private static final String FILTER_CORE_PLUGIN = "core";
+    /** Value of the level filter selecting all the levels */
+    private static final int ALL_LEVELS = -1;
 
     // Variables
     /** Number of items displayed per page */
@@ -132,6 +149,12 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private int _nRightsPerPage;
     /** Index of the current page of the rights list */
     private String _strRightsPageIndex;
+    /** Text searched in the rights list */
+    private String _strRightsSearch = StringUtils.EMPTY;
+    /** Level selected in the rights list */
+    private String _strRightsLevel = StringUtils.EMPTY;
+    /** Plugin selected in the rights list */
+    private String _strRightsPlugin = StringUtils.EMPTY;
 
     /**
      * Returns the list of rights
@@ -149,27 +172,139 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         _strRightsPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strRightsPageIndex );
         _nRightsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nRightsPerPage, DEFAULT_RIGHTS_PER_PAGE );
 
+        updateFilters( request );
+
         if ( isNewSort( request ) )
         {
             _strRightsPageIndex = FIRST_PAGE_INDEX;
         }
 
-        Map<String, Object> model = new HashMap<>( );
         UrlItem url = new UrlItem( request.getRequestURI( ) );
         List<Right> listRights = new ArrayList<>( I18nService.localizeCollection( RightHome.getRightsList( ), getLocale( ) ) );
+        ReferenceList listPlugins = getPluginsReferenceList( listRights );
+        int nLevel = NumberUtils.toInt( _strRightsLevel, ALL_LEVELS );
+        listRights = filterRights( _strRightsSearch, nLevel, _strRightsPlugin, listRights );
         sortRights( request, listRights, url );
 
         LocalizedPaginator<Right> paginator = new LocalizedPaginator<>( listRights, _nRightsPerPage, url.getUrl( ),
                 AbstractPaginator.PARAMETER_PAGE_INDEX, _strRightsPageIndex, getLocale( ) );
+
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RIGHTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nRightsPerPage ) );
+        model.put( MARK_SEARCH, _strRightsSearch );
+        model.put( MARK_LEVELS_LIST, getLevelsReferenceList( ) );
+        model.put( MARK_SELECTED_LEVEL, _strRightsLevel );
+        model.put( MARK_PLUGINS_LIST, listPlugins );
+        model.put( MARK_SELECTED_PLUGIN, _strRightsPlugin );
         model.put( MARK_SORTED_ATTRIBUTE_NAME, request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME ) );
         model.put( MARK_ASC_SORT, request.getParameter( Parameters.SORTED_ASC ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Updates the filters of the rights list from the request and goes back to the first page when a filter changes. A filter absent from the request keeps
+     * its previous value.
+     *
+     * @param request
+     *            The Http request
+     */
+    private void updateFilters( HttpServletRequest request )
+    {
+        String strSearch = request.getParameter( PARAMETER_SEARCH );
+        String strLevel = request.getParameter( PARAMETER_LEVEL );
+        String strPlugin = request.getParameter( PARAMETER_PLUGIN );
+
+        if ( strSearch != null )
+        {
+            _strRightsSearch = strSearch.trim( );
+        }
+
+        if ( strLevel != null )
+        {
+            _strRightsLevel = strLevel;
+        }
+
+        if ( strPlugin != null )
+        {
+            _strRightsPlugin = strPlugin;
+        }
+
+        if ( strSearch != null || strLevel != null || strPlugin != null )
+        {
+            _strRightsPageIndex = FIRST_PAGE_INDEX;
+        }
+    }
+
+    /**
+     * Builds the list of the plugins owning rights, for the plugin filter
+     *
+     * @param listRights
+     *            The list of all the rights
+     * @return the plugins list, starting with the "all plugins" and "core" items
+     */
+    private ReferenceList getPluginsReferenceList( List<Right> listRights )
+    {
+        ReferenceList listPlugins = new ReferenceList( );
+        listPlugins.addItem( StringUtils.EMPTY, I18nService.getLocalizedString( PROPERTY_ALL_PLUGINS, getLocale( ) ) );
+        listPlugins.addItem( FILTER_CORE_PLUGIN, I18nService.getLocalizedString( PROPERTY_CORE_LABEL, getLocale( ) ) );
+
+        listRights.stream( )
+                .map( Right::getPluginName )
+                .filter( StringUtils::isNotBlank )
+                .distinct( )
+                .sorted( )
+                .forEach( strPluginName -> listPlugins.addItem( strPluginName, strPluginName ) );
+
+        return listPlugins;
+    }
+
+    /**
+     * Builds the list of the rights levels, for the level filter
+     *
+     * @return the levels list, starting with the "all levels" item
+     */
+    private ReferenceList getLevelsReferenceList( )
+    {
+        ReferenceList listLevels = new ReferenceList( );
+        listLevels.addItem( StringUtils.EMPTY, I18nService.getLocalizedString( PROPERTY_ALL_LEVELS, getLocale( ) ) );
+        LevelHome.getLevelsList( ).forEach( level -> listLevels.add( level.getReferenceItem( ) ) );
+
+        return listLevels;
+    }
+
+    /**
+     * Filters the rights list on the searched text, the selected level and the selected plugin
+     *
+     * @param strSearch
+     *            The searched text
+     * @param nLevel
+     *            The selected level, ALL_LEVELS for all levels
+     * @param strPlugin
+     *            The selected plugin, empty for all plugins
+     * @param listRights
+     *            The list of rights to filter
+     * @return the rights of the selected level and plugin whose name, plugin or description contains the searched text
+     */
+    private List<Right> filterRights( String strSearch, int nLevel, String strPlugin, List<Right> listRights )
+    {
+        String strCoreLabel = I18nService.getLocalizedString( PROPERTY_CORE_LABEL, getLocale( ) );
+
+        return listRights.stream( )
+                .filter( right -> nLevel == ALL_LEVELS || right.getLevel( ) == nLevel )
+                .filter( right -> StringUtils.isBlank( strPlugin )
+                        || ( FILTER_CORE_PLUGIN.equals( strPlugin ) ? StringUtils.isBlank( right.getPluginName( ) )
+                                : strPlugin.equals( right.getPluginName( ) ) ) )
+                .filter( right -> StringUtils.isBlank( strSearch )
+                        || Strings.CI.contains( right.getName( ), strSearch )
+                        || Strings.CI.contains( right.getPluginName( ), strSearch )
+                        || ( StringUtils.isBlank( right.getPluginName( ) ) && Strings.CI.contains( strCoreLabel, strSearch ) )
+                        || Strings.CI.contains( right.getDescription( ), strSearch ) )
+                .collect( Collectors.toList( ) );
     }
 
     /**
