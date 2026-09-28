@@ -1,7 +1,25 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}'/>
-
+        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}' />
+        <@tform method='get' action='jsp/admin/features/ManageRights.jsp' name='SearchRightsForm'>
+            <@div class='row g-2 align-items-center mb-2'>
+                <@div class='col-12 col-md-4'>
+                    <@inputGroup>
+                        <@button type='submit' color='default' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['all'] />
+                        <@input type='search' name='search' id='rights-search' value=(search!'')?html placeHolder='#i18n{portal.features.manage_rights.filterSearchPlaceholder}' autoComplete='off' params='aria-label="#i18n{portal.features.manage_rights.filterSearchPlaceholder}"' />
+                    </@inputGroup>
+                </@div>
+                <@div class='col-6 col-md-2'>
+                    <@select name='plugin' id='filter-plugin' items=plugins_list default_value=selected_plugin title='#i18n{portal.features.manage_rights.filterAllPlugins}' />
+                </@div>
+                <@div class='col-6 col-md-2'>
+                    <@select name='level' id='filter-level' items=levels_list default_value=selected_level title='#i18n{portal.features.manage_rights.filterAllLevels}' />
+                </@div>
+                <@div class='col-auto'>
+                    <@aButton href='jsp/admin/features/ManageRights.jsp?search=&amp;level=&amp;plugin=' color='default' buttonIcon='refresh' title='#i18n{portal.util.labelReset}' />
+                </@div>
+            </@div>
+        </@tform>
         <@table headBody=true >
             <@tr>
                 <@th>#i18n{portal.features.manage_rights.columnTitleName}
@@ -32,3 +50,17 @@
         <@paginationAdmin paginator=paginator combo=1 />
     </@pageColumn>
 </@pageContainer>
+
+<script>
+document.addEventListener( 'DOMContentLoaded', function( ) {
+    const form = document.forms[ 'SearchRightsForm' ];
+    if ( !form ) {
+        return;
+    }
+    form.querySelectorAll( 'select' ).forEach( function( select ) {
+        select.addEventListener( 'change', function( ) {
+            form.submit( );
+        } );
+    } );
+} );
+</script>
