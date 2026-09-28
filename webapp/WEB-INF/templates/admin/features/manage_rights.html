@@ -46,6 +46,7 @@
                 </@div>
             </@div>
         </@tform>
+        <#if rights_list?has_content>
         <@paginationItemCount paginator=paginator showcount=1 />
         <@manageFeature class='mt-0'>
             <#list rights_list as right >
@@ -69,6 +70,9 @@
             </#list>
         </@manageFeature>
         <@paginationAdmin paginator=paginator combo=1 showcount=0 />
+        <#else>
+        <@alert color='info'>#i18n{portal.features.manage_rights.filterNoResult}</@alert>
+        </#if>
     </@pageColumn>
 </@pageContainer>
 <script>
