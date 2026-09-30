@@ -64,6 +64,7 @@ import fr.paris.lutece.portal.web.cdi.mvc.ModelsImpl;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
 import jakarta.inject.Inject;
 
 /**
@@ -125,7 +126,7 @@ public class PortletTemplateJspBeanTest extends LuteceTestCase
         user.setRoles( roles );
         _request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRight( _request, user, PortletTemplateJspBean.RIGHT_MANAGE_PORTLET_TEMPLATES );
-        _bean.init( _request, PortletTemplateJspBean.RIGHT_MANAGE_PORTLET_TEMPLATES );
+        _bean.processController( _request, new MockHttpServletResponse( ) );
     }
 
     @AfterEach
