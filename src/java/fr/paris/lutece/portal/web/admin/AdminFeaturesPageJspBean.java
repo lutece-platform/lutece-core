@@ -84,6 +84,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private static final String MARK_FEATURE_DOCUMENTATION = "feature_documentation";
     private static final String MARK_FEATURE_GROUP = "feature_group";
     private static final String MARK_PAGE_TITLE = "page_title";
+    private static final String MARK_PAGE_BREADCRUMBS = "page_breadcrumbs";
     private static final String MARK_PAGE_CONTENT = "page_content";
 
     // Properties
@@ -237,7 +238,22 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     public String getAdminPage( String strContent )
     {
-        Map<String, String> rootModel = new HashMap<>( );
+        return getAdminPage( strContent, null );
+    }
+
+    /**
+     * Get the admin page from a content data, with breadcrumbs displayed in the header between the feature title and the page title
+     *
+     * @return the html code for the admin page for the given content
+     * @param strContent
+     *            the data to load in the admin page
+     * @param listBreadcrumbs
+     *            the ancestors of the page, from the closest to the feature to the closest to the page. If null or empty, the header only displays the
+     *            feature title and the page title
+     */
+    public String getAdminPage( String strContent, List<BreadcrumbItem> listBreadcrumbs )
+    {
+        Map<String, Object> rootModel = new HashMap<>( );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );
@@ -256,6 +272,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         rootModel.put( MARK_FEATURE_GROUP, _strFeatureGroup );
 
         rootModel.put( MARK_PAGE_TITLE, getPageTitle( ) );
+        rootModel.put( MARK_PAGE_BREADCRUMBS, listBreadcrumbs );
         rootModel.put( MARK_PAGE_CONTENT, strContent );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN, getLocale( ), rootModel );
