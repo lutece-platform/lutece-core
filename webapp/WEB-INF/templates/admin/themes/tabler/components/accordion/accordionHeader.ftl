@@ -30,9 +30,11 @@ Snippet:
 	<h2 class="accordion-header ${class}" id="${childId}-header"<#if params!=''> ${params}</#if>>
 		<button class="accordion-button<#if aClass!=''> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
 		<#if headerIcon!=''><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
+        <div class="accordion-button-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon"><path d="M6 9l6 6l6 -6"></path></svg>
+        </div>
 	</h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content><#if boxTools><div class="box-tools"></#if>${nested}<#if boxTools></div></#if></#if>
-</div>
 <#assign parentId = parentId />
 </#macro>

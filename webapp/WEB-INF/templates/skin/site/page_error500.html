@@ -1,22 +1,7 @@
 <#include "minimal_header.html" />
 <@cTpl>
-<@cContainer class='vh-80'>
-    <@cRow>
-        <@cCol cols='12 col-md-3' class='pt-5 mt-5'>
-            <@cImg src='themes/skin/shared/images/500.png' alt='#i18n{portal.util.error500.title}' id='error500-img' />
-        </@cCol>
-        <@cCol cols='12 col-md-6' class='pt-5 mt-5'>
-            <@cCard class='border border-danger mt-5' titleLevel=1 header='Error 500' headerLevel=1 headerLabelClass='text-danger h3' title='#i18n{portal.util.error500.title}' titleClass='h2' titleLevel=2>
-                <@cText class='my-3 fs-5'>#i18n{portal.util.error500.text}</@cText>
-                <#if error_cause??><@cAlert type='danger' class='fs-4' title='${error_cause}' /></#if>
-                <@cText class='text-center'>
-                     <@cBtn href='./' label='#i18n{portal.util.labelBackHome}'>
-                        <@cInline type='i' class='ti ti-home' />
-                    </@cBtn>
-                </@cText>
-            </@cCard>
-        </@cCol>
-    </@cRow>
-</@cContainer>
+<@cErrorMessage title='#i18n{portal.theme.error500.title}' text='#i18n{portal.theme.error500.text}<br><small>(code: ${.now?long})</small>' linkUrl=footerLinkContact linkLabelUrl='#i18n{portal.theme.labelContact}' >
+<#if error_cause??><@cAccordion id='expert' title='#i18n{portal.theme.error500.more}' class='alert alert-outline alert-warning' state=false>${error_cause!}</@cAccordion></#if>
+</@cErrorMessage>
 </@cTpl>
 <#include "minimal_footer.html" />

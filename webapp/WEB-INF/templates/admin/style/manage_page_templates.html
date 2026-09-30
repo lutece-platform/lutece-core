@@ -9,15 +9,13 @@
                     <@manageFeatureItemColumn auto=true>
                         <@img url='themes/admin/shared/images/page_templates/${page_templates.picture}' class='thumbnail-sm img-invert' alt='${i18n("portal.style.manage_page_templates.picturealt",page_templates.description?html)}' />
                     </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>
-                    #i18n{portal.style.manage_page_templates.columnTitleDescription} ${page_templates.description}
-                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>${page_templates.description}</@manageFeatureItemColumn>
                     <@manageFeatureItemColumn>
                         ${page_templates.file}
                      </@manageFeatureItemColumn>
                     <@manageFeatureItemColumn auto=true>
                         <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" />
-                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['xs'] color='danger' />
+                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='' title='#i18n{portal.util.labelDelete}' hideTitle=['xs'] color='danger' />
                     </@manageFeatureItemColumn>
                 </@manageFeatureItem>
             </#list>

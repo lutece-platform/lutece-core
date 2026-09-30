@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**
@@ -50,14 +51,27 @@ public final class AdminUserPreferencesService
 
     /**
      * Return the unique instance
-     * 
+     *
      * @return The instance
      */
     public static synchronized IUserPreferencesService instance( )
     {
         if ( _singleton == null )
         {
-            _singleton = CDI.current().select(BaseUserPreferencesServiceImpl.class).get();
+            // BaseUserPreferencesServiceImpl is the admin-scoped service : it uses the @AdminUserPreferences DAO,
+            // backed by the core_admin_user_preferences table. PortalUserPreferenceServiceImpl extends it (and is
+            // backed by core_user_preferences instead), so a plain select( BaseUserPreferencesServiceImpl.class ) is
+            // ambiguous. Resolve the exact base bean, never the subclass.
+            Instance<BaseUserPreferencesServiceImpl> instances = CDI.current( ).select( BaseUserPreferencesServiceImpl.class );
+
+            for ( Instance.Handle<BaseUserPreferencesServiceImpl> handle : instances.handles( ) )
+            {
+                if ( BaseUserPreferencesServiceImpl.class.equals( handle.getBean( ).getBeanClass( ) ) )
+                {
+                    _singleton = handle.get( );
+                    break;
+                }
+            }
         }
 
         return _singleton;

@@ -2,11 +2,13 @@
 /***  Select								***/
 /***  										***/
 .form-select {
-	background: url("data:image/svg+xml,%3csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.454 13.6L17.054 9L18.9063 10.8522L12.454 17.3044L6.00185 10.8522L7.85405 9L12.454 13.6Z' fill='%23071F32'/%3e%3c/svg%3e") no-repeat right center;
-	background-size: 24px 24px;
+	background-image: url("data:image/svg+xml,%3csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.454 13.6L17.054 9L18.9063 10.8522L12.454 17.3044L6.00185 10.8522L7.85405 9L12.454 13.6Z' fill='%23071F32'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
 	background-position: right 1.6rem center;
-	-webkit-border-radius: 0; 
-	border-radius: 0; 
+	background-size: 24px 24px;
+	/* Same padding as the base select/input rule (inputs.css), keeping only the right space for the chevron */
+	padding: 0 4.8rem 0 14px;
+	font-size: var(--bs-body-font-size);
 }
 
 .form-select[multiple] {
@@ -15,8 +17,8 @@
 
 .form-select.disabled,
 .form-select:disabled {
-    color: var(--main-color);
-    background-color: var(--white-light-color );
+    color: var(--lutece-ds-text);
+    background-color: var(--lutece-ds-neutral-100 );
 	cursor: not-allowed;
 }
 
@@ -32,7 +34,7 @@
 
 .form-select option,
 .form-select optgroup {
-	font-size: var(--font-xm);
+	font-size: var(--lutece-ds-fs-md);
 	padding: calc(var(--size-1, .4rem) * 5) 0;
 	-webkit-border-radius: 0; 
 	border-radius: 0; 
@@ -40,7 +42,7 @@
 }
 
 .form-select optgroup {
-	font-size: var(--font-xm);
+	font-size: var(--lutece-ds-fs-md);
 	padding: calc(var(--size-1, .4rem) * 5) 0;
 }
 
@@ -58,7 +60,7 @@
 .form-select:focus,
 .custom-file .custom-file-input:focus+.custom-file-label {
 	box-shadow: none;
-	outline: var(--main-info-color) solid 2px;
+	outline: var(--lutece-ds-primary) solid 2px;
 	outline-offset: 0;
 }
 

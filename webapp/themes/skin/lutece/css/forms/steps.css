@@ -2,7 +2,7 @@
 /*** Forms Validation Screen				***/
 /***  										***/
 .form-submited {
-	margin: var(--spacing-ml) 15%;
+	margin: var(--lutece-ds-sp-md-loose) 15%;
 }
 
 /*  Summary of a submission 					 */
@@ -11,7 +11,7 @@
 }
 
 #summary-validate .card>.card-heading>.card-title {
-	margin-inline-start: var(--spacing-ml);
+	margin-inline-start: var(--lutece-ds-sp-md-loose);
 	position: relative;
 }
 
@@ -22,21 +22,21 @@
 	left: -4rem;
 	border-radius: 50%;
 	padding: 1rem;
-	background-color: var(--card-title-icon);
-	border-color: var(--card-title-icon);
-	color: var(--white-color);
+	background-color: var(--lutece-ds-icon-card-title);
+	border-color: var(--lutece-ds-icon-card-title);
+	color: var(--lutece-ds-white);
 }
 
 #summary-validate .summary-actions {
 	position: sticky;
 	top: 2rem;
 	bottom: 0;
-	background-color: var(--white-color);
+	background-color: var(--lutece-ds-white);
 	padding: 1rem 0;
 }
 
 #summary-validate .summary-actions.actions_shadow {
-	box-shadow: 0 -.5rem .5rem 0 var(--card-color-shadow);
+	box-shadow: 0 -.5rem .5rem 0 var(--lutece-ds-shadow-color-card);
 }
 
 .summary-steps .step.step-done:first-of-type{
@@ -61,8 +61,8 @@ header+main .breadcrumb-nav+form .step,
 
 /* 		Steps Commons	 					*/
 .step-title {
-	border-bottom: .1rem solid var(--blue-light);
-	border-top: .1rem solid var(--blue-light);
+	border-bottom: .1rem solid var(--lutece-ds-blue-300);
+	border-top: .1rem solid var(--lutece-ds-blue-300);
 	height: 9rem;
 	display: flex;
 	align-items: center;
@@ -79,7 +79,7 @@ header+main .breadcrumb-nav+form .step,
 }
 
 .step-title .title {
-	color: var(--main-info-color);
+	color: var(--lutece-ds-primary);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -87,18 +87,14 @@ header+main .breadcrumb-nav+form .step,
 
 /* 		Step Title Icon / Number				 */
 .step-title .title .step-number {
-	border: .4rem solid var(--main-info-color);
-	border-radius: 100%;
-	margin-top: .5rem;
-	margin-right: var(--spacing-m);
-	padding-top: 0.1rem;
-	height: 5rem;
-	width: 5rem;
+	border-inline-end: .4rem solid var(--lutece-ds-primary);
+	padding-inline-end: var(--lutece-ds-sp-sm);
+	margin-inline-end: var(--lutece-ds-sp-sm);
 	background: none;
 	text-align: center;
 	line-height: 4rem;
 	content: attr(data-step);
-	font-family: var(--font-family-list);
+	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 900;
 	font-size: 2.7rem;
 }
@@ -110,17 +106,18 @@ header+main .breadcrumb-nav+form .step,
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	text-align: start;
 }
 
 .step-content {
 	position: relative;
-	padding: var(--spacing-l);
+	padding-inline: var(--lutece-ds-sp-lg);
 }
 
 /* Previous Steps  									*/
 .step-done {
 	padding-bottom: 2rem;
-	border-top: .1rem solid var(--blue-light);
+	border-top: .1rem solid var(--lutece-ds-blue-300);
 }
 
 .step-done .step-title {
@@ -135,16 +132,22 @@ header+main .breadcrumb-nav+form .step,
 }
 
 .step-done .step-title .title .step-number {
-	background: var(--main-info-color);
-	flex-shrink: 0;
+    background: var(--lutece-ds-primary);
+    padding: 0;
+    border-radius: 50%;
+    line-height: 3.5rem;
+}
+
+.step-done .step-title .title .step-number svg{
+    transform: translate(2px,-2px);
 }
 
 .step-done .step-content {
-    padding: 0 0 0 calc( var(--spacing-xl) + 1.75rem );
+    padding: 0 0 0 calc( var(--lutece-ds-sp-xl) + 1.75rem );
 }
 
 .step-done strong {
-	font-family: var(--font-family-list);
+	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 500;
 	line-height: 1.5rem;
 }
@@ -160,30 +163,30 @@ header+main .breadcrumb-nav+form .step,
 
 .step-next .step-title .title,
 .step-next .step-title .title span{
-	margin-block-start: 0;
+	margin-block: 0;
 }
 
 /** 		Current Step 								**/
 .step-current {
-	background-color: var(--white-light-color);
+	background-color: var(--lutece-ds-neutral-100);
 }
 
 .step-current .step-title {
-	background-color: var(--main-info-color);
-	margin-block-end: var(--spacing-m );
+	background-color: var(--lutece-ds-primary);
+	margin-block-end: var(--lutece-ds-sp-md );
 	position: relative;
 }
 
 .step-current .step-title .title{
-	color: var(--white-color);
+	color: var(--lutece-ds-white);
 	position: relative;
-	margin-block-start: 0;
-	height: var(--spacing-xl);
+	height: var(--lutece-ds-sp-xl);
+	margin-block: 0;
 }
 
 .step-current .step-title .title .step-number {
-	color: var(--white-color);
-	border-color: var(--white-color);
+	color: var(--lutece-ds-white);
+	border-color: var(--lutece-ds-white);
 	flex-shrink: 0;
 }
 
@@ -195,33 +198,19 @@ header+main .breadcrumb-nav+form .step,
 	border-color: transparent;
 }
 
-/* Arrow 											*/
-.step-current .step-title .title::after {
-	content: '';
-	width: 0;
-	height: 0;
-	position: absolute;
-	border-top: 2.3rem solid var(--main-info-color);
-	border-bottom: 1.1rem solid transparent;
-	border-left: 5rem solid transparent;
-	border-right: 5rem solid transparent;
-	left: 50%;
-	bottom: calc( var(--spacing-m) * -2.04 );
-	margin-inline-start: calc( var(--spacing-m) * -2.5 );
-}
-
 /* 	Current Step Group								*/
 .step-current .step-content .step-group {
-	background-color: var(--white-color);
+	background-color: var(--lutece-ds-white);
 	border-radius: 0;
-	padding: var(--spacing-l);
+	padding: var(--lutece-ds-sp-lg);
+	margin-block-end: var(--lutece-ds-sp-sm);
 }
 
 .step-current .step-content .form-row.step-group header[class*=col-]{
-	border-bottom: .6rem solid var(--white-light-color);
+	border-bottom: .6rem solid var(--lutece-ds-neutral-100);
 	justify-content: space-between;
 	padding-inline: 0;
-	padding-block-end: var(--spacing-m);
+	padding-block-end: var(--lutece-ds-sp-md);
 }
 
 .step-current .step-content .step-group .group-title {
@@ -236,11 +225,11 @@ header+main .breadcrumb-nav+form .step,
 }
 
 .step-current .step-content .mandatory-warning {
-	margin-block: var(--spacing-l );
+	margin-block: var(--lutece-ds-sp-lg );
 }
 
 .step-current .step-content .step-group.form-row>.col, .step-current .step-content .step-group.form-row>[class*=col-] {
-    padding-inline: 0 var(--spacing-ml);
+    padding-inline: 0 var(--lutece-ds-sp-md-loose);
 }
 
 /* Ensure group iteration can be scrolled to the top of the screen */
@@ -286,13 +275,13 @@ a[name^="last_"]:before {
 	}
 
 	.step-title .title {
-		font-size: 1rem;
+		font-size: 2rem;
 		margin-block-start: 0;
 		margin-inline-start: 0;
 	}
 
 	.step-title .title span {
-		font-size: 1rem;
+		font-size: 2rem;
 	}
 
 	.step-title.current h2::after {
@@ -300,7 +289,7 @@ a[name^="last_"]:before {
 	}
 
 	.step-current .step-content .mandatory-warning {
-		font-size: var( --font-m );
+		font-size: var( --lutece-ds-fs-lg );
 		font-weight: 300;
 	}
 
@@ -324,7 +313,7 @@ a[name^="last_"]:before {
 
 @media (max-width: 767.98px) {
 	header+main form .step {
-		margin-block-start: calc( var(--size-base, .4rem ) * 20 );
+		margin-block-start: 0;
 	}
 	
 	.step-current .step-content {
@@ -333,11 +322,11 @@ a[name^="last_"]:before {
 	
 	.step-done .step-content h2{
 		margin-block-start: 0;
-		margin-block-end: var(--spacing-sm);
+		margin-block-end: var(--lutece-ds-sp-sm);
 	}
 
 	.step .step-content .step-group {
-		padding: var( --spacing-xs );
+		padding: var( --lutece-ds-sp-xs );
 	}
 
 	.step-current .step-content .step-group.form-row >.col, 
@@ -358,5 +347,14 @@ a[name^="last_"]:before {
 
 	.step-current .step-content {
 		padding: 0;
+	}
+}
+
+/* Desktop : aligner le padding horizontal du step-title et du step-footer sur celui du step-content
+   (le .container de chacun part alors de la même largeur disponible) */
+@media (min-width: 992px) {
+	.step-current .step-title,
+	.step-current .step-footer {
+		padding-inline: var(--lutece-ds-sp-lg);
 	}
 }

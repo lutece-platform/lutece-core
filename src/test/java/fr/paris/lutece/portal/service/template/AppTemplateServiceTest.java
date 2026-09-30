@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -98,6 +100,18 @@ public class AppTemplateServiceTest extends LuteceTestCase
             }
         }
 
+    }
+
+    @Test
+    public void testIsTemplateExists( )
+    {
+        assertTrue( AppTemplateService.isTemplateExists( "admin/style/manage_portlet_templates.html" ), "a core template should exist" );
+        assertTrue( AppTemplateService.isTemplateExists( "/admin/style/manage_portlet_templates.html" ), "a leading slash should be accepted" );
+        assertFalse( AppTemplateService.isTemplateExists( "admin/style/does_not_exist_" + System.nanoTime( ) + ".html" ),
+                "an unknown template should not exist" );
+        assertFalse( AppTemplateService.isTemplateExists( "../conf/lutece.properties" ), "a path climbing out of the templates directory should be rejected" );
+        assertFalse( AppTemplateService.isTemplateExists( "" ), "a blank path should not exist" );
+        assertFalse( AppTemplateService.isTemplateExists( null ), "a null path should not exist" );
     }
 
     /**

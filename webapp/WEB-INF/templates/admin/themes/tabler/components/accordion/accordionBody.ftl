@@ -34,4 +34,5 @@ Snippet:
 	<#nested>
 </@boxBody>
 </div>
+</div>
 </#macro>

@@ -76,4 +76,13 @@ Snippet:
 <#if headBody></tbody></#if>
 </table>
 <#if responsive></div></#if>
+<script>
+(function(){
+	if ( document.querySelector( 'table th div.dropdown.lutece-table-sort' ) && !document.querySelector( 'script[src$="admin-table-sort.js"]' ) ) {
+		var s = document.createElement( 'script' );
+		s.src = "${commonsThemePath}${commonsJsPath}admin-table-sort.js";
+		document.head.appendChild( s );
+	}
+})();
+</script>
 </#macro>

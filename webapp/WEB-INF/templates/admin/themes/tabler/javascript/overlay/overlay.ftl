@@ -51,8 +51,13 @@ window.addEventListener( "load", function(){
             loadingOverlay.style.opacity = '0';
             loadingOverlay.style.transition = 'opacity 0.3s ease';
             setTimeout(function() {
+                // d-flex is display:flex !important and would beat an inline display:none : swap the utility classes
+                // so the overlay really leaves the flow (an invisible block would keep capturing clicks, e.g. on a
+                // save bar sitting at the bottom of the page in the boxed layout).
+                loadingOverlay.classList.remove('d-flex', 'position-fixed');
+                loadingOverlay.classList.add('d-none');
                 loadingOverlay.style.display = 'none';
-                loadingOverlay.classList.remove('position-fixed');
+                loadingOverlay.setAttribute('aria-hidden', 'true');
             }, 300);
         }
     }, 100);

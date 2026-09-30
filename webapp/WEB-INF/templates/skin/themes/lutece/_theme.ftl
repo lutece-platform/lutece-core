@@ -17,20 +17,23 @@
 <!-- Theme CSS include                  -->
 <link href="${commonsSiteThemePath}${commonsSiteCssPath}theme<#if isRtl?boolean>.rtl</#if>.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <link href="${commonsSharedThemePath}${commonsSiteCssPath}shared.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
-<script src="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}"></script>
-<!-- Site CSS include                  -->
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons-filled.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<!-- Site CSS include                   -->
 <link href="${commonsSiteCssPath}site.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#macro>
 <#macro themeJSLinks>
 <!-- Shared JS                          -->
 <script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/bootstrap.bundle.min.js?version=${commonsGlobalThemeVersion}"></script>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}shared.js?version=${commonsGlobalThemeVersion}"></script>
-<script type="module" src="${commonsSiteThemePath}${commonsSiteJsPath}theme.min.js?version=${commonsGlobalThemeVersion}"></script>
-<!-- Site CSS include                  -->
+<script src="${commonsSiteThemePath}${commonsSiteJsPath}theme.min.js?version=${commonsGlobalThemeVersion}"></script>
+<script src="${commonsSiteThemePath}${commonsSiteJsPath}theme-utils.min.js?version=${commonsGlobalThemeVersion}"></script>
+<!-- Site CSS include                   -->
 <script src="${commonsSiteJsPath}site.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 </#macro>
 <#-- MAIN VARS MANAGEMENT               -->
 <#assign mainSite>Lutece</#assign>
+<#assign iconDefaultPrefixSelector>.ti</#assign>
 <#-- LINKS MANAGEMENT                   -->
 <#assign hasSiteMap><#if !dskey('portal.theme.site_property.menu.siteMapMenu.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.siteMapMenu.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign urlMainSite>https://${mainSite?lower_case}.paris.fr</#assign>
@@ -39,7 +42,8 @@
 <#-- ---------------------------------- -->
 <#-- Theme Specific VARS                -->
 <#-- ---------------------------------- -->
-<#assign logoHeader>${dskey('portal.theme.site_property.menu.logo')!'${commonsSiteThemePath}images/logo.png'}</#assign>
+<#assign logoHeaderDS = dskey('portal.theme.site_property.menu.logo')!''>
+<#assign logoHeader><#if logoHeaderDS?has_content && !logoHeaderDS?starts_with('DS Value')>${logoHeaderDS}<#else>${commonsSiteThemePath}images/logo-footer.png</#if></#assign>
 <#assign logoFooter>${dskey('portal.theme.site_property.layout.footer.logoFooter')!'${commonsSiteThemePath}images/logo.png'}</#assign>
 <#assign hasSearchMenu><#if !dskey('portal.theme.site_property.menu.search.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.search.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign footerLinkContact><#if dskey('portal.theme.site_property.Url.contactURL') !=''>${dskey('portal.theme.site_property.Url.contactURL')!'${urlMainSite}/contact'}</#if></#assign>

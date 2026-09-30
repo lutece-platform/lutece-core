@@ -30,6 +30,8 @@ INSERT INTO core_admin_right VALUES ('CORE_USERS_MANAGEMENT', 'portal.users.admi
 INSERT INTO core_admin_right VALUES ('CORE_WORKGROUPS_MANAGEMENT', 'portal.workgroup.adminFeature.workgroups_management.name', 2, 'jsp/admin/workgroup/ManageWorkgroups.jsp', 'portal.workgroup.adminFeature.workgroups_management.description', 0, '', 'MANAGERS', 'ti ti-users-group', NULL, 3, 0);
 INSERT INTO core_admin_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT', 'portal.system.adminFeature.security_header_management.name', 0, 'jsp/admin/system/ManageSecurityHeaders.jsp', 'portal.system.adminFeature.security_header_management.description', 1, '', 'SYSTEM', 'ti ti-box-align-top', NULL, 12, 0);
 INSERT INTO core_admin_right VALUES ('CORE_THEME_MANAGEMENT','portal.theme.adminFeature.theme_management.name',0,'jsp/admin/theme/ManageThemes.jsp','portal.theme.adminFeature.theme_management.description',1,'','STYLE','ti ti-palette', NULL, 1, 0);
+INSERT INTO core_admin_right VALUES ('CORE_LEVEL_MANAGEMENT', 'portal.level.adminFeature.level_management.name', 0, NULL, 'portal.level.adminFeature.level_management.description', 1, '', 'SYSTEM', 'ti ti-gavel', NULL, 11, 0);
+
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
@@ -63,17 +65,18 @@ INSERT INTO core_feature_group (id_feature_group, feature_group_description, fea
 INSERT INTO core_feature_group (id_feature_group, feature_group_description, feature_group_label, feature_group_order, feature_group_icon) VALUES ('MANAGERS', 'portal.features.group.managers.description', 'portal.features.group.managers.label', 5, 'ti ti-user-shield');
 
 INSERT INTO core_level_right VALUES (0,'Level 0 - Technical administrator');
-INSERT INTO core_level_right VALUES (1,'Level 1 - Fonctionnal administrator');
+INSERT INTO core_level_right VALUES (1,'Level 1 - Functional administrator');
 INSERT INTO core_level_right VALUES (2,'Level 2 - Site Manager - Webmaster');
 INSERT INTO core_level_right VALUES (3,'Level 3 - Contributor');
 
-INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (0,'Home','Home Page',now(),1,1,1,now(),'none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
+INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (0,'Home','Home Page',now(),1,1,6,now(),'none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
 
-INSERT INTO core_page_template VALUES (1, 'Home page', 'skin/site/page_home_demo.html', 'layout-home.svg');
+INSERT INTO core_page_template VALUES (1, 'Home', 'skin/site/page_home.html', 'layout-home.svg');
 INSERT INTO core_page_template VALUES (2, 'One column', 'skin/site/page_template1.html', 'layout-one.svg');
 INSERT INTO core_page_template VALUES (3, 'Two columns', 'skin/site/page_template2.html', 'layout-two.svg');
 INSERT INTO core_page_template VALUES (4, '1 + 2 columns', 'skin/site/page_template4.html', 'layout-three.svg');
 INSERT INTO core_page_template VALUES (5, 'Two equal columns', 'skin/site/page_template5.html', 'layout-four.svg');
+INSERT INTO core_page_template VALUES (6, 'Demo', 'skin/site/page_demo.html', 'layout-demo.svg');
 
 INSERT INTO core_portal_component VALUES (0,'Portlet');
 INSERT INTO core_portal_component VALUES (1,'Article');
@@ -114,6 +117,7 @@ INSERT INTO core_user_right VALUES ('CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT', 1
 INSERT INTO core_user_right VALUES ('CORE_EDITORS_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_THEME_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_LEVEL_MANAGEMENT',1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
@@ -202,6 +206,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.admin_home_url', '
 INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/images/unknown.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.widget.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');
@@ -214,9 +219,11 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.home.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sticky.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.transparent.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.vertical.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select', 'default');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select.options', 'default|folded|folded-hover');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_svg.textblock', '<svg class="navbar-brand-image" width="60" height="24" viewBox="0 0 613 150.95206" width="613" height="150.95206" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">  <path d="m 232.2,13.8 -5.3,13.7 -7.7,3.2 -7.7,3.1 v 19.7 l 7.7,0.3 7.7,0.3 0.3,35.2 c 0.3,33.6 0.4,35.4 2.5,40.7 4.5,11 12.2,17 25.1,19.2 11.1,1.9 32.7,-1.2 38.6,-5.5 1.8,-1.3 1.7,-1.8 -1.9,-12.3 -2.1,-6 -4.1,-11.3 -4.5,-11.7 -0.4,-0.5 -2.7,0.1 -5.1,1.4 -5.1,2.6 -14.2,3.1 -18.1,1 -5.1,-2.7 -5.3,-4 -5.3,-37.5 V 53.5 L 271,53 283.5,52.5 v -22 L 271,30 258.5,29.5 258.2,14.7 257.9,0 H 237.5 Z M 258,42 V 54 H 233 V 30 h 25 z M 0,75 v 74 l 43.3,-0.2 43.2,-0.3 v -26 L 59.3,122.2 32,122 V 1 H 0 Z" />  <path fill="#3c67ff" d="M 284,16.5 V 29 h 25 V 4 h -25 z" />  <path fill="#ff442a" d="m 258.47,40.929 v 12.5 h 25 v -25 h -25 z" />  <path d="m 338.1,28.5 c -20.4,4.6 -34.6,18.9 -39.8,40.1 -2.4,9.8 -2.4,31.4 0,41.7 3.8,16.3 12.8,28.7 25.1,34.7 16.5,8.1 45,7.9 61.9,-0.4 9.1,-4.4 11.1,-6 10.3,-8.2 -0.3,-0.9 -3.4,-6.1 -6.8,-11.5 l -6.1,-9.8 -3,2.5 c -7,5.9 -17.4,9 -27.3,8.1 -10.7,-1 -17.4,-5 -21.5,-12.9 -1.9,-3.6 -4,-14.3 -3.1,-15.3 0.3,-0.3 16.2,-0.5 35.4,-0.5 32.3,0 34.9,-0.1 35.6,-1.8 0.4,-0.9 0.7,-8.5 0.7,-16.7 0,-13.1 -0.3,-15.9 -2.3,-21.7 -4.5,-13 -13.8,-22.3 -26.7,-26.9 -7.9,-2.7 -23.6,-3.4 -32.4,-1.4 z m 19.4,23.6 c 7.7,2.2 12.5,9.7 12.5,19.6 V 76 h -21 c -23.8,0 -22.3,0.6 -19.6,-8.4 3.8,-12.4 15.6,-19 28.1,-15.5 z m 93.9,-23.7 c -19.8,4.5 -33.7,18.9 -39.1,40.2 -2.4,9.5 -2.4,35.1 0,44.8 6.6,26.5 24.2,38.7 53.7,37.3 6.6,-0.3 13,-1.3 17.2,-2.6 7,-2.3 17.5,-9.2 20.4,-13.6 l 1.7,-2.6 -9.9,-9.3 -9.9,-9.3 -4.1,4.3 c -5.2,5.3 -12.8,8 -19.7,7 -13.5,-2 -19.4,-15 -18.5,-40.7 0.5,-13.2 2.3,-19.6 7.1,-24.7 7.6,-8.1 22.2,-7.7 30.8,0.9 l 4,4 5.7,-5 c 3.1,-2.7 7.9,-7.2 10.6,-10 l 5,-5.1 -2.9,-3 c -4.4,-4.6 -11.8,-9 -18.8,-11.2 -8.2,-2.6 -25,-3.3 -33.3,-1.4 z m 100.1,0.3 C 536,32 523.9,41.4 517,55.4 c -5.8,11.8 -7.3,20 -6.7,37.6 0.5,15.4 2.2,23.2 7.4,33.4 3.2,6.3 11.6,14.7 17.9,17.9 10,5.1 15.7,6.2 31.9,6.1 16.8,0 23.9,-1.4 33.7,-6.6 9.9,-5.3 9.9,-4.9 2.1,-17.5 l -6.8,-11 -5.5,3.8 c -11.8,8.2 -28.1,9 -39.3,1.9 -5.3,-3.3 -9.3,-10.6 -10.3,-18.8 L 540.7,97 h 71.1 l 0.6,-2.3 c 0.3,-1.2 0.6,-8.6 0.6,-16.4 0,-20.4 -3.4,-30.1 -13.9,-39.6 -11.5,-10.3 -29.1,-14 -47.6,-10 z m 23.8,25 c 4.6,2.6 7.7,9.3 7.7,16.5 V 76 h -41 v -3.3 c 0,-8 7.5,-17.7 15.7,-20.4 4.9,-1.6 13.5,-0.9 17.6,1.4 z M 94.7,29.6 c -1.2,1.2 -0.8,86.4 0.4,93 2.4,12.9 9.3,21.9 20,25.9 4.2,1.6 7.9,2 16.4,2 13.4,0 19.3,-1.8 27.1,-8.1 l 5.4,-4.4 2.5,5.5 2.4,5.5 H 195 V 90 c 0,-32.5 0.1,-59.3 0.3,-59.8 0.1,-0.4 -6.9,-0.8 -15.5,-1 L 164,28.9 v 82.9 l -3.2,4.8 c -8.3,12.2 -25.5,12.9 -32.2,1.4 -2,-3.3 -2.1,-5.4 -2.6,-46 l -0.5,-42.5 -15.1,-0.3 c -8.2,-0.1 -15.3,0.1 -15.7,0.4 z" /></svg>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', '');
@@ -238,6 +245,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.show_site_name.che
 
 INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');
 INSERT INTO core_datastore VALUES ('theme.globalThemeVersion', '1.0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.accessibilityLabel', 'Acccesibilité partiellement conforme');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.accessibilityURL', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.account', '');
@@ -255,30 +263,39 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.legalURLLabel
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.search', 'jsp/site/Portal.jsp?page=search');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.wikiURL', 'https://lutece.paris.fr/support');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.wikiURLLabel', 'Wiki');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.credits', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.fixed.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.internal.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positionx', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positiony', '');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.shown.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImg.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.onlyhome.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.shown.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.bgcolor', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.color', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.padding', '');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerBrowserWarning.checkbox', '0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showBannerImg.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFormImg.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFormTitle.checkbox', '1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.CloseButton.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Duration', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Position', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Title', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Type', 'info');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.htmlblock', '');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.config.datepicker.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.config.editor.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.config.locales', 'fr');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.colors.dark.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.colors.light.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.customstyles.checkbox', '1');
@@ -286,8 +303,12 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.dir.checkb
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.theme.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.type.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footerSocial.checkbox', '1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.showResponseFormWarning.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoResponse', 'Formulaire enregistré !');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.link.showTargetIcon.checkbox', '1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.fixedMenu.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.gototop.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.hasDefaultMenu.checkbox', '1');
@@ -297,26 +318,34 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.sidebarMenuC
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.siteMapMenu.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMainId', 'main');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMenu.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.userthemeswitch.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.switch.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.color.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.density.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.logo.alt', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.lang', 'fr');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.langs.textblock','en,es,it,da,nl,de,tr,ko,zh-CN');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.search.checkbox','1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caract\\u00e8res &#60; &#62; &#35; et &#34;  &amp; sont interdits dans le contenu de votre message.');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.required', 'Ce champ est obligatoire.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.email', 'Veuillez saisir une adresse email valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.url', 'Veuillez saisir une URL valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.number', 'Veuillez saisir un nombre valide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.min', 'La valeur doit \\u00eatre sup\\u00e9rieure ou \\u00e9gale \\u00e0 {min}.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.max', 'La valeur doit \\u00eatre inf\\u00e9rieure ou \\u00e9gale \\u00e0 {max}.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.minlength', 'Ce champ doit contenir au moins {minlength} caract\\u00e8res.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.maxlength', 'Ce champ ne doit pas d\\u00e9passer {maxlength} caract\\u00e8res.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.min', 'La valeur doit être supérieure ou égale à {min}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.max', 'La valeur doit être inférieure ou égale à {max}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.minlength', 'Ce champ doit contenir au moins {minlength} caractères.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.maxlength', 'Ce champ ne doit pas dépasser {maxlength} caractères.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.pattern', 'Le format saisi est invalide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.step', 'La valeur doit \\u00eatre un multiple de {step}.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.tel', 'Veuillez saisir un num\\u00e9ro de t\\u00e9l\\u00e9phone valide.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.step', 'La valeur doit être un multiple de {step}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.tel', 'Veuillez saisir un numéro de téléphone valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.date', 'Veuillez saisir une date valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.time', 'Veuillez saisir une heure valide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.file', 'Veuillez s\\u00e9lectionner un fichier valide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.filetype', 'Type de fichier non autoris\\u00e9. Types accept\\u00e9s : {accept}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.file', 'Veuillez sélectionner un fichier valide.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.filetype', 'Type de fichier non autorisé. Types acceptés : {accept}.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.filesize', 'Le fichier est trop volumineux. Taille maximale : {maxsize}.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.mismatch', 'Les valeurs ne correspondent pas.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.custom', 'Ce champ contient une erreur.');
@@ -324,17 +353,21 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.er
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.validClass', 'is-valid');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorFeedbackClass', 'invalid-feedback');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.helpClass', 'form-text');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.enabled.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.duration', '1800');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.warningDelay', '120');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.keepAliveUrl', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.maxExtensions', '10');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.position', 'top-0 end-0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooter', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterAlt', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterUrl', '');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.select.options', 'tarte_au_citron|orejime');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select.options', 'tarte_au_citron|orejime');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
@@ -365,7 +398,7 @@ INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );
 
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Strict-Transport-Security', 'max-age=31536000; includeSubDomains','The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. The value recommended by OWASP for this header is ''max-age=31536000; includeSubDomains'' and this is the value retained for Lutece. This setting means that the browser should remember that this site and all of his subdomains are only to be accessed using HTTPS for 31536000 seconds (1 year).', 'page', 'all', 1);
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('X-Content-Type-Options', 'nosniff', 'The X-Content-Type-Options response HTTP header is a marker used by the server to indicate that the MIME types advertised in the Content-Type headers should be followed and not be changed. The header allows you to avoid MIME type sniffing by saying that the MIME types are deliberately configured. The value recommended by OWASP for this header is ''nosniff'' and this is the value retained for Lutece. ''nosniff'' value will prevent the browser from MIME-sniffing a response away from the declared content-type.', 'page', 'all', 1);
-INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Content-Security-Policy', 'default-src \'self\'; script-src \'self\' \'unsafe-inline\'; style-src \'self\' \'unsafe-inline\'; img-src \'self\' data: blob:; connect-src \'self\' blob:; object-src \'none\'; font-src \'self\' data:;form-action \'self\'; frame-ancestors \'self\'; upgrade-insecure-requests', 'The HTTP Content-Security-Policy response header allows website administrators to control resources the user agent is allowed to load for a given page. With a few exceptions, policies mostly involve specifying server origins and script endpoints. This helps guard against cross-site scripting attacks (Cross-site_scripting). The directives recommended by OWASP are ""default-src \'self\'; form-action \'self\'; object-src \'none\'; frame-ancestors \'none\'; upgrade-insecure-requests; block-all-mixed-content"". For Lutece, the values of the directives of this policy have been defined as close as possible to this recommendation. However, hey are different because they take into account of the specificities of Lutece existing code and more specifically the constraints of tiny mce library that needs specific configuration for this header.', 'page', 'all', 1);
+INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Content-Security-Policy', 'default-src \'self\' https://translate.googleapis.com ; script-src \'self\' \'unsafe-inline\' https://translate-pa.googleapis.com https://translate.googleapis.com https://translate.google.com/; style-src \'self\' \'unsafe-inline\' https://www.gstatic.com; img-src \'self\' data: blob: https://translate.google.com/ https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://fonts.gstatic.com https://www.google.com ; connect-src \'self\' blob: https://translate-pa.googleapis.com https://translate.googleapis.com https://translate.google.com/; object-src \'none\'; font-src \'self\' data:;form-action \'self\'; frame-ancestors \'self\'; upgrade-insecure-requests', 'The HTTP Content-Security-Policy response header allows website administrators to control resources the user agent is allowed to load for a given page. With a few exceptions, policies mostly involve specifying server origins and script endpoints. This helps guard against cross-site scripting attacks (Cross-site_scripting). The directives recommended by OWASP are ""default-src \'self\'; form-action \'self\'; object-src \'none\'; frame-ancestors \'none\'; upgrade-insecure-requests; block-all-mixed-content"". For Lutece, the values of the directives of this policy have been defined as close as possible to this recommendation. However, hey are different because they take into account of the specificities of Lutece existing code and more specifically the constraints of tiny mce library that needs specific configuration for this header.', 'page', 'all', 1);
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('X-Permitted-Cross-Domain-Policies', 'none', 'This header is used to limit which data external resources, such as Adobe Flash and PDF documents, can access on the domain. The value recommended by OWASP for this header is ''none'' and this is the value retained for Lutece. It means that o policy files are allowed anywhere on the target server, including this master policy file.','page','all',1);
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Referrer-Policy', 'no-referrer','The Referrer-Policy HTTP header controls how much referrer information (sent with the Referer header) should be included with requests. Aside from the HTTP header, you can set this policy in HTML. The value recommended by OWASP for this header is ''no-referrer'' and this is the value retained for Lutece. The Referer header included with requests will be omitted entirely. No referrer information is sent along with requests.','page','all',1);
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Cross-Origin-Embedder-Policy', 'require-corp', 'The HTTP Cross-Origin-Embedder-Policy (COEP) response header configures embedding cross-origin resources into the document. The value recommended by OWASP for this header is ''require-corp'' and this is the value retained for Lutece. It means that a document can only load resources from the same origin (i.e. protocol/scheme + host + port), or resources explicitly marked as loadable from another origin.','page','all',1);
@@ -379,3 +412,12 @@ INSERT INTO core_admin_security_header (name, value, description, type, page_cat
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Content-Security-Policy', 'frame-ancestors ''none''', 'The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. The value recommended by OWASP for this header when used as a response of an API call is ''max-age=31536000; includeSubDomains'' and this is the value retained for Lutece. This setting means that the browser should remember that this site and all of his subdomains are only to be accessed using HTTPS for 31536000 seconds (1 year).', 'rest_api', NULL, 1);
 
 INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('lutece', 'Thème par Défaut pour les sites Lutece.', 'images/', 'css', 'Ville de Paris', 'https://lutece.paris.fr', '1.0', 'BSD', 'js/');
+--
+-- Admin feature : management of the portlet templates (8.0.2)
+--
+-- changeset core:init_db_lutece_core.sql-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_admin_right WHERE id_right = 'CORE_PORTLET_TEMPLATE_MANAGEMENT'
+INSERT INTO core_admin_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT', 'portal.style.adminFeature.portlet_template_management.name', 0, 'jsp/admin/style/ManagePortletTemplates.jsp', 'portal.style.adminFeature.portlet_template_management.description', 0, '', 'STYLE', 'ti ti-template', NULL, 2, 0);
+INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',2);

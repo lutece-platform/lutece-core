@@ -1,8 +1,13 @@
 /*** 										***/
 /*** Forms Elements							***/
 /***  										***/
+.grid-breadcrumb {
+	grid-template-columns: 1fr 2fr;
+}
+
 .form-control {
     line-height: 3 !important;
+    font-size: var(--bs-body-font-size);
 }
 
 /* Autocomplete */
@@ -25,33 +30,37 @@
 
 /* Camera */
 .btn-cam {
-    right: calc( 5vw + 25% ) !important;
+	right: calc(5vw + 25%) !important;
 }
 
 @media (min-width: 576px) {
+
 	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
-	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container {
 		max-width: 540px;
 	}
 }
 
 @media (min-width: 768px) {
+
 	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
-	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container {
 		max-width: 720px;
 	}
 }
 
 @media (min-width: 992px) {
+
 	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
-	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container {
 		max-width: 960px;
 	}
 }
 
 @media (min-width: 1200px) {
+
 	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
-	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container {
 		max-width: 1140px;
 	}
 }

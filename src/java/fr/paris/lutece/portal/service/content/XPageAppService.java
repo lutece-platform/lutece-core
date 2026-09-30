@@ -69,6 +69,7 @@ import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a specific class, but should be integrated
@@ -237,7 +238,7 @@ public class XPageAppService extends ContentService
 
         data.setContent( page.getContent( ) );
         data.setName( page.getTitle( ) );
-        data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
+        data.setPagePath( PortalService.getXPagePathContent( ObjectUtils.getIfNull( page.getPathLabel( ), strName ), 0, request ) );
 
         return PortalService.buildPageContent( data, nMode, request );
     }

@@ -3,6 +3,7 @@ package fr.paris.lutece.portal.service.init;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import fr.paris.lutece.portal.service.util.FileSorterUtil;
 import io.github.classgraph.ClassGraph;
@@ -25,6 +26,7 @@ public class WebConfResourceLocator {
     // Resource list to store the scanned resources.
     protected static final ResourceList resources = new ResourceList();
     private static final String pattern = ".*/log4j2[^/]*\\.(xml|json|jsn|yaml|yml|properties)$";
+    private static final String OVERRIDE_PATH_SEGMENT = "/override/";
 
     /**
      * Scans the /WEB-INF/conf/ directories (including plugins, themes and overrides) to collect resources.
@@ -134,7 +136,41 @@ public class WebConfResourceLocator {
     public static Set<String> getPathPropertiesFile() {
         return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(getResourcesWithExtension("properties").getPathsRelativeToClasspathElement()));
     }
-    
+
+    /**
+     * Retrieves the properties files that are NOT located under the override directories
+     * ({@code override/} and {@code override/plugins}).
+     *
+     * @return A set of paths to the non-override properties files.
+     */
+    public static Set<String> getPathPropertiesFileWithoutOverride() {
+        return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(
+                getResourcesWithExtension("properties").getPathsRelativeToClasspathElement().stream()
+                        .filter(path -> !isOverridePath(path)).collect(Collectors.toList())));
+    }
+
+    /**
+     * Retrieves the properties files located under the override directories
+     * ({@code override/} and {@code override/plugins}).
+     *
+     * @return A set of paths to the override properties files.
+     */
+    public static Set<String> getPathOverridePropertiesFile() {
+        return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(
+                getResourcesWithExtension("properties").getPathsRelativeToClasspathElement().stream()
+                        .filter(WebConfResourceLocator::isOverridePath).collect(Collectors.toList())));
+    }
+
+    /**
+     * Determines whether the given resource path is located under an override directory.
+     *
+     * @param relativePath the resource path to test.
+     * @return {@code true} if the path is under {@code override/} or {@code override/plugins}, {@code false} otherwise.
+     */
+    private static boolean isOverridePath(String relativePath) {
+        return relativePath.contains(OVERRIDE_PATH_SEGMENT);
+    }
+
     /**
      * Retrieves a set of paths to xml files found in the scanned directories.
      * 

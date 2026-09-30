@@ -14,6 +14,8 @@ Showcase:
 - desc: Barre d'outils - @cBtnToolbar
 - bs: components/button-group
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

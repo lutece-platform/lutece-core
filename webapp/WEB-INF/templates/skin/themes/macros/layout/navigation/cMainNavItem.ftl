@@ -8,7 +8,7 @@ Parameters:
 - url (string, required): Destination URL. If empty, only nested content is rendered without a link wrapper.
 - urlClass (string, optional): CSS class(es) for the anchor element. Default: ''.
 - target (string, optional): Link target attribute ('_top', '_blank', '_parent'). Default: ''.
-- role (string, optional): ARIA role for the link. Default: 'navitem'.
+- role (string, optional): ARIA role for the link. Default: ''.
 - showTitle (boolean, optional): If true, adds a title attribute with the label text. Default: false.
 - id (string, optional): Unique identifier for the list item. Default: ''.
 - class (string, optional): Additional CSS class(es) for the list item. Default: ''.
@@ -37,7 +37,7 @@ Snippet:
     </@cMainNavItem>
 
 -->
-<#macro cMainNavItem title url urlClass='' target='' role='navitem' showTitle=false id='' class='' params='' deprecated...>
+<#macro cMainNavItem title url urlClass='' target='' role='' showTitle=false id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <li class="nav-item<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><#if params!=''> ${params}</#if>>
 <#if url !=''>

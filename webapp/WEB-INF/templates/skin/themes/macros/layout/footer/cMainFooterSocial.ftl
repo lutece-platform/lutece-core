@@ -32,72 +32,49 @@ Snippet:
 -->
 <#macro cMainFooterSocial title nested_pos='after' socialNested='' align='around' classColMain='col-md-7' classColSocial='col-md-5' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if !dskey('theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
-<footer class="social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
-    <div class="row m-0">
-        <div class="col-12 <#if classColMain !=''> ${classColMain}</#if>">
-            <div class="main-footer justify-content-${align} py-4">
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start w-100">
-                    <a class="logo hide-icon-target" href="${urlMainSite}" target="_blank">
-                        <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='#i18n{portal.theme.labelGoToSite} ${mainSite!}' />
-                    </a>
-                    <hr aria-hidden="true">
-                    <a class="site" title="#i18n{portal.theme.labelGoToSite} ${title}" href=".">${title}</a>
-                </div>
-            </div>  
-            <div class="main-footer justify-content-${align}">
-                <div class="d-flex align-items-center">
-                    <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{portal.theme.footerInfo}" >
-                        <#if nested_pos='before'><#nested></#if>
-                        <@_footerMenu />
-                        <#if nested_pos='after'>
-                            <#nested>
-                        </#if>    
-                    </ul>    
-                </div>
-            </div>
-        </div>
-        <div class="col-12 main-bg-color<#if classColSocial !=''> ${classColSocial}</#if> d-flex justify-align-items">
-            <div class="social-links">
-                <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
-                <h2 class="paris-footer-social-title text-center text-gray">#i18n{portal.theme.labelFollow}</h2>
-                <ul class="list-inline text-center">
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
-                            <svg class="paris-icon paris-icon-facebook" role="img" aria-labelledby="paris-icon-title-fb" focusable="false">
-                                <title id="paris-icon-title-fb">${footerSocialTitleFb}</title>
-                                <use xlink:href="#paris-icon-facebook"></use>
-                            </svg>
-                        </a>    
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
-                            <svg class="paris-icon paris-icon-x" role="img" aria-labelledby="paris-icon-title-tw" focusable="false">
-                                <title id="paris-icon-title-x">${footerSocialTitleTw}</title>
-                                <use xlink:href="#paris-icon-x"></use>
-                            </svg>
-                        </a>    
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
-                            <svg class="paris-icon paris-icon-instagram" role="img" aria-labelledby="paris-icon-title-in" focusable="false">
-                                <title id="paris-icon-title-in">${footerSocialTitleIn}</title>
-                                <use xlink:href="#paris-icon-instagram"></use>
-                            </svg>
-                        </a>    
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
-                            <svg class="paris-icon paris-icon-linkedin" role="img" aria-labelledby="paris-icon-title-li" focusable="false">
-                                <title id="paris-icon-title-li">${footerSocialTitleLi}</title>
-                                <use xlink:href="#paris-icon-linkedin"></use>
-                            </svg>
-                        </a>    
-                    </li>
-                </ul>
-                <p class="paris-footer-social-title text-center">#i18n{portal.theme.footerSocialText}</p>
-            </div>
-        </div>
+<#local logoAltDS=dskey('portal.theme.site_property.layout.footer.logoFooter.alt')! />
+<#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
+<#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
+<#if !dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
+<footer class="foot__grid_social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
+    <div class="main-footer">
+        <a class="logo" href="${logoUrl}" target="_blank" title="#i18n{portal.theme.labelGoToSite} ${title}">
+            <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' /><@cInline> - ${title}</@cInline>
+        </a>
+        <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{portal.theme.footerInfo}" >
+            <#if nested_pos='before'><#nested></#if>
+            <@_footerMenu />
+            <#if nested_pos='after'>
+                <#nested>
+            </#if>    
+        </ul>    
+    </div>
+    <div class="social-links">
+        <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
+        <h2 class="paris-footer-social-title text-center text-white">#i18n{portal.theme.labelFollow}</h2>
+        <ul class="list-inline text-center">
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
+                    <@cIcon name='brand-facebook' params='aria-hidden="true"' />
+                </a>    
+            </li>
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
+                    <@cIcon name='brand-x' params='aria-hidden="true"' />
+                </a>    
+            </li>
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
+                    <@cIcon name='brand-instagram' params='aria-hidden="true"' />
+                </a>    
+            </li>
+            <li class="list-inline-item">
+                <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
+                    <@cIcon name='brand-linkedin' params='aria-hidden="true"' />
+                </a>    
+            </li>
+        </ul>
+        <p class="paris-footer-social-title text-center text-white">#i18n{portal.theme.footerSocialText}</p>
     </div>
 </footer>
 </#macro>

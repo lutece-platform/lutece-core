@@ -15,6 +15,8 @@ Parameters:
 Showcase:
 - desc: Bouton image - @cBtnImg
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

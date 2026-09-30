@@ -1,0 +1,15 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Concentric circles pattern - usable as background decoration -->
+  <circle cx="200" cy="200" r="180" fill="none" stroke="#3C67FF" stroke-width="1" opacity="0.08"/>
+  <circle cx="200" cy="200" r="140" fill="none" stroke="#3C67FF" stroke-width="1" opacity="0.1"/>
+  <circle cx="200" cy="200" r="100" fill="none" stroke="#3C67FF" stroke-width="1" opacity="0.12"/>
+  <circle cx="200" cy="200" r="60" fill="none" stroke="#3C67FF" stroke-width="1" opacity="0.15"/>
+
+  <!-- Scattered accent circles -->
+  <circle cx="60" cy="80" r="20" fill="#3C67FF" opacity="0.05"/>
+  <circle cx="340" cy="60" r="28" fill="#3C67FF" opacity="0.04"/>
+  <circle cx="50" cy="320" r="16" fill="#3C67FF" opacity="0.06"/>
+  <circle cx="360" cy="330" r="24" fill="#3C67FF" opacity="0.05"/>
+  <circle cx="280" cy="40" r="10" fill="#FF442A" opacity="0.08"/>
+  <circle cx="120" cy="350" r="12" fill="#2DA896" opacity="0.06"/>
+</svg>

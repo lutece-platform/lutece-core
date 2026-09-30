@@ -57,15 +57,15 @@ Snippet:
     <@cInput name='quantity' type='number' min=1 max=100 value='1' />
 
 -->
-<#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=true disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
+<#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=false disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local hasError = (errorMsg != '')>
 <#assign idMsg><#if id!=''>${id}<#else>${name!}</#if></#assign>
+<#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
+<input type="${type!}" class="<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder!=''> placeholder="${placeholder!}"<#if ariaLabel!=''> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if pattern!=''> pattern="${pattern}"</#if><#if accept !=''> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId!=''> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg!=''> aria-describedby="help_${idMsg!}"</#if>>
 <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
 <#if errorMsg !='' && errorMsg !='_error'><@cFormError idMsg errorMsg errorClass /></#if>
-<input type="${type!}" class="<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder!=''> placeholder="${placeholder!}"<#if ariaLabel!=''> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if pattern!=''> pattern="${pattern}"</#if><#if accept !=''> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId!=''> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg!=''> aria-describedby="help_${idMsg!}"</#if>>
-<#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
 <#nested>
 <#if datalistId !=''>
 <datalist id="${datalistId}">
@@ -95,13 +95,13 @@ function setInvalidMaxMinMessage( input ) {
   const value = parseFloat(input.value);
   const min = input.hasAttribute('min') ? parseFloat(input.getAttribute('min')) : -Infinity;
   const max = input.hasAttribute('max') ? parseFloat(input.getAttribute('max')) : Infinity;
-  if ( value <= min || value >= max  ) {
+  if ( value < min || value > max  ) {
     if ( !input.classList.contains('is-invalid') ) {
         input.classList.add('is-invalid');
         if( input.parentNode.classList.contains('input-group') ) {
-            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',input.min,input.max)}</p>' );
+            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',min,max)}</p>' );
         } else {
-            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',input.min,input.max)}</p>' );
+            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',min,max)}</p>' );
         }
         input.setAttribute('aria-invalid', 'true');
         input.setAttribute('aria-describedby', 'error_' + input.id);

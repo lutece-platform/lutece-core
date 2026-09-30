@@ -6,6 +6,8 @@ Description: Generates a password input field with optional show/hide toggle but
 Parameters:
 - name (string, required): the name attribute of the input.
 - label (string, optional): the label text. Default: '#i18n{portal.theme.labelPassword}'.
+- labelClass (string, optional): CSS class for the label. Default: ''.
+- icon  (string, optional): icon name to display before input : ''.
 - btnShowPassword (boolean, optional): displays a button to toggle password visibility. Default: true.
 - passwordMeter (boolean, optional): displays password strength indicator. Default: false.
 - pmLabel (string, optional): label for the password strength message. Default: '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}'.
@@ -31,30 +33,30 @@ Showcase:
 
 Snippet:
 
-    Basic password input:
+Basic password input:
 
-    <@cInputPassword name='password' />
+<@cInputPassword name='password' />
 
-    Password with strength meter and generator:
+Password with strength meter and generator:
 
-    <@cInputPassword name='new_password' id='new_password' passwordMeter=true />
+<@cInputPassword name='new_password' id='new_password' passwordMeter=true />
 
-    Password with confirmation field sync:
+Password with confirmation field sync:
 
-    <@cInputPassword name='password' id='password' passwordMeter=true pmConfirmFieldId='confirm_password' />
-    <@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
+<@cInputPassword name='password' id='password' passwordMeter=true pmConfirmFieldId='confirm_password' />
+<@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
 
 -->
-<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{portal.theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
+<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
 <#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
-<#if label !=''><@cLabel label=label for=passId required=required /></#if>
+<#if label !=''><@cLabel label=label for=passId required=required class=labelClass /></#if>
 <#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
-<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
 <@cInputGroup class='password'>
-    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
+    <#if icon !=''><@cIcon name='${icon!}' /></#if>
+    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=(autocomplete!='')?then(autocomplete,'off') params=params>
     <#if btnShowPassword>
     <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
          <@cIcon name='eye-off' class='main-info-color' />
@@ -62,6 +64,7 @@ Snippet:
     </#if>
     </@cInput>
 </@cInputGroup>
+<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
 <#nested>
 <#if isScriptPasswordLoaded?? && isScriptPasswordLoaded>
 <#else>
@@ -240,67 +243,34 @@ function generateLocalPassword() {
 </#if>
 /* PASSWORD */
 <#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
-function togglePasswordIcon( field, show=false ){
-	<#noparse>const input = $(`${field}`), btnToggle = $(`${field} + .input-group-append .toggle-password`), icon=$(`${field} + .input-group-append .toggle-password .paris-icon use`)</#noparse>
-  if( show && show !=undefined ){
-      icon.attr('href','#paris-icon-eye')
-  } else {
-      if( icon.attr('href') == '#paris-icon-eye'  ){
-          icon.attr('href','#paris-icon-eye-off')
-      } else {
-          icon.attr('href','#paris-icon-eye')
-      }
-  }
-  if( show && show !=undefined ){
-      if( input.attr("type") == "password") {
-          input.attr("type", "text");
-          $(this).attr('aria-pressed','true');
-          $(this).attr('title','#i18n{portal.theme.labelPasswordHide}');
-      }
-  } else {
-    if( input.attr("type") == "password") {
-        input.attr("type", "text");
-        btnToggle.attr('aria-pressed','true');
-        btnToggle.attr('title','#i18n{portal.theme.labelPasswordHide}');
-    } else {
-        input.attr("type", "password");
-        btnToggle.attr('aria-pressed','false');
-        btnToggle.attr('title','#i18n{portal.theme.labelPasswordShow}');
-    }
-  }
-
-}
-
 function togglePasswordIcon(field, show = false) {
   const input = document.querySelector(field);
+  if (!input) return;
   const btnToggle = input.parentElement.querySelector('.toggle-password');
-  const icon = btnToggle ? btnToggle.querySelector('.paris-icon use') : null;
-  
-  if (!input || !icon) return;
-  
-  if (show && show !== undefined) {
-    icon.setAttribute('href', '#paris-icon-eye');
-    if (input.getAttribute("type") === "password") {
-      input.setAttribute("type", "text");
-      btnToggle.setAttribute('aria-pressed', 'true');
-      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
-    }
+  const icon = btnToggle ? btnToggle.querySelector('${iconDefaultPrefixSelector!}') : null;
+  if (!icon) return;
+
+  const reveal = () => {
+    input.setAttribute('type', 'text');
+    icon.classList.remove('ti-eye-off');
+    icon.classList.add('ti-eye');
+    btnToggle.setAttribute('aria-pressed', 'true');
+    btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
+  };
+  const hide = () => {
+    input.setAttribute('type', 'password');
+    icon.classList.remove('ti-eye');
+    icon.classList.add('ti-eye-off');
+    btnToggle.setAttribute('aria-pressed', 'false');
+    btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordShow}');
+  };
+
+  if (show) {
+    reveal();
+  } else if (input.getAttribute('type') === 'password') {
+    reveal();
   } else {
-    if (icon.getAttribute('href') === '#paris-icon-eye') {
-      icon.setAttribute('href', '#paris-icon-eye-off');
-    } else {
-      icon.setAttribute('href', '#paris-icon-eye');
-    }
-    
-    if (input.getAttribute("type") === "password") {
-      input.setAttribute("type", "text");
-      btnToggle.setAttribute('aria-pressed', 'true');
-      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
-    } else {
-      input.setAttribute("type", "password");
-      btnToggle.setAttribute('aria-pressed', 'false');
-      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordShow}');
-    }
+    hide();
   }
 }
 </#if>

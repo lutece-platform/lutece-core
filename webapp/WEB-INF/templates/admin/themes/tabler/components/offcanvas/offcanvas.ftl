@@ -50,10 +50,10 @@
     </@offcanvas>
 
   -->
-<#macro offcanvas id position='end' class='' title='' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false keepPageHeader=false params='' deprecated...>
+<#macro offcanvas id position='end' class='' title='#i18n{portal.util.labelModify}' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false keepPageHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnDropdown><div class="btn-group"></#if>
-<a id="btn-${id}" title="${title}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params!=''> ${params}</#if>>
+<a id="btn-${id}" title="${title}" data-lutece-offcanvas-title="${title}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params!=''> ${params}</#if>>
     <#if btnIcon!=''><@icon style='${btnIcon}' /></#if>
     <#-- Visibility of button title -->
     <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
@@ -72,7 +72,6 @@ ${btnDropdownContent!}
     const btn = document.getElementById('btn-${id}');
     if ( btn ) {
         btn.setAttribute('data-lutece-offcanvas-id', '${id}'); 
-        btn.setAttribute('data-lutece-offcanvas-title', '#i18n{portal.util.labelModify}'); 
         btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position}<#if size !=''> w-${size}</#if><#if class!=''> ${class}</#if>');
         btn.setAttribute('data-lutece-use-iframe', 'true');
         btn.setAttribute('data-lutece-load-content-url', '${targetUrl}');

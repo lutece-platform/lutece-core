@@ -5,6 +5,11 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+/**
+ * MicroProfile {@code ConfigSource} exposing the base Lutece configuration, that is every
+ * {@code .properties} file except those located under the {@code override/} and {@code override/plugins}
+ * directories. The override files are exposed by {@link LuteceOverrideConfigSource} with a higher ordinal.
+ */
 public class LuteceConfigSource implements ConfigSource{
 
     private static final String PATH_CONF = "WEB-INF/conf/";
@@ -16,7 +21,7 @@ public class LuteceConfigSource implements ConfigSource{
     public int getOrdinal() {
         return 150;
     }
-	
+
 	@Override
 	public String getName() {
 
@@ -26,7 +31,7 @@ public class LuteceConfigSource implements ConfigSource{
 	@Override
     public Set<String> getPropertyNames( )
     {
-      return AppInitPropertiesService.getPropertiesName( );
+      return AppInitPropertiesService.getBasePropertiesName( );
     }
 
 	@Override
@@ -35,7 +40,7 @@ public class LuteceConfigSource implements ConfigSource{
         String strValue = null;
         try
         {
-            strValue = AppInitPropertiesService.getProperty( strProperty );
+            strValue = AppInitPropertiesService.getBaseProperty( strProperty );
         }
         catch( Exception e )
         {

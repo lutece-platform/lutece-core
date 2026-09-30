@@ -37,6 +37,8 @@ Showcase:
 - desc: Carte - @cCard
 - bs: components/card
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.api.user.User;
@@ -824,9 +825,36 @@ public class WorkflowService
      *            the workflow id
      * @param nIdExternalParentId
      *            the external parent id
+     *
+     * <p>
+     * It is recommended to use {@link WorkflowService#getState(int, String, int, Integer, Locale)} instead,
+     * which lets you provide the locale from your environment or the incoming http request.
+     * The default locale is set through the <code>lutece.i18n.defaultLocale</code> property.
+     * </p>
+     * @see WorkflowService#getState(int, String, int, Integer, Locale)
      * @return the state of a given document
      */
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId )
+    {
+        return getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, I18nService.getDefaultLocale( ) );
+    }
+
+    /**
+     * returns the state of a given document of the document in the workflow and the user role
+     *
+     * @param nIdResource
+     *            the document id
+     * @param strResourceType
+     *            the document type
+     * @param nIdWorkflow
+     *            the workflow id
+     * @param nIdExternalParentId
+     *            the external parent id
+     * @param locale
+     *            the locale. If the provided locale is null, default locale is set through the <code>lutece.i18n.defaultLocale</code> property.
+     * @return the state of a given document
+     */
+    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId, Locale locale )
     {
         if ( isAvailable( ) )
         {
@@ -835,7 +863,7 @@ public class WorkflowService
 
             try
             {
-                state = _service.get( ).getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
+                state = _service.get( ).getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, locale != null ? locale : I18nService.getDefaultLocale( ) );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )

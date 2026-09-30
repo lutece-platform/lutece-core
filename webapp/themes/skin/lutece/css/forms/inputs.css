@@ -1,27 +1,65 @@
 /*** 										***/
 /*** Label + inputs							***/
 /***  										***/
-option,
-input,
+select,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select,
 textarea {
-	color: var(--main-color) !important;
-	font-size: var( --font-m ) !important;
+  font-family: inherit;
+  font-size: var(--lutece-ds-fs-lg);
+  color: var(--lutece-ds-text);
+  background: var(--bs-white);
+  border: 1px solid var(--lutece-ds-border);
+  border-radius: var(--lutece-ds-radius-sm);
+  padding: 0 14px;
+  transition: border-color var(--lutece-ds-dur-base), box-shadow var(--lutece-ds-dur-base);
+
+}
+
+select,
+input {
+  height: var(--lutece-ds-ctrl-h-md);
+}
+
+textarea {
+  padding: 12px 14px;
+}
+
+option{
+	color: var(--lutece-ds-text) !important;
+	font-size: var( --lutece-ds-fs-lg ) !important;
 	font-weight: 500 !important;
+}
+
+/* Legend aligné sur la taille de texte des labels de champ */
+legend {
+	font-size: var(--lutece-ds-fs-lg);
+	font-weight: 500;
+	color: var(--lutece-ds-text-muted);
 }
 
 input:disabled + .btn,
 input:disabled + .btn:hover {
-	color: var( --main-color);
+	color: var( --lutece-ds-text);
     cursor: default;
     opacity: .5
 }
 
-/* BS Overrides */
-label {
-	font-size: 15px;
-	font-weight: 500;
+/* Hover accent, mirroring .input-group:hover. The :not() chain matches the base rule above
+   so this declaration outranks it; disabled fields must not react. */
+select:not(:disabled):hover,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not(:disabled):hover,
+textarea:not(:disabled):hover {
+  border-color: var(--lutece-ds-blue-600);
 }
 
+/* BS Overrides */
+label {
+	font-size: var(--lutece-ds-fs-lg);
+	font-weight: 500;
+	color: var(--lutece-ds-text-muted)
+}
+/* 
 .form-control{
 	height: 40px;
 	background: transparent;
@@ -30,7 +68,7 @@ label {
 	border-radius: 0;
 	padding: 20px 10px;
 }
-  
+   */
 .form-control::placeholder {
 	font-size: 13px;
 	color: #999;
@@ -42,25 +80,12 @@ label {
 	box-shadow: none;
 }
 
-.form-select {
-	font-size: 13px;
-	color: #999;
-	border: 0;
-	border-bottom: 1px solid #E2E2E2;
-	border-radius: 0;
-	padding: 10px 0;
-}
-
-textarea.form-control {
-	height: 100px;
-}
 
 /* Invalid */
 .invalid-feedback {
-	font-size: var(--font-m);
+	font-size: var(--lutece-ds-fs-xs);
 	font-weight: 500;
-	padding-block-start: var(--spacing-xxs);
-	color: var(--main-danger-color);
+	color: var(--lutece-ds-danger);
 	display: block;
 }
 
@@ -69,14 +94,14 @@ label:has( ~ .input-group ~ .is-invalid),
 label:has( ~ .input-group .is-invalid),
 legend.is-invalid,
 label:has( .is-invalid ){
-	color: var(--main-danger-color) !important
+	color: var(--lutece-ds-danger) !important
 }
 
 .form-control.is-invalid,
 .was-validated .form-control:invalid {
     background-image:none;
     box-shadow: none;
-	outline: var(--main-danger-color) solid 2px;
+	outline: var(--lutece-ds-danger) solid 2px;
 	outline-offset: 0;
 }
 
@@ -89,26 +114,26 @@ label:has( .is-invalid ){
 /*** 										***/
 input[type="number"] + .input-group-append > .input-group-text {
     border: 1px solid;
-    right: calc( var(--spacing-l) * -1 );
+    right: calc( var(--lutece-ds-sp-lg) * -1 );
     top: .25rem;
-    padding: calc( var(--spacing-sm) + .25rem) var(--spacing-xxs);
+    padding: calc( var(--lutece-ds-sp-sm) + .25rem) var(--lutece-ds-sp-2xs);
 }
 
 /*** 										***/
 /*** Input Password strength 				***/
 /*** 										***/
 .indicator {
-	font-size: var(--font-xs);
+	font-size: var(--lutece-ds-fs-xs);
 	font-weight: 600;
-	min-height: calc(var(--size-base, .4rem) * 8.75);
+	min-height: calc(var(--lutece-ds-size-base, .4rem) * 8.75);
 }
 
 .indicator .dot {
-	width: var(--spacing-xs);
-	height: var(--spacing-xs);
+	width: var(--lutece-ds-sp-xs);
+	height: var(--lutece-ds-sp-xs);
 	display: inline-block;
 	border-radius: 50%;
-	background: var(--white-color);
+	background: var(--lutece-ds-white);
 }
 
 .password-refresh {
@@ -124,18 +149,19 @@ input[type="number"] + .input-group-append > .input-group-text {
 
 @media (max-width: 767.98px) {
 	.form-control {
-		font-size: var(--font-m)
+		font-size: var(--lutece-ds-fs-lg)
 	}
 }
 
 /* Quantity Picker */
 /* Quantity input */
 .quantity-picker .quantity-input {
-	width: var(--spacing-xxl);
+	width: var(--lutece-ds-sp-2xl);
 	border: none;
 	text-align: center;
 	-moz-appearance: textfield;
 	appearance: textfield;
+	padding: var(--lutece-ds-sp-md);
 }
 
 .quantity-picker .quantity-input::-webkit-outer-spin-button,
@@ -145,29 +171,29 @@ input[type="number"] + .input-group-append > .input-group-text {
 }
 
 .quantity-picker.is-invalid .input-group {
-	outline: var(--main-danger-color) solid 3px;
+	outline: var(--lutece-ds-danger) solid 3px;
 	padding-left: 1px;
 }
 
 /* Quantity button  */
 .quantity-btn{
-	background-color: var( --white-color );
-	border-color: var( --blue-dark-color );
-	outline: var(--blue-dark-color) solid 1px;
+	background-color: var( --lutece-ds-white );
+	border-color: var( --lutece-ds-blue-600 );
+	outline: var(--lutece-ds-blue-600) solid 1px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .quantity-btn .btn-label{
-	color: var(--main-color);
-	font-size: var(var(--font-l);)
+	color: var(--lutece-ds-text);
+	font-size: var(var(--lutece-ds-fs-2xl);)
 }
 
 .quantity-btn:active,
 .quantity-btn:not(.disabled):active,
 .quantity-btn:active .btn-label,
-.quantity-btn:active .paris-icon
+.quantity-btn:active .ti
 .quantity-btn:hover .btn-label,
 .btn:hover.quantity-btn .btn-label,
 .quantity-btn:hover,
@@ -176,7 +202,7 @@ input[type="number"] + .input-group-append > .input-group-text {
 .quantity-btn:not(.disabled).active,
 .quantity-btn:not(.disabled):not(.disabled).active,
 .quantity-btn:focus .btn-label{
-	color: var(--main-color) !important;
+	color: var(--lutece-ds-text) !important;
 	background-color: transparent !important;
 }
 
@@ -190,14 +216,14 @@ input[type="number"] + .input-group-append > .input-group-text {
 .quantity-btn:disabled *:focus,
 .quantity-btn:disabled *:active,
 .quantity-btn:disabled{
-	color: var( --blue-dark-color ) !important;
-	background-color: var( --white-light-color ) !important;
-	border-color: var( --white-light-color ) !important;
+	color: var( --lutece-ds-blue-600 ) !important;
+	background-color: var( --lutece-ds-neutral-100 ) !important;
+	border-color: var( --lutece-ds-neutral-100 ) !important;
 	box-shadow: none !important;
 	transition: none !important;
 }
 
 .quantity-btn:disabled {
-	color: var(--gray-darklight-color );
+	color: var(--lutece-ds-neutral-400 );
 	cursor: not-allowed;
 }

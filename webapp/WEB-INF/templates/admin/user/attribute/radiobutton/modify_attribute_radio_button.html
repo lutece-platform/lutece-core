@@ -74,7 +74,7 @@
 								</@tform>
 							</#if>
 							<@offcanvas targetUrl="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" targetElement="#modify-attr-field" redirectForm=false id="modify-attr-${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnTitle="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnIcon="edit" position="end" hideTitle=['all'] />
-							<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' hideTitle=['all'] color='danger' class='pull-left spaced' hideTitle=['all'] />
+							<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' color='danger' class='pull-left spaced' hideTitle=['all'] />
 						</@manageFeatureItemColumn>
 					</@manageFeatureItem>
 					</#if>

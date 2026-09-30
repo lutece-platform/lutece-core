@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#FFFFFF"/>
+  <!-- L letter -->
+  <text x="20" y="50" fill="#1A1A1A" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="46" font-weight="800">L</text>
+  <!-- Signature dots (coral + blue) -->
+  <rect x="36" y="10" width="8" height="8" fill="#FF442A"/>
+  <rect x="46" y="10" width="8" height="8" fill="#3C67FF"/>
+</svg>

@@ -2,11 +2,11 @@
 /*** 	Scrollbars 							***/
 /*** 										***/
 ::-webkit-scrollbar {
-    width: var( --scollbar-with )
+    width: var( --lutece-ds-scrollbar-width )
 }
 
 ::-webkit-scrollbar-track {
-    border-radius: var( --scollbar-radius )
+    border-radius: var( --lutece-ds-scrollbar-radius )
 }
 
 ::-webkit-scrollbar-thumb {

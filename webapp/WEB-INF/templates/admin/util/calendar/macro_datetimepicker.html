@@ -97,7 +97,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', {enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minTime !=''>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime !=''>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField}', {enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate}"</#if></#if><#if minTime !=''>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime !=''>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>

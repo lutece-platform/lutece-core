@@ -1,4 +1,4 @@
-<#assign email_title>#i18n{portal.admin.admin_forgot_password.login.title}</#assign>
+<#assign email_title>#i18n{portal.admin.admin_forgot_login.email.title}</#assign>
 <@emailTemplate title=email_title>
 <h2><#if site_name?has_content>${site_name}</#if> <#if site_link?has_content>${site_link}</#if></h2>
 <p>#i18n{portal.admin.admin_forgot_login.email.textYourLogin} : ${login}</p>

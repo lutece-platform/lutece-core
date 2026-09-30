@@ -78,9 +78,7 @@ Snippet:
         </a>
     </label>
     <button type="button" class="btn btn-link main-color deleteSingleFile p-0"<#if cUrlRm !=''> data-url="${cUrlRm!}"</#if> data-item="#_file_uploaded_${name}${idx}" fieldName="${name}" handlerName="${handlerName!}" index="${idx}" title="#i18n{portal.util.labelDelete} ${fileLabel}"> 
-        <svg class="paris-icon paris-icon-close" role="img" aria-hidden="true" focusable="false">
-            <use xlink:href="#paris-icon-close"></use>
-        </svg>
+        <@cIcon name='x' params='aria-hidden="true"' />
     </button>
 </li>
 </#macro>

@@ -7,39 +7,39 @@
 }
 
 .border-sm {
-	border-width: var(--border-normal) !important;
+	border-width: var(--lutece-ds-border-width-sm) !important;
 }
 
 .border-md {
-	border-width: var(--border-medium) !important;
+	border-width: var(--lutece-ds-border-width-md) !important;
 }
 
 .border-lg {
-	border-width: var(--border-large) !important;
+	border-width: var(--lutece-ds-border-width-lg) !important;
 }
 
 .border-b-sm {
-	border-bottom-width: var(--border-normal) !important;
+	border-bottom-width: var(--lutece-ds-border-width-sm) !important;
 }
 
 .border-b-md {
-	border-bottom-width: var(--border-medium) !important;
+	border-bottom-width: var(--lutece-ds-border-width-md) !important;
 }
 
 .border-b-lg {
-	border-bottom-width: var(--border-large) !important;
+	border-bottom-width: var(--lutece-ds-border-width-lg) !important;
 }
 
 .border-t-sm {
-	border-top-width: var(--border-normal) !important;
+	border-top-width: var(--lutece-ds-border-width-sm) !important;
 }
 
 .border-t-md {
-	border-top-width: var(--border-medium) !important;
+	border-top-width: var(--lutece-ds-border-width-md) !important;
 }
 
 .border-t-lg {
-	border-top-width: var(--border-large) !important;
+	border-top-width: var(--lutece-ds-border-width-lg) !important;
 }
 
 /* TODO DEPRECATED ??? */

@@ -1,6 +1,6 @@
 <#macro linkProperties input selected_text >
 <@input type='hidden' name='input' value='${input}' />
-<@table headeBody=true >
+<@table headBody=true >
 <@tr>
     <@th colspan=2>#i18n{portal.insert.labelLinkProperties}</@th>
 </@tr>
@@ -29,8 +29,8 @@
 </#macro>
 <#macro linkTargetCombo >
 <@select name='target'>
-<@option value='_self' title='#i18n{portal.insert.labelTargetSelf}' />
-<@option value='_blank' title='#i18n{portal.insert.labelTargetBlank}' />
+<@option value='_self' label='#i18n{portal.insert.labelTargetSelf}' />
+<@option value='_blank' label='#i18n{portal.insert.labelTargetBlank}' />
 </@select>
 </#macro>
 <#macro insertBreadcrumbs>

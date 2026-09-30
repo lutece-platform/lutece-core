@@ -8,6 +8,7 @@ Parameters:
 - title (string, required): the title of the step.
 - showTitle (boolean, optional): displays the step title header. Default: true.
 - titleLevel (number, optional): HTML heading level for the title tag. Default: 2.
+- formId -  string - optional - the id of the form to check default 'form-validate' 
 - actionNextStep (string, optional): action name for the next step button. Default: ''.
 - titleNextStep (string, optional): title attribute for the next step button. Default: ''.
 - labelNextStep (string, optional): label of the next step button. Default: '#i18n{portal.theme.labelNextStep}'.
@@ -55,16 +56,16 @@ Snippet:
     </@cStepCurrent>
 
 -->
-<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
+<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass><#if !showTitle> step-no-title</#if></#local>
-<@cSection id='current_step' class='step step-current ${class!}${stepClass!}' params=params >
+<@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params >
 <#if showTitle>
 <@cBlock class='step-title'>
 	<@cContainer>
 		<#if hasSteps>
 			<@cTitle class='title ${titleClass}' level=titleLevel params='data-step="${step}" title="${title} - #i18n{portal.theme.labelCurrentStep}" aria-current="step" tabindex="0"'>
-				<@cText type='span' class='step-number'>${step}</@cText>
+				<#if step?number!=0><@cText type='span' class='step-number'>${step}</@cText></#if>
 				<@cText type='span'>${title?replace('- hidden','')}</@cText>
 			</@cTitle>
 		<#else>
@@ -130,7 +131,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	/* Error Scroll                           */
 	// Add smooth scrolling to all links
 	const invalidElements = document.querySelectorAll('.step-current .step-content .is-invalid');
-	const currentStepId = document.querySelector('#current_step .step-title .step-number').textContent.trim();
+	let currentStepId = 0;
+	const stepNumberElement = document.querySelector('#current_step .step-title .step-number')
+	if ( stepNumberElement != null ){
+		currentStepId = document.querySelector('#current_step .step-title .step-number').textContent.trim();
+	}
 	if ( invalidElements.length > 0 ) {
 		const firstInvalidElements = invalidElements[0];
 		const invalidElementStatusMsg = `<p class="visually-hidden" id="step-alert" tabindex="-1">#i18n{portal.theme.statusMsgStepValidationErrors}</p>`
@@ -150,8 +155,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	} else if ( !isNaN(parseInt(currentStepId) ) && parseInt( currentStepId ) > 1 ) {
 		const current = document.querySelector('#current_step');
-		const y = current.offsetTop - 220;
-		window.scrollBy(0, y);
+		// Scroll instantané vers l'étape courante après validation de l'étape précédente.
+		// getBoundingClientRect().top + scrollY = position absolue fiable dans le document
+		// (offsetTop est relatif à l'offsetParent) ; behavior:'instant' force un positionnement
+		// immédiat en ignorant le scroll-behavior:smooth défini par le thème.
+		const y = current.getBoundingClientRect().top + window.scrollY - 220;
+		window.scrollTo({ top: y, behavior: 'instant' });
 		// Déplacer le focus sur le titre de l'étape courante
 		// pour assurer sa restitution par les technologies d'assistance.
 		const stepTitle = document.querySelector('.step-current .step-title .title');
@@ -160,9 +169,10 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	}
 	<#assign actionStep><#if actionNextStep !=''>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
-	const formValidate = document.getElementById('form-validate'), formValidateButton = document.getElementById('${actionStep!}');
+	const formValidate = document.getElementById('${formId!}')<#if actionStep?? && actionStep !=''>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
 	<#if step?number gt 1 >
-	formValidateButton.addEventListener('click', (e) => {
+	<#if actionStep?? && actionStep !=''>
+	formValidateButton && formValidateButton.addEventListener('click', (e) => {
 		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
 		const arrInvalids = Array.prototype.slice.call(invalids);
 		arrInvalids.forEach( function( invalid ){
@@ -182,6 +192,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			}
 		});
 	})
+	</#if>
 </#if>
 	const saveStep = document.getElementById('save-step-status');
 	if(saveStep){
@@ -202,7 +213,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 
 	const btnValidateHidden = '<button class="visually-hidden" name="${actionStep}" aria-hidden="true" tabindex="-1" ></button>'
-	formValidate.insertAdjacentHTML('afterbegin', btnValidateHidden );
+	formValidate && formValidate.insertAdjacentHTML('afterbegin', btnValidateHidden );
 });
 </script> 
 <script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-form-validation.js"></script>

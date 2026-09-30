@@ -42,11 +42,11 @@ Snippet:
     <@cInputTimeSlot name='slot' beginHour='09:00' endHour='17:00' />
 
 -->
-<#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{themeparisfr.labelFrom}' labelTo='#i18n{themeparisfr.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
+<#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{portal.theme.labelFrom}' labelTo='#i18n{portal.theme.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
-<@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg params=params >
+<@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg helpPos='after' params=params >
 	<@cRow>
 		<@cCol cols='6 col-md-4 col-lg-2'>
 			<@cField label='#i18n{portal.theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
@@ -60,8 +60,7 @@ Snippet:
 		</@cCol>
 	</@cRow>
 </@cFieldset>
-<script src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-utils.min.js"></script>
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}plugins/forms/input-time-polyfill.y11.js"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/input-time-polyfill.y11.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	const browserInfo = getBrowserInfo();
@@ -95,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <#if btnAction !=''>
 		// Validate before submitting the form
 		if( btnSendStep != null ){
-			btnSendStep.on('click', function(e) {
+			btnSendStep.addEventListener('click', function(e) {
 				// Replace time inputs with text inputs with class "time-polyfill"
 				timeInputs.forEach( input => {
 					input.value = input.value === ('--:--') ? '' : input.value;

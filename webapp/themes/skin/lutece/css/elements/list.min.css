@@ -1,0 +1,1 @@
+ul,ol,li{font-family:var(--lutece-ds-font-family-base);font-weight:400;font-size:var(--lutece-ds-fs-lg)}ul li::marker{color:var(--lutece-ds-primary);font-size:var(--lutece-ds-fs-3xl)}ol li::marker{font-weight:600}ol li::marker::after{content:'.'}@media ( max-width:358.98px ){ul,ol,li{font-size:var( --lutece-ds-fs-sm )}}

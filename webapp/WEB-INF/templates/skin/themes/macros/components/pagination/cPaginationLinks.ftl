@@ -62,7 +62,7 @@ Snippet:
 	</li>
 <#else>
 	<li class="page-item disabled">
-		<a class="page-link" href="${paginator.firstPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="${paginator.labelFirst}">
+		<a class="page-link" href="${paginator.firstPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="${paginator.labelFirst}" tabindex="-1" aria-disabled="true">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153">
 				<g transform="translate(8.279 13.676) rotate(180)">
 					<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>
@@ -113,7 +113,8 @@ Snippet:
 	</#if>
 <#else>
 	<li class="page-item disabled">
-		<a class="page-link" href="${paginator.lastPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="${paginator.labelLast}" >
+		<a class="page-link" href="${paginator.lastPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="${paginator.labelLast}" tabindex="-1" aria-disabled="true">
+			${paginator.labelLast}
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153">
 				<g transform="translate(1.359 1.477)">
 					<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>

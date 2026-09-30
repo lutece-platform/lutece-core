@@ -1,0 +1,35 @@
+<svg width="600" height="160" viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    text { font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; }
+  </style>
+
+  <!-- Bleu clair (primaire) -->
+  <rect x="0" y="0" width="110" height="90" rx="12" fill="#3C67FF"/>
+  <text x="55" y="116" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">Bleu clair</text>
+  <text x="55" y="132" text-anchor="middle" fill="#888" font-size="11">#3C67FF</text>
+  <text x="55" y="148" text-anchor="middle" fill="#aaa" font-size="10">Primaire</text>
+
+  <!-- Bleu foncé -->
+  <rect x="125" y="0" width="110" height="90" rx="12" fill="#0E3968"/>
+  <text x="180" y="116" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">Bleu foncé</text>
+  <text x="180" y="132" text-anchor="middle" fill="#888" font-size="11">#0E3968</text>
+  <text x="180" y="148" text-anchor="middle" fill="#aaa" font-size="10">Secondaire</text>
+
+  <!-- Corail -->
+  <rect x="250" y="0" width="110" height="90" rx="12" fill="#FF442A"/>
+  <text x="305" y="116" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">Corail</text>
+  <text x="305" y="132" text-anchor="middle" fill="#888" font-size="11">#FF442A</text>
+  <text x="305" y="148" text-anchor="middle" fill="#aaa" font-size="10">Accent</text>
+
+  <!-- Sarcelle -->
+  <rect x="375" y="0" width="110" height="90" rx="12" fill="#2DA896"/>
+  <text x="430" y="116" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">Sarcelle</text>
+  <text x="430" y="132" text-anchor="middle" fill="#888" font-size="11">#2DA896</text>
+  <text x="430" y="148" text-anchor="middle" fill="#aaa" font-size="10">Tertiaire</text>
+
+  <!-- Violet -->
+  <rect x="500" y="0" width="110" height="90" rx="12" fill="#6C5CE7"/>
+  <text x="555" y="116" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="600">Violet</text>
+  <text x="555" y="132" text-anchor="middle" fill="#888" font-size="11">#6C5CE7</text>
+  <text x="555" y="148" text-anchor="middle" fill="#aaa" font-size="10">Pack Ident'EZ</text>
+</svg>

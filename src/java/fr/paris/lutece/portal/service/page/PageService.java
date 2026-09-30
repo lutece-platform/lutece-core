@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import fr.paris.lutece.util.http.SecurityUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
@@ -337,7 +338,15 @@ public class PageService implements IPageService, ImageResourceProvider
         int nIdPage;
         Page page;
 
-        nIdPage = Integer.parseInt( strIdPage );
+        try
+        {
+            nIdPage = Integer.parseInt( strIdPage );
+        }
+        catch( NumberFormatException nfc )
+        {
+            AppLogService.error( "Invalid page_id parameter: {}", ( ) -> SecurityUtil.logForgingProtect( String.valueOf( strIdPage ) ) );
+            throw new PageNotFoundException( );
+        }
 
         boolean bPageExist = PageHome.checkPageExist( nIdPage );
 

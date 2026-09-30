@@ -129,6 +129,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final int BLOCK_SEARCH = 1;
     private static final int BLOCK_PROPERTY = 2;
     private static final int BLOCK_CHILDPAGE = 5;
+    private static final int BLOCK_PORTLETS = 6;
 
     // Templates
     private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.html";
@@ -136,6 +137,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH = "admin/site/admin_page_block_search.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY = "admin/site/admin_page_block_property.html";
     private static final String TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE = "admin/site/admin_page_block_childpage.html";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PORTLETS = "admin/site/admin_page_block_portlets.html";
 
     // Properties definition
     private static final String PROPERTY_MESSAGE_PAGE_INEXISTENT = "portal.site.admin_page.messagePageInexistent";
@@ -567,6 +569,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
                 break;
 
+            case BLOCK_PORTLETS:
+                model.put( MARK_PAGE_BLOCK, getAdminPageBlockPortlets( page, model, request ) );
+
+                break;
+
             default:
                 model.put( MARK_PAGE_BLOCK, "" );
 
@@ -580,6 +587,28 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Displays the page which contains the management of current page portlets
+     *
+     * @param page
+     *            The page object
+     * @param model
+     *            The model
+     * @param request
+     *            The request
+     * @return The management page of portlets
+     */
+    private String getAdminPageBlockPortlets(Page page, Map<String, Object> model, HttpServletRequest request) {
+        Page pageWithPortlets = PageHome.findByPrimaryKey( page.getId( ) );
+        model.put( MARK_PAGE, pageWithPortlets );
+        model.put( "portlets_list", pageWithPortlets.getPortlets( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_PAGE_BLOCK_PORTLETS ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_PORTLETS, getLocale( ), model );
+
+        return template.getHtml( );
     }
 
     /**

@@ -18,13 +18,14 @@
 }
 
 .border-default {
-border-color: #E2E2E2 !important;
+	border-color: var( --lutece-ds-border-default-color ) !important;
 }
 
 /* overlay */
 .overlay {
 	position: relative;
 }
+
 .overlay::before {
 	position: absolute;
 	content: "";
@@ -60,15 +61,6 @@ border-color: #E2E2E2 !important;
 .no-shadow {
 	box-shadow: none !important;
 }
-
-.vh-50{ 
-	height:50vh; 
-}
-
-.vh-80{ 
-	height:80vh; 
-}
-
 
 @media (prefers-reduced-motion) {
 	*, *::before, *::after {

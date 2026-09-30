@@ -1,6 +1,6 @@
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="themes/admin/shared/js/editors/tinymce6/tinymce.min.js"></script>
-<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"pagelinkservice","library"' selector='.richtext' config={}>
 <#assign editorLocale='fr_FR' />
 <#assign themeEditorConfig={}>
 <#assign themeEditorExtraConfig=''>
@@ -9,7 +9,7 @@
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
 <#-- Force it here because if it is a wrong value, tinyMCE does not load -->
 <#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")><#assign editorLocale='fr_FR' /></#if>
-<#if cssFiles==""><#local cssFiles="editor.css, page_template_styles.css" /></#if>
+<#if cssFiles==""><#local cssFiles="themes/skin/${commonsGlobalThemeCode}/css/theme.min.css, themes/skin/shared/css/site.css, themes/skin/shared/css/shared.css, css/site.css" /></#if>
 <#local optEditorConfig=.get_optional_template('editor_tinymce_theme.html')>
 <#if optEditorConfig.exists><@optEditorConfig.include /></#if>
 <script src="themes/admin/shared/js/editors/tinymce6/langs/${editorLocale}.js"></script>
@@ -37,16 +37,9 @@ let editorQuickbarMenu = 'quicktable lutece themeiconpicker template',
     
 // Set buttons
 if( luteceInsertServices.length > 0 ){
-	if( luteceInsertServices.includes('library') && autorizedInsertService.includes('library') ){
-    if( luteceInsertServices.includes('image') ){
-			luteceToolbar = ' luteceImage';
-      insertServiceConfigImage = {lutece_insert_service_media_type_image : '#dskey{library.insert_service_media_type_image}', lutece_insert_service_media_type_image_space : '#dskey{library.insert_service_media_type_image_space}'};
-		}	
-		if( luteceInsertServices.includes('pdf') ){
-			luteceToolbar += ' lutecePdf';
-      insertServiceConfigPdf = { lutece_insert_service_media_type_pdf : '#dskey{library.insert_service_media_type_pdf}',  lutece_insert_service_media_type_pdf_space : '#dskey{library.insert_service_media_type_pdf_space}' };
-		}	
-	}
+	<#-- Check if plugin library insert service template exists -->
+	<#local optLibraryInsertService=.get_optional_template('admin/plugins/library/editor_insert_service.html')>
+	<#if optLibraryInsertService.exists><@optLibraryInsertService.include /></#if>
 
 	if( luteceInsertServices.includes('pagelinkservice') && autorizedInsertService.includes('pagelinkservice') ){
 		luteceToolbar += ' lutecePageLink';
@@ -105,7 +98,7 @@ let editorConfig = {
   quickbars_selection_toolbar: selectionToolbar,
   block_formats: 'Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5',
   language: '${editorLocale}',
-  document_base_url : '${webapp_url}',
+  document_base_url : '${webapp_url}' || document.baseURI,
   color_map: colorMap,
   image_caption: true,
   image_advtab: true,
@@ -127,8 +120,7 @@ let editorConfig = {
 document.addEventListener( "DOMContentLoaded", function() {
   	const tinyInst = tinymce.init( editorConfig );
     tinyInst.then( (ti) => {
-      // TODO : Add a way to set the theme in the editor
-      ti[0].contentDocument.body.dataset.bsTheme = 'light';
+      ti.forEach( ( editor ) => { editor.contentDocument.body.dataset.bsTheme = 'light'; } );
     });
 })
 </script>

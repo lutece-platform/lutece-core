@@ -37,15 +37,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
+import java.net.URLDecoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.file.File;
@@ -219,13 +216,8 @@ public class FileServiceTest extends LuteceTestCase
             String strUrl = _fileServiceProvider.getFileDownloadUrlBO( strFileId, data );
             assertNotNull( strUrl );
 
-            List<NameValuePair> params = URLEncodedUtils.parse( strUrl, Charset.forName( "UTF-8" ) );
-
             MockHttpServletRequest request = new MockHttpServletRequest( );
-            for ( NameValuePair param : params )
-            {
-                request.addParameter( param.getName( ), param.getValue( ) );
-            }
+            addUrlParameters( request, strUrl );
 
             // add mock BO authentication
             registerAdminUserAdmin( request );
@@ -265,13 +257,8 @@ public class FileServiceTest extends LuteceTestCase
             String strUrl = _fileServiceProvider.getFileDownloadUrlFO( strFileId, data );
             assertNotNull( strUrl );
 
-            List<NameValuePair> params = URLEncodedUtils.parse( strUrl, Charset.forName( "UTF-8" ) );
-
             MockHttpServletRequest request = new MockHttpServletRequest( );
-            for ( NameValuePair param : params )
-            {
-                request.addParameter( param.getName( ), param.getValue( ) );
-            }
+            addUrlParameters( request, strUrl );
 
             // no authentication
 
@@ -291,6 +278,68 @@ public class FileServiceTest extends LuteceTestCase
      * 
      * @return a file
      */
+    /**
+     * Adds to the request the parameters of a download URL, the way
+     * URLEncodedUtils.parse( strUrl, UTF-8 ) used to before that class was dropped along with
+     * the httpclient dependency it came from.
+     *
+     * <p>
+     * The parsing looks odd because the string is not a query string : it is a whole URL, whose
+     * parameters UrlItem.getUrlWithEntity joins with the numeric entity <code>&amp;#38;</code>.
+     * Splitting it on both <code>&amp;</code> and <code>;</code>, the two separators
+     * URLEncodedUtils defaulted to, therefore yields three tokens for
+     * <code>&lt;url&gt;?provider=X&amp;#38;data=Y</code> : a first name carrying the path, a stray
+     * <code>#38</code>, and <code>data=Y</code>. Only the last one matters, the code under test
+     * reading everything it needs from the encrypted <code>data</code>. Splitting on
+     * <code>&amp;</code> alone would leave <code>#38;data</code> as the name and the test would
+     * fail.
+     * </p>
+     *
+     * @param request
+     *            The request to fill
+     * @param strUrl
+     *            The download URL
+     */
+    private static void addUrlParameters( MockHttpServletRequest request, String strUrl )
+    {
+        for ( String strToken : strUrl.split( "[&;]" ) )
+        {
+            if ( strToken.isEmpty( ) )
+            {
+                continue;
+            }
+
+            int nEquals = strToken.indexOf( '=' );
+
+            if ( nEquals < 0 )
+            {
+                // a token without '=' had a null value, which the request would reject
+                continue;
+            }
+
+            request.addParameter( decode( strToken.substring( 0, nEquals ) ), decode( strToken.substring( nEquals + 1 ) ) );
+        }
+    }
+
+    /**
+     * URL decodes a parameter name or value in UTF-8.
+     *
+     * @param strValue
+     *            The value to decode
+     * @return The decoded value
+     */
+    private static String decode( String strValue )
+    {
+        try
+        {
+            return URLDecoder.decode( strValue, "UTF-8" );
+        }
+        catch( UnsupportedEncodingException e )
+        {
+            throw new IllegalStateException( e );
+        }
+    }
+
     private File getOneLuteceFile( ) throws UnsupportedEncodingException
     {
         File file = new File( );

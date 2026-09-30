@@ -15,6 +15,8 @@ Parameters:
 Showcase:
 - desc: Ancre - @cAnchor
 - newFeature: false
+- updatedFeature: true
+- deprecated: false
 
 Snippet:
 

@@ -13,9 +13,10 @@ Parameters:
 - params (string, optional): Additional HTML attributes for the image element. Default: ''.
 
 Showcase:
-- desc: Image - @cImg
+- desc: 'Image - @cImg'
 - bs: content/images
 - newFeature: false
+- updatedFeature: true
 
 Snippet:
 

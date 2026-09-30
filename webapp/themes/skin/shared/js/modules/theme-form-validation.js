@@ -12,7 +12,7 @@ const FormValidation = (function() {
         validClass: 'is-valid',
         errorFeedbackClass: 'invalid-feedback',
         helpClass: 'form-text',
-        errorIconSvg: '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>',
+        errorIconSvg: '',
         messages: {
             required: 'This field is required.',
             email: 'Please enter a valid email address.',
@@ -54,6 +54,12 @@ const FormValidation = (function() {
     // Store for custom validators
     const customValidators = new Map();
 
+    // Set while a pointer is pressed on a submit control (site-deontologie override).
+    // A blur triggered by that press must not re-validate the field: adding or removing
+    // the error message shifts the layout under the pointer and the click can miss the
+    // button, forcing the user to click twice. The submit handler validates everything anyway.
+    let submitControlPressed = false;
+
     /**
      * Initialize validation on a form or container
      * @param {string|HTMLElement} selector - Form selector or element
@@ -86,6 +92,11 @@ const FormValidation = (function() {
                 }
             });
 
+            // Track presses on submit controls (see submitControlPressed)
+            container.addEventListener('pointerdown', handlePointerDown, true);
+            container.addEventListener('pointerup', handlePointerUp, true);
+            container.addEventListener('pointercancel', handlePointerUp, true);
+
             // Handle form submission
             if (container.tagName === 'FORM') {
                 container.addEventListener('submit', handleSubmit);
@@ -114,7 +125,36 @@ const FormValidation = (function() {
      */
     function handleBlur(event) {
         const input = event.target;
+        if (submitControlPressed) {
+            return; // the pending submit will validate the whole form
+        }
         validateField(input);
+    }
+
+    /**
+     * Whether an element is (inside) a control that submits the form
+     * @param {EventTarget} target
+     * @returns {boolean}
+     */
+    function isSubmitControl(target) {
+        if (!target || typeof target.closest !== 'function') return false;
+        const control = target.closest('button, input[type="submit"], input[type="image"]');
+        if (!control) return false;
+        if (control.tagName === 'BUTTON') {
+            return (control.getAttribute('type') || 'submit').toLowerCase() === 'submit';
+        }
+        return true;
+    }
+
+    function handlePointerDown(event) {
+        if (isSubmitControl(event.target)) {
+            submitControlPressed = true;
+        }
+    }
+
+    function handlePointerUp() {
+        // Let the click and the resulting submit event fire before re-enabling blur validation
+        setTimeout(() => { submitControlPressed = false; }, 0);
     }
 
     /**
@@ -140,6 +180,12 @@ const FormValidation = (function() {
      */
     function handleChange(event) {
         const input = event.target;
+        // A file input firing "change" with an empty list means the asynchronous upload script
+        // already took the files (or the picker was cancelled): validating now would wrongly
+        // flag a required field while the upload is in flight. The sync afterwards re-triggers "input".
+        if (input.type === 'file' && (!input.files || input.files.length === 0)) {
+            return;
+        }
         validateField(input);
     }
 
@@ -149,6 +195,10 @@ const FormValidation = (function() {
      */
     function handleSubmit(event) {
         const form = event.target;
+
+        if( event.submitter && event.submitter.hasAttribute('formnovalidate') ) {
+            return; // Skip validation if submitter has formnovalidate
+        }
         const inputs = getValidatableInputs(form);
         let isFormValid = true;
         let firstInvalidField = null;
@@ -189,8 +239,9 @@ const FormValidation = (function() {
             return false;
         } else {
             clearError(input);
-            // Only set valid class if field has a value or is not required
-            if (input.value || !isRequired(input)) {
+            // Only set valid class if field has a non-empty value; otherwise stay neutral.
+            // (Required-but-empty is already caught above by getValidationState as invalid.)
+            if (!isEmpty(getInputValue(input), input)) {
                 setValid(input);
             }
             return true;
@@ -203,6 +254,10 @@ const FormValidation = (function() {
      * @returns {Object} { isValid: boolean, message: string }
      */
     function getValidationState(input) {
+        const dsControl = input.closest('[displaycontrol]');
+        if( dsControl && dsControl.style.display === 'none' ) {
+            return { isValid: true, message: '' };
+        }
         const value = getInputValue(input);
         const type = input.type;
         const tagName = input.tagName.toLowerCase();
@@ -374,9 +429,29 @@ const FormValidation = (function() {
         if (value === null || value === undefined) return true;
         if (typeof value === 'string') return value.trim() === '';
         if (Array.isArray(value)) return value.length === 0;
-        if (value instanceof FileList) return value.length === 0;
+        if (value instanceof FileList) return value.length === 0 && !hasAsyncUploadedFiles(input);
         if (input.type === 'checkbox') return !input.checked;
         return false;
+    }
+
+    /**
+     * Check whether a file input already has files uploaded through the
+     * asynchronous upload plugin. Uppy hands the file to the server and
+     * then clears the input, so input.files is empty even though a file
+     * is attached to the field (LUTECE site-deontologie override).
+     * @param {HTMLElement} input
+     * @returns {boolean}
+     */
+    function hasAsyncUploadedFiles(input) {
+        if (input.type !== 'file') return false;
+        const uploaded = parseInt(input.dataset.nbuploadedfiles, 10);
+        if (!isNaN(uploaded) && uploaded > 0) return true; // kept in sync by the asynchronous upload script
+        // Fallback: items listed in a visible files list (a hidden list may keep stale items)
+        const list = document.getElementById('_file_deletion_' + input.name)
+            || document.getElementById('_file_deletion_' + input.id);
+        if (!list || list.querySelectorAll('li').length === 0) return false;
+        const wrapper = list.closest('.form-files-group');
+        return !wrapper || getComputedStyle(wrapper).display !== 'none';
     }
 
     /**
@@ -539,6 +614,11 @@ const FormValidation = (function() {
             if (container.classList.contains('was-validated')) {
                 container.classList.remove('was-validated');
             }
+            // File inputs live inside a wrapper: the .invalid-feedback is a sibling of the
+            // wrapper, not of the input, so the wrapper must carry the error class too.
+            if (input.type === 'file' && container !== input) {
+                container.classList.add(config.errorClass);
+            }
         }
 
         // Also add error class to label if exists
@@ -574,6 +654,9 @@ const FormValidation = (function() {
         if (container) {
             // Add class "was-validated"
             container.classList.add('was-validated')
+            if (input.type === 'file' && container !== input) {
+                container.classList.remove(config.errorClass);
+            }
         }
         // Remove error message element
         const errorId = 'error_' + (input.id || input.name);
@@ -607,6 +690,11 @@ const FormValidation = (function() {
                 const legend = fieldset.querySelector('legend');
                 if (legend) {
                     legend.classList.remove(config.errorClass);
+                }
+            } else {
+                const formCheck = input.closest('.form-check');
+                if (formCheck) {
+                   formCheck.classList.remove(config.errorClass);
                 }
             }
         }
@@ -645,6 +733,23 @@ const FormValidation = (function() {
                     }
                     return legend;
                 }
+            } else if (input.type === 'checkbox' || input.type === 'radio') {
+                const formCheck = input.closest('.form-check');
+                if (formCheck) {
+                   return formCheck;
+                }
+            }
+
+            // Standalone checkbox/radio (e.g. terms of service): no fieldset wrapper.
+            // Insert the error after the whole .form-check so it sits below the
+            // control instead of between the input and its label.
+            const formCheck = input.closest('.form-check');
+            if (formCheck) {
+                const helpText = formCheck.nextElementSibling;
+                if (helpText && helpText.classList.contains(config.helpClass)) {
+                    return helpText;
+                }
+                return formCheck;
             }
         }
 

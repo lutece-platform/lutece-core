@@ -30,10 +30,10 @@ Snippet:
 <#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local linkLabelUrl>${linkLabelUrl}</#local>
-<@cContainer class='d-flex align-items-center justify-content-center vh-50'>
+<@cContainer class='d-flex align-items-center justify-content-center vh-100'>
   <@cRow>
     <@cCol class=class! id=id params=params >
-      <@cAlert title=title type='danger'>
+      <@cAlert title=title type='danger' class='d-block'>
         <#if title?trim != text?trim><@cText>${text}</@cText></#if>
         <#nested>
       </@cAlert>

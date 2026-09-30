@@ -40,9 +40,7 @@ Snippet:
 <#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id}<#else>msg-${random()!}</#if></#local>
-<#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
-<#if errorMsg!=''><@cFormError cId errorMsg /></#if>
-<div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}"> 
+<div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}">
 	<div class="tags-container mt-s"></div>
     <div class="dropdown">
         <button class="form-select multi-select <#if disabled>disabled</#if>" type="button" id='btn-${cId}' data-bs-toggle="dropdown" aria-expanded="false"<#if disabled> disabled</#if> params=${params}>
@@ -53,4 +51,6 @@ Snippet:
         </ul>
     </div>
 </div>
+<#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
+<#if errorMsg!=''><@cFormError cId errorMsg /></#if>
 </#macro>

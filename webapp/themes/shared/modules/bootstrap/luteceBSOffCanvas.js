@@ -195,17 +195,18 @@ export default class LuteceBSOffCanvas {
             script.textContent = `
                 const keepPageHeader = ${keepPageHeader};
                 function performCleanup() {
-                    // Remove header element
-                    const header = document.querySelector('header');
-                    if (header) header.remove();
+                    const removeAll = selector => document.querySelectorAll(selector).forEach(el => el.remove());
 
-                    // Remove footer element
-                    const footer = document.querySelector('footer');
-                    if (footer) footer.remove();
+                    // Remove skip links, header(s), footer(s) and the BO vertical sidebar (Tabler <aside>)
+                    document.querySelectorAll('.skip-links').forEach(el => (el.closest('nav') || el).remove());
+                    removeAll('header, footer, aside.navbar');
 
-                    // Remove top nav
-                    const pageNav = document.querySelector('header.navbar-expand-md');
-                    if (pageNav) pageNav.remove();
+                    // Remove the BO menus : horizontal menu row (div.navbar-expand-md, may be wrapped in .sticky-top),
+                    // condensed menu (#navbar-menu) and vertical menu (#sidebar-menu)
+                    removeAll('.page > .sticky-top, .page > .navbar-expand-md, #navbar-menu, #sidebar-menu');
+
+                    // Tabler BO layout : the page content lives in .page-wrapper, everything else under .page is chrome
+                    document.querySelectorAll('.page > :not(.page-wrapper):not(script)').forEach(el => el.remove());
 
                     if (!keepPageHeader) {
                         // Remove page header elements

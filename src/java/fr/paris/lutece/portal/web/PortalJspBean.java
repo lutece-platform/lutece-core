@@ -101,6 +101,10 @@ public class PortalJspBean
     private static final String TEMPLATE_EMAIL_SEND_RESOURCE = "skin/site/mail_send_resource.html";
     private static final String PROPERTY_INFOS_CNIL = "lutece.legal.infos";
     private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
+    // Maximum length (in characters) of a request parameter value kept in the login next url stored in session.
+    // Parameters whose value is longer are excluded to bound the next url size (avoids bloated sessions and 414 URI Too Long on redirect).
+    private static final String PROPERTY_LOGIN_NEXT_URL_PARAM_MAX_LENGTH = "lutece.security.loginNextUrl.paramMaxLength";
+    private static final int DEFAULT_LOGIN_NEXT_URL_PARAM_MAX_LENGTH = 255;
     private static final String ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL = "uploadFilterSiteNextUrl";
     private static final String MARK_PORTAL_DOMAIN = "portal_domain";
     private static final String MARK_ADDRESS_INFOS_CNIL = "confidentiality_info";
@@ -429,14 +433,26 @@ public class PortalJspBean
         String strNextUrl = request.getRequestURI( );
         UrlItem url = new UrlItem( strNextUrl );
         Enumeration<String> enumParams = request.getParameterNames( );
+        int nParamMaxLength = AppPropertiesService.getPropertyInt( PROPERTY_LOGIN_NEXT_URL_PARAM_MAX_LENGTH,
+                DEFAULT_LOGIN_NEXT_URL_PARAM_MAX_LENGTH );
 
         while ( enumParams.hasMoreElements( ) )
         {
             String strParamName = enumParams.nextElement( );
+            String strParamValue = request.getParameter( strParamName );
+
+            // Exclude oversized parameter values to bound the next url stored in session
+            // ( prevents session bloat and 414 URI Too Long when the next url is replayed as a GET redirect ).
+            if ( ( strParamValue != null ) && ( strParamValue.length( ) > nParamMaxLength ) )
+            {
+                AppLogService.info( "Login next url : parameter '{}' excluded ( value length {} exceeds {} )", strParamName,
+                        strParamValue.length( ), nParamMaxLength );
+                continue;
+            }
 
             try
             {
-                url.addParameter( strParamName, URLEncoder.encode( request.getParameter( strParamName ), "UTF-8" ) );
+                url.addParameter( strParamName, URLEncoder.encode( strParamValue, "UTF-8" ) );
             }
             catch( UnsupportedEncodingException ex )
             {

@@ -85,7 +85,10 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
         if ( strValue == null )
         {
             strValue = _dao.load( strUserId, strKey, strDefault );
-            _cache.put( strCacheKey, strValue );
+            if ( strValue != null )
+            {
+                _cache.put( strCacheKey, strValue );
+            }
         }
 
         return strValue;

@@ -1,49 +1,34 @@
 /* ****************************************************************
  *
- * BS 5.1 + Tabler 1.4
+ * Tabler 1.5 (Bootstrap 5.3 included)
  *
  * ****************************************************************/
+/* Tabler 1.5 bundles Bootstrap and exposes its components under window.tabler (tabler.Modal, tabler.Tooltip...).
+   Alias the historical window.bootstrap namespace so templates and plugins written against bootstrap.* keep working. */
+if( typeof window.bootstrap === 'undefined' && typeof window.tabler !== 'undefined' ){
+	window.bootstrap = window.tabler.bootstrap || window.tabler;
+}
 const themeRoot = document.querySelector('html'); 
 
 /* Specific script for back office */
-function switchThemeMode( mode ){
-	const themeSwitchers = document.querySelectorAll('.hide-theme-dark,.hide-theme-light'); 
-	themeRoot.dataset.bsTheme = mode;
-	
+
+/* Wire up the theme mode (dark/light) switchers. Restoring the stored value is handled by themeMenu() */
+function themeMode( ){
+	const themeSwitchers = document.querySelectorAll('.hide-theme-dark,.hide-theme-light');
 	themeSwitchers.forEach( (iconSwitch) => {
-        iconSwitch.addEventListener('click', (e) => {
-            e.preventDefault();
-            if( e.currentTarget.classList.contains('hide-theme-dark') ){
-                themeRoot.dataset.bsTheme = 'dark';
-            } else {
-                themeRoot.dataset.bsTheme = 'light'; 
-            }
-            localStorage.setItem( 'lutece-tabler-theme', themeRoot.dataset.bsTheme )
-			
-        });
+		iconSwitch.addEventListener('click', (e) => {
+			e.preventDefault();
+			const mode = e.currentTarget.classList.contains('hide-theme-dark') ? 'dark' : 'light';
+			themeRoot.dataset.bsTheme = mode;
+			localStorage.setItem( 'lutece-tabler-theme', mode )
+		});
 		iconSwitch.addEventListener( 'keydown', ( keyboardEvent ) => {
-			switch (keyboardEvent.key) {
-				case 'Enter':
-					keyboardEvent.preventDefault();
-					currentTheme = localStorage.getItem( 'lutece-tabler-theme' )
-					switchThemeMode( currentTheme )
-					break;
+			if( keyboardEvent.key === 'Enter' ){
+				keyboardEvent.preventDefault();
+				iconSwitch.click();
 			}
 		})
-    });
-	
-}
-
-function themeMode( ){
-    let luteceTablerTheme =localStorage.getItem('lutece-tabler-theme')
-		
-	if( luteceTablerTheme === null ){
-		luteceTablerTheme = 'light';
-		localStorage.setItem( 'lutece-tabler-theme', luteceTablerTheme )
-	} 
-	
-    switchThemeMode( luteceTablerTheme )
-	
+	});
 }
 
 /* Extract user initials from full name */
@@ -70,10 +55,36 @@ function getUserInitials(fullName) {
 }
 
 function themeMenu( ){
-    const mainMenu = document.getElementById('main-menu');
+	// Single source of truth for restoring user stored preferences on load.
+	// Theme mode : default to light — the dark/light icons are CSS-driven from data-bs-theme on <html>
+	let storedTheme = localStorage.getItem( 'lutece-tabler-theme' );
+    if( storedTheme === null ){
+		storedTheme = 'light';
+		localStorage.setItem( 'lutece-tabler-theme', storedTheme )
+	}
+	themeRoot.dataset.bsTheme = storedTheme;
+	// Read direction : the user toggle persists in localStorage and applies to <html> (also done pre-paint by the head
+	// script); the server-rendered global readmode applies to <body>. Re-apply for safety, then sync the toggle icon.
+	if( localStorage.getItem( 'lutece-bo-readmode' ) === 'rtl' ){
+		themeRoot.setAttribute( 'dir', 'rtl' );
+	}
+	if( themeRoot.getAttribute('dir') === 'rtl' || document.body.getAttribute('dir') === 'rtl' ){
+		const readModeBtn = document.querySelector( '#lutece-rtl .ti' );
+        const userDropdownMenu = document.querySelector( '.dropdown-menu-arrow' );
+		if( readModeBtn != null ){
+            if( userDropdownMenu != null ){
+                userDropdownMenu.classList.add( 'dropdown-menu-start' );
+                userDropdownMenu.classList.remove( 'dropdown-menu-end' );
+            }
+			readModeBtn.classList.remove( 'ti-text-direction-rtl' );
+			readModeBtn.classList.add( 'ti-text-direction-ltr' );
+		}
+	}
+
+	const mainMenu = document.getElementById('main-menu');
 	if( mainMenu != null ){
-		const mainNav = document.getElementById('main-nav');
-		const userMenu = mainNav.querySelector('.user-initials');
+		// The avatar lives in #main-nav (horizontal navbar) or in the sidebar .navbar-footer (vertical navbar)
+		const userMenu = document.querySelector('.user-initials');
 		const userName = userMenu != null ? userMenu.dataset.username : '';
 
 		// Set the main menu as active
@@ -111,28 +122,94 @@ function setSkipLinks( ){
 	}
 }
 
+/* Wire up the read direction (rtl/ltr) toggle. Restoring the stored value is handled by themeMenu() */
 function readMode( ){
-	let defaultReadMode = themeRoot.getAttribute('dir')
-	if( defaultReadMode != null ){ 
-		const localReadMode =  localStorage.getItem( 'lutece-bo-readmode' );
-		if( localReadMode != null ){ 
-			themeRoot.setAttribute('dir', localReadMode )
-		} else if( defaultReadMode != null ) {
-			themeRoot.setAttribute('dir',defaultReadMode)
-		} else {
-			themeRoot.removeAttribute('dir')
-		}
+	const switchReadMode =  document.querySelector( '.navbar #lutece-rtl');
+    const userDropdownMenu = document.querySelector( '.dropdown-menu-arrow' );
+	// Single source of truth for restoring user stored preferences on load.
+	if( switchReadMode != null ){
+		switchReadMode.addEventListener( "click", function(e){
+			const readModeBtn = switchReadMode.querySelector('.ti');
+			if( themeRoot.getAttribute('dir') === 'rtl' ){
+                if( userDropdownMenu != null ){
+                    userDropdownMenu.classList.remove( 'dropdown-menu-start' );
+                    userDropdownMenu.classList.add( 'dropdown-menu-end' );
+                }
+				themeRoot.removeAttribute('dir')
+				localStorage.removeItem( 'lutece-bo-readmode' );
+			} else {
+				themeRoot.setAttribute('dir','rtl')
+                if( userDropdownMenu != null ){
+                    userDropdownMenu.classList.remove( 'dropdown-menu-end' );
+                    userDropdownMenu.classList.add( 'dropdown-menu-start' );                   
+                }
+				localStorage.setItem( 'lutece-bo-readmode', 'rtl' );
+			}
+			readModeBtn.classList.toggle('ti-text-direction-rtl')
+			readModeBtn.classList.toggle('ti-text-direction-ltr')
+		})
+	}
+}
+
+/* Carry the non-sensitive UI preferences (theme mode, read direction) through logout.
+   The logout Clear-Site-Data header wipes localStorage, so we pass the stored values as query
+   params; AdminHeaderSessionLess.jsp re-seeds them on the landing page after the wipe. */
+function wireLogout( ){
+	const logoutLink = document.getElementById( 'lutece-admin-logout' );
+	if( logoutLink != null ){
+		logoutLink.addEventListener( 'click', ( e ) => {
+			e.preventDefault();
+			const url = new URL( logoutLink.href, window.location.href );
+			const theme = localStorage.getItem( 'lutece-tabler-theme' );
+			if( theme !== null ){
+				url.searchParams.set( 'lutece-tabler-theme', theme );
+			}
+			if( localStorage.getItem( 'lutece-bo-readmode' ) === 'rtl' ){
+				url.searchParams.set( 'lutece-bo-readmode', 'rtl' );
+			}
+			const sidebar = localStorage.getItem( 'tabler-sidebar' );
+			if( sidebar !== null ){
+				url.searchParams.set( 'tabler-sidebar', sidebar );
+			}
+			const go = () => window.location.assign( url.toString() );
+			// Persist the admin home dashboard widget layout to core_admin_user_preferences so it
+			// survives the logout Clear-Site-Data wipe and follows the user across environments.
+			// The key mirrors storageKey() in dashboard-widgets.js : the layout is stored per admin
+			// user (suffixed with the access code) so a shared computer keeps each user's layout apart.
+			const accessCode = ( window.LuteceAdminUser && window.LuteceAdminUser.accessCode )
+				? String( window.LuteceAdminUser.accessCode ).trim() : '';
+			const widgetsKey = accessCode
+				? ( 'lutece.admin.dashboard.widgets.v1.' + accessCode )
+				: 'lutece.admin.dashboard.widgets.v1';
+			const widgets = localStorage.getItem( widgetsKey );
+			if( widgets !== null ){
+				let navigated = false;
+				const once = () => { if( !navigated ){ navigated = true; go(); } };
+				// Save while still authenticated (before logout invalidates the session), then navigate on
+				// completion. A 1s fallback guarantees logout is never blocked if the request stalls.
+				setTimeout( once, 1000 );
+				fetch( 'servlet/plugins/core/dashboard/widgetsPreferences', {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/json' },
+					body: widgets,
+					keepalive: true
+				} ).catch( () => {} ).finally( once );
+			} else {
+				go();
+			}
+		});
 	}
 }
 
 /* Pretty print file size */
 function prettySize( bytes, separator=' ', postFix=''){
-if (bytes) {
-	const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
-	const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
-	return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
-}
-return 'n/a';
+	if (bytes) {
+		const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
+		const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
+		return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
+	}
+	return 'n/a';
 }
 
 /* Manage progress bar  */
@@ -147,15 +224,22 @@ document.addEventListener( "DOMContentLoaded", function(){
     themeMenu();
     themeMode();
     readMode();
+	wireLogout( );
 	setSkipLinks( )
 
+	// tabler.js instantiates every [data-bs-toggle="popover"] at load with its own options : replace those instances
+	// with the Lutece ones (unsanitized HTML content, body container), Bootstrap refuses two instances on one element.
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		const existing = bootstrap.Popover.getInstance( popoverTriggerEl );
+		if( existing != null ){
+			existing.dispose();
+		}
 		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})
 	})
 
 	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => bootstrap.Tooltip.getOrCreateInstance(tooltipTriggerEl))
 
 	const tgCheck = document.querySelectorAll('.toggleCheck')
 	tgCheck.forEach( (tg) => {
@@ -182,7 +266,6 @@ document.addEventListener( "DOMContentLoaded", function(){
 		el.setAttribute( 'data-bs-target', el.getAttribute('data-target') );
 	});
 
-	
-		themeRoot.classList.remove( 'loading' )
-		themeRoot.classList.add( 'loaded' )
+	themeRoot.classList.remove( 'loading' )
+	themeRoot.classList.add( 'loaded' )
 })

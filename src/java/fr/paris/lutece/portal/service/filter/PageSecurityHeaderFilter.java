@@ -213,7 +213,7 @@ public class PageSecurityHeaderFilter implements Filter
      */
     private String getRequestedUrl( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );
+        return AppPathService.getBaseUrl( request ) + AppPathService.getRequestedPath( request );
     }
     
     /**

@@ -170,9 +170,6 @@ function initAccessibleTooltips() {
     }
   });
 }
-
-// Tooltip init
-initAccessibleTooltips();
  
 function initAccessiblePopovers() {
   document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(trigger) {
@@ -207,5 +204,11 @@ function initAccessiblePopovers() {
   });
 }
 
-// Popover init
-initAccessiblePopovers();
+
+document.addEventListener('DOMContentLoaded', function(e) {
+  // Popover init
+  initAccessiblePopovers();
+
+  // Tooltip init
+  initAccessibleTooltips();
+});

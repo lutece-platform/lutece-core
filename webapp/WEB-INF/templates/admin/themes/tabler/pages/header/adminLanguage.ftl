@@ -20,16 +20,18 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#list languages?filter( language -> language.code == lang ) as language>
 <div class="dropdown-item justify-content-center">
-	<span title="#i18n{portal.admin.admin_home.language} ${language.name!}" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
-		<div style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg');background-size:contain;background-position:center;height:25px;width:25px;border-radius:25px"></div>
+	<span class="position-relative" title="#i18n{portal.admin.admin_home.language} ${language.name!}" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
+		<div style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg');background-size:contain;background-position:center;height:32px;width:32px;border-radius:32px"></div>
+		<span class="badge bg-success text-white rounded-circle p-1 position-absolute top-0 start-100 translate-middle">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l5 5l10 -10" /></svg>
+		</span>
 	</span>
 </div>	
 </#list>
 <#list languages?filter( language -> language.code != lang ) as language>
 <div class="dropdown-item justify-content-center">
-	<a href="${action}?token=${token}&language=${language.code}" class="nav-link" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
+	<a href="${action}?token=${token}&language=${language.code}" title="#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}" class="nav-link" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
 		<div style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position:center;height:25px;width:25px;border-radius:25px"></div>
-		<span class="visually-hidden">#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}</span>
 	</a>
 </div>
 </#list>

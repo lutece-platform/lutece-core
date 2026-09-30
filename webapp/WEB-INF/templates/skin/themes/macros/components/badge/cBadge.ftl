@@ -15,6 +15,8 @@ Showcase:
 - desc: Badge - @cBadge
 - bs: components/badge
 - newFeature: false
+- updatedFeature: true
+- deprecated: false
 
 Snippet:
 

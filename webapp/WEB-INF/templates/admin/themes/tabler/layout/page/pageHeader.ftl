@@ -35,7 +35,7 @@ Snippet:
 -->
 <#macro pageHeader id='' title='' titleClass='mb-1' description='' breadcrumb='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader>flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
+<div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader> flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
 	<div class="col-12<#if class !=''> ${class}</#if>">
 		<div class="page-pretitle"></div>
 		<#if breadcrumb?exists>${breadcrumb}</#if>

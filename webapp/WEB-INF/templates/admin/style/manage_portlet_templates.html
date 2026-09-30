@@ -1,0 +1,83 @@
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{portal.style.manage_portlet_templates.pageTitle}'>
+			<@tform method='post' type='inline'>
+				<@formGroup labelFor='search_portlet_template' labelKey='#i18n{portal.util.labelSearch}' hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@input type='text' name='search_portlet_template' id='search_portlet_template' placeHolder='#i18n{portal.style.manage_portlet_templates.placeholderSearch}' params='autocomplete="off" addons' />
+						<@button color='primary' title='#i18n{portal.util.labelSearch}' buttonIcon='search' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+			<@tform method='get' name='filter_portlet_templates' action='jsp/admin/style/ManagePortletTemplates.jsp' type='inline'>
+				<@input type='hidden' name='view' value='managePortletTemplates' />
+				<@formGroup labelFor='portlet_type_id' labelKey='#i18n{portal.style.manage_portlet_templates.labelFilterPortletType}' hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@select name='portlet_type_id' id='portlet_type_id' items=portlet_type_filter_list default_value='${current_portlet_type!}' empty=false title='#i18n{portal.style.manage_portlet_templates.labelFilterPortletType}' params='addons' />
+						<@button type='submit' color='primary' title='#i18n{portal.util.labelFilter}' buttonIcon='filter' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+			<#if permission_create!false>
+			<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp?view=createPortletTemplate' buttonIcon='plus' title='#i18n{portal.style.manage_portlet_templates.buttonAdd}' color='primary' />
+			</#if>
+		</@pageHeader>
+		<@messages infos=infos![] errors=errors![] warnings=warnings![] />
+		<#if template_list?has_content>
+			<@manageFeature>
+				<#list template_list as template>
+				<@manageFeatureItem class='portlet-template-item' params='data-portlet-type="${template.portletTypeId}"'>
+					<@manageFeatureItemColumn class='searchable' flex=false>
+						<@p class='mb-0'>#i18n{portal.style.manage_portlet_templates.columnTitleDescription} : <strong>${template.description!}</strong></@p>
+						<@p class='mb-0' params='title="#i18n{portal.style.manage_portlet_templates.columnTitlePortletType} : ${portlet_type_names[template.portletTypeId]!template.portletTypeId} ( ${template.portletTypeId} )"'>
+							${portlet_type_names[template.portletTypeId]!template.portletTypeId}
+							<@span class='mb-0 text-muted ms-1'><small>( ${template.portletTypeId} )</small></@span>
+						</@p>
+					</@manageFeatureItemColumn>
+					<@manageFeatureItemColumn>
+						<@p class='mb-0'>#i18n{portal.style.manage_portlet_templates.columnTitleTemplatePath} : <code>${template.templatePath!}</code></@p>
+					</@manageFeatureItemColumn>
+					<@manageFeatureItemColumn auto=true align='end'>
+						<#if permissions_modify[template.id?c]!false>
+						<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp?view=modifyPortletTemplate&template_id=${template.id?c}' buttonIcon='edit' title='#i18n{portal.util.labelModify}' hideTitle=['xs'] />
+						</#if>
+						<#if permissions_delete[template.id?c]!false>
+							<#if templates_used[template.id?c]!false>
+								<@span class='d-inline-block' params='tabindex="0" data-bs-toggle="tooltip" title="#i18n{portal.style.manage_portlet_templates.tooltipTemplateUsed}"'>
+									<@aButton href='#' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['xs'] color='danger' class='disabled' disabled=true params='aria-disabled="true" tabindex="-1"' />
+								</@span>
+							<#else>
+						<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp?view=confirmRemovePortletTemplate&template_id=${template.id?c}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['xs'] color='danger' />
+							</#if>
+						</#if>
+					</@manageFeatureItemColumn>
+				</@manageFeatureItem>
+				</#list>
+			</@manageFeature>
+			<@div id="portlet-template-no-result" class="d-none">
+				<@empty title='#i18n{portal.style.manage_portlet_templates.noSearchResult}' iconName='search-off' />
+			</@div>
+			<@paginationAdmin paginator=paginator combo=1 />
+		<#else>
+			<@empty title='#i18n{portal.style.manage_portlet_templates.noTemplate}' iconName='template-off' />
+		</#if>
+	</@pageColumn>
+</@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_portlet_template");
+const searchElementList = document.querySelectorAll(".portlet-template-item");
+const noResult = document.querySelector("#portlet-template-no-result");
+if ( searchInput && searchElementList.length > 0 ) {
+	new LuteceSearchList( searchInput, searchElementList, {
+		searchableChild: [".searchable"],
+		highlight: true,
+		clearButton: true,
+		clearButtonLabel: "#i18n{portal.util.labelReset}",
+		extraSearchFunction: () => {
+			const visible = Array.from( searchElementList ).some( item => item.style.display !== 'none' );
+			if ( noResult ) { noResult.classList.toggle( 'd-none', visible ); }
+		}
+	});
+}
+</script>

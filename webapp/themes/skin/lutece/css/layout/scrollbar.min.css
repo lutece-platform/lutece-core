@@ -1,0 +1,1 @@
+::-webkit-scrollbar{width:var( --lutece-ds-scrollbar-width )}::-webkit-scrollbar-track{border-radius:var( --lutece-ds-scrollbar-radius )}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.186) !important}

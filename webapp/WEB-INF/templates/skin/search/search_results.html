@@ -1,106 +1,333 @@
-<@cContainer class='section'>
-    <@cRow>
-        <@cCol>
-            <@cForm action='jsp/site/Portal.jsp' >
-                <@cInput type='hidden' name='page' value='search' />
-                <@cField label='#i18n{portal.search.search_results.buttonSearch}' for='query' >
-                    <@cInputGroup>
-                        <@cInput name='query' placeholder='Exemple: composant' value='${query!}' />
-                        <@cInputGroupAddon>
-                            <@cBtn label='#i18n{portal.search.search_results.buttonSearch}' nestedPos='after' >
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-                            </@cBtn>
-                        </@cInputGroupAddon>
-                    </@cInputGroup>
-                </@cField>
-                <#if type_filter != "none">
-                    <@cField label='#i18n{portal.search.search_results.typeFilter}' for='type_filter' >
-                        <#-- type_filter -->
-                        <#if type_filter == "option">
-                            <@cSelect name='type_filter'>
-                                <#list list_type_and_link as map>
-                                    <#assign labelOption><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
-                                    <@cOption value=map.type label=labelOption />
-                                </#list>
-                            </@cSelect>
-                        <#else>
+<@cTpl>
+<#-- ============ SEARCH HERO ============ -->
+<@cContainer type='fluid' class='search-header border-bottom border-1 border-light'>
+    <#if results_list?? && results_list?size gt 0>
+        <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' },{ 'title': '#i18n{portal.search.search_results.title}', 'url': 'jsp/site/Portal.jsp?page=search&query=${query!}'}]>
+        <@cBlock class='d-md-flex justify-content-between align-items-center'>
+            <@cBreadCrumb home='Home' items=breadcrumbItems listClass='ms-md-m' />
+            <@cBlock class='result-stats'>
+                <@cInline><@cInline type='strong'>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
+            </@cBlock>
+        </@cBlock>
+    <#else>
+        <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' }]>
+        <@cBreadCrumb home='Home' items=breadcrumbItems />
+    </#if>
+</@cContainer>    
+<@cForm action='jsp/site/Portal.jsp' role='search'>
+<@cSection class='search-hero'>
+  <@cContainer class='search-hero__inner'>
+    <@cInline class='search-hero__kicker'>Recherche globale</@cInline>
+    <@cTitle level=2 class='h1' params='hidden'>Tous les services de votre collectivité, en un seul endroit</@cTitle>
+    <@cText class='search-hero__sub' params='hidden'>Démarches, rendez-vous, documents, actualités, contacts — tapez ce que vous cherchez, nous trouvons le reste.</@cText>
+    <@cBlock class='search-bar'>
+        <@cBlock class='search-box'>
+            <@cInput type='hidden' name='page' value='search' class='' />
+            <svg class="icon-search" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <@cInput type='search' id='q' name='query' value='${query!}' autocomplete='off' placeholder='Démarche, rendez-vous, contact, document…' />
+            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=' aria-label="Effacer"'>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </@cBtn>
+            <@cBtn type='submit' label='#i18n{portal.search.search_results.buttonSearch}' />
+        </@cBlock>
+    </@cBlock>
+  </@cContainer>
+</@cSection>
+<#-- ============ CONTENT ============ -->
+<@cContainer class='search-body'>
+     <@cBlock class='layout'>
+        <#-- ====== FILTERS ====== -->
+            <@cBlock type='aside' class='filter-panel' params='aria-label="Filtres"'>
+                <@cBlock class='filter-panel__head'>
+                    <@cInline>Affiner</@cInline>
+                    <@cBtn type='button' noclass=true class='filter-reset' label='Tout effacer' />
+                </@cBlock>
+                <@cBlock class='filter-group'>
+                  <@cBlock class='filter-group-title'>Type de contenu</@cBlock>
+                    <#if type_filter != "none">
+                    <#-- type_filter -->
+                    <@cLabel for='type_filter' label='#i18n{portal.search.search_results.typeFilter}' />
+                    <#if type_filter == "option">
+                        <@cSelect id='type_filter' name='type_filter'>
                             <#list list_type_and_link as map>
-                                <#if type_filter != "checkbox" || map_index != 0>
-                                    <@cInput type=type_filter name="type_filter" value=map.type />
-                                    <#if map.link?exists && map.link != "">
-                                        <@cLink label='${map.type}' href=map.link!><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></@cLink>
-                                    <#else>
-                                        <#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
-                                    </#if>
-                                </#if>
+                                <#assign optLabel><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                                <@cOption value=map.type! label=optLabel selected=(selected_types![])?seq_contains(map.type) />
                             </#list>
+                        </@cSelect>
+                    <#else>
+                        <#list list_type_and_link as map>
+                            <#if type_filter != "checkbox" || map_index != 0>
+                            <#assign tfLabel><#if map_index != 0>${map.type?lower_case?capitalize}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                            <@cFormCheck type=type_filter! name='type_filter' value=map.type! labelClass='filter-check' checked=(selected_types![])?seq_contains(map.type) label=tfLabel />
+                            </#if>
+                        </#list>
+                    </#if>
+                    </#if>
+                    <#-- default_operator and/or -->
+                    <@cLabel for='default_operator' label='#i18n{portal.search.search_results.operator}' />
+                    <@cSelect id='default_operator' name='default_operator' class='sort-select'>
+                        <#list ["OR","AND"] as operator>
+                            <@cOption value=operator! selected=(operator = default_operator) label='#i18n{portal.search.advanced_parameters.defaultOperator.${operator?upper_case}}' />
+                        </#list>
+                    </@cSelect>
+                </@cBlock>
+                <#if taglist?has_content>
+                <#if tag_filter == "1" && taglist?trim != ''>
+                <@cBlock class='filter-group'>
+                    <@cBlock class='filter-group-title'>Tags</@cBlock>
+                    <#-- tag_filter -->
+                    <#list taglist?split(" ") as tag>
+                        <#if tag?? && tag?trim != ''>
+                            <@cFormCheck type='checkbox' checked=true labelClass='filter-check' label='${tag?lower_case?capitalize}' />
                         </#if>
-                    </@cField>
+                    </#list>
+                </@cBlock>
+                </#if>
                 </#if>
                 <#if date_filter == '1'>
-                    <#-- date_filter 0/1 -->
-                    <@cFieldset legend='#i18n{portal.search.search_results.dateFilter}'>
-                        <@cField label='#i18n{ i18nLabelKey="portal.search.search_results.dateFilterAfter" }' for='date_after'>
-                            <@input name='date_after' />
+                <#-- date_filter 0/1 -->
+                <@cBlock class='filter-group'>
+                  <@cBlock class='filter-group-title'>Mise à jour</@cBlock>
+                    <@cFormCheck type='radio' labelClass='filter-check' id='filter-seven' name='datefilter' value='seven' checked=(selected_datefilter!'') == 'seven' label='7 derniers jours' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-month" name="datefilter" value="month" checked=(selected_datefilter!'') == 'month' label='Ce mois-ci' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-year" name="datefilter" value="year" checked=(selected_datefilter!'') == 'year' label='Cette année' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-all" name="datefilter" value="all" checked=(selected_datefilter!'') == 'all' label='Toutes dates' />
+                    <@cFieldset id='date_filter' legend='#i18n{portal.search.search_results.dateFilter}' >
+                        <@cField label='#i18n{portal.search.search_results.dateFilterAfter}' for='date_after'>
+                            <@cInputDate name='date_after' label='#i18n{portal.search.search_results.dateFilterAfter}' value='${date_after_value!""}' />
                         </@cField>
-                        <@cField label='#i18n{ i18nLabelKey="portal.search.search_results.dateFilterBefore" }' for='date_before'>
-                            <@input name='date_before' />
+                        <@cField label='#i18n{portal.search.search_results.dateFilterBefore}' for='date_before' >
+                            <@cInputDate name='date_before' label='#i18n{portal.search.search_results.dateFilterBefore}' value='${date_before_value!""}' />
                         </@cField>
                     </@cFieldset>
+                </@cBlock>
                 </#if>
-                <#if taglist?has_content>
-                    <#if tag_filter == "1" && taglist?trim != "">
-                        <@cFormRow>
-                            <#-- tag_filter -->
-                            <#list taglist?split(" ") as tag>
-                                <#if tag?exists && tag?trim !="">
-                                    <@cBtn label=tag class='btn btn-outline-action' name='tag_filter' value=tag />
-                                </#if>
-                            </#list>
-                        </@cFormRow>
-                    </#if>
-                </#if>
-            </@cForm>
-        </@cCol>
-    </@cRow>
-    <@cRow>
-        <@cCol class='p-sm-4'>
-            <@cTitle level=2 class='h3'>#i18n{portal.search.search_results.title}</@cTitle>
-            <@cCard>
+          </@cBlock>
+        <@cSection class='results-col'>
+        <#-- Toolbar -->
+            <@cBlock class='toolbar'>
+              <#if query?? && query?trim != ''>
+              <@cBlock class='toolbar__right ms-auto'>
+                <@cBlock type='label' params='style="display:flex;align-items:center;gap:8px;"'>
+                  <@cInline>Trier :</@cInline>
+                  <@cSelect name='sort' class='sort-select' params='aria-label="Trier par"'>
+                    <@cOption value='relevance' label='Pertinence' />
+                    <@cOption value='date' label='Date (récent)' />
+                    <@cOption value='alpha' label='Alphabétique (A → Z)' />
+                    <@cOption value='duration' label='Durée' />
+                  </@cSelect>
+                </@cBlock>
+                <@cBlock class='view-toggle' params='role="group" aria-label="Affichage"'>
+                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="true" aria-label="Vue liste" title="Vue liste" data-view="list"'>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+                  </@cBtn>
+                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="false" aria-label="Vue grille" title="Vue grille" data-view="grid"'>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                  </@cBtn>
+                </@cBlock>
+              </@cBlock>
+              </#if>
+            </@cBlock>
+            <#-- Results -->
+            <@cBlock class='results' id='results'>
                 <#if error?has_content><@cAlert title=error type='danger' /></#if>
                 <#-- included sponsored links if available - might be null -->
                 ${sponsoredlinks_set!}
                 <#if results_list??>
                     <#if results_list?size gt 0>
-                        <@chList class='list-group list-group-flush'>
+                        <@chList>
                         <#list results_list as result>
-                            <#assign imgUrl='' >
-                            <#assign resultHeader='<small>[ ${result.type} ]</small> - ${result.title}' >
-                            <#list result.url?split("=") as x><#assign imgUrl=x ></#list>
-                            <#assign resultUrl = result.url! />
-                            <#assign resultTitle = '[ ${result.type!} ] ${result.title!}' />
-                            <#assign resultDate = '<small class="mx-3">${result.date?date?string.short!}</small>' />
-                            <@chItem class='list-group-item d-flex justify-content-between'>
-                                <@cLink href=resultUrl label='${resultTitle} ${resultDate}' title='${resultTitle}' />
-                            </@chItem>
+                        <#assign resultUrl = result.url! />
+                        <#assign resultTitle = result.title! />
+                        <#assign resultDescription = result.summary! />
+                        <@chItem>
+                            <@cLink href=resultUrl class='result-card' label=''>
+                                <@cBlock class='result-card__icon result-card__icon--coral'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-text"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>
+                                </@cBlock>
+                                <@cBlock>
+                                    <@cBlock class='result-card__meta'>
+                                        <@cInline class='badge'>${result.type!}</@cInline>
+                                        <@cInline type='small' class='mx-3'>${(result.date?date?string.short)!}</@cInline>
+                                    </@cBlock>
+                                    <@cTitle level=2 class='result-card__title'>${resultTitle}</@cTitle>
+                                    <@cText class='result-card__desc'>${resultDescription}</@cText>
+                                    <@cBlock class='result-card__crumb' params='hidden'>
+                                        <@cInline>Accueil</@cInline>
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <@cInline>Démarches</@cInline>
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <@cInline>Papiers d'identité</@cInline>
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <@cInline>Carte nationale d'identité</@cInline>
+                                    </@cBlock>
+                                </@cBlock>
+                                <@cInline class='result-card__arrow' params='aria-hidden="true"'>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </@cInline>
+                            </@cLink>
+                        </@chItem>
                         </#list>
                         </@chList>
                     <#else>
-                        <@cAlert title='#i18n{portal.util.labelNoItem}' dismissible=false type='warning' outline=true />
+                        <#if query?? && query?trim != ''>
+                            <@cEmpty title='#i18n{portal.search.search_results.labelNoResult}' subtitle='#i18n{portal.search.search_results.labelTryOther}' />
+                        <#else>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--lutece-ds-primary);" viewBox="-50 50 700 400"><g><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:currentColor"></path><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:#fff;opacity:0.7000000000000001;isolation:isolate"></path></g><g><path d="M275.92,380.77V360.45H216.08v20.32A29.43,29.43,0,0,1,209.72,399l-2.62,3.3h77.8l-2.62-3.3A29.43,29.43,0,0,1,275.92,380.77Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M212.4,395h67.2a29.38,29.38,0,0,1-3.68-14.23V360.45H216.08v20.32A29.38,29.38,0,0,1,212.4,395Z" style="fill:currentColor"></path><rect x="125.74" y="186.47" width="240.51" height="180.39" rx="8.48" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M125.74,338.82H366.26v19.55a8.48,8.48,0,0,1-8.48,8.48H134.23a8.48,8.48,0,0,1-8.48-8.48h0V338.82Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="137.84" y="197.7" width="216.32" height="127.44" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M250.44,352.84a4.44,4.44,0,1,0-4.44,4.44,4.44,4.44,0,0,0,4.44-4.44Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="207.1" y="402.34" width="77.81" height="3.63" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><rect x="139.54" y="206.68" width="212.59" height="11.17" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><polygon points="174.62 217.85 172.07 210.95 139.54 210.95 139.54 217.85 139.54 227 139.54 319.71 352.13 319.71 352.13 217.85 174.62 217.85" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polygon><line x1="196.76" y1="268.36" x2="296.44" y2="268.36" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="278.16" x2="296.44" y2="278.16" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="287.96" x2="296.44" y2="287.96" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="297.77" x2="296.44" y2="297.77" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><path d="M291.17,242.23H200.84a7.08,7.08,0,0,1-7.09-7.07v0h0a7.08,7.08,0,0,1,7.07-7.09h90.35a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M291.17,242.23H278.83V228.05h12.34a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M288.42,229.85a4.07,4.07,0,1,0,.19,5.75h0a4.05,4.05,0,0,0-.18-5.74Zm-.4,5.2a3.26,3.26,0,1,1-.15-4.62,3.27,3.27,0,0,1,.15,4.62l0,0Z" style="fill:#fff"></path><path d="M291.48,237.08a.65.65,0,0,0-.69-.14l-1.47-1.38a.4.4,0,0,0-.56,0l-.13.14a.42.42,0,0,0,0,.57l1.45,1.36a.69.69,0,0,0,.17.72l2.5,2.45a.88.88,0,0,0,1.24,0h0a.88.88,0,0,0,0-1.24Z" style="fill:#fff"></path></g><g><path d="M317.3,285a5.83,5.83,0,0,0,3.21,3.22c1.13.46,2.64.36,4.38,1.34,3.93,2.21,13.74.24,20.85,1s16.69-7.11,16.69-7.11L390.64,285V257s-29.44,1.23-35.82-1.23-13.49-7.6-16.68-7.36-29.44,3.19-29.44,3.19L317.29,285Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M310,172.1a29.63,29.63,0,1,0,32.71,26.19h0A29.61,29.61,0,0,0,310,172.1Zm5.88,53.08a23.77,23.77,0,1,1,21-26.25,23.77,23.77,0,0,1-21,26.25Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="314.5" y="229.86" width="7.17" height="26.42" rx="2.88" transform="translate(-24.82 36.49) rotate(-6.32)" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect></g></svg>
+                        </#if>
                     </#if>
                 </#if>
-            </@cCard>
-            <@cRow class='mt-5'>
-                <@cCol>
-                    <@cPagination paginator=paginator  />
-                </@cCol>
-                <@cCol class='d-flex justify-content-end'>
-                    <@cText>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></@cText>
-                </@cCol>
-            </@cRow>
-        </@cCol>
-    </@cRow>
+            </@cBlock>
+        <#if results_list??>
+            <#if results_list?size gt 0>
+                <@cBlock class='mt-m'>
+                    <@cPagination paginator=paginator class='mb-0' />
+                    <@cText class='mb-0'>#i18n{portal.search.search_results.labelResultsCount} : <@cInline type='strong'>${paginator.itemsCount}</@cInline> #i18n{portal.search.search_results.labelResultsRange} : <@cInline type='strong'>${paginator.rangeMin} - ${paginator.rangeMax}</@cInline></@cText>
+                </@cBlock>
+            </#if>
+        </#if>
+        </@cSection>
+    </@cBlock>
 </@cContainer>
+</@cForm>
 <script>
-<@cSearchSetResultPageTitle />
+(function() {
+    // Format used by the datepicker for both display and submission (matches the server locale pattern).
+    const currentdateFormat = '${date_picker_format!"dd/mm/yyyy"}';
+
+    // The themeDatepicker wrapper keeps the visible input under its original id and exposes the instance on it.
+    // Driving the instance with setDate() updates the visible field AND the hidden name="..." field that is submitted.
+    function setField( id, date ) {
+        const el = document.getElementById( id );
+        if ( el && el.datepicker ) {
+            if ( date ) {
+                el.datepicker.setDate( date );
+            } else {
+                el.datepicker.setDate( { clear: true } );
+            }
+            return;
+        }
+        // Fallback if the datepicker is not (yet) initialised: set the visible and hidden inputs directly.
+        const visible = el;
+        const hidden = document.getElementById( id + '_hidden' );
+        const val = ( date && typeof Datepicker !== 'undefined' ) ? Datepicker.formatDate( date, currentdateFormat ) : '';
+        if ( visible ) { visible.value = val; }
+        if ( hidden ) { hidden.value = val; hidden.dispatchEvent( new Event( 'change' ) ); }
+    }
+
+    function startOfDay( d ) {
+        return new Date( d.getFullYear(), d.getMonth(), d.getDate() );
+    }
+
+    function applyRange( value ) {
+        const today = startOfDay( new Date() );
+        let after = null;
+        let before = null;
+        switch ( value ) {
+            case 'seven':
+                after = new Date( today );
+                after.setDate( today.getDate() - 7 );
+                before = today;
+                break;
+            case 'month':
+                after = new Date( today.getFullYear(), today.getMonth(), 1 );
+                before = today;
+                break;
+            case 'year':
+                after = new Date( today.getFullYear(), 0, 1 );
+                before = today;
+                break;
+            case 'all':
+            default:
+                after = null;
+                before = null;
+                break;
+        }
+        setField( 'date_after', after );
+        setField( 'date_before', before );
+    }
+
+    document.addEventListener( 'DOMContentLoaded', function() {
+        document.querySelectorAll( 'input[name="datefilter"]' ).forEach( function( radio ) {
+            radio.addEventListener( 'change', function() {
+                if ( radio.checked ) {
+                    applyRange( radio.value );
+                }
+            } );
+        } );
+    } );
+})();
+
+// Theme toggle (same KEY as homepage for cross-page consistency)
+(function(){
+  const root = document.documentElement;
+  const KEY = 'demo-homepage-theme';
+  const saved = localStorage.getItem(KEY);
+  if (saved === 'dark') root.setAttribute('data-theme', 'dark');
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      if (isDark) { root.removeAttribute('data-theme'); localStorage.setItem(KEY, 'light'); }
+      else { root.setAttribute('data-theme', 'dark'); localStorage.setItem(KEY, 'dark'); }
+  });
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Search interactions
+  const q = document.getElementById('q');
+  function setQuery(v) { q.value = v; q.focus(); }
+
+  // Clear the query input
+  document.querySelectorAll('.search-box__clear').forEach(b => {
+    b.addEventListener('click', (e) => { q.value = ''; q.focus(); });
+  });
+
+  // Pills: remove active filters
+  document.querySelectorAll('.pill button').forEach(b => {
+    b.addEventListener('click', (e) => { e.preventDefault(); b.closest('.pill').remove(); });
+  });
+
+  // "Tout effacer": reset every filter then re-run the search without filters
+  document.querySelectorAll('.filter-reset').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const panel = btn.closest('.filter-panel') || document;
+      // Uncheck type and date-preset radios/checkboxes
+      panel.querySelectorAll('input[name="type_filter"], input[name="datefilter"]').forEach(i => { i.checked = false; });
+      // Reset the type filter select (option mode) to its first entry
+      const typeSelect = panel.querySelector('select[name="type_filter"]');
+      if (typeSelect) { typeSelect.selectedIndex = 0; }
+      // Clear the datepickers (visible + submitted hidden field)
+      ['date_after', 'date_before'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.datepicker) {
+          el.datepicker.setDate({ clear: true });
+        } else {
+          const hidden = document.getElementById(id + '_hidden');
+          if (el) { el.value = ''; }
+          if (hidden) { hidden.value = ''; }
+        }
+      });
+      // Submit so the results refresh without the cleared filters (query is preserved)
+      const form = btn.closest('form');
+      if (form) { form.submit(); }
+    });
+  });
+
+  // View toggle
+  document.querySelectorAll('.view-toggle').forEach(group => {
+    group.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-view]');
+        if (!b) return;
+        group.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+        b.setAttribute('aria-pressed', 'true');
+        const results = document.getElementById('results');
+        if (b.dataset.view === 'grid') results.classList.add('is-grid');
+        else results.classList.remove('is-grid');
+    });
+  });
+
+});
 </script>
+<@cSearchSetResultPageTitle />
+</@cTpl>

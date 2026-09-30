@@ -15,6 +15,8 @@ Showcase:
 - desc: Groupe de boutons - @cBtnGroup
 - bs: components/button-group
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

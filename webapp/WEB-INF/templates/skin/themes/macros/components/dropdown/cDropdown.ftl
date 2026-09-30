@@ -26,6 +26,8 @@ Showcase:
 - desc: Menu déroulant - @cDropdown
 - bs: components/dropdowns
 - newFeature: false
+- updatedFeature: true
+- deprecated: false
 
 Snippet:
 
