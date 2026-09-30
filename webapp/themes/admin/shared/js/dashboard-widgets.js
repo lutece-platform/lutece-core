@@ -446,8 +446,14 @@
 		var showAll = mount.querySelector('.dw-restore-all');
 		if (showAll) {
 			showAll.addEventListener('click', function () {
+				// Un-hide without per-widget persistence (persist=false skips save() and the
+				// menu rebuild), then record the "shown" state ourselves: captureLayout()
+				// only refreshes column/order and deliberately keeps the visibility state.
 				self.widgets().forEach(function (el) {
-					if (el.classList.contains('dw-hidden')) { self.setHidden(el, false, false); }
+					if (!el.classList.contains('dw-hidden')) { return; }
+					self.setHidden(el, false, false);
+					var id = widgetId(el);
+					if (id) { self.stateOf(id).state = STATE_SHOWN; }
 				});
 				self.captureLayout();
 				self.save();

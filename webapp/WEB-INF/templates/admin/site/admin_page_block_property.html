@@ -58,13 +58,13 @@
 		<@row>
 			<@columns>
 				<@formGroup rows=2>
-					<@checkBox orientation='switch' name='display_update_date' id='display_update_date' labelKey='#i18n{portal.site.admin_page.labelDisplayUpdateDate}' checked=page.displayDateUpdate />
+					<@checkBox orientation='switch' value='1' name='display_update_date' id='display_update_date' labelKey='#i18n{portal.site.admin_page.labelDisplayUpdateDate}' checked=page.displayDateUpdate />
 				</@formGroup>
 				<#assign groupClass = ''>
 				<#if !page.displayDateUpdate><#assign groupClass='visually-hidden'></#if>
 				<@div id='manual_date' class=groupClass >
 					<@formGroup rows=2>
-						<@checkBox orientation='switch' name='enable_manual_update_date' id='enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate />
+						<@checkBox orientation='switch' value='1' name='enable_manual_update_date' id='enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate />
 					</@formGroup>
 					<@formGroup rows=2>
 					<#if !page.isManualDateUpdate><#assign disabled = true></#if>
@@ -81,7 +81,7 @@
 			<@columns class='d-flex justify-content-center '>
 				<@figure class="position-relative border-2 border-black">
 					<@img id='preview_image' url='${image_url}' class='img-thumbnail img-fluid p-5' alt='#i18n{portal.site.admin_page.addNewImage}' title='#i18n{portal.site.admin_page.titlePictureProperties}' params='aria-hidden="true"' />
-					<@button color='danger' buttonIcon='trash' class='position-absolute bottom-0 end-0 rounded' size='sm' id='deleteImage' label='#i18n{portal.site.util.labelRemove}' />
+					<@button color='danger' buttonIcon='trash' class='position-absolute bottom-0 end-0 rounded' size='sm' id='deleteImage' title='#i18n{portal.util.labelDelete}' />
 				</@figure>
 			</@columns>
 		</@row>
@@ -90,7 +90,7 @@
 				<@formGroup labelKey='#i18n{portal.site.admin_page.labelNewPicture}' rows=2>
 					<@input type='file' id='image_content' name='image_content' accept='image/*'  />
 				</@formGroup>
-				<@checkBox orientation='switch' orientation='switch' name='update_image' id='update_image' labelKey='#i18n{portal.site.admin_page.checkedUpdateImage}'/>
+				<@checkBox orientation='switch' value='1' name='update_image' id='update_image' labelKey='#i18n{portal.site.admin_page.checkedUpdateImage}'/>
 			</@columns>
 		</@row>
 		</@fieldSet>

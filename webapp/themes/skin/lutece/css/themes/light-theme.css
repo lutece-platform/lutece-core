@@ -85,6 +85,23 @@
 	--lutece-ds-rose-text: #E85A7A;              /* --cl-rose-600 	*/
 	--lutece-ds-rose-bg: #FFEEF2;                /* --cl-rose-100 	*/
 
+	/* Numeric scale aliases (design tool naming) used by post, search, hero and card components */
+	--lutece-ds-blue-50: var(--lutece-ds-blue-100);
+	--lutece-ds-blue-500: #3C67FF;               /* --cl-blue-500, stays blue when the primary is themed */
+	--lutece-ds-teal-100: var(--lutece-ds-teal-bg);
+	--lutece-ds-teal-600: var(--lutece-ds-teal);
+	--lutece-ds-teal-700: var(--lutece-ds-teal-text);
+	--lutece-ds-coral-100: var(--lutece-ds-coral-bg);
+	--lutece-ds-coral-500: var(--lutece-ds-coral);
+	--lutece-ds-coral-600: var(--lutece-ds-coral-text);
+	--lutece-ds-violet-100: var(--lutece-ds-violet-bg);
+	--lutece-ds-violet-700: var(--lutece-ds-violet-text);
+	--lutece-ds-rose-100: var(--lutece-ds-rose-bg);
+	--lutece-ds-rose-600: var(--lutece-ds-rose-text);
+	--lutece-ds-primary-strong: var(--lutece-ds-blue-strong);
+	--lutece-ds-border-strong: var(--lutece-ds-blue-600);
+	--lutece-ds-surface: var(--lutece-ds-white);
+
 	--lutece-ds-border-default-color : #E2E2E2;         /* --cl-gray-300 	*/
 	--lutece-ds-border-primary-color : var(--lutece-ds-primary); 
 	--lutece-ds-border-danger-color : var(--lutece-ds-danger); 

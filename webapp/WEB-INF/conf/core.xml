@@ -124,6 +124,10 @@
             </rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.portlet.PortletTemplateResourceIdService
+            </rbac-resource-type-class>
+        </rbac-resource-type>
+        <rbac-resource-type>
             <rbac-resource-type-class>fr.paris.lutece.portal.service.insert.InsertResourceIdService
             </rbac-resource-type-class>
         </rbac-resource-type>

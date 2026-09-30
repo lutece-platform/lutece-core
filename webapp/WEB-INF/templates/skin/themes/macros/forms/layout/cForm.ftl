@@ -41,7 +41,7 @@ Snippet:
 -->
 <#macro cForm class='' id='' params='' name='' method='post' role='' action='' enctype='' foValidation=true deprecated...>
 <@deprecatedWarning args=deprecated />
-<form <#if class!=''>class="${class}"</#if> <#if id!=''> id="${id!name}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> aria-label="${role}"</#if> data-form-theme-validation="${foValidation?c}"<#if params!=''> ${params}</#if>>
+<form <#if class!=''>class="${class}"</#if> <#if id!=''> id="${id!name}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if enctype!=''> enctype="${enctype}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> aria-label="${role}"</#if> data-form-theme-validation="${foValidation?c}"<#if params!=''> ${params}</#if>>
 <#nested>
 </form>
 <#if foValidation>

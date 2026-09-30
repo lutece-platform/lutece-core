@@ -472,7 +472,7 @@
 .card.cta {
 	background: var(--lutece-ds-blue-strong) !important;
 	color: var(--lutece-ds-white);
-	border-radius: var(--lutece-ds-border-radius-lg);
+	border-radius: var(--lutece-ds-radius-lg);
 	padding: var(--lutece-ds-sp-xl) var(--lutece-ds-sp-xl);
 	text-align: center;
 	position: relative;

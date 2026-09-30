@@ -30,7 +30,7 @@
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.label}' >
 						<#if notify_user_password_expired?? && notify_user_password_expired><#assign checked=true><#else><#assign checked=false></#if>
-						<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.help}' labelFor='notify_user_password_expired' name='notify_user_password_expired' id='notify_user_password_expired' value='true' checked=checked />
+						<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.help}' name='notify_user_password_expired' id='notify_user_password_expired' value='true' checked=checked />
 					</@formGroup>
 				</#if>
 			</@columns>
@@ -38,9 +38,9 @@
 				<#if use_advanced_security_parameters>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormat.label}'>
 						<#if password_format_upper_lower_case?? && password_format_upper_lower_case><#assign checked=true><#else><#assign checked=false></#if>
-							<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatNumero.label}' labelFor='password_format_numero' name='password_format_numero' id='password_format_numero' value='true' checked=checked />
+							<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatNumero.label}' name='password_format_numero' id='password_format_numero' value='true' checked=checked />
 						<#if password_format_special_characters?? && password_format_special_characters><#assign checked=true><#else><#assign checked=false></#if>
-						<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatSpecialCharacters.label}' labelFor='password_format_special_characters' name='password_format_special_characters' id='password_format_special_characters' value='true' checked=checked />
+						<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatSpecialCharacters.label}' name='password_format_special_characters' id='password_format_special_characters' value='true' checked=checked />
 					</@formGroup>
 				</#if>
 				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.bannedDomainNames.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.bannedDomainNames.help}' labelFor='banned_domain_names'>

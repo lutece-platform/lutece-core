@@ -30,6 +30,8 @@ INSERT INTO core_admin_right VALUES ('CORE_USERS_MANAGEMENT', 'portal.users.admi
 INSERT INTO core_admin_right VALUES ('CORE_WORKGROUPS_MANAGEMENT', 'portal.workgroup.adminFeature.workgroups_management.name', 2, 'jsp/admin/workgroup/ManageWorkgroups.jsp', 'portal.workgroup.adminFeature.workgroups_management.description', 0, '', 'MANAGERS', 'ti ti-users-group', NULL, 3, 0);
 INSERT INTO core_admin_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT', 'portal.system.adminFeature.security_header_management.name', 0, 'jsp/admin/system/ManageSecurityHeaders.jsp', 'portal.system.adminFeature.security_header_management.description', 1, '', 'SYSTEM', 'ti ti-box-align-top', NULL, 12, 0);
 INSERT INTO core_admin_right VALUES ('CORE_THEME_MANAGEMENT','portal.theme.adminFeature.theme_management.name',0,'jsp/admin/theme/ManageThemes.jsp','portal.theme.adminFeature.theme_management.description',1,'','STYLE','ti ti-palette', NULL, 1, 0);
+INSERT INTO core_admin_right VALUES ('CORE_LEVEL_MANAGEMENT', 'portal.users.adminFeature.level_management.name', 0, NULL, 'portal.users.adminFeature.level_management.description', 1, '', 'SYSTEM', 'ti ti-gavel', NULL, 11, 0);
+
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
@@ -115,6 +117,7 @@ INSERT INTO core_user_right VALUES ('CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT', 1
 INSERT INTO core_user_right VALUES ('CORE_EDITORS_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_THEME_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_LEVEL_MANAGEMENT',1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
@@ -216,6 +219,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.home.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sticky.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.transparent.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.vertical.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select', 'default');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select.options', 'default|folded|folded-hover');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '0');
@@ -330,17 +335,17 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.ms
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.email', 'Veuillez saisir une adresse email valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.url', 'Veuillez saisir une URL valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.number', 'Veuillez saisir un nombre valide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.min', 'La valeur doit \\u00eatre sup\\u00e9rieure ou \\u00e9gale \\u00e0 {min}.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.max', 'La valeur doit \\u00eatre inf\\u00e9rieure ou \\u00e9gale \\u00e0 {max}.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.minlength', 'Ce champ doit contenir au moins {minlength} caract\\u00e8res.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.maxlength', 'Ce champ ne doit pas d\\u00e9passer {maxlength} caract\\u00e8res.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.min', 'La valeur doit être supérieure ou égale à {min}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.max', 'La valeur doit être inférieure ou égale à {max}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.minlength', 'Ce champ doit contenir au moins {minlength} caractères.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.maxlength', 'Ce champ ne doit pas dépasser {maxlength} caractères.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.pattern', 'Le format saisi est invalide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.step', 'La valeur doit \\u00eatre un multiple de {step}.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.tel', 'Veuillez saisir un num\\u00e9ro de t\\u00e9l\\u00e9phone valide.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.step', 'La valeur doit être un multiple de {step}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.tel', 'Veuillez saisir un numéro de téléphone valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.date', 'Veuillez saisir une date valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.time', 'Veuillez saisir une heure valide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.file', 'Veuillez s\\u00e9lectionner un fichier valide.');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.filetype', 'Type de fichier non autoris\\u00e9. Types accept\\u00e9s : {accept}.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.file', 'Veuillez sélectionner un fichier valide.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.filetype', 'Type de fichier non autorisé. Types acceptés : {accept}.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.filesize', 'Le fichier est trop volumineux. Taille maximale : {maxsize}.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.mismatch', 'Les valeurs ne correspondent pas.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.custom', 'Ce champ contient une erreur.');
@@ -407,3 +412,12 @@ INSERT INTO core_admin_security_header (name, value, description, type, page_cat
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Content-Security-Policy', 'frame-ancestors ''none''', 'The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. The value recommended by OWASP for this header when used as a response of an API call is ''max-age=31536000; includeSubDomains'' and this is the value retained for Lutece. This setting means that the browser should remember that this site and all of his subdomains are only to be accessed using HTTPS for 31536000 seconds (1 year).', 'rest_api', NULL, 1);
 
 INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('lutece', 'Thème par Défaut pour les sites Lutece.', 'images/', 'css', 'Ville de Paris', 'https://lutece.paris.fr', '1.0', 'BSD', 'js/');
+--
+-- Admin feature : management of the portlet templates (8.0.2)
+--
+-- changeset core:init_db_lutece_core.sql-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_admin_right WHERE id_right = 'CORE_PORTLET_TEMPLATE_MANAGEMENT'
+INSERT INTO core_admin_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT', 'portal.style.adminFeature.portlet_template_management.name', 0, 'jsp/admin/style/ManagePortletTemplates.jsp', 'portal.style.adminFeature.portlet_template_management.description', 0, '', 'STYLE', 'ti ti-template', NULL, 2, 0);
+INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',2);

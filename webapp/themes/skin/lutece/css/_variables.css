@@ -9,6 +9,7 @@
 	--lutece-ds-font-family-primary: "Open Sans";
 	--lutece-ds-font-family-fallback: Arial, Helvetica, sans-serif;
 	--lutece-ds-font-family-base: var( --lutece-ds-font-family-primary ), var( --lutece-ds-font-family-fallback );
+	--lutece-ds-font-family-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     
     /* Boostrap 5 override */
     --bs-font-sans-serif: system-ui, -apple-system, var( --lutece-ds-font-family-primary ), "Segoe UI",  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -86,6 +87,9 @@
     --lutece-ds-shadow-card-filter: drop-shadow( 0 10px 20px rgba( 0, 0, 0, calc( var( --lutece-ds-size-base, .4rem ) / 2.5 ) ) );
     --lutece-ds-shadow-card-border: 0 0 0 var( --lutece-ds-size-base, .4rem ) var( --lutece-ds-border-shadow );
     --lutece-ds-shadow-focus:       0 0 0 calc( var( --lutece-ds-size-base, .4rem ) * 1.5 ) var( --lutece-ds-text );
+    /* Elevation scale used by search, hero and card components */
+    --lutece-ds-shadow-xs:          0 1px 2px var( --lutece-ds-shadow-color-primary );
+    --lutece-ds-shadow-md:          0 8px 24px var( --lutece-ds-shadow-color-primary );
 
 	/* Font Weight */
     --lutece-ds-fw-regular: 400;

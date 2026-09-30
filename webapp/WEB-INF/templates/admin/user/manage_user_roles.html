@@ -2,7 +2,7 @@
     <@pageColumn>
 		<#assign userImg>
 		<#if adminAvatar??>
-			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' style='max-width:80px' title='Avatar' />
+			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' params='style="max-width:80px"' title='Avatar' />
 		<#else>    
 			<@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' />
 		</#if>

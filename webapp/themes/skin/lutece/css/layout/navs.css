@@ -305,7 +305,7 @@
 #sidebar-brand #main-sidebar-collapse{
 	position: absolute;
 	right: var(--lutece-ds-sp-xs);
-	top: var(--lutece-ds-sp-xxs);
+	top: var(--lutece-ds-sp-2xs);
 	z-index: 1;
 	width: var(--lutece-ds-sp-md);
 }

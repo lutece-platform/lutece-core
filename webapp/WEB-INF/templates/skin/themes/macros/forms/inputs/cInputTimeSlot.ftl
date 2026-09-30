@@ -60,7 +60,6 @@ Snippet:
 		</@cCol>
 	</@cRow>
 </@cFieldset>
-<script src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-utils.min.js"></script>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/input-time-polyfill.y11.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

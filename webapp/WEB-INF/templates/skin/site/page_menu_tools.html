@@ -2,12 +2,12 @@
 <div class="row">
 <div class="four columns pull-nine">
 <div id="quick-search">
-<form action="jsp/site/Portal.jsp" method="get">
-<input type="hidden" name="page" value="search" />
-<label for="searchfield" accesskey="4" >#i18n{portal.site.page_menu_tools.labelSearch} :</label>
-<input type="text" name="query" id="searchfield" /> 
-<input type="submit" value="ok" id="searchbutton" title="Lancer la recherche" />
-</form>
+<@cForm action='jsp/site/Portal.jsp' method='get' foValidation=false>
+<@cInput type='hidden' name='page' value='search' />
+<@cLabel label='#i18n{portal.site.page_menu_tools.labelSearch} :' for='searchfield' params='accesskey="4"' />
+<@cInput name='query' id='searchfield' />
+<@cBtn label='#i18n{portal.util.labelSearch}' id='searchbutton' />
+</@cForm>
 </div>
 </div>
 </div>

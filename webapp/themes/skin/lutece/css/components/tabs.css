@@ -1,6 +1,8 @@
 /*** 										***/
 /*** Nav Tabs 								***/
 /***  										***/
+ot-tabs{ display:none; }
+
 .nav-tabs-container {
     position: relative;
     overflow: hidden;

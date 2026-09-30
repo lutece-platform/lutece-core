@@ -2,7 +2,7 @@
     <@pageColumn>
 		<#assign userImg>
 		<#if adminAvatar??>
-			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' style='max-width:80px' title='Avatar' />
+			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' params='style="max-width:80px"' title='Avatar' />
 		<#else>    
 			<@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' />
 		</#if>
@@ -91,7 +91,7 @@
 								<@select name='language' default_value='${current_language!}' items=languages_list sort=true />
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
-								<@checkBox orientation='switch' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
+								<@checkBox orientation='switch' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
 							</@formGroup>
 							</@boxBody>
 						</@box>

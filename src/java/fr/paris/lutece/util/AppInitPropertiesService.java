@@ -174,27 +174,6 @@ public final class AppInitPropertiesService
         return strValue;
     }
     /**
-     * Reloads all the properties files of both the base and the override sources.
-     */
-    public static void reloadAll( )
-    {
-        _basePropertiesService.reloadAll( );
-        _overridePropertiesService.reloadAll( );
-    }
-
-    /**
-     * Reloads a given properties file in whichever source it belongs to.
-     *
-     * @param strFilename
-     *            The file name
-     */
-    public static void reload( String strFilename )
-    {
-        _basePropertiesService.reload( strFilename );
-        _overridePropertiesService.reload( strFilename );
-    }
-
-    /**
      * Gets all properties, merging the base and the override sources, the override values taking
      * precedence.
      *

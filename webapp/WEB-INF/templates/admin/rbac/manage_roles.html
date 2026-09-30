@@ -11,10 +11,10 @@
 			</@tform>
             <@offcanvas targetUrl="jsp/admin/rbac/CreateRole.jsp" targetElement="#create-role-form" redirectForm=false id="template-create-role" title="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnTitle="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnIcon="plus me-1" position="end" />
         </@pageHeader>
-        <#if role_list?size gt 1>
+        <#if role_list?has_content>
             <@manageFeature>
                 <#list role_list as role>
-                    <@manageFeatureItem class='item-labels' auto=true>
+                    <@manageFeatureItem class='item-labels'>
                         <@manageFeatureItemColumn class='searchable' >
                             <@p>#i18n{portal.rbac.manage_roles.columnTitleKey}: <strong>${role.key}</strong></@p>
                             <@p class='ms-2'>#i18n{portal.rbac.manage_roles.columnTitleDescription}: <strong>${role.description}</strong></@p>

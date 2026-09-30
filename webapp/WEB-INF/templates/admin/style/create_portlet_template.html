@@ -1,0 +1,24 @@
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{portal.style.create_portlet_template.pageTitle}'>
+			<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' />
+		</@pageHeader>
+		<@messages errors=errors![] />
+		<@tform method='post' name='create_portlet_template' action='jsp/admin/style/ManagePortletTemplates.jsp' boxed=true>
+			<@input type='hidden' name='action' value='createPortletTemplate' />
+			<@formGroup labelFor='portlet_type_id' labelKey='#i18n{portal.style.create_portlet_template.labelPortletType}' helpKey='#i18n{portal.style.create_portlet_template.helpPortletType}' mandatory=true rows=2>
+				<@select id='portlet_type_id' name='portlet_type_id' items=portlet_types_list default_value='${template.portletTypeId!}' empty=false mandatory=true />
+			</@formGroup>
+			<@formGroup labelFor='template_description' labelKey='#i18n{portal.style.create_portlet_template.labelDescription}' mandatory=true rows=2>
+				<@input type='text' name='template_description' id='template_description' value='${template.description!}' maxlength=255 mandatory=true />
+			</@formGroup>
+			<@formGroup labelFor='template_path' labelKey='#i18n{portal.style.create_portlet_template.labelTemplatePath}' helpKey='#i18n{portal.style.create_portlet_template.helpTemplatePath}' mandatory=true rows=2>
+				<@input type='text' name='template_path' id='template_path' value='${template.templatePath!}' placeHolder='skin/plugins/myplugin/portlet/myplugin_portlet.html' maxlength=255 mandatory=true />
+			</@formGroup>
+			<@formGroup rows=2>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' color='primary' />
+				<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='danger' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>

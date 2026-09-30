@@ -131,7 +131,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	/* Error Scroll                           */
 	// Add smooth scrolling to all links
 	const invalidElements = document.querySelectorAll('.step-current .step-content .is-invalid');
-	const currentStepId = document.querySelector('#current_step .step-title .step-number').textContent.trim();
+	let currentStepId = 0;
+	const stepNumberElement = document.querySelector('#current_step .step-title .step-number')
+	if ( stepNumberElement != null ){
+		currentStepId = document.querySelector('#current_step .step-title .step-number').textContent.trim();
+	}
 	if ( invalidElements.length > 0 ) {
 		const firstInvalidElements = invalidElements[0];
 		const invalidElementStatusMsg = `<p class="visually-hidden" id="step-alert" tabindex="-1">#i18n{portal.theme.statusMsgStepValidationErrors}</p>`

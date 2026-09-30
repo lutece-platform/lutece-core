@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
+import fr.paris.lutece.util.sql.ITransactionSynchronizationManager;
+import fr.paris.lutece.util.sql.TransactionManager;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**
@@ -61,6 +63,30 @@ public final class FileHome
      */
     public static int create( File file )
     {
+        if ( isJoiningExistingTransaction( ) )
+        {
+            return doCreate( file );
+        }
+
+        TransactionManager.beginTransaction( null );
+
+        try
+        {
+            int nIdFile = doCreate( file );
+
+            TransactionManager.commitTransaction( null );
+
+            return nIdFile;
+        }
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
+    }
+
+    private static int doCreate( File file )
+    {
         if ( file.getPhysicalFile( ) != null )
         {
             file.getPhysicalFile( ).setIdPhysicalFile( PhysicalFileHome.create( file.getPhysicalFile( ) ) );
@@ -76,6 +102,28 @@ public final class FileHome
      *            The instance of the record file which contains the informations to update
      */
     public static void update( File file )
+    {
+        if ( isJoiningExistingTransaction( ) )
+        {
+            doUpdate( file );
+            return;
+        }
+
+        TransactionManager.beginTransaction( null );
+
+        try
+        {
+            doUpdate( file );
+            TransactionManager.commitTransaction( null );
+        }
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
+    }
+
+    private static void doUpdate( File file )
     {
         if ( file.getPhysicalFile( ) != null )
         {
@@ -95,12 +143,64 @@ public final class FileHome
     {
         File file = FileHome.findByPrimaryKey( nIdFile );
 
+        if ( file == null )
+        {
+            return;
+        }
+
+        if ( isJoiningExistingTransaction( ) )
+        {
+            doRemove( file, nIdFile );
+            return;
+        }
+
+        TransactionManager.beginTransaction( null );
+
+        try
+        {
+            doRemove( file, nIdFile );
+            TransactionManager.commitTransaction( null );
+        }
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
+    }
+
+    private static void doRemove( File file, int nIdFile )
+    {
         if ( file.getPhysicalFile( ) != null )
         {
             PhysicalFileHome.remove( file.getPhysicalFile( ).getIdPhysicalFile( ) );
         }
 
         _dao.delete( nIdFile );
+    }
+
+    /**
+     * Whether the current thread already runs inside a transaction owned by a caller — a managed transaction (any {@link ITransactionSynchronizationManager})
+     * or a Lutece one ({@link TransactionManager}) on this home's pool. When true, the file operations join that transaction and must neither commit nor roll it
+     * back : the caller owns its lifecycle. Mirrors the detection performed by {@code DAOUtil}.
+     *
+     * @return true if a caller transaction is already active
+     */
+    private static boolean isJoiningExistingTransaction( )
+    {
+        if ( TransactionManager.getCurrentTransaction( null ) != null )
+        {
+            return true;
+        }
+
+        for ( ITransactionSynchronizationManager tsm : CDI.current( ).select( ITransactionSynchronizationManager.class ) )
+        {
+            if ( tsm.isSynchronizationActive( ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // /////////////////////////////////////////////////////////////////////////

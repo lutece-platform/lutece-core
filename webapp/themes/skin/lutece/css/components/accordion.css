@@ -3,19 +3,19 @@
 /***  										***/
 .accordion .card, 
 .accordion .card-header{
-	background-color: var( --white-color );
-	color: var( --main-color );
+	background-color: var(--lutece-ds-white );
+	color: var(--lutece-ds-text );
 	border: 0;
 	box-shadow: none;
 }
 
 .accordion .card .card-header{
-	background-color: var( --white-light-color );
+	background-color: var(--lutece-ds-neutral-50 );
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	flex-wrap: wrap;
-	padding: var(--spacing-m) var(--spacing-l);
+	padding: var(--lutece-ds-sp-md) var(--lutece-ds-sp-lg);
 }
 
 .accordion .card .card-header > *{
@@ -24,7 +24,7 @@
 }
 
 .accordion .card .card-header:hover{
-	background-color: var( --blue-light );
+	background-color: var(--lutece-ds-blue-300 );
 }
 
 .accordion .card .card-header:hover .card-title, .accordion .card .card-header:hover .card-subtitle{
@@ -38,16 +38,16 @@
 	border: 0;
 	overflow: hidden;
 	text-align: start;
-	color: var( --main-color );
-	font-size: var(--font-m);
+	color: var(--lutece-ds-text );
+	font-size: var(--lutece-ds-fs-lg);
 }
 
 .accordion .card .card-header .btn-header-accordion:active,
 .accordion .card .card-header .btn-header-accordion:focus,
 .accordion .card .card-header .btn-header-accordion:hover{
-	color: var(--main-color);
+	color: var(--lutece-ds-text);
 	text-decoration: none;
-	outline: 1px solid var(--dark-color);
+	outline: 1px solid var(--lutece-ds-text);
 }
 
 .accordion .card .card-header .btn-header-accordion:focus .card-header-prepend + span,
@@ -59,13 +59,13 @@
 
 .accordion .card .card-header .btn-header-accordion .btn-label-accordion{
 	font-weight: 400;
-	font-size: var(--font-sm );
+	font-size: var(--lutece-ds-fs-sm );
 }
 
 .accordion .card .card-header .btn > .card-title{
-	color: var(--main-color);
+	color: var(--lutece-ds-text);
 	flex: 1;
-	max-height: calc( var(--spacing-xs) * 18.75 );
+	max-height: calc( var(--lutece-ds-sp-xs) * 18.75 );
 	overflow-y: hidden;
 	border-top: 0;
 	padding-top: 0;
@@ -73,39 +73,39 @@
 
 .accordion .card .card-header:hover .card-title,
 .accordion .card .card-header:hover .card-subtitle{
-	color: var(--main-color);
+	color: var(--lutece-ds-text);
 }
 
 .accordion .card .card-header .card-header-info,
 .accordion .card-header .card-title{
-	font-size: var( --font-m );
-	font-family: var( --font-family-list );
+	font-size: var(--lutece-ds-fs-lg );
+	font-family: var(--lutece-ds-font-family-base );
 	font-weight: 600;
 	display: flex;
 	align-items: center;
 }
 
 .accordion .card .card-header .card-subtitle {
-    transform: translateY( calc( -1 * var(--spacing-xxs ) ));
+    transform: translateY( calc( -1 * var(--lutece-ds-sp-2xs ) ));
 }
 
 .accordion .card-body{
-	border: 1px solid var(--blue-light );
-	font-family: var( --font-family-list );
+	border: 1px solid var(--lutece-ds-blue-300 );
+	font-family: var(--lutece-ds-font-family-base );
 	font-weight: 400;
-	font-size: var( --font-m );
-	padding: var(--spacing-m);
+	font-size: var(--lutece-ds-fs-lg );
+	padding: var(--lutece-ds-sp-md);
 	
 }
 
 .accordion .card .btn-accordion .ti {
-	color: var( --main-color );
+	color: var(--lutece-ds-text );
 	margin-right: 0;
-	height: var( --spacing-l);
+	height: var(--lutece-ds-sp-lg);
 }
 	
 .accordion .card:hover .btn-accordion .ti {
-	color: var( --main-color );
+	color: var(--lutece-ds-text );
 }
 
 .accordion .card .card-header .btn-accordion .ti{
@@ -122,11 +122,11 @@
 
 /* With border */
 .accordion .card.with-border{
-	border: calc( var(--spacing-xxs ) / 4 ) solid var( --main-color );
+	border: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-text );
 }
 
 .accordion .card.with-border .collapse.show {
-    border-top-color: var( --main-color );
+    border-top-color: var(--lutece-ds-text );
 }
 
 .accordion .card.with-border:hover,
@@ -136,21 +136,21 @@
 }
 
 .accordion .card.with-border.open .btn-accordion .ti {
-	color: var( --white-color );
+	color: var(--lutece-ds-white );
 }
 
 .accordion .card.with-border.open .card-body{
-	background-color: var( --white-color );
+	background-color: var(--lutece-ds-white );
 }
 
 .accordion .card.with-border.open .card-title,
 .accordion .card.with-border.open .card-subtitle{
-	color: var( --white-color );
+	color: var(--lutece-ds-white );
 }
 
 /* Gray style							 		*/
 .accordion .primary{
-	background-color: var( --white-light-color );
+	background-color: var(--lutece-ds-neutral-50 );
 	border: 0;
 }
 
@@ -159,59 +159,59 @@
 }
 
 .accordion .primary:hover .card-header{
-	background-color: var( --white-light-color );
+	background-color: var(--lutece-ds-neutral-50 );
 }
 
 .accordion .primary:hover .btn-accordion .ti {
-	color: var( --main-danger-color );
+	color: var(--lutece-ds-danger );
 }
 
 .accordion .primary .collapse.show{
-	border-top: calc( var(--spacing-xxs ) / 4 ) solid var( --gray-color );
+	border-top: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-neutral-400 );
 }
 
 .accordion .primary .card-body{
-	padding-left: var(--spacing-l);
+	padding-left: var(--lutece-ds-sp-lg);
 }
 
 /* Main style							 		*/
 .accordion .card.main,
 .accordion .card.main .card-header{
-	background-color: var( --white-color );
-	border: calc( var(--spacing-xxs ) / 4 ) solid var( --white-color );
+	background-color: var(--lutece-ds-white );
+	border: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-white );
 }
 
 
 .accordion .card.main-inverse .collapse.show{
-	border-top: calc( var(--spacing-xxs ) / 4 ) solid var( --white-color );
+	border-top: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-white );
 }
 
 .accordion .card.main-inverse{
-	border: calc( var(--spacing-xxs ) / 4 ) solid var( --white-color );
+	border: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-white );
 } 
 
 .accordion .card.main .card-header,
 .accordion .card.main .card-header a,
 .accordion .card.main .card-header .card-title{
-	color: var( --main-color );
+	color: var(--lutece-ds-text );
 }
 
 .accordion .card.main .card-body{
-	background-color: var( --white-color );
-	border-top: calc( var(--spacing-xxs ) / 4 ) solid var( --gray-light-color );
+	background-color: var(--lutece-ds-white );
+	border-top: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-neutral-200 );
 }
 
 /* Info style							 		*/
 .accordion .card.desc .card-header{
-	padding-top: var(--spacing-m );
-	padding-bottom: var(--spacing-m );
+	padding-top: var(--lutece-ds-sp-md );
+	padding-bottom: var(--lutece-ds-sp-md );
 }
 
 .accordion .card.desc .card-header[aria-expanded="true"],
 .accordion .card.desc:hover .card-header{
-	background-color: var( --main-color );
-	border-color: var( --main-color );
-	color: var( --white-color );
+	background-color: var(--lutece-ds-text );
+	border-color: var(--lutece-ds-text );
+	color: var(--lutece-ds-white );
 }
 
 .accordion .card.desc .card-header .btn > .card-title{
@@ -226,13 +226,13 @@
 .accordion .card.desc .card-header[aria-expanded="true"] .card-title,
 .accordion .card.desc .card-header[aria-expanded="true"] .card-subtitle,
 .accordion .card.desc .card-header[aria-expanded="true"] .btn-accordion .ti{
-	color: var( --white-color );
-	color: var( --white-color );
+	color: var(--lutece-ds-white );
+	color: var(--lutece-ds-white );
 }
 
 /* Outline style 									*/
 .accordion .card.outline{
-	border: .2rem solid var( --main-info-color);
+	border: .2rem solid var(--lutece-ds-primary);
 }
 
 .accordion .card.outline,
@@ -243,9 +243,9 @@
 .accordion .card.outline .card-header h5,
 .accordion .card.outline .card-header,
 .accordion .card.outline .card-body{
-	font-family: var( --font-family-list );
+	font-family: var(--lutece-ds-font-family-base );
 	font-weight: 600;
-	color: var( --main-info-color );
+	color: var(--lutece-ds-primary );
 	font-size: 1.467rem;
 }
 
@@ -255,7 +255,7 @@
 }
 
 .accordion .card.outline .collapse.show{
-	border-top: .2rem solid var(  --main-info-color  );
+	border-top: .2rem solid var(--lutece-ds-primary  );
 }
 
 .accordion .card.outline .card-header h3{
@@ -268,24 +268,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-inline-end: var(--spacing-xs);
-    padding-block-start: var(--spacing-xxs);
+    padding-inline-end: var(--lutece-ds-sp-xs);
+    padding-block-start: var(--lutece-ds-sp-2xs);
 }
 
 .accordion .card.outline .card-header .card-header-prepend .ti{
-	color: var( --main-info-color );
+	color: var(--lutece-ds-primary );
 }
 
 .accordion .card.outline .btn .ti{
-	color: var( --main-info-color );
+	color: var(--lutece-ds-primary );
 }
 
 .accordion .card.outline:hover .btn .ti{
-	color:  var( --main-info-color );
+	color:  var(--lutece-ds-primary );
 }
 
 .accordion .card.outline .card-header .card-header-prepend + h3 + .card-header-separator{
-	border-right: calc( var(--spacing-xxs ) / 4 ) solid  var( --main-info-color );
+	border-right: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid  var(--lutece-ds-primary );
 	padding: 2.8rem 1rem;
 	margin-left: auto;
 }
@@ -314,8 +314,8 @@
 
 .accordion .card.alert .card-body {
 	border: 0;
-	border-block-start: 1px solid var( --main-info-color );
-	margin-inline: var(--spacing-m );
+	border-block-start: 1px solid var(--lutece-ds-primary );
+	margin-inline: var(--lutece-ds-sp-md );
 	padding-inline: 0
 }
 
@@ -336,22 +336,22 @@
 }
 
 .accordion .card.unfold .card-header:hover .card-title{
-	color: var(--main-info-color);
+	color: var(--lutece-ds-primary);
 }
 
 .accordion .card.unfold .card-header:hover .btn-accordion .ti{
-    color: var(--main-info-color);
+    color: var(--lutece-ds-primary);
 }
 
 .accordion .card.unfold .card-body{
 	border: none;
-	padding: var(--spacing-xs) 0;
+	padding: var(--lutece-ds-sp-xs) 0;
 }
 
 
 @media (max-width: 767.98px) {
 	.accordion .card.outline .card-header .card-header-prepend + span{
-		padding-inline-start: var(--spacing-xs);
+		padding-inline-start: var(--lutece-ds-sp-xs);
 	}
 	
 	.accordion .card.outline, 
@@ -361,11 +361,11 @@
 	.accordion .card.outline .card-header h5, 
 	.accordion .card.outline .card-header, 
 	.accordion .card.outline .card-body {
-		font-size: var( --font-m );
+		font-size: var(--lutece-ds-fs-lg );
 	}
 	
 	.accordion .card:not(.alert) .card-footer{
-		border: calc( var(--spacing-xxs ) / 4 ) solid var( --gray-light-color );
+		border: calc( var(--lutece-ds-sp-2xs ) / 4 ) solid var(--lutece-ds-neutral-200 );
 		border-top: 0;
 	}
 	
@@ -383,7 +383,7 @@
 	.accordion .card.outline .card-header h5{
 		text-align: center;
 		margin-left: 0;
-		line-height: var( --spacing-m);
+		line-height: var(--lutece-ds-sp-md);
 	}
 }
 
@@ -397,23 +397,23 @@
 	}
 
 	.accordion .card .card-footer {
-		background-color: var( --white-color );
-		border-top-color: var( --gray-light-color );
-		padding: var( --spacing-m) 0;
+		background-color: var(--lutece-ds-white );
+		border-top-color: var(--lutece-ds-neutral-200 );
+		padding: var(--lutece-ds-sp-md) 0;
 	}
 	
 	.accordion .card.desc .card-footer {
-		border-top-color: var( --gray-light-color );
-		padding: var( --spacing-m) 0;
+		border-top-color: var(--lutece-ds-neutral-200 );
+		padding: var(--lutece-ds-sp-md) 0;
 	}
 	
 	.accordion .card.primary .card-footer {
-		background-color: var( --white-light-color );
+		background-color: var(--lutece-ds-neutral-50 );
 	}
 
 	.accordion .card .card-footer:hover .btn-accordion .ti{
-		color: var( --main-color );
-		color: var( --main-color );
+		color: var(--lutece-ds-text );
+		color: var(--lutece-ds-text );
 	}
 	
 }
@@ -422,6 +422,6 @@
 @media ( max-width:  358.98px ) {
 	.accordion .card .card-header .card-header-info, 
 	.accordion .card-header .card-title {
-		font-size: var( --font-sm );
+		font-size: var(--lutece-ds-fs-sm );
 	}
 }

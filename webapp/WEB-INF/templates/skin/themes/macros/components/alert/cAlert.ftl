@@ -70,13 +70,13 @@ Snippet:
 <#local ariaRole='alert' />
 <#elseif type?starts_with('success')>
 <#local alertIconTitle='#i18n{portal.theme.labelSuccess}' />
-<#local alertIconName='alert-check ' />
+<#local alertIconName='circle-check' />
 <#local ariaRole='status' />
 </#if>
 <#local alertClass>alert alert-outline alert-${type}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
 <@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id!>
     <@cBlock class='alert-header'>
-        <@cBlock class='alert-icon'><@cIcon name=alertIconName! type=iconType title=alertIconTitle! /></@cBlock>
+        <@cBlock class='alert-icon'><@cIcon name=alertIconName! title=alertIconTitle! /></@cBlock>
         <@cBlock class='alert-text ${classText!}'><#if title !=''><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
         <#if dismissible>
         <@cBlock class="alert-dismiss">

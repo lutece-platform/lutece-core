@@ -155,27 +155,6 @@ public final class AppPropertiesService
     	return _config.getOptionalValue(name, aClass );
     }
     /**
-     * Reloads all the properties files
-     */
-    @Deprecated
-    public static void reloadAll( )
-    {
-    	AppInitPropertiesService.reloadAll( );
-    }
-
-    /**
-     * Reloads a given properties file
-     * 
-     * @param strFilename
-     *            The file name
-     */
-    @Deprecated
-    public static void reload( String strFilename )
-    {
-    	AppInitPropertiesService.reload( strFilename );
-    }
-
-    /**
      * Gets properties
      * 
      * @return All properties
@@ -217,5 +196,22 @@ public final class AppPropertiesService
     public static List<String> getKeys( String strPrefix )
     {
         return StreamSupport.stream(_config.getPropertyNames().spliterator(), false).filter(key -> key.startsWith(strPrefix)).collect(Collectors.toList());
+    }
+
+    /**
+     * Tells whether a property is declared by one of the configuration sources, whatever its value.
+     *
+     * {@link #getProperty(String)} resolves a property declared with an empty value to <code>null</code>, exactly as it resolves a property that no source
+     * declares, so the resolved value alone cannot tell the two apart. The property names known to the configuration do include the keys declared with an
+     * empty value, which makes this the only way to distinguish an empty declaration from a missing one.
+     *
+     * @param strProperty
+     *            the property key
+     * @return <code>true</code> if a configuration source declares the key, <code>false</code> otherwise
+     * @since version 8.0
+     */
+    public static boolean isPropertyDeclared( String strProperty )
+    {
+        return StreamSupport.stream(_config.getPropertyNames().spliterator(), false).anyMatch(key -> key.equals(strProperty));
     }
 }

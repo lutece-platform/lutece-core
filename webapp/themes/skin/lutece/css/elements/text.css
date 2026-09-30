@@ -50,7 +50,7 @@ h3, .h3 {
 
 @media (max-width: 575px) {
   h3, .h3 {
-    font-size: 28px;
+    font-size: var(--lutece-ds-fs-3xl);
     margin-block-end: var(--lutece-ds-sp-xs-loose);
   }
 }

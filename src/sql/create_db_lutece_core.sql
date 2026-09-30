@@ -557,3 +557,25 @@ CREATE TABLE core_admin_security_header_config_item (
   url_pattern VARCHAR(1024) NOT NULL,
   PRIMARY KEY  (id_config_item)
 );
+--
+-- FreeMarker template chosen for each portlet (8.0.2). Replaces the XSL styles : 0 means the default template of the portlet type.
+--
+-- changeset core:create_db_lutece_core.sql-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = database() AND table_name = 'core_portlet' AND column_name = 'id_template'
+ALTER TABLE core_portlet ADD COLUMN id_template int default 0 NOT NULL;
+
+--
+-- Table structure for table core_portlet_template
+-- The FreeMarker templates available to render the portlets of a type. Managed from the back office (CORE_PORTLET_TEMPLATE_MANAGEMENT right).
+--
+-- changeset core:create_db_lutece_core.sql-rev2.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_portlet_template'
+CREATE TABLE IF NOT EXISTS core_portlet_template (
+	id_template int AUTO_INCREMENT NOT NULL,
+	id_portlet_type varchar(50) default NULL,
+	description varchar(255) default NULL,
+	template_path varchar(255) default NULL,
+	PRIMARY KEY (id_template)
+);

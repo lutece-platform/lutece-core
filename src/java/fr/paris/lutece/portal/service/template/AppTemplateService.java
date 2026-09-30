@@ -34,17 +34,23 @@
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.editor.RichTextEditorBackOfficeMethod;
+import fr.paris.lutece.portal.service.editor.RichTextEditorFrontOfficeMethod;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import jakarta.servlet.ServletContext;
 
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This Service is used to retreive HTML templates, stored as files in the WEB-INF/templates directory of the webapp, to build the user interface. It provides a
@@ -54,6 +60,8 @@ public final class AppTemplateService
 {
     // Variables
     private static String _strTemplateDefaultPath;
+    private static final String SHARED_VARIABLE_RICH_TEXT_EDITOR_BO = "richTextEditorBackOffice";
+    private static final String SHARED_VARIABLE_RICH_TEXT_EDITOR_FO = "richTextEditorFrontOffice";
     private static IFreeMarkerTemplateService _freeMarkerTemplateService;
     private static ServletContext _context;
 
@@ -75,6 +83,38 @@ public final class AppTemplateService
     	_context= context;
         _strTemplateDefaultPath = strTemplatePath;
         getFreeMarkerTemplateService(  ).setSharedVariable( "i18n", new I18nTemplateMethod( ) );
+        // Exposed as shared variables : the ?new built-in is disabled (deny-all class resolver)
+        getFreeMarkerTemplateService(  ).setSharedVariable( SHARED_VARIABLE_RICH_TEXT_EDITOR_BO, new RichTextEditorBackOfficeMethod( ) );
+        getFreeMarkerTemplateService(  ).setSharedVariable( SHARED_VARIABLE_RICH_TEXT_EDITOR_FO, new RichTextEditorFrontOfficeMethod( ) );
+    }
+
+    /**
+     * Tells whether a template exists at a path relative to the templates directory (WEB-INF/templates), wherever it is served from : the webapp or a
+     * plugin jar. A path climbing out of the templates directory is never considered to exist.
+     *
+     * @param strTemplate
+     *            the template path, relative to the templates directory (e.g. skin/plugins/html/portlet_html.html)
+     * @return true when the template exists
+     */
+    public static boolean isTemplateExists( String strTemplate )
+    {
+        if ( StringUtils.isBlank( strTemplate ) || strTemplate.contains( ".." ) )
+        {
+            return false;
+        }
+
+        String strPath = StringUtils.appendIfMissing( _strTemplateDefaultPath, "/" ) + StringUtils.removeStart( strTemplate.trim( ), "/" );
+
+        try
+        {
+            return AppPathService.getLuteceResource( strPath ) != null;
+        }
+        catch( ResourceNotFoundException e )
+        {
+            AppLogService.debug( "Template not found : {}", strPath, e );
+
+            return false;
+        }
     }
 
     /**
@@ -82,6 +122,12 @@ public final class AppTemplateService
      */
     public static void initMacros( )
     {
+        // Drop any Configuration built before this point : auto-includes are only
+        // copied into a Configuration when it is built, so a template processed
+        // earlier in the startup sequence would leave a Configuration without the
+        // plugin macros (cTpl & co) for the whole application lifetime
+        resetConfiguration( );
+
         // register core (commons declared in core.xml)
         Plugin corePlugin = PluginService.getCore( );
         addPluginAutoIncludes( corePlugin );

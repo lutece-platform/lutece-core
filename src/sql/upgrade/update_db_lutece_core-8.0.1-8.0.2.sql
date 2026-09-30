@@ -5,6 +5,9 @@
 UPDATE core_admin_right SET level_right = 0 WHERE id_right = 'CORE_XSL_EXPORT_MANAGEMENT';
 
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2.sql-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Legacy XSL style tables are absent from databases created with the 8.x scripts: skip instead of failing the run
+-- precondition-sql-check expectedResult:3 SELECT COUNT(1) from INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=database() AND TABLE_NAME IN ('core_style_mode_stylesheet','core_stylesheet','core_style');
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 3 AND id_mode = 0 and id_stylesheet = 211;
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 4 AND id_mode = 0 and id_stylesheet = 213;
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 5 AND id_mode = 0 and id_stylesheet = 215;
@@ -93,6 +96,13 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.showRespons
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.labelInfoResponse';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoResponse','Formulaire enregistré !');
 
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev5-pre.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment rev5 deletes the former key (without "banner.") but inserts the banner one : remove it first when it already exists, so rev5 does not fail.
+-- rev5 itself is left untouched to keep its checksum on the databases that already ran it.
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM DATABASECHANGELOG WHERE ID = 'update_db_lutece_core-8.0.1-8.0.2-rev5.sql'
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.showSiteImg.checkbox';
+
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev5.sql
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.showSiteImg.checkbox';
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.title.checkbox';
@@ -105,6 +115,13 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', ''
 -- LUT : Add site property to enable/disable admin home dashboard widget management
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.bo.widget.checkbox';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.widget.checkbox', '1');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev7-pre.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment rev7 deletes the former key (showSiteImgEverywhere) but inserts the onlyhome one : remove it first when it already exists, so rev7 does not fail.
+-- rev7 itself is left untouched to keep its checksum on the databases that already ran it.
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM DATABASECHANGELOG WHERE ID = 'update_db_lutece_core-8.0.1-8.0.2-rev7.sql'
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.onlyhome.checkbox';
 
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev7.sql
 -- LUT : Add site property to enable/disable admin home dashboard widget management
@@ -131,3 +148,42 @@ UPDATE core_page_template SET file_name = 'skin/site/page_demo.html' WHERE file_
 -- options key as '<select key>.options', so the consent platform select was rendered empty
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.consent.platform.select.options';
 UPDATE core_datastore SET entity_key='portal.theme.site_property.consent.platform.select.options' WHERE entity_key='portal.theme.site_property.consent.select.options';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev11.sql
+-- Add default value for the active user's favorites menu checkbox
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.activeUserFavs.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.activeUserFavs.checkbox', '0');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev12.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment FreeMarker template chosen for each portlet : replaces the XSL styles removed from the core. 0 means the default template of the portlet type.
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.columns WHERE table_schema = database() AND table_name = 'core_portlet' AND column_name = 'id_template'
+ALTER TABLE core_portlet ADD COLUMN id_template int default 0 NOT NULL;
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev13.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The FreeMarker templates available to render the portlets of a type, managed from the back office
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_portlet_template'
+CREATE TABLE IF NOT EXISTS core_portlet_template (
+	id_template int AUTO_INCREMENT NOT NULL,
+	id_portlet_type varchar(50) default NULL,
+	description varchar(255) default NULL,
+	template_path varchar(255) default NULL,
+	PRIMARY KEY (id_template)
+);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev14.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Admin feature : management of the portlet templates
+DELETE FROM core_user_right WHERE id_right = 'CORE_PORTLET_TEMPLATE_MANAGEMENT';
+DELETE FROM core_admin_right WHERE id_right = 'CORE_PORTLET_TEMPLATE_MANAGEMENT';
+INSERT INTO core_admin_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT', 'portal.style.adminFeature.portlet_template_management.name', 0, 'jsp/admin/style/ManagePortletTemplates.jsp', 'portal.style.adminFeature.portlet_template_management.description', 0, '', 'STYLE', 'ti ti-template', NULL, 2, 0);
+INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',1);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev15.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- Fix i18n keys of CORE_LEVEL_MANAGEMENT right (keys are defined in users_messages.properties)
+UPDATE core_admin_right
+SET name = 'portal.users.adminFeature.level_management.name',
+    description = 'portal.users.adminFeature.level_management.description'
+WHERE id_right = 'CORE_LEVEL_MANAGEMENT';
