@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.upload;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +43,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -227,24 +223,37 @@ public class UploadServletTest extends LuteceTestCase
         PluginService.notifyListeners( new PluginEvent( p, PluginEvent.PLUGIN_INSTALLED ) );
     }
 
+    /**
+     * Builds a request holding a raw multipart/form-data body with one file part, the way
+     * commons-httpclient 3.1 did before that dependency was dropped. What is under test does not
+     * change : UploadServlet and commons-fileupload still parse a real multipart body, and the
+     * Content-Type header still carries the MIME boundary, which is what makes that parsing possible.
+     * 
+     * @return The request
+     * @throws Exception
+     *             If the body cannot be written
+     */
     private MockHttpServletRequest getMultipartRequest( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         byte [ ] fileContent = new byte [ ] {
                 1, 2, 3
         };
-        Part [ ] parts = new Part [ ] {
-                new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
-        };
-        MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity( parts, new PostMethod( ).getParams( ) );
-        // Serialize request body
+
+        // fixed rather than random, as the library used to generate it : the body stays reproducible
+        String strBoundary = "----LuteceUploadServletTestBoundary";
+
         ByteArrayOutputStream requestContent = new ByteArrayOutputStream( );
-        multipartRequestEntity.writeRequest( requestContent );
-        // Set request body to HTTP servlet request
+        requestContent.write( ( "--" + strBoundary + "\r\n" + "Content-Disposition: form-data; name=\"file1\"; filename=\"file1\"\r\n"
+                + "Content-Type: application/octet-stream\r\n\r\n" ).getBytes( StandardCharsets.US_ASCII ) );
+        requestContent.write( fileContent );
+        requestContent.write( ( "\r\n--" + strBoundary + "--\r\n" ).getBytes( StandardCharsets.US_ASCII ) );
+
         request.setContent( requestContent.toByteArray( ) );
-        // Set content type to HTTP servlet request (important, includes Mime boundary string)
-        request.setContentType( multipartRequestEntity.getContentType( ) );
+        // important, the boundary is what lets commons-fileupload split the body
+        request.setContentType( "multipart/form-data; boundary=" + strBoundary );
         request.setMethod( "POST" );
+
         return request;
     }
 }

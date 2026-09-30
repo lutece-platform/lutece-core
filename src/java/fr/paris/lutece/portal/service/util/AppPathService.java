@@ -63,6 +63,7 @@ public final class AppPathService
 {
     public static final String SESSION_BASE_URL = "base_url";
     private static final String MSG_LOG_PROPERTY_NOT_FOUND = "Property {0} not found in the properties file ";
+    private static final String MSG_LOG_PROPERTY_EMPTY = "Property {0} is declared with an empty value in the properties file, which the configuration API resolves as undefined. Set a value, or remove the declaration if the setting is optional. ";
     private static final int PORT_NUMBER_HTTP = 80;
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String PROPERTY_PORTAL_URL = "lutece.portal.path";
@@ -132,14 +133,30 @@ public final class AppPathService
 
         if ( strDirectory == null )
         {
-            Object [ ] propertyMissing = {
-                    strKey
-            };
-            String strMsg = MessageFormat.format( MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing );
-            throw new AppException( strMsg );
+            throw new AppException( getUndefinedPropertyMessage( strKey ) );
         }
 
         return getWebAppPath( ) + strDirectory;
+    }
+
+    /**
+     * Builds the diagnostic for a property key that {@link AppPropertiesService#getProperty(String) getProperty} resolved to <code>null</code>.
+     *
+     * The configuration API maps a key declared with an empty value to <code>null</code>, exactly as it maps a key that is absent altogether, so the resolved
+     * value alone cannot tell the two apart : only {@link AppPropertiesService#isPropertyDeclared(String) isPropertyDeclared} can.
+     *
+     * @param strKey
+     *            the property key that could not be resolved
+     * @return the message explaining why the key could not be resolved
+     */
+    private static String getUndefinedPropertyMessage( String strKey )
+    {
+        String strPattern = AppPropertiesService.isPropertyDeclared( strKey ) ? MSG_LOG_PROPERTY_EMPTY : MSG_LOG_PROPERTY_NOT_FOUND;
+        Object [ ] propertyKey = {
+                strKey
+        };
+
+        return MessageFormat.format( strPattern, propertyKey );
     }
 
     /**

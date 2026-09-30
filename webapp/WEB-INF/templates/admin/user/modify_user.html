@@ -19,18 +19,33 @@
 						<#if attributes_list?has_content><#assign colsm=4><#else><#assign colsm=6></#if>
 						<@columns sm=colsm>
 						<@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>
-							<@formGroup labelFor='access_code' labelKey='#i18n{portal.users.modify_user.labelAccessCode}' mandatory=true rows=2>
-								<@input type='text' name='access_code' id='access_code' value="${user.accessCode!''}" />
-							</@formGroup>   
-							<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}' mandatory=true rows=2>
-								<@input type='text' name='last_name' id='last_name' value="${user.lastName!''}" />
-							</@formGroup>   
-							<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}' mandatory=true rows=2>
-								<@input type='text' name='first_name' id='first_name' value="${user.firstName!''}" />
-							</@formGroup>   
-							<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}' mandatory=true rows=2>
-								<@input type='email' name='email' id='email' value="${user.email!''}" />
-							</@formGroup>   
+							<#if !userIdentityEditable>
+								<@formGroup labelFor='access_code' labelKey='#i18n{portal.users.modify_user.labelAccessCode}' rows=2>
+									<@input type='text' name='access_code' id='access_code' value="${user.accessCode!''}" readonly=true />
+								</@formGroup>
+								<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}' rows=2>
+									<@input type='text' name='last_name' id='last_name' value="${user.lastName!''}" readonly=true />
+								</@formGroup>
+								<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}' rows=2>
+									<@input type='text' name='first_name' id='first_name' value="${user.firstName!''}" readonly=true />
+								</@formGroup>
+								<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}' rows=2>
+									<@input type='email' name='email' id='email' value="${user.email!''}" readonly=true />
+								</@formGroup>
+							<#else>
+								<@formGroup labelFor='access_code' labelKey='#i18n{portal.users.modify_user.labelAccessCode}' mandatory=true rows=2>
+									<@input type='text' name='access_code' id='access_code' value="${user.accessCode!''}" />
+								</@formGroup>
+								<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}' mandatory=true rows=2>
+									<@input type='text' name='last_name' id='last_name' value="${user.lastName!''}" />
+								</@formGroup>
+								<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}' mandatory=true rows=2>
+									<@input type='text' name='first_name' id='first_name' value="${user.firstName!''}" />
+								</@formGroup>
+								<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}' mandatory=true rows=2>
+									<@input type='email' name='email' id='email' value="${user.email!''}" />
+								</@formGroup>
+							</#if>
 						</@fieldSet>
 						</@columns>
 						<@columns sm=colsm>

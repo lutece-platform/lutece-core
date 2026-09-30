@@ -56,6 +56,9 @@ public class AppPathServiceTest extends LuteceTestCase
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String FRAGMENT_END_PATH_XSL = "/WEB-INF/xsl/";
     private static final String FRAGMENT_END_PATH_CONF = "/WEB-INF/conf/";
+    // Declared in webapp/WEB-INF/conf/config.properties, with no value
+    private static final String PROPERTY_DECLARED_WITHOUT_VALUE = "lutece.prod.url";
+    private static final String PROPERTY_MISSING = "lutece.path.that.is.not.declared";
 
     /**
      * Test of getPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
@@ -70,6 +73,45 @@ public class AppPathServiceTest extends LuteceTestCase
         assertNotNull( expResult );
         assertTrue( result.endsWith( expResult ) );
         System.out.println( result );
+    }
+
+    /**
+     * A key declared with an empty value resolves to null just like an absent key, so getPath used to report both as not found. The exception must now name the
+     * actual cause, an empty declaration being fixed in a different place than a missing one.
+     */
+    public void testGetPathWhenPropertyIsDeclaredWithoutValue( )
+    {
+        assertNull( AppPropertiesService.getProperty( PROPERTY_DECLARED_WITHOUT_VALUE ) );
+        assertTrue( "The key must be known to the configuration even without a value",
+                AppPropertiesService.isPropertyDeclared( PROPERTY_DECLARED_WITHOUT_VALUE ) );
+
+        try
+        {
+            AppPathService.getPath( PROPERTY_DECLARED_WITHOUT_VALUE );
+            fail( "An AppException was expected for a property declared without a value" );
+        }
+        catch( AppException e )
+        {
+            assertTrue( e.getMessage( ), e.getMessage( ).contains( "declared with an empty value" ) );
+        }
+    }
+
+    /**
+     * Test of getPath method with a key no configuration source declares.
+     */
+    public void testGetPathWhenPropertyIsMissing( )
+    {
+        assertFalse( AppPropertiesService.isPropertyDeclared( PROPERTY_MISSING ) );
+
+        try
+        {
+            AppPathService.getPath( PROPERTY_MISSING );
+            fail( "An AppException was expected for a missing property" );
+        }
+        catch( AppException e )
+        {
+            assertTrue( e.getMessage( ), e.getMessage( ).contains( "not found in the properties file" ) );
+        }
     }
 
     /**

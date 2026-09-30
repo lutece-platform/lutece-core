@@ -158,7 +158,7 @@ public final class AdminAuthenticationService
                     {
                         unregisterUser( request );
                         registerUser( request, newUser );
-                        AdminUserService.updateDateLastLogin( user.getUserId( ) );
+                        AdminUserService.updateDateLastLogin( newUser.getUserId( ) );
 
                         // Start a new session
                         throw new UserNotSignedException( );
@@ -338,6 +338,16 @@ public final class AdminAuthenticationService
     public boolean isExternalAuthentication( )
     {
         return _authentication.isExternalAuthentication( );
+    }
+
+    /**
+     * Indicates whether the user's identity can be modified.
+     *
+     * @return true when the user is editable.
+     */
+    public boolean isUserIdentityEditable( )
+    {
+        return _authentication.isUserIdentityEditable( );
     }
 
     /**

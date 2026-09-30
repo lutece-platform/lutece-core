@@ -52,6 +52,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.util.string.StringUtil;
+
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -332,6 +334,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_RANDOM_PASSWORD_SIZE = "randomPasswordSize";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
     private static final String MARK_DEFAULT_MODE_USED = "defaultModeUsed";
+    private static final String MARK_USER_IDENTITY_EDITABLE = "userIdentityEditable";
     private static final String MARK_EXPORT_USERS = "users";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
@@ -891,6 +894,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        model.put( MARK_USER_IDENTITY_EDITABLE, AdminAuthenticationService.getInstance( ).isUserIdentityEditable( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MODIFY_USER ) );
 
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
@@ -942,6 +946,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return message;
         }
 
+        // If the user information is not editable, preserve its existing values.
+        if ( !AdminAuthenticationService.getInstance( ).isUserIdentityEditable( ) )
+        {
+            strAccessCode = userToModify.getAccessCode( );
+            strLastName = userToModify.getLastName( );
+            strFirstName = userToModify.getFirstName( );
+            strEmail = userToModify.getEmail( );
+        }
+
         int checkCode = AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode );
 
         // check again that access code is not in use
@@ -984,6 +997,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setAccessibilityMode( strAccessibilityMode != null );
 
             AdminUserHome.update( user, PasswordUpdateMode.IGNORE );
+            renewLifeTimeOfReactivatedAccount( userToModify, nStatus );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
@@ -1012,6 +1026,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             AdminUserHome.update( user );
+            renewLifeTimeOfReactivatedAccount( userToModify, user.getStatus( ) );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
@@ -1020,6 +1035,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_USER;
+    }
+
+    /**
+     * Renew the account life time of a user that an administrator reactivates after the account has expired. Without it, the account max valid date would
+     * remain in the past and the account life time daemon would expire the account again on its next run.
+     * 
+     * @param userBeforeModification
+     *            The user as it was before the modification
+     * @param nNewStatus
+     *            The new status of the user
+     */
+    private void renewLifeTimeOfReactivatedAccount( AdminUser userBeforeModification, int nNewStatus )
+    {
+        if ( ( userBeforeModification.getRealStatus( ) == AdminUser.EXPIRED_CODE ) && ( nNewStatus == AdminUser.ACTIVE_CODE ) )
+        {
+            AdminUserHome.updateUserExpirationDate( userBeforeModification.getUserId( ), AdminUserService.getAccountMaxValidDate( ) );
+        }
     }
 
     /**
@@ -2627,7 +2659,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUserService.updateSecurityParameter( strSenderKey, request.getParameter( MARK_EMAIL_SENDER ) );
         AdminUserService.updateSecurityParameter( strSubjectKey, request.getParameter( MARK_EMAIL_SUBJECT ) );
-        DatabaseTemplateService.updateTemplate( strBodyKey, request.getParameter( MARK_EMAIL_BODY ) );
+        DatabaseTemplateService.updateTemplate( strBodyKey, StringUtil.decodeXssBypass( request.getParameter( MARK_EMAIL_BODY ) ) );
 
         return getAdminDashboardsUrl( request, ANCHOR_LIFE_TIME_EMAILS );
     }
