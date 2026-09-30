@@ -129,34 +129,36 @@ public class WebConfResourceLocator {
     }
 
     /**
-     * Retrieves a set of paths to properties files found in the scanned directories.
+     * Retrieves a set of paths to properties files found in the scanned directories, in their loading order: the
+     * last one loaded wins (see {@link FileSorterUtil#sortByPropertiesPrecedence(java.util.List)}).
      * 
      * @return A set of paths to properties files.
      */
     public static Set<String> getPathPropertiesFile() {
-        return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(getResourcesWithExtension("properties").getPathsRelativeToClasspathElement()));
+        return new LinkedHashSet<>(FileSorterUtil.sortByPropertiesPrecedence(getResourcesWithExtension("properties").getPathsRelativeToClasspathElement()));
     }
 
     /**
      * Retrieves the properties files that are NOT located under the override directories
-     * ({@code override/} and {@code override/plugins}).
+     * ({@code override/} and {@code override/plugins}), in their loading order: the last one loaded wins.
      *
      * @return A set of paths to the non-override properties files.
      */
     public static Set<String> getPathPropertiesFileWithoutOverride() {
-        return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(
+        return new LinkedHashSet<>(FileSorterUtil.sortByPropertiesPrecedence(
                 getResourcesWithExtension("properties").getPathsRelativeToClasspathElement().stream()
                         .filter(path -> !isOverridePath(path)).collect(Collectors.toList())));
     }
 
     /**
      * Retrieves the properties files located under the override directories
-     * ({@code override/} and {@code override/plugins}).
+     * ({@code override/} and {@code override/plugins}), in their loading order: {@code override/plugins} is loaded
+     * after {@code override/}, so its values win.
      *
      * @return A set of paths to the override properties files.
      */
     public static Set<String> getPathOverridePropertiesFile() {
-        return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(
+        return new LinkedHashSet<>(FileSorterUtil.sortByPropertiesPrecedence(
                 getResourcesWithExtension("properties").getPathsRelativeToClasspathElement().stream()
                         .filter(WebConfResourceLocator::isOverridePath).collect(Collectors.toList())));
     }

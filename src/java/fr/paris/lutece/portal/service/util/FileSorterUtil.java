@@ -1,5 +1,6 @@
 package fr.paris.lutece.portal.service.util;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,47 @@ public class FileSorterUtil {
     public static final String PATH_OVERRIDE_CORE = PATH_CONF + "override/";
     public static final String PATH_OVERRIDE_PLUGINS = PATH_CONF + "override/plugins";
     
+    /**
+     * Sorts properties file paths into their loading order, from the weakest location to the strongest: the plugins,
+     * the themes, the override directory, then the override/plugins directory, each one in alphabetical order. The
+     * files are loaded in this order into one set of properties, so a key set in several files takes the value of the
+     * last one, as in Lutece 7. A path may be relative, the way the classpath scan returns it, or start with a slash.
+     *
+     * @param set The list of properties file paths
+     * @return The paths in the order they must be loaded
+     */
+    public static List<String> sortByPropertiesPrecedence( List<String> set )
+    {
+        return set.stream( )
+                .sorted( Comparator.comparingInt( FileSorterUtil::getPropertiesPrecedence ).thenComparing( Comparator.naturalOrder( ) ) )
+                .collect( Collectors.toList( ) );
+    }
+
+    /**
+     * Returns the rank of a properties file in the loading order: the higher the rank, the later the file is loaded
+     * and the stronger its values.
+     *
+     * @param path The file path, relative or starting with a slash
+     * @return The rank of its directory
+     */
+    private static int getPropertiesPrecedence( String path )
+    {
+        String strPath = path.startsWith( "/" ) ? path : "/" + path;
+        if ( strPath.startsWith( PATH_OVERRIDE_PLUGINS + "/" ) )
+        {
+            return 4;
+        }
+        if ( strPath.startsWith( PATH_OVERRIDE_CORE ) )
+        {
+            return 3;
+        }
+        if ( strPath.startsWith( PATH_THEMES ) )
+        {
+            return 2;
+        }
+        return strPath.startsWith( PATH_PLUGINS ) ? 1 : 0;
+    }
+
     /**
      * Sorts the list of file paths by both path priority and extension priority.
      * First, the list is sorted by path priority, and then by extension priority.
