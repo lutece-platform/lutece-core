@@ -35,16 +35,13 @@ package fr.paris.lutece.portal.service.editor;
 
 import fr.paris.lutece.portal.business.editor.ParserComplexElement;
 import fr.paris.lutece.portal.business.editor.ParserElement;
+import fr.paris.lutece.portal.service.html.XSSSanitizerException;
+import fr.paris.lutece.portal.service.html.XSSSanitizerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.xss.FieldValidationService;
 import fr.paris.lutece.util.parser.BbcodeUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.safety.Cleaner;
 import org.jsoup.safety.Safelist;
 
 import java.util.ArrayList;
@@ -75,9 +72,6 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static final String PROPERTY_EDITOR_BBCODE_ELEMENT_PATH = "editors.parser.bbcode.element";
     private static final String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
     private static final String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
-    private static final String INVALID_URL = "invalid_url";
-    private static final String SELECTOR_LINK_WITH_HREF = "a[href]";
-    private static final String ATTRIBUTE_HREF = "href";
     private static final String SEPARATOR = ",";
     private static EditorBbcodeService _singleton;
     private static List<ParserElement> _listParserElement;
@@ -103,28 +97,28 @@ public class EditorBbcodeService implements IEditorBbcodeService
     }
 
     /**
-     * Parse a comment as BBCode and return safe HTML.
+     * Parses a comment as BBCode and sanitizes the generated HTML.
      *
-     * @param strValue the comment text
+     * @param strValue
+     *            the comment text
      * @return the parsed and sanitized comment
      */
     public String parseComment( String strValue )
     {
-        if ( strValue == null || strValue.isBlank( ) )
+        if ( StringUtils.isBlank( strValue ) )
         {
             return strValue;
         }
 
         try
         {
-            Document document = Jsoup.parseBodyFragment( BbcodeUtil.parse( escapeHtml( strValue ), _listParserElement, _listParserComplexElement ) );
-            validateUrls( document );
+            String strHtml = BbcodeUtil.parse( strValue, _listParserElement, _listParserComplexElement );
 
-            return new Cleaner( Safelist.basicWithImages( ) ).clean( document ).body( ).html( );
+            return XSSSanitizerService.sanitize( strHtml );
         }
-        catch ( Exception e )
+        catch( XSSSanitizerException e )
         {
-            AppLogService.error( "Error occurred while parsing and cleaning the comment", e );
+            AppLogService.error( "Error occurred while parsing and sanitizing the comment", e );
             return "Error occurred during processing. Please try again later.";
         }
     }
@@ -233,41 +227,4 @@ public class EditorBbcodeService implements IEditorBbcodeService
         }
     }
 
-    /**
-     * Escapes user supplied values before BBCode substitutions can insert them
-     * into HTML attributes.
-     *
-     * @param value
-     *            the user supplied value
-     * @return the HTML escaped value
-     */
-    private String escapeHtml( String value )
-    {
-        return StringEscapeUtils.escapeHtml4( value )
-                .replace( "'", "&#39;" );
-    }
-
-    /**
-     * Validates the {@code href} attribute of every link in the document. Invalid links are unwrapped so that their
-     * text remains visible without creating a clickable URL.
-     *
-     * @param document
-     *            the parsed BBCode HTML document to update
-     */
-    private void validateUrls( Document document )
-    {
-        for ( Element link : document.select( SELECTOR_LINK_WITH_HREF ) )
-        {
-            String strValidatedUrl = FieldValidationService.validateUrl( link.attr( ATTRIBUTE_HREF ) );
-            if ( INVALID_URL.equals( strValidatedUrl ) )
-            {
-                link.text( "[Url invalid]");
-                link.unwrap( );
-            }
-            else
-            {
-                link.attr( ATTRIBUTE_HREF, strValidatedUrl );
-            }
-        }
-    }
 }
