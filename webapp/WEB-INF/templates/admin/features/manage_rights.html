@@ -1,18 +1,45 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}'/>
-
+        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}' />
+        <@tform method='get' action='jsp/admin/features/ManageRights.jsp' name='SearchRightsForm'>
+            <@div class='row g-2 align-items-center mb-2'>
+                <@div class='col-12 col-md-4'>
+                    <@inputGroup>
+                        <@button type='submit' color='default' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['all'] />
+                        <@input type='search' name='search' id='rights-search' value=(search!'')?html placeHolder='#i18n{portal.features.manage_rights.filterSearchPlaceholder}' autoComplete='off' params='aria-label="#i18n{portal.features.manage_rights.filterSearchPlaceholder}"' />
+                    </@inputGroup>
+                </@div>
+                <@div class='col-6 col-md-2'>
+                    <@select name='plugin' id='filter-plugin' items=plugins_list default_value=selected_plugin title='#i18n{portal.features.manage_rights.filterAllPlugins}' />
+                </@div>
+                <@div class='col-6 col-md-2'>
+                    <@select name='level' id='filter-level' items=levels_list default_value=selected_level title='#i18n{portal.features.manage_rights.filterAllLevels}' />
+                </@div>
+                <@div class='col-auto'>
+                    <@aButton href='jsp/admin/features/ManageRights.jsp?search=&amp;level=&amp;plugin=' color='default' buttonIcon='refresh' title='#i18n{portal.util.labelReset}' />
+                </@div>
+            </@div>
+        </@tform>
+        <#if rights_list?has_content>
         <@table headBody=true >
-            <@tr>            
-                <@th>#i18n{portal.features.manage_rights.columnTitleName}</@th>
-                <@th>#i18n{portal.features.manage_rights.columnTitleDescription}</@th>
-                <@th>#i18n{portal.features.manage_rights.columnTitleLevel}</@th>
+            <@tr>
+                <@th>#i18n{portal.features.manage_rights.columnTitleName}
+                    <@sort jsp_url="jsp/admin/features/ManageRights.jsp" attribute="name" />
+                </@th>
+                <@th>#i18n{portal.features.manage_rights.columnTitlePlugin}
+                    <@sort jsp_url="jsp/admin/features/ManageRights.jsp" attribute="pluginName" />
+                </@th>
+                <@th>#i18n{portal.features.manage_rights.columnTitleDescription}
+                    <@sort jsp_url="jsp/admin/features/ManageRights.jsp" attribute="description" /></@th>
+                <@th>#i18n{portal.features.manage_rights.columnTitleLevel}
+                    <@sort jsp_url="jsp/admin/features/ManageRights.jsp" attribute="level" /></@th>
                 <@th>#i18n{portal.features.manage_rights.columnTitleActions}</@th>
             </@tr>
             <@tableHeadBodySeparator />
-            <#list rights_list?sort_by('name') as right >
+            <#list rights_list as right >
                 <@tr>
                     <@td>${right.name}</@td>
+                    <@td><span class="badge bg-secondary-lt"><#if (right.pluginName)?has_content>${right.pluginName}<#else>#i18n{portal.features.manage_rights.coreLabel}</#if></span></@td>
                     <@td>${right.description}</@td>
                     <@td>${right.level}</@td>
                     <@td>
@@ -21,5 +48,23 @@
                 </@tr>
             </#list>
         </@table>
+        <@paginationAdmin paginator=paginator combo=1 />
+        <#else>
+        <@alert color='info'>#i18n{portal.features.manage_rights.filterNoResult}</@alert>
+        </#if>
     </@pageColumn>
 </@pageContainer>
+
+<script>
+document.addEventListener( 'DOMContentLoaded', function( ) {
+    const form = document.forms[ 'SearchRightsForm' ];
+    if ( !form ) {
+        return;
+    }
+    form.querySelectorAll( 'select' ).forEach( function( select ) {
+        select.addEventListener( 'change', function( ) {
+            form.submit( );
+        } );
+    } );
+} );
+</script>
