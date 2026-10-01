@@ -66,7 +66,7 @@ Snippet:
 <#local ariaRole='alert' />
 <#elseif type?starts_with('warning')>
 <#local alertIconTitle='#i18n{portal.theme.labelWarning}' />
-<#local alertIconName='alert-triangle' />
+<#local alertIconName='alert-triangle ' />
 <#local ariaRole='alert' />
 <#elseif type?starts_with('success')>
 <#local alertIconTitle='#i18n{portal.theme.labelSuccess}' />

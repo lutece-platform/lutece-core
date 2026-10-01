@@ -10,8 +10,8 @@ Parameters:
 - help (string, optional): help text for the step content. Default: ''.
 - iterable (boolean, optional): enables iteration numbering. Default: false.
 - iteration (number, optional): the current iteration number. Default: 0.
-- labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.theme.labelAdd}'.
-- labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.theme.labelDelete}'.
+- labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.portal.theme.labelAdd}'.
+- labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.portal.theme.labelDelete}'.
 - params (string, optional): additional HTML attributes. Default: ''.
 
 Snippet:
@@ -25,4 +25,4 @@ Snippet:
     </@cStepContent>
 
 -->
-<#macro cStepContent title id='' class='' help='' iterable=false iteration=0 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' params=''></#macro>
+<#macro cStepContent title id='' class='' help='' iterable=false iteration=0 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' params=''></#macro>

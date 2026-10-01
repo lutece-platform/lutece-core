@@ -8,8 +8,8 @@ Parameters:
 - iterable (boolean, optional): enables add/remove iteration controls. Default: false.
 - iteration (number, optional): the current iteration number. Default: 0.
 - iterationMax (number, optional): maximum number of iterations allowed. Default: 10.
-- labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.theme.labelAdd}'.
-- labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.theme.labelDelete}'.
+- labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.portal.theme.labelAdd}'.
+- labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.portal.theme.labelDelete}'.
 - headerParams (string, optional): additional HTML attributes for the group header. Default: ''.
 - isFieldset (boolean, optional): uses a fieldset element as parent. Default: false.
 - noFieldsetTitleLevel (number, optional): heading level when not using a fieldset. Default: 3.
@@ -48,7 +48,7 @@ Snippet:
     </@cStepGroup>
 
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
 <@cBlock class='step-group'>
