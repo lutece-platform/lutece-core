@@ -43,7 +43,6 @@ import java.util.Set;
 
 import org.apache.logging.log4j.status.StatusLogger;
 
-import fr.paris.lutece.portal.service.init.WebConfResourceLocator;
 import fr.paris.lutece.portal.service.security.RsaService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
@@ -85,16 +84,6 @@ public class PropertiesService
     {
         String strPath =  ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
         loadFile( strPath );
-    }
-
-    /**
-     * Add properties from all files found in a given directory
-     * 
-     * @param strRelativePath
-     *            Relative path
-     */
-    public void addPropertiesDirectory(String ... strRelativePaths)  {
-    	loadProperties(WebConfResourceLocator.getPathPropertiesFile( ));
     }
 
     /**

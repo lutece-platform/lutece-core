@@ -51,7 +51,6 @@ import org.junit.jupiter.api.Test;
 public class PropertiesServiceTest extends LuteceTestCase
 {
     private static final String PATH_CONF = "WEB-INF/conf";
-    private static final String PATH_CONF_PLUGINS = "WEB-INF/conf/plugins";
     private static final String FILE_CONFIG = "config.properties";
     private static final String PROPERTY_PROD_URL = "lutece.prod.url";
 
@@ -67,20 +66,6 @@ public class PropertiesServiceTest extends LuteceTestCase
 
         instance.addPropertiesFile( PATH_CONF, FILE_CONFIG );
         instance.getProperty( PROPERTY_PROD_URL );
-    }
-
-    /**
-     * Test of addPropertiesDirectory method, of class fr.paris.lutece.util.PropertiesService.
-     */
-    @Test
-    public void testAddPropertiesDirectory( ) throws Exception
-    {
-        System.out.println( "addPropertiesDirectory" );
-
-        String strRelativePath = PATH_CONF_PLUGINS;
-        PropertiesService instance = new PropertiesService( );
-
-        instance.addPropertiesDirectory( strRelativePath );
     }
 
     /**
