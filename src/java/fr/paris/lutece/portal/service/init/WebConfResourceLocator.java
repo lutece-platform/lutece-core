@@ -131,6 +131,10 @@ public class WebConfResourceLocator {
     /**
      * Retrieves a set of paths to properties files found in the scanned directories, in their loading order: the
      * last one loaded wins (see {@link FileSorterUtil#sortByPropertiesPrecedence(java.util.List)}).
+     * <p>
+     * This set mixes the override files and the others. The two MicroProfile {@code ConfigSource}s are not fed from
+     * it, but from {@link #getPathPropertiesFileWithoutOverride()} and {@link #getPathOverridePropertiesFile()}.
+     * </p>
      * 
      * @return A set of paths to properties files.
      */
@@ -140,7 +144,8 @@ public class WebConfResourceLocator {
 
     /**
      * Retrieves the properties files that are NOT located under the override directories
-     * ({@code override/} and {@code override/plugins}), in their loading order: the last one loaded wins.
+     * ({@code override/} and {@code override/plugins}), in their loading order: the last one loaded wins, so the
+     * themes win over the plugins. This is the content of the base {@code ConfigSource}.
      *
      * @return A set of paths to the non-override properties files.
      */
@@ -153,7 +158,8 @@ public class WebConfResourceLocator {
     /**
      * Retrieves the properties files located under the override directories
      * ({@code override/} and {@code override/plugins}), in their loading order: {@code override/plugins} is loaded
-     * after {@code override/}, so its values win.
+     * after {@code override/}, so its values win. This is the content of the override {@code ConfigSource}, whose
+     * higher ordinal makes all of them win over the base ones.
      *
      * @return A set of paths to the override properties files.
      */

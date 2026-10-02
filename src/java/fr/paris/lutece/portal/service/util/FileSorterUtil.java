@@ -18,6 +18,12 @@ public class FileSorterUtil {
      * the themes, the override directory, then the override/plugins directory, each one in alphabetical order. The
      * files are loaded in this order into one set of properties, so a key set in several files takes the value of the
      * last one, as in Lutece 7. A path may be relative, the way the classpath scan returns it, or start with a slash.
+     * <p>
+     * The configuration is exposed to MicroProfile Config through two {@code ConfigSource}s, so the four ranks never
+     * appear together in one list: the base source is given the plugins and the themes only, the override source the
+     * two override directories only. This order therefore arbitrates <b>inside</b> a source. Between the two sources,
+     * it is their {@code ConfigSource} ordinal that makes the override values win, not this sort.
+     * </p>
      *
      * @param set The list of properties file paths
      * @return The paths in the order they must be loaded
