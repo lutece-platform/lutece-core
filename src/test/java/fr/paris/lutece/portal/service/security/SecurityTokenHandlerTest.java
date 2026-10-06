@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.security;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -48,6 +50,7 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     private static final String ADMIN_CONTROLLER = "/jsp/admin/system/ManageSecurityHeaders.jsp";
     private static final String ACTION_WITH_TOKEN = "removeSecurityHeader";
     private static final String ACTION_WITHOUT_TOKEN = "enableSecurityHeader";
+    private static final String VIEW_DEFAULT = "defaultView";
 
     @Inject
     private SecurityTokenHandler _handler;
@@ -117,5 +120,36 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
         MockHttpServletRequest request = post( "/jsp/site/Portal.jsp", ACTION_WITH_TOKEN );
         request.setParameter( "page", "unknown" );
         assertTrue( _handler.shouldNotFilter( request ) );
+    }
+
+    /**
+     * A default view displayed without the view parameter gets the token of its action.
+     *
+     * @throws NoSuchMethodException
+     *             if the default view is missing
+     */
+    @Test
+    public void testDefaultViewWithoutViewParameterGetsToken( ) throws NoSuchMethodException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setServletPath( ADMIN_CONTROLLER );
+        _handler.handle( request );
+        _handler.handleToken( request, ControllerInvocationType.DEFAULT_VIEW, SecurityTokenHandlerTest.class.getDeclaredMethod( VIEW_DEFAULT ) );
+
+        String strToken = _handler.resolveTokenValue( request );
+        assertNotNull( strToken );
+        request.setParameter( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
+        assertTrue( _handler.validate( request, ACTION_WITH_TOKEN ) );
+    }
+
+    /**
+     * Default view carrying the token of the action.
+     *
+     * @return nothing
+     */
+    @View( value = VIEW_DEFAULT, defaultView = true, securityTokenAction = ACTION_WITH_TOKEN )
+    private String defaultView( )
+    {
+        return null;
     }
 }
