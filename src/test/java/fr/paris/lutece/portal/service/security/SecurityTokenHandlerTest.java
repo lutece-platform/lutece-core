@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.util.HashMap;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +53,8 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     private static final String ACTION_WITH_TOKEN = "removeSecurityHeader";
     private static final String ACTION_WITHOUT_TOKEN = "enableSecurityHeader";
     private static final String VIEW_DEFAULT = "defaultView";
+    private static final String TOKEN = "token-value";
+    private static final String TOKEN_FIELD = "<input type=\"hidden\" name=\"_csrftoken\" value=\"" + TOKEN + "\" >";
 
     @Inject
     private SecurityTokenHandler _handler;
@@ -151,5 +155,19 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     private String defaultView( )
     {
         return null;
+    }
+
+    /**
+     * A form whose first attribute follows several spaces or a line break still receives the token field.
+     */
+    @Test
+    public void testTokenAddedAfterAnyWhitespace( )
+    {
+        HashMap<String, Object> model = new HashMap<>( );
+        model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, TOKEN );
+
+        assertEquals( "<form  id=\"f\">" + TOKEN_FIELD + "</form>", SecurityTokenHandler.addSecurityToken( "<form  id=\"f\"></form>", model ) );
+        assertEquals( "<form\n  method=\"post\">" + TOKEN_FIELD + "</form>",
+                SecurityTokenHandler.addSecurityToken( "<form\n  method=\"post\"></form>", model ) );
     }
 }
