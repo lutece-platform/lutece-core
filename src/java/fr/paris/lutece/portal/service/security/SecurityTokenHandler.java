@@ -79,7 +79,7 @@ public class SecurityTokenHandler
     private static final String SESSION_ATTRIBUTE_SITE_TOKEN = "LUTECE_PORTAL_CSRF_TOKEN";
     private static final String SESSION_ATTRIBUTE_ADMIN_TOKEN = "LUTECE_ADMIN_CSRF_TOKEN";
     private static final String SESSION_ATTRIBUTE_TOKENS = "tokens";
-    private static final String PATTERN_FORM = "<form ([a-z]+)(?![^>]*\\\\/>)[^>]*>";
+    private static final String PATTERN_FORM = "<form\\s+([a-z]+)(?![^>]*\\\\/>)[^>]*>";
     private static final String TOKEN_FIELD_PATTERN = "<input type=\"hidden\" name=\"_csrftoken\" value=\"{0}\" >";
     private static final String PARAMETER_PAGE = "page";
     private static final String PATH_ADMIN = "/jsp/admin";
