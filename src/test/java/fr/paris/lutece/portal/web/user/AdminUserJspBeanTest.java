@@ -37,8 +37,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -1808,7 +1810,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         request.setParameter( "email_type", "first" );
         request.setParameter( "email_sender", "junit" );
         request.setParameter( "email_subject", "junit" );
-        request.setParameter( "email_body", "junit" );
+        request.setParameter( "email_body", Base64.getEncoder( ).encodeToString( "junit".getBytes( StandardCharsets.UTF_8 ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyAccountLifeTimeEmails.jsp" ) );
         try
