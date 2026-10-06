@@ -253,15 +253,10 @@ public class SecurityTokenHandler
                     handleToken( request, secTokenAction );
                 }
             } else {
-                String strView = MVCUtils.getView( request );
-                if ( strView != null )
-                {
-                    String secTokenAction = !"".equals( method.getAnnotation( View.class ).securityTokenAction( ) )
-                            ? method.getAnnotation( View.class ).securityTokenAction( )
-                            : method.getAnnotation( View.class ).value( );
-                    handleToken( request, secTokenAction );
-                    return;
-                }
+                String secTokenAction = !"".equals( method.getAnnotation( View.class ).securityTokenAction( ) )
+                        ? method.getAnnotation( View.class ).securityTokenAction( )
+                        : method.getAnnotation( View.class ).value( );
+                handleToken( request, secTokenAction );
             }
         }
     }
