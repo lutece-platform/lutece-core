@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.BlockingQueue;
@@ -184,11 +182,11 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
-            Instant start = Instant.now( );
+            long start = System.currentTimeMillis( );
             assertTrue( scheduler.enqueue( entry, 500L, TimeUnit.MILLISECONDS ) );
             assertFalse( testDaemon.hasRun( ) );
             testDaemon.go( );
-            assertTrue( 500L <= Duration.between( start, Instant.now( ) ).toMillis( ) );
+            assertTrue( 500L <= ( System.currentTimeMillis( ) - start ) );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
         }
@@ -346,15 +344,15 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
-            Instant start = Instant.now( );
+            long start = System.currentTimeMillis( );
             scheduler.schedule( entry, 0L, TimeUnit.MILLISECONDS );
             assertFalse( testDaemon.hasRun( ) );
             testDaemon.go( );
-            System.out.println( "Daemon took " + Duration.between( start, Instant.now( ) ).toNanos( ) + "ns to execute" );
+            System.out.println( "Daemon took " + ( System.currentTimeMillis( ) - start ) + "ms to execute" );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
             testDaemon.go( );
-            assertTrue( 1000L <= Duration.between( start, Instant.now( ) ).toMillis( ) );
+            assertTrue( 1000L <= ( System.currentTimeMillis( ) - start ) );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
         }
@@ -404,11 +402,11 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
-            Instant start = Instant.now( );
+            long start = System.currentTimeMillis( );
             scheduler.schedule( entry, 500L, TimeUnit.MILLISECONDS );
             assertFalse( testDaemon.hasRun( ) );
             testDaemon.go( );
-            assertTrue( 500L <= Duration.between( start, Instant.now( ) ).toMillis( ) );
+            assertTrue( 500L <= ( System.currentTimeMillis( ) - start ) );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
         }
@@ -458,7 +456,7 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
-            Instant start = Instant.now( );
+            long start = System.currentTimeMillis( );
             scheduler.schedule( entry, 0L, TimeUnit.MICROSECONDS );
             scheduler.schedule( entry, 500L, TimeUnit.MILLISECONDS );
             assertFalse( testDaemon.hasRun( ) );
@@ -466,7 +464,7 @@ public class DaemonSchedulerTest extends LuteceTestCase
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
             testDaemon.go( );
-            long timeForSecondRun = Duration.between( start, Instant.now( ) ).toMillis( );
+            long timeForSecondRun = ( System.currentTimeMillis( ) - start );
             assertTrue( "Second run was " + timeForSecondRun + "ms after start", 1000L <= timeForSecondRun );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
