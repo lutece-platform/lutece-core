@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
     <packaging>lutece-core</packaging>
-    <version>8.0.2-SNAPSHOT</version>
+    <version>8.0.2-beta-04</version>
     <name>Lutece</name>
     <url>https://dev.lutece.paris.fr/</url>
 
