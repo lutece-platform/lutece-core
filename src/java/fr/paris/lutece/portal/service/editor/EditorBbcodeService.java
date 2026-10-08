@@ -35,10 +35,11 @@ package fr.paris.lutece.portal.service.editor;
 
 import fr.paris.lutece.portal.business.editor.ParserComplexElement;
 import fr.paris.lutece.portal.business.editor.ParserElement;
+import fr.paris.lutece.portal.service.html.XSSSanitizerException;
+import fr.paris.lutece.portal.service.html.XSSSanitizerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.parser.BbcodeUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
@@ -94,6 +95,34 @@ public class EditorBbcodeService implements IEditorBbcodeService
             return "Error occurred during processing. Please try again later.";
         }
     }
+
+    /**
+     * Parses a comment as BBCode and sanitizes the generated HTML.
+     *
+     * @param strValue
+     *            the comment text
+     * @return the parsed and sanitized comment
+     */
+    public String parseComment( String strValue )
+    {
+        if ( StringUtils.isBlank( strValue ) )
+        {
+            return strValue;
+        }
+
+        try
+        {
+            String strHtml = BbcodeUtil.parse( strValue, _listParserElement, _listParserComplexElement );
+
+            return XSSSanitizerService.sanitize( strHtml );
+        }
+        catch( XSSSanitizerException e )
+        {
+            AppLogService.error( "Error occurred while parsing and sanitizing the comment", e );
+            return "Error occurred during processing. Please try again later.";
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -197,4 +226,5 @@ public class EditorBbcodeService implements IEditorBbcodeService
             }
         }
     }
+
 }
