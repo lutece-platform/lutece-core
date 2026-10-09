@@ -69,7 +69,7 @@ public class SecurityTokenFilterSite implements Filter
         }
 
         String action = MVCUtils.getAction( httpServletRequest );
-        if ( !_securityTokenHandler.validate( httpServletRequest, action ) )
+        if ( !_securityTokenHandler.validate( httpServletRequest, _securityTokenHandler.resolveTokenAction( httpServletRequest, action ) ) )
         {
             throw new ServletException( new AccessDeniedException( "Invalid security token for action: " + action ) );
         }

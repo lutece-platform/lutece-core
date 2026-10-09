@@ -88,6 +88,7 @@ public class SecurityTokenHandler
     private Set<String> _actionMethods = ConcurrentHashMap.newKeySet( );
     private Map<String, Set<String>> _mapDisabledActionMethods = new ConcurrentHashMap<>( );
     private Set<String> _handledControllers = ConcurrentHashMap.newKeySet( );
+    private Map<String, Map<String, String>> _mapActionTokenKeys = new ConcurrentHashMap<>( );
     @Inject 
     private HttpServletRequest request;
     @Inject
@@ -116,12 +117,14 @@ public class SecurityTokenHandler
     }
 
     /**
-     * Registers disabled action methods from XPage or MVCAdminJspBean
+     * Registers disabled action methods from XPage or MVCAdminJspBean, and the token key of the actions that share their token with other actions
+     * (securityTokenAction).
      */
     public void registerActions( String strName, Method [ ] methods )
     {
         _mapDisabledActionMethods.computeIfAbsent( strName, name -> {
             Set<String> dis = new HashSet<>( );
+            Map<String, String> tokenKeys = new HashMap<>( );
             for ( Method m : methods )
             {
                 if ( m.isAnnotationPresent( Action.class ) )
@@ -132,6 +135,11 @@ public class SecurityTokenHandler
                     {
                         dis.add( strActionMethod );
                     }
+                    String strTokenKey = m.getAnnotation( Action.class ).securityTokenAction( );
+                    if ( !strTokenKey.isEmpty( ) )
+                    {
+                        tokenKeys.put( strActionMethod, strTokenKey );
+                    }
                 }
                 else if ( m.getName( ).startsWith( ACTION_METHOD_PREFIX ) && !m.isAnnotationPresent( Action.class ) && !m.isAnnotationPresent( View.class ) )
                 {
@@ -139,9 +147,47 @@ public class SecurityTokenHandler
                     dis.add( m.getName( ) );
                 }
             }
+            _mapActionTokenKeys.put( name, tokenKeys );
             _handledControllers.add( name );
             return dis;
         } );
+    }
+
+    /**
+     * Resolves the key under which the token of the requested action is stored: the securityTokenAction of the action when it declares one, so that
+     * several actions posted from the same form (save a step, summary, save...) accept the token generated for that form, the action name otherwise.
+     * 
+     * @param request
+     *            The request
+     * @param strAction
+     *            The MVC action
+     * @return The token key
+     */
+    public String resolveTokenAction( HttpServletRequest request, String strAction )
+    {
+        Map<String, String> tokenKeys = _mapActionTokenKeys.get( getControllerName( request ) );
+        if ( null != tokenKeys && tokenKeys.containsKey( strAction ) )
+        {
+            return tokenKeys.get( strAction );
+        }
+        return strAction;
+    }
+
+    /**
+     * Gets the name under which the controller of the request is registered: the XPage name in front office, the requested path in back office.
+     * 
+     * @param request
+     *            The request
+     * @return The controller name
+     */
+    private String getControllerName( HttpServletRequest request )
+    {
+        String strPageName = request.getParameter( PARAMETER_PAGE );
+        if ( null != strPageName && !request.getServletPath( ).startsWith( PATH_ADMIN ) )
+        {
+            return strPageName;
+        }
+        return AppPathService.getRequestedPath( request );
     }
 
     /**

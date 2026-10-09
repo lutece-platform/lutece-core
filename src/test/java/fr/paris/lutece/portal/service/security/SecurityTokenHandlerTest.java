@@ -38,6 +38,7 @@ import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -53,6 +54,14 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     private static final String ACTION_WITH_TOKEN = "removeSecurityHeader";
     private static final String ACTION_WITHOUT_TOKEN = "enableSecurityHeader";
     private static final String VIEW_DEFAULT = "defaultView";
+    private static final String SHARED_CONTROLLER = "/jsp/admin/test/ManageSharedToken.jsp";
+    // Name registered by a @Controller: controllerPath + controllerJsp, without leading slash
+    private static final String SHARED_CONTROLLER_NAME = "jsp/admin/test/ManageSharedToken.jsp";
+    private static final String VIEW_SHARED = "sharedView";
+    private static final String ACTION_SAVE_STEP = "doSaveStep";
+    private static final String ACTION_SUMMARY = "formResponseSummary";
+    private static final String ACTION_OWN_TOKEN = "doOwnToken";
+    private static final String SHARED_TOKEN_KEY = "formResponse";
     private static final String TOKEN = "token-value";
     private static final String TOKEN_FIELD = "<input type=\"hidden\" name=\"_csrftoken\" value=\"" + TOKEN + "\" >";
 
@@ -169,5 +178,74 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
         assertEquals( "<form  id=\"f\">" + TOKEN_FIELD + "</form>", SecurityTokenHandler.addSecurityToken( "<form  id=\"f\"></form>", model ) );
         assertEquals( "<form\n  method=\"post\">" + TOKEN_FIELD + "</form>",
                 SecurityTokenHandler.addSecurityToken( "<form\n  method=\"post\"></form>", model ) );
+    }
+
+    /**
+     * Several actions posted from the same form accept the token of the view that displays it when they share its securityTokenAction.
+     *
+     * @throws NoSuchMethodException
+     *             if the view is missing
+     */
+    @Test
+    public void testActionsSharingTokenKeyAcceptViewToken( ) throws NoSuchMethodException
+    {
+        _handler.registerActions( SHARED_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
+
+        for ( String strAction : new String [ ] {
+                ACTION_SAVE_STEP, ACTION_SUMMARY
+        } )
+        {
+            MockHttpServletRequest request = post( SHARED_CONTROLLER, strAction );
+            assertFalse( _handler.shouldNotFilter( request ) );
+            assertEquals( SHARED_TOKEN_KEY, _handler.resolveTokenAction( request, strAction ) );
+
+            _handler.handle( request );
+            _handler.handleToken( request, ControllerInvocationType.VIEW, SharedTokenController.class.getDeclaredMethod( VIEW_SHARED ) );
+            request.setParameter( SecurityTokenHandler.MARK_CSRF_TOKEN, _handler.resolveTokenValue( request ) );
+            assertTrue( _handler.validate( request, _handler.resolveTokenAction( request, strAction ) ) );
+        }
+    }
+
+    /**
+     * An action without securityTokenAction keeps its own name as token key.
+     */
+    @Test
+    public void testActionWithoutTokenKeyUsesItsName( )
+    {
+        _handler.registerActions( SHARED_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
+
+        MockHttpServletRequest request = post( SHARED_CONTROLLER, ACTION_OWN_TOKEN );
+        assertEquals( ACTION_OWN_TOKEN, _handler.resolveTokenAction( request, ACTION_OWN_TOKEN ) );
+        assertEquals( ACTION_WITH_TOKEN, _handler.resolveTokenAction( post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN ), ACTION_WITH_TOKEN ) );
+    }
+
+    /**
+     * Controller whose step form posts several actions with one token.
+     */
+    private static final class SharedTokenController
+    {
+        @View( value = VIEW_SHARED, securityTokenAction = SHARED_TOKEN_KEY )
+        private String sharedView( )
+        {
+            return null;
+        }
+
+        @Action( value = ACTION_SAVE_STEP, securityTokenAction = SHARED_TOKEN_KEY )
+        private String doSaveStep( )
+        {
+            return null;
+        }
+
+        @Action( value = ACTION_SUMMARY, securityTokenAction = SHARED_TOKEN_KEY )
+        private String formResponseSummary( )
+        {
+            return null;
+        }
+
+        @Action( value = ACTION_OWN_TOKEN )
+        private String doOwnToken( )
+        {
+            return null;
+        }
     }
 }
