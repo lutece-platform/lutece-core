@@ -68,7 +68,8 @@ public class MainFilter implements Filter
     {
     	
         HttpServletRequest request = (HttpServletRequest) requestServlet;
-        HttpServletResponse response = (HttpServletResponse) responseServlet; 
+        HttpServletResponse response = ( responseServlet instanceof RedirectResponseWrapper ) ? (HttpServletResponse) responseServlet
+                : new RedirectResponseWrapper( (HttpServletResponse) responseServlet );
         LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( ); 
 
         AppLogService.debug("MainFilter : doFilter() - requested URI =  {}", ( ) -> ( ( HttpServletRequest ) requestServlet ).getRequestURI( ) );
