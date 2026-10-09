@@ -50,7 +50,6 @@ import java.util.stream.Collectors;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,6 +66,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.stream.StreamUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.http.SessionAttributeCache;
 
 /**
  * this class provides services for locate repository or url
@@ -384,17 +384,8 @@ public final class AppPathService
         // If not found, get the base url from session
         if ( ( strBase == null ) || strBase.equals( StringUtils.EMPTY ) )
         {
-            HttpSession session = request.getSession( false );
-
-            if ( session != null )
-            {
-                Object oBase = session.getAttribute( SESSION_BASE_URL );
-
-                if ( oBase != null )
-                {
-                    strBase = (String) oBase;
-                }
-            }
+            // Called many times while building a page: read once per request (network call with a distributed session)
+            strBase = (String) SessionAttributeCache.getAttribute( request, SESSION_BASE_URL );
         }
 
         // If not found, get the base url from the config.properties

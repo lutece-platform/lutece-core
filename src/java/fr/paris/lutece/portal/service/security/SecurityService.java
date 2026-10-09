@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.http.SessionAttributeCache;
 import jakarta.enterprise.inject.ResolutionException;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
@@ -369,8 +370,7 @@ public final class SecurityService
      */
     public void registerUser( HttpServletRequest request, LuteceUser user )
     {
-        HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_LUTECE_USER, user );
+        SessionAttributeCache.setAttribute( request, ATTRIBUTE_LUTECE_USER, user );
         
         if ( user != null )
         {
@@ -386,12 +386,9 @@ public final class SecurityService
      */
     public void unregisterUser( HttpServletRequest request )
     {
-        HttpSession session = request.getSession( true );
-        LuteceUser user = (LuteceUser)session.getAttribute( ATTRIBUTE_LUTECE_USER );
-        
-        if ( user != null )
+        if ( getRegisteredUser( request ) != null )
         {
-        	session.removeAttribute( ATTRIBUTE_LUTECE_USER );
+            SessionAttributeCache.removeAttribute( request, ATTRIBUTE_LUTECE_USER );
         }
     }
 
@@ -404,14 +401,8 @@ public final class SecurityService
      */
     public LuteceUser getRegisteredUser( HttpServletRequest request )
     {
-        HttpSession session = ( request != null ) ? request.getSession( false ) : null;
-
-        if ( session != null )
-        {
-            return (LuteceUser) session.getAttribute( ATTRIBUTE_LUTECE_USER );
-        }
-
-        return null;
+        // Called several times while building a page: read once per request (network call with a distributed session)
+        return (LuteceUser) SessionAttributeCache.getAttribute( request, ATTRIBUTE_LUTECE_USER );
     }
 
     /**

@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.l10n;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.http.SessionAttributeCache;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +74,7 @@ public final class LocaleService
      */
     public static void setUserSelectedLocale( HttpServletRequest request, Locale locale )
     {
-        HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_SELECTED_LOCALE, locale );
+        SessionAttributeCache.setAttribute( request, ATTRIBUTE_SELECTED_LOCALE, locale );
     }
 
     /**
@@ -152,17 +152,11 @@ public final class LocaleService
         // consider the current session locale
         if ( request != null )
         {
-            HttpSession session = request.getSession( false );
-            if ( session != null )
+            // Called several times while building a page: read once per request (network call with a distributed session)
+            Locale userSessionLocale = (Locale) SessionAttributeCache.getAttribute( request, ATTRIBUTE_SELECTED_LOCALE );
+            if ( userSessionLocale != null && isSupported( userSessionLocale ) )
             {
-                Locale userSessionLocale = (Locale) session.getAttribute( ATTRIBUTE_SELECTED_LOCALE );
-                if ( userSessionLocale != null )
-                {
-                    if ( isSupported( userSessionLocale ) )
-                    {
-                        return userSessionLocale;
-                    }
-                }
+                return userSessionLocale;
             }
 
             // consider the browser language

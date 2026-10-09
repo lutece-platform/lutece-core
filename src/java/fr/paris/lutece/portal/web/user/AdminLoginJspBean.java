@@ -65,6 +65,7 @@ import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.http.SessionAttributeCache;
 import java.io.IOException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -206,7 +207,7 @@ public class AdminLoginJspBean implements Serializable
             session.removeAttribute( SESSION_ATTRIBUTE_USER );
 
             // Put real base url in session
-            request.getSession( ).setAttribute( AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
+            SessionAttributeCache.setAttribute( request, AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
 
             if ( !JSP_URL_ADMIN_LOGIN.equals( AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) ) )
             {
