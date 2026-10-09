@@ -33,15 +33,16 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,6 +87,10 @@ public final class PluginService
 
     private static Lutece107Cache<String, Plugin> _pluginCache;
 
+    // Names of the plugins loaded by this instance, in loading order. Every instance loads the same plugins: reading them by name is served by
+    // the near cache of a distributed cache, whereas iterating the cache fetched and deserialized every plugin on each call.
+    private static CopyOnWriteArrayList<String> _listPluginNames = new CopyOnWriteArrayList<>( );
+
     
     /**
      * Creates a new PluginService object.
@@ -120,6 +125,7 @@ public final class PluginService
     	}else {
             _pluginCache.clear( );
     	}
+    	_listPluginNames.clear( );
     	
         //_mapPlugins.clear( );
         loadCoreComponents( );
@@ -133,10 +139,16 @@ public final class PluginService
      */
     public static Collection<Plugin> getPluginList( )
     {
-    	return StreamSupport.stream(_pluginCache.spliterator(), false)
-    		    .filter(entry -> !CORE.equals(entry.getKey()))
-    		    .map(Lutece107Cache.Entry::getValue)
-    		    .collect(Collectors.toList());
+        List<Plugin> listPlugins = new ArrayList<>( _listPluginNames.size( ) );
+        for ( String strPluginName : _listPluginNames )
+        {
+            Plugin plugin = _pluginCache.get( strPluginName );
+            if ( plugin != null )
+            {
+                listPlugins.add( plugin );
+            }
+        }
+        return listPlugins;
     }
 
     /**
@@ -244,6 +256,10 @@ public final class PluginService
                 
                 plugin.init( );
                 _pluginCache.put(plugin.getName( ), plugin);
+                if ( !CORE.equals( plugin.getName( ) ) )
+                {
+                    _listPluginNames.addIfAbsent( plugin.getName( ) );
+                }
 
                 // plugin installed event
                 if( plugin.isInstalled()) {
