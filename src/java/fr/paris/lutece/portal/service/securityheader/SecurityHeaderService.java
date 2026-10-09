@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,9 +34,15 @@ import jakarta.servlet.ServletContext;
 @ApplicationScoped
 public class SecurityHeaderService 
 {
-	Map<String, Map<String, List<SecurityHeader>>> _mapActiveSecurityHeadersByType = new HashMap<String, Map<String, List<SecurityHeader>>>( );
+	// Rebuilt as a whole then swapped: the filters read it on every request while another thread may refresh it
+	volatile Map<String, Map<String, List<SecurityHeader>>> _mapActiveSecurityHeadersByType = new HashMap<String, Map<String, List<SecurityHeader>>>( );
 	
 	private static final String CACHE_SERVICE_NAME = "SecurityHeaderCacheService";
+	// Cache entry written after the security headers: its value identifies the load. Reading one key is served by the near cache of a
+	// distributed cache, whereas testing that the cache is empty iterated all of its entries on every request.
+	static final String KEY_LOADED = "securityHeaders.loaded";
+	// Load of the cache that _mapActiveSecurityHeadersByType reflects: another value means another instance reloaded the headers
+	private volatile String _strLoadedStamp;
 	
 	@Inject
 	@LuteceCache( cacheName = CACHE_SERVICE_NAME, keyType = String.class, valueType = SecurityHeader.class, enable = true )
@@ -87,16 +94,31 @@ public class SecurityHeaderService
 		{		
 			refreshActiveSecurityHeadersMapByType( SecurityHeaderHome.findAll( ) );
 		} 
-		else if( _securityHeaderCache.getKeys( ).isEmpty( ) )
+		else
 		{
-			Collection<SecurityHeader> securityHeadersList = SecurityHeaderHome.findAll( );
-			refreshCache( securityHeadersList );
-			refreshActiveSecurityHeadersMapByType( securityHeadersList );
+			SecurityHeader loaded = _securityHeaderCache.get( KEY_LOADED );
+			if( loaded == null )
+			{
+				Collection<SecurityHeader> securityHeadersList = SecurityHeaderHome.findAll( );
+				String strStamp = refreshCache( securityHeadersList );
+				refreshActiveSecurityHeadersMapByType( securityHeadersList );
+				_strLoadedStamp = strStamp;
+			}
+			else if( !loaded.getValue( ).equals( _strLoadedStamp ) )
+			{
+				// Headers reloaded by another instance after a change
+				Collection<SecurityHeader> securityHeadersList = SecurityHeaderHome.findAll( );
+				securityHeadersList.forEach( securityHeader -> securityHeader
+						.setSecurityHeaderConfigItemList( SecurityHeaderConfigHome.findBySecurityHeaderId( securityHeader.getId( ) ) ) );
+				refreshActiveSecurityHeadersMapByType( securityHeadersList );
+				_strLoadedStamp = loaded.getValue( );
+			}
 		}
 		
-		if( _mapActiveSecurityHeadersByType.get( strType ) != null )
+		Map<String, List<SecurityHeader>> mapHeadersForType = _mapActiveSecurityHeadersByType.get( strType );
+		if( mapHeadersForType != null )
 		{
-			return _mapActiveSecurityHeadersByType.get( strType ).get( strPageCategory );
+			return mapHeadersForType.get( strPageCategory );
 		}
 		return null;
 	}
@@ -116,6 +138,10 @@ public class SecurityHeaderService
 			securityHeadersList = new ArrayList<SecurityHeader>( );
 			for( String key : _securityHeaderCache.getKeys( ) )
 			{
+				if( KEY_LOADED.equals( key ) )
+				{
+					continue;
+				}
 				SecurityHeader securityHeader = _securityHeaderCache.get( key );
 				if( securityHeader != null )
 				{
@@ -290,15 +316,23 @@ public class SecurityHeaderService
 	 * 
 	 * @param securityHeadersList
 	 *                 The security headers collection
+	 * @return the value of the load marker written in the cache
 	 */
-	private void refreshCache( Collection<SecurityHeader> securityHeadersList )
+	private String refreshCache( Collection<SecurityHeader> securityHeadersList )
 	{
 		for( SecurityHeader securityHeader : securityHeadersList )
 		{
 			securityHeader.setSecurityHeaderConfigItemList( SecurityHeaderConfigHome.findBySecurityHeaderId( securityHeader.getId( ) ) );
 			_securityHeaderCache.put( String.valueOf( securityHeader.getId( ) ), securityHeader );				
 		}
+		SecurityHeader loaded = new SecurityHeader( );
+		loaded.setId( -1 );
+		loaded.setName( KEY_LOADED );
+		loaded.setValue( UUID.randomUUID( ).toString( ) );
+		loaded.setActive( false );
+		_securityHeaderCache.put( KEY_LOADED, loaded );
 		_logger.debug( "Security header cache refreshed" );
+		return loaded.getValue( );
 	}
 	
 	/**
@@ -309,31 +343,34 @@ public class SecurityHeaderService
 	 */
 	private void refreshActiveSecurityHeadersMapByType( Collection<SecurityHeader> securityHeadersList )
 	{
-		_mapActiveSecurityHeadersByType.clear( );
+		Map<String, Map<String, List<SecurityHeader>>> mapActiveSecurityHeadersByType = new HashMap<>( );
 		for( SecurityHeader securityHeader : securityHeadersList )
 		{			
 			if( securityHeader.isActive( ) )
 			{
-				_mapActiveSecurityHeadersByType.put( securityHeader.getType( ), addHeaderToTypeMap( securityHeader ) );
+				mapActiveSecurityHeadersByType.put( securityHeader.getType( ), addHeaderToTypeMap( mapActiveSecurityHeadersByType, securityHeader ) );
 			}					
 		}
+		_mapActiveSecurityHeadersByType = mapActiveSecurityHeadersByType;
 		_logger.debug( "Security header map refreshed" );
 	}
 	
 	/**
 	 * Adds a security header in the map of active security headers of the same type as the security header passed in parameter
 	 * 
+	 * @param mapActiveSecurityHeadersByType Map of active security headers being built
 	 * @param securityHeader Security header to add to the map
 	 * @return map of active security headers of the same type as the security header passed in parameter updated with this security header
 	 */
-	private Map<String, List<SecurityHeader>> addHeaderToTypeMap( SecurityHeader securityHeader )
+	private Map<String, List<SecurityHeader>> addHeaderToTypeMap( Map<String, Map<String, List<SecurityHeader>>> mapActiveSecurityHeadersByType,
+			SecurityHeader securityHeader )
 	{
 		//In _mapActiveSecurityHeadersByType, 2 keys are necessary to retrieve a list of security headers.
 		//For Page headers, those keys are respectively type and page category
 		//For Rest api headers, those keys are respectively type and null value. 
 		//As page category is irrelevant for rest api headers, they are grouped using the null key. 
 		String firstKey = securityHeader.getType( );
-		Map<String, List<SecurityHeader>> mapHeadersForType = _mapActiveSecurityHeadersByType.get( firstKey );
+		Map<String, List<SecurityHeader>> mapHeadersForType = mapActiveSecurityHeadersByType.get( firstKey );
 		List<SecurityHeader> headersListToUpdate = null;
 		
 		String secondKey = null;					
@@ -374,8 +411,9 @@ public class SecurityHeaderService
 		{
 			securityHeader = (SecurityHeader) _securityHeaderCache.get( String.valueOf( nSecurityHeaderId ) );
 		}
-		else
+		if( securityHeader == null )
 		{
+			// Not cached: the cache is reset by every change, on any instance
 			securityHeader = SecurityHeaderHome.findByPrimaryKey( nSecurityHeaderId );
 		}
 		return securityHeader;
