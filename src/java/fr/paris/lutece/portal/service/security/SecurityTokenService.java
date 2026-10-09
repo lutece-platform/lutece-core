@@ -35,10 +35,13 @@ package fr.paris.lutece.portal.service.security;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
@@ -58,6 +61,11 @@ public class SecurityTokenService implements ISecurityTokenService
     public static final String MARK_TOKEN = "token";
     public static final String PARAMETER_TOKEN = "token";
     private static final String PARAMETER_SESSION_TOKENS = "tokens";
+    private static final String PROPERTY_MAX_TOKENS_PER_ACTION = "lutece.security.token.maxPerAction";
+    // A token is removed when it is validated only: every display of a page with a form (login box on every portal page, step of a form...) added
+    // one that is never removed when the user leaves the page. The session attribute grew with every page view and, with a distributed session, was
+    // serialized and replicated on every request. Only the most recent tokens of an action are kept.
+    private static final int MAX_TOKENS_PER_ACTION = AppPropertiesService.getPropertyInt( PROPERTY_MAX_TOKENS_PER_ACTION, 20 );
     @Inject 	
     private Instance<Models> modelInstance;
 
@@ -102,12 +110,21 @@ public class SecurityTokenService implements ISecurityTokenService
 
         Map<String, HashSet<String>> hashTokens = (Map<String, HashSet<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS );
 
-        if ( !hashTokens.containsKey( strAction ) )
+        HashSet<String> setTokens = hashTokens.get( strAction );
+        if ( !( setTokens instanceof LinkedHashSet ) )
         {
-            hashTokens.put( strAction, new HashSet<>( ) );
+            // Insertion order is needed to drop the oldest tokens
+            setTokens = ( setTokens == null ) ? new LinkedHashSet<>( ) : new LinkedHashSet<>( setTokens );
+            hashTokens.put( strAction, setTokens );
         }
 
-        hashTokens.get( strAction ).add( strToken );
+        setTokens.add( strToken );
+        Iterator<String> iterator = setTokens.iterator( );
+        while ( setTokens.size( ) > MAX_TOKENS_PER_ACTION && iterator.hasNext( ) )
+        {
+            iterator.next( );
+            iterator.remove( );
+        }
         fillSecurityToken( strToken );
         
         return strToken;
