@@ -271,8 +271,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -359,8 +358,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -375,8 +373,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -411,6 +408,28 @@ public class DAOUtil implements AutoCloseable
             };
             log( MessageFormat.format( "\n               Index : ''{0}''       Value : ''{1}'' ", args ) );
         }
+    }
+
+    /**
+     * Frees the statement and the connection after a failed SQL call, without hiding the SQL error: a failure while closing
+     * (some drivers fail to close a statement whose execution failed) is attached to it
+     * 
+     * @param e
+     *            the SQL error
+     * @return the exception to throw
+     */
+    private AppException freeAfterError( SQLException e )
+    {
+        try
+        {
+            free( );
+        }
+        catch( RuntimeException eFree )
+        {
+            e.addSuppressed( eFree );
+        }
+
+        return new AppException( getErrorMessage( e ), e );
     }
 
     /**
@@ -469,8 +488,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -491,8 +509,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -517,8 +534,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -539,8 +555,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -565,8 +580,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -588,8 +602,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -613,8 +626,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -636,8 +648,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -656,8 +667,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -676,8 +686,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -697,8 +706,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -720,8 +728,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -745,8 +752,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -768,8 +774,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -789,8 +794,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -810,8 +814,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -832,8 +835,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -854,8 +856,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -876,8 +877,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -898,8 +898,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -922,8 +921,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -943,8 +941,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -965,8 +962,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -987,8 +983,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1013,8 +1008,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1035,8 +1029,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1055,8 +1048,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1076,8 +1068,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1097,8 +1088,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1121,8 +1111,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1145,8 +1134,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1166,8 +1154,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1187,8 +1174,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1211,8 +1197,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1235,8 +1220,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1256,8 +1240,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1277,8 +1260,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1298,8 +1280,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1319,8 +1300,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1340,8 +1320,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1361,8 +1340,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1382,8 +1360,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1403,8 +1380,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1427,8 +1403,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1451,8 +1426,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1471,8 +1445,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1492,8 +1465,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1513,8 +1485,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1539,8 +1510,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1563,8 +1533,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1605,8 +1574,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1632,8 +1600,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1656,8 +1623,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1674,8 +1640,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1693,8 +1658,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1715,8 +1679,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1737,8 +1700,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1759,8 +1721,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1781,8 +1742,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1803,8 +1763,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1823,8 +1782,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1843,8 +1801,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1865,8 +1822,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1885,8 +1841,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1905,8 +1860,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1933,8 +1887,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1972,8 +1925,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -1996,8 +1948,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2019,8 +1970,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2044,8 +1994,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2069,8 +2018,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2091,8 +2039,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2113,8 +2060,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2137,8 +2083,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2159,8 +2104,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2181,8 +2125,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2204,8 +2147,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2229,8 +2171,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2254,8 +2195,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2276,8 +2216,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2298,8 +2237,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2321,8 +2259,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2346,8 +2283,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2369,8 +2305,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2391,8 +2326,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2413,8 +2347,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2436,8 +2369,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2461,8 +2393,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2484,8 +2415,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2506,8 +2436,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2528,8 +2457,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2552,8 +2480,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2574,8 +2501,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2596,8 +2522,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2619,8 +2544,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2644,8 +2568,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2666,8 +2589,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2688,8 +2610,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2711,8 +2632,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2733,8 +2653,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2755,8 +2674,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2779,8 +2697,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2805,8 +2722,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2829,8 +2745,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2855,8 +2770,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2883,8 +2797,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2905,8 +2818,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2927,8 +2839,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2951,8 +2862,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2975,8 +2885,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -2997,8 +2906,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3019,8 +2927,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3043,8 +2950,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3065,8 +2971,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3087,8 +2992,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3111,8 +3015,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3133,8 +3036,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3155,8 +3057,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3179,8 +3080,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3201,8 +3101,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3223,8 +3122,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3241,8 +3139,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3267,8 +3164,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3288,8 +3184,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3310,8 +3205,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
@@ -3330,8 +3224,7 @@ public class DAOUtil implements AutoCloseable
         }
         catch( SQLException e )
         {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
+            throw freeAfterError( e );
         }
     }
 
