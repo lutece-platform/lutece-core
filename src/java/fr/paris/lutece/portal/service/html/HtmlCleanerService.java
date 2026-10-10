@@ -42,7 +42,7 @@ public final class HtmlCleanerService
 {
     /** html Cleaner */
     private static IHtmlCleaner _htmlCleaner = CDI.current().select(IHtmlCleaner.class).get( );
-    private static boolean _bInit;
+    private static volatile boolean _bInit;
 
     /**
      * Constructor. Creates a new HtmlCleanerService object.
@@ -58,7 +58,7 @@ public final class HtmlCleanerService
      *            The input string to clean
      * @return The cleaned string
      */
-    public static synchronized String clean( String strSource )
+    public static String clean( String strSource )
     {
         init( );
 
@@ -72,7 +72,7 @@ public final class HtmlCleanerService
      *            The input string to clean
      * @return The cleaned string
      */
-    public static synchronized String text( String strSource )
+    public static String text( String strSource )
     {
         init( );
 
@@ -81,11 +81,17 @@ public final class HtmlCleanerService
 
     private static void init( )
     {
-        // init htmlCleaner
+        // init htmlCleaner once; the cleaning itself needs no lock
         if ( !_bInit )
         {
-            _htmlCleaner.init( );
-            _bInit = true;
+            synchronized( HtmlCleanerService.class )
+            {
+                if ( !_bInit )
+                {
+                    _htmlCleaner.init( );
+                    _bInit = true;
+                }
+            }
         }
     }
 }
