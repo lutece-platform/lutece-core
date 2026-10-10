@@ -69,7 +69,7 @@ Snippet:
   <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=isRequired html5Required=isHtml5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
   <@cInputGroupAddonText>
-    <@cIcon name='calendar' id=idLocal />
+    <@cIcon name='calendar' id=idLocal + '-icon' />
   </@cInputGroupAddonText>
   </#if>
   <#nested>
@@ -285,7 +285,7 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
             <#if icon>
             <@cInputGroupAddon>
                 <@cInputGroupAddonText tag='div'>
-                    <@cIcon name='calendar' id='${idLocal}_range_end' />
+                    <@cIcon name='calendar' id='${idLocal}_range_end-icon' />
                 </@cInputGroupAddonText>   
             </@cInputGroupAddon> 
             </#if>
