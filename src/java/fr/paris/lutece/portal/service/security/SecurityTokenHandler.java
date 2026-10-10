@@ -78,7 +78,6 @@ public class SecurityTokenHandler
     private static final String FILTER_ENABLED = "FILTER_ENABLED_" + SecurityTokenHandler.class.getName( );
     private static final String SESSION_ATTRIBUTE_SITE_TOKEN = "LUTECE_PORTAL_CSRF_TOKEN";
     private static final String SESSION_ATTRIBUTE_ADMIN_TOKEN = "LUTECE_ADMIN_CSRF_TOKEN";
-    private static final String SESSION_ATTRIBUTE_TOKENS = "tokens";
     private static final String PATTERN_FORM = "<form\\s+([a-z]+)(?![^>]*\\\\/>)[^>]*>";
     private static final String TOKEN_FIELD_PATTERN = "<input type=\"hidden\" name=\"_csrftoken\" value=\"{0}\" >";
     private static final String PARAMETER_PAGE = "page";
@@ -376,20 +375,8 @@ public class SecurityTokenHandler
      */
     public boolean validate( HttpServletRequest request, String strAction )
     {
-        HttpSession session = request.getSession( true );
-
-        String strToken = request.getParameter( MARK_CSRF_TOKEN );
-
-        if ( ( session.getAttribute( SESSION_ATTRIBUTE_TOKENS ) != null )
-                && ( (Map<String, Set<String>>) session.getAttribute( SESSION_ATTRIBUTE_TOKENS ) ).containsKey( strAction )
-                && ( (Map<String, Set<String>>) session.getAttribute( SESSION_ATTRIBUTE_TOKENS ) ).get( strAction ).contains( strToken ) )
-        {
-            ( (Map<String, Set<String>>) session.getAttribute( SESSION_ATTRIBUTE_TOKENS ) ).get( strAction ).remove( strToken );
-
-            return true;
-        }
-
-        return false;
+        // Same token store as SecurityTokenService (session attribute "tokens"), changed under its lock
+        return _securityTokenService.consumeToken( request, strAction, request.getParameter( MARK_CSRF_TOKEN ) );
     }
 
     /**

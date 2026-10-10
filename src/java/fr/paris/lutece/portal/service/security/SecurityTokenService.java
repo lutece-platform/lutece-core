@@ -65,7 +65,7 @@ public class SecurityTokenService implements ISecurityTokenService
     // A token is removed when it is validated only: every display of a page with a form (login box on every portal page, step of a form...) added
     // one that is never removed when the user leaves the page. The session attribute grew with every page view and, with a distributed session, was
     // serialized and replicated on every request. Only the most recent tokens of an action are kept.
-    private static final int MAX_TOKENS_PER_ACTION = Math.max( 1, AppPropertiesService.getPropertyInt( PROPERTY_MAX_TOKENS_PER_ACTION, 20 ) );
+    private static final int MAX_TOKENS_PER_ACTION = Math.max( 1, AppPropertiesService.getPropertyInt( PROPERTY_MAX_TOKENS_PER_ACTION, 50 ) );
     @Inject 	
     private Instance<Models> modelInstance;
 
@@ -101,26 +101,18 @@ public class SecurityTokenService implements ISecurityTokenService
     public String getToken( HttpServletRequest request, String strAction )
     {
         String strToken = generateNewKey( );
-        HttpSession session = request.getSession( true );
+        Map<String, HashSet<String>> hashTokens = getSessionTokens( request.getSession( true ) );
 
-        if ( session.getAttribute( PARAMETER_SESSION_TOKENS ) == null )
+        // Parallel requests of a session (AJAX) share the tokens: every read and change is made under the lock of the map
+        synchronized( hashTokens )
         {
-            session.setAttribute( PARAMETER_SESSION_TOKENS, new HashMap<String, HashSet<String>>( ) );
-        }
-
-        Map<String, HashSet<String>> hashTokens = (Map<String, HashSet<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS );
-
-        HashSet<String> setTokens = hashTokens.get( strAction );
-        if ( !( setTokens instanceof LinkedHashSet ) )
-        {
-            // Insertion order is needed to drop the oldest tokens
-            setTokens = ( setTokens == null ) ? new LinkedHashSet<>( ) : new LinkedHashSet<>( setTokens );
-            hashTokens.put( strAction, setTokens );
-        }
-
-        // Parallel requests of a session (AJAX) share the set
-        synchronized( setTokens )
-        {
+            HashSet<String> setTokens = hashTokens.get( strAction );
+            if ( !( setTokens instanceof LinkedHashSet ) )
+            {
+                // Insertion order is needed to drop the oldest tokens
+                setTokens = ( setTokens == null ) ? new LinkedHashSet<>( ) : new LinkedHashSet<>( setTokens );
+                hashTokens.put( strAction, setTokens );
+            }
             setTokens.add( strToken );
             Iterator<String> iterator = setTokens.iterator( );
             while ( setTokens.size( ) > MAX_TOKENS_PER_ACTION && iterator.hasNext( ) )
@@ -153,20 +145,52 @@ public class SecurityTokenService implements ISecurityTokenService
     @Override
     public boolean validate( HttpServletRequest request, String strAction )
     {
-        HttpSession session = request.getSession( true );
+        return consumeToken( request, strAction, request.getParameter( PARAMETER_TOKEN ) );
+    }
 
-        String strToken = request.getParameter( PARAMETER_TOKEN );
-
-        if ( ( session.getAttribute( PARAMETER_SESSION_TOKENS ) != null )
-                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( strAction )
-                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( strAction ).contains( strToken ) )
+    /**
+     * Validates a token of an action and removes it: a token is used once
+     *
+     * @param request
+     *            The request
+     * @param strAction
+     *            The action (key of the token)
+     * @param strToken
+     *            The token posted
+     * @return true if the token was stored for this action
+     */
+    public boolean consumeToken( HttpServletRequest request, String strAction, String strToken )
+    {
+        HttpSession session = request.getSession( false );
+        Object tokens = ( session != null ) ? session.getAttribute( PARAMETER_SESSION_TOKENS ) : null;
+        if ( !( tokens instanceof Map ) || strToken == null )
         {
-            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( strAction ).remove( strToken );
-
-            return true;
+            return false;
         }
+        synchronized( tokens )
+        {
+            Object setTokens = ( (Map<?, ?>) tokens ).get( strAction );
+            return ( setTokens instanceof Set ) && ( (Set<?>) setTokens ).remove( strToken );
+        }
+    }
 
-        return false;
+    /**
+     * Gets the tokens of the session, created if needed. No lock here: with a distributed session, getAttribute is a network call
+     *
+     * @param session
+     *            The session
+     * @return the tokens by action
+     */
+    @SuppressWarnings( "unchecked" )
+    private static Map<String, HashSet<String>> getSessionTokens( HttpSession session )
+    {
+        Object tokens = session.getAttribute( PARAMETER_SESSION_TOKENS );
+        if ( tokens == null )
+        {
+            tokens = new HashMap<String, HashSet<String>>( );
+            session.setAttribute( PARAMETER_SESSION_TOKENS, tokens );
+        }
+        return (Map<String, HashSet<String>>) tokens;
     }
 
     /**

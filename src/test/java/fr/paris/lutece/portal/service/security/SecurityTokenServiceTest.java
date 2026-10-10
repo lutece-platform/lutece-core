@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2025, City of Paris
+ * Copyright (c) 2002-2026, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ public class SecurityTokenServiceTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         List<String> tokens = new ArrayList<>( );
-        for ( int i = 0; i < 25; i++ )
+        for ( int i = 0; i < 55; i++ )
         {
             tokens.add( _service.getToken( request, ACTION ) );
         }
@@ -74,8 +74,8 @@ public class SecurityTokenServiceTest extends LuteceTestCase
         assertFalse( validate( request, tokens.get( 0 ) ) );
         assertFalse( validate( request, tokens.get( 4 ) ) );
         assertTrue( validate( request, tokens.get( 5 ) ) );
-        assertTrue( validate( request, tokens.get( 24 ) ) );
+        assertTrue( validate( request, tokens.get( 54 ) ) );
         // A token is used once
-        assertFalse( validate( request, tokens.get( 24 ) ) );
+        assertFalse( validate( request, tokens.get( 54 ) ) );
     }
 }
