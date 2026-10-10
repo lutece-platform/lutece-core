@@ -101,7 +101,8 @@ public class SecurityTokenService implements ISecurityTokenService
     public String getToken( HttpServletRequest request, String strAction )
     {
         String strToken = generateNewKey( );
-        Map<String, HashSet<String>> hashTokens = getSessionTokens( request.getSession( true ) );
+        HttpSession session = request.getSession( true );
+        Map<String, HashSet<String>> hashTokens = getSessionTokens( session );
 
         // Parallel requests of a session (AJAX) share the tokens: every read and change is made under the lock of the map
         synchronized( hashTokens )
@@ -121,6 +122,9 @@ public class SecurityTokenService implements ISecurityTokenService
                 iterator.remove( );
             }
         }
+        // Set again after the change: a distributed session only replicates attributes written by setAttribute unless it is configured
+        // to also write the attributes read (OpenLiberty writeContents)
+        session.setAttribute( PARAMETER_SESSION_TOKENS, hashTokens );
         fillSecurityToken( strToken );
         
         return strToken;
@@ -167,11 +171,18 @@ public class SecurityTokenService implements ISecurityTokenService
         {
             return false;
         }
+        boolean bConsumed;
         synchronized( tokens )
         {
             Object setTokens = ( (Map<?, ?>) tokens ).get( strAction );
-            return ( setTokens instanceof Set ) && ( (Set<?>) setTokens ).remove( strToken );
+            bConsumed = ( setTokens instanceof Set ) && ( (Set<?>) setTokens ).remove( strToken );
         }
+        if ( bConsumed )
+        {
+            // Replicate the removal: a token is used once, on every instance
+            session.setAttribute( PARAMETER_SESSION_TOKENS, tokens );
+        }
+        return bConsumed;
     }
 
     /**

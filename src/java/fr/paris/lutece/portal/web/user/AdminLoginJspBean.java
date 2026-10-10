@@ -204,7 +204,7 @@ public class AdminLoginJspBean implements Serializable
         if ( session != null )
         {
             // Invalidate a previous session
-            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            SessionAttributeCache.removeAttribute( request, SESSION_ATTRIBUTE_USER );
 
             // Put real base url in session
             SessionAttributeCache.setAttribute( request, AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
@@ -270,7 +270,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( session != null )
         {
-            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            SessionAttributeCache.removeAttribute( request, SESSION_ATTRIBUTE_USER );
         }
 
         Locale locale = AdminUserService.getLocale( request );
@@ -303,7 +303,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( session != null )
         {
-            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            SessionAttributeCache.removeAttribute( request, SESSION_ATTRIBUTE_USER );
         }
 
         Map<String, Object> model = new HashMap<>( );
@@ -347,7 +347,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( session != null )
         {
-            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            SessionAttributeCache.removeAttribute( request, SESSION_ATTRIBUTE_USER );
         }
 
         Locale locale = AdminUserService.getLocale( request );
@@ -389,7 +389,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( session != null )
         {
-            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            SessionAttributeCache.removeAttribute( request, SESSION_ATTRIBUTE_USER );
         }
 
         Locale locale = AdminUserService.getLocale( request );
