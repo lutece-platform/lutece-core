@@ -81,7 +81,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
             daoUtil.executeQuery( );
 
-            if ( daoUtil.next( ) )
+            // min() of an empty queue is NULL, read as 0: the ids start at 1
+            if ( daoUtil.next( ) && daoUtil.getInt( 1 ) > 0 )
             {
                 nIdMailItemQueue = daoUtil.getInt( 1 );
             }
