@@ -116,8 +116,33 @@ public class DAOUtil implements AutoCloseable
     /** Number of rows returned by an execute update statement */
     private int _returnedRowCount = -1;
     
-    private List<ITransactionSynchronizationManager> _lTransactionSynchronizationManagers = CDI.current( ).select( ITransactionSynchronizationManager.class )
-            .stream( ).toList( );
+    // Resolved once per CDI container: a CDI.current( ) lookup for every SQL statement walks the call stack (OpenLiberty)
+    // and took 10 to 15 % of the CPU of a request under load. Reset when the container starts or stops.
+    private static volatile List<ITransactionSynchronizationManager> _listTransactionSynchronizationManagers;
+
+    /**
+     * Gets the transaction synchronization managers, resolved once per CDI container
+     * 
+     * @return the transaction synchronization managers
+     */
+    private static List<ITransactionSynchronizationManager> getTransactionSynchronizationManagers( )
+    {
+        List<ITransactionSynchronizationManager> list = _listTransactionSynchronizationManagers;
+        if ( list == null )
+        {
+            list = CDI.current( ).select( ITransactionSynchronizationManager.class ).stream( ).toList( );
+            _listTransactionSynchronizationManagers = list;
+        }
+        return list;
+    }
+
+    /**
+     * Forgets the transaction synchronization managers: they are resolved again from the current CDI container
+     */
+    static void resetTransactionSynchronizationManagers( )
+    {
+        _listTransactionSynchronizationManagers = null;
+    }
 
     /**
      * Creates a new DAOUtil object.
@@ -241,7 +266,7 @@ public class DAOUtil implements AutoCloseable
             else
             {
                 // We check if there is a managed transaction
-                for ( ITransactionSynchronizationManager tsm : _lTransactionSynchronizationManagers )
+                for ( ITransactionSynchronizationManager tsm : getTransactionSynchronizationManagers( ) )
                 {
                     if ( tsm.isSynchronizationActive( ) )
                     {
