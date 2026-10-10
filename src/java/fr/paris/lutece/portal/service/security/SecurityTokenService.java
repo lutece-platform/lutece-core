@@ -65,7 +65,7 @@ public class SecurityTokenService implements ISecurityTokenService
     // A token is removed when it is validated only: every display of a page with a form (login box on every portal page, step of a form...) added
     // one that is never removed when the user leaves the page. The session attribute grew with every page view and, with a distributed session, was
     // serialized and replicated on every request. Only the most recent tokens of an action are kept.
-    private static final int MAX_TOKENS_PER_ACTION = AppPropertiesService.getPropertyInt( PROPERTY_MAX_TOKENS_PER_ACTION, 20 );
+    private static final int MAX_TOKENS_PER_ACTION = Math.max( 1, AppPropertiesService.getPropertyInt( PROPERTY_MAX_TOKENS_PER_ACTION, 20 ) );
     @Inject 	
     private Instance<Models> modelInstance;
 
@@ -118,12 +118,16 @@ public class SecurityTokenService implements ISecurityTokenService
             hashTokens.put( strAction, setTokens );
         }
 
-        setTokens.add( strToken );
-        Iterator<String> iterator = setTokens.iterator( );
-        while ( setTokens.size( ) > MAX_TOKENS_PER_ACTION && iterator.hasNext( ) )
+        // Parallel requests of a session (AJAX) share the set
+        synchronized( setTokens )
         {
-            iterator.next( );
-            iterator.remove( );
+            setTokens.add( strToken );
+            Iterator<String> iterator = setTokens.iterator( );
+            while ( setTokens.size( ) > MAX_TOKENS_PER_ACTION && iterator.hasNext( ) )
+            {
+                iterator.next( );
+                iterator.remove( );
+            }
         }
         fillSecurityToken( strToken );
         
