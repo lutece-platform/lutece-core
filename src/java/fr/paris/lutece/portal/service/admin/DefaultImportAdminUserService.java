@@ -94,6 +94,15 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     
     private transient AttributeService _attributeService;
     
+    /**
+     * Constructor required by CDI: the back office user management bean (session scoped) keeps this service, and Weld checks that it is
+     * proxyable when a session written by another cluster member is read, otherwise WELD-001435 and the bean of the administrator is lost. Only
+     * used by the proxy, which delegates to the contextual instance.
+     */
+    protected DefaultImportAdminUserService( )
+    {
+    }
+
     @Inject
     public DefaultImportAdminUserService( AttributeService attributeService )
     {
