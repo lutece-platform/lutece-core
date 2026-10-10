@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.http.SessionAttributeCache;
 import fr.paris.lutece.util.url.UrlItem;
 
 /**
@@ -293,8 +294,7 @@ public final class AdminAuthenticationService
      */
     public <T extends AdminUser> void registerUser( HttpServletRequest request,  T user ) throws AccessDeniedException, UserNotSignedException
     {
-        HttpSession session = request.getSession( true );
-        session.setAttribute( ATTRIBUTE_ADMIN_USER, bindUser( user ) );
+        SessionAttributeCache.setAttribute( request, ATTRIBUTE_ADMIN_USER, bindUser( user ) );
     }
     
     
@@ -308,9 +308,8 @@ public final class AdminAuthenticationService
      */
     public void unregisterUser( HttpServletRequest request )
     {
-        HttpSession session = request.getSession( true );
-        session.removeAttribute( ATTRIBUTE_ADMIN_USER );
-	}
+        SessionAttributeCache.removeAttribute( request, ATTRIBUTE_ADMIN_USER );
+    }
 
     /**
      * Gets the Lutece user registered in the Http session
@@ -321,14 +320,8 @@ public final class AdminAuthenticationService
      */
     public AdminUser getRegisteredUser( HttpServletRequest request )
     {
-        HttpSession session = request.getSession(false);
-
-        if ( session != null )
-        {
-            return (AdminUser) session.getAttribute( ATTRIBUTE_ADMIN_USER );
-        }
-
-        return null;
+        // Called many times per back office request: read once per request (network call with a distributed session)
+        return (AdminUser) SessionAttributeCache.getAttribute( request, ATTRIBUTE_ADMIN_USER );
     }
 
     /**
