@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2025, City of Paris
+ * Copyright (c) 2002-2026, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -109,10 +110,7 @@ public class SecurityHeaderServiceTest extends LuteceTestCase
     @Test
     public void testReloadByAnotherInstance( )
     {
-        if ( !_service.getSecurityHeaderCache( ).isCacheEnable( ) )
-        {
-            return;
-        }
+        Assumptions.assumeTrue( _service.getSecurityHeaderCache( ).isCacheEnable( ), "the security header cache is disabled" );
         assertTrue( isActive( ) );
 
         SecurityHeaderHome.updateIsActive( _header.getId( ), false );
