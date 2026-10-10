@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
@@ -60,37 +60,37 @@ public class SecurityTokenService implements ISecurityTokenService
 {
     public static final String MARK_TOKEN = "token";
     public static final String PARAMETER_TOKEN = "token";
-    // Former store: one map of every token in a single attribute
+    // All the tokens in one session attribute, on purpose. One attribute per token avoids lost updates between concurrent requests
+    // of a session served by two instances, but OpenLiberty sessionCache then lets an instance that already holds the session in
+    // memory miss the tokens created on another instance (reproduced: form steps alternating between two instances). Remaining
+    // limit: two requests of one session at the same time on two instances can lose a token (the last one written wins).
     private static final String PARAMETER_SESSION_TOKENS = "tokens";
-    // One session attribute per token: lutece.token.<action>|<token>. Requests of a session served by several instances change
-    // different attributes, so a token consumed on one instance is not restored, nor a new one lost, by a concurrent request on
-    // another instance (a distributed session writes back every attribute a request has read)
-    private static final String PREFIX_TOKEN_ATTRIBUTE = "lutece.token.";
-    private static final char SEPARATOR_ACTION = '|';
     private static final String PROPERTY_MAX_TOKENS_PER_ACTION = "lutece.security.token.maxPerAction";
     // A token is removed when it is validated only: every display of a page with a form (login box on every portal page, step of a form...) added
-    // one that is never removed when the user leaves the page. Only the most recent tokens of an action are kept.
+    // one that is never removed when the user leaves the page. The session attribute grew with every page view and, with a distributed session, was
+    // serialized and replicated on every request. Only the most recent tokens of an action are kept.
     private static final int MAX_TOKENS_PER_ACTION = Math.max( 1, AppPropertiesService.getPropertyInt( PROPERTY_MAX_TOKENS_PER_ACTION, 50 ) );
-    // Orders the tokens created in the same millisecond on this instance
-    private static final AtomicLong _sequence = new AtomicLong( );
-    // Tokens being validated on this instance: a token submitted twice at the same time is accepted once
-    private final Set<String> _setTokensBeingConsumed = ConcurrentHashMap.newKeySet( );
-
-    @Inject
+    @Inject 	
     private Instance<Models> modelInstance;
 
     /**
-     * Private constructor
+     * SecurityTokenService
      */
     SecurityTokenService( )
     {
     }
 
     /**
-     * Get the unique instance of the SecurityTokenService
+     * Returns the unique instance of the {@link SecurityTokenService} service.
      * 
-     * @return The instance
-     * @deprecated Use {@code @Inject} to obtain the {@link ISecurityTokenService} instance. This method will be removed in future versions.
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link SecurityTokenService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link SecurityTokenService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link SecurityTokenService} 
+     * instance. This method will be removed in future versions.
      */
     @Deprecated( since = "8.0", forRemoval = true )
     public static ISecurityTokenService getInstance( )
@@ -106,29 +106,47 @@ public class SecurityTokenService implements ISecurityTokenService
     {
         String strToken = generateNewKey( );
         HttpSession session = request.getSession( true );
-        session.setAttribute( getAttributeName( strAction, strToken ), Boolean.TRUE );
-        removeOldestTokens( session, strAction );
+        Map<String, HashSet<String>> hashTokens = getSessionTokens( session );
 
+        // Parallel requests of a session (AJAX) share the tokens: every read and change is made under the lock of the map
+        synchronized( hashTokens )
+        {
+            HashSet<String> setTokens = hashTokens.get( strAction );
+            if ( !( setTokens instanceof LinkedHashSet ) )
+            {
+                // Insertion order is needed to drop the oldest tokens
+                setTokens = ( setTokens == null ) ? new LinkedHashSet<>( ) : new LinkedHashSet<>( setTokens );
+                hashTokens.put( strAction, setTokens );
+            }
+            setTokens.add( strToken );
+            Iterator<String> iterator = setTokens.iterator( );
+            while ( setTokens.size( ) > MAX_TOKENS_PER_ACTION && iterator.hasNext( ) )
+            {
+                iterator.next( );
+                iterator.remove( );
+            }
+        }
+        // Set again after the change: a distributed session only replicates attributes written by setAttribute unless it is configured
+        // to also write the attributes read (OpenLiberty writeContents)
+        session.setAttribute( PARAMETER_SESSION_TOKENS, hashTokens );
         fillSecurityToken( strToken );
-
+        
         return strToken;
     }
-
     /**
-     * Put the token in the MVC model
+     * Fill the model with security token
      * 
      * @param strToken
-     *            the token
+     *            The token
      */
-    private void fillSecurityToken( String strToken )
+    private void fillSecurityToken( String  strToken )
     {
-        if ( modelInstance.isResolvable( ) )
-        {
-            Models model = modelInstance.get( );
+        if (modelInstance.isResolvable()) {
+        	Models model = modelInstance.get();
             model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
-        }
+        }                
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -140,108 +158,65 @@ public class SecurityTokenService implements ISecurityTokenService
 
     /**
      * Validates a token of an action and removes it: a token is used once
-     * 
+     *
      * @param request
-     *            the request
+     *            The request
      * @param strAction
-     *            the action
+     *            The action (key of the token)
      * @param strToken
-     *            the token submitted
-     * @return true if the token was valid
+     *            The token posted
+     * @return true if the token was stored for this action
      */
     public boolean consumeToken( HttpServletRequest request, String strAction, String strToken )
     {
         HttpSession session = request.getSession( false );
-
-        if ( session == null || strToken == null )
+        Object tokens = ( session != null ) ? session.getAttribute( PARAMETER_SESSION_TOKENS ) : null;
+        if ( !( tokens instanceof Map ) || strToken == null )
         {
             return false;
         }
-
-        String strAttributeName = getAttributeName( strAction, strToken );
-
-        if ( !_setTokensBeingConsumed.add( strAttributeName ) )
+        boolean bConsumed;
+        synchronized( tokens )
         {
-            return false;
+            Object setTokens = ( (Map<?, ?>) tokens ).get( strAction );
+            bConsumed = ( setTokens instanceof Set ) && ( (Set<?>) setTokens ).remove( strToken );
         }
-
-        try
+        if ( bConsumed )
         {
-            if ( session.getAttribute( strAttributeName ) == null )
-            {
-                return false;
-            }
-
-            session.removeAttribute( strAttributeName );
-
-            return true;
+            // Replicate the removal: a token is used once, on every instance
+            session.setAttribute( PARAMETER_SESSION_TOKENS, tokens );
         }
-        finally
-        {
-            _setTokensBeingConsumed.remove( strAttributeName );
-        }
+        return bConsumed;
     }
 
     /**
-     * Keeps the most recent tokens of an action. Only the attribute names are read: reading the values would make a distributed
-     * session write them back
-     * 
+     * Gets the tokens of the session, created if needed. No lock here: with a distributed session, getAttribute is a network call
+     *
      * @param session
-     *            the session
-     * @param strAction
-     *            the action
+     *            The session
+     * @return the tokens by action
      */
-    private static void removeOldestTokens( HttpSession session, String strAction )
+    @SuppressWarnings( "unchecked" )
+    private static Map<String, HashSet<String>> getSessionTokens( HttpSession session )
     {
-        String strPrefix = getAttributeName( strAction, "" );
-        List<String> listNames = new ArrayList<>( );
-
-        for ( String strName : Collections.list( session.getAttributeNames( ) ) )
+        Object tokens = session.getAttribute( PARAMETER_SESSION_TOKENS );
+        if ( tokens == null )
         {
-            if ( strName.startsWith( strPrefix ) )
-            {
-                listNames.add( strName );
-            }
+            tokens = new HashMap<String, HashSet<String>>( );
+            session.setAttribute( PARAMETER_SESSION_TOKENS, tokens );
         }
-
-        if ( listNames.size( ) > MAX_TOKENS_PER_ACTION )
-        {
-            // The token starts with its creation time: the names sort in creation order
-            Collections.sort( listNames );
-
-            for ( String strName : listNames.subList( 0, listNames.size( ) - MAX_TOKENS_PER_ACTION ) )
-            {
-                session.removeAttribute( strName );
-            }
-        }
-
-        if ( Collections.list( session.getAttributeNames( ) ).contains( PARAMETER_SESSION_TOKENS ) )
-        {
-            session.removeAttribute( PARAMETER_SESSION_TOKENS );
-        }
+        return (Map<String, HashSet<String>>) tokens;
     }
 
     /**
-     * Name of the session attribute of a token
-     * 
-     * @param strAction
-     *            the action
-     * @param strToken
-     *            the token
-     * @return the attribute name
-     */
-    private static String getAttributeName( String strAction, String strToken )
-    {
-        return PREFIX_TOKEN_ATTRIBUTE + strAction + SEPARATOR_ACTION + strToken;
-    }
-
-    /**
-     * Generates a new token: creation time, sequence, random part
-     * 
-     * @return the token
+     * Generate a new key
+     *
+     * @return a new key
      */
     private String generateNewKey( )
     {
-        return String.format( "%013d%06d-%s", System.currentTimeMillis( ), _sequence.incrementAndGet( ) % 1_000_000, UUID.randomUUID( ) );
+        UUID key = UUID.randomUUID( );
+
+        return key.toString( );
     }
 }

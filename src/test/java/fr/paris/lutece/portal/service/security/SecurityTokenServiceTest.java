@@ -78,29 +78,4 @@ public class SecurityTokenServiceTest extends LuteceTestCase
         // A token is used once
         assertFalse( validate( request, tokens.get( 54 ) ) );
     }
-
-    /**
-     * One session attribute per token: a request changes only the attributes of its own tokens (no shared map rewritten by
-     * concurrent requests of other instances). An action whose name starts with another one keeps its own tokens.
-     */
-    @Test
-    public void testOneAttributePerToken( )
-    {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.getSession( true ).setAttribute( "tokens", new java.util.HashMap<>( ) );
-        String strToken = _service.getToken( request, ACTION );
-        String strOther = _service.getToken( request, ACTION + ".other" );
-
-        List<String> listNames = java.util.Collections.list( request.getSession( ).getAttributeNames( ) );
-        assertTrue( listNames.contains( "lutece.token." + ACTION + "|" + strToken ) );
-        assertFalse( listNames.contains( "tokens" ), "the former token map is removed" );
-
-        for ( int i = 0; i < 60; i++ )
-        {
-            _service.getToken( request, ACTION );
-        }
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, strOther );
-        assertTrue( _service.validate( request, ACTION + ".other" ), "the tokens of another action are not trimmed" );
-        assertFalse( validate( request, strToken ) );
-    }
 }

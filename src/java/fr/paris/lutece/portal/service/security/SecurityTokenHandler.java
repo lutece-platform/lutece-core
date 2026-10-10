@@ -375,7 +375,7 @@ public class SecurityTokenHandler
      */
     public boolean validate( HttpServletRequest request, String strAction )
     {
-        // Same token store as SecurityTokenService (one session attribute per token)
+        // Same token store as SecurityTokenService (session attribute "tokens"), changed under its lock
         return _securityTokenService.consumeToken( request, strAction, request.getParameter( MARK_CSRF_TOKEN ) );
     }
 
