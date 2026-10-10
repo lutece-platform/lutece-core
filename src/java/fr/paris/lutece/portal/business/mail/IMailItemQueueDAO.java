@@ -77,10 +77,11 @@ public interface IMailItemQueueDAO
     int nextMailItemQueueId( );
 
     /**
-     * Lock the mail item
+     * Lock the mail item, unless it is already locked (taken by another consumer, possibly on another instance)
      * 
      * @param nIdMailItemQueue
      *            the id of the mail item to lock
+     * @return true if this call locked the mail item
      */
-    void lockMailItemQueue( int nIdMailItemQueue );
+    boolean lockMailItemQueue( int nIdMailItemQueue );
 }

@@ -50,7 +50,7 @@ public class DatabaseQueue implements IMailQueue
      *            The mail item to add to the queue
      */
     @Override
-    public synchronized void send( MailItem item )
+    public void send( MailItem item )
     {
         MailItemQueue mailQueue = new MailItemQueue( );
         mailQueue.setMailItem( item );
@@ -63,7 +63,7 @@ public class DatabaseQueue implements IMailQueue
      * @return The older mail item of the queue
      */
     @Override
-    public synchronized MailItem consume( )
+    public MailItem consume( )
     {
         MailItemQueue mailItemQueue = MailItemQueueHome.getNextMailItemQueue( );
 

@@ -63,7 +63,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     private static final String SQL_QUERY_LOAD_MAIL_ITEM = "SELECT id_mail_queue,mail_item FROM core_mail_item WHERE id_mail_queue=? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ) VALUES( DEFAULT ) ";
     private static final String SQL_QUERY_INSERT_MAIL_ITEM = " INSERT INTO core_mail_item(id_mail_queue,mail_item) VALUES(?,?) ";
-    private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=1 WHERE id_mail_queue= ? ";
+    private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=1 WHERE id_mail_queue= ? AND is_locked=0 ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mail_queue WHERE id_mail_queue = ?";
     private static final String SQL_QUERY_DELETE_MAIL_ITEM = " DELETE FROM core_mail_item WHERE id_mail_queue = ?";
 
@@ -98,12 +98,14 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      *            the id of the mail item to lock
      */
     @Override
-    public void lockMailItemQueue( int nIdMailItemQueue )
+    public boolean lockMailItemQueue( int nIdMailItemQueue )
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM ) )
         {
             daoUtil.setInt( 1, nIdMailItemQueue );
             daoUtil.executeUpdate( );
+
+            return daoUtil.getReturnedRowCount( ) == 1;
         }
     }
 

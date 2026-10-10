@@ -41,6 +41,7 @@ import jakarta.enterprise.inject.spi.CDI;
 public final class MailItemQueueHome
 {
     // Static variable pointed at the DAO instance
+    private static final int MAX_LOCK_ATTEMPTS = 10;
     private static IMailItemQueueDAO _dao = CDI.current().select( IMailItemQueueDAO.class ).get( );
 
     /**
@@ -79,15 +80,22 @@ public final class MailItemQueueHome
      */
     public static MailItemQueue getNextMailItemQueue( )
     {
-        // get the id of the next mail item queue
-        int nIdMailItemQueue = _dao.nextMailItemQueueId( );
-
-        if ( nIdMailItemQueue != -1 )
+        // A mail item taken by another consumer (another instance) between the select and the lock is skipped
+        for ( int nAttempt = 0; nAttempt < MAX_LOCK_ATTEMPTS; nAttempt++ )
         {
-            // lock the mail item queue before getting mailItemQueue Object
-            _dao.lockMailItemQueue( nIdMailItemQueue );
+            // get the id of the next mail item queue
+            int nIdMailItemQueue = _dao.nextMailItemQueueId( );
 
-            return _dao.load( nIdMailItemQueue );
+            if ( nIdMailItemQueue == -1 )
+            {
+                return null;
+            }
+
+            // lock the mail item queue before getting mailItemQueue Object
+            if ( _dao.lockMailItemQueue( nIdMailItemQueue ) )
+            {
+                return _dao.load( nIdMailItemQueue );
+            }
         }
 
         return null;
