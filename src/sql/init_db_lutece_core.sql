@@ -421,3 +421,11 @@ INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, th
 INSERT INTO core_admin_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT', 'portal.style.adminFeature.portlet_template_management.name', 0, 'jsp/admin/style/ManagePortletTemplates.jsp', 'portal.style.adminFeature.portlet_template_management.description', 0, '', 'STYLE', 'ti ti-template', NULL, 2, 0);
 INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',2);
+
+--
+-- Theme property read by the templates under 'menu.user.themes.colors.checkbox' (8.0.2)
+--
+-- changeset core:init_db_lutece_core.sql-rev2.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.user.themes.colors.checkbox'
+UPDATE core_datastore SET entity_key = 'portal.theme.site_property.menu.user.themes.colors.checkbox' WHERE entity_key = 'portal.theme.site_property.menu.user.themes.color.checkbox';

@@ -187,3 +187,10 @@ UPDATE core_admin_right
 SET name = 'portal.users.adminFeature.level_management.name',
     description = 'portal.users.adminFeature.level_management.description'
 WHERE id_right = 'CORE_LEVEL_MANAGEMENT';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev16.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.user.themes.colors.checkbox'
+-- The theme templates and messages use the key 'menu.user.themes.colors.checkbox': the value stored under
+-- 'menu.user.themes.color.checkbox' was never read and the site properties page could not localize its label
+UPDATE core_datastore SET entity_key = 'portal.theme.site_property.menu.user.themes.colors.checkbox' WHERE entity_key = 'portal.theme.site_property.menu.user.themes.color.checkbox';
