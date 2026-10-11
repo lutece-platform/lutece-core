@@ -125,7 +125,7 @@ public class DAOUtil implements AutoCloseable
      * 
      * @return the transaction synchronization managers
      */
-    private static List<ITransactionSynchronizationManager> getTransactionSynchronizationManagers( )
+    static List<ITransactionSynchronizationManager> getTransactionSynchronizationManagers( )
     {
         List<ITransactionSynchronizationManager> list = _listTransactionSynchronizationManagers;
         if ( list == null )
@@ -142,6 +142,16 @@ public class DAOUtil implements AutoCloseable
     static void resetTransactionSynchronizationManagers( )
     {
         _listTransactionSynchronizationManagers = null;
+    }
+
+    /**
+     * Tells whether the transaction synchronization managers are resolved
+     *
+     * @return true if they are memorized
+     */
+    static boolean isTransactionSynchronizationManagersResolved( )
+    {
+        return _listTransactionSynchronizationManagers != null;
     }
 
     /**

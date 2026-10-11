@@ -33,36 +33,38 @@
  */
 package fr.paris.lutece.util.sql;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.BeforeDestroyed;
-import jakarta.enterprise.context.Initialized;
+import jakarta.annotation.Priority;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
+import jakarta.enterprise.inject.spi.BeforeShutdown;
+import jakarta.enterprise.inject.spi.Extension;
 
 /**
- * Keeps the transaction synchronization managers resolved by {@link DAOUtil} in step with the CDI container: they are
- * forgotten when the application scope starts or ends, and resolved again from the new container
+ * Keeps the transaction synchronization managers resolved by {@link DAOUtil} in step with the CDI container. They are
+ * forgotten when the container starts, before any bean or observer can run SQL, and when it has stopped, after the last
+ * SQL of the shutdown code: a container started again in the same class loader (one per test class) never sees the
+ * managers of the previous one.
  */
-@ApplicationScoped
-public class DAOUtilContainerListener
+public class DAOUtilExtension implements Extension
 {
     /**
      * Forgets the managers of a previous container
      *
      * @param event
-     *            the initialization event of the application scope
+     *            the first event of the container initialization
      */
-    public void onStart( @Observes @Initialized( ApplicationScoped.class ) Object event )
+    protected void onStart( @Observes @Priority( 0 ) BeforeBeanDiscovery event )
     {
         DAOUtil.resetTransactionSynchronizationManagers( );
     }
 
     /**
-     * Forgets the managers of the container being stopped
+     * Forgets the managers of the stopped container
      *
      * @param event
-     *            the destruction event of the application scope
+     *            the last event of the container shutdown
      */
-    public void onStop( @Observes @BeforeDestroyed( ApplicationScoped.class ) Object event )
+    protected void onStop( @Observes BeforeShutdown event )
     {
         DAOUtil.resetTransactionSynchronizationManagers( );
     }

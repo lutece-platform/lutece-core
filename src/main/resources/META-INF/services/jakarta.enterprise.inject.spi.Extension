@@ -1,2 +1,3 @@
 fr.paris.lutece.portal.service.init.AppInitExtension
 fr.paris.lutece.portal.service.init.UninstalledPluginExtension
+fr.paris.lutece.util.sql.DAOUtilExtension
