@@ -287,7 +287,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-core-utils</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1-SNAPSHOT</version>
             <type>jar</type> 
         </dependency>
         <!-- LUT-33380 : ships the runAfter ordering (RunAfterOrdering, RunAfterResourceComparator) into WEB-INF/lib
