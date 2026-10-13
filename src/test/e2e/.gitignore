@@ -1,0 +1,7 @@
+# produced by pages-e2e.js / run-e2e.sh
+liberty.log
+snapshots/
+node_modules/
+package-lock.json
+test-results/
+__pycache__/
