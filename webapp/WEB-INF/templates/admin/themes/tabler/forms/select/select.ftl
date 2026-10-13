@@ -42,10 +42,11 @@ Snippet:
     </@select>
 
 -->
-<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false deprecated...>
+<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-<select id="${id}" name="${name}" class="<#if size!=''>form-control form-control-${size}</#if><#if class!=''> ${class}<#else> form-select</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
+<#local isRequired = mandatory || ( propagateMandatory?? && propagateMandatory ) />
+<#local classBase = size?has_content?then( 'form-control form-control-' + size, '' ) />
+<select<@commonAttrs id=id classBase=classBase class=class classExtra=class?has_content?then( '', 'form-select' ) params=params attrs=attrs /> name="${name}"<#if (multiple &gt; 0)> multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if title?has_content> title="${title}"</#if><#if isRequired> required</#if><#if disabled> disabled</#if>>
 <#if items?has_content>
 <#if sort=true>
 <#list items?sort_by("name") as item>

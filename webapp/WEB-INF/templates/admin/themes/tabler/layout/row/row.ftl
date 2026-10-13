@@ -34,11 +34,10 @@ Snippet:
     </@row>
 
 -->
-<#macro row class='' id='' collapsed=false align='' params='' deprecated...>
+<#macro row class='' id='' collapsed=false align='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) />
+<div<@commonAttrs id=id classBase='row' class=class classExtra=classExtra params=params attrs=attrs />>
 <#nested>
 </div>
 </#macro>

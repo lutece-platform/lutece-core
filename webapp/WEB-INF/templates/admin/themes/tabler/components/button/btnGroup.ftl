@@ -30,10 +30,10 @@ Snippet:
     </@btnGroup>
 
 -->
-<#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[]   deprecated...>
+<#macro btnGroup id='' class='' align='' size='' params='' attrs={} ariaLabel='' hide=[]   deprecated...>
 <@deprecatedWarning args=deprecated />	
-<#local class += ' ' + displaySettings(hide,'inline-flex') + ' ' + alignmentSettings(align,'') />
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class?trim}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local classExtra = displaySettings( hide, 'inline-flex' ) + ' ' + alignmentSettings( align, '' ) />
+<div<@commonAttrs id=id classBase='btn-group' + size?has_content?then( ' btn-group-' + size, '' ) class=class classExtra=classExtra params=params attrs=attrs /> role="group"<#if ariaLabel?has_content> aria-label="${ariaLabel}"</#if>>
 	<#nested>
 </div>
 </#macro>

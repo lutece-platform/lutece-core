@@ -33,10 +33,9 @@ Snippet:
     </@btnToolbar>
 
 -->
-<#macro btnToolbar id='' class='' vertical=false align='' ariaLabel='' params='' deprecated...>
+<#macro btnToolbar id='' class='' vertical=false align='' ariaLabel='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-<div class="btn-group<#if vertical>-vertical</#if><#if class!=''> ${class?trim}</#if>" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div<@commonAttrs id=id classBase='btn-group' + vertical?then( '-vertical', '' ) class=class classExtra=alignmentSettings( align, '' ) params=params attrs=attrs /> role="toolbar"<#if ariaLabel?has_content> aria-label="${ariaLabel}"</#if>>
 <#nested>
 </div>
 </#macro>

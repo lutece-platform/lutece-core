@@ -32,10 +32,10 @@ Snippet:
     </@h>
 
 -->
-<#macro h level=2 id='' class='' hide=[] align='' params='' deprecated...>
+<#macro h level=2 id='' class='' hide=[] align='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local class += ' ' + alignmentSettings( align,'' ) + ' ' + displaySettings( hide, 'inline-flex' ) />
-<h${level}<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'inline-flex' ) />
+<h${level}<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 <#nested>
 </h${level}>
 </#macro>

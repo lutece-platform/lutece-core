@@ -60,24 +60,25 @@ Snippet:
     </@columns>
 
 -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params='' deprecated...>
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
-<#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) />
+<#local classExtra += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
 <#if offset?has_content>
-	<#local class += ' ' + responsiveDisplay('offset',offset) />
+	<#local classExtra += ' ' + responsiveDisplay('offset',offset) />
 <#elseif offsetXs &gt; 0 || offsetSm &gt; 0 || offsetMd &gt; 0 || offsetLg &gt; 0 || offsetXl &gt; 0>
-	<#local class += ' ' + responsiveDisplay('offset',{'xs':offsetXs, 'sm':offsetSm, 'md':offsetMd, 'lg':offsetLg, 'xl':offsetXl}) />
+	<#local classExtra += ' ' + responsiveDisplay('offset',{'xs':offsetXs, 'sm':offsetSm, 'md':offsetMd, 'lg':offsetLg, 'xl':offsetXl}) />
 </#if>
 <#if order?has_content>
 	<#if order?is_number>
-		<#local class += ' order-${order}' />
+		<#local classExtra += ' order-${order}' />
 	<#elseif order?is_hash>
-		<#local class += ' ' + responsiveDisplay('order',order) />
+		<#local classExtra += ' ' + responsiveDisplay('order',order) />
 	</#if>
 </#if>
-<${tag} class="<#if class?trim!=''>${class?trim}<#else>col</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#-- a column without any class is a plain auto-layout column -->
+<#local classBase = ( class?has_content || classExtra?trim?has_content )?then( '', 'col' ) />
+<${tag}<@commonAttrs id=id classBase=classBase class=class classExtra=classExtra params=params attrs=attrs />>
 	<#nested>
 </${tag}>
 </#macro>

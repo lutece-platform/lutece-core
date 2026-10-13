@@ -39,36 +39,38 @@ Snippet:
     </@formGroup>
 
 -->
-<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'><#local validation = 'is-valid'><#elseif groupStyle='error'><#local validation = 'is-invalid'></#if>
-<#if collapsed><#local class += ' collapse' /></#if>
-<div class="<#if formStyle='col'>row</#if><#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'> mb-3<#elseif formStyle='inline' > g-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local classBase = ( formStyle == 'col' )?then( 'row', '' ) />
+<#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'><#local classBase += ' mb-3' /><#elseif formStyle='inline'><#local classBase += ' g-3' /></#if>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + validation! />
+<div<@commonAttrs id=id classBase=classBase class=class classExtra=classExtra params=params attrs=attrs />>
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
-<#local labelClass = labelClass >
+<#local formLabelClass = labelClass />
 <#if rows=1>
 	<#if labelKey!='' && formStyle='horizontal'>
-		<#local labelClass += ' form-label'>
+		<#local formLabelClass += ' form-label'>
 		<#if displayLabelClass?contains('d-none')>
 			<#local divClass='col'>
 		<#else>
 			<#local divClass='col'>
 		</#if>
 	<#elseif formStyle='inline'>
-		<#local labelClass = 'col-auto' />
+		<#local formLabelClass = 'col-auto' />
 		<#local divClass = 'col-auto' />
 	<#elseif formStyle = 'fullwidth'>
-		<#local labelClass = 'form-label' />
+		<#local formLabelClass = 'form-label' />
 		<#local divClass = '' />
 	<#else>
 		<#local divClass = ''>
 	</#if>
 <#else>
-	<#local labelClass += ' form-label'>
+	<#local formLabelClass += ' form-label'>
 	<#local divClass = 'col-12'>
 </#if>
 <#if labelKey!=''>
-	<@formLabel class=labelClass?trim labelFor=labelFor labelKeyDesc=labelKeyDesc labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
+	<@formLabel class=formLabelClass?trim labelFor=labelFor labelKeyDesc=labelKeyDesc labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 </#if>
 <#assign propagateMandatory = mandatory>
 <div class="${divClass}">
