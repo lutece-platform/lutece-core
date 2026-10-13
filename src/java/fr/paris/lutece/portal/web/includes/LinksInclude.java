@@ -136,9 +136,23 @@ public class LinksInclude implements PageInclude
         }
 
         Map<String, Object> links = buildLinks( request, strPage, nMode, installedPlugins );
-        rootModel.putAll( links );
+        links.forEach( ( strKey, value ) -> rootModel.put( strKey, ( value instanceof String ) ? HtmlMarkup.of( (String) value ) : value ) );
     }
 
+    /**
+     * Builds the CSS and JavaScript links of the plugins, as HTML strings (cached as such, a markup value is not
+     * serializable).
+     *
+     * @param request
+     *            the HTTP request
+     * @param strPage
+     *            the XPage name, or null
+     * @param nMode
+     *            the current mode
+     * @param installedPlugins
+     *            the installed plugins
+     * @return the links by marker
+     */
     private Map<String, Object> buildLinks( HttpServletRequest request, String strPage, int nMode, List<Plugin> installedPlugins )
     {
         Locale locale = request.getLocale( );
@@ -179,8 +193,8 @@ public class LinksInclude implements PageInclude
         }
 
         links = new HashMap<>( 2 );
-        links.put( MARK_PLUGINS_CSS_LINKS, HtmlMarkup.of( sbCssLinks.toString( ) ) );
-        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, HtmlMarkup.of( sbJsLinks.toString( ) ) );
+        links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
+        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
         if(cacheService.isCacheEnable() && !cacheService.isClosed( )) {
         	cacheService.put( strKey, links );
         }

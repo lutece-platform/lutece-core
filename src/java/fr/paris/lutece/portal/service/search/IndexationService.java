@@ -274,11 +274,11 @@ public final class IndexationService
             {
                 if ( indexer.isEnable( ) )
                 {
-                    _sbLogs.append( "\r\n<strong>Indexer : " );
+                    _sbLogs.append( "\r\nIndexer : " );
                     _sbLogs.append( indexer.getName( ) );
                     _sbLogs.append( " - " );
                     _sbLogs.append( indexer.getDescription( ) );
-                    _sbLogs.append( "</strong>\r\n" );
+                    _sbLogs.append( "\r\n" );
 
                     // the indexer will call write(doc)
                     indexer.indexDocuments( );
@@ -501,32 +501,24 @@ public final class IndexationService
      */
     private static void error( String strTitle, Exception e, String strMessage )
     {
-        _sbLogs.append( "</pre>\r\n" );
-        _sbLogs.append( "<div class=\"alert alert-danger\">\r\n" );
+        _sbLogs.append( "\r\n" );
         _sbLogs.append( strTitle );
         _sbLogs.append( " - ERROR : " );
-        _sbLogs.append( "<strong>\r\n" );
         _sbLogs.append( e.getMessage( ) );
-        _sbLogs.append( "</strong>\r\n" );
 
         if ( e.getCause( ) != null )
         {
             _sbLogs.append( " : " );
-            _sbLogs.append( "<strong>\r\n" );
             _sbLogs.append( e.getCause( ).getMessage( ) );
-            _sbLogs.append( "</strong>\r\n" );
         }
 
         if ( StringUtils.isNotBlank( strMessage ) )
         {
             _sbLogs.append( " - " );
-            _sbLogs.append( "<strong>\r\n" );
             _sbLogs.append( strMessage );
-            _sbLogs.append( "</strong>\r\n" );
         }
 
-        _sbLogs.append( "</div>\r\n" );
-        _sbLogs.append( "<pre>" );
+        _sbLogs.append( "\r\n" );
 
         AppLogService.error( "Indexing error : {}", e.getMessage( ), e );
     }

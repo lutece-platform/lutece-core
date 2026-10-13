@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -1348,7 +1349,7 @@ public final class AdminUserService
         model.put( MARK_PASSWORD, strPassword );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_LOGIN_URL, strBaseUrl + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
-        model.put( MARK_SITE_LINK, MailService.getSiteLink( strBaseUrl, false ) );
+        model.put( MARK_SITE_LINK, HtmlMarkup.of( MailService.getSiteLink( strBaseUrl, false ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
 
