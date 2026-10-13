@@ -11,6 +11,7 @@ Parameters:
 - selected (boolean, optional): whether the option should be selected by default. Default is false.
 - disabled (boolean, optional): whether the option should be disabled. Default is false.
 - params (string, optional): additional parameters for the option element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -25,7 +26,7 @@ Snippet:
     <@option label='Germany' value='DE' />
 
 -->
-<#macro option label value help='' id='' class='' selected=false disabled=false params='' deprecated...>
+<#macro option label value help='' id='' class='' selected=false disabled=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if help !=''> label="${help}"</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
+<option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if help !=''> label="${help}"</#if><@commonAttrs params=params attrs=attrs />>${label!} <#nested></option>
 </#macro>

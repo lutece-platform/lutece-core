@@ -14,6 +14,7 @@ Parameters:
 - tabIcon (string, optional): the icon of the tab.
 - tabClass (string, optional): the class of the tab content.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -30,9 +31,9 @@ Snippet:
     <@tabLink href='jsp/admin/ManageUsers.jsp' title='Manage Users' tabIcon='settings' tabClass='ms-auto' />
 
 -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params='' deprecated...>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
 <#local tabLinkSettings = 'role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"' />

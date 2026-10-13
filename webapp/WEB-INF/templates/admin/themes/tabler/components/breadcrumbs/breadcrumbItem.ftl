@@ -5,6 +5,7 @@ Parameters:
 - class (string, optional): the CSS class of the breadcrumb item.
 - id (string, optional): the ID of the breadcrumb item element.
 - params (string, optional): additional HTML attributes to include in the breadcrumb item element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -21,9 +22,9 @@ Snippet:
     </@breadcrumbItem>
 
 -->
-<#macro breadcrumbItem class='' id='' params='' deprecated...>
+<#macro breadcrumbItem class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="breadcrumb-item<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<li class="breadcrumb-item<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<#nested>
 </li>
 </#macro>

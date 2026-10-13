@@ -9,6 +9,7 @@ Parameters:
 - name (string, optional): the name attribute of the input.
 - id (string, optional): the ID attribute of the input.
 - params (string, optional): additional parameters to add to the input.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - ariaLabel (string, optional): the ARIA label of the input.
 - labelFor (string, optional): the ID of the label for the input.
 - labelKey (string, optional): the i18n key of the label for the input.
@@ -34,9 +35,9 @@ Snippet:
     </@btnGroup>
 
 -->
-<#macro btnGroupRadioCheckbox type='checkbox' color='primary' size='' name='' id='' params='' ariaLabel='' labelFor='' labelKey='' labelParams='' tabIndex='' value='' checked=false deprecated...>
+<#macro btnGroupRadioCheckbox type='checkbox' color='primary' size='' name='' id='' params='' attrs={} ariaLabel='' labelFor='' labelKey='' labelParams='' tabIndex='' value='' checked=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <label class="btn btn-${color}<#if size!=''> btn-${size}</#if>" for="${labelFor}"<#if labelParams!=''> ${labelParams}</#if>>
-<input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if> /><#if labelKey!=''><span class="ms-1">${labelKey}<span></#if>
+<input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value!=''> value="${value}"</#if><@commonAttrs params=params attrs=attrs /><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if> /><#if labelKey!=''><span class="ms-1">${labelKey}<span></#if>
 </label>
 </#macro>

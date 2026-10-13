@@ -27,6 +27,7 @@ Parameters:
 @param - hasSteps - boolean - optional - Show step infos in header of step, default true 
 @param - hasMandatory - boolean - optional - Add mandatory warning, default true 
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+@param - attrs - hash - optional - additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}; prefer it to params, the value is escaped like any value of the page; default {}
 
 Snippet:
 
@@ -51,9 +52,9 @@ Snippet:
     </@stepCurrent>
 
 -->
-<#macro stepCurrent title step=1 showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
+<#macro stepCurrent title step=1 showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@div id='current_step' class='step step-current ${class!}' params=params >
+<@div id='current_step' class='step step-current ${class!}' params=params attrs=attrs >
 	<@div class='step-title d-flex justify-content-between'>
 		<#if hasSteps>
 			<@h class='title' level=titleLevel params='data-step="${step}" title="${title} - #i18n{theme.labelCurrentStep}" aria-current="step"'>

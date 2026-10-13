@@ -9,6 +9,7 @@ Parameters:
 - childId (string, required): the ID of the child element.
 - id (string, optional): the ID of the panel element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the panel element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -31,8 +32,8 @@ Snippet:
     </@accordionPanel>
 
 -->
-<#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-<div class="card<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro accordionPanel color='' collapsed=true childId='' id='' params='' attrs={}>
+<div<@commonAttrs id=id classBase='card' + color?has_content?then( ' bg-' + color, '' ) params=params attrs=attrs />>
 <#if collapsed>
 	<#assign aClass = 'collapsed'>
 	<#assign expanded = 'false'>

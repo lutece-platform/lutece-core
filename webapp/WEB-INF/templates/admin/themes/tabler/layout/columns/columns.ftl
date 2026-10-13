@@ -32,6 +32,7 @@ Parameters:
 - align (string, optional): the text alignment of the column element (left, right, center, justify).
 - collapsed (boolean, optional): whether to add the "collapse" class to the column element (useful for hiding/showing columns).
 - params (string, optional): any additional attributes to include in the column element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

@@ -17,6 +17,7 @@ Parameters:
 - hideLabel (list, optional): a list of label properties to hide (e.g. "label", "i18nLabel").
 - collapsed (boolean, optional): whether to collapse the form group.
 - params (string, optional): additional parameters to add to the form group element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

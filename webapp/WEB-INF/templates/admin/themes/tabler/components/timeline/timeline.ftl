@@ -7,6 +7,7 @@ Parameters:
 - class (string, optional): additional classes to add to the HTML code.
 - id (string, optional): the ID of the <ul> element containing the timeline.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -30,9 +31,9 @@ Snippet:
     </@timeline>
 
 -->
-<#macro timeline class='' id='' params='' deprecated...>
+<#macro timeline class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="list list-timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<ul class="list list-timeline<#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </ul>
 </#macro>

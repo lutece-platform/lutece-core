@@ -20,6 +20,7 @@ Parameters:
 - state (boolean, optional): If true, the accordion is expanded by default. Default: true.
 - hasCollapse (boolean, optional): If true, shows the collapse toggle icon. Default: true.
 - params (string, optional): Additional HTML attributes for the accordion. Default: ‘’.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Accordéon - @cAccordion
@@ -75,12 +76,12 @@ Snippet:
     </@cAccordion>
 
 -->
-<#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' deprecated...>
+<#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local iconType><#if class?contains('danger')>danger<#elseif class?contains('warning')>warning<#elseif class?contains('success')>success<#else>info</#if></#local>
 <#local accordionRole><#if class?contains('danger')>alert<#elseif class?contains('warning')>alert<#elseif class?contains('success')>status<#else>status</#if></#local>
 <div class="accordion" id="acc${id!}" <#if class?contains('outline')>role="${accordionRole}"</#if> >
-    <div class="card ${class!}<#if border> with-border</#if><#if subTitle !=''> with-subtitle</#if>" ${params!}>
+    <div class="card ${class!}<#if border> with-border</#if><#if subTitle !=''> with-subtitle</#if>"<@commonAttrs params=params attrs=attrs />>
         <#local cardTitleClass>card-header m-0<#if !state> collapsed</#if></#local>
         <#local titleParams>data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" <#if hasCollapse>aria-expanded="<#if state>true<#else>false</#if></#if>" aria-controls="collapseAcc${id}"</#local>
         <@cTitle level=titleLevel class=cardTitleClass params=titleParams>
@@ -105,8 +106,8 @@ Snippet:
             <span class="accordion-toggle ms-auto">
                 <#if btnTitle !=''><span class="btn-label-accordion d-none d-md-inline-block<#if iconType != 'info'> main-${iconType}-color-text</#if>">${btnTitle}</span></#if>
                 <span class="btn-accordion<#if btnClass !=''> ${btnClass}</#if>">
-                    <#local btnClass>${btnClass}<#if iconType != 'info'> main-${iconType}-color-text</#if></#local>
-                    <@cIcon name='chevron-down' class=btnClass title='' />
+                    <#local iconClass>${btnClass}<#if iconType != 'info'> main-${iconType}-color-text</#if></#local>
+                    <@cIcon name='chevron-down' class=iconClass title='' />
                 </span>
             </span>
             </#if>

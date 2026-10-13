@@ -11,6 +11,7 @@ Parameters:
 - contentClass (string, optional): Additional CSS classes for the content wrapper. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Mise en avant - @cContentFrame
@@ -31,9 +32,9 @@ Snippet:
     </@cContentFrame>
 
 -->
-<#macro cContentFrame title class='content-frame-primary' titleLevel=2 titleClass='' contentClass='' id='' params='' deprecated...>
+<#macro cContentFrame title class='content-frame-primary' titleLevel=2 titleClass='' contentClass='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="content-frame ${class}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+<div class="content-frame ${class}" <@commonAttrs id=id params=params attrs=attrs /> >
 <#if title?? && title !=''><@cTitle level=titleLevel class='h4 content-frame-title ${titleClass}'>${title}</@cTitle></#if>
 <div class="content-frame-content<#if contentClass!=''> ${contentClass}</#if>"><#nested></div>
 </div>

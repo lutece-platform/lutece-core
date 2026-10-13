@@ -20,6 +20,7 @@ Parameters:
 - class (string, optional): additional CSS classes applied to the tile container. Default: ''.
 - id (string, optional): unique identifier for the tile container. Default: ''.
 - params (string, optional): additional HTML attributes for the tile container. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Tuile - @cTile
@@ -64,7 +65,7 @@ Snippet:
     </@cRow>
 
 -->
-<#macro cTile title url level=3 target='' detail='' imgName='' badge='' badgeClass='' horizontal=false download=false tooltip=false tooltipPos='top' disabled=false class='' id='' params='' deprecated...>
+<#macro cTile title url level=3 target='' detail='' imgName='' badge='' badgeClass='' horizontal=false download=false tooltip=false tooltipPos='top' disabled=false class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if title?has_content && url?has_content>
 <#local r=random() />
@@ -73,7 +74,7 @@ Snippet:
 <#local tileClass>tile<#if class !=''> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
 <#local tileDownload><#if download> download</#if></#local>
 <#local tileTarget><#if download><#else>${target!}</#if></#local>
-<#local tileparams><#if params !=''>${params}</#if><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
+<#local tileparams><@commonAttrs params=params attrs=attrs /><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
 <@cBlock class=tileClass id=id params=tileparams>
 	<#if imgName!=''>
 	<@cBlock class='tile-header'>

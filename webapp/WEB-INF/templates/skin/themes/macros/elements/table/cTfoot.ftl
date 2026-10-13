@@ -7,6 +7,7 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the tfoot element. Default: ''.
 - id (string, optional): Unique identifier for the tfoot element. Default: ''.
 - params (string, optional): Additional HTML attributes for the tfoot element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -26,9 +27,9 @@ Snippet:
     </@cTable>
 
 --> 
-<#macro cTfoot class='' id='' params='' deprecated...>
+<#macro cTfoot class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tfoot <#if class!=''>thead-${class!}</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params!}</#if> >
+<tfoot <#if class!=''>thead-${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
 <#nested>
 </tfoot>
 </#macro>

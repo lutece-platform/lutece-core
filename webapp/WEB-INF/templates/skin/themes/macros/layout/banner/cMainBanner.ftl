@@ -11,6 +11,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the banner. Default: ''.
 - id (string, optional): Unique identifier for the banner element. Default: 'main-banner'.
 - params (string, optional): Additional HTML attributes for the banner element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Bandeau principal - @cMainBanner"
@@ -32,7 +33,7 @@ Snippet:
     </@cMainBanner>
 
 -->
-<#macro cMainBanner title='${favourite!}' titleClass='' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome?boolean imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params=''  >
+<#macro cMainBanner title='${favourite!}' titleClass='' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome?boolean imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params='' attrs={}  >
 <#local isOnlyHome=isBannerOnlyHome  />
 <#-- TODO data n'est pas disponible dans ce contexte, à vérifier -->
 <#local isHomePage=false />
@@ -41,10 +42,10 @@ Snippet:
 <#if hasInternalBanner?trim?boolean>
 <#local titleStyle='' />
 <#local imageStyle='' />
-<#local params=params />
 <#local bannerClass=class />
 <#local dsTitle><#if dskey('portal.theme.site_property.banner.title')?starts_with('DS')><#else>${dskey('portal.theme.site_property.banner.title')}</#if></#local>
-<#if dsTitle !=''><#local title=dsTitle /><#else><#local title=title /></#if>
+<#-- the banner title of the site properties wins over the title parameter -->
+<#local bannerTitle = dsTitle?has_content?then( dsTitle, title ) />
 <#local hasBannerTitle><#if !dskey('portal.theme.site_property.banner.title.checkbox')?starts_with('DS')&& dskey('portal.theme.site_property.banner.title.checkbox') == '1'>true<#else>false</#if></#local>
 <#local isBannerImage><#if !dskey('portal.theme.site_property.banner.showSiteImg.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.banner.showSiteImg.checkbox') == '1'>true<#else>false</#if></#local>
 <#local hasBannerFormTitle>${dskey('portal.theme.site_property.bannerForm.showFormTitle.checkbox')}</#local>
@@ -55,18 +56,18 @@ Snippet:
 <#local bannerTitlePadding=dskey('portal.theme.site_property.banner.title.padding')>
 <#local bannerBGImagePosY=dskey('portal.theme.site_property.banner.image.positiony')>
 <#local bannerBGImagePosX=dskey('portal.theme.site_property.banner.image.positionx')>
-<#if imageSrc !='' && isBannerImage?boolean><#local bannerClass+='bg-banner' /></#if>
+<#if imageSrc !='' && isBannerImage?boolean><#local bannerClass+=' bg-banner' /></#if>
 <#if imageSrc !='' && isBannerImage?boolean><#local imageStyle +='background-image:url(${imageSrc!});' /></#if>
 <#if imageSrc !='' && bannerBGImagePosY !=''><#local imageStyle +='background-position-y: ${bannerBGImagePosY!};' /></#if>
 <#if imageSrc !='' && bannerBGImagePosX !=''><#local imageStyle +='background-position-x: ${bannerBGImagePosX!};' /></#if>
 <#if bannerTitleColor !=''><#local titleStyle ='color:${bannerTitleColor};' /></#if>
 <#if bannerTitleBGColor !=''><#local titleStyle +='background-color:${bannerTitleBGColor};' /></#if>
 <#if bannerTitlePadding !=''><#local titleStyle +='padding:${bannerTitlePadding};' /></#if>
-<#if imageStyle !='' ><#local params +='style="${imageStyle!}"' /></#if>
+<#local bannerParams = params + imageStyle?has_content?then( ' style="' + imageStyle + '"', '' ) />
 <#if isInternal && !isHomePage><#local bannerClass +=' internal' /></#if>
 <#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass !='' > ${bannerClass!}</#if>"></#if>
-<div class="banner<#if bannerClass !='' > ${bannerClass!}</#if><#if bannerCredits !='' > credits</#if> page-${page_id!}"<#if id !='' > id="${id!}"</#if><#if bannerCredits !='' > data-credits="${bannerCredits!}"</#if><#if params!=''> ${params}</#if> >
-<#if hasBannerTitle?boolean && title?trim !=''><h1 id="main-banner-title"<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${title}</h1></#if>
+<div class="banner<#if bannerClass !='' > ${bannerClass!}</#if><#if bannerCredits !='' > credits</#if> page-${page_id!}"<#if id !='' > id="${id!}"</#if><#if bannerCredits !='' > data-credits="${bannerCredits!}"</#if><@commonAttrs params=bannerParams attrs=attrs /> >
+<#if hasBannerTitle?boolean && bannerTitle?trim !=''><h1 id="main-banner-title"<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${bannerTitle}</h1></#if>
 <#nested> 
 </div> 
 <#if isFixed></div></#if>

@@ -16,6 +16,7 @@ Parameters:
 - id - string - optional - l'Id du wrapper - .row- des colonnes
 - class - string - optional - ajoute une classe CSS au wrapper
 - params - string - optional - permet d'ajouter des parametres HTML au wrapper.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 	<#assign anchorsList = [
@@ -27,9 +28,9 @@ Snippet:
 	]>
 	<@cScrollSpy anchorId='scrollspy-sample' anchors= anchorsLinkClass='btn btn-primary' anchorsParams='style="top:100px;"' />
 -->
-<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' deprecated...>
+<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${class}"</#if><#if params!=''> ${params}</#if>>
+<div class="row<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<div class="${anchorColClass}">
 		<@cAnchor id=anchorId class=anchorClass anchors=anchors listClass=anchorListClass listItemClass=anchorListItemClass anchorsClass=anchorsLinkClass params=anchorsParams />
 	</div>

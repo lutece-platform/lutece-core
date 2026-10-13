@@ -68,11 +68,11 @@ Snippet:
     </#if>
 </#switch>
 </#if>
-<#if ext = ''><#local ext=name?keep_after_last('.') /></#if>
+<#local fileExt = ext?has_content?then( ext, name?keep_after_last('.') ) />
 <li class="files-item<#if class!=''> ${class}</#if>" id="_file_uploaded_${name}${idx}">
     <label class="files-item-label<#if image=true> image</#if>" for="${cId}">
         <#if image=true><img src="themes/shared/images/none.svg" alt="" width="80" class="img-fluid img-thumbnail"></#if>
-        <a href="${cUrlDl}" class="files-item-link" title="#i18n{portal.util.labelDownload} ${label}" data-type="${ext!}" data-img="">
+        <a href="${cUrlDl}" class="files-item-link" title="#i18n{portal.util.labelDownload} ${label}" data-type="${fileExt!}" data-img="">
             <span class="file-item-label">${fileLabel}</span>
             <span class="file-item-info"><#if fileSize?has_content>${octetNumber?string["0"]} ${octetUnit}</#if></span>
         </a>

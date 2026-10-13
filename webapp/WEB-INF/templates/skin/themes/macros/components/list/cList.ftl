@@ -53,6 +53,7 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -67,9 +68,9 @@ Snippet:
     </@cListItem>
 
 -->
-<#macro cList items={} type='default' itemsShown=0 indexShown=false labelMore=i18n("portal.theme.labelShowMore") labelClose=i18n("portal.theme.labelClose") class='' id='' params='' deprecated...>
+<#macro cList items={} type='default' itemsShown=0 indexShown=false labelMore=i18n("portal.theme.labelShowMore") labelClose=i18n("portal.theme.labelClose") class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />        
-<ul class="custom-list list-${type!}<#if class!=''> ${class}</#if><#if type='more'> more-list</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+<ul class="custom-list list-${type!}<#if class!=''> ${class}</#if><#if type='more'> more-list</#if>" <@commonAttrs id=id params=params attrs=attrs /> >
 <#if items?has_content>
     <#list items as i>
         <li class="custom-list-item <#if i.class?? && i.class !=''>${i.class}</#if><#if type='more' && i?index &gt; itemsShown>extra hidden</#if>">

@@ -11,6 +11,7 @@ Parameters:
 - tagIcon (string, optional): the icon to display alongside the badge or tag.
 - id (string, optional): the ID of the <span> element containing the badge or tag.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - deprecated (string, optional): an optional message indicating that this macro is deprecated.
 
 Snippet:
@@ -28,9 +29,9 @@ Snippet:
     <@tag color='warning' title='Pending review' tagIcon='clock'>Pending</@tag>
 
 -->
-<#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
+<#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />	
-<span class="badge<#if color!=''> bg-${color} text-bg-${color}</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<span class="badge<#if color!=''> bg-${color} text-bg-${color}</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><@commonAttrs params=params attrs=attrs />>
 	<#if tagIcon !=''>
 	<@icon style=tagIcon />
 	</#if>

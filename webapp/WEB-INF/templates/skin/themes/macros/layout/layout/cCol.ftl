@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the column. Default: ''.
 - id (string, optional): Unique identifier for the column element. Default: ''.
 - params (string, optional): Additional HTML attributes for the column element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Colonne - @cCol"
@@ -30,14 +31,14 @@ Snippet:
     </@cCol>
 
 -->
-<#macro cCol cols='' default='col' class='' id='' params='' deprecated...>
+<#macro cCol cols='' default='col' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if cols!=''>
     <#local cClass>col-${cols} ${class}</#local> 
 <#else>
     <#local cClass>${default!} ${class}</#local>
 </#if>
-<@cSection type='div' class=cClass id=id params=params >
+<@cSection type='div' class=cClass id=id params=params attrs=attrs >
 <#nested>
 </@cSection>
 </#macro>

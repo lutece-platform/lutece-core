@@ -7,6 +7,7 @@ Parameters:
 - class (string, optional): CSS class for the row. Default: ''.
 - id (string, optional): the ID of the row. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Ligne de formulaire - @cFormRow"
@@ -30,8 +31,8 @@ Snippet:
     </@cFormRow>
 
 -->
-<#macro cFormRow class='' id='' params=''>
-<@cRow class=class id=id params=params >
+<#macro cFormRow class='' id='' params='' attrs={}>
+<@cRow class=class id=id params=params attrs=attrs >
 <#nested>
 </@cRow>
 </#macro>

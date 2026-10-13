@@ -7,6 +7,7 @@ Parameters:
 - id (string, optional): the ID of the <tbody> element.
 - class (string, optional): the class of the <tbody> element.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -37,9 +38,9 @@ Snippet:
     </@tableBody>
 
 -->
-<#macro tableBody id='' class='' params='' deprecated...>
+<#macro tableBody id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tbody<@commonAttrs id=id /><#if class!=''> class="${class?trim}"</#if><@commonAttrs params=params attrs=attrs />>
 <#nested>
 </tbody>
 </#macro>

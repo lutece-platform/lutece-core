@@ -4,6 +4,7 @@ Parameters:
 - title (string, optional): the title to display on the login page.
 - site_name (string, optional): the name of the site to display on the login page.
 - layout (string, optional): the name of the site to display on the login page.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -30,7 +31,7 @@ Snippet:
     </@adminLoginPage>
 
 -->
-<#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
+<#macro adminLoginPage title='' site_name='LUTECE' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
 <#local logoSvg><#attempt>${dskey('portal.site.site_property.logo_svg.textblock')}<#recover>${dskey('portal.site.site_property.logo_svg.textblock')}!=''?then(${dskey('portal.site.site_property.logo_svg.textblock')}, '')></#attempt></#local>
@@ -54,7 +55,7 @@ Snippet:
 })();
 </script>
 </head>
-<body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
+<body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<@commonAttrs params=params attrs=attrs />>
 <main class="<#if loginIsCover?number == 1>row g-0 flex-fill<#else>page page-center"</#if>">
 <#if loginIsCover?number == 0 && loginLayoutImg==''><div class="container container-tight py-4"> </#if>
 <#if loginIsCover?number == 1>

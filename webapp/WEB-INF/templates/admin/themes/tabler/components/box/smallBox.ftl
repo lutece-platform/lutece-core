@@ -12,6 +12,7 @@ Parameters:
 - urlText (string, optional): the text to display for the URL link.
 - id (string, optional): the ID of the widget element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the widget element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - fontSize (string, optional): the font size of the widget icon.
 - progress (number, optional): a percentage, shown as a thin bar under the figure.
 
@@ -30,10 +31,10 @@ Snippet:
     <@smallBox title='42' text='Pending Tasks' boxIcon='clipboard' color='warning' id='pending-tasks-widget' />
 
 -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' progress='' deprecated...>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' attrs={} fontSize='40px' progress='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- A figure, as the stat cards of the Tabler dashboards: the label on one line with the icon on its right, the figure under it, the whole card a link to its feature -->
-<div class="card card-sm box-widget lutece-kpi" draggable='true' <#if id!=''> id="${id}" data-id="${id}" data-dw-title="${text}"</#if><#if params!=''> ${params}</#if>>
+<div class="card card-sm box-widget lutece-kpi" draggable='true' <#if id!=''> id="${id}" data-id="${id}" data-dw-title="${text}"</#if><@commonAttrs params=params attrs=attrs />>
 	<div class="card-body">
 		<#-- The button that hides the figure, shown in place of its icon when the card is pointed or focused (needs an id, to keep the choice) -->
 		<#if id!=''><button type="button" class="btn-action lutece-kpi-hide card-control remove" data-bs-dismiss="alert" data-bs-target="#${id}" title="#i18n{portal.util.labelHide} ${text}"><i class="ti ti-eye-off" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelHide} ${text}</span></button></#if>

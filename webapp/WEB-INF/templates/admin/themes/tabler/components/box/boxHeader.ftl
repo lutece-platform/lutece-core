@@ -14,6 +14,7 @@ Parameters:
 - id (string, optional): the ID of the box header element. If not provided, a default ID will be generated.
 - class (string, optional): the CSS class of the box header element.
 - params (string, optional): additional HTML attributes to include in the box header element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - boxTools (boolean, optional): whether to display box tools in the header.
 - skipHeader (boolean, optional): whether to skip the box header element entirely.
 
@@ -36,9 +37,9 @@ Snippet:
     </@boxHeader>
 
 -->
-<#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h3' titleParams='' titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params='' boxTools=false skipHeader=false deprecated...>
+<#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h3' titleParams='' titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params='' attrs={} boxTools=false skipHeader=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card-header<#if class!=''> ${class}</#if><#if skipHeader> skip-header</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="card-header<#if class!=''> ${class}</#if><#if skipHeader> skip-header</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<${titleLevel} class="card-title<#if titleClass!=''> ${titleClass}</#if><#if showTitle=false> visually-hidden</#if>"<#if titleParams !=''> ${titleParams}</#if>><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>

@@ -7,6 +7,7 @@ Parameters:
 - type (string, optional): the type of the element to use (e.g. "div", "p", "span", etc.).
 - id (string, optional): the ID of the element.
 - params (string, optional): additional parameters to add to the element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -23,9 +24,9 @@ Snippet:
     </@coloredBg>
 
 -->
-<#macro coloredBg color='' type='p' id='' params='' deprecated...>
+<#macro coloredBg color='' type='p' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type} class="bg-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${type} class="bg-${color}"<@commonAttrs id=id params=params attrs=attrs />>
 	<#nested>
 </${type}>
 </#macro>

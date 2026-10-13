@@ -27,6 +27,7 @@ Parameters:
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
 - showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the input label (false). Default: true.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Champ check - @cFormCheck"
@@ -55,7 +56,7 @@ Snippet:
     </@cFormCheck>
 
 -->
-<#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
+<#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>${name}-${random()}<#else>${id}</#if></#local>
 <#local idMsg><#if id!=''>${id}<#else>${name!}</#if></#local>
@@ -64,7 +65,7 @@ Snippet:
 <#if !button>
 <div class="<#if class='form-check'>form-check<#else> ${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg!=''> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
 <#if selectionButton><div class="selection-check"></#if>
-    <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value!=''>value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
+    <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value!=''>value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><@commonAttrs params=params attrs=attrs />>
     <#local cFCLabel><#if labelClass!=''><span class="${labelClass}"></#if>${label!}<#if labelClass!=''></span></#if> <#nested></#local>
     <#local cFCClass>form-check-label<#if labelClass!=''> ${labelClass}</#if><#if textCenter> w-100 justify-content-center</#if></#local>
     <#local cFCRequired=required />
@@ -77,7 +78,7 @@ Snippet:
 <#if selectionButton && nestedContent?has_content><div class="selection-content">${nestedContent}</div></#if>
 </div>
 <#else>
-    <input type="${type!}" name="${name!}" class="btn-check<#if class!=''> ${class}</#if><#if errorMsg!=''> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
+    <input type="${type!}" name="${name!}" class="btn-check<#if class!=''> ${class}</#if><#if errorMsg!=''> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><@commonAttrs params=params attrs=attrs />>
     <#local cFCClass><#if btnClass!=''>${btnClass}<#else>btn btn-outline-primary</#if><#if labelClass!=''> ${labelClass}</#if></#local>
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
@@ -95,6 +96,7 @@ Parameters:
 - class (string, optional): adds a CSS class to the fieldset. Default: ''.
 - required (boolean, optional): indicates if the fields contained in the fieldset are required. Default: false.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Regroupement check - @cFormCheck"
@@ -112,10 +114,10 @@ Snippet:
     </@cFormCheckGroup>
 
 -->
-<#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params='' deprecated...>
+<#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>form-check-group-${random()}<#else>${id}</#if></#local>
-<@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params helpMsg=helpMsg required=required >
+<@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params attrs=attrs helpMsg=helpMsg required=required >
 <#nested>
 </@cFieldset>
 </#macro>

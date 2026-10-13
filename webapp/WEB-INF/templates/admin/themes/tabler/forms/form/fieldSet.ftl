@@ -14,6 +14,7 @@ Parameters:
 - legendParams (string, optional): additional parameters to add to the legend.
 - hideLegend (list, optional): list of strings that, if non-empty, hide the legend.
 - disabled (boolean, optional): specifies whether the fieldset is disabled.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -37,9 +38,9 @@ Snippet:
     </@fieldSet>
 
 -->
-<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false deprecated...>
+<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<fieldset class="mb-3<#if class!=''> ${class}</#if>"<#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
+<fieldset<@commonAttrs id=fieldsetId classBase='mb-3' class=class params=fieldsetParams attrs=attrs /><#if disabled> disabled</#if>>
 <#if legend!=''>
 	<#local legendFullClass = legendClass + ' ' + displaySettings( hideLegend, 'block' ) />
 	<legend<#if legendFullClass?trim?has_content> class="${legendFullClass?trim}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>><#if legendIcon!=''><@icon style=legendIcon /> </#if>${legend}</legend>

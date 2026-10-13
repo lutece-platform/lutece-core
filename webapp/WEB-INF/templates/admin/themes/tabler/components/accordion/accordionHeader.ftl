@@ -10,6 +10,7 @@ Parameters:
 - childId (string, required): the ID of the child element.
 - boxTools (boolean, optional): whether to include box tools for the header element.
 - params (string, optional): additional HTML attributes to include in the header element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - headerIcon (string, optional): the name of the icon to include in the header element.
 
 Snippet:
@@ -25,9 +26,9 @@ Snippet:
     </@accordionHeader>
 
 -->
-<#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' headerIcon='' >
+<#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' attrs={} headerIcon='' >
 <div class="accordion-item">
-	<h2 class="accordion-header ${class}" id="${childId}-header"<#if params!=''> ${params}</#if>>
+	<h2<@commonAttrs id=childId + '-header' classBase='accordion-header' class=class params=params attrs=attrs />>
 		<button class="accordion-button<#if aClass!=''> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
 		<#if headerIcon!=''><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
         <div class="accordion-button-toggle">

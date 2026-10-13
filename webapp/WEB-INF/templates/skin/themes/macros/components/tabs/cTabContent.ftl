@@ -7,6 +7,7 @@ Parameters:
 - id (string, required): HTML id attribute for the tab content container.
 - class (string, optional): Additional CSS classes. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -22,9 +23,9 @@ Snippet:
     </@cTabContent>
 
 -->
-<#macro cTabContent id class='' params='' deprecated...>
+<#macro cTabContent id class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cBlock class='tab-content ${class!}' id=id params=params>
+<@cBlock class='tab-content ${class!}' id=id params=params attrs=attrs>
 <#nested>
 </@cBlock>
 </#macro>

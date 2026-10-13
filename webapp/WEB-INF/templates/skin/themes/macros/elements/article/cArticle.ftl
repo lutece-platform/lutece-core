@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the article element. Default: 'portlet'.
 - id (string, optional): Unique identifier for the article element. Default: ''.
 - params (string, optional): Additional HTML attributes for the article element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Article - @cArticle
@@ -29,9 +30,9 @@ Snippet:
     </@cArticle>
 
 -->
-<#macro cArticle title='' titleLevel=2 titleClass='' class='portlet' content=false id='' params='' deprecated...>
+<#macro cArticle title='' titleLevel=2 titleClass='' class='portlet' content=false id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<article class="<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+<article class="<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
 <#if title!=''><@cTitle level=titleLevel class=titleClass>${title}</@cTitle></#if> 
 <#if !content>
 <#nested>

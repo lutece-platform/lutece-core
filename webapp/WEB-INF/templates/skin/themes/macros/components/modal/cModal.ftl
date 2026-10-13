@@ -17,6 +17,7 @@ Parameters:
 - titleLevel (number, optional): Heading level for the title element. Default: 1.
 - class (string, optional): Additional CSS classes for the modal. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Fenêtre modale - @cModal
@@ -44,9 +45,9 @@ Snippet:
     </@cModal>
 
 -->
-<#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=1 class='' params='' deprecated...>
+<#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=1 class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal cmodal fade<#if class!=''> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <#if params!=''> ${params}</#if>>
+<div class="modal cmodal fade<#if class!=''> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <@commonAttrs params=params attrs=attrs />>
     <div class="modal-dialog <#if pos!=''>modal-dialog-${pos} </#if> <#if scrollable>modal-dialog-scrollable</#if><#if size!=''>modal-${size}</#if>"<#if role !=''> role="${role}"</#if>>
         <div class="modal-content">
             <div class="modal-header">

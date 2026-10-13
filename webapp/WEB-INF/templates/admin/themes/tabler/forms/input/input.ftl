@@ -25,6 +25,7 @@ Parameters:
 - max (int, optional): the maximum value of the input field.
 - step (int, optional): the step value of the input field for number and time input.
 - params (string, optional): additional parameters for the input field.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - mandatory (boolean, optional): whether the input field is required.
 - language (string, optional): the language code for date and time pickers.
 - minDate (string, optional): the minimum date for date and datetime pickers.

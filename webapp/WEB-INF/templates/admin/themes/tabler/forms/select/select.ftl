@@ -13,6 +13,7 @@ Parameters:
 - sort (boolean, optional): whether to sort the options alphabetically by name.
 - multiple (integer, optional): the number of visible options when the select field is expanded. If set to a value greater than 1, the select field allows multiple selections.
 - params (string, optional): additional parameters to add to the select field.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - title (string, optional): the title attribute of the select field.
 - disabled (boolean, optional): whether the select field is disabled.
 - tabIndex (integer, optional): the tab index of the select field.

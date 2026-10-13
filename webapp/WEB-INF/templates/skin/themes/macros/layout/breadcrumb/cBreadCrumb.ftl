@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the breadcrumb nav. Default: ''.
 - type (string, optional): If 'fluid', the breadcrumb spans the full page width. Default: ''.
 - params (string, optional): Additional HTML attributes for the breadcrumb nav element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Fil d'ariane - @cBreadCrumb"
@@ -29,9 +30,9 @@ Snippet:
     ] />
 
 -->
-<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' containerClass='' listClass='' type='' params='' deprecated...>
+<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' containerClass='' listClass='' type='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<#if params!=''> ${params!}</#if>>
+<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<@commonAttrs params=params attrs=attrs />>
 	<div class="container<#if type='fluid'>-fluid</#if><#if containerClass!=''> ${containerClass!}</#if> rounded">
 		<ol class="breadcrumb<#if listClass!=''> ${listClass!}</#if>">
         <#if home!=''>

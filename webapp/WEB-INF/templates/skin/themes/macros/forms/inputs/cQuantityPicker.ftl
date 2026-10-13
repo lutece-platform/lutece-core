@@ -19,6 +19,7 @@ Parameters:
 - disabled (boolean, optional): disables the input and buttons. Default: false.
 - helpMsg (string, optional): help message displayed below the picker. Default: ''.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Sélecteur de quantité - @cQuantityPicker"
@@ -39,18 +40,18 @@ Snippet:
     <@cQuantityPicker name='seats' label='Number of seats' showLabel=true minQty='1' maxQty='20' required=true />
 
 -->
-<#macro cQuantityPicker name label='#i18n{portal.theme.labelFormQuantityChoose}' showLabel=false labelDecrease='#i18n{portal.theme.labelFormQuantityDecrease}' labelIncrease='#i18n{portal.theme.labelFormQuantityIncrease}' paramsDecrease='' paramsIncrease='' minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
+<#macro cQuantityPicker name label='#i18n{portal.theme.labelFormQuantityChoose}' showLabel=false labelDecrease='#i18n{portal.theme.labelFormQuantityDecrease}' labelIncrease='#i18n{portal.theme.labelFormQuantityIncrease}' paramsDecrease='' paramsIncrease='' minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
-<#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
-<#local params>data-min="${minQty}" data-max="${maxQty}" ${params}</#local>
+<#local cId = id?has_content?then( id, name ) />
+<#local inputParams>data-min="${minQty}" data-max="${maxQty}" ${params}</#local>
 <#if errorMsg!=''><#assign isInvalid>is-invalid</#assign></#if>
 <#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>
         <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' params='aria-label="${labelDecrease}" data-direction="-1" ${paramsDecrease}' />
-        <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=params />
+        <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=inputParams attrs=attrs />
         <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1" ${paramsIncrease}' />
     </@cInputGroup>
 </@cBlock>

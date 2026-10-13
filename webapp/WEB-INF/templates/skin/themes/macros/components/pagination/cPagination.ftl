@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Pagination - @cPagination
@@ -27,9 +28,9 @@ Snippet:
     <@cPagination paginator=paginator fragment='results' label='Search results pagination' />
 
 -->
-<#macro cPagination paginator label='Pagination' fragment='' class='' id='' params='' deprecated...>
+<#macro cPagination paginator label='Pagination' fragment='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="${label!}" <#if id!=''> id="${id}"</#if><#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if> >
+<nav aria-label="${label!}" <@commonAttrs id=id class=class params=params attrs=attrs /> >
 <#if (paginator.pagesCount > 1) >
 	<@cPaginationLinks paginator=paginator class=class fragment=fragment />
 </#if>

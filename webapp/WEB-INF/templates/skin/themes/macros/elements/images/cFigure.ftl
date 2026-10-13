@@ -8,6 +8,7 @@ Parameters:
 - id (string, optional): Unique identifier for the figure element. Default: ''.
 - class (string, optional): CSS class(es) applied to the figure element. Default: 'figure'.
 - params (string, optional): Additional HTML attributes for the figure element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Figure - @cFigure
@@ -29,9 +30,9 @@ Snippet:
     </@cFigure>
 
 -->
-<#macro cFigure caption='' id='' class='figure' params='' deprecated...>
+<#macro cFigure caption='' id='' class='figure' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<figure <#if class!=''>class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<figure <@commonAttrs id=id class=class params=params attrs=attrs />>
 <#nested/>
 <#if caption!=''><@cFigCaption class='figure-caption'>${caption!}</@cFigCaption></#if>
 </figure>

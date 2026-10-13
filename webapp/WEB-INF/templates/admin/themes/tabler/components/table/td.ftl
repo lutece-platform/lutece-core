@@ -19,6 +19,7 @@ Parameters:
 - rowspan (int, optional): the number of rows to span.
 - flex (boolean, optional): whether to use flexbox for layout.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Deprecation:
 - args (string[]): the list of deprecated arguments.

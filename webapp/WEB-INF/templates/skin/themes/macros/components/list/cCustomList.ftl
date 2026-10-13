@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Liste personnalisée - @cCustomList
@@ -23,7 +24,7 @@ Snippet:
     </@cCustomList>
 
 -->
-<#macro cCustomList items type='arrow' class='' id='' params=''>
+<#macro cCustomList items type='arrow' class='' id='' params='' attrs={}>
 <@cList items type class id params >
     <#nested>    
 </@cList>
