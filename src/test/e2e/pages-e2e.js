@@ -23,6 +23,9 @@
  *   LABEL           names the snapshot directory (default "current")
  *   OUT_DIR         default ./snapshots
  *   MAX_PAGES       upper bound of back-office pages visited (default 250)
+ *   XSS_MARKERS     markers.json written by xss/seed-core.py: names the field each payload came from
+ *   XSS_REFLECTED   "1" replays every visited URL once per query parameter, the value replaced by
+ *                   an XSS payload (reflected XSS)
  *   CHROMIUM        browser executable; by default the one bundled with playwright-core, or else
  *                   the newest headless shell found in ~/.cache/ms-playwright
  */
@@ -103,6 +106,21 @@ const KNOWN_FAILURES = [
 ];
 
 const failures = [];
+
+// XSS: a payload x'"><svg/onload=alert(N)> or <script>alert(N)</script> written by xss/seed-core.py
+// (stored) or put in a query parameter (reflected). N names its origin.
+const XSS_MARKERS = process.env.XSS_MARKERS ? JSON.parse( fs.readFileSync( process.env.XSS_MARKERS, 'utf8' ) ) : {};
+const XSS_RAW = /<svg\/onload=alert\((\d+)\)>|<script>alert\((\d+)\)<\/script>/g;
+const xssHits = [];
+let currentPage = '';
+
+function xssHit( page, marker, how )
+{
+    const origin = XSS_MARKERS[ marker ] || reflected.get( String( marker ) ) || `payload ${marker}`;
+    xssHits.push( `${page} : ${how} — ${origin}` );
+}
+
+const reflected = new Map( );
 const notes = [];
 
 function check( page, condition, message )
@@ -157,13 +175,14 @@ function nameOf( url )
 
 async function visit( page, entry )
 {
+    currentPage = entry.name;
     let response;
     // one retry: the first request after a template change recompiles every template it includes
     for ( let attempt = 1; !response; attempt++ )
     {
         try
         {
-            response = await page.goto( BASE_URL + entry.url, { waitUntil: 'domcontentloaded', timeout: 30000 } );
+            response = await page.goto( BASE_URL + entry.url, { waitUntil: 'load', timeout: 30000 } );
         }
         catch( e )
         {
@@ -199,6 +218,16 @@ async function visit( page, entry )
         return [];
     }
 
+    for ( const m of html.matchAll( XSS_RAW ) )
+    {
+        xssHit( entry.name, m[ 1 ] || m[ 2 ], 'payload written unescaped in the response' );
+    }
+    const injected = await page.evaluate( ( ) => document.querySelectorAll( 'svg[onload]' ).length );
+    if ( injected )
+    {
+        xssHit( entry.name, '?', `${injected} injected <svg onload> element(s) in the DOM` );
+    }
+
     const markup = withoutScripts( html );
     for ( const marker of ERROR_MARKERS )
     {
@@ -231,6 +260,46 @@ async function visit( page, entry )
 
     // links to follow: read-only back-office screens only
     return page.evaluate( ( ) => Array.from( document.querySelectorAll( 'a[href]' ) ).map( a => a.getAttribute( 'href' ) ) );
+}
+
+/**
+ * Reflected XSS: loads a URL whose query parameter was replaced by a payload, and records whether
+ * the payload executed or came back unescaped. Nothing else is checked on these pages.
+ */
+async function probe( page, url, name )
+{
+    currentPage = name;
+    try
+    {
+        await page.goto( BASE_URL + url, { waitUntil: 'load', timeout: 30000 } );
+        const fetched = await page.context( ).request.get( BASE_URL + url, { maxRedirects: 0, failOnStatusCode: false } );
+        const html = await fetched.text( );
+        for ( const m of html.matchAll( XSS_RAW ) )
+        {
+            xssHit( name, m[ 1 ] || m[ 2 ], 'reflected payload written unescaped in the response' );
+        }
+    }
+    catch( e )
+    {
+        notes.push( `${name} : probe failed ${e.message.split( '\n' )[ 0 ]}` );
+    }
+}
+
+function reflectedVariants( url, start )
+{
+    const [ path, query ] = url.split( '?' );
+    const params = new URLSearchParams( query || '' );
+    const variants = [];
+    let n = start;
+    for ( const key of [ ...params.keys( ) ] )
+    {
+        n++;
+        const copy = new URLSearchParams( params );
+        copy.set( key, `x'"><svg/onload=alert(${n})><script>alert(${n})</script>` );
+        reflected.set( String( n ), `reflected ${path} parameter ${key}` );
+        variants.push( { url: `${path}?${copy.toString( )}`, name: `reflected-${n}` } );
+    }
+    return variants;
 }
 
 function toAdminUrl( href )
@@ -274,6 +343,11 @@ async function login( page )
     const page = await context.newPage( );
     const jsErrors = [];
     page.on( 'pageerror', e => jsErrors.push( `${page.url( ).replace( BASE_URL, '' )} : ${String( e ).split( '\n' )[ 0 ]}` ) );
+    page.on( 'dialog', async d => {
+        xssHit( currentPage, d.message( ), `payload EXECUTED (${d.type( )} dialog)` );
+        await d.dismiss( ).catch( ( ) => null );
+    } );
+    const visitedUrls = FO_PAGES.map( e => e.url ).concat( [ '/jsp/site/Portal.jsp?page_id=1', '/jsp/site/Portal.jsp?page=map&lang=fr' ] );
 
     let visited = 0;
     try
@@ -301,6 +375,7 @@ async function login( page )
                 }
                 seen.add( key );
                 const hrefs = await visit( page, { name: key, url } );
+                visitedUrls.push( url );
                 visited++;
                 for ( const h of hrefs || [] )
                 {
@@ -319,6 +394,27 @@ async function login( page )
             await visit( page, entry );
             visited++;
         }
+
+        if ( process.env.XSS_REFLECTED === '1' )
+        {
+            let n = 900;
+            const seenPaths = new Set( );
+            for ( const url of visitedUrls )
+            {
+                const signature = url.split( '?' )[ 0 ] + '?' + [ ...new URLSearchParams( url.split( '?' )[ 1 ] || '' ).keys( ) ].sort( ).join( '&' );
+                if ( !url.includes( '?' ) || seenPaths.has( signature ) )
+                {
+                    continue;
+                }
+                seenPaths.add( signature );
+                for ( const v of reflectedVariants( url, n ) )
+                {
+                    await probe( page, v.url, v.name );
+                    n++;
+                }
+            }
+            console.log( `  ${n - 900} reflected XSS probe(s)` );
+        }
     }
     catch( e )
     {
@@ -336,6 +432,14 @@ async function login( page )
         [ ...new Set( jsErrors ) ].slice( 0, 10 ).forEach( e => console.log( '    ' + e ) );
     }
     console.log( `\n  ${visited} page(s) visited, snapshots in ${OUT_DIR}` );
+
+    if ( xssHits.length )
+    {
+        const unique = [ ...new Set( xssHits ) ];
+        console.error( `\nXSS — ${unique.length} finding(s):` );
+        unique.forEach( h => console.error( '  ' + h ) );
+        failures.push( `${unique.length} XSS finding(s)` );
+    }
 
     if ( failures.length )
     {
