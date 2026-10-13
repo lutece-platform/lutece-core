@@ -34,6 +34,9 @@ FIELDS = [
     ("core_portlet_template", "description", "1=1", 255, "portlet template description"),
     ("core_role", "role_description", "1=1", 255, "front-office role description"),
     ("core_theme", "theme_description", "1=1", 255, "theme description"),
+    ("core_attribute", "title", "1=1", 4000, "user attribute title"),
+    ("core_attribute", "help_message", "1=1", 4000, "user attribute help message"),
+    ("core_attribute_field", "title", "title <> ''", 255, "user attribute choice"),
 ]
 
 DATASTORE = [

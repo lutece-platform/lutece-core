@@ -25,6 +25,7 @@
  *   MAX_PAGES       upper bound of back-office pages visited (default 250)
  *   XSS_MARKERS     markers.json written by xss/seed-core.py: names the field each payload came from
  *   EXTRA_FO_PAGES  comma-separated front-office URLs to visit as well (a plugin's XPages)
+ *   EXTRA_BO_PAGES  comma-separated back-office URLs the crawl does not reach by links (opened by scripts)
  *   XSS_REFLECTED   "1" replays every visited URL once per query parameter, the value replaced by
  *                   an XSS payload (reflected XSS)
  *   CHROMIUM        browser executable; by default the one bundled with playwright-core, or else
@@ -69,11 +70,13 @@ const FO_PAGES = [
     { name: 'fo-search-query', url: '/jsp/site/Portal.jsp?page=search&query=lutece' },
 ].concat( ( process.env.EXTRA_FO_PAGES || '' ).split( ',' ).filter( Boolean ).map( u => ( { name: 'fo-' + u.replace( /^\/jsp\/site\//, '' ).replace( /[^\w=]+/g, '_' ), url: u } ) ) );
 
-const BO_EXTRA = [
+// the plugin pages first: visiting the login page ends the session
+const BO_EXTRA = ( process.env.EXTRA_BO_PAGES || '' ).split( ',' ).filter( Boolean )
+    .map( u => ( { name: 'bo-extra-' + u.replace( /^\/jsp\/admin\//, '' ).replace( /[^\w=]+/g, '_' ), url: u } ) ).concat( [
     { name: 'bo-site-preview', url: '/jsp/admin/site/AdminSite.jsp' },
     // visited after authenticating: fetching it first would consume the CSRF token of the form
     { name: 'bo-login', url: '/jsp/admin/AdminLogin.jsp' },
-];
+] );
 
 // Never follow these: they change state, end the session or stream a file.
 const BO_EXCLUDED = /\/Do[A-Z]|action_|Logout|Remove|Delete|Confirm|Export|Download|\.pdf|Indexing|Reinit|Reset|Clear|Flush|Activate|Disable|Enable|Install|Uninstall|Refresh|Move|Up\.jsp|Down\.jsp|Unlock|Lock|Anonymize|Send|Import|javascript:|#/;
