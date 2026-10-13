@@ -11,6 +11,7 @@ Parameters:
 - classText (string, optional): CSS class(es) applied to the alert text. Default: ''.
 - dismissible (boolean, optional): If true, a close button is displayed. Default: false.
 - params (string, optional): Additional HTML attributes for the alert. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Alerte - @cAlert
@@ -49,32 +50,31 @@ Snippet:
     </@cAlert>
 
 -->
-<#macro cAlert id='' title='' isHtmlTitle=false htmlTitleLevel=3 type='primary' iconType='informative' class='' classText='' dismissible=false params='' deprecated...>
+<#macro cAlert id='' title='' isHtmlTitle=false htmlTitleLevel=3 type='primary' iconType='informative' class='' classText='' dismissible=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local type=type! /> 
-<#local hasClass=false /> 
 <#local allClass=class?split(' ')! /> 
 <#local typeClass=allClass[0]! /> 
 <#local types=["warning","primary","danger","success"]>
-<#if typeClass !='' && types?seq_contains(typeClass)><#local type=typeClass /></#if>
+<#-- the first class, when it is an alert type, wins over the type parameter -->
+<#local alertType = ( typeClass?has_content && types?seq_contains(typeClass) )?then( typeClass, type! ) />
 <#local alertIconName='info-circle' />
 <#local alertIconTitle='#i18n{portal.theme.labelInfo}' />
 <#local ariaRole='status' />
-<#if type?starts_with('danger')>
+<#if alertType?starts_with('danger')>
 <#local alertIconTitle='#i18n{portal.theme.labelError}' />
 <#local alertIconName='ban' /> 
 <#local ariaRole='alert' />
-<#elseif type?starts_with('warning')>
+<#elseif alertType?starts_with('warning')>
 <#local alertIconTitle='#i18n{portal.theme.labelWarning}' />
 <#local alertIconName='alert-triangle ' />
 <#local ariaRole='alert' />
-<#elseif type?starts_with('success')>
+<#elseif alertType?starts_with('success')>
 <#local alertIconTitle='#i18n{portal.theme.labelSuccess}' />
 <#local alertIconName='circle-check' />
 <#local ariaRole='status' />
 </#if>
-<#local alertClass>alert alert-outline alert-${type}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
-<@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id!>
+<#local alertClass>alert alert-outline alert-${alertType}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
+<@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id! attrs=attrs>
     <@cBlock class='alert-header'>
         <@cBlock class='alert-icon'><@cIcon name=alertIconName! title=alertIconTitle! /></@cBlock>
         <@cBlock class='alert-text ${classText!}'><#if title !=''><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>

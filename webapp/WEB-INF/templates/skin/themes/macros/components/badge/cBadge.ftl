@@ -10,6 +10,7 @@ Parameters:
 - dismissible (boolean, optional): If true, displays a close button to dismiss the badge. Default: false.
 - id (string, optional): The unique identifier for the badge. Default: ''.
 - params (string, optional): Additional HTML attributes for the badge. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Badge - @cBadge
@@ -29,9 +30,9 @@ Snippet:
     <@cBadge label='Filter: Paris' class='secondary' dismissible=true />
 
 -->
-<#macro cBadge label='' class='' hasp=true dismissible=false id='' params='' deprecated...>
+<#macro cBadge label='' class='' hasp=true dismissible=false id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="badge <#if class !=''> ${class}</#if><#if dismissible> dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="badge <#if class !=''> ${class}</#if><#if dismissible> dismissible</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#if dismissible> 
 	<div class="badge-content">
 		<#if hasp><p class="badge-label">${label!}</p><#else>${label!}</#if>

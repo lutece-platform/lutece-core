@@ -12,6 +12,7 @@ Parameters:
 - urlText (string, optional): the text to display for the URL link.
 - id (string, optional): the ID of the widget element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the widget element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - fontSize (string, optional): the font size of the widget icon.
 
 Snippet:
@@ -29,9 +30,9 @@ Snippet:
     <@smallBox title='42' text='Pending Tasks' boxIcon='clipboard' color='warning' id='pending-tasks-widget' />
 
 -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' deprecated...>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' attrs={} fontSize='40px' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card card-sm mb-3 box-widget" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card card-sm mb-3 box-widget" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><@commonAttrs params=params attrs=attrs />>
 	<div class="card-body">
 		<div class="row align-items-center">
 			<div class="col-auto">

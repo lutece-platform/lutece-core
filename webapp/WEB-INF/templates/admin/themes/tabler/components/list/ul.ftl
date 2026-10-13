@@ -10,6 +10,7 @@ Parameters:
 - hide (list, optional): a list of strings representing the CSS display values for hiding the unordered list at different screen sizes (e.g. ["md:hidden"] to hide the unordered list on medium screens and up).
 - collapsed (boolean, optional): whether the unordered list should be initially collapsed (hidden).
 - params (string, optional): additional attributes to add to the unordered list, in the form of a string of HTML attributes.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

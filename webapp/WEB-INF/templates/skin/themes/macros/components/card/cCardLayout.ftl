@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the grid container. Default: ''.
 - id (string, optional): The unique identifier for the card layout. Default: ''.
 - params (string, optional): Additional HTML attributes for the card layout. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Layout carte - @cCardLayout
@@ -34,7 +35,7 @@ Snippet:
     </@cCardLayout>
 
 -->
-<#macro cCardLayout type='group' rowCols='' class='' id='' params='' deprecated...>
+<#macro cCardLayout type='group' rowCols='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if type == 'group'>
     <#local cClass>row g-0</#local>
@@ -44,7 +45,7 @@ Snippet:
     <#local cParams>data-masonry='{"percentPosition": true }' ${params!}</#local>
     <#local cClass>row ${class!}</#local>
 </#if>
-<@cBlock class=cClass id=id params=cParams>
+<@cBlock class=cClass id=id params=cParams attrs=attrs>
 <#nested>
 </@cBlock>
 <#if type == 'columns'>

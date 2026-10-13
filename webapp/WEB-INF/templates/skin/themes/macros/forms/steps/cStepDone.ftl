@@ -17,6 +17,7 @@ Parameters:
 - class (string, optional): CSS class for the step section. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Étape terminée - @cStepDone"
@@ -37,9 +38,9 @@ Snippet:
     </@cStepDone>
 
 -->
-<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
+<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cSection class='step step-done ${class!}' id=id params=params>
+<@cSection class='step step-done ${class!}' id=id params=params attrs=attrs>
 	<@cSection class='step-title'>
         <@cContainer class='d-flex justify-content-between align-items-center'>
             <@cTitle class='title mt-0' level=titleLevel params='title="${title}"' >

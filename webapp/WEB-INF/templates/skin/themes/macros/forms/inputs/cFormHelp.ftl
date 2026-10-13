@@ -8,6 +8,7 @@ Parameters:
 - label (string, required): the help message content.
 - class (string, optional): adds a CSS class to the help text. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Aide de formulaire - @cFormHelp"
@@ -25,7 +26,7 @@ Snippet:
     <@cFormHelp id='password' label='Must contain at least 8 characters.' class='text-info' />
 
 -->
-<#macro cFormHelp id label class='' params='' deprecated...>
+<#macro cFormHelp id label class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cText id='help_${id!}' class='helptext font-s ${class!}' params=params>${label!}</@cText>
+<@cText id='help_${id!}' class='helptext font-s ${class!}' params=params attrs=attrs>${label!}</@cText>
 </#macro>

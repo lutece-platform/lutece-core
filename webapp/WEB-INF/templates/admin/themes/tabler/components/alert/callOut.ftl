@@ -10,6 +10,7 @@ Parameters:
 - callOutIcon (string, optional): the name of the icon to include in the callout element.
 - id (string, optional): the ID of the callout element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the callout element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -26,9 +27,9 @@ Snippet:
     </@callOut>
 
 -->
-<#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' deprecated...>
+<#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="alert alert-important alert-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert alert-important alert-${color}"<@commonAttrs id=id params=params attrs=attrs />>
 	<#if title!=''><${titleLevel} class='mb-0'><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
 	<#nested>
 </div>

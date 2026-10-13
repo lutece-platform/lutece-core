@@ -32,6 +32,7 @@ Parameters:
 - vcols (object, optional): Column ratio between image and content for horizontal layout. Default: [4,8].
 - hoverEffect (boolean, optional): If true, adds a hover effect on the card image. Default: true.
 - params (string, optional): Additional HTML attributes for the card. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Carte - @cCard
@@ -55,10 +56,10 @@ Snippet:
     </@cCard>
 
 -->
-<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
+<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if orientation='v'>
-<div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
+<div class="card ${class!}"<@commonAttrs id=id params=params attrs=attrs />>
     <#if header!=''>
     <div class="card-header<#if headerClass !=''> ${headerClass}</#if><#if headerImg!=''> card-header-img</#if>"<#if headerImg!=''>style="background-image:url(${headerImg});"</#if>>
     <#if headerLabelClass!=''><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
@@ -83,7 +84,7 @@ Snippet:
     <#if footer!=''><div class="card-footer text-muted<#if footerClass !=''> ${footerClass}</#if>">${footer!}</div></#if>
 </div>
 <#else>
-<div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
+<div class="card ${class!}"<@commonAttrs id=id params=params attrs=attrs />>
 	<@cRow class='m-0'>
 		<#if img!=''>
 			<div class="<#if vcolsInit gt 0>col-${vcolsInit} col-md-${vcols[0]}<#else>col-${vcols[0]}</#if> ${imgClass} p-0">

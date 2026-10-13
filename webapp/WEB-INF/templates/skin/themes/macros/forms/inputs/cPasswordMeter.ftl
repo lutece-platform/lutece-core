@@ -12,6 +12,7 @@ Parameters:
 - indicator (string, optional): custom indicator HTML content. Default: ''.
 - class (string, optional): CSS class for the meter container. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Jauge mot de passe - @cPasswordMeter"
@@ -28,9 +29,9 @@ Snippet:
     <@cPasswordMeter id='user_password' labelRefresh='Generate a new password' labelSecurity='Security requirements:' />
 
 -->
-<#macro cPasswordMeter id label='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' labelRefresh='#i18n{portal.theme.labelPasswordRandomize}' labelSecurity='#i18n{portal.theme.labelPasswordSecurity} :' url='' indicator='' class='' params='' deprecated...>
+<#macro cPasswordMeter id label='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' labelRefresh='#i18n{portal.theme.labelPasswordRandomize}' labelSecurity='#i18n{portal.theme.labelPasswordSecurity} :' url='' indicator='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cRow id='password-${id}-wrapper' params=params>
+<@cRow id='password-${id}-wrapper' params=params attrs=attrs>
     <@cCol cols='12 col-md-7'>
         <@cBtn id='password-${id}-generator' type='button' label='' class='pass font-xs text-underline p-0 mt-xs font-medium-bold cursor-pointer' >
             <@cIcon name='refresh' class='main-info-color password-refresh' /> ${labelRefresh!}

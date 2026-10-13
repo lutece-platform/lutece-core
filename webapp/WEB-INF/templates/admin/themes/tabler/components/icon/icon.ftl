@@ -7,6 +7,7 @@ Parameters:
 - title (string, optional): the title attribute of the icon.
 - id (string, optional): the ID attribute of the icon.
 - params (string, optional): additional parameters to add to the icon.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -23,7 +24,7 @@ Snippet:
     <@icon style='envelope' />
 
 -->
-<#macro icon prefix='ti ti-' style='' class='' title='' id='' params='' deprecated...>
+<#macro icon prefix='ti ti-' style='' class='' title='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- Compat from Font Awesome to Tabler Icons -->
 <#local cssStyle = ' ' + style?keep_after(' ') />
@@ -147,5 +148,5 @@ Snippet:
         <#local iconStyle = style />
 </#switch>
 <#if cssStyle?trim !=''><#local iconStyle = iconStyle + cssStyle /></#if>
-<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><@commonAttrs id=id params=params attrs=attrs />></i>
 </#macro>

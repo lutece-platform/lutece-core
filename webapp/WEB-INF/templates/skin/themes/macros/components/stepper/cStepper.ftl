@@ -14,6 +14,7 @@ Parameters:
 - class (string, optional): Additional CSS classes (use 'pie' for pie-chart style). Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Stepper - @cStepper
@@ -34,10 +35,10 @@ Snippet:
     <@cStepper steps=mySteps haspicto=true title=true />
 
 -->
-<#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>
+<#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="stepper">
-    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
     <#if steps?has_content>
 		<#assign nbSteps = steps?size >
         <#list steps as step>

@@ -10,6 +10,7 @@ Parameters:
 - collapsed (boolean, optional): whether to collapse the span element.
 - align (string, optional): the alignment setting for the span element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

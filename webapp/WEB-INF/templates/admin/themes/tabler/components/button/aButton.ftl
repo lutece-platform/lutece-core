@@ -12,6 +12,7 @@ Parameters:
 - align (string, optional): the alignment of the button, such as "left" or "right".
 - class (string, optional): additional CSS classes to apply to the button.
 - params (string, optional): additional HTML parameters to apply to the button element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - title (string, optional): the title of the button.
 - tabIndex (string, optional): the tab index of the button.
 - hideTitle (list, optional): a list of screen reader text to hide the title of the button.

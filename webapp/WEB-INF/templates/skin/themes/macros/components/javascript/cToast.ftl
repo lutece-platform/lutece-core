@@ -12,6 +12,7 @@ Parameters:
 - duration (number, optional): Display duration of toasts in milliseconds (0 for persistent). Default: 2000.
 - triggerId (string, optional): ID of the trigger element (e.g., a button) to show toasts on click. Default: ''.
 - params (string, optional): Additional HTML attributes for the container. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -28,14 +29,14 @@ Snippet:
     </@cInitToast>
 
 -->
-<#macro cInitToast class='' id='' position='position-fixed' showAll=true animation=true duration=2000 triggerId='' params='' deprecated...>
+<#macro cInitToast class='' id='' position='position-fixed' showAll=true animation=true duration=2000 triggerId='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign styleParams='' />
 <#assign toastParams=params />
 <#if duration?number == 0><#assign autohide=false ><#else><#assign autohide=true ></#if>
 <#if position !=''><#assign styleParams> style="${position}"</#assign></#if>
 <#if styleParams !=''><#assign toastParams += styleParams /></#if>
-<div<#if id !=''> id="${id}"</#if> class="toast-container ${position} p-3<#if class !=''> ${class}</#if>"<#if toastParams !=''> ${toastParams}</#if>>
+<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=toastParams attrs=attrs />>
 <#nested>
 </div>
 <script>
@@ -84,6 +85,7 @@ Parameters:
 - class (string, optional): Additional CSS classes for the toast. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Notification toast - @cToast
@@ -105,9 +107,9 @@ Snippet:
     <@cToast title='New message' content='You have a new notification.' imgUrl='images/avatar.png' delay=0 />
 
 -->
-<#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' deprecated...>
+<#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<#if id !=''> id="${id}"</#if> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<#if params !=''> ${params}"</#if>>
+<div<@commonAttrs id=id /> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<@commonAttrs params=params attrs=attrs />>
   <#if title !=''>
     <div class="toast-header">
       <#if imgUrl !=''><img src="${imgUrl}" class="rounded me-2"></#if>

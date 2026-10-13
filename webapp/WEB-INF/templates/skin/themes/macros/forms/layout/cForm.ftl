@@ -7,6 +7,7 @@ Parameters:
 - class (string, optional): CSS class applied to the form. Default: ''.
 - id (string, optional): the ID of the form. Falls back to `name` when set. Default: ''.
 - params (string, optional): additional HTML attributes added to the form. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - name (string, optional): value of the `name` attribute of the form. Default: ''.
 - method (string, optional): value of the `method` attribute. Accepted values: 'post', 'get'. Default: 'post'.
 - role (string, optional): value used as `aria-label` on the form for accessibility. Default: ''.
@@ -39,9 +40,9 @@ Snippet:
     </@cForm>
 
 -->
-<#macro cForm class='' id='' params='' name='' method='post' role='' action='' enctype='' foValidation=true deprecated...>
+<#macro cForm class='' id='' params='' attrs={} name='' method='post' role='' action='' enctype='' foValidation=true deprecated...>
 <@deprecatedWarning args=deprecated />
-<form<#if class!=''> class="${class}"</#if><#if id!=''> id="${id!name}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if enctype!=''> enctype="${enctype}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> aria-label="${role}"</#if> data-form-theme-validation="${foValidation?c}"<#if params!=''> ${params}</#if>>
+<form<#if class!=''> class="${class}"</#if><#if id!=''> id="${id!name}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if enctype!=''> enctype="${enctype}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> aria-label="${role}"</#if> data-form-theme-validation="${foValidation?c}"<@commonAttrs params=params attrs=attrs />>
 <#nested>
 </form>
 <#if foValidation>

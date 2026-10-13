@@ -9,6 +9,7 @@ Parameters:
 - hide (string[], optional): an array of breakpoint names at which to hide the table row.
 - align (string, optional): the horizontal alignment of the table cell contents.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

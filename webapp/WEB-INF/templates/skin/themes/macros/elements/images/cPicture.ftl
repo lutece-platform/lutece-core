@@ -7,6 +7,7 @@ Parameters:
 - id (string, optional): Unique identifier for the picture element. Default: ''.
 - class (string, optional): CSS class(es) applied to the picture element. Default: ''.
 - params (string, optional): Additional HTML attributes for the picture element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Picture responsive - @cPicture
@@ -23,9 +24,9 @@ Snippet:
     </@cPicture>
 
 -->
-<#macro cPicture id='' class='' params='' deprecated...>
+<#macro cPicture id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<picture<#if class!=''> class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<picture<@commonAttrs id=id class=class params=params attrs=attrs />>
 <#nested/>
 </picture>
 </#macro>

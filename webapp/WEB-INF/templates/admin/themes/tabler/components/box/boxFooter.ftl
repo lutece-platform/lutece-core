@@ -6,6 +6,7 @@ Parameters:
 - align (string, optional): the horizontal alignment of the box footer element.
 - id (string, optional): the ID of the box footer element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the box footer element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

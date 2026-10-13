@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): CSS class for the fieldset. Default: ''.
 - id (string, optional): the ID of the fieldset. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - for (string, optional): links an ID with the fieldset. Default: ''.
 - helpMsg (string, optional): help message for the fieldset. Default: ''.
 - helpPos (string, optional): position of the help message, 'top' (after legend) or 'after' (after content). Default: 'top'.
@@ -51,10 +52,10 @@ Snippet:
     </@cFieldset>
 
 -->
-<#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
+<#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' attrs={} for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
-<fieldset<#if class!=''> class="${class}"</#if><#if for!=''> for="${for!}"</#if> id="fieldset-${cId}"<#if params!=''> ${params}</#if><#if role!=''> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg !=''> aria-describedby="help_${cId!}"</#if>>
+<fieldset<#if class!=''> class="${class}"</#if><#if for!=''> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs params=params attrs=attrs /><#if role!=''> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg !=''> aria-describedby="help_${cId!}"</#if>>
 <#if legend!=''><legend <#if legendClass!='' || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
 <#if helpPos == 'top' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>
 <#nested>
@@ -86,7 +87,7 @@ Snippet:
 -->
 <#macro cLegend label='' showLabel=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<legend <#if class!=''>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <#if id!=''>id="${id}"</#if>>
+<legend <#if class!=''>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <@commonAttrs id=id />>
 <#if label!=''>${label!} </#if><#nested>
 </legend>
 </#macro>

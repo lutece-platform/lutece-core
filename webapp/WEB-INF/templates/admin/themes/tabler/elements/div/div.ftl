@@ -10,6 +10,7 @@ Parameters:
 - collapsed (boolean): boolean to determine if the element is initially collapsed (default: false)
 - align (string): alignment of the content within the div element (default: '')
 - params (string): additional parameters to include in the div element (default: '')
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

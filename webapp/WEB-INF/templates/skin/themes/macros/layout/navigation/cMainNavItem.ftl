@@ -13,6 +13,7 @@ Parameters:
 - id (string, optional): Unique identifier for the list item. Default: ''.
 - class (string, optional): Additional CSS class(es) for the list item. Default: ''.
 - params (string, optional): Additional HTML attributes for the list item. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Entrée de menu - @cMainNavItem"
@@ -37,9 +38,9 @@ Snippet:
     </@cMainNavItem>
 
 -->
-<#macro cMainNavItem title url urlClass='' target='' role='' showTitle=false id='' class='' params='' deprecated...>
+<#macro cMainNavItem title url urlClass='' target='' role='' showTitle=false id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="nav-item<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><#if params!=''> ${params}</#if>>
+<li class="nav-item<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
 <#if url !=''>
     <a class="nav-link<#if urlClass !='' > ${urlClass!}</#if>"<#if role !=''> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target!=''> target="${target}"</#if>>
         ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{portal.theme.newWindowLink}</span></#if>

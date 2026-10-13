@@ -7,6 +7,7 @@ Parameters:
 - id (string, optional): the ID of the <tfoot> element.
 - class (string, optional): the class of the <tfoot> element.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -28,9 +29,9 @@ Snippet:
     </@tableFoot>
 
 -->
-<#macro tableFoot id='' class='' params='' deprecated...>
+<#macro tableFoot id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tfoot <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tfoot <@commonAttrs id=id /><#if class!=''> class="${class?trim}"</#if><@commonAttrs params=params attrs=attrs />>
 <#nested>
 </tfoot>
 </#macro>

@@ -11,6 +11,7 @@ Parameters:
 - helpMsg (string, optional): content of the help message. Default: ''.
 - errorMsg (string, optional): content of the error message. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - disabled (boolean, optional): disables the multiselect. Default: false.
 
 Showcase:
@@ -37,13 +38,13 @@ Snippet:
     </@cMultiselect>
 
 -->
-<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false deprecated...>
+<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' attrs={} disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id}<#else>msg-${random()!}</#if></#local>
 <div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}">
 	<div class="tags-container mt-s"></div>
     <div class="dropdown">
-        <button class="form-select multi-select <#if disabled>disabled</#if>" type="button" id='btn-${cId}' data-bs-toggle="dropdown" aria-expanded="false"<#if disabled> disabled</#if> params=${params}>
+        <button class="form-select multi-select <#if disabled>disabled</#if>" type="button" id='btn-${cId}' data-bs-toggle="dropdown" aria-expanded="false"<#if disabled> disabled</#if><@commonAttrs params=params attrs=attrs />>
             ${labelOptionSelection!}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

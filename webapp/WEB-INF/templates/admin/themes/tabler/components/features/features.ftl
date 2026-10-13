@@ -9,6 +9,7 @@ Parameters:
 - listClass (string, optional): classes for the unordered list element. Default: 'space-y'.
 - id (string, optional): the ID of the container element.
 - params (string, optional): additional HTML attributes to add to the container.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -29,9 +30,9 @@ Snippet:
     </@manageFeature>
 
 -->
-<#macro manageFeature class='mt-2' colClass='space-y' listClass='space-y' id='' params='' deprecated...>
+<#macro manageFeature class='mt-2' colClass='space-y' listClass='space-y' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row row-cards<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="row row-cards<#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
     <div class="col ${colClass}">
         <ul class="list-unstyled ${listClass}">
             <#nested>
@@ -52,6 +53,7 @@ Parameters:
 - bodyClass (string, optional): additional classes to add to the card body element.
 - id (string, optional): the ID of the card element.
 - params (string, optional): additional HTML attributes to add to the card element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -81,10 +83,10 @@ Snippet:
     </@manageFeatureItem>
 
 -->
-<#macro manageFeatureItem class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' deprecated...>
+<#macro manageFeatureItem class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <li class="<#if liClass !=''> ${liClass}</#if>">
-    <div class="card<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+    <div class="card<#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
         <div class="card-body<#if bodyClass !=''> ${bodyClass}</#if>">
             <div class="row g-3 justify-content-${align} align-items-${valign}">
             <#nested>
@@ -109,6 +111,7 @@ Parameters:
 - class (string, optional): additional classes to add to the column element.
 - id (string, optional): the ID of the column element.
 - params (string, optional): additional HTML attributes to add to the column element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -139,9 +142,9 @@ Snippet:
     </@manageFeatureItemColumn>
 
 -->
-<#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' deprecated...>
+<#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols !=''> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols !=''> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </div>
 </#macro>

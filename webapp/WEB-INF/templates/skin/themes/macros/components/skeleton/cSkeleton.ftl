@@ -8,6 +8,7 @@ Parameters:
 - id (string, optional): HTML id attribute. Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Skeleton loader - @cSkeleton
@@ -28,9 +29,9 @@ Snippet:
     <@cSkeleton bones=['text', 'text', 'short'] class='my-4' id='loading-placeholder' />
 
 -->  
-<#macro cSkeleton bones={} id='' class='' params='' deprecated...>
+<#macro cSkeleton bones={} id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated /> 
-<div class="skeleton<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><#if params!=''> ${params}</#if>>
+<div class="skeleton<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
 <#if bones?size gt 0>
     <#list bones as bone>
         <#switch bone>

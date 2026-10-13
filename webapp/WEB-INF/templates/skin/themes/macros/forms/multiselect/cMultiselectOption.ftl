@@ -11,6 +11,7 @@ Parameters:
 - value (string, optional): the value associated to the option. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - disabled (boolean, optional): disables the option. Default: false.
 
 Snippet:
@@ -24,9 +25,9 @@ Snippet:
     <@cMultiselectOption name='tags' label='Archived' value='archived' disabled=true />
 
 -->
-<#macro cMultiselectOption name label class='' classCheckbox='' value='' id='' params='' disabled=false deprecated...>
+<#macro cMultiselectOption name label class='' classCheckbox='' value='' id='' params='' attrs={} disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <@chItem class=class!>
-    <@cCheckbox class=classCheckbox name=name id=id label=label value=value type='button' disabled=disabled params=params/>
+    <@cCheckbox class=classCheckbox name=name id=id label=label value=value type='button' disabled=disabled params=params attrs=attrs/>
 </@chItem>    
 </#macro>

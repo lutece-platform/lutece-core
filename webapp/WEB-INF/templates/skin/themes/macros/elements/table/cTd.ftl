@@ -12,6 +12,7 @@ Parameters:
 - colspan (string, optional): Number of columns the cell should span. Default: ''.
 - nospan (boolean, optional): If true, omits the inner span wrapper around the cell content. Default: false.
 - params (string, optional): Additional HTML attributes for the table cell. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -31,9 +32,9 @@ Snippet:
     </@cTr>
 
 -->
-<#macro cTd id='' class='' scope='' headers='' role='' colspan='' nospan=false params='' deprecated...>
+<#macro cTd id='' class='' scope='' headers='' role='' colspan='' nospan=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<td<#if scope!=''> scope="${scope!}"</#if><#if colspan!=''> colspan="${colspan!}"</#if><#if headers!=''> headers="${headers!}"</#if><#if class != ''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if role!=''> role="${role!}"</#if>>
+<td<#if scope!=''> scope="${scope!}"</#if><#if colspan!=''> colspan="${colspan!}"</#if><#if headers!=''> headers="${headers!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs /><#if role!=''> role="${role!}"</#if>>
 <#if !nospan><span><#nested></span><#else><#nested></#if>
 </td>
 </#macro>

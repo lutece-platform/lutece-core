@@ -11,6 +11,7 @@ Parameters:
 - style (string, optional): the style of the button.
 - class (string, optional): additional CSS classes to add to the button.
 - params (string, optional): additional parameters to add to the button.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - value (string, optional): the value attribute of the button.
 - title (string, optional): the title attribute of the button.
 - tabIndex (string, optional): the tab index of the button.

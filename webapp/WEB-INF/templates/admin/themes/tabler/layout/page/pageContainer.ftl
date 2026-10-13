@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): additional CSS classes for the main element.
 - actions (string, optional): HTML string of action buttons to inject into the page header buttons area.
 - params (string, optional): additional HTML attributes for the main element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -26,10 +27,10 @@ Snippet:
     </@pageContainer>
 
 -->
-<#macro pageContainer id='lutece-main' template='' height='' class='' actions='' params='' deprecated...> 
+<#macro pageContainer id='lutece-main' template='' height='' class='' actions='' params='' attrs={} deprecated...> 
 <@deprecatedWarning args=deprecated />
 <!-- Begin page content -->
-<main role="main" <#if id!=''> id="${id}"</#if>  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>" ${params!}>
+<main role="main" <@commonAttrs id=id />  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>"<@commonAttrs params=params attrs=attrs />>
 <#nested>
 </main>
 <#if height='full'>

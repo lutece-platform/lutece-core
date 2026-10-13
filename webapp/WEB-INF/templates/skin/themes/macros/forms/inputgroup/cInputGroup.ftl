@@ -8,6 +8,7 @@ Parameters:
 - size (string, optional): adds a size suffix to the input-group class, possible values 'lg' or 'sm'. Default: ''.
 - id (string, optional): the ID of the group. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Groupe de champs - @cInputGroup"
@@ -32,9 +33,9 @@ Snippet:
 
 -->
 
-<#macro cInputGroup class='' size='' id='' params='' deprecated...>
+<#macro cInputGroup class='' size='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="input-group<#if class!=''> ${class!}</#if><#if size!=''> input-group-${size!}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="input-group<#if class!=''> ${class!}</#if><#if size!=''> input-group-${size!}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </div>
 </#macro>

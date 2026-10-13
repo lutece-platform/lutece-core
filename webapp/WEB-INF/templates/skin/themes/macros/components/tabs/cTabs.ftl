@@ -8,6 +8,7 @@ Parameters:
 - id (string, optional): HTML id attribute. Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Onglets - @cTabs
@@ -46,19 +47,19 @@ Snippet:
     </@cTabContent>
 
 -->
-<#macro cTabs navigation=false id='' class='' params='' deprecated...>
+<#macro cTabs navigation=false id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if navigation>
 	<nav>
 		<div class="nav-tabs-container">
-			<ul class="nav nav-tabs<#if class!=''> ${class!}</#if>"<#if id !=''> id="${id!}"</#if> role="tablist" <#if params!=''>${params!}</#if>>
+			<ul class="nav nav-tabs<#if class!=''> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
 				<#nested>
 			</ul>
 		</div>
 	</nav>
 <#else>
 	<div class="nav-tabs-container">
-		<div class="nav nav-tabs<#if class!=''> ${class!}</#if>"<#if id !=''> id="${id!}"</#if> role="tablist" <#if params!=''>${params!}</#if>>
+		<div class="nav nav-tabs<#if class!=''> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
 			<#nested>
 		</div>
 	</div>

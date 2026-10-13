@@ -49,7 +49,7 @@ Snippet:
 -->
 <#macro card class='mb-3' id='' headerTitle='' headerClass='bg-info' headerIcon='' headerActions='' status='' statusPos='start' ribbon='' ribbonColor='primary' ribbonPos='top' stamp='' stampColor='primary' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card ${class}"<#if id !=''> id="${id}"</#if>>
+<div class="card ${class}"<@commonAttrs id=id />>
 	<#if stamp !=''><div class="card-stamp"><div class="card-stamp-icon bg-${stampColor}">${stamp}</div></div></#if>
 	<#if status !=''><div class="card-status-start bg-${status}"></div></#if>
 	<#if ribbon !=''><div class="ribbon ribbon-${ribbonPos} bg-${ribbonColor}">${ribbon}</div></#if>
