@@ -30,7 +30,7 @@ Snippet:
 const elems = document.querySelectorAll('${( selector! )?js_string?no_esc}');
 elems.forEach(elem => {
 	<#if class?has_content>elem.classList.add( ...'${class?js_string?no_esc}'.split(' ') );</#if>
-	elem.setAttribute('title', '#i18n{portal.util.labelCopy}');
+	elem.setAttribute('title', '${i18n('portal.util.labelCopy')?js_string?no_esc}');
   	elem.addEventListener('click', () => {
 		const selection = window.getSelection();
 		const range = document.createRange();

@@ -606,7 +606,9 @@ const FormValidation = (function() {
         errorElement.className = config.errorFeedbackClass;
         errorElement.id = errorId;
         errorElement.setAttribute('role', 'alert');
-        errorElement.innerHTML = config.errorIconSvg + message;
+        // the icon is markup set in the site properties, the message is text: never parsed as HTML
+        errorElement.innerHTML = config.errorIconSvg;
+        errorElement.appendChild(document.createTextNode(message));
 
         // Set aria-describedby
         input.setAttribute('aria-describedby', errorId);

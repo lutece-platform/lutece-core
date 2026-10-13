@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // This fix keeps only the first date.
 // Howe'ver the daterange feature should be provided by another library.
 document.addEventListener( 'DOMContentLoaded', () => {
-	const dateRangeHiddenInput = document.querySelector('#${idField}');
+	const dateRangeHiddenInput = document.querySelector('#${idField?js_string?no_esc}');
 
 	dateRangeHiddenInput.addEventListener( 'change'  , () => {
 		// The default formatSize corresponds to the default flatpickr format.

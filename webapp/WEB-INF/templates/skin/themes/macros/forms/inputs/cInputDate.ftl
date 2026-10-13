@@ -106,7 +106,7 @@ Parameters:
 		const sep = localeSample.replace(/[0-9]/g, '').charAt(0) || '/';
 		const partLengths = localeSample.split(sep).map(function(p) { return p.length; });
 		// Localized format hint, e.g. "JJ/MM/AAAA" (fr) / "DD/MM/YYYY" (en)
-		const fmtLetters = '#i18n{portal.theme.error.invalidDateFormat.letters}';
+		const fmtLetters = '${i18n('portal.theme.error.invalidDateFormat.letters')?js_string?no_esc}';
 		const fmtHint = localeSample.replace('31', (fmtLetters.charAt(0) || 'J').repeat(2))
 			.replace('12', (fmtLetters.charAt(1) || 'M').repeat(2))
 			.replace(String(yr), (fmtLetters.charAt(2) || 'A').repeat(4));
@@ -171,7 +171,7 @@ Parameters:
 				&& dt.getMonth() === parseInt(m, 10) - 1
 				&& dt.getDate() === parseInt(d, 10);
 		}
-		const msg = (el.getAttribute('data-date-error') || '#i18n{portal.theme.error.invalidDateFormat}')
+		const msg = (el.getAttribute('data-date-error') || '${i18n('portal.theme.error.invalidDateFormat')?js_string?no_esc}')
 			.replace('{0}', fmtHint).replace('{1}', new Date(yr, 5, 30).toLocaleDateString(lang));
 		let feedback = null;
 		function showError() {

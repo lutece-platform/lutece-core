@@ -140,7 +140,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 	if ( invalidElements.length > 0 ) {
 		const firstInvalidElements = invalidElements[0];
-		const invalidElementStatusMsg = `<p class="visually-hidden" id="step-alert" tabindex="-1">#i18n{portal.theme.statusMsgStepValidationErrors}</p>`
+		const invalidElementStatusMsg = `<p class="visually-hidden" id="step-alert" tabindex="-1">${i18n('portal.theme.statusMsgStepValidationErrors')?js_string?no_esc}</p>`
 		document.querySelector('.step-current .step-content .container').insertAdjacentHTML( 'afterbegin', invalidElementStatusMsg );
 		document.querySelector('#step-alert').focus();	
 		firstInvalidElements.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -184,8 +184,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			if( isRequired !='' ){
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
-				<#assign invalidLabel>#i18n{portal.theme.msgMandatory}</#assign>
-				pInvalid.innerHTML = `${invalidLabel?js_string?no_esc}`;
+				<#assign invalidLabel = i18n('portal.theme.msgMandatory') />
+				pInvalid.innerHTML = '${invalidLabel?js_string?no_esc}';
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);
 				} else {
@@ -201,7 +201,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		const at = saveStep.querySelector('.alert-title');
 		const btnReset = document.createElement('button');
 		btnReset.classList.add('btn', 'btn-tertiary', 'ms-sm');
-		btnReset.innerHTML = "${'#i18n{portal.theme.labelRemoveSaveStep}'?js_string?no_esc}";
+		btnReset.innerHTML = "${i18n('portal.theme.labelRemoveSaveStep')?js_string?no_esc}";
 		btnReset.setAttribute('type', 'button');
 		btnReset.setAttribute('data-bs-target', '#reset-stepModal');
 		btnReset.setAttribute('data-bs-toggle', 'modal');

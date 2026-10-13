@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
   })();
   
   // Rendre l'API accessible globalement
-  window.LutecePaginationAjax['${tableId}'] = paginationAjax;
+  window.LutecePaginationAjax['${tableId?js_string?no_esc}'] = paginationAjax;
 });
 </script>
  </#macro>
