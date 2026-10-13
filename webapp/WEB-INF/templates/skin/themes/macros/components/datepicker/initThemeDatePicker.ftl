@@ -90,9 +90,9 @@ if (typeof themeDatepicker === 'undefined') { window.themeDatepicker = window.th
   // Lutece i18n system (#i18n), so the displayed language follows the core locale.
   function buildMessage(fmt, custom) {
     if (custom) return custom;
-    var hint = formatHint(fmt, '#i18n{portal.theme.error.invalidDateFormat.letters}');
+    var hint = formatHint(fmt, '${i18n('portal.theme.error.invalidDateFormat.letters')?js_string?no_esc}');
     var example = DatepickerDialog.formatDate(new Date(2025, 5, 30), fmt); // 30 June 2025
-    return '#i18n{portal.theme.error.invalidDateFormat}'.replace('{0}', hint).replace('{1}', example);
+    return '${i18n('portal.theme.error.invalidDateFormat')?js_string?no_esc}'.replace('{0}', hint).replace('{1}', example);
   }
 
   function getGroup(input) { return input.closest('.input-group') || input; }

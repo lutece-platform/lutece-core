@@ -248,7 +248,7 @@ function togglePasswordIcon(field, show = false) {
   const input = document.querySelector(field);
   if (!input) return;
   const btnToggle = input.parentElement.querySelector('.toggle-password');
-  const icon = btnToggle ? btnToggle.querySelector('${iconDefaultPrefixSelector!}') : null;
+  const icon = btnToggle ? btnToggle.querySelector('${( iconDefaultPrefixSelector! )?js_string?no_esc}') : null;
   if (!icon) return;
 
   const reveal = () => {
@@ -256,14 +256,14 @@ function togglePasswordIcon(field, show = false) {
     icon.classList.remove('ti-eye-off');
     icon.classList.add('ti-eye');
     btnToggle.setAttribute('aria-pressed', 'true');
-    btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
+    btnToggle.setAttribute('title', '${i18n('portal.theme.labelPasswordHide')?js_string?no_esc}');
   };
   const hide = () => {
     input.setAttribute('type', 'password');
     icon.classList.remove('ti-eye');
     icon.classList.add('ti-eye-off');
     btnToggle.setAttribute('aria-pressed', 'false');
-    btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordShow}');
+    btnToggle.setAttribute('title', '${i18n('portal.theme.labelPasswordShow')?js_string?no_esc}');
   };
 
   if (show) {
@@ -277,9 +277,9 @@ function togglePasswordIcon(field, show = false) {
 </#if>
 document.addEventListener( "DOMContentLoaded", function(e){
 <#if passwordMeter>
-    const btnGenerate = document.getElementById('password-${passId!}-generator');
-    const fieldDest = document.getElementById('${passId!}');
-    <#if pmConfirmFieldId?has_content>const fieldConfirmDest = document.getElementById('${pmConfirmFieldId!}');</#if>
+    const btnGenerate = document.getElementById('password-${( passId! )?js_string?no_esc}-generator');
+    const fieldDest = document.getElementById('${( passId! )?js_string?no_esc}');
+    <#if pmConfirmFieldId?has_content>const fieldConfirmDest = document.getElementById('${( pmConfirmFieldId! )?js_string?no_esc}');</#if>
     btnGenerate.addEventListener( "click", (e) => {
       <#if pmUrl?has_content>
         fetch("${( pmUrl! )?js_string?no_esc}", {
@@ -291,27 +291,27 @@ document.addEventListener( "DOMContentLoaded", function(e){
         .then(response => response.json())
         .then(data => {
         fieldDest.value = data.password;
-        togglePasswordIcon('#${passId}', true);
+        togglePasswordIcon('#${passId?js_string?no_esc}', true);
         <#if pmConfirmFieldId?has_content>
         fieldConfirmDest.value = data.password;
-        togglePasswordIcon('#${pmConfirmFieldId}', true);
+        togglePasswordIcon('#${pmConfirmFieldId?js_string?no_esc}', true);
         </#if>
-        showIndicator('${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}');
+        showIndicator('${passId?js_string?no_esc}', '${pmLabel?js_string?no_esc}', '${i18n('portal.theme.labelPasswordStrength')?js_string?no_esc}');
         })
         .catch(error => {
         console.error('Error fetching password:', error);
         });
       <#else>
         fieldDest.value = generateLocalPassword()
-        togglePasswordIcon( '#${passId}', true ) 	
+        togglePasswordIcon( '#${passId?js_string?no_esc}', true ) 	
         <#if pmConfirmFieldId?has_content>
         fieldConfirmDest.value = fieldDest.value
-        togglePasswordIcon( '#${pmConfirmFieldId}', true )
+        togglePasswordIcon( '#${pmConfirmFieldId?js_string?no_esc}', true )
         </#if>
-        showIndicator('${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}')
+        showIndicator('${passId?js_string?no_esc}', '${pmLabel?js_string?no_esc}', '${i18n('portal.theme.labelPasswordStrength')?js_string?no_esc}')
       </#if>  
     });
-    passwordStrength( '${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}' )
+    passwordStrength( '${passId?js_string?no_esc}', '${pmLabel?js_string?no_esc}', '${i18n('portal.theme.labelPasswordStrength')?js_string?no_esc}' )
 </#if>
 <#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
   document.querySelectorAll(".toggle-password").forEach(function(btn) {
