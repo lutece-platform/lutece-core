@@ -1,3 +1,4 @@
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page import="fr.paris.lutece.portal.service.admin.AdminThemeService" %>
@@ -12,8 +13,8 @@ response.setDateHeader ("Expires", 0);
 <!DOCTYPE html>
 <html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" dir="ltr">
 <head>
-<base href="<%= AppPathService.getBaseUrl( request ) %>">
-<title><%= PortalService.getSiteName(  ) %> - Administration</title>
+<base href="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>">
+<title><%= StringEscapeUtils.escapeHtml4( PortalService.getSiteName(  ) ) %> - Administration</title>
 <meta charset="utf-8" />
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,7 @@ ${ adminMenuJspBean.getAdminStyleSheets( ) }
 	}
 %>
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
+<link rel="shortcut icon" href="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>favicon.ico">
 
 <%-- Display the admin menu --%>
 ${ adminMenuJspBean.getAdminMenuHeader( pageContext.request ) }
