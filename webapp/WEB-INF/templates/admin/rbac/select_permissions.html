@@ -1,6 +1,6 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html) />
+        <@pageHeader title=i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key) />
 		<@ul class='steps steps-counter mt-4'>
 			<@li class="step-item">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources} <@icon style='check text-green' /></@li>
 			<@li class="step-item active">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</@li>
@@ -29,7 +29,7 @@
 		</@ul>
 		</@formGroup>
 		<@formGroup>
-			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='default' />
+			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='default' />
 			<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
 		</@formGroup>
 		</@tform>

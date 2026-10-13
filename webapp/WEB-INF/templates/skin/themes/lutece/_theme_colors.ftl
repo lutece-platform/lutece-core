@@ -8,14 +8,14 @@
 /*** LIGHT Theme - Default					***/
 /*** 										***/
 [data-bs-theme=light] {
-<#if !lightColors?starts_with('DS Value')>${lightColors}</#if>
+<#if !lightColors?starts_with('DS Value')>${lightColors?no_esc}</#if>
 }
 
 /*** 										***/
 /*** DARK Theme 							***/
 /*** 										***/
 [data-bs-theme=dark] {
-<#if !darkColors?starts_with('DS Value')>${darkColors}</#if>
+<#if !darkColors?starts_with('DS Value')>${darkColors?no_esc}</#if>
 }
 </style>
 <#-- End Update ME -->

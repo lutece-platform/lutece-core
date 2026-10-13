@@ -9,9 +9,9 @@
 var ${idField}_fp;
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat  />
-	${idField}_fp = flatpickr('#${idField}', {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_date >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_date >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?date?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_date >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?date?iso_local_nz}"</#if></#if>, ${setFlatPickerOptions( dtOptions )} });
+	${idField}_fp = flatpickr('#${idField?js_string?no_esc}', {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_date >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_date >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?date?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_date >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?date?iso_local_nz}"</#if></#if>, ${setFlatPickerOptions( dtOptions )} });
 
-	const dateField = document.getElementById('${idField}');
+	const dateField = document.getElementById('${idField?js_string?no_esc}');
 	if (dateField && dateField.required) {
 		// Remove the readonly parameter on the date field, so the required attribute is taken into account when the form is submitted
 		const altInput = dateField.nextElementSibling;
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', { enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime.iso?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime?has_content>, minTime : "${minTime}"</#if><#if maxTime?has_content>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField?js_string?no_esc}', { enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime.iso?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime?has_content>, minTime : "${minTime?js_string?no_esc}"</#if><#if maxTime?has_content>, maxTime : "${maxTime?js_string?no_esc}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
@@ -39,20 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat />
-	flatpickr('#${idField}', {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_date >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_date >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?date?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_date >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?date?iso_local_nz}"</#if></#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField?js_string?no_esc}', {"plugins": [new rangePlugin({ input: "#${idEndField?js_string?no_esc}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_date >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_date >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?date?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_date >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?date?iso_local_nz}"</#if></#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 
 // FIX ME : Flatpickr returns a range of dates instead of one date for the beggining date input
 // This fix keeps only the first date.
 // However the daterange feature should be provided by another library.
 document.addEventListener( 'DOMContentLoaded', () => {
-    const dateRangeHiddenInput = document.querySelector('#${idField}');
-	const dateRangeEndInput = document.querySelector('#${idEndField}');
+    const dateRangeHiddenInput = document.querySelector('#${idField?js_string?no_esc}');
+	const dateRangeEndInput = document.querySelector('#${idEndField?js_string?no_esc}');
 
 	if(dateRangeEndInput.value.length !== 0){
 		var dateParts = dateRangeEndInput.value.split("/");
 
-		if("${language}" === "fr") {
+		if("${language?js_string?no_esc}" === "fr") {
 			var dateISO = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
 		}
 		else {
@@ -75,7 +75,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime?has_content>, minTime : "${minTime}"</#if><#if maxTime?has_content>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField?js_string?no_esc}', {"plugins": [new rangePlugin({ input: "#${idEndField?js_string?no_esc}"})], enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime?has_content>, minTime : "${minTime?js_string?no_esc}"</#if><#if maxTime?has_content>, maxTime : "${maxTime?js_string?no_esc}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 
 // FIX ME : Flatpickr returns a range of dates instead of one date for the beggining date input
@@ -87,7 +87,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	dateRangeHiddenInput.addEventListener( 'change'  , () => {
 		// The default formatSize corresponds to the default flatpickr format.
 		// This value must be set if another format is specified.
-		dateRangeHiddenInput.value = dateRangeHiddenInput.value.substring(0,${formatSize});
+		dateRangeHiddenInput.value = dateRangeHiddenInput.value.substring(0,${formatSize?js_string?no_esc});
 	})
 });
 </script>
@@ -97,7 +97,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', {enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate}"</#if></#if><#if minTime?has_content>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime?has_content>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime?has_content>, minTime : "${minTime}"</#if><#if maxTime?has_content>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField?js_string?no_esc}', {enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?js_string?no_esc}"</#if></#if><#if minTime?has_content>, minTime : "${( minTime?time("hh:mm") )?js_string?no_esc}"</#if><#if maxTime?has_content>, maxTime : "${( maxTime?time("hh:mm") )?js_string?no_esc}"</#if><#if minTime?has_content>, minTime : "${minTime?js_string?no_esc}"</#if><#if maxTime?has_content>, maxTime : "${maxTime?js_string?no_esc}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
@@ -165,13 +165,13 @@ function updateInputDate(input,dateValue) {
 <script>
 // Get list of browser locale and filter to current locale
 const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0];
-loadStyle( '${libUrl}bootstrap-flatpickr.min.css' );
+loadStyle( '${libUrl?js_string?no_esc}bootstrap-flatpickr.min.css' );
 <#assign datePickerIsLoaded = true />
 </script>
 </#if>
 </#macro>
 <#function setFlatPickerOptions options>
-<#assign strOptions=''>
-<#if options?size gt 0><#assign strOptions><#list options as optionKey, optionVal>"${optionKey}" : <#if optionVal?is_boolean>${optionVal?c}<#elseif optionVal?is_number>${optionVal}<#else>"${optionVal}"</#if>,</#list> </#assign></#if>
+<#-- JavaScript object members: a captured block, so they are written as is, each value JavaScript-escaped -->
+<#local strOptions><#if options?is_hash && options?size gt 0><#list options as optionKey, optionVal>"${optionKey?js_string?no_esc}" : <#if optionVal?is_boolean>${optionVal?c}<#elseif optionVal?is_number>${optionVal?c}<#else>"${optionVal?js_string?no_esc}"</#if>, </#list></#if></#local>
 <#return strOptions>
 </#function>

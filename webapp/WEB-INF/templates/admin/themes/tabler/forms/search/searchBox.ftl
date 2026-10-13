@@ -43,7 +43,7 @@ document.getElementById('searchButton').addEventListener('click', function() {
   icon.classList.add('ti-loader-2','spinSearchBox');
   searchButton.classList.add('btn-dark','shadow-lg')
 });
-  var inputs = document.querySelectorAll('#${id} input');
+  var inputs = document.querySelectorAll('#${id?js_string?no_esc} input');
   for(var i = 0; i < inputs.length; i++) {
     inputs[i].addEventListener('keydown', function(e) {
     if(e.key === 'Enter' || e.keyCode == 13) { 

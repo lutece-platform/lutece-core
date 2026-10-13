@@ -137,13 +137,13 @@ document.addEventListener('DOMContentLoaded', function() {
   window.LutecePaginationAjax = window.LutecePaginationAjax || {};
   
   const paginationAjax = (function() {
-    const tableId = '${tableId}';
-    const ajaxUrl = '${ajaxUrl}';
+    const tableId = '${tableId?js_string?no_esc}';
+    const ajaxUrl = '${ajaxUrl?js_string?no_esc}';
     const columns = [
       <#list columns as column>
         {
-          name: '${column.name?js_string}',
-          property: '${column.property?js_string}'<#if column.sortable??>,
+          name: '${column.name?js_string?no_esc}',
+          property: '${column.property?js_string?no_esc}'<#if column.sortable??>,
           sortable: ${column.sortable?c}</#if>
         }<#if column_has_next>,</#if>
       </#list>
@@ -153,36 +153,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const actions = {
       <#if actions.view??>
         view: {
-          url: '${actions.view.url?js_string}',
-          icon: '${actions.view.icon!'eye'?js_string}',
-          title: '${actions.view.title!'Voir'?js_string}',
-          btnClass: '${actions.view.btnClass!'info'?js_string}',
-          size: '${actions.view.size!'sm'?js_string}'
+          url: '${actions.view.url?js_string?no_esc}',
+          icon: '${actions.view.icon!'eye'?js_string?no_esc}',
+          title: '${actions.view.title!'Voir'?js_string?no_esc}',
+          btnClass: '${actions.view.btnClass!'info'?js_string?no_esc}',
+          size: '${actions.view.size!'sm'?js_string?no_esc}'
         }<#if actions.edit?? || actions.delete??>,</#if>
       </#if>
       <#if actions.edit??>
         edit: {
-          url: '${actions.edit.url?js_string}',
-          icon: '${actions.edit.icon!'pencil'?js_string}',
-          title: '${actions.edit.title!'Modifier'?js_string}',
-          btnClass: '${actions.edit.btnClass!'primary'?js_string}',
-          size: '${actions.edit.size!'sm'?js_string}'<#if actions.edit.offcanvas??>,
+          url: '${actions.edit.url?js_string?no_esc}',
+          icon: '${actions.edit.icon!'pencil'?js_string?no_esc}',
+          title: '${actions.edit.title!'Modifier'?js_string?no_esc}',
+          btnClass: '${actions.edit.btnClass!'primary'?js_string?no_esc}',
+          size: '${actions.edit.size!'sm'?js_string?no_esc}'<#if actions.edit.offcanvas??>,
           offcanvas: {
-            targetElement: '${actions.edit.offcanvas.targetElement!'#modify-form'?js_string}',
-            position: '${actions.edit.offcanvas.position!'end'?js_string}',
+            targetElement: '${actions.edit.offcanvas.targetElement!'#modify-form'?js_string?no_esc}',
+            position: '${actions.edit.offcanvas.position!'end'?js_string?no_esc}',
             redirectForm: ${actions.edit.offcanvas.redirectForm!'false'?c}
           }</#if>
         }<#if actions.delete??>,</#if>
       </#if>
       <#if actions.delete??>
         delete: {
-          url: '${actions.delete.url?js_string}',
-          icon: '${actions.delete.icon!'trash'?js_string}',
-          title: '${actions.delete.title!'Supprimer'?js_string}',
-          btnClass: '${actions.delete.btnClass!'danger'?js_string}',
-          size: '${actions.delete.size!'sm'?js_string}',
+          url: '${actions.delete.url?js_string?no_esc}',
+          icon: '${actions.delete.icon!'trash'?js_string?no_esc}',
+          title: '${actions.delete.title!'Supprimer'?js_string?no_esc}',
+          btnClass: '${actions.delete.btnClass!'danger'?js_string?no_esc}',
+          size: '${actions.delete.size!'sm'?js_string?no_esc}',
           confirm: ${actions.delete.confirm!'true'?c}<#if actions.delete.confirmMessage??>,
-          confirmMessage: '${actions.delete.confirmMessage?js_string}'</#if>
+          confirmMessage: '${actions.delete.confirmMessage?js_string?no_esc}'</#if>
         }
       </#if>
     };

@@ -22,7 +22,7 @@ Snippet:
 -->  
 <#macro cSearchSetResultPageTitle >
 <#if query?? && query?has_content>
-<div id="searchQuery" hidden data-query="${query!?html}"></div>
+<div id="searchQuery" hidden data-query="${query!}"></div>
 <script>
 window.addEventListener("load", function () {
     var q = document.getElementById('searchQuery').dataset.query;

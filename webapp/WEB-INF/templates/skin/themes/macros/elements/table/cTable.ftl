@@ -73,14 +73,14 @@ Snippet:
 <#if id?has_content><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
 <#macro sortSite jsp_url attribute asc=false desc=true id='' class='' params=''>
-<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
+<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" /></#if>
 <#if asc>
-<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<#if params?has_content> ${params}</#if>>
+<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url?js_string}true#sort${(id!)?js_string}_${(attribute!)?js_string}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
 	<@cIcon name='arrow-up' class='main-color' />
 </button>
 </#if>
 <#if desc>
-<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<#if params?has_content> ${params}</#if>>
+<button type="button" onclick="window.location.href='${sort_url?js_string}false#sort${(id!)?js_string}_${(attribute!)?js_string}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
 	<@cIcon name='arrow-down' class='main-color' />
 </button>
 </#if>
@@ -93,8 +93,8 @@ Snippet:
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     <#if id='changeme'>console.warn( "#i18n{portal.theme.msgInfoTableUpdateId}" )</#if>
-    const tableWrapper = document.getElementById('table-wrapper-${id}');
-    const accordion = document.getElementById('accordion-table-${id}');
+    const tableWrapper = document.getElementById('table-wrapper-${id?js_string?no_esc}');
+    const accordion = document.getElementById('accordion-table-${id?js_string?no_esc}');
     const mql = window.matchMedia('(min-width: 768px)');
     let built = false;
 
@@ -104,12 +104,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function buildAccordion() {
-        const rows = document.querySelectorAll('table#${id} tbody tr');
+        const rows = document.querySelectorAll('table#${id?js_string?no_esc} tbody tr');
         rows.forEach(function(row, index) {
             const cells = row.querySelectorAll('td');
             let accordionContent = '';
             cells.forEach(function(cell, i) {
-                const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')');
+                const headerSelector = document.querySelector('table#${id?js_string?no_esc} thead th:nth-child(' + (i + 1) + ')');
                 // No header for this cell (no thead, colspan, fewer th than td): the cell is shown without a label
                 const headerText = !headerSelector ? '' : headerSelector.querySelector('a:not(.btn-sort), button:not(.btn-sort)') ? headerSelector.innerHTML : escapeHtml(headerSelector.textContent);
                 const cellText = cell.getHTML();

@@ -35,7 +35,7 @@ Snippet:
 </@cBtn>    
 </@cBlock>
 <#else>    
-<@cLink label='' href=url class=linkClass params='aria-label="${label!} FranceConnect"'> 
+<@cLink label='' href=url class=linkClass attrs={'aria-label': "${label!} FranceConnect"}> 
 <@cBlock class='fr-connect-group m-0'>    
 <@cInline class=btnClass>        
     <@cInline class='fr-connect__login'>${label}</@cInline>        

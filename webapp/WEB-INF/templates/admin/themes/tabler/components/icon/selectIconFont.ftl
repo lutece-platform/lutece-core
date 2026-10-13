@@ -60,7 +60,7 @@ Snippet:
 <#-- JavaScript -->
 <script>
 (function() {
-	var ID = '${id}', PFX = '${prefix}', SI = ${showListIcon?c}, SL = ${showListLabel?c}, DV = '${defaultValue!}';
+	var ID = '${id?js_string?no_esc}', PFX = '${prefix?js_string?no_esc}', SI = ${showListIcon?c}, SL = ${showListLabel?c}, DV = '${( defaultValue! )?js_string?no_esc}';
 	var el = function(s) { return document.getElementById(ID + s); };
 	var hidden = el(''), btn = el('-btn'), dd = el('-dd');
 	var search = <#if searchShow>el('-q')<#else>null</#if>;
@@ -236,7 +236,7 @@ Snippet:
 		list.addEventListener('keydown', onKey);
 	}
 
-	fetch('${iconsUrl}')
+	fetch('${iconsUrl?js_string?no_esc}')
 		.then(function(r) { return r.json(); })
 		.then(function(data) {
 			var frag = document.createDocumentFragment();

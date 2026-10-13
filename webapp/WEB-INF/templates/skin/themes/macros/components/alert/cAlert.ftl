@@ -74,7 +74,7 @@ Snippet:
 <#local ariaRole='status' />
 </#if>
 <#local alertClass>alert alert-outline alert-${alertType}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
-<@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id! attrs=attrs>
+<@cBlock class=alertClass! params=params id=id! attrs={'role': ariaRole} + attrs>
     <@cBlock class='alert-header'>
         <@cBlock class='alert-icon'><@cIcon name=alertIconName! title=alertIconTitle! /></@cBlock>
         <@cBlock class='alert-text ${classText!}'><#if title?has_content><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
