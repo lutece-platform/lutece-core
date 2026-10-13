@@ -34,7 +34,7 @@ Snippet:
 				<#list portlet_types_list?sort_by("name") as portlet_type>
 					<#if portlet_type.name !=''>
 						<#assign iconPortlet><#if portlet_type.iconName??>${portlet_type.iconName!'puzzle'}<#else>puzzle</#if></#assign>
-						<@listGroupItem class='p-2' params='data-portlet-type-id="${portlet_type.id}" data-portlet-type-icon="${iconPortlet!}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" data-portlet-type-name="${portlet_type.name}"'>
+						<@listGroupItem class='p-2' attrs={'data-portlet-type-id': (portlet_type.id), 'data-portlet-type-icon': (iconPortlet!), 'data-portlet-type-href': "jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}", 'data-portlet-type-name': (portlet_type.name)}>
 							<@aButton color='link w-100 btn-portlet d-flex justify-content-start' buttonIcon='${iconPortlet!} me-2 me-2' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}' />
 						</@listGroupItem>	
 					</#if>
@@ -42,7 +42,7 @@ Snippet:
 			</@listGroup>
 			</@offcanvas>
 			<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>${extendableResourceActionsHtml!}</#if>
-			<@button class='d-block d-md-none' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params='data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"' >
+			<@button class='d-block d-md-none' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] attrs={'data-bs-toggle': "offcanvas", 'data-bs-target': "#offcanvasSiteMap", 'aria-controls': "offcanvasSiteMap"} >
 				<@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span>
 			</@button>
 		</@btnGroup>
@@ -62,7 +62,7 @@ Snippet:
 			<@inputGroup>
 				<@input type='number' name='page_id' id='page_id' min=1 title='${i18n("portal.site.admin_page.buttonSearchPage")}' value=page.id!  pattern='\\d' />
 				<@button type='submit' color='primary' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' />
-				<@button buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params='data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"' >
+				<@button buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] attrs={'data-bs-toggle': "offcanvas", 'data-bs-target': "#offcanvasSiteMap", 'aria-controls': "offcanvasSiteMap"} >
 					<@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span>
 				</@button>
 			</@inputGroup>

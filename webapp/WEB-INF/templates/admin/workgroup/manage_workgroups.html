@@ -5,7 +5,7 @@
              <@tform method='post' type='inline'>
 				<@formGroup labelFor='search_workgroup' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
-						<@input type='text' name='search_workgroup' id='search_workgroup' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<@input type='text' name='search_workgroup' id='search_workgroup' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' attrs={'autocomplete': "off", 'addons': true} />
 						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>
