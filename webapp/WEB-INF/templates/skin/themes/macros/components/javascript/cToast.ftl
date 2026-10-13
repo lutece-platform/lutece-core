@@ -109,7 +109,7 @@ Snippet:
 -->
 <#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<@commonAttrs id=id /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<@commonAttrs params=params attrs=attrs />>
+<div<@commonAttrs id=id params=params attrs=attrs /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true">
   <#if title?has_content>
     <div class="toast-header">
       <#if imgUrl?has_content><img src="${imgUrl}" class="rounded me-2"></#if>

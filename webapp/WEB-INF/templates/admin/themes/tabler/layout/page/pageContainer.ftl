@@ -30,7 +30,7 @@ Snippet:
 <#macro pageContainer id='lutece-main' template='' height='' class='' actions='' params='' attrs={} deprecated...> 
 <@deprecatedWarning args=deprecated />
 <!-- Begin page content -->
-<main role="main" <@commonAttrs id=id />  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>"<@commonAttrs params=params attrs=attrs />>
+<main role="main" <@commonAttrs id=id params=params attrs=attrs />  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>">
 <#nested>
 </main>
 <#if height='full'>
