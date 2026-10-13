@@ -29,7 +29,7 @@ SAFE_END = re.compile(r'\?(no_esc|c|iso\w*|js_string\?no_esc)\s*$')
 
 
 def quote_state(code):
-    """the string delimiter open at the end of code, or None (comments are not handled)"""
+    """the string delimiter open at the end of code, or None; JavaScript comments are skipped"""
     state = None
     i = 0
     while i < len(code):
@@ -40,6 +40,14 @@ def quote_state(code):
                 continue
             if c == state:
                 state = None
+        elif code.startswith('//', i) and (i == 0 or code[i - 1] != ':'):
+            end = code.find('\n', i)
+            i = len(code) if end < 0 else end
+            continue
+        elif code.startswith('/*', i):
+            end = code.find('*/', i + 2)
+            i = len(code) if end < 0 else end + 2
+            continue
         elif c in '\'"`':
             state = c
         i += 1
@@ -87,9 +95,16 @@ for root_dir in ROOTS:
                 out.append(body[pos:])
                 return m.group(1) + ''.join(out) + m.group(3)
 
-            # a <#noparse> block is not FreeMarker: its ${...} belong to JavaScript template literals
-            parts = re.split(r'(<#noparse>.*?</#noparse>)', src, flags=re.S)
-            new = ''.join(part if part.startswith('<#noparse>') else SCRIPT.sub(script, part) for part in parts)
+            # a <#noparse> block is not FreeMarker: its ${...} belong to JavaScript template literals. It is
+            # masked (same length) while the scripts are rewritten, then put back
+            blocks = []
+
+            def mask(m):
+                blocks.append(m.group(0))
+                return '\x00%d\x00' % (len(blocks) - 1)
+
+            masked = re.sub(r'<#noparse>.*?</#noparse>', mask, src, flags=re.S)
+            new = re.sub(r'\x00(\d+)\x00', lambda m: blocks[int(m.group(1))], SCRIPT.sub(script, masked))
             if new != src and APPLY:
                 open(path, 'w', encoding='utf-8').write(new)
 

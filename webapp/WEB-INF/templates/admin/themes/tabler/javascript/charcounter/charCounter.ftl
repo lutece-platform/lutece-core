@@ -23,15 +23,15 @@ Snippet:
 -->
 <#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local charcounterTitle><#if !title?has_content>#i18n{portal.util.labelCharCount}<#else>${title}</#if></#local>
+<#local charcounterTitle = title?has_content?then( title, i18n('portal.util.labelCharCount') ) />
 // Limite la saisie du Titre a n chars
-const counterElements = document.querySelectorAll( '${selector}' );
-let maxChar = ${maxChars}, titleCount = '${title}',	n = 1
+const counterElements = document.querySelectorAll( '${selector?js_string?no_esc}' );
+let maxChar = ${maxChars?c}, titleCount = '${title?js_string?no_esc}',	n = 1
 counterElements.forEach( ( counter ) => {
 	const charInfo = document.createElement('div');
 	charInfo.setAttribute( 'id',<#noparse>`char-info${n}`</#noparse> );
 	charInfo.classList.add( 'form-text', 'p-1' );
-	if( counter.dataset.luteceCounterTitle != null ) { titleCount = counter.dataset.luteceCounterTitle } else { counter.dataset.luteceCounterTitle = '${charcounterTitle!}' }
+	if( counter.dataset.luteceCounterTitle != null ) { titleCount = counter.dataset.luteceCounterTitle } else { counter.dataset.luteceCounterTitle = '${charcounterTitle?js_string?no_esc}' }
 	charInfo.textContent = counter.dataset.luteceCounterTitle;
 	const charCount = document.createElement('span');
 	charCount.classList.add( 'ms-1' );

@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				pInvalid.setAttribute( 'role', 'alert' );
-				<#assign invalidLabel = '#i18n{theme.msgMandatory}' />
+				<#assign invalidLabel = i18n('theme.msgMandatory') />
 				pInvalid.innerHTML = '${invalidLabel?js_string?no_esc}';
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);

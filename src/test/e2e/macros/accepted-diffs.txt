@@ -6,7 +6,6 @@ pre        id was written without its name: <pre my-id> is now <pre id="my-id">;
 code       renders @pre, same fix
 cOption    a true disabled or selected was glued to params: "disableddata-x" is now "disabled data-x"
 cOptgroup  same as cOption for disabled
-cTile      attribute order only; the stray "}" after data-bs-title (already on develop) defeats the comparison
 addToast     a stray quote followed params: data-x="1"" is now data-x="1"
 initToast    same as addToast
 cToast       same as addToast
@@ -14,3 +13,4 @@ cMultiselect params was written as a literal attribute named params (params=data
 cScrollSpy   the id attribute received the class: id="${class}" is now id="${id}"
 option       the id was written without a space before it and without its closing quote: <optionid="x is now <option id="x"
 iconStack    id was written without the attribute name, same fix as pre
+cTile        a stray "}" followed the data-bs-title attribute; title and detail were JavaScript-escaped in an HTML attribute

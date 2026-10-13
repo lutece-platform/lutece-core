@@ -37,7 +37,7 @@ Snippet:
 document.querySelectorAll('${( selector! )?js_string?no_esc}').forEach(elem => {
 	<#if class?has_content>elem.classList.add(...'${( class! )?js_string?no_esc}'.split(' '));</#if>
 	const btnTitle = elem.dataset.title != undefined ? elem.dataset.title : elem.getAttribute('title');
-	const btnLabel = btnTitle != undefined ? <#noparse>`#i18n{portal.util.labelCopy} ${btnTitle}`</#noparse> : '#i18n{portal.util.labelCopy}';
+	const btnLabel = btnTitle != undefined ? <#noparse>`#i18n{portal.util.labelCopy} ${btnTitle}`</#noparse> : '${i18n('portal.util.labelCopy')?js_string?no_esc}';
 	const copyContent = async () => {
 		try {
 			await navigator.clipboard.writeText(elem.textContent.trim());
@@ -86,7 +86,7 @@ function showCopyToast(message, type) {
 	toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
 	toastEl.setAttribute('role', 'status');
 	toastEl.innerHTML = '<div class="d-flex align-items-center"><div class="toast-body">' + message + '</div>'
-		+ '<button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}"></button></div>';
+		+ '<button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="${i18n('portal.util.labelClose')?js_string?no_esc}"></button></div>';
 	container.appendChild(toastEl);
 	const toast = new bootstrap.Toast(toastEl, { delay: 5000, autohide: true });
 	toast.show();

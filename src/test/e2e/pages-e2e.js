@@ -223,7 +223,9 @@ async function visit( page, entry )
         return [];
     }
 
-    for ( const m of html.matchAll( XSS_RAW ) )
+    // inside a <script>, a payload JavaScript-escaped (?js_string: the closing </script> becomes <\/script>)
+    // is data in a string literal: only its execution, detected by the dialog, would be a finding
+    for ( const m of html.replace( /<script\b[\s\S]*?<\/script>/gi, s => s.replace( /<svg\/onload/g, '<svg_in_script' ) ).matchAll( XSS_RAW ) )
     {
         xssHit( entry.name, m[ 1 ] || m[ 2 ], 'payload written unescaped in the response' );
     }
@@ -276,6 +278,39 @@ async function visit( page, entry )
  * Reflected XSS: loads a URL whose query parameter was replaced by a payload, and records whether
  * the payload executed or came back unescaped. Nothing else is checked on these pages.
  */
+/**
+ * Confirmation pages: Remove*.jsp (never Do*.jsp) and view=confirm* only display a message asking for
+ * confirmation; nothing is clicked. The message (an i18n text holding HTML, its arguments data) is
+ * checked on the page the browser lands on.
+ */
+const CONFIRM = /\/Remove[A-Z]\w*\.jsp\?|[?&]view=confirm\w+/;
+
+async function confirmPage( page, url, name )
+{
+    currentPage = name;
+    try
+    {
+        await page.goto( BASE_URL + url, { waitUntil: 'load', timeout: 30000 } );
+        const html = await page.content( );
+        const markup = withoutScripts( html ).replace( /&lt;svg\/onload=alert\(\d+\)&gt;|&lt;\/?script&gt;(alert\(\d+\))?(&lt;\/script&gt;)?/g, '' );
+        for ( const marker of ERROR_MARKERS )
+        {
+            check( name, !html.includes( marker ), `error page — contains "${marker}"` );
+        }
+        const leaked = markup.match( LEAKED_MARKUP );
+        check( name, !leaked, `markup leaked as text — "${leaked && leaked[ 0 ]}"` );
+        for ( const m of html.matchAll( XSS_RAW ) )
+        {
+            xssHit( name, m[ 1 ] || m[ 2 ], 'payload in the DOM as markup' );
+        }
+        notes.push( `${name} : confirmation page checked (${page.url( ).replace( BASE_URL, '' ).split( '?' )[ 0 ]})` );
+    }
+    catch( e )
+    {
+        notes.push( `${name} : confirmation page failed ${e.message.split( '\n' )[ 0 ]}` );
+    }
+}
+
 async function probe( page, url, name )
 {
     currentPage = name;
@@ -283,7 +318,7 @@ async function probe( page, url, name )
     {
         await page.goto( BASE_URL + url, { waitUntil: 'load', timeout: 30000 } );
         const fetched = await page.context( ).request.get( BASE_URL + url, { maxRedirects: 0, failOnStatusCode: false } );
-        const html = await fetched.text( );
+        const html = ( await fetched.text( ) ).replace( /<script\b[\s\S]*?<\/script>/gi, s => s.replace( /<svg\/onload/g, '<svg_in_script' ) );
         for ( const m of html.matchAll( XSS_RAW ) )
         {
             xssHit( name, m[ 1 ] || m[ 2 ], 'reflected payload written unescaped in the response' );
@@ -357,6 +392,7 @@ async function login( page )
         xssHit( currentPage, d.message( ), `payload EXECUTED (${d.type( )} dialog)` );
         await d.dismiss( ).catch( ( ) => null );
     } );
+    const confirmUrls = new Set( );
     const visitedUrls = FO_PAGES.map( e => e.url ).concat( [ '/jsp/site/Portal.jsp?page_id=1', '/jsp/site/Portal.jsp?page=map&lang=fr' ] );
 
     let visited = 0;
@@ -389,6 +425,10 @@ async function login( page )
                 visited++;
                 for ( const h of hrefs || [] )
                 {
+                    if ( h && CONFIRM.test( h ) && !/\/Do[A-Z]/.test( h ) )
+                    {
+                        confirmUrls.add( '/' + h.replace( /^\/?(lutece-core\/)?/, '' ).replace( /&amp;/g, '&' ) );
+                    }
                     const u = toAdminUrl( h );
                     if ( u && !seen.has( nameOf( u ) ) )
                     {
@@ -404,6 +444,14 @@ async function login( page )
             await visit( page, entry );
             visited++;
         }
+
+        let nConfirm = 0;
+        for ( const url of [ ...confirmUrls ].sort( ) )
+        {
+            await confirmPage( page, url, 'confirm-' + nameOf( url ) );
+            nConfirm++;
+        }
+        console.log( `  ${nConfirm} confirmation page(s) checked` );
 
         if ( process.env.XSS_REFLECTED === '1' )
         {

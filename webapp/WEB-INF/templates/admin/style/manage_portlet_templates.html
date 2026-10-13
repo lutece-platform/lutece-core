@@ -73,7 +73,7 @@ if ( searchInput && searchElementList.length > 0 ) {
 		searchableChild: [".searchable"],
 		highlight: true,
 		clearButton: true,
-		clearButtonLabel: "#i18n{portal.util.labelReset}",
+		clearButtonLabel: "${i18n('portal.util.labelReset')?js_string?no_esc}",
 		extraSearchFunction: () => {
 			const visible = Array.from( searchElementList ).some( item => item.style.display !== 'none' );
 			if ( noResult ) { noResult.classList.toggle( 'd-none', visible ); }
