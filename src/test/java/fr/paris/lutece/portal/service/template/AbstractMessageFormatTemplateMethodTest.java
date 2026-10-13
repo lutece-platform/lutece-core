@@ -71,7 +71,7 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         String template = "${method(\"key\")}";
         HtmlTemplate res = FreeMarkerTemplateService.getInstance( ).loadTemplateFromStringFtl( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with 'quote'", res.getHtml( ).replaceAll( "\n", "" ) );
+        assertEquals( "test with &#39;quote&#39;", res.getHtml( ).replaceAll( "\n", "" ) );
 
         template = "${method(\"key\",\"arg\")}";
         res = FreeMarkerTemplateService.getInstance( ).loadTemplateFromStringFtl( template, Locale.FRANCE, model );

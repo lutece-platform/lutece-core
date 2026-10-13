@@ -62,6 +62,7 @@ import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import freemarker.core.HTMLOutputFormat;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
@@ -715,7 +716,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             String html = bean.getModifyUserPassword( request );
             assertNotNull( html );
-            assertTrue( html.contains( I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) ) );
+            assertTrue( html.contains( HTMLOutputFormat.INSTANCE.escapePlainText( I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) ) ) );
         }
         finally
         {

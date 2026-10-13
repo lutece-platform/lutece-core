@@ -59,6 +59,9 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.test.mocks.MockServletContext;
+import freemarker.core.HTMLOutputFormat;
+import freemarker.core.TemplateHTMLOutputModel;
+import freemarker.template.TemplateModelException;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -117,6 +120,27 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         PluginService.init( );
     }
 
+    /**
+     * Reads the links put in the model: HTML built by the include, handed to the templates as markup (LUT-33153).
+     *
+     * @param rootModel
+     *            the model filled by the include
+     * @param strKey
+     *            the key of the links
+     * @return the HTML of the links
+     */
+    private static String links( Map<String, Object> rootModel, String strKey )
+    {
+        try
+        {
+            return HTMLOutputFormat.INSTANCE.getMarkupString( (TemplateHTMLOutputModel) rootModel.get( strKey ) );
+        }
+        catch( TemplateModelException e )
+        {
+            throw new IllegalStateException( e );
+        }
+    }
+
     @Test
     public void testFillTemplateNull( )
     {
@@ -148,7 +172,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {
             include.fillTemplate( rootModel, data, nMode, request );            
-            String cssLinks = (String) rootModel.get( "plugins_css_links" );
+            String cssLinks = links( rootModel, "plugins_css_links" );
             assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                     cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
@@ -179,7 +203,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_css_links" );
+            String cssLinks = links( rootModel, "plugins_css_links" );
             assertEquals( "<link rel=\"stylesheet\"  href=\"http://example.com/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                     cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
@@ -210,7 +234,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_css_links" );
+            String cssLinks = links( rootModel, "plugins_css_links" );
             assertEquals( "<link rel=\"stylesheet\"  href=\"https://example.com/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                     cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
@@ -241,7 +265,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_css_links" );
+            String cssLinks = links( rootModel, "plugins_css_links" );
             assertEquals( "<link rel=\"stylesheet\"  href=\"//example.com/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                     cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
@@ -304,7 +328,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_css_links" );
+                String cssLinks = links( rootModel, "plugins_css_links" );
 
                 assertEquals(
                         "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
@@ -314,7 +338,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                     writer.write( "bbcd" );
                 }
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks2 = (String) rootModel.get( "plugins_css_links" );
+                String cssLinks2 = links( rootModel, "plugins_css_links" );
                 assertNotNull( cssLinks2 );
                 if ( enableCache( ) )
                 {
@@ -396,9 +420,9 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_css_links" );
+                String cssLinks = links( rootModel, "plugins_css_links" );
                 assertEquals(
-                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?arg=value&amp;lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
             }
             catch( IllegalStateException e )
@@ -465,7 +489,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_css_links" );
+                String cssLinks = links( rootModel, "plugins_css_links" );
                 assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
             }
@@ -541,7 +565,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_css_links" );
+                String cssLinks = links( rootModel, "plugins_css_links" );
                 assertEquals(
                         "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
@@ -577,7 +601,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_css_links" );
+            String cssLinks = links( rootModel, "plugins_css_links" );
             assertEquals( "", cssLinks );
         }
         catch( IllegalStateException e )
@@ -608,7 +632,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+            String cssLinks = links( rootModel, "plugins_javascript_links" );
             assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         catch( IllegalStateException e )
@@ -637,7 +661,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+            String cssLinks = links( rootModel, "plugins_javascript_links" );
             assertEquals( "<script src=\"http://example.com/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         catch( IllegalStateException e )
@@ -666,7 +690,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+            String cssLinks = links( rootModel, "plugins_javascript_links" );
             assertEquals( "<script src=\"https://example.com/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         catch( IllegalStateException e )
@@ -695,7 +719,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+            String cssLinks = links( rootModel, "plugins_javascript_links" );
             assertEquals( "<script src=\"//example.com/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         catch( IllegalStateException e )
@@ -754,7 +778,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+                String cssLinks = links( rootModel, "plugins_javascript_links" );
                 assertEquals(
                         "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
@@ -763,7 +787,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                     writer.write( "bbcd" );
                 }
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks2 = (String) rootModel.get( "plugins_javascript_links" );
+                String cssLinks2 = links( rootModel, "plugins_javascript_links" );
                 assertNotNull( cssLinks2 );
                 if ( enableCache( ) )
                 {
@@ -843,9 +867,9 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+                String cssLinks = links( rootModel, "plugins_javascript_links" );
                 assertEquals(
-                        "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
+                        "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?arg=value&amp;lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
             }
             catch( IllegalStateException e )
@@ -910,7 +934,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+                String cssLinks = links( rootModel, "plugins_javascript_links" );
                 assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
             }
             catch( IllegalStateException e )
@@ -983,7 +1007,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
-                String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+                String cssLinks = links( rootModel, "plugins_javascript_links" );
                 assertEquals(
                         "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
@@ -1018,7 +1042,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         try {            
             include.fillTemplate( rootModel, data, nMode, request );
-            String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
+            String cssLinks = links( rootModel, "plugins_javascript_links" );
             assertEquals( "", cssLinks );
         }
         catch( IllegalStateException e )
