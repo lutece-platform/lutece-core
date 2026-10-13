@@ -36,9 +36,9 @@ Snippet:
 <li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
-<#local tabLinkSettings = 'role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
+<#local tabLinkAttrs = { 'role': 'tab', 'aria-selected': active?c, 'aria-controls': href?remove_beginning('#') } />
 <#if href?contains('#') && href?contains('.jsp') == false>
-	<#local tabLinkSettings += ' data-bs-toggle="tab"' />
+	<#local tabLinkAttrs += { 'data-bs-toggle': 'tab' } />
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
@@ -46,7 +46,7 @@ Snippet:
 <#if !href?has_content>
 	<#nested>
 <#else>
-	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
+	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title attrs=tabLinkAttrs>
 		<#if tabIcon?has_content><@icon style=tabIcon class='mr-1 me-1'/></#if> <#if tabLabel?has_content>${tabLabel!}<#else>${title!}</#if>
 		<#nested>
 	</@link>

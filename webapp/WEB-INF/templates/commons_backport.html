@@ -152,14 +152,14 @@
 </#macro>
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 <#-- WARNING : macro fieldInputText is deprecated -->
-	<#if maxlength gt 0><#local params = 'maxlength=${maxlength}' /></#if>
+	<#if maxlength gt 0><#local params>maxlength="${maxlength}"</#local></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' mandatory=mandatory helpKey='#i18n{${i18nHelpBlockKey}}'>
 		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
 	</@formGroup>
 </#macro>
 <#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='#i18n{${i18nHelpBlockKey}}' cssClass=''>
 <#-- WARNING : macro fieldInputPassword is deprecated -->
-	<#if maxlength gt 0><#local params = 'maxlength=${maxlength}' /></#if>
+	<#if maxlength gt 0><#local params>maxlength="${maxlength}"</#local></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='' mandatory=mandatory>
 		<@input type='password' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
 	</@formGroup>
@@ -220,7 +220,7 @@
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 <#-- WARNING : macro fieldTextArea is deprecated 			-->
 <@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-	<#if maxlength gt 0><#local params='maxlength="${maxlength}"' /></#if>
+	<#if maxlength gt 0><#local params>maxlength="${maxlength}"</#local></#if>
 	<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
 </@formGroup>
 </#macro>
