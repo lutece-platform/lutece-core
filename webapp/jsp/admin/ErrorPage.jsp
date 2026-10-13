@@ -1,6 +1,7 @@
 <%@page import="fr.paris.lutece.util.sql.TransactionManager"%>
 <%@page import="fr.paris.lutece.portal.service.admin.PasswordResetException"%>
 <%@ page isErrorPage="true" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ page import="fr.paris.lutece.portal.web.constants.Messages" %>
 <%@ page import="fr.paris.lutece.portal.service.admin.AdminAuthenticationService" %>
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
@@ -73,13 +74,13 @@
 <!DOCTYPE html>
 <html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr">
 <head>
-<base href="<%= strBase %>">
-<title><%= PortalService.getSiteName(  ) %> - Administration</title>
+<base href="<%= StringEscapeUtils.escapeHtml4( strBase ) %>">
+<title><%= StringEscapeUtils.escapeHtml4( PortalService.getSiteName(  ) ) %> - Administration</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Styles -->
 <%= PortalService.getAdminCssLinks() %>
-<link rel="shortcut icon" href="<%= strBase %>favicon.ico">
+<link rel="shortcut icon" href="<%= StringEscapeUtils.escapeHtml4( strBase ) %>favicon.ico">
 <!-- Apply the user's stored theme mode before first paint -->
 <script>
 (function () {
@@ -156,7 +157,7 @@ out.println(cw.toString());
 									</code>
 								</pre>
 								<p class="text-center">
-									<a class="btn btn-outline-primary" href="<%= AppPathService.getBaseUrl( request ) %>jsp/site/Portal.jsp">
+									<a class="btn btn-outline-primary" href="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>jsp/site/Portal.jsp">
 										<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
 									</a>
 								</p>
@@ -198,7 +199,7 @@ out.println(cw.toString());
                 <li class="list-inline-item">
                     <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="<%= I18nService.getLocalizedString(PROPERTY_LABELPORTAL, request.getLocale() ) %>">
                         <span class="me-2"></span>
-                        <img src="<%= AppPathService.getBaseUrl( request ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
+                        <img src="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
                         <span class="visually-hidden">LUTECE</span>
                         <!-- <span class="text-muted ms-2" rel="noopener">Version</span> -->
                     </a>

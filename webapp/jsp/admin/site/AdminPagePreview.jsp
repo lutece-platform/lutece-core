@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page errorPage="../ErrorPage.jsp" %>
 
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
 <%@ page import="fr.paris.lutece.portal.web.LocalVariables" %>
 <%@page import="fr.paris.lutece.portal.web.admin.AdminPageJspBean"%>
@@ -33,7 +34,7 @@ ${ adminPageJspBean.getAdminPagePreview( pageContext.request ) }
     String strThemeCode = globalTheme.getCodeTheme( );
     String strThemeVersion = globalTheme.getThemeVersion( );
 %>
-<link rel="stylesheet" href="themes/skin/<%= strThemeCode %>/css/theme.min.css?version=<%= strThemeVersion %>" type="text/css" />
+<link rel="stylesheet" href="themes/skin/<%= StringEscapeUtils.escapeHtml4( strThemeCode ) %>/css/theme.min.css?version=<%= StringEscapeUtils.escapeHtml4( strThemeVersion ) %>" type="text/css" />
 <style>
 /* In Iframe Preview scrollbar styles */
 html {

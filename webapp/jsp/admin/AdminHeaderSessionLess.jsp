@@ -1,4 +1,5 @@
 <%@ page errorPage="ErrorPage.jsp" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
@@ -13,8 +14,8 @@
 <!DOCTYPE html>
 <html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr">
 <head>
-<base href="<%= strBase %>">
-<title><%= PortalService.getSiteName(  ) %> - Administration</title>
+<base href="<%= StringEscapeUtils.escapeHtml4( strBase ) %>">
+<title><%= StringEscapeUtils.escapeHtml4( PortalService.getSiteName(  ) ) %> - Administration</title>
 <meta charset="utf-8" />
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,7 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="<%= strBase %>favicon.ico">
+<link rel="shortcut icon" href="<%= StringEscapeUtils.escapeHtml4( strBase ) %>favicon.ico">
 <!-- Apply the user's stored theme mode synchronously, before first paint, so logout/message pages keep the admin theme -->
 <script>
 // Wrapped in an IIFE so these declarations stay local : the login page (adminLoginPage.ftl) declares its own
