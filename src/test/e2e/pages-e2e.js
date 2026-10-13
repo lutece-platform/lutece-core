@@ -80,8 +80,13 @@ const BO_EXCLUDED = /\/Do[A-Z]|action_|Logout|Remove|Delete|Confirm|Export|Downl
 /* ------------------------------------------------------------- assertions */
 
 const LEAKED_MARKUP = /&lt;\s*\/?\s*(div|span|a\s|p\s|p>|ul|li|button|img|table|tr|td|form|input|i\s|i>|strong|small|h[1-6]|script|svg|nav|section|header|footer|iframe|br|hr)\b/i;
+// an attribute bundle written through ${...} under auto-escaping: <a title=&quot;x&quot;>
+const ESCAPED_ATTRIBUTE = /<[a-zA-Z][^<>]*\s[\w-]+=&quot;/;
+// a value escaped twice: &amp;lt; &amp;#39;
+const DOUBLE_ESCAPED = /&amp;(lt|gt|quot|amp|apos|nbsp|#\d+|#x[0-9a-f]+);/i;
 const RAW_DIRECTIVE = /<#(if|list|assign|local|macro|outputformat|noautoesc|else|attempt)\b|<\/#|<@[a-zA-Z]|<\/@|\$\{[a-zA-Z_]/;
 const ERROR_MARKERS = [
+    '<h3 class="alert-heading">Internal error', 'Veuillez contacter immédiatement l\'administrateur',
     'FreeMarker template error', 'freemarker.core.', 'freemarker.template.', 'NonMarkupOutputException',
     'ParseException', "Can't compare values of these types", 'java.lang.NullPointerException',
     'Warning : wrong or deprecated argument(s)',
@@ -228,13 +233,18 @@ async function visit( page, entry )
         xssHit( entry.name, '?', `${injected} injected <svg onload> element(s) in the DOM` );
     }
 
-    const markup = withoutScripts( html );
+    // an XSS payload shown as text is the expected, harmless outcome: it is not leaked markup
+    const markup = withoutScripts( html ).replace( /&lt;svg\/onload=alert\(\d+\)&gt;|&lt;\/?script&gt;(alert\(\d+\))?(&lt;\/script&gt;)?/g, '' );
     for ( const marker of ERROR_MARKERS )
     {
         check( entry.name, !html.includes( marker ), `error page — contains "${marker}"` );
     }
     const leaked = markup.match( LEAKED_MARKUP );
     check( entry.name, !leaked, `markup leaked as text — "${leaked && leaked[ 0 ]}"` );
+    const escapedAttribute = withoutScripts( html.replace( /="[^"]*"/g, '=""' ) ).match( ESCAPED_ATTRIBUTE );
+    check( entry.name, !escapedAttribute, `attribute bundle escaped — "${escapedAttribute && escapedAttribute[ 0 ].slice( -60 )}"` );
+    const doubled = html.replace( /<script\b[\s\S]*?<\/script>/gi, '' ).match( DOUBLE_ESCAPED );
+    check( entry.name, !doubled, `double escaping — "${doubled && doubled[ 0 ]}"` );
     const directive = markup.match( RAW_DIRECTIVE );
     check( entry.name, !directive, `unrendered FreeMarker construct — "${directive && directive[ 0 ]}"` );
 

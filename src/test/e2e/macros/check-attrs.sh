@@ -16,11 +16,11 @@ mkdir -p "${WORK}/classes"
 javac -d "${WORK}/classes" -cp "${FREEMARKER_JAR}" "${HERE}/MacroHarness.java"
 
 python3 "${HERE}/gen-calls.py" "${PROJECT}/webapp/WEB-INF/templates" --attrs-probe > "${WORK}/calls-attrs.jsonl"
-mkdir -p "${WORK}/attrs-false"
-find "${WORK}/attrs-false" -mindepth 1 -delete
-java -cp "${WORK}/classes:${FREEMARKER_JAR}" MacroHarness "${PROJECT}/webapp/WEB-INF/templates" "${WORK}/calls-attrs.jsonl" "${WORK}/attrs-false" false
+mkdir -p "${WORK}/attrs-true"
+find "${WORK}/attrs-true" -mindepth 1 -delete
+java -cp "${WORK}/classes:${FREEMARKER_JAR}" MacroHarness "${PROJECT}/webapp/WEB-INF/templates" "${WORK}/calls-attrs.jsonl" "${WORK}/attrs-true" true
 
-python3 - "${WORK}/attrs-false" <<'PY'
+python3 - "${WORK}/attrs-true" <<'PY'
 import os, re, sys
 out = sys.argv[1]
 # macros that write their element only with data the probe call does not give them

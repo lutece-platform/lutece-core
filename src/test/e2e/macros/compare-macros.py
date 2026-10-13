@@ -10,6 +10,7 @@ numbers some macros put in generated ids. Exit status 1 when a call differs, unl
 listed in accepted-diffs.txt (a change made on purpose, with its reason).
 """
 import difflib
+import html
 import importlib.util
 import os
 import re
@@ -31,6 +32,12 @@ def calls(path):
 
 
 def canonical(text):
+    # the same character written as an entity or not renders the same: compare decoded text, so a
+    # reference rendered without auto-escaping compares with the same macro rendered with it
+    text = html.unescape(text)
+    # a value JavaScript-escaped (?js_string) is the same value: \" and \' inside a JS string, and a
+    # template literal turned into a quoted string
+    text = text.replace('\\"', '"').replace("\\'", "'").replace("\\/", "/").replace('`', "'")
     text = re.sub(r"\d{8,}", "N", text)
     text = re.sub(r"\s+", " ", text)
     text = compare_snapshots.sort_attributes(text)
