@@ -1,11 +1,12 @@
 <%@ page errorPage="ErrorPage.jsp" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
 
 <!DOCTYPE html>
 <html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr">
 <head>
-<base href="<%= AppPathService.getBaseUrl( request ) %>">
+<base href="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>">
 <title>Administration</title>
 <meta charset="utf-8" />
 <!-- Set the viewport width to device width for mobile -->
