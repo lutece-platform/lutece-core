@@ -29,11 +29,12 @@ Snippet:
     </@tabList>
 
 -->
-<#macro tabList style='tabs' vertical=false id='' class='' params='' color='' deprecated...>
+<#macro tabList style='tabs' vertical=false id='' class='' params='' attrs={} color='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
+<#-- the style of the enclosing @tabs wins over the style parameter -->
+<#local tabStyle = propagateTabStyle!style />
 <div class="card-header">
-<ul class="nav nav-${style} card-header-tabs<#if vertical> flex-column mb-3</#if><#if class!=''> ${class}</#if>" data-bs-toggle="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+<ul<@commonAttrs id=id classBase='nav nav-' + tabStyle + ' card-header-tabs' + vertical?then( ' flex-column mb-3', '' ) class=class params=params attrs=attrs /> data-bs-toggle="tabs" role="tablist">
 <#nested>
 </ul>
 </div>

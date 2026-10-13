@@ -26,11 +26,10 @@ Snippet:
     </@p>
 
 -->
-<#macro p id='' params='' class='' hide=[] collapsed=false align='' deprecated...>
+<#macro p id='' params='' attrs={} class='' hide=[] collapsed=false align='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align,'') />
-<p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + displaySettings( hide, 'block' ) + ' ' + alignmentSettings( align, '' ) />
+<p<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 	<#nested>
 </p>
 </#macro>

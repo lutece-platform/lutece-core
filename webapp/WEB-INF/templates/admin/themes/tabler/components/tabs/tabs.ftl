@@ -66,12 +66,11 @@ Snippet:
     </@tabs>
 
 -->
-<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false keepState=true params='' deprecated...>
+<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false keepState=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + displaySettings( hide, 'block' ) />
 <#assign propagateTabStyle = style />
-<div class="card<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if keepState> data-keep-state="true"</#if><#if params!=''> ${params}</#if>>
+<div<@commonAttrs id=id classBase='card ' + color class=class classExtra=classExtra params=params attrs=attrs /><#if keepState> data-keep-state="true"</#if>>
 <#nested>
 </div>
 <#if keepState>

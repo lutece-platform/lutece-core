@@ -23,11 +23,10 @@ Snippet:
     </@boxBody>
 
 -->
-<#macro boxBody class='' collapsed=false align='' id='' params='' deprecated...>
+<#macro boxBody class='' collapsed=false align='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-<div class="card-body<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) />
+<div<@commonAttrs id=id classBase='card-body' class=class classExtra=classExtra params=params attrs=attrs />>
 	<#nested>
 </div>
 </#macro>

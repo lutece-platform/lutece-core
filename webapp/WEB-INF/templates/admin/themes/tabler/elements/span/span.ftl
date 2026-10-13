@@ -26,11 +26,10 @@ Snippet:
     </@span>
 
 -->
-<#macro span id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<#macro span id='' class='' hide=[] collapsed=false align='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
-<span<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'inline-flex' ) />
+<span<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 	<#nested>
 </span>
 </#macro>

@@ -22,10 +22,10 @@ Snippet:
     </@li>
 
 -->
-<#macro li id='' params='' class='' hide=[] align='' deprecated...>
+<#macro li id='' params='' attrs={} class='' hide=[] align='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) />
+<li<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 <#nested>
 </li>
 </#macro>

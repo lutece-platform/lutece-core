@@ -23,10 +23,9 @@ Snippet:
     </@boxFooter>
 
 -->
-<#macro boxFooter class='' align='' id='' params='' deprecated...>
+<#macro boxFooter class='' align='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-<div class="card-footer<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div<@commonAttrs id=id classBase='card-footer' class=class classExtra=alignmentSettings( align, '' ) params=params attrs=attrs />>
 	<#nested>
 </div>
 </#macro>
