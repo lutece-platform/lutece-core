@@ -55,7 +55,7 @@ Snippet:
 <#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' for='' helpMsg='' helpPos='top' showLabel=true required=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
-<fieldset<#if class?has_content> class="${class}"</#if><#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs params=params attrs=attrs /><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>
+<fieldset<#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs class=class params=params attrs=attrs /><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>
 <#if legend?has_content><legend <#if legendClass?has_content || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
 <#if helpPos == 'top' && helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
 <#nested>

@@ -28,5 +28,5 @@ Snippet:
 -->
 <#macro option label value help='' id='' class='' selected=false disabled=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<option<#if id?has_content>id="${id}</#if><#if class?has_content> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if help?has_content> label="${help}"</#if><@commonAttrs params=params attrs=attrs />>${label!} <#nested></option>
+<option<@commonAttrs id=id class=class params=params attrs=attrs /> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if help?has_content> label="${help}"</#if>>${label!} <#nested></option>
 </#macro>
