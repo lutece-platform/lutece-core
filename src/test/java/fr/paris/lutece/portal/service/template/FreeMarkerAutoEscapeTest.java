@@ -66,6 +66,9 @@ public class FreeMarkerAutoEscapeTest
             "?html", "?xhtml", "?xml", "?rtf", "?web_safe", "<#escape", "<#noescape"
     };
 
+    /** A variable assigned a string that holds a value: a literal interpolating it, or the value converted by ?string. */
+    private static final Pattern STRING_INTERPOLATION = Pattern.compile( "<#(?:assign|local|global)\\s+(\\w+)\\s*=\\s*(?:[^>]*[\"'][^\"'>]*\\$\\{|[^>]*\\)\\?string\\b)" );
+
     private static final Pattern NO_ESC = Pattern.compile( "\\$\\{([^{}]*)\\?no_esc\\}|=\\s*\\(?\\s*([\\w.'()!]+?)\\s*\\)?\\?no_esc\\b" );
 
     /**
@@ -189,6 +192,36 @@ public class FreeMarkerAutoEscapeTest
         if ( !listFailures.isEmpty( ) )
         {
             fail( listFailures.size( ) + " value(s) written unescaped without a listed reason:\n  " + String.join( "\n  ", listFailures ) );
+        }
+    }
+
+    /**
+     * No attribute bundle written as is (params) is a string interpolating a value: commonAttrs writes params unescaped,
+     * so the value must be passed in attrs, or the bundle be a capture (&lt;#assign x&gt;...&lt;/#assign&gt;), whose
+     * interpolations are escaped.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     */
+    @Test
+    public void testNoParamsInterpolateAValueInAString( ) throws IOException
+    {
+        List<String> listFailures = new ArrayList<>( );
+        for ( Path path : templates( ) )
+        {
+            String strSource = Files.readString( path, StandardCharsets.UTF_8 );
+            Matcher matcher = STRING_INTERPOLATION.matcher( strSource );
+            while ( matcher.find( ) )
+            {
+                if ( Pattern.compile( "\\bparams\\s*=\\s*\\(?\\s*" + matcher.group( 1 ) + "\\b" ).matcher( strSource ).find( ) )
+                {
+                    listFailures.add( path + " : params=" + matcher.group( 1 ) );
+                }
+            }
+        }
+        if ( !listFailures.isEmpty( ) )
+        {
+            fail( String.join( "\n  ", listFailures ) );
         }
     }
 }
