@@ -28,10 +28,10 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <@cBtn type='button' class='${scrollClass!} ${scrollBtnClass!} z-2' label=scrollLabel nestedPos='before'><@cInline class='position-relative white fw-bold'>&#8593;</@cInline></@cBtn>
 <script>
-const gototop = document.querySelector('.${scrollBtnClass!}');
+const gototop = document.querySelector('.${( scrollBtnClass! )?js_string?no_esc}');
 document.addEventListener( "DOMContentLoaded", () => {
     document.addEventListener("scroll", (e) => {
-        if ( document.documentElement.scrollTop  > ${scrollTop}) {
+        if ( document.documentElement.scrollTop  > ${scrollTop?c}) {
             gototop.classList.add('active');
         } else {
             gototop.classList.remove('active');

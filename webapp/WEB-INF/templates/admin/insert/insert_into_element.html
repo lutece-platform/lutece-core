@@ -1,7 +1,7 @@
 <!--  Insert service -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-const isIt = '${.data_model.input}', insertCode='${insert}';
+const isIt = '${.data_model.input?js_string?no_esc}', insertCode='${insert?js_string?no_esc}';
 // An editor other than TinyMCE (Autumn Note) receives the insert through luteceEditorInsert, set by the dialog it opened
 if ( parent !== window && parent.luteceEditorInsert ) {
 	parent.luteceEditorInsert.insert( insertCode );
@@ -37,7 +37,7 @@ switch ( isIt ) {
 		parent.tinymce.activeEditor.windowManager.close();
 		break;
 	default:
-		var elementInput = opener.document.getElementById("${.data_model.input}");
+		var elementInput = opener.document.getElementById("${.data_model.input?js_string?no_esc}");
 		elementInput.value = insertCode;
 		window.close();
 }

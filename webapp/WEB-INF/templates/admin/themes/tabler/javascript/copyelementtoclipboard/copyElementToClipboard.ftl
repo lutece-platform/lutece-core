@@ -34,16 +34,16 @@ Snippet:
 <#macro copyElementToClipboard selector='.copy-content' class='' btn=true btnClass='link text-bg-light' btnAbsolute=false btnTop='0' btnEnd='0' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
 <@deprecatedWarning args=deprecated />
 <script>
-document.querySelectorAll('${selector!}').forEach(elem => {
-	<#if class?has_content>elem.classList.add(...'${class!}'.split(' '));</#if>
+document.querySelectorAll('${( selector! )?js_string?no_esc}').forEach(elem => {
+	<#if class?has_content>elem.classList.add(...'${( class! )?js_string?no_esc}'.split(' '));</#if>
 	const btnTitle = elem.dataset.title != undefined ? elem.dataset.title : elem.getAttribute('title');
 	const btnLabel = btnTitle != undefined ? <#noparse>`#i18n{portal.util.labelCopy} ${btnTitle}`</#noparse> : '#i18n{portal.util.labelCopy}';
 	const copyContent = async () => {
 		try {
 			await navigator.clipboard.writeText(elem.textContent.trim());
-			<#if showMsg>showCopyToast('${msgDone}', 'success');</#if>
+			<#if showMsg>showCopyToast('${msgDone?js_string?no_esc}', 'success');</#if>
 		} catch {
-			<#if showMsg>showCopyToast('${msgError}', 'danger');</#if>
+			<#if showMsg>showCopyToast('${msgError?js_string?no_esc}', 'danger');</#if>
 		}
 	};
 
@@ -52,14 +52,14 @@ document.querySelectorAll('${selector!}').forEach(elem => {
 	<#if btn>
 	const btn = document.createElement('button');
 	btn.type = 'button';
-	btn.className = 'btn btn-sm btn-${btnClass} ms-1 p-1 align-items-baseline';
+	btn.className = 'btn btn-sm btn-${btnClass?js_string?no_esc} ms-1 p-1 align-items-baseline';
 	btn.title = btnLabel;
 	btn.setAttribute('aria-label', btnLabel);
 	btn.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i>';
 	<#if btnAbsolute>
 	btn.style.position = 'absolute';
-	btn.style.top = '${btnTop}';
-	btn.style.right = '${btnEnd}';
+	btn.style.top = '${btnTop?js_string?no_esc}';
+	btn.style.right = '${btnEnd?js_string?no_esc}';
 	</#if>
 	btn.addEventListener('click', (e) => {
 		e.stopPropagation();

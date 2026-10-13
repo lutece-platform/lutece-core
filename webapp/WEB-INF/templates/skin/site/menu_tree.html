@@ -28,7 +28,7 @@
 import LuteceTree from './themes/shared/modules/luteceTree.js';
 const tree = document.querySelector("#lutece-main-menu-tree");
 const mapTree = new LuteceTree( tree );
-mapTree.selectTreeNode( '#node-${page.id}' )
+mapTree.selectTreeNode( '#node-${page.id?js_string?no_esc}' )
 </script>
 </#if>
 </@cTpl>

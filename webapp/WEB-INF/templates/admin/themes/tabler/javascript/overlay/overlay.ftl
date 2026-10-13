@@ -24,10 +24,10 @@ Snippet:
     </@overlay>
 
 -->
-<#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center ' params='style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"' deprecated...>
+<#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center ' params='style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <!-- Loading overlay -->
-<div id="${id}" class="${class}" ${params}>
+<div<@commonAttrs id=id class=class params=params attrs=attrs />>
     <div class="page page-center">
       <div class="container container-slim py-4">
         <div class="text-center">

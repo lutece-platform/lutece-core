@@ -31,9 +31,9 @@ Snippet:
 <#macro sort jsp_url attribute id='' type='text' titleAscDesc=[] deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if jsp_url?contains("?")>
-<#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
+<#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" />
 <#else>
-<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
+<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" />
 </#if>
 <#switch type>
 	<#case 'date'>

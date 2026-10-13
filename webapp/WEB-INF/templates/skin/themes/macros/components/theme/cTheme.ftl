@@ -75,8 +75,8 @@ Snippet:
   </symbol>
 </svg>
 <script type="module">
-import {	themeSwitcher} from './${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-switcher.js';
-const cSwitcher = new themeSwitcher('${theme!"light"}');
+import {	themeSwitcher} from './${commonsSharedThemePath?js_string?no_esc}${commonsSiteJsModulesPath?js_string?no_esc}theme-switcher.js';
+const cSwitcher = new themeSwitcher('${( theme!"light" )?js_string?no_esc}');
 document.addEventListener( "DOMContentLoaded", function(){
 	/* Theme Switcher */
   cSwitcher.init( )

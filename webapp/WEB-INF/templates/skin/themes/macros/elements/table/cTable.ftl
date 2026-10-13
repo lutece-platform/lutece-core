@@ -68,14 +68,14 @@ Snippet:
 <#if id?has_content><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
 <#macro sortSite jsp_url attribute asc=false desc=true id="" >
-<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
+<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" /></#if>
 <#if asc>
-<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn-sort text-decoration-none">
+<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url?js_string}true#sort${(id!)?js_string}_${(attribute!)?js_string}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn-sort text-decoration-none">
 	<@cIcon name='arrow-up' class='main-color' />
 </button>
 </#if>
 <#if desc>
-<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn-sort text-decoration-none">
+<button type="button" onclick="window.location.href='${sort_url?js_string}false#sort${(id!)?js_string}_${(attribute!)?js_string}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn-sort text-decoration-none">
 	<@cIcon name='arrow-down' class='main-color' />
 </button>
 </#if>
@@ -85,12 +85,12 @@ Snippet:
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     <#if id='changeme'>console.warn( "macro cTable : ATTENTION : Risque de duplication. Modifier l'id de la macro cTable !" )</#if>
-    const rows = document.querySelectorAll('table#${id} tbody tr');
+    const rows = document.querySelectorAll('table#${id?js_string?no_esc} tbody tr');
     rows.forEach(function(row, index) {
         const cells = row.querySelectorAll('td');
         let accordionContent = '';
         cells.forEach(function(cell, i) {
-            const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')')
+            const headerSelector = document.querySelector('table#${id?js_string?no_esc} thead th:nth-child(' + (i + 1) + ')')
             const headerText = headerSelector.querySelector('a:not(.btn-sort), button') ? headerSelector.innerHTML : headerSelector.textContent;
             const cellText = cell.getHTML();
             const cellClass = cell.className;
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ` + accordionContent + `
             </@cAccordion>`;
 
-        document.getElementById('accordion-table-${id}').insertAdjacentHTML('beforeend', accordionItem);
+        document.getElementById('accordion-table-${id?js_string?no_esc}').insertAdjacentHTML('beforeend', accordionItem);
     });
 });
 </script>

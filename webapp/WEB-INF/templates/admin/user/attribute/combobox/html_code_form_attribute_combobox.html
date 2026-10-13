@@ -22,7 +22,7 @@
 <#return false>
 </#function>
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''><#assign helpKey = attribute.helpMessage></#if>
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=attribute.mandatory rows=2>
+<@formGroup labelKey='${attribute.title}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=attribute.mandatory rows=2>
 <#if isMultiple( attribute.listAttributeFields )><#assign multiple = 10> </#if>
 <@select name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' multiple=multiple>
 <#if !attribute.mandatory && !isMultiple( attribute.listAttributeFields ) ><@option value='' label='#i18n{portal.users.attribute.labelNone}' /> </#if>
@@ -47,7 +47,7 @@
     <#if attributeField.title?exists && attributeField.value != "">
         <#assign selectedStoredAttribute = hasStoredValue && default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
         <#assign selectedDefaultAttribute = !hasStoredValue && attributeField.defaultValue> 
-        <@option value=attributeField.idField! label=attributeField.title!?html selected=(selectedStoredAttribute || selectedDefaultAttribute) /> 
+        <@option value=attributeField.idField! label=attributeField.title! selected=(selectedStoredAttribute || selectedDefaultAttribute) /> 
     </#if>
 </#list>
 </@select>

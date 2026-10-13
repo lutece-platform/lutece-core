@@ -69,11 +69,11 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#if title?has_content && url?has_content>
 <#local r=random() />
-<#local tileLevel><#if level=1>2<#else>${level!}</#if></#local>
+<#local tileLevel = ( level=1 )?then( '2', ( level!'' )?string ) />
 <#local tileLinkClass>tile-link<#if disabled> disabled</#if></#local>
 <#local tileClass>tile<#if class?has_content> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
-<#local tileDownload><#if download> download</#if></#local>
-<#local tileTarget><#if download><#else>${target!}</#if></#local>
+<#local tileDownload = ( download )?then( ' download', '' ) />
+<#local tileTarget = ( download )?then( '', ( target!'' )?string ) />
 <#local tileparams><@commonAttrs params=params attrs=attrs /><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
 <@cBlock class=tileClass id=id params=tileparams>
 	<#if imgName?has_content>

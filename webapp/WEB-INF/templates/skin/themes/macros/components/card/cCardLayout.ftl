@@ -38,11 +38,11 @@ Snippet:
 <#macro cCardLayout type='group' rowCols='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if type == 'group'>
-    <#local cClass>row g-0</#local>
+    <#local cClass = 'row g-0' />
 <#elseif type == 'deck'>
     <#local cClass>row g-4 row-cols-${rowCols!} ${class!}</#local>
 <#elseif type == 'columns'>
-    <#local cParams>data-masonry='{"percentPosition": true }' ${params!}</#local>
+    <#local cParams>data-masonry='{"percentPosition": true }' ${params?no_esc}</#local>
     <#local cClass>row ${class!}</#local>
 </#if>
 <@cBlock class=cClass id=id params=cParams attrs=attrs>

@@ -33,7 +33,7 @@ Snippet:
 <script>
 <#if lang?has_content>
 tarteaucitronCustomText = {
-   ${lang}
+   ${lang?no_esc}
 }; 
 </#if>
 tarteaucitron.services.monparis = {
@@ -41,7 +41,7 @@ tarteaucitron.services.monparis = {
   "type": "api",
   "name": "Mon Paris",
   "uri": "https://moncompte.paris.fr",
-  "readmoreLink": "${cookiePolicyLink}",
+  "readmoreLink": "${cookiePolicyLink?js_string?no_esc}",
   "needconsent": false,
   "useExternalCss" : true,
   "mandatory": true,
@@ -57,9 +57,9 @@ tarteaucitron.services.monparis = {
 
 tarteaucitron.init({
     "bodyPosition": "top",          /* Tag positionné en haut pour accessibilité */
-    "privacyUrl": "${privacyLink}", /* Privacy policy url */
-    "hashtag": "#${hashtag}",       /* Open the panel with this hashtag */
-    "cookieName": "${cookiename}",  /* Cookie name */
+    "privacyUrl": "${privacyLink?js_string?no_esc}", /* Privacy policy url */
+    "hashtag": "#${hashtag?js_string?no_esc}",       /* Open the panel with this hashtag */
+    "cookieName": "${cookiename?js_string?no_esc}",  /* Cookie name */
     "orientation": "bottom",        /* Banner position (top - bottom) */
     "groupServices": false,         /* Group services by category */
     "showDetailsOnClick": true,     /* Click to expand the description */
@@ -67,7 +67,7 @@ tarteaucitron.init({
     "showAlertSmall": false,        /* Show the small banner on bottom right */
     "showIcon": ${showIcon?c},      /* Show cookie icon to manage cookies */
     // "iconSrc": "",               /* Optional: URL or base64 encoded image */
-    "iconPosition": "${iconPosition}", /* Position of the icon between BottomRight, BottomLeft, TopRight and TopLeft */
+    "iconPosition": "${iconPosition?js_string?no_esc}", /* Position of the icon between BottomRight, BottomLeft, TopRight and TopLeft */
     "cookieslist": true,            /* Show the cookie list */
     "adblocker": true,              /* Show a Warning if an adblocker is detected */
     "AcceptAllCta" : true,          /* Show the accept all button when highPrivacy on */
@@ -78,7 +78,7 @@ tarteaucitron.init({
     "removeCredit": ${nocredit?c},  /* Remove credit link */
     "moreInfoLink": true,           /* Show more info link */
     "useExternalCss": true,         /* If false, the tarteaucitron.css file will be loaded */        
-    "readmoreLink": "${cookiePolicyLink}", /* Change the default readmore link */
+    "readmoreLink": "${cookiePolicyLink?js_string?no_esc}", /* Change the default readmore link */
     "mandatory": true,              /* Show a message about mandatory cookies */
     "mandatoryCta": true,           /* Show the disabled accept button when mandatory on */
 
@@ -137,8 +137,8 @@ function cleanTarteaucitronRoot() {
       // Add new link after privacyLink
       const newLink = document.createElement('a');
       newLink.id = 'tarteaucitronConsentUrl';
-      newLink.href = '${alertConfidentialityLink}';
-      newLink.textContent = '${alertConfidentialityLabel}';
+      newLink.href = '${alertConfidentialityLink?js_string?no_esc}';
+      newLink.textContent = '${alertConfidentialityLabel?js_string?no_esc}';
       privacyLink.insertAdjacentHTML('afterend', newLink.outerHTML);
     } else if (typeof tarteaucitron !== 'undefined') {
       // Wait a bit more for DOM elements to be created

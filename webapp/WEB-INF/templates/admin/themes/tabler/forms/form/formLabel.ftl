@@ -28,6 +28,9 @@ Snippet:
 <#-- hideLabel 'all' already puts visually-hidden on the label: a d-none on the text would take it out of the accessibility tree, which is the opposite of the intent -->
 <#if hideLabel?seq_contains('all')><#local labelClass = '' /></#if>
 <label class="<#if class?has_content>${class?trim}</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if>"<#if labelFor?has_content> for="${labelFor}"</#if><#if labelId?has_content> id="${labelId}"</#if>>
-<#if labelKey?trim !=''><#if labelClass?trim !=''><span class="${labelClass}"></#if>${labelKey}<#if mandatory> <span class="text-danger">*</span></#if><#if labelClass?trim !=''></span></#if><#if labelKeyDesc?trim !=''><span class="form-label-description">${labelKeyDesc}</span></#if><#else><#nested></#if>
+<#-- labelKey and labelKeyDesc may be strings or markup (an i18n message holding HTML): test their source -->
+<#local labelSource = labelKey?is_markup_output?then( labelKey?markup_string, labelKey ) />
+<#local descSource = labelKeyDesc?is_markup_output?then( labelKeyDesc?markup_string, labelKeyDesc ) />
+<#if labelSource?trim?has_content><#if labelClass?trim?has_content><span class="${labelClass}"></#if>${labelKey}<#if mandatory> <span class="text-danger">*</span></#if><#if labelClass?trim?has_content></span></#if><#if descSource?trim?has_content><span class="form-label-description">${labelKeyDesc}</span></#if><#else><#nested></#if>
 </label>
 </#macro>

@@ -193,7 +193,7 @@
 <script>
 (function() {
     // Format used by the datepicker for both display and submission (matches the server locale pattern).
-    const currentdateFormat = '${date_picker_format!"dd/mm/yyyy"}';
+    const currentdateFormat = '${( date_picker_format!"dd/mm/yyyy" )?js_string?no_esc}';
 
     // The themeDatepicker wrapper keeps the visible input under its original id and exposes the instance on it.
     // Driving the instance with setDate() updates the visible field AND the hidden name="..." field that is submitted.

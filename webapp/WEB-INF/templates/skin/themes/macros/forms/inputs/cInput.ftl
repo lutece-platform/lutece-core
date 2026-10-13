@@ -62,8 +62,8 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local hasError = (errorMsg != '')>
-<#assign idMsg><#if id?has_content>${id}<#else>${name!}</#if></#assign>
-<#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
+<#assign idMsg = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
+<#local errorClass = ( hideErrorMsg )?then( 'visually-hidden', '' ) />
 <input type="${type!}" class="<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder?has_content> placeholder="${placeholder!}"<#if ariaLabel?has_content> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params attrs=attrs /><#if pattern?has_content> pattern="${pattern}"</#if><#if accept?has_content> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId?has_content> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
 <#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
 <#if errorMsg?has_content && errorMsg !='_error'><@cFormError idMsg errorMsg errorClass /></#if>
@@ -100,9 +100,9 @@ function setInvalidMaxMinMessage( input ) {
     if ( !input.classList.contains('is-invalid') ) {
         input.classList.add('is-invalid');
         if( input.parentNode.classList.contains('input-group') ) {
-            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',min,max)}</p>' );
+            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}</p>' );
         } else {
-            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',min,max)}</p>' );
+            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}</p>' );
         }
         input.setAttribute('aria-invalid', 'true');
         input.setAttribute('aria-describedby', 'error_' + input.id);
@@ -124,7 +124,7 @@ function setInvalidMaxMinMessage( input ) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  const input${idMsg} = document.getElementById('${idMsg}');
+  const input${idMsg} = document.getElementById('${idMsg?js_string?no_esc}');
   if ( input${idMsg}  ) {
 
       input${idMsg}.addEventListener('blur', function() {

@@ -58,8 +58,8 @@ Snippet:
 -->
 <#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if !id?has_content>${name}-${random()}<#else>${id}</#if></#local>
-<#local idMsg><#if id?has_content>${id}<#else>${name!}</#if></#local>
+<#local cId = id?has_content?then( id?string, name + '-' + random() ) />
+<#local idMsg = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
 <#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
 <#if errorMsg?has_content><@cFormError idMsg errorMsg /></#if>
 <#if !button>
@@ -116,7 +116,7 @@ Snippet:
 -->
 <#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if !id?has_content>form-check-group-${random()}<#else>${id}</#if></#local>
+<#local cId = id?has_content?then( id?string, 'form-check-group-' + random() ) />
 <@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params attrs=attrs helpMsg=helpMsg required=required >
 <#nested>
 </@cFieldset>

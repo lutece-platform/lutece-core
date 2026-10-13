@@ -34,7 +34,10 @@ Snippet:
   <@cRow>
     <@cCol class=class! id=id params=params attrs=attrs >
       <@cAlert title=title type='danger' class='d-block'>
-        <#if title?trim != text?trim><@cText>${text}</@cText></#if>
+        <#-- title and text may be strings or captured blocks: compare their source -->
+        <#local titleSource = title?is_markup_output?then( title?markup_string, title ) />
+        <#local textSource = text?is_markup_output?then( text?markup_string, text ) />
+        <#if titleSource?trim != textSource?trim><@cText>${text}</@cText></#if>
         <#nested>
       </@cAlert>
       <#if linkUrl?has_content>

@@ -41,7 +41,7 @@ footer {display: none;}
 <#if actions?has_content>
 <script>
 document.addEventListener( "DOMContentLoaded", function() {
-    const actions = `${actions}`;
+    const actions = '${actions?is_markup_output?then( actions?markup_string, actions )?js_string?no_esc}';
     document.querySelector('.page-header-buttons').innerHTML = actions;
 });
 </script>

@@ -71,7 +71,7 @@
 					<@h level=3>#i18n{portal.admindashboard.title.column} ${column_key}
 					<#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
 						<@tform action='jsp/admin/admindashboard/DoReorderColumn.jsp' method='post' class='pull-right'>
-							<@input type='hidden' name='column' value='${column_key?html}' />
+							<@input type='hidden' name='column' value='${column_key}' />
 							<@input type='hidden' name='token' value='${token}' />
 							<@button type='submit' title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='warning' />
 						</@tform>

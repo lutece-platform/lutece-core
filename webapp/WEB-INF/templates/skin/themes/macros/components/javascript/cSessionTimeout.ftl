@@ -49,13 +49,13 @@ Snippet:
 -->
 <#macro cSessionTimeout deprecated...>
 <@deprecatedWarning args=deprecated />
-<#assign sessionTimeoutEnabled><#if !dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign sessionTimeoutEnabled = ( !dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox') == '1' )?then( 'true', 'false' ) />
 <#if sessionTimeoutEnabled == 'true'>
-<#assign sessionTimeoutDuration><#if !dskey('portal.theme.site_property.sessiontimeout.duration')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.duration') != ''>${dskey('portal.theme.site_property.sessiontimeout.duration')}<#else>1800</#if></#assign>
-<#assign sessionWarningDelay><#if !dskey('portal.theme.site_property.sessiontimeout.warningDelay')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.warningDelay') != ''>${dskey('portal.theme.site_property.sessiontimeout.warningDelay')}<#else>120</#if></#assign>
+<#assign sessionTimeoutDuration = ( !dskey('portal.theme.site_property.sessiontimeout.duration')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.duration') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.duration') )?string, '1800' ) />
+<#assign sessionWarningDelay = ( !dskey('portal.theme.site_property.sessiontimeout.warningDelay')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.warningDelay') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.warningDelay') )?string, '120' ) />
 <#assign sessionKeepAliveUrl><#if !dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') != ''>${dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')}<#else>${base_url!}jsp/site/Portal.jsp</#if></#assign>
-<#assign sessionMaxExtensions><#if !dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.maxExtensions') != ''>${dskey('portal.theme.site_property.sessiontimeout.maxExtensions')}<#else>10</#if></#assign>
-<#assign sessionPosition><#if !dskey('portal.theme.site_property.sessiontimeout.position')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.position') != ''>${dskey('portal.theme.site_property.sessiontimeout.position')}<#else>top-0 end-0</#if></#assign>
+<#assign sessionMaxExtensions = ( !dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.maxExtensions') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.maxExtensions') )?string, '10' ) />
+<#assign sessionPosition = ( !dskey('portal.theme.site_property.sessiontimeout.position')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.position') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.position') )?string, 'top-0 end-0' ) />
 <#assign sessionLoginUrl><#if urlAuth?? && urlAuth?has_content>${urlAuth}<#else>jsp/site/Portal.jsp?page=mylutece&action=doLogin</#if></#assign>
 <script>
 (function() {
@@ -64,34 +64,34 @@ Snippet:
     window.__sessionTimeoutConfig = Object.assign({
         timeoutDuration: ${sessionTimeoutDuration},
         warningDelay: ${sessionWarningDelay},
-        keepAliveUrl: "${sessionKeepAliveUrl?js_string}",
-        loginUrl: "${sessionLoginUrl?js_string}",
+        keepAliveUrl: "${sessionKeepAliveUrl?js_string?no_esc}",
+        loginUrl: "${sessionLoginUrl?js_string?no_esc}",
         maxExtensions: ${sessionMaxExtensions},
-        position: "${sessionPosition?js_string}"
+        position: "${sessionPosition?js_string?no_esc}"
     }, pluginConfig, {
         messages: Object.assign({
-            warningTitle: "${i18n('portal.theme.sessiontimeout.warningTitle')?js_string}",
-            warningMessage: "${i18n('portal.theme.sessiontimeout.warningMessage')?js_string}",
-            btnExtend: "${i18n('portal.theme.sessiontimeout.btnExtend')?js_string}",
-            btnSave: "${i18n('portal.theme.sessiontimeout.btnSave')?js_string}",
-            saveSuccess: "${i18n('portal.theme.sessiontimeout.saveSuccess')?js_string}",
-            saveError: "${i18n('portal.theme.sessiontimeout.saveError')?js_string}",
-            expiredTitle: "${i18n('portal.theme.sessiontimeout.expiredTitle')?js_string}",
-            expiredMessage: "${i18n('portal.theme.sessiontimeout.expiredMessage')?js_string}",
-            btnLogin: "${i18n('portal.theme.sessiontimeout.btnLogin')?js_string}",
-            labelClose: "${i18n('portal.util.labelClose')?js_string}",
-            srCountdown: "${i18n('portal.theme.sessiontimeout.srCountdown')?js_string}",
-            maxExtensionsReached: "${i18n('portal.theme.sessiontimeout.maxExtensionsReached')?js_string}",
-            processWarningTitle: "${i18n('portal.theme.sessiontimeout.processWarningTitle')?js_string}",
-            processWarningMessage: "${i18n('portal.theme.sessiontimeout.processWarningMessage')?js_string}",
-            processExpiredTitle: "${i18n('portal.theme.sessiontimeout.processExpiredTitle')?js_string}",
-            processExpiredMessage: "${i18n('portal.theme.sessiontimeout.processExpiredMessage')?js_string}"
+            warningTitle: "${i18n('portal.theme.sessiontimeout.warningTitle')?js_string?no_esc}",
+            warningMessage: "${i18n('portal.theme.sessiontimeout.warningMessage')?js_string?no_esc}",
+            btnExtend: "${i18n('portal.theme.sessiontimeout.btnExtend')?js_string?no_esc}",
+            btnSave: "${i18n('portal.theme.sessiontimeout.btnSave')?js_string?no_esc}",
+            saveSuccess: "${i18n('portal.theme.sessiontimeout.saveSuccess')?js_string?no_esc}",
+            saveError: "${i18n('portal.theme.sessiontimeout.saveError')?js_string?no_esc}",
+            expiredTitle: "${i18n('portal.theme.sessiontimeout.expiredTitle')?js_string?no_esc}",
+            expiredMessage: "${i18n('portal.theme.sessiontimeout.expiredMessage')?js_string?no_esc}",
+            btnLogin: "${i18n('portal.theme.sessiontimeout.btnLogin')?js_string?no_esc}",
+            labelClose: "${i18n('portal.util.labelClose')?js_string?no_esc}",
+            srCountdown: "${i18n('portal.theme.sessiontimeout.srCountdown')?js_string?no_esc}",
+            maxExtensionsReached: "${i18n('portal.theme.sessiontimeout.maxExtensionsReached')?js_string?no_esc}",
+            processWarningTitle: "${i18n('portal.theme.sessiontimeout.processWarningTitle')?js_string?no_esc}",
+            processWarningMessage: "${i18n('portal.theme.sessiontimeout.processWarningMessage')?js_string?no_esc}",
+            processExpiredTitle: "${i18n('portal.theme.sessiontimeout.processExpiredTitle')?js_string?no_esc}",
+            processExpiredMessage: "${i18n('portal.theme.sessiontimeout.processExpiredMessage')?js_string?no_esc}"
         }, pluginMessages)
     });
 })();
 </script>
 <script type="module">
-import LuteceSessionTimeout from './${commonsSiteSharedPath}modules/luteceSessionTimeout.js';
+import LuteceSessionTimeout from './${commonsSiteSharedPath?js_string?no_esc}modules/luteceSessionTimeout.js';
 new LuteceSessionTimeout(window.__sessionTimeoutConfig);
 </script>
 </#if>

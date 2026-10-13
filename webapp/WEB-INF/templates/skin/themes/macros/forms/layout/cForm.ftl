@@ -50,11 +50,11 @@ Snippet:
 <#-- Helper macro: use dskey value if non-empty, otherwise fall back to i18n key -->
 <script>
 window.__formValidationConfig = {
-    errorClass: '${dskey("portal.theme.site_property.formvalidation.errorClass")!}',
-    validClass: '${dskey("portal.theme.site_property.formvalidation.validClass")!}',
-    errorFeedbackClass: '${dskey("portal.theme.site_property.formvalidation.errorFeedbackClass")!}',
-    helpClass: '${dskey("portal.theme.site_property.formvalidation.helpClass")!}',
-    errorIconSvg: '${(dskey("portal.theme.site_property.formvalidation.errorIconSvg")!"")?js_string}',
+    errorClass: '${( dskey("portal.theme.site_property.formvalidation.errorClass")! )?js_string?no_esc}',
+    validClass: '${( dskey("portal.theme.site_property.formvalidation.validClass")! )?js_string?no_esc}',
+    errorFeedbackClass: '${( dskey("portal.theme.site_property.formvalidation.errorFeedbackClass")! )?js_string?no_esc}',
+    helpClass: '${( dskey("portal.theme.site_property.formvalidation.helpClass")! )?js_string?no_esc}',
+    errorIconSvg: '${(dskey("portal.theme.site_property.formvalidation.errorIconSvg")!"")?js_string?no_esc}',
     messages: {
         required: '<@_fvMsg "portal.theme.site_property.formvalidation.msg.required" "portal.theme.formvalidation.msg.required" />',
         email: '<@_fvMsg "portal.theme.site_property.formvalidation.msg.email" "portal.theme.formvalidation.msg.email" />',

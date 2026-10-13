@@ -43,7 +43,7 @@ Snippet:
 <#macro cSlider id sliderLabel class='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4' slides={} slideLabel='slide' buttonNext='#i18n{portal.util.labelNext}' buttonPrev='#i18n{portal.util.labelPrevious}' buttonClass='light rounded-circle' linkAll='' linkAllLabel='#i18n{portal.util.labelMore}' linkAllClass='btn btn-link-primary me-sm' params='' attrs={}>
 <#assign sliderInnerId = id + '-theme-slider'>
 <#assign sliderRowClass = 'theme-slider ' + class!>
-<#assign sliderParams>aria-roledescription="slide" aria-label="${sliderLabel!}" ${params}</#assign>
+<#assign sliderParams>aria-roledescription="slide" aria-label="${sliderLabel!}" ${params?no_esc}</#assign>
 <@cSection id=id class='theme-slider-wrapper' params=sliderParams attrs=attrs>
     <@cRow id=sliderInnerId class=sliderRowClass params='aria-live="off"'>
         <#if slides?size gt 0>
@@ -87,9 +87,9 @@ Snippet:
 </@cSection>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const slider = document.querySelector('#${id} .theme-slider');
-    const btnPrev = document.querySelector('#${id} .slider-buttons .prev-slide');
-    const btnNext = document.querySelector('#${id} .slider-buttons .next-slide');
+    const slider = document.querySelector('#${id?js_string?no_esc} .theme-slider');
+    const btnPrev = document.querySelector('#${id?js_string?no_esc} .slider-buttons .prev-slide');
+    const btnNext = document.querySelector('#${id?js_string?no_esc} .slider-buttons .next-slide');
     if (!slider) return;
     slider.focus();
 
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     } else {
         // Single slide: hide the navigation buttons block
-        const sliderButtons = document.querySelector('#${id} .slider-buttons');
+        const sliderButtons = document.querySelector('#${id?js_string?no_esc} .slider-buttons');
         if (sliderButtons) sliderButtons.remove();
     }
 });
@@ -182,15 +182,15 @@ Snippet:
 -->
 <#macro cSlide slide={} currentIndex=1 lastIndex=1 params='' attrs={}>
 <#if slide?size gt 0>
-    <#assign slideIndex><#if slide.index?? && slide.index!=''>${slide.index!}<#else>${currentIndex!}</#if></#assign>
-    <#assign slideId><#if slide.id?? && slide.id!=''>${slide.id!}</#if></#assign>
+    <#assign slideIndex = ( slide.index?? && slide.index!='' )?then( ( slide.index!'' )?string, ( currentIndex!'' )?string ) />
+    <#assign slideId = ( slide.id?? && slide.id!='' )?then( ( slide.id!'' )?string, '' ) />
     <#assign slideClass>slide p-0<#if slide.class?? && slide.class!=''> ${slide.class!}</#if></#assign>
-    <#assign slideImg><#if slide.img?? && slide.img!=''>${slide.img!}</#if></#assign>
-    <#assign slideImgAlt><#if slide.imgAlt?? && slide.imgAlt!=''>${slide.imgAlt!}</#if></#assign>
-    <#assign slideUrl><#if slide.link?? && slide.link!=''>${slide.url!}</#if></#assign>
-    <#assign slideLinkLabel><#if slide.linkLabel?? && slide.linkLabel!=''>${slide.linkLabel!}</#if></#assign>
-    <#assign slideContent><#if slide.content?? && slide.content!=''>${slide.content!}</#if></#assign>
-    <#assign slideParams>role="group" aria-roledescription="slide" aria-label="${slideIndex!} / ${lastIndex}" ${params}</#assign>
+    <#assign slideImg = ( slide.img?? && slide.img!='' )?then( ( slide.img!'' )?string, '' ) />
+    <#assign slideImgAlt = ( slide.imgAlt?? && slide.imgAlt!='' )?then( ( slide.imgAlt!'' )?string, '' ) />
+    <#assign slideUrl = ( slide.link?? && slide.link!='' )?then( ( slide.url!'' )?string, '' ) />
+    <#assign slideLinkLabel = ( slide.linkLabel?? && slide.linkLabel!='' )?then( ( slide.linkLabel!'' )?string, '' ) />
+    <#assign slideContent = ( slide.content?? && slide.content!='' )?then( ( slide.content!'' )?string, '' ) />
+    <#assign slideParams>role="group" aria-roledescription="slide" aria-label="${slideIndex!} / ${lastIndex}" ${params?no_esc}</#assign>
     <@cCard class=slideClass id=slideId title=slideLinkLabel titleUrl=slideUrl img=slideImg params=slideParams attrs=attrs>
         <@cText class='card-text'>${slideContent}</@cText>
         <#nested>
