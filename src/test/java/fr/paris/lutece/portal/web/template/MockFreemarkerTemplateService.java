@@ -65,6 +65,7 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
         _strAbsolutePath = strAbsolutePath;
         setSharedVariable( "i18n", new I18nTemplateMethod( ) );
         setSharedVariable( "dskey", new DatastoreTemplateMethod( ) );
+        setTemplateAutoEscape( true );
     }
 
     /**
