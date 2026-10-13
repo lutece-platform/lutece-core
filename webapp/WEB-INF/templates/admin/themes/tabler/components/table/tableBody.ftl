@@ -40,7 +40,7 @@ Snippet:
 -->
 <#macro tableBody id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tbody<@commonAttrs id=id /><#if class?has_content> class="${class?trim}"</#if><@commonAttrs params=params attrs=attrs />>
+<tbody<@commonAttrs id=id class=class params=params attrs=attrs />>
 <#nested>
 </tbody>
 </#macro>
