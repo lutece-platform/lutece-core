@@ -24,6 +24,7 @@
  *   OUT_DIR         default ./snapshots
  *   MAX_PAGES       upper bound of back-office pages visited (default 250)
  *   XSS_MARKERS     markers.json written by xss/seed-core.py: names the field each payload came from
+ *   EXTRA_FO_PAGES  comma-separated front-office URLs to visit as well (a plugin's XPages)
  *   XSS_REFLECTED   "1" replays every visited URL once per query parameter, the value replaced by
  *                   an XSS payload (reflected XSS)
  *   CHROMIUM        browser executable; by default the one bundled with playwright-core, or else
@@ -66,7 +67,7 @@ const FO_PAGES = [
     { name: 'fo-map', url: '/jsp/site/Portal.jsp?page=map' },
     { name: 'fo-search', url: '/jsp/site/Portal.jsp?page=search' },
     { name: 'fo-search-query', url: '/jsp/site/Portal.jsp?page=search&query=lutece' },
-];
+].concat( ( process.env.EXTRA_FO_PAGES || '' ).split( ',' ).filter( Boolean ).map( u => ( { name: 'fo-' + u.replace( /^\/jsp\/site\//, '' ).replace( /[^\w=]+/g, '_' ), url: u } ) ) );
 
 const BO_EXTRA = [
     { name: 'bo-site-preview', url: '/jsp/admin/site/AdminSite.jsp' },
