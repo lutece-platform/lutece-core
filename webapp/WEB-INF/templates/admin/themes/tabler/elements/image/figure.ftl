@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): additional classes to add to the image element.
 - id (string, optional): the ID for the image element.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -25,9 +26,9 @@ Snippet:
     </@figure>
 
 -->
-<#macro figure caption='' captionPos='bottom' class='' id='' params='' deprecated...>
+<#macro figure caption='' captionPos='bottom' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<figure<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
+<figure<@commonAttrs id=id class=class params=params attrs=attrs /> />
 <#if captionPos='top'><#if caption!=''><figcaption>${caption}</figcaption></#if></#if>
 <#nested>
 </figure>

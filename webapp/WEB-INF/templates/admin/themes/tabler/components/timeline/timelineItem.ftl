@@ -12,6 +12,7 @@ Parameters:
 - class (string, optional): additional classes to add to the list item.
 - id (string, optional): the ID for the list item.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -34,9 +35,9 @@ Snippet:
     </@timelineItem>
 
 -->
-<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params='' deprecated...>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li<#if class !=''> class="${class}"</#if><#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<li<@commonAttrs id=id class=class params=params attrs=attrs />>
 	<#if iconFace !=''><div class="list-timeline-icon ${iconBg}"><@icon style=iconFace /></div></#if>
 	<div class="list-timeline-content">
 		<#if time !=''><div class="list-timeline-time">${time}</div></#if>

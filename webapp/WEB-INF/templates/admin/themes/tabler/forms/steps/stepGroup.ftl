@@ -15,6 +15,7 @@ Parameters:
 @param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{portal.theme.labelDelete}'
 @param - headerParams - string - optional - additional HTML attributes to include in the header of step group element default ''
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+@param - attrs - hash - optional - additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}; prefer it to params, the value is escaped like any value of the page; default {}
 
 Snippet:
 
@@ -39,12 +40,12 @@ Snippet:
     </@cStepGroup>
 
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' help='' class='' id='' params='' deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' help='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@row>
 	<@columns>
 		<@div class='container'>
-			<@fieldSet class='w-100 flex-fill row step-group ${class!}' fieldsetId=id fieldsetParams=params >
+			<@fieldSet class='w-100 flex-fill row step-group ${class!}' fieldsetId=id fieldsetParams=params attrs=attrs >
 				<#local legendClass>col-12 <#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
 				<#local legend>
 					<@span class='h3 title main-info-color'>${title!}<#if iteration gt 0> (${iteration+1})</#if></@span>

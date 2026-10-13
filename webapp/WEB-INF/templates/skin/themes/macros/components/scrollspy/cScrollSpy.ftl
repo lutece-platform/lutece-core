@@ -14,8 +14,11 @@ Parameters:
 - anchorColClass (string, optional): column classes of the list of anchors. Default: 'col-12 col-md-3'.
 - contentColClass (string, optional): column classes of the nested content. Default: 'col-12 col-md-9'.
 - id (string, optional): id of the row wrapper. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - class (string, optional): CSS class(es) of the row wrapper. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - params (string, optional): additional HTML attributes of the row wrapper. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Scrollspy - @cScrollSpy
@@ -47,9 +50,9 @@ Snippet:
     </@cScrollSpy>
 
 -->
-<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' deprecated...>
+<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${class}"</#if><#if params!=''> ${params}</#if>>
+<div class="row<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<div class="${anchorColClass}">
 		<@cAnchor id=anchorId class=anchorClass anchors=anchors listClass=anchorListClass listItemClass=anchorListItemClass anchorsClass=anchorsLinkClass params=anchorsParams />
 	</div>

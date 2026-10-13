@@ -15,6 +15,7 @@ Parameters:
 - subtitle (string, optional): Subtitle caption for the slide. Default: ''.
 - class (string, optional): Additional CSS class(es) for the slide. Default: ''.
 - params (string, optional): Additional HTML attributes for the slide. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -27,9 +28,9 @@ Snippet:
     <@cCarouselItem img='images/events.jpg' idx=2 max=3 alt='Events' title='Upcoming events' />
 
 -->
-<#macro cCarouselItem img active=false id='manege' idx=1 max=1 alt='' title='' titleLevel=3 subtitle='' class='' params='' deprecated...>
+<#macro cCarouselItem img active=false id='manege' idx=1 max=1 alt='' title='' titleLevel=3 subtitle='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="carousel-item<#if active> active</#if><#if class !=''> ${class}</#if>"  id="${id}-item-${idx}" role="group" aria-roledescription="slide" aria-label="${idx} of ${max}"<#if params !=''> ${params}</#if>>
+<div class="carousel-item<#if active> active</#if><#if class !=''> ${class}</#if>"  id="${id}-item-${idx}" role="group" aria-roledescription="slide" aria-label="${idx} of ${max}"<@commonAttrs params=params attrs=attrs />>
     <div class="item__third">
 	    <img src="${img!}" class="d-block w-100" alt="${alt!'...'}">
 	    <div class="carousel-caption">

@@ -18,6 +18,7 @@ Parameters:
 - class (string, optional): additional CSS class on the `<table>`. Default: ''.
 - id (string, optional): the ID of the `<table>` and the seed for the accordion variant. **WARNING**: the default 'changeme' triggers a duplicate-ID risk warning — always set a unique id when using `cTableResponsive`. Default: 'changeme'.
 - params (string, optional): additional HTML attributes for the `<table>`. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -60,11 +61,11 @@ Snippet:
     </@cTable>
 
 -->
-<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' deprecated...>
+<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- #i18n{portal.theme.msgInfoTableUpdateId} --></#if>
 <div class="table-responsive<#if breakpoint!=''>${breakpoint}</#if>"<#if id!=''> id="table-wrapper-${id}"</#if>>
-<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if> >
+<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><@commonAttrs id=id params=params attrs=attrs /> >
 <#if caption !=''> <caption class="visually-hidden">${caption!}</caption></#if>
 <#nested>
 </table>

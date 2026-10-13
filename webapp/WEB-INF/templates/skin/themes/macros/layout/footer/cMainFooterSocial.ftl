@@ -11,6 +11,7 @@ Parameters:
 - classColMain (string, optional): Bootstrap column class for the menu zone. Default: 'col-md-7'.
 - classColSocial (string, optional): Bootstrap column class for the social zone. Default: 'col-md-5'.
 - params (string, optional): Additional HTML attributes for the footer element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Footer réseaux sociaux - @cMainFooterSocial"
@@ -30,13 +31,13 @@ Snippet:
     </@cMainFooterSocial>
 
 -->
-<#macro cMainFooterSocial title nested_pos='after' socialNested='' align='around' classColMain='col-md-7' classColSocial='col-md-5' params='' deprecated...>
+<#macro cMainFooterSocial title nested_pos='after' socialNested='' align='around' classColMain='col-md-7' classColSocial='col-md-5' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local logoAltDS=dskey('portal.theme.site_property.layout.footer.logoFooter.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
 <#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
 <#if !dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
-<footer class="foot__grid_social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
+<footer class="foot__grid_social z-1" role="contentinfo"<@commonAttrs params=params attrs=attrs />>
     <div class="main-footer">
         <a class="logo" href="${logoUrl}" target="_blank" title="#i18n{portal.theme.labelGoToSite} ${title}">
             <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' /><@cInline> - ${title}</@cInline>

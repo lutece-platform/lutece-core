@@ -11,6 +11,7 @@ Parameters:
 - selected (boolean, optional): marks the option as selected. Default: false.
 - disabled (boolean, optional): disables the option. Default: false.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -32,7 +33,7 @@ Snippet:
     <@cOption label='Not available' value='NA' disabled=true />
 
 -->
-<#macro cOption label value id='' class='' selected=false disabled=false params='' deprecated...>
+<#macro cOption label value id='' class='' selected=false disabled=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<option <#if id!=''>id="${id}"</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params!=''>${params}</#if>>${label!}</option>
+<option <@commonAttrs id=id class=class /> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><@commonAttrs params=params attrs=attrs />>${label!}</option>
 </#macro>

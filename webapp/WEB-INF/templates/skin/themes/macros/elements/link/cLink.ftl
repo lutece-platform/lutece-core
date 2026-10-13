@@ -13,6 +13,7 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the link element. Use 'btn btn-primary' to style as a button. Default: ''.
 - id (string, optional): Unique identifier for the link element. Default: ''.
 - params (string, optional): Additional HTML attributes for the link element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Lien - @cLink
@@ -39,9 +40,9 @@ Snippet:
     </@cLink>
 
 -->
-<#macro cLink href label title='' nestedPos='after' target='' showTarget=false class='' id='' params='' deprecated...>
+<#macro cLink href label title='' nestedPos='after' target='' showTarget=false class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<a href="${href!}" <#if id!=''> id="${id!}"</#if> <#if class !='' >class="${class!}"</#if><#if title!=''> title="${title!}<#if target='_blank'> #i18n{portal.theme.newWindowLink}</#if>"</#if><#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if> > 
+<a href="${href!}" <@commonAttrs id=id /> <#if class !='' >class="${class!}"</#if><#if title!=''> title="${title!}<#if target='_blank'> #i18n{portal.theme.newWindowLink}</#if>"</#if><#if target!=''> target="${target}"</#if><@commonAttrs params=params attrs=attrs /> > 
 <#if nestedPos!='after'><#nested></#if>
 <#if label!=''><span class="link-label">${label!}</span></#if> 
 <#if nestedPos='after'> <#nested></#if>

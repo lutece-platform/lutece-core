@@ -6,6 +6,7 @@ Parameters:
 - color (string, optional): the color of the progress bar, using a Bootstrap color class (e.g. "primary").
 - id (string, optional): the ID of the progress bar container.
 - params (string, optional): additional parameters to add to the progress bar container.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - value (number, optional): the value of the progress bar, as a percentage (0-100).
 - min (number, optional): the minimum value of the progress bar (default: 0).
 - max (number, optional): the maximum value of the progress bar (default: 100).
@@ -31,12 +32,12 @@ Snippet:
     <@progress value=0 color='info' progressId='importProgress' token='import-task-123' label='Importing data...' showReport=true intervalTime=3000 />
 
 -->
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 deprecated...>
+<#macro progress color='primary' id='' params='' attrs={} value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if label!='' >
 <div id="${progressId}-label" >${label}</div>
 </#if>
-<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="progress"<@commonAttrs id=id params=params attrs=attrs />>
 	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
         <#if text=''>${value}%<#else>${text}</#if>
 	</div>       

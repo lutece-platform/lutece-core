@@ -11,6 +11,7 @@ Parameters:
 - id (string, optional): Unique identifier for the dropdown; auto-generated if empty. Default: ''.
 - class (string, optional): Additional CSS class(es) for the dropdown wrapper. Default: ''.
 - params (string, optional): Additional HTML attributes for the dropdown wrapper. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -29,11 +30,11 @@ Snippet:
     </@cDropNav>
 
 -->
-<#macro cDropNav title icon='' caret='' expanded=false id='' class='' params='' deprecated...>
+<#macro cDropNav title icon='' caret='' expanded=false id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId='id-' + random()>
 <#if id !=''><#local cId=id /></#if>
-<div class="dropdown-group" <#if class !='' > ${class!}</#if>"<#if params!=''> ${params}</#if>>
+<div class="dropdown-group" <#if class !='' > ${class!}</#if>"<@commonAttrs params=params attrs=attrs />>
     <button type="button" class="nav-link dropdown-toggle" href="#" id="dropdownMenu${cId!}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="${expanded?c}">
         ${icon!} ${title!} ${caret!}
     </button>

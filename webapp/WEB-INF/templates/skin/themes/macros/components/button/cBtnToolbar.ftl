@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the toolbar. Default: ''.
 - id (string, optional): The unique identifier for the toolbar. Default: ''.
 - params (string, optional): Additional HTML attributes for the toolbar. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Barre d'outils - @cBtnToolbar
@@ -34,10 +35,10 @@ Snippet:
     </@cBtnToolbar>
 
 -->
-<#macro cBtnToolbar label type='' class='' id='' params='' deprecated...>
+<#macro cBtnToolbar label type='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-toolbar<#if type='vertical'>-vertical</#if><#if class!=''> ${class}</#if></#local>
-<@cSection type='div' class=btnClass id=id params='${params} role="toolbar" aria-label="${label}"'>
+<@cSection type='div' class=btnClass id=id params='${params} role="toolbar" aria-label="${label}"' attrs=attrs>
     <#nested>
 </@cSection>
 </#macro>

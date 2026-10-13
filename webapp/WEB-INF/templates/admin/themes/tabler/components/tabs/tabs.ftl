@@ -12,6 +12,7 @@ Parameters:
 - collapsed (boolean, optional): whether or not the tabs are collapsed by default.
 - keepState (boolean, optional): persists the active tab in localStorage and supports URL hash navigation (#panel-X where X is the 0-based tab index). Default: true.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

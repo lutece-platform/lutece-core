@@ -8,6 +8,7 @@ Parameters:
 - errors_class (string, optional): the CSS class of the alert element for error messages.
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -32,13 +33,13 @@ Snippet:
     </@box>
 
 -->
-<#macro box color='' id='' style='' class='' title=''  collapsed=false  params='' deprecated...>
+<#macro box color='' id='' style='' class='' title=''  collapsed=false  params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card mb-3<#if color!=''> card-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card mb-3<#if color!=''> card-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#if title =''>
 <#nested>
 <#else>
-<@boxHeader title=title collapsed=isCollapsed params=params skipHeader=true />
+<@boxHeader title=title collapsed=isCollapsed params=params attrs=attrs skipHeader=true />
 <@boxBody collapsed = collapsed>
 <#nested>
 </@boxBody>

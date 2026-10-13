@@ -18,6 +18,7 @@ Parameters:
 - class (string, optional): CSS class for the group container. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Groupe d'étapes - @cStepGroup"
@@ -48,13 +49,13 @@ Snippet:
     </@cStepGroup>
 
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
 <@cBlock class='step-group'>
 <#if title != ''>
 	<#if isFieldset>
-		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
+		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params attrs=attrs >
 		<#local legendClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
 		<@cLegend label='' id='legend-${cId}' class=legendClass params='tabindex="-1" ${headerParams}'>
 			<@cInline class='${titleClass} group-title'>	
@@ -81,7 +82,7 @@ Snippet:
 		<#nested>
 		</@cFieldset>
 	<#else>
-		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
+		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params attrs=attrs >
 			<#local localTitleClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
 			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params='tabindex="-1" ${headerParams}'>
 				${title!}<#if iteration gt 0> (${iteration+1})</#if>
@@ -107,7 +108,7 @@ Snippet:
 		</@cBlock>
 	</#if>
 <#else>
-	<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
+	<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params attrs=attrs >
 		<#if help!=''><@cRow><@cCol>${help}</@cCol></@cRow></#if>
 		<#nested>
 	</@cBlock>

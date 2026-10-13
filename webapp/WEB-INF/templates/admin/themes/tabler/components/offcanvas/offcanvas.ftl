@@ -24,6 +24,7 @@
   - keepPageHeader (boolean, optional, default=false): whether to keep the page header visible inside the iframe content.
   - badgeContent (string, optional): the content of the badge on the toggle button.
   - badgeColor (string, optional): the color of the badge.
+  - attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
   Snippet:
 
@@ -50,10 +51,10 @@
     </@offcanvas>
 
   -->
-<#macro offcanvas id position='end' class='' title='#i18n{portal.util.labelModify}' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false keepPageHeader=false params='' deprecated...>
+<#macro offcanvas id position='end' class='' title='#i18n{portal.util.labelModify}' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false keepPageHeader=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnDropdown><div class="btn-group"></#if>
-<a id="btn-${id}" title="${title}" data-lutece-offcanvas-title="${title}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params!=''> ${params}</#if>>
+<a id="btn-${id}" title="${title}" data-lutece-offcanvas-title="${title}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><@commonAttrs params=params attrs=attrs />>
     <#if btnIcon!=''><@icon style='${btnIcon}' /></#if>
     <#-- Visibility of button title -->
     <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />

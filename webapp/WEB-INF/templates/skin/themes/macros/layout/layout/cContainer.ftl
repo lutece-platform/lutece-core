@@ -8,6 +8,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the container. Default: ''.
 - id (string, optional): Unique identifier for the container element. Default: ''.
 - params (string, optional): Additional HTML attributes for the container element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Conteneur - @cContainer"
@@ -29,7 +30,7 @@ Snippet:
     </@cContainer>
 
 -->
-<#macro cContainer type='' class='' id='' params='' deprecated...>
+<#macro cContainer type='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local tpl=.caller_template_name?keep_after("skin/") />
 <@cTpl tpl=tpl>
@@ -38,7 +39,7 @@ Snippet:
 <#else>
     <#local cClass>container<#if type!=''>-fluid</#if></#local>
 </#if>
-<@cSection type='div' class=cClass id=id params=params>
+<@cSection type='div' class=cClass id=id params=params attrs=attrs>
 <#nested>
 </@cSection>
 </@cTpl>

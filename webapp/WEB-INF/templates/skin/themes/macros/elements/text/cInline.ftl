@@ -8,6 +8,7 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the inline element. Default: ''.
 - id (string, optional): Unique identifier for the inline element. Default: ''.
 - params (string, optional): Additional HTML attributes for the inline element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Span inline - @cInline
@@ -28,9 +29,9 @@ Snippet:
     <@cInline type='em' params='data-toggle="tooltip" title="Additional info"'>Hover for details</@cInline>
 
 -->
-<#macro cInline type='span' class='' id='' params='' deprecated...>
+<#macro cInline type='span' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type}<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${type}<@commonAttrs id=id class=class params=params attrs=attrs />>
 <#nested>
 </${type}>
 </#macro>

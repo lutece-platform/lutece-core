@@ -19,6 +19,7 @@ Parameters:
 - rows (number, optional): number of visible text lines. Default: 0.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Zone de texte - @cTextArea"
@@ -46,10 +47,10 @@ Snippet:
     </@cTextArea>
 
 -->
-<#macro cTextArea name class='form-control' id='' placeholder='' required=false html5Required=false disabled=false readonly=false title='' autocomplete='' maxlength=0 helpMsg='' rows=0 errorMsg='' params='' deprecated...>
+<#macro cTextArea name class='form-control' id='' placeholder='' required=false html5Required=false disabled=false readonly=false title='' autocomplete='' maxlength=0 helpMsg='' rows=0 errorMsg='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign idMsg><#if id!=''>${id}<#else>${name!}</#if></#assign>
-<textarea class="<#if class!=''> ${class!}</#if><#if errorMsg!=''> is-invalid</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" <#if placeholder!=''> placeholder="${placeholder!}"</#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength?number gt 0> maxlength="${maxlength!}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if rows?number!=0>rows="${rows}"</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if errorMsg!=''> is-invalid aria-invalid="true" aria-describedby="error_<#if id!=''>${id!}<#else>${name}</#if>"<#elseif helpMsg!=''> aria-describedby="help_<#if id!=''>${id!}<#else>${name}</#if>"</#if>>
+<textarea class="<#if class!=''> ${class!}</#if><#if errorMsg!=''> is-invalid</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" <#if placeholder!=''> placeholder="${placeholder!}"</#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength?number gt 0> maxlength="${maxlength!}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params attrs=attrs /><#if rows?number!=0>rows="${rows}"</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if errorMsg!=''> is-invalid aria-invalid="true" aria-describedby="error_<#if id!=''>${id!}<#else>${name}</#if>"<#elseif helpMsg!=''> aria-describedby="help_<#if id!=''>${id!}<#else>${name}</#if>"</#if>>
 <#nested>
 </textarea>
 <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>

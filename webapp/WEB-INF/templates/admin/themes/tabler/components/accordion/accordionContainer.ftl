@@ -6,6 +6,7 @@ Description: Generates an HTML container element for a set of accordion-style UI
 Parameters:
 - id (string, optional): the ID of the container element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the container element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -27,13 +28,14 @@ Snippet:
     </@accordionContainer>
 
 -->
-<#macro accordionContainer id='' class='' params=''>
-<#if id = '' >
+<#macro accordionContainer id='' class='' params='' attrs={}>
+<#local containerId = id />
+<#if !id?has_content>
    <#if accordionContainerId?? == false><#assign accordionContainerId = 1 ><#else><#assign accordionContainerId = accordionContainerId + 1 ></#if>
-   <#local id = 'accCont_'+ accordionContainerId >
+   <#local containerId = 'accCont_'+ accordionContainerId >
 </#if>
-<div class="accordion<#if class!=''> ${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
-<#assign parentId = id>
+<div<@commonAttrs id=containerId classBase='accordion' class=class params=params attrs=attrs />>
+<#assign parentId = containerId>
 <#nested>
 </div>
 </#macro>

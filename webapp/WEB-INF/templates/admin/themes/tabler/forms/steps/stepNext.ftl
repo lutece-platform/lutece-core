@@ -9,6 +9,7 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - id - string - optional - the ID of the element, default ''
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+@param - attrs - hash - optional - additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}; prefer it to params, the value is escaped like any value of the page; default {}
 
 Snippet:
 
@@ -21,10 +22,10 @@ Snippet:
     <@stepNext step='4' title='Confirmation' titleLevel=3 class=' mt-3' id='step-confirmation' />
 
 -->
-<#macro stepNext step title titleLevel=2 class='' id='' params='' deprecated...>
+<#macro stepNext step title titleLevel=2 class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass>step step-next<#if class!=''>${class}</#if></#local>
-<@div class=stepClass id=id params=params>
+<@div class=stepClass id=id params=params attrs=attrs>
 	<@div class='step-title'>
 		<@h class='title' level=titleLevel params='title="${title}" data-step="${step}"'>
 			<@span class='step-number'>${step}</@span>

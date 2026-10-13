@@ -6,6 +6,7 @@ Description: Generates a tab content container with an optional ID and parameter
 Parameters:
 - id (string, optional): the ID of the tab content container.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -23,10 +24,10 @@ Snippet:
     </@tabContent>
 
 -->
-<#macro tabContent class='' id='' params='' deprecated...>
+<#macro tabContent class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="card-body<#if class!=''> ${class}</#if>">
-<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="tab-content"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </div>
 </div>
