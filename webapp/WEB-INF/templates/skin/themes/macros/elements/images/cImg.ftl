@@ -11,6 +11,7 @@ Parameters:
 - labelDescribedBy (string, optional): Descriptive text added via aria-describedby for accessibility. Default: ''.
 - showLabelDescribedBy (boolean, optional): If true, displays the labelDescribedBy text visually; otherwise it is hidden. Default: false.
 - params (string, optional): Additional HTML attributes for the image element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: 'Image - @cImg'
@@ -29,9 +30,9 @@ Snippet:
     <@cImg src='images/chart.png' alt='Annual statistics chart' labelDescribedBy='This chart shows the yearly growth in public services usage.' showLabelDescribedBy=true />
 
 -->
-<#macro cImg src alt='' id='' class='img-fluid' labelDescribedBy='' showLabelDescribedBy=false params='' deprecated...>
+<#macro cImg src alt='' id='' class='img-fluid' labelDescribedBy='' showLabelDescribedBy=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local localId><#if id !=''>${id}<#else>${alt?js_string?lower_case?replace(' ','_')}</#if></#local> 
-<img src="${src!}" alt="${alt!}" class="<#if class!=''>${class!}</#if>"<#if labelDescribedBy !=''> aria-descridedby="descridedby_${localId!}"</#if><#if localId!=''> id="${localId!}"</#if><#if params!=''> ${params!}</#if>>
+<img src="${src!}" alt="${alt!}" class="<#if class!=''>${class!}</#if>"<#if labelDescribedBy !=''> aria-descridedby="descridedby_${localId!}"</#if><#if localId!=''> id="${localId!}"</#if><@commonAttrs params=params attrs=attrs />>
 <#if labelDescribedBy !=''><p id="descridedby_${localId!}"<#if !showLabelDescribedBy> class="visually-hidden"</#if>>${labelDescribedBy!}</p></#if>
 </#macro>

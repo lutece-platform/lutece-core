@@ -11,6 +11,7 @@ Parameters:
 - href (string, optional): If set, renders the button as an anchor link. Default: ''.
 - id (string, optional): The unique identifier for the button. Default: ''.
 - params (string, optional): Additional HTML attributes for the button. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - type (string, optional): The button type attribute. Default: 'submit'.
 - nestedPos (string, optional): Position of nested content relative to the label ('before', 'after'). Default: 'before'.
 - disabled (boolean, optional): If true, disables the button. Default: false.
@@ -40,14 +41,14 @@ Snippet:
     </@cBtn>
 
 -->
-<#macro cBtn label class='primary' btnClass='' noclass=false href='' id='' params='' type='submit' nestedPos='before' disabled=false size='' deprecated...>
+<#macro cBtn label class='primary' btnClass='' noclass=false href='' id='' params='' attrs={} type='submit' nestedPos='before' disabled=false size='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if href=''>
-<button class="<#if !noclass>btn btn-</#if>${class!}<#if size == 'mini'> btn-mini</#if>" type="${type!}"<#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if><#if disabled> disabled</#if>>
+<button class="<#if !noclass>btn btn-</#if>${class!}<#if size == 'mini'> btn-mini</#if>" type="${type!}"<@commonAttrs id=id params=params attrs=attrs /><#if disabled> disabled</#if>>
 <#if nestedPos='before'><#nested></#if><#if label!=''><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
 </button>
 <#else>
-<a href="${href!}" class="btn btn-${class!}" <#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if><#if disabled> disabled</#if>> 
+<a href="${href!}" class="btn btn-${class!}" <@commonAttrs id=id params=params attrs=attrs /><#if disabled> disabled</#if>> 
 <#if nestedPos='before'><#nested></#if><#if label!=''><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
 </a>
 </#if>

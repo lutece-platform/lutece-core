@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): CSS class for the step section. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Étape suivante - @cStepNext"
@@ -26,10 +27,10 @@ Snippet:
     <@cStepNext step='4' title='Confirmation' titleLevel=3 />
 
 -->
-<#macro cStepNext step title titleLevel=2 class='' id='' params='' deprecated...>
+<#macro cStepNext step title titleLevel=2 class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass>step step-next<#if class!=''>${class}</#if></#local>
-<@cSection class=stepClass id=id params=params>
+<@cSection class=stepClass id=id params=params attrs=attrs>
 	<@cSection class='step-title'>
 		<@cContainer>
 			<@cTitle class='title' level=titleLevel params='title="${title}" data-step="${step}"'>

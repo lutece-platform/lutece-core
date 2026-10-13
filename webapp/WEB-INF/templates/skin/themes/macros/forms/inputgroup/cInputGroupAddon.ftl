@@ -9,6 +9,7 @@ Parameters:
 - class (string, optional): adds a CSS class to the addon. Default: ''.
 - id (string, optional): the ID of the addon. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -29,8 +30,8 @@ Snippet:
     </@cInputGroup>
 
 -->
-<#macro cInputGroupAddon append=true addonText='' class='' id='' params='' deprecated...>
+<#macro cInputGroupAddon append=true addonText='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if addonText !=''><@cInputGroupAddonText class=class id=id params=params >${addonText!}</@cInputGroupAddonText></#if>
+<#if addonText !=''><@cInputGroupAddonText class=class id=id params=params attrs=attrs >${addonText!}</@cInputGroupAddonText></#if>
 <#nested>
 </#macro>

@@ -9,6 +9,7 @@ Parameters:
 - scope (string, optional): Scope of the header cell ('col' or 'row'). Default: 'col'.
 - role (string, optional): ARIA role for the header cell ('columnheader' or 'rowheader'). Default: 'columnheader'.
 - params (string, optional): Additional HTML attributes for the table header cell. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -27,9 +28,9 @@ Snippet:
     <@cTh scope='row' role='rowheader'>Total</@cTh>
 
 -->
-<#macro cTh id='' class='' scope='col' role='columnheader' params='' deprecated...>
+<#macro cTh id='' class='' scope='col' role='columnheader' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<th scope="${scope!}" class="<#if class != ''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
+<th scope="${scope!}" class="<#if class != ''>${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
     <#nested>
 </th>
 </#macro>

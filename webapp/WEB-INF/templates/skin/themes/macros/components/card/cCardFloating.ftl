@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the floating card. Default: ''.
 - dismissible (boolean, optional): If true, displays a close button. Default: true.
 - params (string, optional): Additional HTML attributes for the floating card. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Carte flottante - @cCardFloating
@@ -33,9 +34,9 @@ Snippet:
     </@cCardFloating>
 
 -->
-<#macro cCardFloating id title='' titleLevel=3 class='' dismissible=true params='' deprecated...>
+<#macro cCardFloating id title='' titleLevel=3 class='' dismissible=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card card-floating<#if class!=''> ${class!}</#if>" id="${id!}-card" <#if params!=''> ${params!}</#if>>
+<div class="card card-floating<#if class!=''> ${class!}</#if>" id="${id!}-card" <@commonAttrs params=params attrs=attrs />>
     <div class="card-body">
     	<div class='card-title-container'>
     		<@cTitle level=titleLevel class='card-title'>${title!}</@cTitle>

@@ -13,10 +13,11 @@ Parameters:
 - progressDescription (string, optional): the text to display below the progress bar.
 - id (string, optional): the ID attribute of the info box.
 - params (string, optional): additional parameters to add to the info box.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 -->
-<#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params='' deprecated...>
+<#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card m-2 box-widget<#if bgColor!=''> ${bgColor}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2 box-widget<#if bgColor!=''> ${bgColor}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<div class="card-body">
 		<span class="info-box-icon<#if color!=''> ${color}</#if>"><@icon style=boxIcon /></span><#if boxText !=''><span class="info-box-text ml-2">${boxText}</span></#if>
 		<div class="info-box-content">

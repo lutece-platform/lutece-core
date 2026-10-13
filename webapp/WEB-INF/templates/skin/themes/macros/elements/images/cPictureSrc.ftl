@@ -10,6 +10,7 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the source element. Default: ''.
 - id (string, optional): Unique identifier for the source element. Default: ''.
 - params (string, optional): Additional HTML attributes for the source element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -22,7 +23,7 @@ Snippet:
     </@cPicture>
 
 -->
-<#macro cPictureSrc srcset media='' type='' class='' id='' params='' deprecated...>
+<#macro cPictureSrc srcset media='' type='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<source srcset="${srcset}" <#if media!=''>media="${media!}"</#if><#if type!=''> type="${type!}"</#if><#if class!=''> class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<source srcset="${srcset}" <#if media!=''>media="${media!}"</#if><#if type!=''> type="${type!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs />>
 </#macro>

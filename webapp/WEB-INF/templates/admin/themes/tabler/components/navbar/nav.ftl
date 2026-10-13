@@ -6,6 +6,7 @@ Parameters:
 - class (string, optional): additional CSS classes to apply to the navigation element.
 - id (string, optional): the ID of the navigation element.
 - params (string, optional): additional attributes to add to the navigation element, in the form of a string of HTML attributes.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -24,9 +25,9 @@ Snippet:
     </@nav>
 
 -->
-<#macro nav tag='nav' type='tab' class='' id='' params='' deprecated...>
+<#macro nav tag='nav' type='tab' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="nav nav-${type!}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${tag} class="nav nav-${type!}<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<#nested>
 </${tag}>
 </#macro>

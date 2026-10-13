@@ -6,6 +6,7 @@ Parameters:
 - id (string, optional): the ID attribute of the unordered list.
 - class (string, optional): the class attribute of the unordered list.
 - params (string, optional): additional attributes to add to the unordered list, in the form of a string of HTML attributes.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -25,9 +26,9 @@ Snippet:
     </@listGroup>
 
 -->
-<#macro listGroup id='' class='' params='' deprecated...>
+<#macro listGroup id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="list-group<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<ul class="list-group<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<#nested>
 </ul>
 </#macro>

@@ -12,6 +12,7 @@ Parameters:
 - title (string, optional): Title displayed in mobile view. Default: ''.
 - titleLevel (number, optional): Heading level for the mobile title. Default: 3.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -28,9 +29,9 @@ Snippet:
     </@cTabPane>
 
 -->
-<#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params='' deprecated...>
+<#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class!=''> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}" ${params!}>    
+<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class!=''> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}"<@commonAttrs params=params attrs=attrs />>    
 	<div class="card-body<#if bodyClass!=''> ${bodyClass!}</#if>">
 		<#nested>
 	</div>

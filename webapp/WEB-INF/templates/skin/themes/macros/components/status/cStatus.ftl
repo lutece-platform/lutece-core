@@ -10,6 +10,7 @@ Parameters:
 - label (string, optional): Custom label text (overrides i18n default). Default: ''.
 - labelClass (string, optional): CSS class for the label span. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Statut - @cStatus
@@ -30,9 +31,9 @@ Snippet:
     <@cStatus level='over' label='Completed' labelClass='text-success' />
 
 -->  
-<#macro cStatus level='forthcoming' class='' id='' label='' labelClass='' params='' deprecated...>
+<#macro cStatus level='forthcoming' class='' id='' label='' labelClass='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="status ${level}<#if class !=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="status ${level}<#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#if level='tobecompleted'><svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="5" fill="currentColor"/></svg></#if>
 <span class="status-label fw-bold<#if labelClass !=''> ${labelClass}</#if>"><#if label!=''>${label!}<#else>#i18n{portal.theme.status.level.${level}.label}</#if></span>
 <#nested>

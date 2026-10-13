@@ -25,6 +25,7 @@ Parameters:
 - helpMsg (string, optional): help message displayed below the input. Default: '#i18n{portal.theme.labelPasswordHelp}'.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Champ mot de passe - @cInputPassword"
@@ -47,7 +48,7 @@ Password with confirmation field sync:
 <@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
 
 -->
-<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' deprecated...>
+<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
 <#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
@@ -56,7 +57,7 @@ Password with confirmation field sync:
 <#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>
     <#if icon !=''><@cIcon name='${icon!}' /></#if>
-    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=(autocomplete!='')?then(autocomplete,'off') params=params>
+    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=(autocomplete!='')?then(autocomplete,'off') params=params attrs=attrs>
     <#if btnShowPassword>
     <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
          <@cIcon name='eye-off' class='main-info-color' />

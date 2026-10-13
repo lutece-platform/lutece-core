@@ -9,6 +9,7 @@ Parameters:
 - collapsed (boolean, optional): whether the row should be initially collapsed.
 - align (string, optional): the alignment of the row container element (left, right, or center).
 - params (string, optional): additional parameters to be added to the row container element.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 

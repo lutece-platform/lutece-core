@@ -6,6 +6,7 @@ Parameters:
 - id (string, optional): the ID attribute of the list item.
 - class (string, optional): the class attribute of the list item.
 - params (string, optional): additional attributes to add to the list item, in the form of a string of HTML attributes.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -22,9 +23,9 @@ Snippet:
     </@listGroupItem>
 
 -->
-<#macro listGroupItem id='' class='' active=false params='' deprecated...>
+<#macro listGroupItem id='' class='' active=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if><#if active> active</#if>"<#if id!=''> id="${id}"</#if><#if active> aria-current="true"</#if><#if params!=''> ${params}</#if>>
+<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if><#if active> active</#if>"<@commonAttrs id=id /><#if active> aria-current="true"</#if><@commonAttrs params=params attrs=attrs />>
 	<#nested>
 </li>
 </#macro>

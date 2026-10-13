@@ -8,6 +8,7 @@ Parameters:
 - class (string, optional): the CSS class of the accordion element
 - expanded (boolean, optional): whether the accordion should be expanded by default
 - params (string, optional): additional HTML attributes to include in the accordion element
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -28,8 +29,8 @@ Snippet:
     </@accordionBody>
 
 -->
-<#macro accordionBody id=childId class=childClass expanded=expanded params=''>
-<div id="${id}" class="accordion-collapse ${class}" aria-labelledby="${childId}-header" data-bs-parent="#${parentId}" <#if params!=''> ${params}</#if>>
+<#macro accordionBody id=childId class=childClass expanded=expanded params='' attrs={}>
+<div id="${id}" class="accordion-collapse ${class}" aria-labelledby="${childId}-header" data-bs-parent="#${parentId}" <@commonAttrs params=params attrs=attrs />>
 <@boxBody>
 	<#nested>
 </@boxBody>

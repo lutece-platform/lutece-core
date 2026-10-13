@@ -8,6 +8,7 @@ Parameters:
 - id (string, optional): Unique identifier for the text element. Default: ''.
 - class (string, optional): CSS class(es) applied to the text element. Default: ''.
 - params (string, optional): Additional HTML attributes for the text element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Paragraphe - @cText
@@ -28,9 +29,9 @@ Snippet:
     </@cText>
 
 -->
-<#macro cText type='p' id='' class='' params='' deprecated...>
+<#macro cText type='p' id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type}<#if class!=''> class="${class!}"</#if><#if id!=''> id="${id!}"</#if><#if params!=''> ${params!}</#if>>
+<${type}<@commonAttrs id=id class=class params=params attrs=attrs />>
 <#nested/>
 </${type}>
 </#macro>

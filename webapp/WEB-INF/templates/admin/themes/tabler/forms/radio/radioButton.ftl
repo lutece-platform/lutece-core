@@ -16,6 +16,7 @@ Parameters:
 - readonly (boolean, optional): whether the radio button element is readonly.
 - checked (boolean, optional): whether the radio button element is checked.
 - params (string, optional): additional parameters to add to the HTML code.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - mandatory (boolean, optional): whether the radio button element is mandatory.
 - propagateMandatory (boolean, optional): whether to propagate the mandatory flag to the radio button element.
 

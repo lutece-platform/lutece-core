@@ -11,6 +11,7 @@ Parameters:
 - id (string, optional): The unique identifier for the error container. Default: ''.
 - class (string, optional): Additional CSS class(es) for the error container. Default: ''.
 - params (string, optional): Additional HTML attributes for the error container. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: Message d'erreur - @cErrorMessage
@@ -27,12 +28,11 @@ Snippet:
     <@cErrorMessage title='Access denied' text='You do not have permission to view this page.' linkUrl='jsp/site/Portal.jsp?page=login' linkLabelUrl='Sign in' />
 
 -->
-<#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params='' deprecated...>
+<#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local linkLabelUrl>${linkLabelUrl}</#local>
 <@cContainer class='d-flex align-items-center justify-content-center vh-100'>
   <@cRow>
-    <@cCol class=class! id=id params=params >
+    <@cCol class=class! id=id params=params attrs=attrs >
       <@cAlert title=title type='danger' class='d-block'>
         <#if title?trim != text?trim><@cText>${text}</@cText></#if>
         <#nested>
@@ -43,8 +43,7 @@ Snippet:
             <@cLink href='.' label='#i18n{portal.theme.home}' class='btn btn-secondary' />
           </@chItem>
           <@chItem>
-            <#if linkLabelUrl=''><#local linkLabelUrl>#i18n{portal.util.labelBackHome}</#local></#if>
-            <@cLink href=linkUrl label=linkLabelUrl class='btn btn-primary' />
+            <@cLink href=linkUrl label=linkLabelUrl?has_content?then( linkLabelUrl, '#i18n{portal.util.labelBackHome}' ) class='btn btn-primary' />
           </@chItem>
         </@chList>
       <#else>

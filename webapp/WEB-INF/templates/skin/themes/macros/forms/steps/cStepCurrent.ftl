@@ -29,6 +29,7 @@ Parameters:
 - hasMandatory (boolean, optional): adds mandatory field warnings. Default: true.
 - class (string, optional): CSS class for the step section. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Étape courante - @cStepCurrent"
@@ -56,10 +57,10 @@ Snippet:
     </@cStepCurrent>
 
 -->
-<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' deprecated...>
+<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass><#if !showTitle> step-no-title</#if></#local>
-<@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params >
+<@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params attrs=attrs >
 <#if showTitle>
 <@cBlock class='step-title'>
 	<@cContainer>

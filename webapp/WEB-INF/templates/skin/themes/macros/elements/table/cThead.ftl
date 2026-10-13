@@ -7,6 +7,7 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the thead element. Default: ''.
 - id (string, optional): Unique identifier for the thead element. Default: ''.
 - params (string, optional): Additional HTML attributes for the thead element. Default: ''.
+- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -30,9 +31,9 @@ Snippet:
     </@cTable>
 
 -->  
-<#macro cThead class='' id='' params='' deprecated...>
+<#macro cThead class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<thead <#if class!=''>thead-${class!}</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params!}</#if> >
+<thead <#if class!=''>thead-${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
 <#nested>
 </thead>
 </#macro>
