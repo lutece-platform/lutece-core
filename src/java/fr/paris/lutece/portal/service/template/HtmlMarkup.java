@@ -37,6 +37,9 @@ import fr.paris.lutece.portal.service.html.XSSSanitizerException;
 import fr.paris.lutece.portal.service.html.XSSSanitizerService;
 import fr.paris.lutece.portal.service.util.AppException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import freemarker.core.HTMLOutputFormat;
 import freemarker.core.TemplateHTMLOutputModel;
 import freemarker.template.TemplateModelException;
@@ -81,6 +84,24 @@ public final class HtmlMarkup
         {
             throw new AppException( "Unable to build an HTML markup value", e );
         }
+    }
+
+    /**
+     * Marks a list of HTML fragments built by the application (rendered children, list items) as markup.
+     *
+     * @param listHtml
+     *            HTML fragments rendered by the application, may be null
+     * @return the markup values, in the same order, empty for null
+     */
+    public static List<TemplateHTMLOutputModel> ofAll( List<String> listHtml )
+    {
+        List<TemplateHTMLOutputModel> listMarkup = new ArrayList<>( );
+        if ( listHtml != null )
+        {
+            listHtml.forEach( strHtml -> listMarkup.add( of( strHtml ) ) );
+        }
+
+        return listMarkup;
     }
 
     /**
