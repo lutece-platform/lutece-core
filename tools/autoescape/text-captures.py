@@ -13,8 +13,8 @@ rewrites those captures, one line each, when their body only computes text:
     <#list xs as x>A</#list>                 ->  ( xs )?map( x -> A )?join( '' )
 
 and a sequence of those is joined with +. ?then and the lambda of ?map are evaluated lazily, as the
-directives were. A capture holding a tag, an HTML entity or attributes (name="...") is left alone: it is markup,
-and the values it interpolates are escaped. A list using
+directives were. A capture holding a tag, an HTML entity or attributes (name="..."), or passed as params (directly or
+through a copy), is left alone: it is markup, and the values it interpolates are escaped. A list using
 its loop variables (?index, ?has_next...) or <#sep> is left alone and reported.
 
 Usage: text-captures.py <templates-dir>... [--apply]
@@ -147,6 +147,8 @@ for root_dir in ROOTS:
             def repl(m):
                 global changed
                 expr = convert(m.group(3))
+                if expr is not None and re.search(r'\bparams\s*=\s*\(?\s*%s\b|<#(assign|local|global)\s+\w+\s*=\s*%s\s*/?>' % ((re.escape(m.group(2)),) * 2), src):
+                    expr = None  # written as is through params, possibly after a copy: as a capture its values stay escaped
                 if expr is None:
                     if not re.search(r'</?[a-zA-Z][^>]*>|&\w+;', re.sub(r'</?#[^>]*>|\$\{[^}]*\}', '', m.group(3))):
                         manual.append('%s:%d %s' % (path, src[:m.start()].count('\n') + 1, m.group(0)[:160].replace('\n', ' ')))
