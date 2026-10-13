@@ -28,7 +28,7 @@ Snippet:
 -->
 <#macro cOptgroup label class='' disabled=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<optgroup label="${label!}" <#if class?has_content>class="${class}"</#if><#if disabled> disabled</#if><@commonAttrs params=params attrs=attrs />>
+<optgroup label="${label!}" <#if disabled> disabled</#if><@commonAttrs class=class params=params attrs=attrs />>
 <#nested>
 </optgroup>
 </#macro>

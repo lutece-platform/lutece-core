@@ -42,7 +42,7 @@ Snippet:
 -->
 <#macro cLink href label title='' nestedPos='after' target='' showTarget=false class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<a href="${href!}" <@commonAttrs id=id /> <#if class?has_content >class="${class!}"</#if><#if title?has_content> title="${title!}<#if target='_blank'> #i18n{portal.theme.newWindowLink}</#if>"</#if><#if target?has_content> target="${target}"</#if><@commonAttrs params=params attrs=attrs /> > 
+<a href="${href!}" <@commonAttrs id=id class=class params=params attrs=attrs /> <#if title?has_content> title="${title!}<#if target='_blank'> #i18n{portal.theme.newWindowLink}</#if>"</#if><#if target?has_content> target="${target}"</#if> > 
 <#if nestedPos!='after'><#nested></#if>
 <#if label?has_content><span class="link-label">${label!}</span></#if> 
 <#if nestedPos='after'> <#nested></#if>
