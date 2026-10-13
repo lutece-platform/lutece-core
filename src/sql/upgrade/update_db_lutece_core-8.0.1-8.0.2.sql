@@ -322,3 +322,9 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.alwaysNee
 -- comment The site property that keeps the main menu on one line, the items that do not fit moving into a More menu (off by default)
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.navOverflow.checkbox'
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.navOverflow.checkbox', '0');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev36.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment LUT-33153 : the XSS warning is plain text (written with textContent and escaped by the templates), no more HTML entities nor JavaScript escapes
+UPDATE core_datastore SET entity_value = 'Les caractères < > # " et & sont interdits dans le contenu de votre message.'
+WHERE entity_key = 'portal.theme.site_property.xss.xssMsg' AND entity_value LIKE 'Les caract%res &#60;%';
