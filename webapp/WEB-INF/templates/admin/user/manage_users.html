@@ -36,7 +36,7 @@
                     </@formGroup>
                     <#list attributes_list as attribute>
                         <#if attribute.shownInSearch>
-                            ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+                            ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )?no_esc}
                         </#if>
                     </#list>
                     <@formGroup rows=2>
@@ -91,7 +91,7 @@
                                     <#if user_field.attribute.idAttribute==attribute.idAttribute>
                                         <#if index_user_field !=0><br /></#if>
                                             <#assign index_user_field=index_user_field + 1>
-                                            <#if user.status !=10><strong>${attribute.getHtmlValue( locale, user_field )}</strong>
+                                            <#if user.status !=10><strong>${attribute.getHtmlValue( locale, user_field )?no_esc}</strong>
                                         </#if>
                                     </#if>
                                 </#list>

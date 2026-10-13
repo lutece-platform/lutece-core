@@ -87,7 +87,7 @@
 									<#list attributes_list as attribute>
 										<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
 											<#assign idAttribute = "" + attribute.idAttribute>
-											${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+											${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )?no_esc}
 										</#if>
 									</#list>
 								</@formGroup>
@@ -95,7 +95,7 @@
 									<#list attributes_list as attribute>
 										<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
 											<#assign idAttribute = "" + attribute.idAttribute>
-											${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+											${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )?no_esc}
 										 <#break>
 										</#if>
 									</#list>
