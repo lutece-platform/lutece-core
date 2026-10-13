@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.editor.RichTextContentMethod;
 import fr.paris.lutece.portal.service.editor.RichTextEditorBackOfficeMethod;
 import fr.paris.lutece.portal.service.editor.RichTextEditorFrontOfficeMethod;
 import fr.paris.lutece.portal.service.editor.RichTextEditorProfileMethod;
@@ -62,6 +63,7 @@ public final class AppTemplateService
     // Variables
     private static String _strTemplateDefaultPath;
     private static final String SHARED_VARIABLE_RICH_TEXT_EDITOR_BO = "richTextEditorBackOffice";
+    private static final String SHARED_VARIABLE_RICH_TEXT = "richText";
     private static final String SHARED_VARIABLE_RICH_TEXT_EDITOR_FO = "richTextEditorFrontOffice";
     private static final String SHARED_VARIABLE_RICH_TEXT_EDITOR_PROFILE = "richTextEditorProfile";
     private static IFreeMarkerTemplateService _freeMarkerTemplateService;
@@ -89,6 +91,7 @@ public final class AppTemplateService
         getFreeMarkerTemplateService(  ).setSharedVariable( SHARED_VARIABLE_RICH_TEXT_EDITOR_BO, new RichTextEditorBackOfficeMethod( ) );
         getFreeMarkerTemplateService(  ).setSharedVariable( SHARED_VARIABLE_RICH_TEXT_EDITOR_FO, new RichTextEditorFrontOfficeMethod( ) );
         getFreeMarkerTemplateService(  ).setSharedVariable( SHARED_VARIABLE_RICH_TEXT_EDITOR_PROFILE, new RichTextEditorProfileMethod( ) );
+        getFreeMarkerTemplateService(  ).setSharedVariable( SHARED_VARIABLE_RICH_TEXT, new RichTextContentMethod( ) );
     }
 
     /**
