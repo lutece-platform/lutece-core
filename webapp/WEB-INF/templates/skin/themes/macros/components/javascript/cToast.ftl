@@ -42,9 +42,9 @@ Snippet:
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Récupérer le conteneur spécifique par son identifiant
-    var container = document.getElementById('${id}');
+    var container = document.getElementById('${id?js_string?no_esc}');
     var toastElList = [].slice.call(container.querySelectorAll('.toast'));
-    var option = { delay: ${duration}, animation: ${animation?c}, autohide: ${autohide?c} };
+    var option = { delay: ${duration?c}, animation: ${animation?c}, autohide: ${autohide?c} };
     var toastList = toastElList.map(function(toastEl) {
         return new bootstrap.Toast(toastEl, option);
     });
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Ajouter un écouteur d'événement sur le bouton spécifié si triggerId est fourni
     <#if triggerId?has_content>
-    var toastTrigger = document.getElementById('${triggerId}');
+    var toastTrigger = document.getElementById('${triggerId?js_string?no_esc}');
     if (toastTrigger) {
         toastTrigger.addEventListener('click', function() {
             toastList.forEach(function(toast) {

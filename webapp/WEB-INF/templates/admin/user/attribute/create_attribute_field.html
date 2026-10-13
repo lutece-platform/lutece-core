@@ -1,6 +1,6 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.users.create_attribute_field.pageTitle} : ${attribute.title?html}' />
+        <@pageHeader title='#i18n{portal.users.create_attribute_field.pageTitle} : ${attribute.title}' />
 		<@tform id='create-attr-field' action='jsp/admin/user/attribute/DoCreateAttributeField.jsp#list' method='post' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />

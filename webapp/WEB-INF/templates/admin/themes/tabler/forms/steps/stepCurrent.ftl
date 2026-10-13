@@ -111,8 +111,8 @@ Snippet:
 <script>
 window.addEventListener('DOMContentLoaded', (event) => {
 <#if step?number gt 1 >
-	<#assign actionStep><#if actionNextStep?has_content>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
-	const formValidateButton = document.querySelector('#${actionStep!}');
+	<#assign actionStep = ( actionNextStep?has_content )?then( ( actionNextStep!'' )?string, ( actionSaveStep!'' )?string ) />
+	const formValidateButton = document.querySelector('#${( actionStep! )?js_string?no_esc}');
 	formValidateButton.addEventListener('click', (e) => {
 		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
 		const arrInvalids = Array.prototype.slice.call(invalids);
@@ -124,8 +124,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				pInvalid.setAttribute( 'role', 'alert' );
-				<#assign invalidLabel>#i18n{theme.msgMandatory}</#assign>
-				pInvalid.innerHTML = `${invalidLabel}`;
+				<#assign invalidLabel = '#i18n{theme.msgMandatory}' />
+				pInvalid.innerHTML = '${invalidLabel?js_string?no_esc}';
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);
 				} else {
@@ -148,7 +148,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 		const btnModalReset = document.querySelector('#modal-reset-backup');
 		btnModalReset.addEventListener('click', (e) => {
-			const resetBackup = document.getElementById('${actionResetBackUpStep}');
+			const resetBackup = document.getElementById('${actionResetBackUpStep?js_string?no_esc}');
 			resetBackup.click();
 		});
 	}

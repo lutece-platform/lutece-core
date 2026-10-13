@@ -59,7 +59,7 @@ document.addEventListener( "DOMContentLoaded", function(){
 	let i = 0;
 	if ( i == 0 ){
     i = 1;
-    const elem = document.getElementById('${id!}');
+    const elem = document.getElementById('${( id! )?js_string?no_esc}');
     let width = ${value!};
     const idInterval = setInterval( progressFrame, ${intervalTime!});
     function progressFrame() {

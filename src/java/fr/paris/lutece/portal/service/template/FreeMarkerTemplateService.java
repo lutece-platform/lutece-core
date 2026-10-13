@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.template.AutoImport;
 import fr.paris.lutece.portal.business.template.AutoInclude;
 import fr.paris.lutece.portal.business.template.CommonsImport;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
@@ -54,7 +55,6 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
     private static final String PROPERTY_TEMPLATE_AUTO_ESCAPE = "service.freemarker.templateAutoEscape";
     private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
-    private static final boolean TEMPLATE_AUTO_ESCAPE = AppPropertiesService.getPropertyBoolean( PROPERTY_TEMPLATE_AUTO_ESCAPE, false );
     private static FreeMarkerTemplateService _singleton;
 
     /**
@@ -68,11 +68,27 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
         {
             FreeMarkerTemplateService service = new FreeMarkerTemplateService( );
             service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
-            service.setTemplateAutoEscape( TEMPLATE_AUTO_ESCAPE );
+            service.setTemplateAutoEscape( isAutoEscapeRequested( ) );
             _singleton = service;
         }
 
         return _singleton;
+    }
+
+    /**
+     * HTML auto-escaping is always on: the templates of the core rely on it (they use ?no_esc, a parse error without
+     * it) and no longer escape by hand. The former property is only read to warn an instance that still turns it off.
+     *
+     * @return always true
+     */
+    private static boolean isAutoEscapeRequested( )
+    {
+        if ( !AppPropertiesService.getPropertyBoolean( PROPERTY_TEMPLATE_AUTO_ESCAPE, true ) )
+        {
+            AppLogService.error( "{}=false is no longer supported and is ignored: FreeMarker HTML auto-escaping is always on", PROPERTY_TEMPLATE_AUTO_ESCAPE );
+        }
+
+        return true;
     }
 
     /**

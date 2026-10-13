@@ -76,7 +76,7 @@ Snippet:
 (function(){
 	if ( document.querySelector( 'table th div.dropdown.lutece-table-sort' ) && !document.querySelector( 'script[src$="admin-table-sort.js"]' ) ) {
 		var s = document.createElement( 'script' );
-		s.src = "${commonsThemePath}${commonsJsPath}admin-table-sort.js";
+		s.src = "${commonsThemePath?js_string?no_esc}${commonsJsPath?js_string?no_esc}admin-table-sort.js";
 		document.head.appendChild( s );
 	}
 })();

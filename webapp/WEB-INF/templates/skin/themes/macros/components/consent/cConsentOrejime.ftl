@@ -59,7 +59,7 @@ window.orejimeConfig = {
       isExempt: true
 		}
 	],
-	privacyPolicyUrl: '${privacyLink}',
+	privacyPolicyUrl: '${privacyLink?js_string?no_esc}',
   forceModal: false,
   forceBanner: false,
   logo: './themes/skin/parisfr/images/header-logo-paris.svg'
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         logoSeparator.setAttribute('aria-hidden', 'true');
         orejimeLogoContainer.appendChild(logoSeparator);
         const logoTitle = document.createElement('span');
-        logoTitle.textContent = '${title}';
+        logoTitle.textContent = '${title?js_string?no_esc}';
         orejimeLogoContainer.appendChild(logoTitle);
     }
     const orejimePrivacyLink = document.querySelector('.orejime-Banner-privacyPolicyLink');

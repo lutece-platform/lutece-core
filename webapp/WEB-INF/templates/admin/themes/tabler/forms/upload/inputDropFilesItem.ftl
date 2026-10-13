@@ -30,14 +30,14 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local fileLabel><#if label?length gt maxChars>${label[0..maxChars]}...<#else>${label}</#if></#local>
 <#if handler?has_content>
-    <#local handlerName>${handler.handlerName}</#local>
+    <#local handlerName = ( handler.handlerName )?string />
     <#local cUrlDl>jsp/site/plugins/asynchronousupload/DoDownloadFile.jsp?fieldname=${name}&field_index=${idx}&fileName=${label}&asynchronousupload.handler=${handler.handlerName}</#local>
-    <#local cUrlRm></#local>
+    <#local cUrlRm = '' />
     <#local cName>${handler.uploadCheckboxPrefix}${name}${idx}</#local>
     <#local cId>${handler.uploadCheckboxPrefix}${name}${idx}</#local>
 <#else>
-    <#local cUrlDl>${urlDl}</#local>
-    <#local cUrlRm>${urlRm!}</#local>
+    <#local cUrlDl>jsp/site/plugins/asynchronousupload/DoDownloadFile.jsp?fieldname=${name}&field_index=${idx}&fileName=${label}&asynchronousupload.handler=${handler.handlerName}</#local>
+    <#local cUrlRm = ( urlRm!'' )?string />
     <#local cName>_form_upload_checkbox_${name}${idx}</#local>
     <#local cId>_form_upload_checkbox_${name}${idx}</#local>
 </#if>

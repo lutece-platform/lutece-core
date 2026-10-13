@@ -50,7 +50,7 @@ Password with confirmation field sync:
 -->
 <#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local passId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
+<#local passId = ( id?has_content )?then( ( id!'' )?string, ( name!'' )?string ) />
 <#local passLabel><#if pmLabel?has_content>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if></#local>
 <#if label?has_content><@cLabel label=label for=passId required=required class=labelClass /></#if>
@@ -59,7 +59,7 @@ Password with confirmation field sync:
     <#if icon?has_content><@cIcon name='${icon!}' /></#if>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=(autocomplete!='')?then(autocomplete,'off') params=params attrs=attrs>
     <#if btnShowPassword>
-    <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
+    <@cBtn class='secondary toggle-password' type='button' label='' attrs={'data-bs-toggle': "#${passId}", 'aria-pressed': "false", 'title': "#i18n{portal.theme.labelPasswordShow}", 'tabindex': "0"}>
          <@cIcon name='eye-off' class='main-info-color' />
     </@cBtn>
     </#if>
@@ -282,7 +282,7 @@ document.addEventListener( "DOMContentLoaded", function(e){
     <#if pmConfirmFieldId?has_content>const fieldConfirmDest = document.getElementById('${pmConfirmFieldId!}');</#if>
     btnGenerate.addEventListener( "click", (e) => {
       <#if pmUrl?has_content>
-        fetch("${pmUrl!}", {
+        fetch("${( pmUrl! )?js_string?no_esc}", {
         method: "GET",
         headers: {
             "Accept": "application/json"

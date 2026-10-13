@@ -54,8 +54,8 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 
 /**
- * Tests the commonAttrs macro (LUT-33387), declared for the back office and for the front office, with and without
- * auto-escaping (service.freemarker.templateAutoEscape). Only the FreeMarker engine is needed: no Lutece context.
+ * Tests the commonAttrs macro (LUT-33387), declared for the back office and for the front office, with the HTML
+ * auto-escaping the core runs with (LUT-33153). Only the FreeMarker engine is needed: no Lutece context.
  */
 public class CommonAttrsMacroTest
 {
@@ -70,7 +70,7 @@ public class CommonAttrsMacroTest
     /**
      * Renders a snippet with commonAttrs auto-included, as AbstractFreeMarkerTemplateService configures the engine.
      */
-    private static String render( String strDeclaration, boolean bAutoEscape, String strSnippet ) throws IOException, TemplateException
+    private static String render( String strDeclaration, String strSnippet ) throws IOException, TemplateException
     {
         Configuration cfg = new Configuration( Configuration.VERSION_2_3_0 );
         StringTemplateLoader snippets = new StringTemplateLoader( );
@@ -80,29 +80,21 @@ public class CommonAttrsMacroTest
         } ) );
         cfg.setLocalizedLookup( false );
         cfg.addAutoInclude( strDeclaration );
-        if ( bAutoEscape )
-        {
-            cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
-            cfg.setAutoEscapingPolicy( Configuration.ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY );
-        }
+        cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
+        cfg.setAutoEscapingPolicy( Configuration.ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY );
         StringWriter out = new StringWriter( );
         cfg.getTemplate( "snippet.ftl" ).process( new HashMap<String, Object>( ), out );
         return out.toString( );
     }
 
     /**
-     * Asserts that a snippet renders the expected output with both declarations and in both escaping modes.
+     * Asserts that a snippet renders the expected output with both declarations.
      */
-    private static void assertRendersInBothModes( String strExpected, String strSnippet ) throws IOException, TemplateException
+    private static void assertRenders( String strExpected, String strSnippet ) throws IOException, TemplateException
     {
         for ( String strDeclaration : DECLARATIONS )
         {
-            for ( boolean bAutoEscape : new boolean [ ] {
-                    false, true
-            } )
-            {
-                assertEquals( strExpected, render( strDeclaration, bAutoEscape, strSnippet ), strDeclaration + ", autoEscape=" + bAutoEscape );
-            }
+            assertEquals( strExpected, render( strDeclaration, strSnippet ), strDeclaration );
         }
     }
 
@@ -124,8 +116,8 @@ public class CommonAttrsMacroTest
     @Test
     public void testNothingIsWrittenForEmptyValues( ) throws IOException, TemplateException
     {
-        assertRendersInBothModes( "", "<@commonAttrs />" );
-        assertRendersInBothModes( "", "<@commonAttrs id='' class='' classBase=' ' classExtra='  ' params='' />" );
+        assertRenders( "", "<@commonAttrs />" );
+        assertRenders( "", "<@commonAttrs id='' class='' classBase=' ' classExtra='  ' params='' />" );
     }
 
     /**
@@ -134,7 +126,7 @@ public class CommonAttrsMacroTest
     @Test
     public void testIdClassAndParams( ) throws IOException, TemplateException
     {
-        assertRendersInBothModes( " id=\"main\" class=\"row\" data-x", "<@commonAttrs id='main' class='row' params='data-x' />" );
+        assertRenders( " id=\"main\" class=\"row\" data-x", "<@commonAttrs id='main' class='row' params='data-x' />" );
     }
 
     /**
@@ -143,9 +135,9 @@ public class CommonAttrsMacroTest
     @Test
     public void testClassesAreJoinedInOrder( ) throws IOException, TemplateException
     {
-        assertRendersInBothModes( " class=\"btn btn-primary\"", "<@commonAttrs classBase=' btn  btn-primary ' />" );
-        assertRendersInBothModes( " class=\"collapse d-flex\"", "<@commonAttrs classExtra=' collapse   d-flex ' />" );
-        assertRendersInBothModes( " class=\"card mine collapse\"", "<@commonAttrs classBase='card' class='mine' classExtra=' collapse' />" );
+        assertRenders( " class=\"btn btn-primary\"", "<@commonAttrs classBase=' btn  btn-primary ' />" );
+        assertRenders( " class=\"collapse d-flex\"", "<@commonAttrs classExtra=' collapse   d-flex ' />" );
+        assertRenders( " class=\"card mine collapse\"", "<@commonAttrs classBase='card' class='mine' classExtra=' collapse' />" );
     }
 
     /**
@@ -155,7 +147,7 @@ public class CommonAttrsMacroTest
     @Test
     public void testAttrs( ) throws IOException, TemplateException
     {
-        assertRendersInBothModes( " aria-hidden=\"true\" data-n=\"1234.5\" disabled alt=\"\"",
+        assertRenders( " aria-hidden=\"true\" data-n=\"1234.5\" disabled alt=\"\"",
                 "<@commonAttrs attrs={'aria-hidden': 'true', 'data-n': 1234.5, 'disabled': true, 'hidden': false, 'alt': ''} />" );
     }
 
@@ -165,22 +157,26 @@ public class CommonAttrsMacroTest
     @Test
     public void testAnInvalidAttributeNameIsIgnored( ) throws IOException, TemplateException
     {
-        assertRendersInBothModes( " title=\"t\"", "<@commonAttrs attrs={'x onclick=\"y\"': 'z', 'title': 't'} />" );
+        assertRenders( " title=\"t\"", "<@commonAttrs attrs={'x onclick=\"y\"': 'z', 'title': 't'} />" );
     }
 
     /**
-     * With auto-escaping, a value cannot close its attribute; without it, the value is written as is, like any other value
-     * of the page.
+     * A value cannot close its attribute nor add another one.
      */
     @Test
-    public void testAValueCannotBreakItsAttributeWhenAutoEscaping( ) throws IOException, TemplateException
+    public void testAValueCannotBreakItsAttribute( ) throws IOException, TemplateException
     {
-        String strSnippet = "<#assign value='x\" onmouseover=\"alert(1)' /><@commonAttrs attrs={'title': value} />";
-        for ( String strDeclaration : DECLARATIONS )
-        {
-            assertEquals( " title=\"x&quot; onmouseover=&quot;alert(1)\"", render( strDeclaration, true, strSnippet ), strDeclaration );
-            assertEquals( " title=\"x\" onmouseover=\"alert(1)\"", render( strDeclaration, false, strSnippet ), strDeclaration );
-        }
+        assertRenders( " title=\"x&quot; onmouseover=&quot;alert(1)\"", "<#assign value='x\" onmouseover=\"alert(1)' /><@commonAttrs attrs={'title': value} />" );
+    }
+
+    /**
+     * params is HTML written by the template author: written as is, whether a string or a captured block.
+     */
+    @Test
+    public void testParamsIsWrittenAsIs( ) throws IOException, TemplateException
+    {
+        assertRenders( " data-x=\"1\" hidden", "<@commonAttrs params='data-x=\"1\" hidden' />" );
+        assertRenders( " title=\"a&lt;b\"", "<#assign v='a<b' /><#assign p>title=\"${v}\"</#assign><@commonAttrs params=p />" );
     }
 
     /**
@@ -192,7 +188,7 @@ public class CommonAttrsMacroTest
         for ( String strDeclaration : DECLARATIONS )
         {
             assertEquals( " class=\"x <b>c</b>\" title=\"a<b>c</b>\"",
-                    render( strDeclaration, true, "<#assign c><b>c</b></#assign><#assign t>a<b>c</b></#assign><@commonAttrs classBase='x' class=c attrs={'title': t} />" ),
+                    render( strDeclaration, "<#assign c><b>c</b></#assign><#assign t>a<b>c</b></#assign><@commonAttrs classBase='x' class=c attrs={'title': t} />" ),
                     strDeclaration );
         }
     }

@@ -1,4 +1,4 @@
-<@formGroup rows=2 labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}'>
+<@formGroup rows=2 labelKey='${attribute.title}' labelFor='attribute_${attribute.idAttribute}'>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.maxSizeEnter!=-1>
 			<#assign maxlength = attributeField.maxSizeEnter>

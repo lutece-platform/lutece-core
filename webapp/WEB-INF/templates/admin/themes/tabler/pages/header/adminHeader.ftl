@@ -28,25 +28,25 @@ Snippet:
 -->
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
-<#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
-<#local adminDarkMode><#attempt>${dskey('portal.site.site_property.layout.darkmode.checkbox')?number}<#recover>0</#attempt></#local>
+<#local userReadMode = dsNumber( 'portal.site.site_property.layout.user.readmode.show.checkbox', 0 ) />
+<#local userDarkMode = dsNumber( 'portal.site.site_property.layout.user.darkmode.show.checkbox', 0 ) />
+<#local adminDarkMode = dsNumber( 'portal.site.site_property.layout.darkmode.checkbox', 0 ) />
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local layoutBoxed><#attempt><#if dskey('portal.site.site_property.layout.menu.boxed.checkbox')?number==1> layout-boxed</#if><#recover></#attempt></#local>
 <#local layoutFluid><#attempt><#if dskey('portal.site.site_property.layout.fluid.checkbox')?number==1> layout-fluid</#if><#recover></#attempt></#local>
 <#local bodyClass><#if layoutBoxed?has_content>${layoutBoxed!}</#if><#if layoutFluid?has_content> ${layoutFluid!}</#if></#local>
 <#local navbarSticky><#attempt><#if dskey('portal.site.site_property.layout.menu.sticky.checkbox')?number==1> sticky-top</#if><#recover></#attempt></#local>
-<#local menuCondensed><#attempt><#if dskey('portal.site.site_property.layout.menu.condensed.checkbox')?number==1>condensed</#if><#recover></#attempt></#local>
-<#local menuVertical><#attempt><#if dskey('portal.site.site_property.layout.menu.vertical.checkbox')?number==1>vertical</#if><#recover></#attempt></#local>
+<#local menuCondensed = ( dsNumber( 'portal.site.site_property.layout.menu.condensed.checkbox' ) == 1 )?then( 'condensed', '' ) />
+<#local menuVertical = ( dsNumber( 'portal.site.site_property.layout.menu.vertical.checkbox' ) == 1 )?then( 'vertical', '' ) />
 <#local menuTransparent><#attempt><#if dskey('portal.site.site_property.layout.menu.transparent.checkbox')?number==1> navbar-transparent</#if><#recover></#attempt></#local>
-<#local menuHome><#attempt>${dskey('portal.site.site_property.layout.menu.home.checkbox')?number}<#recover>0</#attempt></#local>
-<#local showSiteName><#attempt>${dskey('portal.site.site_property.show_site_name.checkbox')?number}<#recover>1</#attempt></#local>
+<#local menuHome = dsNumber( 'portal.site.site_property.layout.menu.home.checkbox', 0 ) />
+<#local showSiteName = dsNumber( 'portal.site.site_property.show_site_name.checkbox', 1 ) />
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
-<#local logoWidth><#attempt>${dskey('portal.site.site_property.logo.width')}<#recover>24</#attempt></#local>
-<#local logoHeight><#attempt>${dskey('portal.site.site_property.logo.height')}<#recover>24</#attempt></#local>
+<#local logoWidth = dskey('portal.site.site_property.logo.width')!'24' />
+<#local logoHeight = dskey('portal.site.site_property.logo.height')!'24' />
 <#-- Sidebar mode (vertical menu only) : default (expanded + pin button) | folded | folded-hover -->
-<#local sidebarMode><#attempt>${dskey('portal.site.site_property.layout.menu.sidebar.select')?trim}<#recover>default</#attempt></#local>
+<#local sidebarMode = ( dskey('portal.site.site_property.layout.menu.sidebar.select')!'default' )?trim />
 <#if sidebarMode != 'folded' && sidebarMode != 'folded-hover'><#local sidebarMode = 'default'></#if>
 <#local sidebarClass><#if sidebarMode == 'folded'> navbar-folded<#elseif sidebarMode == 'folded-hover'> navbar-folded-hover</#if></#local>
 <#local isVertical = (menuVertical == 'vertical')>
@@ -54,7 +54,7 @@ Snippet:
 <script>
 // Expose the current admin access code so per-user client storage keys can be namespaced.
 // This keeps one user's dashboard widget layout from overwriting another's on a shared computer.
-window.LuteceAdminUser = { accessCode: "${(user.accessCode!'')?js_string}" };
+window.LuteceAdminUser = { accessCode: "${(user.accessCode!'')?js_string?no_esc}" };
 let localTheme = localStorage.getItem('lutece-tabler-theme');
 <#if adminDarkMode?number==1>
 <#if userDarkMode?number!=1>
@@ -263,7 +263,7 @@ In the vertical sidebar the site name gets the nav-link-title class so it collap
 <#macro adminHeaderLogo site_name logoSvg logoUrl logoWidth logoHeight showSiteName vertical=false>
 <a href="jsp/admin/AdminMenu.jsp" aria-label="${site_name}">
 	<#if logoSvg?trim != ''>
-	${logoSvg!}
+	${logoSvg?no_esc}
 	<#else>
 	<img src="${logoUrl}" class="me-1" height="${logoHeight}" width="${logoWidth}" alt="Logo ${site_name}" aria-hidden="true">
 	</#if>
@@ -293,7 +293,7 @@ Parameters:
 <div class="dropdown-item text-muted">${dashboard_zone_4!}</div>
 <div class="dropdown-item text-muted">${user.dateLastLogin!}</div>
 </#if>
-<#if userMenuItems?has_content><#list userMenuItems as item>${item.content}</#list></#if>
+<#if userMenuItems?has_content><#list userMenuItems as item>${item.markup}</#list></#if>
 <#if !vertical || userMenuItems?has_content><div class="dropdown-divider"></div></#if>
 <#if user.userLevel == 0>
 <a href="jsp/admin/AdminTechnicalMenu.jsp" class="dropdown-item">#i18n{portal.admindashboard.view_dashboards.title}</a>

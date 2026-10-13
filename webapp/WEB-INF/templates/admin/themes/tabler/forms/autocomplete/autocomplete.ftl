@@ -59,6 +59,6 @@ Snippet:
 </div>
 <script type="module">
 import LuteceAutoComplete from "./themes/shared/modules/luteceAutoComplete.js";
-new LuteceAutoComplete(document.getElementById(`${id}`)<#if additionnalRequestParamInputId?has_content>, { additionalParamElement: document.getElementById(`${additionnalRequestParamInputId}`) }</#if>);
+new LuteceAutoComplete(document.getElementById('${id?js_string?no_esc}')<#if additionnalRequestParamInputId?has_content>, { additionalParamElement: document.getElementById('${additionnalRequestParamInputId?js_string?no_esc}') }</#if>);
 </script>
 </#macro>

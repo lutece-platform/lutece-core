@@ -127,9 +127,9 @@
 								</@manageFeatureItemColumn>
 								<@manageFeatureItemColumn auto=true align='end'>
 									<@tform method='post' action='jsp/admin/workgroup/DoUnassignUser.jsp'>
-										<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
-										<@input type='hidden' name='workgroup_key' value='${workgroup.key?html}' />
-										<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
+										<@input type='hidden' name='id_user' value='${assigned_user.userId}' />
+										<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
+										<@input type='hidden' name='anchor' value='anchor-${anchor}' />
 										<@input type='hidden' name='token' value='${token}' />
 										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.workgroup.assign_users.actionModify}' />
 										<@button type='submit' buttonIcon='playlist-x' title='#i18n{portal.workgroup.assign_users.actionUnassign}' color='danger' />

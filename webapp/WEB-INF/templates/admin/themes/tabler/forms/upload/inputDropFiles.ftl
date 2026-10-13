@@ -51,10 +51,10 @@ Snippet:
 -->
 <#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id?has_content>${id!}<#else>${name!}</#if></#local>
+<#local cId = ( id?has_content )?then( ( id!'' )?string, ( name!'' )?string ) />
 <#local fileCount = nbFiles?number />
 <#local maxSize = maxFileSize?number />
-<#local isDisabled><#if fileCount?number = nbUplodadedFiles?number >true<#elseif disabled>true<#else>false</#if></#local>
+<#local isDisabled = ( fileCount?number == nbUplodadedFiles?number || disabled )?c />
 <#if handler?has_content>
 <#local deleteBtnName='_form_upload_delete_${cId}' >
 <@cInput type='hidden' name='asynchronousupload.handler' value=handler.handlerName />

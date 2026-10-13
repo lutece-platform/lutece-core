@@ -1,6 +1,7 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='${role.description} <strong>[${role.key}]</strong>'>
+		<#assign pageTitle>${role.description} <strong>[${role.key}]</strong></#assign>
+		<@pageHeader title=pageTitle>
 			<@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}" position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search me-1"  btnClass="me-1" size="auto">
 				<@tform method='post' name='search_users' action='jsp/admin/rbac/AssignUsersRole.jsp'>
 					<@input type='hidden' name='role_key' value='${role.key}' />
@@ -121,9 +122,9 @@
 								<@manageFeatureItemColumn auto=true align='end'>
 									<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
 										<@input type='hidden' name='token' value='${token}' />
-										<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
-										<@input type='hidden' name='role_key' value='${role.key?html}' />
-										<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
+										<@input type='hidden' name='id_user' value='${assigned_user.userId}' />
+										<@input type='hidden' name='role_key' value='${role.key}' />
+										<@input type='hidden' name='anchor' value='anchor-${anchor}' />
 										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' buttonIcon='edit' size='' />
 										<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' buttonIcon='playlist-x' color='danger' size='' />
 									</@tform>

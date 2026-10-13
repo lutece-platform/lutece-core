@@ -56,11 +56,11 @@ Snippet:
 -->
 <#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
-<#local typeLocal><#if type='date'>date<#else>text</#if></#local>
+<#local idLocal = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
+<#local typeLocal = ( type='date' )?then( 'date', 'text' ) />
 <#local valLocal><#if value?has_content>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
-<#local errorInput><#if errorMsg?has_content>_error</#if></#local>
-<#local inputClass><#if errorMsg?has_content>is-invalid</#if></#local>
+<#local errorInput = ( errorMsg?has_content )?then( '_error', '' ) />
+<#local inputClass = ( errorMsg?has_content )?then( 'is-invalid', '' ) />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local isHtml5Required = ( typeLocal='date' && isRequired ) || html5Required />
 <#if label?has_content><@cLabel label=label for='${idLocal}' /></#if>
@@ -97,7 +97,7 @@ Parameters:
 	<#-- The datepicker (themeDatepickerA11y) replaces the original input by a visible
 	     clone on DOMContentLoaded, so the listeners must be attached after its init -->
 	function initDateTyping() {
-		const el = document.getElementById('${idField}');
+		const el = document.getElementById('${idField?js_string?no_esc}');
 		if (!el || el.type === 'hidden') return;
 		// Detect separator and format from locale (e.g. "31/12/2026" → sep="/", parts=[2,2,4])
 		const yr = new Date().getFullYear();
@@ -180,7 +180,7 @@ Parameters:
 			if (!feedback || !feedback.parentNode) {
 				feedback = document.createElement('p');
 				feedback.className = 'invalid-feedback';
-				feedback.id = 'error_${idField}';
+				feedback.id = 'error_${idField?js_string?no_esc}';
 				feedback.innerHTML = '<svg class="paris-icon paris-icon-alert-error main-danger-color" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg> ';
 				feedback.appendChild(document.createTextNode(msg));
 				const group = el.closest('.input-group') || el;
@@ -256,8 +256,8 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
 -->
 <#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false]  html5Required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' separator=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local idLocal><#if id?has_content>${id}<#else>${name!}</#if></#local>
-<#local typeLocal><#if type='date'>date<#else>text</#if></#local>
+<#local idLocal = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
+<#local typeLocal = ( type='date' )?then( 'date', 'text' ) />
 <#local valLocal><#if value?has_content>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
 <#local isRequired0 = ( propagateRequired?? && propagateRequired) || required[0] />
 <#local isRequired1 = ( propagateRequired?? && propagateRequired) || required[1] />

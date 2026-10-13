@@ -80,7 +80,7 @@ Snippet:
 <#if targetUrl?has_content>
 <script type="module">
 import LuteceBSOffCanvas from "./themes/shared/modules/bootstrap/luteceBSOffCanvas.js";
-new LuteceBSOffCanvas(`${id}`);
+new LuteceBSOffCanvas('${id?js_string?no_esc}');
 </script>
 </#if>
 </#macro>

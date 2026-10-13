@@ -6,7 +6,7 @@
         <#if target?has_content>
             <#assign params>target="${target}" style="margin-bottom: 0"</#assign>
         <#else>
-            <#assign params>target="_top" style="margin-bottom: 0"</#assign>
+            <#assign params>target="${target}" style="margin-bottom: 0"</#assign>
         </#if>
         <@tform type='form' action=url params=params>
             <#if list_parameters?exists>
