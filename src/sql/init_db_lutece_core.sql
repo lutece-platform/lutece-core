@@ -331,7 +331,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.se
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
 
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caract\\u00e8res &#60; &#62; &#35; et &#34;  &amp; sont interdits dans le contenu de votre message.');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caractères < > # " et & sont interdits dans le contenu de votre message.');
 
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.required', 'Ce champ est obligatoire.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.email', 'Veuillez saisir une adresse email valide.');

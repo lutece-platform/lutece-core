@@ -310,3 +310,8 @@ INSERT INTO core_datastore VALUES ('core.home.shortcuts.default', 'CORE_ADMIN_SI
 -- comment The site property that lets the users choose their own shortcuts of the homepage header (on by default)
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.bo.shortcuts.checkbox'
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.checkbox', '1');
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev32.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment LUT-33153 : the XSS warning is plain text (written with textContent and escaped by the templates), no more HTML entities nor JavaScript escapes
+UPDATE core_datastore SET entity_value = 'Les caractères < > # " et & sont interdits dans le contenu de votre message.'
+WHERE entity_key = 'portal.theme.site_property.xss.xssMsg' AND entity_value LIKE 'Les caract%res &#60;%';
