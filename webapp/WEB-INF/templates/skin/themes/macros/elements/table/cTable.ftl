@@ -64,23 +64,23 @@ Snippet:
 <#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- #i18n{portal.theme.msgInfoTableUpdateId} --></#if>
-<div class="table-responsive<#if breakpoint!=''>${breakpoint}</#if>"<#if id!=''> id="table-wrapper-${id}"</#if>>
-<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><@commonAttrs id=id params=params attrs=attrs /> >
-<#if caption !=''> <caption class="visually-hidden">${caption!}</caption></#if>
+<div class="table-responsive<#if breakpoint?has_content>${breakpoint}</#if>"<#if id?has_content> id="table-wrapper-${id}"</#if>>
+<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class?has_content> ${class}</#if>"<#if summary?has_content> summary="${summary!}"</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<#if caption?has_content> <caption class="visually-hidden">${caption!}</caption></#if>
 <#nested>
 </table>
 </div>
-<#if id !=''><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
+<#if id?has_content><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
 <#macro sortSite jsp_url attribute asc=false desc=true id='' class='' params=''>
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
 <#if asc>
-<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class!=''> ${class}</#if>"<#if params!=''> ${params}</#if>>
+<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<#if params?has_content> ${params}</#if>>
 	<@cIcon name='arrow-up' class='main-color' />
 </button>
 </#if>
 <#if desc>
-<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class!=''> ${class}</#if>"<#if params!=''> ${params}</#if>>
+<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<#if params?has_content> ${params}</#if>>
 	<@cIcon name='arrow-down' class='main-color' />
 </button>
 </#if>

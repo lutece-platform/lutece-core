@@ -39,10 +39,10 @@ Snippet:
 <#local isRequired = mandatory || ( propagateMandatory?? && propagateMandatory ) />
 <#-- params and attrs go on the wrapper when there is one, else on the input -->
 <#if orientation='vertical'><div class="radio"<@commonAttrs params=params attrs=attrs />>	</#if>
-<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass!=''> ${labelClass!}</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
-<input class="<#if class!=''> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if orientation !='vertical'><@commonAttrs params=params attrs=attrs /></#if><#if isRequired> required</#if>>
-<#if labelKey!=''>
-<span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
+<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass?has_content> ${labelClass!}</#if>"<#if labelFor?has_content> for="${labelFor}"</#if>>
+<input class="<#if class?has_content> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if orientation !='vertical'><@commonAttrs params=params attrs=attrs /></#if><#if isRequired> required</#if>>
+<#if labelKey?has_content>
+<span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>"><#if labelKey?has_content>${labelKey}<#else><#nested></#if></span>
 </#if>
 <#nested>
 </label>

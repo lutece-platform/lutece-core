@@ -52,7 +52,7 @@ Snippet:
     </@listGroup>
 </@box>
 <#else>
-<div class="features row row-cards<#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="features row row-cards<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
     <div class="col ${colClass}">
         <ul class="list-unstyled ${listClass}">
             <#nested>
@@ -114,7 +114,7 @@ Snippet:
 -->
 <#macro manageFeatureItem layout='' class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local itemLayout = (layout != '')?then(layout, .globals.manageFeatureLayout!'card') />
+<#local itemLayout = (layout?has_content)?then(layout, .globals.manageFeatureLayout!'card') />
 <#if itemLayout == 'list'>
 <@listGroupItem class='${liClass} ${class}'?trim id=id params=params attrs=attrs>
     <div class="row g-2 justify-content-${align} align-items-${valign}">
@@ -123,9 +123,9 @@ Snippet:
 </@listGroupItem>
 <#return>
 </#if>
-<li class="<#if liClass !=''> ${liClass}</#if>">
-    <div class="card<#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
-        <div class="card-body<#if bodyClass !=''> ${bodyClass}</#if>">
+<li class="<#if liClass?has_content> ${liClass}</#if>">
+    <div class="card<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+        <div class="card-body<#if bodyClass?has_content> ${bodyClass}</#if>">
             <div class="row g-3 justify-content-${align} align-items-${valign}">
             <#nested>
             </div>
@@ -182,7 +182,7 @@ Snippet:
 -->
 <#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols !=''> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class !=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols?has_content> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </div>
 </#macro>

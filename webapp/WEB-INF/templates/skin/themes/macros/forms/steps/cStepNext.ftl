@@ -29,7 +29,7 @@ Snippet:
 -->
 <#macro cStepNext step title titleLevel=2 class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local stepClass>step step-next<#if class!=''>${class}</#if></#local>
+<#local stepClass>step step-next<#if class?has_content>${class}</#if></#local>
 <@cSection class=stepClass id=id params=params attrs=attrs>
 	<@cSection class='step-title'>
 		<@cContainer>

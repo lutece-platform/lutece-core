@@ -52,9 +52,9 @@ Snippet:
 <#macro cConsent title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false platform='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign consentPlatform=platform />
-<#if consentPlatform == ''>
+<#if !consentPlatform?has_content>
 <#assign dsPlatform=dskey('portal.theme.site_property.consent.platform.select')!'' />
-<#if dsPlatform?starts_with('DS') || dsPlatform == ''>
+<#if dsPlatform?starts_with('DS') || !dsPlatform?has_content>
 <#assign consentPlatform='tac' />
 <#else>
 <#assign consentPlatform=dsPlatform?lower_case />

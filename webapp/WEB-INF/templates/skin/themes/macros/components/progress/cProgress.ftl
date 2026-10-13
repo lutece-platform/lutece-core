@@ -44,17 +44,17 @@ Snippet:
 <#macro cProgress label labelClass='' class='' color='primary' id='' params='' attrs={} value=0 min=0 max=100 text='' progressId='progressbar' token='' role='progressbar' showReport=false intervalTime=2000  deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if max?number != 100><#assign progPercent=( (value?number / max?number ) * 100) /><#else><#assign progPercent=value /></#if>
-<p id="${progressId}-label" class="label-progress<#if labelClass!=''> ${labelClass}</#if>">${label}</p>
+<p id="${progressId}-label" class="label-progress<#if labelClass?has_content> ${labelClass}</#if>">${label}</p>
 <#if role='progressbar'>
-<div class="progress<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
-    <div id="${progressId}" aria-labelledby="${progressId}-label" class="progress-bar bg-${color}<#if token!=''> progressmanager</#if>" <#if role!=''>role="${role}"</#if> style="width:${progPercent?replace(',','.')}%;" <#if role='progressbar'>aria-valuenow="${value}"  aria-valuemin="${min}" aria-valuemax="${max}"</#if> <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
-        <#if text=''>${progPercent}%<#else>${text}</#if>
+<div class="progress<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+    <div id="${progressId}" aria-labelledby="${progressId}-label" class="progress-bar bg-${color}<#if token?has_content> progressmanager</#if>" <#if role?has_content>role="${role}"</#if> style="width:${progPercent?replace(',','.')}%;" <#if role='progressbar'>aria-valuenow="${value}"  aria-valuemin="${min}" aria-valuemax="${max}"</#if> <#if token?has_content>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
+        <#if !text?has_content>${progPercent}%<#else>${text}</#if>
     </div>
 </div>
 <#else>
-<div class="progress<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
-    <p id="${progressId}" aria-hidden="true" class="progress-bar bg-${color}<#if token!=''> progressmanager</#if>" style="width:${progPercent?replace(',','.')}%;">
-        <#if text=''>${progPercent}%<#else>${text}</#if>
+<div class="progress<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+    <p id="${progressId}" aria-hidden="true" class="progress-bar bg-${color}<#if token?has_content> progressmanager</#if>" style="width:${progPercent?replace(',','.')}%;">
+        <#if !text?has_content>${progPercent}%<#else>${text}</#if>
     </p>
 </div>
 </#if>

@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro staticText inForm=true color='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<p class="<#if inForm>form-control-plaintext</#if><#if color?has_content> text-${color}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </p>
 </#macro>

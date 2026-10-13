@@ -22,7 +22,7 @@
 <#-- Theme Macros                                                               -->
 <#-- MACRO cTpl : If find theme template then use it else use current template  -->
 <#macro cTpl tpl=''>
-<#local tplName><#if tpl=''>${.caller_template_name?keep_after("skin/")}<#else>${tpl}</#if></#local>
+<#local tplName><#if !tpl?has_content>${.caller_template_name?keep_after("skin/")}<#else>${tpl}</#if></#local>
 <#local tplPath='../themes/${commonsGlobalThemeCode}/tpl/${tplName}' >
 <#assign optTemp = .get_optional_template( tplPath )>
 <#if optTemp.exists>

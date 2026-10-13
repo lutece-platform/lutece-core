@@ -43,13 +43,13 @@ Snippet:
 -->
 <#macro cBtn label class='primary' btnClass='' noclass=false href='' id='' params='' attrs={} type='submit' nestedPos='before' disabled=false size='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if href=''>
+<#if !href?has_content>
 <button class="<#if !noclass>btn btn-</#if>${class!}<#if size == 'mini'> btn-mini</#if>" type="${type!}"<@commonAttrs id=id params=params attrs=attrs /><#if disabled> disabled</#if>>
-<#if nestedPos='before'><#nested></#if><#if label!=''><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
+<#if nestedPos='before'><#nested></#if><#if label?has_content><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
 </button>
 <#else>
 <a href="${href!}" class="btn btn-${class!}" <@commonAttrs id=id params=params attrs=attrs /><#if disabled> disabled</#if>> 
-<#if nestedPos='before'><#nested></#if><#if label!=''><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
+<#if nestedPos='before'><#nested></#if><#if label?has_content><span class="btn-label ${btnClass!}">${label!}</span></#if><#if nestedPos='after'><#nested></#if>
 </a>
 </#if>
 </#macro>

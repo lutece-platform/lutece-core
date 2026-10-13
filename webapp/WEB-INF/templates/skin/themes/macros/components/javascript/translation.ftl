@@ -14,7 +14,7 @@
 <#if langsConfig?? && langsConfig?trim != ''>
 <#list langsConfig?split(',') as item>
 <#local trimmed = item?trim>
-<#if trimmed != ''><#local allowedLangs = allowedLangs + [trimmed?lower_case]></#if>
+<#if trimmed?has_content><#local allowedLangs = allowedLangs + [trimmed?lower_case]></#if>
 </#list>
 </#if>
 <#local allowedLangs = allowedLangs + [defaultLang?lower_case] >

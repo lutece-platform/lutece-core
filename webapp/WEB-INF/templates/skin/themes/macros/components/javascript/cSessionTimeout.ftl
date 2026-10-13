@@ -56,7 +56,7 @@ Snippet:
 <#assign sessionKeepAliveUrl><#if !dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') != ''>${dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')}<#else>${base_url!}jsp/site/Portal.jsp</#if></#assign>
 <#assign sessionMaxExtensions><#if !dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.maxExtensions') != ''>${dskey('portal.theme.site_property.sessiontimeout.maxExtensions')}<#else>10</#if></#assign>
 <#assign sessionPosition><#if !dskey('portal.theme.site_property.sessiontimeout.position')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.position') != ''>${dskey('portal.theme.site_property.sessiontimeout.position')}<#else>top-0 end-0</#if></#assign>
-<#assign sessionLoginUrl><#if urlAuth?? && urlAuth != ''>${urlAuth}<#else>jsp/site/Portal.jsp?page=mylutece&action=doLogin</#if></#assign>
+<#assign sessionLoginUrl><#if urlAuth?? && urlAuth?has_content>${urlAuth}<#else>jsp/site/Portal.jsp?page=mylutece&action=doLogin</#if></#assign>
 <script>
 (function() {
     var pluginConfig = window.__sessionTimeoutConfig || {};

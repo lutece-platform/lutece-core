@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro tabPanel id class='' params='' attrs={} active=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="tab-pane fade<#if active> show active</#if><#if class!=''> ${class}</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<@commonAttrs params=params attrs=attrs />>
+<div class="tab-pane fade<#if active> show active</#if><#if class?has_content> ${class}</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<@commonAttrs params=params attrs=attrs />>
 <#nested>
 </div>
 </#macro>

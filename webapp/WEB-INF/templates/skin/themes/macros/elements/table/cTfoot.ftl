@@ -29,7 +29,7 @@ Snippet:
 --> 
 <#macro cTfoot class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tfoot <#if class!=''>thead-${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<tfoot <#if class?has_content>thead-${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
 <#nested>
 </tfoot>
 </#macro>

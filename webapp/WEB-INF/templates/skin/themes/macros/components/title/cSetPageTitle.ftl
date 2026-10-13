@@ -26,13 +26,13 @@ Snippet:
 -->  
 <#macro cSetPageTitle title srcElement='' init=false type='text' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if title?? && title!=''>
+<#if title?? && title?has_content>
 const pageTitle = document.querySelector('title');
 <#if init>
 pageTitle.textContent = '${title}';
 <#else>
 const mainTitleText = pageTitle.textContent;
-const complementaryTitleText = <#if srcElement=''>'${title!}'<#else><#if type='text'>document.querySelector('${srcElement}').textContent<#else>document.querySelector('${srcElement}').value</#if></#if>;
+const complementaryTitleText = <#if !srcElement?has_content>'${title!}'<#else><#if type='text'>document.querySelector('${srcElement}').textContent<#else>document.querySelector('${srcElement}').value</#if></#if>;
 pageTitle.textContent = `<#noparse>${mainTitleText} ${complementaryTitleText}</#noparse>`;
 </#if>
 <#nested>

@@ -25,7 +25,7 @@ Snippet:
 <#macro formHelp style='inline' class='' labelFor='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if style='inline'>
-	<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>id="help_${labelFor}"</#if>>
+	<small class="text-muted<#if style!='inline'> form-text</#if><#if class?has_content> ${class}</#if>" <#if labelFor?has_content>id="help_${labelFor}"</#if>>
 	<#nested>
 	</small>
 <#else>

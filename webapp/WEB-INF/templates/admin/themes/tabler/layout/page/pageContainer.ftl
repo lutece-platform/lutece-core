@@ -38,7 +38,7 @@ Snippet:
 footer {display: none;}
 </style>
 </#if>
-<#if actions!=''>
+<#if actions?has_content>
 <script>
 document.addEventListener( "DOMContentLoaded", function() {
     const actions = `${actions}`;

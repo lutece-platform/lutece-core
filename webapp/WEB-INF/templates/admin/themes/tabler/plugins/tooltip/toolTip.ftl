@@ -33,8 +33,8 @@ Snippet:
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    <#if options !=''>const tooltipOptions = {${options}}</#if>
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl<#if options !=''>, tooltipOptions</#if> ))
+    <#if options?has_content>const tooltipOptions = {${options}}</#if>
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl<#if options?has_content>, tooltipOptions</#if> ))
 });
 </script>
 </#macro>

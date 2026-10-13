@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', { enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime.iso?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField}', { enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime.iso?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime?has_content>, minTime : "${minTime}"</#if><#if maxTime?has_content>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
@@ -75,7 +75,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField}', {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime?has_content>, minTime : "${minTime}"</#if><#if maxTime?has_content>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 
 // FIX ME : Flatpickr returns a range of dates instead of one date for the beggining date input
@@ -97,7 +97,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	flatpickr('#${idField}', {enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate}"</#if></#if><#if minTime !=''>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime !=''>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+	flatpickr('#${idField}', {enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate}"</#if></#if><#if minTime?has_content>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime?has_content>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime?has_content>, minTime : "${minTime}"</#if><#if maxTime?has_content>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
@@ -111,13 +111,13 @@ document.addEventListener('DOMContentLoaded', function() {
  #
 -->
 <#macro getDateFormat format showFormat time=false>
-<#if showFormat == ''>
+<#if !showFormat?has_content>
 const showFormat = getFlatPickerDateFormat( browserCurrentLocale )<#if time> + ' ' + getFlatPickerTimeFormat( browserCurrentLocale )</#if>;
 <#else>
 const showFormat = '${showFormat}';
 </#if>
 <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
-<#if format == ''>
+<#if !format?has_content>
 const dtFormat='Y-m-d H:i:S'; // Default for most DB
 <#else>
 const dtFormat='${format}';

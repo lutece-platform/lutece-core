@@ -34,8 +34,8 @@ Snippet:
 <#assign styleParams='' />
 <#assign toastParams=params />
 <#if duration?number == 0><#assign autohide=false ><#else><#assign autohide=true ></#if>
-<#if position !=''><#assign styleParams> style="${position}"</#assign></#if>
-<#if styleParams !=''><#assign toastParams += styleParams /></#if>
+<#if position?has_content><#assign styleParams> style="${position}"</#assign></#if>
+<#if styleParams?has_content><#assign toastParams += styleParams /></#if>
 <div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=toastParams attrs=attrs />>
 <#nested>
 </div>
@@ -109,10 +109,10 @@ Snippet:
 -->
 <#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<@commonAttrs id=id /> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<@commonAttrs params=params attrs=attrs />>
-  <#if title !=''>
+<div<@commonAttrs id=id /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<@commonAttrs params=params attrs=attrs />>
+  <#if title?has_content>
     <div class="toast-header">
-      <#if imgUrl !=''><img src="${imgUrl}" class="rounded me-2"></#if>
+      <#if imgUrl?has_content><img src="${imgUrl}" class="rounded me-2"></#if>
       <@cTitle level=titleLevel class='me-auto my-0 ${titleClass}'>${title}</@cTitle>
       <#if delay = 0><button type="button" class="ms-auto btn-close" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}">&times;</button></#if>
     </div>

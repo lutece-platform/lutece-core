@@ -22,7 +22,7 @@ Snippet:
 -->
 <#macro formField class='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="form-row mb-3<#if class!=''> ${class}</#if>">
+<div class="form-row mb-3<#if class?has_content> ${class}</#if>">
 <#nested>
 </div>
 </#macro>
