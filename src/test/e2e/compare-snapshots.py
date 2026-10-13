@@ -78,8 +78,11 @@ def canonical(path):
     # stray newline can make the two sides split differently and produce a diff that is pure noise
     # les <script> contiennent des < et > qui ne sont pas des balises : on les sort du flux
     scripts = []
+    # a value JavaScript-escaped (?js_string) is the same value: \" and \' inside a JS string, and a
+    # template literal turned into a quoted string
+    js = lambda code: code.replace('\\"', '"').replace("\\'", "'").replace("\\/", "/").replace('`', "'")
     text = re.sub(r"<script\b[\s\S]*?</script>",
-                  lambda m: scripts.append(re.sub(r"\s+", " ", m.group(0))) or "\x00SCRIPT\x00", text)
+                  lambda m: scripts.append(js(re.sub(r"\s+", " ", m.group(0)))) or "\x00SCRIPT\x00", text)
     text = re.sub(r"<!--.*?-->", "", text, flags=re.S)
     text = sort_attributes(text)
     text = re.sub(r"\s+", " ", text)
