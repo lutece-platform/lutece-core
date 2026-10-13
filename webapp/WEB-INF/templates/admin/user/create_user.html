@@ -78,7 +78,7 @@
 							<#if displayFieldset( user_levels attributes_list )>
 								<#list attributes_list as attribute>
 									<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
-										${attribute.getHtmlFormAttribute( locale )}
+										${attribute.getHtmlFormAttribute( locale )?no_esc}
 										<#break>
 									</#if>
 								</#list>
@@ -86,7 +86,7 @@
 							<#if attributes_list?has_content>
 								<#list attributes_list as attribute>
 									<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
-										${attribute.getHtmlFormAttribute( locale )}
+										${attribute.getHtmlFormAttribute( locale )?no_esc}
 									</#if>
 								</#list>
 							</#if>

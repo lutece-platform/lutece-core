@@ -51,7 +51,7 @@
 					</@formGroup>
 					<#list attributes_list as attribute>
 						<#if attribute.shownInSearch>
-							${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+							${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )?no_esc}
 						</#if>
 					</#list>
 					<@formGroup>
