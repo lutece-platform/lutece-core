@@ -22,7 +22,7 @@ set is the labelNone missing value of non mandatory comboxes
 <#return false>
 </#function>
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''><#assign helpKey = attribute.helpMessage></#if>
-<@formGroup labelKey='${attribute.title?html}' rows=2 helpKey=helpKey mandatory=attribute.mandatory>
+<@formGroup labelKey='${attribute.title}' rows=2 helpKey=helpKey mandatory=attribute.mandatory>
 <#if attribute.fieldInLine><#assign orientation = 'horizontal'><#else><#assign orientation = 'vertical'></#if>
 <#--
 first pass to see if a value has been stored.

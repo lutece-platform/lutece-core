@@ -78,8 +78,8 @@ Snippet:
 -->
 <#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local iconType><#if class?contains('danger')>danger<#elseif class?contains('warning')>warning<#elseif class?contains('success')>success<#else>info</#if></#local>
-<#local accordionRole><#if class?contains('danger')>alert<#elseif class?contains('warning')>alert<#elseif class?contains('success')>status<#else>status</#if></#local>
+<#local iconType = class?contains('danger')?then( 'danger', class?contains('warning')?then( 'warning', class?contains('success')?then( 'success', 'info' ) ) ) />
+<#local accordionRole = ( class?contains('danger') || class?contains('warning') )?then( 'alert', 'status' ) />
 <div class="accordion" id="acc${id!}" <#if class?contains('outline')>role="${accordionRole}"</#if> >
     <div class="card ${class!}<#if border> with-border</#if><#if subTitle?has_content> with-subtitle</#if>"<@commonAttrs params=params attrs=attrs />>
         <#local cardTitleClass>card-header m-0<#if !state> collapsed</#if></#local>

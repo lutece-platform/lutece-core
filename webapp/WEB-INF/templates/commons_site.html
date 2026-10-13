@@ -6,7 +6,7 @@
 -->
 <#-- Do not remove this comment -->
 <#macro comboSiteWithParams name default_value additionalParameters items >
-<select class="form-select" id="${name}" name="${name}" ${additionalParameters} >
+<select class="form-select" id="${name}" name="${name}" ${additionalParameters?no_esc} >
 <#list items as item>
 <#if default_value="${item.code}">
 	<option selected="selected" value="${item.code}" >${item.name}</option>
@@ -17,7 +17,7 @@
 </select>
 </#macro>
 <#macro comboSiteSortedWithParams name default_value additionalParameters items >
-<select class="form-select" id="${name}" name="${name}" ${additionalParameters} >
+<select class="form-select" id="${name}" name="${name}" ${additionalParameters?no_esc} >
 <#list items?sort_by("name") as item>
 <#if default_value="${item.code}">
 <option selected="selected" value="${item.code}" >${item.name}</option>
@@ -28,7 +28,7 @@
 </select>
 </#macro>
 <#macro comboSiteWithParamsAndLength name default_value additionalParameters items max_length >
-<select class="form-select" id="${name}" name="${name}" ${additionalParameters} >
+<select class="form-select" id="${name}" name="${name}" ${additionalParameters?no_esc} >
 <#list items as item>
 <#if max_length < item.name?length ><#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" ><#else><#assign item_new = "${item.name}"></#if>
 <#if default_value="${item.code}">
@@ -46,7 +46,7 @@
 <@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
 <#macro sortSite jsp_url attribute id="" >
-<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
+<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" /></#if>
 <a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
 	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 15l6 -6l6 6" /></svg>
 </a>
@@ -81,59 +81,59 @@
 <ul class="pagination pagination-sm">
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 <li class="page-item">
-	<a class="page-link" href="${paginator.firstPageLink?xhtml}">
+	<a class="page-link" href="${paginator.firstPageLink}">
 		${paginator.labelFirst}
 	</a>
 </li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 <li class="page-item previous">
-	<a class="page-link" href="${paginator.previousPageLink?xhtml}">
+	<a class="page-link" href="${paginator.previousPageLink}">
 		${paginator.labelPrevious}
 	</a>
 </li>
 <#else>
 <li class="page-item disabled">
-	<a class="page-link" href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
+	<a class="page-link" href="${paginator.firstPageLink}">${paginator.labelPrevious}</a>
 </li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 <li class="page-item">
-	<a class="page-link" href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
+	<a class="page-link" href="${(paginator.pagesLinks?first).url}"><strong>...</strong></a>
 </li>
 </#if>
 <#list paginator.pagesLinks as link>
 <#if ( link.index == paginator.pageCurrent )>
 	<li class="page-item active">
-		<a class="page-link" href="${link.url?xhtml}">${link.name}</a>
+		<a class="page-link" href="${link.url}">${link.name}</a>
 	</li>
 <#else>
 	<li class="page-item">
-		<a class="page-link" href="${link.url?xhtml}">${link.name}</a>
+		<a class="page-link" href="${link.url}">${link.name}</a>
 	</li>
 </#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 <li class="page-item">
-	<a class="page-link" href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
+	<a class="page-link" href="${(paginator.pagesLinks?last).url}"><strong>...</strong></a>
 </li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 <li class="page-item next">
-	<a class="page-link" href="${paginator.nextPageLink?xhtml}">
+	<a class="page-link" href="${paginator.nextPageLink}">
 	${paginator.labelNext}
 	</a>
 </li>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 	<li class="page-item next">
-		<a class="page-link" href="${paginator.lastPageLink?xhtml}">
+		<a class="page-link" href="${paginator.lastPageLink}">
 			${paginator.labelLast}
 		</a>
 	</li>
 </#if>
 <#else>
 <li class="page-item disabled">
-	<a class="page-link" href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
+	<a class="page-link" href="${paginator.lastPageLink}">${paginator.labelNext}</a>
 </li>
 </#if>
 </ul>
@@ -168,20 +168,20 @@
 <#macro item_navigationSite item_navigator>
 <div id="item-navigator">
 <#if (item_navigator.currentItemId > 0)>
-<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
+<a href="${item_navigator.previousPageLink}" title="#i18n{portal.util.labelPrevious}">
 	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" /><path d="M8 12l4 4" /><path d="M8 12h8" /><path d="M12 8l-4 4" /></svg>
 	#i18n{portal.util.labelPrevious}
 </a>
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
+<a href="${item_navigator.nextPageLink}" title="#i18n{portal.util.labelNext}">
 	#i18n{portal.util.labelNext}
 	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" /><path d="M16 12l-4 -4" /><path d="M16 12h-8" /><path d="M12 16l4 -4" /></svg>
 </a>
 </#if>
 </div>
 </#macro>
-<#macro dataTableSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
+<#macro dataTableSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption=" " summary="data table" >
 <#if 0 < dataTableManager.items?size >
 <#if dataTableManager.enablePaginator>
 <form class="d-inline" method="post" action="${dataTableManager.sortUrl}">
@@ -364,7 +364,7 @@
 </div>
 <script type="module">
 import LuteceAutoComplete from "./themes/shared/modules/luteceAutoComplete.js";
-new LuteceAutoComplete(document.getElementById(`${id}`), document.getElementById(`${additionnalRequestParamInputId}`));
+new LuteceAutoComplete(document.getElementById('${id?js_string?no_esc}'), document.getElementById('${additionnalRequestParamInputId?js_string?no_esc}'));
 </script>
 </#macro>
 <#-- Macro: deprecatedWarningSite

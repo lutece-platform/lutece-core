@@ -6,8 +6,8 @@
 <!-- Browser detection and warning old browser -->
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <script>
-var xssChars='${dskey("portal.site.site_property.xss.xssChars")!}';
-var xssMsg='${dskey("portal.site.site_property.xss.xssMsg")!}';
+var xssChars='${( dskey("portal.site.site_property.xss.xssChars")! )?js_string?no_esc}';
+var xssMsg='${( dskey("portal.site.site_property.xss.xssMsg")! )?js_string?no_esc}';
 
 window.addEventListener( "load", function() {
 	const browser = bowser.getParser(window.navigator.userAgent);
@@ -65,10 +65,10 @@ window.addEventListener( "load", function() {
 <!-- ========================================================   -->
 <!-- USER MESSAGE NOTIF		                                   -->
 <!-- ========================================================   -->
-<#assign bannerMessageDuration>${dskey('portal.theme.site_property.bannerMessage.Duration')!}</#assign>
-<#assign bannerMessagePosition>${dskey('portal.theme.site_property.bannerMessage.Position')!}</#assign>
+<#assign bannerMessageDuration = ( dskey('portal.theme.site_property.bannerMessage.Duration')!'' )?string />
+<#assign bannerMessagePosition = ( dskey('portal.theme.site_property.bannerMessage.Position')!'' )?string />
 <@cInitToast showAll=true duration=bannerMessageDuration?number position=bannerMessagePosition >
-    <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock') delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
+    <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock')?no_esc delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
 </@cInitToast>
 </#if>
 <#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>

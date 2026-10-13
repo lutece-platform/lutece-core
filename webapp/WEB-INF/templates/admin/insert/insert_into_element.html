@@ -1,7 +1,7 @@
 <!--  Insert service -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-const isIt = '${.data_model.input}', insertCode='${insert}';
+const isIt = '${.data_model.input?js_string?no_esc}', insertCode='${insert?js_string?no_esc}';
 switch ( isIt ) {
 	case 'slider-file':
 		sessionStorage.setItem('slidercode', insertCode );
@@ -31,7 +31,7 @@ switch ( isIt ) {
 		parent.tinymce.activeEditor.windowManager.close();
 		break;
 	default:
-		var elementInput = opener.document.getElementById("${.data_model.input}");
+		var elementInput = opener.document.getElementById("${.data_model.input?js_string?no_esc}");
 		elementInput.value = insertCode;
 		window.close();
 }

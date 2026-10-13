@@ -44,15 +44,15 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
 <#local cId = id?has_content?then( id, name ) />
-<#local inputParams>data-min="${minQty}" data-max="${maxQty}" ${params}</#local>
-<#if errorMsg?has_content><#assign isInvalid>is-invalid</#assign></#if>
-<#local errorClass><#if hideErrorMsg>visually-hidden</#if></#local>
+<#local inputParams>data-min="${minQty}" data-max="${maxQty}" ${params?no_esc}</#local>
+<#if errorMsg?has_content><#assign isInvalid = 'is-invalid' /></#if>
+<#local errorClass = ( hideErrorMsg )?then( 'visually-hidden', '' ) />
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>
-        <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' params='aria-label="${labelDecrease}" data-direction="-1" ${paramsDecrease}' />
+        <@cBtn label='−' class='light quantity-btn decrement-quantity' params=paramsDecrease attrs={'aria-label': labelDecrease, 'data-direction': '-1'} />
         <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=inputParams attrs=attrs />
-        <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1" ${paramsIncrease}' />
+        <@cBtn label='+' class='light quantity-btn increment-quantity' params=paramsIncrease attrs={'aria-label': labelIncrease, 'data-direction': '1'} />
     </@cInputGroup>
 </@cBlock>
 <#if helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
@@ -62,7 +62,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
   document.addEventListener( 'click', function(ev) {
    if ( ev.target.classList.contains('quantity-btn') ) {
     const parentDiv = ev.target.closest('.quantity-picker');
-    const input = parentDiv.querySelector('input[name="${name}"]');
+    const input = parentDiv.querySelector('input[name="${name?js_string?no_esc}"]');
     const currentQty = parseInt(input.value);
     const qtyDirection = parseInt(ev.target.getAttribute("data-direction"));
     let newQty = currentQty + qtyDirection;

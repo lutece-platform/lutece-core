@@ -36,8 +36,8 @@ Snippet:
 import { LutecePassword } from './themes/shared/modules/lutecePassword.js';
 
 const password = new LutecePassword();
-password.passwordInput = '#${inputId}';
-password.progressBar = '#${id}';
+password.passwordInput = '#${inputId?js_string?no_esc}';
+password.progressBar = '#${id?js_string?no_esc}';
 password.getComplexity( );
 </script>
 </#if>

@@ -59,25 +59,25 @@ Snippet:
 -->
 <#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local stepClass><#if !showTitle> step-no-title</#if></#local>
+<#local stepClass = ( !showTitle )?then( ' step-no-title', '' ) />
 <@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params attrs=attrs >
 <#if showTitle>
 <@cBlock class='step-title'>
 	<@cContainer>
 		<#if hasSteps>
-			<@cTitle class='title ${titleClass}' level=titleLevel params='data-step="${step}" title="${title} - #i18n{portal.theme.labelCurrentStep}" aria-current="step" tabindex="0"'>
+			<@cTitle class='title ${titleClass}' level=titleLevel attrs={'data-step': ( step ), 'title': "${title} - #i18n{portal.theme.labelCurrentStep}", 'aria-current': "step", 'tabindex': "0"}>
 				<#if step?number!=0><@cText type='span' class='step-number'>${step}</@cText></#if>
 				<@cText type='span'>${title?replace('- hidden','')}</@cText>
 			</@cTitle>
 		<#else>
-			<@cTitle level=titleLevel class='title no-step' params='title="${title?replace(\'- hidden\',\'\')}- #i18n{portal.theme.labelCurrentStep}" tabindex="0"'>
+			<@cTitle level=titleLevel class='title no-step' attrs={'title': "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", 'tabindex': "0"}>
 				${title} <@cText type='span' class='step-number visually-hidden'>${step}</@cText>
 			</@cTitle>
 		</#if>
 	</@cContainer>
 </@cBlock>
 <#else>
-<@cTitle level=titleLevel class='step-title visually-hidden' params='title="${title?replace(\'- hidden\',\'\')}- #i18n{portal.theme.labelCurrentStep}" tabindex="0"'>
+<@cTitle level=titleLevel class='step-title visually-hidden' attrs={'title': "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", 'tabindex': "0"}>
 	${title} <@cText type='span' class='step-number'>${step}</@cText>
 </@cTitle>
 </#if>
@@ -126,7 +126,8 @@ Snippet:
 		</@cBlock>
 	</@cContainer>
 </@cBlock>
-<@cModal title='#i18n{portal.theme.labelRemoveSaveStep}' dismissLabel='#i18n{portal.theme.labelDismissSaveStep}' id='reset-step' footer='<button class="btn btn-primary" id="modal-reset-backup" type="button"><span class="btn-label">#i18n{portal.theme.labelRemoveSaveStepInfo}</span></button>' />
+<#assign resetFooter><button class="btn btn-primary" id="modal-reset-backup" type="button"><span class="btn-label">#i18n{portal.theme.labelRemoveSaveStepInfo}</span></button></#assign>
+<@cModal title='#i18n{portal.theme.labelRemoveSaveStep}' dismissLabel='#i18n{portal.theme.labelDismissSaveStep}' id='reset-step' footer=resetFooter />
 <script>
 window.addEventListener('DOMContentLoaded', (event) => {
 	/* Error Scroll                           */
@@ -169,8 +170,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 			stepTitle.focus();
 		}
 	}
-	<#assign actionStep><#if actionNextStep?has_content>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
-	const formValidate = document.getElementById('${formId!}')<#if actionStep?? && actionStep?has_content>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
+	<#assign actionStep = ( actionNextStep?has_content )?then( ( actionNextStep!'' )?string, ( actionSaveStep!'' )?string ) />
+	const formValidate = document.getElementById('${(formId!)?js_string?no_esc}')<#if actionStep?? && actionStep?has_content>,formValidateButton = document.getElementById('${(actionStep!)?js_string?no_esc}')</#if>;
 	<#if step?number gt 1 >
 	<#if actionStep?? && actionStep?has_content>
 	formValidateButton && formValidateButton.addEventListener('click', (e) => {
@@ -184,7 +185,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				<#assign invalidLabel>#i18n{portal.theme.msgMandatory}</#assign>
-				pInvalid.innerHTML = `${invalidLabel}`;
+				pInvalid.innerHTML = `${invalidLabel?js_string?no_esc}`;
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);
 				} else {
@@ -200,7 +201,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		const at = saveStep.querySelector('.alert-title');
 		const btnReset = document.createElement('button');
 		btnReset.classList.add('btn', 'btn-tertiary', 'ms-sm');
-		btnReset.innerHTML = "${'#i18n{portal.theme.labelRemoveSaveStep}'?js_string}";
+		btnReset.innerHTML = "${'#i18n{portal.theme.labelRemoveSaveStep}'?js_string?no_esc}";
 		btnReset.setAttribute('type', 'button');
 		btnReset.setAttribute('data-bs-target', '#reset-stepModal');
 		btnReset.setAttribute('data-bs-toggle', 'modal');
@@ -208,12 +209,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 		const btnModalReset = document.querySelector('#modal-reset-backup');
 		btnModalReset.addEventListener('click', (e) => {
-			const resetBackup = document.getElementById('${actionResetBackUpStep}');
+			const resetBackup = document.getElementById('${actionResetBackUpStep?js_string?no_esc}');
 			resetBackup.click();
 		});
 	}
 
-	const btnValidateHidden = '<button class="visually-hidden" name="${actionStep}" aria-hidden="true" tabindex="-1" ></button>'
+	const btnValidateHidden = '<button class="visually-hidden" name="${actionStep?js_string?no_esc}" aria-hidden="true" tabindex="-1" ></button>'
 	formValidate && formValidate.insertAdjacentHTML('afterbegin', btnValidateHidden );
 });
 </script> 

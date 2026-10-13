@@ -93,18 +93,18 @@ Snippet:
 <#if slideControls>
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {
-            var carouselElement = document.getElementById('${id}');
+            var carouselElement = document.getElementById('${id?js_string?no_esc}');
             var carousel = bootstrap.Carousel.getOrCreateInstance(carouselElement);
 
-            document.getElementById('playButton-${id}').addEventListener('click', function () {
+            document.getElementById('playButton-${id?js_string?no_esc}').addEventListener('click', function () {
                 carousel.cycle();
             });
 
-            document.getElementById('pauseButton-${id}').addEventListener('click', function () {
+            document.getElementById('pauseButton-${id?js_string?no_esc}').addEventListener('click', function () {
                 carousel.pause();
             });
 
-            document.getElementById('stopButton-${id}').addEventListener('click', function () {
+            document.getElementById('stopButton-${id?js_string?no_esc}').addEventListener('click', function () {
                 carousel.pause();
                 carousel.to(0);
             });

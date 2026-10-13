@@ -33,13 +33,13 @@
 <script src="${editorPath}/formats/xhtml.js"></script>
 </#if>
 <script>
-const editorTxt = document.querySelector('${editorSelector!}');
+const editorTxt = document.querySelector('${( editorSelector! )?js_string?no_esc}');
 sceditor.create( editorTxt, {
-	format: '<#if format == 'bbcode'>bbcode'<#else>'xhtml'</#if>,
-	style: '${editorPath}/themes/content/${skin}.min.css'<#if !emo>,
+	format: '${( format == 'bbcode' )?then( 'bbcode', 'xhtml' )}',
+	style: '${editorPath?js_string?no_esc}/themes/content/${skin?js_string?no_esc}.min.css'<#if !emo>,
 	emoticonsEnabled: false</#if><#if icons !=''>,
-	icons: ${icons}</#if><#if plugins !=''>,
-	plugins: ${plugins}</#if>
+	icons: '${icons?js_string?no_esc}'</#if><#if plugins !=''>,
+	plugins: '${plugins?js_string?no_esc}'</#if>
 });
 </script>
 <#else>

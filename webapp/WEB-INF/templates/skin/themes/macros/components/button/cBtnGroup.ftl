@@ -39,7 +39,7 @@ Snippet:
 <#macro cBtnGroup label buttonList={} class='' id='' type='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-group<#if type='vertical'> btn-group-vertical</#if><#if class?has_content> ${class}</#if></#local>
-<@cSection type='div' class=btnClass id=id params='${params} role="group" aria-label="${label}"' attrs=attrs>
+<@cSection type='div' class=btnClass id=id params=params attrs={'role': 'group', 'aria-label': label} + attrs>
 	<#if buttonList?has_content>
 		<#if type == 'vertical'>
 		    <@chList class="list-unstyled d-flex flex-column m-0">

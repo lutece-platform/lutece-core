@@ -43,15 +43,15 @@ Snippet:
 <@cSection class='step step-done ${class!}' id=id params=params attrs=attrs>
 	<@cSection class='step-title'>
         <@cContainer class='d-flex justify-content-between align-items-center'>
-            <@cTitle class='title mt-0' level=titleLevel params='title="${title}"' >
+            <@cTitle class='title mt-0' level=titleLevel attrs={'title': ( title )} >
                 <@cText type='span' class='step-number'><svg width="32" height="32" role="img" aria-hidden="true" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@cText>
                 <@cText type='span'>${title?replace('- hidden','')}</@cText>
             </@cTitle>
             <@cSection type='span' class='d-none d-sm-block'>
             <#if actionHref?has_content>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${i18n(actionAriaLabelKey, title)?html}" ${actionParams!}' />
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!'' ) attrs={'aria-label': i18n( actionAriaLabelKey, title )} />
             <#elseif actionName?has_content>
-                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${i18n(actionAriaLabelKey, title)?html}" formnovalidate' />
+                <@cBtn class='secondary btn-sm-block' label=actionLabel! attrs={'name': actionName, 'value': ( idx!'' ), 'aria-label': i18n( actionAriaLabelKey, title ), 'formnovalidate': true} />
             </#if>
             </@cSection>    
         </@cContainer>    
@@ -63,9 +63,9 @@ Snippet:
             </@chList>
             <@cSection type='div' class='d-block d-sm-none mt-m'>
             <#if actionHref?has_content>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${i18n(actionAriaLabelKey, title)?html}" ${actionParams!}' />
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!'' ) attrs={'aria-label': i18n( actionAriaLabelKey, title )} />
             <#elseif actionName?has_content>
-                <@cBtn class='secondary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${i18n(actionAriaLabelKey, title)?html}" formnovalidate' />
+                <@cBtn class='secondary btn-sm-block' label=actionLabel! attrs={'name': actionName, 'value': ( idx!'' ), 'aria-label': i18n( actionAriaLabelKey, title ), 'formnovalidate': true} />
             </#if>
             </@cSection>    
         </@cSection>

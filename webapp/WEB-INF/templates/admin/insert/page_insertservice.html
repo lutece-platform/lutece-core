@@ -2,7 +2,7 @@
 <@div class='row row-cols-4 mt-3 p-5' id='insert-service'>    
 <#list insert_services_list as insertservice>
     <@columns class='mb-3'>
-        <@link class='btn btn-lg btn-outline-dark d-flex flex-column justify-content-center' attrs={'style': "min-height:10rem"} href='jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${.data_model.input}&amp;selected_text=${selected_text}'>
+        <@link class='btn btn-lg btn-outline-dark d-flex flex-column justify-content-center' attrs={'style': "min-height:10rem"} href='jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&plugin_name=${insertservice.pluginName}&input=${.data_model.input}&selected_text=${selected_text}'>
         <@p class='text-center'>#i18n{${insertservice.labelKey}}</@p>
         <@icon style='plus ${insertservice.pluginName} fs-1' /> 
         </@link>

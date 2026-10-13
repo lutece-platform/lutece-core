@@ -71,7 +71,7 @@ Snippet:
 				<#local widgetAction = 'collapse' />
 				<script>
 				document.addEventListener('DOMContentLoaded', function() {
-					var targetEl = document.querySelector('${buttonTargetId}');
+					var targetEl = document.querySelector('${buttonTargetId?js_string?no_esc}');
 					if (targetEl) {
 					<#if buttonIcon = 'minus'>
 						targetEl.classList.add('show');
@@ -110,9 +110,9 @@ Snippet:
 			</#if>
 		</#if>
 		<#local nestedContent><#nested /></#local>
-		<#local nestedContent = nestedContent?trim />
-		<#if !nestedContent?has_content><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
-		<#if nestedContent?has_content && !dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass?has_content></span></#if></#if>
+		<#local hasNested = nestedContent?markup_string?trim?has_content />
+		<#if !hasNested><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
+		<#if hasNested && !dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass?has_content></span></#if></#if>
 		<#if title?has_content && dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
 		<#if buttonIcon?has_content && iconPosition='right'>
 			<#if buttonIcon?starts_with('<svg')>

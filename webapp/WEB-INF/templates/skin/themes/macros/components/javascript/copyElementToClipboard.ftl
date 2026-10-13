@@ -27,9 +27,9 @@ Snippet:
 -->
 <#macro copyElementToClipboard selector='.copy-content' class='copy-icon' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}'>
 <script>
-const elems = document.querySelectorAll('${selector!}');
+const elems = document.querySelectorAll('${( selector! )?js_string?no_esc}');
 elems.forEach(elem => {
-	<#if class?has_content>elem.classList.add( ${class!} );</#if>
+	<#if class?has_content>elem.classList.add( ...'${class?js_string?no_esc}'.split(' ') );</#if>
 	elem.setAttribute('title', '#i18n{portal.util.labelCopy}');
   	elem.addEventListener('click', () => {
 		const selection = window.getSelection();
@@ -42,7 +42,7 @@ elems.forEach(elem => {
 			selection.removeAllRanges();
 		<#if showMsg>
 			const original = elem.textContent;
-			elem.textContent = '${msgDone}';
+			elem.textContent = '${msgDone?js_string?no_esc}';
 			elem.classList.add('msg-success');
 			setTimeout(() => {
 				elem.textContent = original;
@@ -52,7 +52,7 @@ elems.forEach(elem => {
 		} catch(e) {
 		<#if showMsg>
 			const original = elem.textContent;
-			elem.textContent = '${msgError}';
+			elem.textContent = '${msgError?js_string?no_esc}';
 			elem.classList.add('msg-error');
 			setTimeout(() => {
 				elem.textContent = original;

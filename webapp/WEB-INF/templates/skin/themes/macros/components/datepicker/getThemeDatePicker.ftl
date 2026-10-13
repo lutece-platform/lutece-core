@@ -29,16 +29,16 @@
 <#global isDatePickerLoaded = true />
 <@initThemeDatePicker />
 </#if>
-<#local dtThemeOptions>${dskey('portal.site.site_property.config.datepicker.textblock')!}</#local>
+<#local dtThemeOptions = ( dskey('portal.site.site_property.config.datepicker.textblock')!'' )?string />
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {
-  const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'</#if>,</#list></#if> };
-  const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions}</#if>};
+  const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val?js_string?no_esc}'</#if>,</#list></#if> };
+  const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions?no_esc}</#if>};
   const dtLocale = navigator.language.split('-')[0] == 'en' ? 'en' : navigator.language.split('-')[0];
   
-  let showFormat=<#if !showFormat?has_content>getDatePickerDateFormat( dtLocale )<#else>'${showFormat}'</#if>;
+  let showFormat=<#if !showFormat?has_content>getDatePickerDateFormat( dtLocale )<#else>'${showFormat?js_string?no_esc}'</#if>;
   <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
-  let dataFormat=<#if !format?has_content>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format}'</#if>;
+  let dataFormat=<#if !format?has_content>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format?js_string?no_esc}'</#if>;
   const defaultOptions = {
       autohide: true,
       buttonClass: 'btn',
@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
       minDate: null,     
       maxDate: null,     
       maxNumberOfDate: 1,
-      nextArrow: '${customArrows[1]}',
+      nextArrow: '${customArrows[1]?js_string?no_esc}',
       orientation: 'auto',
-      prevArrow: '${customArrows[0]}',
+      prevArrow: '${customArrows[0]?js_string?no_esc}',
       pickLevel: 0, // 0 - Days 1 - Month, 2 - Year, 3 - Decade
       showDaysOfWeek: true,
       showOnClick: true,
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
       weekStart: 1,
   }
 <#if !range>
-  const elem${idField} = document.querySelector('#${idField}')
+  const elem${idField} = document.querySelector('#${idField?js_string?no_esc}')
   const dtOptions${idField} = setDatePickerOptions( themeOptions, customOptions, defaultOptions )
   let datepicker${idField} = new themeDatepicker( elem${idField}, dtOptions${idField} );
 <#else>
@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     dataFormat: dataFormat,
     daysOfWeekDisabled: [],
     buttonClass: 'btn',
-    nextArrow: '${customArrows[1]}',
-    prevArrow: '${customArrows[0]}',
+    nextArrow: '${customArrows[1]?js_string?no_esc}',
+    prevArrow: '${customArrows[0]?js_string?no_esc}',
     defaultViewDate: 'today',
     todayButton: false,
     clearButton: true,
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   }
 
   const dtRangeOptions${rangeIdWrapper} = setDatePickerOptions( themeOptions, customOptions, dtRangeDefaultOptions );
-  const elDtPickerWrapper${rangeIdWrapper} = document.getElementById( '${rangeIdWrapper}' );
+  const elDtPickerWrapper${rangeIdWrapper} = document.getElementById( '${rangeIdWrapper?js_string?no_esc}' );
   const rangepicker${rangeIdWrapper} = new DateRangePickerA11y( elDtPickerWrapper${rangeIdWrapper}, dtRangeOptions${rangeIdWrapper} );
 </#if>
 });

@@ -70,13 +70,13 @@ ${btnDropdownContent!}
 <#if useIframe>
 <script>
 (function() {
-    const btn = document.getElementById('btn-${id}');
+    const btn = document.getElementById('btn-${id?js_string?no_esc}');
     if ( btn ) {
-        btn.setAttribute('data-lutece-offcanvas-id', '${id}'); 
-        btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position}<#if size?has_content> w-${size}</#if><#if class?has_content> ${class}</#if>');
+        btn.setAttribute('data-lutece-offcanvas-id', '${id?js_string?no_esc}'); 
+        btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position?js_string?no_esc}<#if size?has_content> w-${size?js_string?no_esc}</#if><#if class?has_content> ${class?js_string?no_esc}</#if>');
         btn.setAttribute('data-lutece-use-iframe', 'true');
-        btn.setAttribute('data-lutece-load-content-url', '${targetUrl}');
-        btn.setAttribute('data-lutece-load-content-target', '${targetElement}');
+        btn.setAttribute('data-lutece-load-content-url', '${targetUrl?js_string?no_esc}');
+        btn.setAttribute('data-lutece-load-content-target', '${targetElement?js_string?no_esc}');
         btn.setAttribute('data-lutece-redirect-form', '<#if redirectForm>true<#else>false</#if>');
         btn.setAttribute('data-lutece-reload-on-close', '<#if reloadOnClose>true<#else>false</#if>');
         btn.setAttribute('data-lutece-keep-page-header', '<#if keepPageHeader>true<#else>false</#if>');
@@ -99,7 +99,7 @@ ${btnDropdownContent!}
 <#if targetUrl?has_content>
 <script type="module">
 import LuteceBSOffCanvas from "./themes/shared/modules/bootstrap/luteceBSOffCanvas.js";
-new LuteceBSOffCanvas(`${id}`);
+new LuteceBSOffCanvas('${id?js_string?no_esc}');
 </script>
 </#if>
 </#macro>

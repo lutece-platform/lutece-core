@@ -18,7 +18,7 @@ set is the labelNone missing value of non mandatory comboxes
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 <#assign helpKey = attribute.helpMessage>
 </#if>
-<@formGroup labelKey='${attribute.title?html}' mandatory=attribute.mandatory rows=2>
+<@formGroup labelKey='${attribute.title}' mandatory=attribute.mandatory rows=2>
 <#--
 first pass to see if a value has been stored.
 Used to choose between the stored value and

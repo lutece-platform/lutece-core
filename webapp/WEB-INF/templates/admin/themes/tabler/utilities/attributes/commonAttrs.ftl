@@ -15,13 +15,14 @@ Parameters:
 - classExtra (string, optional): classes the calling macro adds after class, as a plain string. A
   macro never rewrites its class parameter: it accumulates its own classes in classBase or
   classExtra, so the type of the parameter (string or markup) is kept.
-- params (string, optional): a bundle of attributes written as is, e.g. 'data-x="1" aria-hidden="true"'.
-  Deprecated: use attrs. The caller writes the HTML structure, so a value cannot be escaped.
+- params (string, optional): a bundle of attributes written as is, never escaped, e.g.
+  'data-x="1" aria-hidden="true"'. It is HTML written by the template author: it must never contain
+  data (no ${...} of a value a user can set, in a string literal or a capture), which goes to attrs.
+  Deprecated: use attrs.
 - attrs (hash, optional): additional attributes as name/value pairs, e.g. {'aria-hidden': 'true'}.
   The caller gives only data, the macro writes the structure (name, equal sign, quotes). The value
-  is written like any other interpolation of the page: with auto-escaping on
-  (service.freemarker.templateAutoEscape=true) it is escaped, so it can never close the attribute
-  or add another one, and a markup value is written as is. A true boolean writes a valueless
+  is escaped like any other interpolation of the page, so it can never close the attribute or add
+  another one; a markup value (a captured block) is written as is. A true boolean writes a valueless
   attribute ({'disabled': true}), a false boolean writes nothing ({'hidden': !visible}); any other
   value is written, even empty (alt=""), exactly as a params bundle would. A name that is not a
   valid attribute name is ignored.
@@ -47,7 +48,7 @@ Snippet:
 <#if before?has_content || class?has_content || after?has_content> class="<#t>
 ${before}<#if before?has_content && class?has_content> </#if>${class}<#if ( before?has_content || class?has_content ) && after?has_content> </#if>${after}"<#t>
 </#if>
-<#if params?has_content> ${params}</#if><#t>
+<#if params?has_content> ${params?no_esc}</#if><#t>
 <#list attrs as attrName, attrValue>
 <#if attrName?matches( '[A-Za-z_:][-A-Za-z0-9_:.]*' )>
 <#if attrValue?is_boolean>

@@ -37,7 +37,7 @@ Snippet:
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const toastElList = [].slice.call(document.querySelectorAll('.toast'))
-    const option = { delay: ${duration}, animation: ${animation?c}, autohide: ${autohide?c} }
+    const option = { delay: ${duration?c}, animation: ${animation?c}, autohide: ${autohide?c} }
     const toastList = toastElList.map( function( toastEl, option ) {
         return new bootstrap.Toast( toastEl )
     })
