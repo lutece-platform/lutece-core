@@ -43,7 +43,7 @@ Snippet:
     </@modal>
 
 -->
-<#macro modal id params='' attrs={} bgColor='' size='' fullScreen=false vCentered=true deprecated...>
+<#macro modal id params='' bgColor='' size='' fullScreen=false vCentered=true attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="modal ${bgColor} fade" id="${id}" <@commonAttrs params=params attrs=attrs />>
 	<div class="modal-dialog<#if size?has_content> modal-${size}</#if><#if fullScreen> modal-fullscreen</#if><#if vCentered> modal-dialog-centered</#if>">

@@ -59,7 +59,7 @@ Snippet:
     </@cRadio>
 
 -->
-<#macro cRadio name label type='radio' button=false class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' attrs={} inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true deprecated...>
+<#macro cRadio name label type='radio' button=false class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cButton = button || type == 'button' />
 <#local cType><#if type == 'button'>radio<#else>${type}</#if></#local>

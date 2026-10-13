@@ -31,7 +31,7 @@ Snippet:
     <@cIcon name='alert-circle' class='text-danger' params='aria-hidden="true"' />
 
 -->
-<#macro cIcon name='check' class='' id='' title='' params='' attrs={} prefix='ti ti-' type='span' deprecated...>
+<#macro cIcon name='check' class='' id='' title='' params='' prefix='ti ti-' type='span' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local iconParams><#if title?has_content>${params} title="${title}"<#else>${params}</#if></#local>
 <@cInline type=type class='${prefix}${name} ${class}' id=id params=iconParams attrs=attrs />

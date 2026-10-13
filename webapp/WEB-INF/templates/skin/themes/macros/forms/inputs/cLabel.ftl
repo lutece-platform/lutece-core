@@ -36,7 +36,7 @@ Snippet:
     <@cInput name='search' id='search' placeholder='Search...' />
 
 -->
-<#macro cLabel label class='' id='' params='' attrs={} for='' showLabel=true required=false showRequiredLabel=true deprecated...>
+<#macro cLabel label class='' id='' params='' for='' showLabel=true required=false showRequiredLabel=true attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isrequired=required />
 <label class="form-label<#if class?has_content> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for?has_content> for="${for!}"</#if><@commonAttrs id=id params=params attrs=attrs />>

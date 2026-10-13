@@ -30,7 +30,7 @@ Snippet:
     ] />
 
 -->
-<#macro cAnchor anchors id='' class='' listClass='' listItemClass='' anchorsClass='' params='' attrs={} deprecated...>
+<#macro cAnchor anchors id='' class='' listClass='' listItemClass='' anchorsClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cBlock id=id! class='anchors ${class}'>
 	<@chList class=listClass >

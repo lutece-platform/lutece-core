@@ -67,7 +67,7 @@ Snippet:
     <@input type='password' name='password' id='password' size='lg' maxlength=64 mandatory=true />
 
 -->
-<#macro input name id='' type='text' value='' class='' size='' helpKey=helpKey!'' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' attrs={} patternValidationRules=[] deprecated...>
+<#macro input name id='' type='text' value='' class='' size='' helpKey=helpKey!'' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local inputId = id?has_content?then( id, name ) />
 <#-- the date pickers start on the value when there is one -->
