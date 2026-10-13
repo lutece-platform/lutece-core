@@ -31,7 +31,7 @@ Snippet:
     <@smallBox title='42' text='Pending Tasks' boxIcon='clipboard' color='warning' id='pending-tasks-widget' />
 
 -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' attrs={} fontSize='40px' progress='' deprecated...>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' progress='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- A figure, as the stat cards of the Tabler dashboards: the label on one line with the icon on its right, the figure under it, the whole card a link to its feature -->
 <div class="card card-sm box-widget lutece-kpi" draggable='true' <#if id?has_content> id="${id}" data-id="${id}" data-dw-title="${text}"</#if><@commonAttrs params=params attrs=attrs />>

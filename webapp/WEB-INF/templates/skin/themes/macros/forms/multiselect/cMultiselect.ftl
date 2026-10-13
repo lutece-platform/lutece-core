@@ -38,7 +38,7 @@ Snippet:
     </@cMultiselect>
 
 -->
-<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' attrs={} disabled=false deprecated...>
+<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id?has_content>${id}<#else>msg-${random()!}</#if></#local>
 <div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}">

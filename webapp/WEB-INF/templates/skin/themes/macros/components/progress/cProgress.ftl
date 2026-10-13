@@ -41,7 +41,7 @@ Snippet:
     <@cProgress label='Import in progress' token=progressToken showReport=true intervalTime=3000 />
 
 -->  
-<#macro cProgress label labelClass='' class='' color='primary' id='' params='' attrs={} value=0 min=0 max=100 text='' progressId='progressbar' token='' role='progressbar' showReport=false intervalTime=2000  deprecated...>
+<#macro cProgress label labelClass='' class='' color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' role='progressbar' showReport=false intervalTime=2000 attrs={}  deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if max?number != 100><#assign progPercent=( (value?number / max?number ) * 100) /><#else><#assign progPercent=value /></#if>
 <p id="${progressId}-label" class="label-progress<#if labelClass?has_content> ${labelClass}</#if>">${label}</p>

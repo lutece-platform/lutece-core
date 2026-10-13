@@ -21,7 +21,7 @@ Snippet:
     <@passwordComplexity id='pwdComplexity' inputId='new_password' description='Password must contain at least 8 characters' />
 
 -->
-<#macro passwordComplexity id description='' params='' attrs={} inputId='password' value='0' >
+<#macro passwordComplexity id description='' params='' inputId='password' value='0' attrs={} >
 <@deprecatedWarning args=deprecated />
 <div class="lutece-progress-wrapper "<@commonAttrs params=params attrs=attrs />>
     <progress id="${id}" value="0" max="100" class="lutece-progress lutece-progress-danger"></progress>
