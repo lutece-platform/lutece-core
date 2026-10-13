@@ -42,7 +42,7 @@ Snippet:
 -->
 <#macro stepDone title idx step='' titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local stepNumber><#if step!=''>${step}<#else><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></#if></#local>
+<#local stepNumber><#if step?has_content>${step}<#else><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></#if></#local>
 <@div class='step step-done ${class!}' id=id params=params attrs=attrs>
 	<@div class='step-title'>
         <@div class='d-flex justify-content-between align-items-baseline w-100'>
@@ -51,9 +51,9 @@ Snippet:
                 <@span>${title?replace('- hidden','')}</@span>
             </@h>
             <@span class='d-none d-sm-block pl-2'>
-            <#if actionHref !=''>
+            <#if actionHref?has_content>
                 <@aButton label=actionLabel! class='btn btn-outline-primary ${actionClass!}' href=actionHref params='aria-label="${i18n(actionAriaLabelKey, title)?html}" ${actionParams!}' />
-            <#elseif actionName !=''>
+            <#elseif actionName?has_content>
                 <@button class='outline-primary' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${i18n(actionAriaLabelKey, title)?html}" formnovalidate' />
             </#if>
             </@span>    
@@ -64,9 +64,9 @@ Snippet:
             <#nested>   
         </@ul>
         <@div class='d-block d-sm-none mt-m'>
-        <#if actionHref !=''>
+        <#if actionHref?has_content>
             <@aButton label=actionLabel! class='btn btn-primary btn-sm-block ${actionClass!}' href=actionHref params='aria-label="${i18n(actionAriaLabelKey, title)?html}" ${actionParams!}' />
-        <#elseif actionName !=''>
+        <#elseif actionName?has_content>
             <@button class='primary btn-sm-block' label=actionLabel! params='name="${actionName}"value="${idx!}" aria-label="${i18n(actionAriaLabelKey, title)?html}" formnovalidate' />
         </#if>
         </@div>    

@@ -66,7 +66,7 @@ Snippet:
 <#local classExtra = condensed?then( ' table-condensed', '' ) + hover?then( ' table-hover', '' ) + striped?then( ' table-striped', '' ) + bordered?then( ' table-bordered', '' ) + collapsed?then( ' collapse', '' ) />
 <#if responsive><div class="table-responsive"></#if>
 <table<@commonAttrs id=id classBase='table' class=class classExtra=classExtra params=params attrs=attrs />>
-<#if caption!=''><caption>${caption}</caption></#if>
+<#if caption?has_content><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>
 	<#nested>
 <#if headBody></tbody></#if>

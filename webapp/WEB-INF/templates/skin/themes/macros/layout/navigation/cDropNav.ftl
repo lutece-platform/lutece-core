@@ -33,8 +33,8 @@ Snippet:
 <#macro cDropNav title icon='' caret='' expanded=false id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId='id-' + random()>
-<#if id !=''><#local cId=id /></#if>
-<div class="dropdown-group" <#if class !='' > ${class!}</#if>"<@commonAttrs params=params attrs=attrs />>
+<#if id?has_content><#local cId=id /></#if>
+<div class="dropdown-group" <#if class?has_content > ${class!}</#if>"<@commonAttrs params=params attrs=attrs />>
     <button type="button" class="nav-link dropdown-toggle" href="#" id="dropdownMenu${cId!}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="${expanded?c}">
         ${icon!} ${title!} ${caret!}
     </button>

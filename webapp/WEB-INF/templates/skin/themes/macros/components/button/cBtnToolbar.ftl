@@ -37,7 +37,7 @@ Snippet:
 -->
 <#macro cBtnToolbar label type='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local btnClass>btn-toolbar<#if type='vertical'>-vertical</#if><#if class!=''> ${class}</#if></#local>
+<#local btnClass>btn-toolbar<#if type='vertical'>-vertical</#if><#if class?has_content> ${class}</#if></#local>
 <@cSection type='div' class=btnClass id=id params='${params} role="toolbar" aria-label="${label}"' attrs=attrs>
     <#nested>
 </@cSection>

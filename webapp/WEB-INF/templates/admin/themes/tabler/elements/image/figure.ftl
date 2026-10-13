@@ -29,8 +29,8 @@ Snippet:
 <#macro figure caption='' captionPos='bottom' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <figure<@commonAttrs id=id class=class params=params attrs=attrs /> />
-<#if captionPos='top'><#if caption!=''><figcaption>${caption}</figcaption></#if></#if>
+<#if captionPos='top'><#if caption?has_content><figcaption>${caption}</figcaption></#if></#if>
 <#nested>
 </figure>
-<#if captionPos='bottom'><#if caption!=''><figcaption>${caption}</figcaption></#if></#if>
+<#if captionPos='bottom'><#if caption?has_content><figcaption>${caption}</figcaption></#if></#if>
 </#macro>

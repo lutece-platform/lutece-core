@@ -43,7 +43,7 @@ Snippet:
 <#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='' id='' params='' attrs={} >
 <#local hasWrapper = class?has_content || id?has_content || params?has_content || attrs?has_content />
 <#if hasWrapper><div<@commonAttrs id=id class=class params=params attrs=attrs />></#if>
-<#if label!=''><#local fieldLabel>${label!} ${labelData!}</#local><@cLabel label=fieldLabel class=labelClass for=for showLabel=showLabel required=required /></#if>
+<#if label?has_content><#local fieldLabel>${label!} ${labelData!}</#local><@cLabel label=fieldLabel class=labelClass for=for showLabel=showLabel required=required /></#if>
 <#assign propagateRequired = required><#nested><#assign propagateRequired = false>
 <#if hasWrapper></div></#if>
 </#macro>

@@ -31,7 +31,7 @@ Snippet:
 -->  
 <#macro cSkeleton bones={} id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated /> 
-<div class="skeleton<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
+<div class="skeleton<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
 <#if bones?size gt 0>
     <#list bones as bone>
         <#switch bone>

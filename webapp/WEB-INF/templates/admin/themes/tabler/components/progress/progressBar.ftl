@@ -27,7 +27,7 @@ Snippet:
 		<div id="complexity">0%</div>
 	</div>
 </div>
-<#if description!=''>
+<#if description?has_content>
 	<span class="progress-description">${description}</span>
 </#if>
 </#macro>

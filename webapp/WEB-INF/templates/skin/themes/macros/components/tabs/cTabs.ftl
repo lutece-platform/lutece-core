@@ -52,14 +52,14 @@ Snippet:
 <#if navigation>
 	<nav>
 		<div class="nav-tabs-container">
-			<ul class="nav nav-tabs<#if class!=''> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
+			<ul class="nav nav-tabs<#if class?has_content> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
 				<#nested>
 			</ul>
 		</div>
 	</nav>
 <#else>
 	<div class="nav-tabs-container">
-		<div class="nav nav-tabs<#if class!=''> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
+		<div class="nav nav-tabs<#if class?has_content> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
 			<#nested>
 		</div>
 	</div>

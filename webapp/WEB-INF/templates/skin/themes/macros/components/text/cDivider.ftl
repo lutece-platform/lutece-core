@@ -31,9 +31,9 @@ Snippet:
 -->
 <#macro cDivider label='#i18n{portal.theme.labelOr}' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if label != ''>
-<p class="divider<#if class != ''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>${label!}</p>
+<#if label?has_content>
+<p class="divider<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>${label!}</p>
 <#else>
-<hr<#if class != ''> class="${class}"</#if><@commonAttrs id=id params=params attrs=attrs />>
+<hr<#if class?has_content> class="${class}"</#if><@commonAttrs id=id params=params attrs=attrs />>
 </#if>
 </#macro>

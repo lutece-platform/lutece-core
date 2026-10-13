@@ -28,7 +28,7 @@ Snippet:
 -->
 <#macro listGroup id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="list-group<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<ul class="list-group<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<#nested>
 </ul>
 </#macro>

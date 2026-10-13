@@ -50,7 +50,7 @@ Snippet:
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 <#local formLabelClass = labelClass />
 <#if rows=1>
-	<#if labelKey!='' && formStyle='horizontal'>
+	<#if labelKey?has_content && formStyle='horizontal'>
 		<#local formLabelClass += ' form-label'>
 		<#if displayLabelClass?contains('d-none')>
 			<#local divClass='col'>
@@ -70,14 +70,14 @@ Snippet:
 	<#local formLabelClass += ' form-label'>
 	<#local divClass = 'col-12'>
 </#if>
-<#if labelKey!=''>
+<#if labelKey?has_content>
 	<@formLabel class=formLabelClass?trim labelFor=labelFor labelKeyDesc=labelKeyDesc labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 </#if>
 <#assign propagateMandatory = mandatory>
 <div class="${divClass}">
 <#nested>
 <#assign propagateMandatory = false>
-<#if helpKey!=''><#if formStyle!='inline'><p class="mb-0"></#if><small class="text-muted form-text"<#if labelFor!=''> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
+<#if helpKey?has_content><#if formStyle!='inline'><p class="mb-0"></#if><small class="text-muted form-text"<#if labelFor?has_content> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
 </div>
 </div>
 </#macro>

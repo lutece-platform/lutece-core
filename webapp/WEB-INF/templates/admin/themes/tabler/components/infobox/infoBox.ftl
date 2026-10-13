@@ -17,13 +17,13 @@ Parameters:
 -->
 <#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card m-2 box-widget<#if bgColor!=''> ${bgColor}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="card m-2 box-widget<#if bgColor?has_content> ${bgColor}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<div class="card-body">
-		<span class="info-box-icon<#if color!=''> ${color}</#if>"><@icon style=boxIcon /></span><#if boxText !=''><span class="info-box-text ml-2">${boxText}</span></#if>
+		<span class="info-box-icon<#if color?has_content> ${color}</#if>"><@icon style=boxIcon /></span><#if boxText?has_content><span class="info-box-text ml-2">${boxText}</span></#if>
 		<div class="info-box-content">
-			<#if boxNumber!='0'><span class="info-box-number">${boxNumber?trim}<#if unit!=''> <small>${unit}</small></#if></span></#if>
-			<#if bgColor!='' && progressBar!=''><div class="progress"><div class="progress-bar" style="width: ${(boxNumber?trim?number/progressBar?trim?number*100)?string.computer}%"></div></div></#if>
-			<#if progressDescription!=''><span class="progress-description">${progressDescription}</span></#if>
+			<#if boxNumber!='0'><span class="info-box-number">${boxNumber?trim}<#if unit?has_content> <small>${unit}</small></#if></span></#if>
+			<#if bgColor?has_content && progressBar?has_content><div class="progress"><div class="progress-bar" style="width: ${(boxNumber?trim?number/progressBar?trim?number*100)?string.computer}%"></div></div></#if>
+			<#if progressDescription?has_content><span class="progress-description">${progressDescription}</span></#if>
 			<#nested />
 		</div>
 	</div>

@@ -34,7 +34,7 @@ Snippet:
 -->
 <#macro cTd id='' class='' scope='' headers='' role='' colspan='' nospan=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<td<#if scope!=''> scope="${scope!}"</#if><#if colspan!=''> colspan="${colspan!}"</#if><#if headers!=''> headers="${headers!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs /><#if role!=''> role="${role!}"</#if>>
+<td<#if scope?has_content> scope="${scope!}"</#if><#if colspan?has_content> colspan="${colspan!}"</#if><#if headers?has_content> headers="${headers!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs /><#if role?has_content> role="${role!}"</#if>>
 <#if !nospan><span><#nested></span><#else><#nested></#if>
 </td>
 </#macro>

@@ -34,18 +34,18 @@ Snippet:
 -->
 <#macro progress color='primary' id='' params='' attrs={} value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if label!='' >
+<#if label?has_content >
 <div id="${progressId}-label" >${label}</div>
 </#if>
 <div class="progress"<@commonAttrs id=id params=params attrs=attrs />>
-	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
-        <#if text=''>${value}%<#else>${text}</#if>
+	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token?has_content> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token?has_content>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
+        <#if !text?has_content>${value}%<#else>${text}</#if>
 	</div>       
 </div>
 <#if showReport >
 <div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
 </#if>
-<#if token !='' && !luteceProgressLoaded??>
+<#if token?has_content && !luteceProgressLoaded??>
 <script type="module">
 import LuteceProgress from "./themes/shared/modules/luteceProgress.js";
 new LuteceProgress();

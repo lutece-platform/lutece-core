@@ -32,7 +32,7 @@ Snippet:
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/tarteaucitron/tarteaucitron.min.js"></script>
 <!-- Service Mon Paris -->
 <script>
-<#if lang !=''>
+<#if lang?has_content>
 tarteaucitronCustomText = {
    ${lang}
 }; 
@@ -128,7 +128,7 @@ function cleanTarteaucitronRoot() {
 }
 
 <!-- Add link to privacy policy in alert message -->
-<#if alertConfidentialityLink !=''>
+<#if alertConfidentialityLink?has_content>
   function addPrivacyLink() {
     const tarteaucitronRoot = document.querySelector('#tarteaucitronRoot');
     const privacyLink = document.querySelector('#tarteaucitronPrivacyUrl');
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Wait for tarteaucitron to be loaded
   function waitForTarteaucitron() {
     if (typeof tarteaucitron !== 'undefined') {
-        <#if alertConfidentialityLink !=''>addPrivacyLink();</#if>
+        <#if alertConfidentialityLink?has_content>addPrivacyLink();</#if>
         cleanTarteaucitronRoot();
         tacUpdatePanel();
     } else {

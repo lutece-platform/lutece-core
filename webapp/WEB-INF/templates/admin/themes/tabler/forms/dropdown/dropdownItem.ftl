@@ -26,6 +26,6 @@ Snippet:
 <#macro dropdownItem class='' href='' target='' title='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <li>
-	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<@commonAttrs id=id params=params attrs=attrs /><#if target!=''> target="${target}"</#if>>${title}</a>
+	<a href="${href}" class="dropdown-item<#if class?has_content> ${class}</#if>" title="${title}"<@commonAttrs id=id params=params attrs=attrs /><#if target?has_content> target="${target}"</#if>>${title}</a>
 </li>
 </#macro>

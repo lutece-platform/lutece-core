@@ -21,6 +21,6 @@ Snippet:
 -->
 <#macro pageColumnBtn idPageColumn class='' hideSize='' title='' btnColor='primary' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#assign hideSizebtn><#if hideSize!=''>d-${hideSize}-none</#if></#assign>
+<#assign hideSizebtn><#if hideSize?has_content>d-${hideSize}-none</#if></#assign>
 <@button color='primary' class='${hideSizebtn} ${class}' title='${title}' buttonIcon='menu-2'  params='data-bs-toggle="offcanvas" data-bs-target="#${idPageColumn}" aria-controls="${idPageColumn}"' />
 </#macro>
