@@ -34,7 +34,7 @@ for root_dir in ROOTS:
             if not f.endswith(('.ftl', '.html')):
                 continue
             path = os.path.join(root, f)
-            src = open(path, encoding='utf-8').read()
+            src = open(path, encoding='utf-8', newline='').read()
 
             def literal(m):
                 global count
@@ -51,5 +51,5 @@ for root_dir in ROOTS:
 
             new = TAG.sub(lambda t: LITERAL.sub(literal, t.group(0)), src)
             if new != src and APPLY:
-                open(path, 'w', encoding='utf-8').write(new)
+                open(path, 'w', encoding='utf-8', newline='').write(new)
 print('%d literal(s)' % count)
