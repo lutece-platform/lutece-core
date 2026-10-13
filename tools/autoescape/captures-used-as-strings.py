@@ -26,23 +26,24 @@ for root, _, files in os.walk(sys.argv[1]):
         if not f.endswith(('.ftl', '.html')):
             continue
         path = os.path.join(root, f)
-        src = re.sub(r'<#--.*?-->', lambda m: ' ' * len(m.group(0)), open(path, encoding='utf-8').read(), flags=re.S)
+        src = re.sub(r'<#--.*?-->', lambda m: ' ' * len(m.group(0)), open(path, encoding='utf-8', newline='').read(), flags=re.S)
         names = {m.group(2) for m in CAPTURE.finditer(src)}
         for name in sorted(names):
             n = re.escape(name)
-            uses = [
+            comparisons = [
                 r'(?<![\w.?])%s\s*(?:==|!=|=(?!=)|gt\b|lt\b|gte\b|lte\b)\s*["\'\w]' % n,
                 r'["\']\s*(?:==|!=)\s*%s(?![\w?(])' % n,
-                r'(?<![\w.?])%s\?(?:%s)\b' % (n, STRING_BUILTINS),
-                r'<#include\s+[^>]*\$\{%s\}' % n,
             ]
-            for rx in uses:
+            builtin = r'(?<![\w.?])\(?\s*%s\s*(?:!(?:\'\'|"")?)?\s*\)?\?(?:%s)\b' % (n, STRING_BUILTINS)
+            include = r'<#include\s+[^>]*\$\{%s\}' % n
+            for rx, where in [(c, 'if') for c in comparisons] + [(builtin, 'any'), (include, 'include')]:
                 for m in re.finditer(rx, src):
-                    # inside a FreeMarker tag only: a JavaScript comparison is not FreeMarker's business
-                    start = src.rfind('<', 0, m.start())
-                    if start < 0 or src[start + 1] not in '#@' or '>' in src[start:m.start()].replace('->', ''):
-                        if not rx.startswith('<#include'):
-                            continue
+                    tag = max(src.rfind('<#', 0, m.start()), src.rfind('<@', 0, m.start()), src.rfind('${', 0, m.start()))
+                    inside = tag >= 0 and '>' not in src[tag:m.start()].replace('->', '').replace('gt', '') if not src.startswith('${', tag) else tag >= 0 and '}' not in src[tag:m.start()]
+                    if where == 'if' and not (inside and re.match(r'<#(if|elseif)\b', src[tag:])):
+                        continue
+                    if where == 'any' and not inside:
+                        continue
                     found += 1
                     print('%s:%d  capture %s used as a string: %s' % (path, src[:m.start()].count('\n') + 1, name, m.group(0)))
 print('%d use(s)' % found)

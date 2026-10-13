@@ -23,6 +23,21 @@ import sys
 APPLY = '--apply' in sys.argv
 ROOTS = [a for a in sys.argv[1:] if not a.startswith('--')]
 
+
+FTL_TAG = re.compile(r'<[@#](?:[^>"\']|"[^"]*"|\'[^\']*\')*>')
+
+
+def without_ftl_tags(body, rewrite):
+    """applies rewrite to a script body whose FreeMarker tags are masked: a macro call or a directive sits
+    in the script, but its parameters are FreeMarker strings, not JavaScript"""
+    tags = []
+
+    def mask(m):
+        tags.append(m.group(0))
+        return '\x01%d\x01' % (len(tags) - 1)
+
+    return re.sub(r'\x01(\d+)\x01', lambda m: tags[int(m.group(1))], rewrite(FTL_TAG.sub(mask, body)))
+
 SCRIPT = re.compile(r'(<script\b[^>]*>)(.*?)(</script>)', re.S | re.I)
 INTERP = re.compile(r'\$\{((?:[^{}]|\{[^{}]*\})*)\}')
 SAFE_END = re.compile(r'\?(no_esc|c|iso\w*|js_string\?no_esc)\s*$')
@@ -62,17 +77,20 @@ for root_dir in ROOTS:
             if not f.endswith(('.ftl', '.html')):
                 continue
             path = os.path.join(root, f)
-            src = open(path, encoding='utf-8').read()
+            src = open(path, encoding='utf-8', newline='').read()
 
             def script(m):
                 global count
                 if re.search(r'type\s*=\s*["\'](text/template|text/html|text/x-)', m.group(1), re.I):
                     return m.group(0)
-                body = m.group(2)
+                return m.group(1) + without_ftl_tags(m.group(2), rewrite) + m.group(3)
+
+            def rewrite(body):
+                global count
                 out, pos = [], 0
                 for i in INTERP.finditer(body):
                     expr = i.group(1).strip()
-                    line = src.find(m.group(0)) >= 0 and src[:src.find(m.group(0)) + len(m.group(1)) + i.start()].count('\n') + 1
+                    line = src[:src.find(body[max(0, i.start() - 40):i.end()])].count('\n') + 1 if body[max(0, i.start() - 40):i.end()] in src else 0
                     state = quote_state(body[:i.start()])
                     if SAFE_END.search(expr) or expr.startswith('navigator.'):
                         continue
@@ -93,7 +111,7 @@ for root_dir in ROOTS:
                     pos = i.end()
                     count += 1
                 out.append(body[pos:])
-                return m.group(1) + ''.join(out) + m.group(3)
+                return ''.join(out)
 
             # a <#noparse> block is not FreeMarker: its ${...} belong to JavaScript template literals. It is
             # masked (same length) while the scripts are rewritten, then put back
@@ -106,7 +124,7 @@ for root_dir in ROOTS:
             masked = re.sub(r'<#noparse>.*?</#noparse>', mask, src, flags=re.S)
             new = re.sub(r'\x00(\d+)\x00', lambda m: blocks[int(m.group(1))], SCRIPT.sub(script, masked))
             if new != src and APPLY:
-                open(path, 'w', encoding='utf-8').write(new)
+                open(path, 'w', encoding='utf-8', newline='').write(new)
 
 print('%d interpolation(s) in JavaScript strings now ?js_string?no_esc' % count)
 print('%d left for review:' % len(report))

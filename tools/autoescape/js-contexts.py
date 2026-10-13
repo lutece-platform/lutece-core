@@ -24,7 +24,7 @@ for root, _, files in os.walk(sys.argv[1]):
         if not f.endswith(('.ftl', '.html')):
             continue
         path = os.path.join(root, f)
-        src = re.sub(r'<#noparse>.*?</#noparse>', lambda m: re.sub(r'[^\n]', ' ', m.group(0)), open(path, encoding='utf-8').read(), flags=re.S)
+        src = re.sub(r'<#noparse>.*?</#noparse>', lambda m: re.sub(r'[^\n]', ' ', m.group(0)), open(path, encoding='utf-8', newline='').read(), flags=re.S)
         for kind, rx in (('script', SCRIPT), ('handler', HANDLER)):
             for m in rx.finditer(src):
                 body = m.group(1)

@@ -15,6 +15,21 @@ import sys
 
 APPLY = '--apply' in sys.argv
 ROOTS = [a for a in sys.argv[1:] if not a.startswith('--')]
+
+
+FTL_TAG = re.compile(r'<[@#](?:[^>"\']|"[^"]*"|\'[^\']*\')*>')
+
+
+def without_ftl_tags(body, rewrite):
+    """applies rewrite to a script body whose FreeMarker tags are masked: a macro call or a directive sits
+    in the script, but its parameters are FreeMarker strings, not JavaScript"""
+    tags = []
+
+    def mask(m):
+        tags.append(m.group(0))
+        return '\x01%d\x01' % (len(tags) - 1)
+
+    return re.sub(r'\x01(\d+)\x01', lambda m: tags[int(m.group(1))], rewrite(FTL_TAG.sub(mask, body)))
 SCRIPT = re.compile(r'(<script\b[^>]*>)(.*?)(</script>)', re.S | re.I)
 I18N = re.compile(r'#i18n\{([\w.]+)\}')
 
@@ -25,14 +40,21 @@ for root_dir in ROOTS:
             if not f.endswith(('.ftl', '.html')):
                 continue
             path = os.path.join(root, f)
-            src = open(path, encoding='utf-8').read()
+            src = open(path, encoding='utf-8', newline='').read()
 
             def script(m):
                 global count
-                body, n = I18N.subn(lambda i: "${i18n('%s')?js_string?no_esc}" % i.group(1), m.group(2))
-                count += n
-                if n:
-                    print('  %s : %d' % (path, n))
+                found = []
+
+                def rewrite(body):
+                    new, n = I18N.subn(lambda i: "${i18n('%s')?js_string?no_esc}" % i.group(1), body)
+                    found.append(n)
+                    return new
+
+                body = without_ftl_tags(m.group(2), rewrite)
+                count += found[0]
+                if found[0]:
+                    print('  %s : %d' % (path, found[0]))
                 return m.group(1) + body + m.group(3)
 
             # a <#noparse> block is not FreeMarker: its ${...} belong to JavaScript template literals. It is
@@ -46,5 +68,5 @@ for root_dir in ROOTS:
             masked = re.sub(r'<#noparse>.*?</#noparse>', mask, src, flags=re.S)
             new = re.sub(r'\x00(\d+)\x00', lambda m: blocks[int(m.group(1))], SCRIPT.sub(script, masked))
             if new != src and APPLY:
-                open(path, 'w', encoding='utf-8').write(new)
+                open(path, 'w', encoding='utf-8', newline='').write(new)
 print('%d message(s)' % count)
