@@ -27,5 +27,5 @@ Snippet:
 -->
 <#macro cDivider label='#i18n{portal.theme.labelOr}' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<p class="divider<#if class != ''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>${label!}</p>
+<p class="divider<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>${label!}</p>
 </#macro>

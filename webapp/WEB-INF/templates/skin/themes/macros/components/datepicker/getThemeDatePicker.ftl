@@ -36,9 +36,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions}</#if>};
   const dtLocale = navigator.language.split('-')[0] == 'en' ? 'en' : navigator.language.split('-')[0];
   
-  let showFormat=<#if showFormat == ''>getDatePickerDateFormat( dtLocale )<#else>'${showFormat}'</#if>;
+  let showFormat=<#if !showFormat?has_content>getDatePickerDateFormat( dtLocale )<#else>'${showFormat}'</#if>;
   <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
-  let dataFormat=<#if format == ''>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format}'</#if>;
+  let dataFormat=<#if !format?has_content>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format}'</#if>;
   const defaultOptions = {
       autohide: true,
       buttonClass: 'btn',

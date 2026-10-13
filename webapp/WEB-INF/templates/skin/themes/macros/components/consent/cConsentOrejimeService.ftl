@@ -22,7 +22,7 @@ Snippet:
 -->
 <#macro cConsentOrejimeService code='' title='' description='' required=true exempt=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if code !=''>
+<#if code?has_content>
 <#nested>
 {
     id: '${code}',

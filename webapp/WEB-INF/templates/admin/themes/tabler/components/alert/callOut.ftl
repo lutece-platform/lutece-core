@@ -30,7 +30,7 @@ Snippet:
 <#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="alert alert-important alert-${color}"<@commonAttrs id=id params=params attrs=attrs />>
-	<#if title!=''><${titleLevel} class='mb-0'><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
+	<#if title?has_content><${titleLevel} class='mb-0'><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
 	<#nested>
 </div>
 </#macro>

@@ -24,7 +24,7 @@ Snippet:
 -->
 <#macro pageRow id='' width='' class='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row<#if class !=''> ${class}</#if>" <#if id !=''> id="${id}"</#if>>
+<div class="row<#if class?has_content> ${class}</#if>" <#if id?has_content> id="${id}"</#if>>
 	<#nested>
 </div>
 </#macro>

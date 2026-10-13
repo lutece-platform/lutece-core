@@ -39,7 +39,7 @@ Snippet:
 <#macro cLabel label class='' id='' params='' attrs={} for='' showLabel=true required=false showRequiredLabel=true deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isrequired=required />
-<label class="form-label<#if class!=''> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for!=''> for="${for!}"</#if><@commonAttrs id=id params=params attrs=attrs />>
+<label class="form-label<#if class?has_content> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for?has_content> for="${for!}"</#if><@commonAttrs id=id params=params attrs=attrs />>
 <#nested> 
 ${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xxs" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
 </label>

@@ -27,15 +27,15 @@ Snippet:
 <#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='device-floppy' icon2='x' offset=3 deprecated...>
 <@deprecatedWarning args=deprecated />
 <@formGroup rows=2>
-	<#if url1 != ''>
+	<#if url1?has_content>
 		<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' hideTitle=['xs','sm'] />
 	<#else>
 		<@button type='submit' name='${button1Name}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' hideTitle=['xs','sm'] />
 	</#if>
-	<#if url2 != ''>
+	<#if url2?has_content>
 		<@aButton href='${url2}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' size='' hideTitle=['xs','sm']/>
 	<#else>
-		<#if button2Name != ''>
+		<#if button2Name?has_content>
 			<@button type='submit' name='${button2Name}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' cancel=true size='' hideTitle=['xs','sm'] />
 		</#if>
 	</#if>

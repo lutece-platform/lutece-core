@@ -36,7 +36,7 @@ Snippet:
 -->
 <#macro cCardFloating id title='' titleLevel=3 class='' dismissible=true params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card card-floating<#if class!=''> ${class!}</#if>" id="${id!}-card" <@commonAttrs params=params attrs=attrs />>
+<div class="card card-floating<#if class?has_content> ${class!}</#if>" id="${id!}-card" <@commonAttrs params=params attrs=attrs />>
     <div class="card-body">
     	<div class='card-title-container'>
     		<@cTitle level=titleLevel class='card-title'>${title!}</@cTitle>
@@ -45,7 +45,7 @@ Snippet:
               </button>
             </#if>
        	</div>
-        <#if title!=''></#if>
+        <#if title?has_content></#if>
         <#nested>
     </div>
 </div>

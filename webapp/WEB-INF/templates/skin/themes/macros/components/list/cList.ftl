@@ -70,7 +70,7 @@ Snippet:
 -->
 <#macro cList items={} type='default' itemsShown=0 indexShown=false labelMore=i18n("portal.theme.labelShowMore") labelClose=i18n("portal.theme.labelClose") class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />        
-<ul class="custom-list list-${type!}<#if class!=''> ${class}</#if><#if type='more'> more-list</#if>" <@commonAttrs id=id params=params attrs=attrs /> >
+<ul class="custom-list list-${type!}<#if class?has_content> ${class}</#if><#if type='more'> more-list</#if>" <@commonAttrs id=id params=params attrs=attrs /> >
 <#if items?has_content>
     <#list items as i>
         <li class="custom-list-item <#if i.class?? && i.class !=''>${i.class}</#if><#if type='more' && i?index &gt; itemsShown>extra hidden</#if>">
@@ -99,9 +99,9 @@ Snippet:
 </#macro>
 <#macro cListItem url='' label='' title='' target='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="custom-list-item<#if class !=''> ${class}</#if>">
-<#if url !=''>
-<a class="list-info" href="${url!}" title="${title!}"<#if target !=''> target="${target}"</#if>>
+<li class="custom-list-item<#if class?has_content> ${class}</#if>">
+<#if url?has_content>
+<a class="list-info" href="${url!}" title="${title!}"<#if target?has_content> target="${target}"</#if>>
     <span>${label}</span>
 </a>
 <#else>

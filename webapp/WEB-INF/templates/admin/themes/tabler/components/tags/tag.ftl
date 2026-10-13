@@ -31,8 +31,8 @@ Snippet:
 -->
 <#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />	
-<span class="badge<#if color!=''> bg-${color} text-bg-${color}</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><@commonAttrs params=params attrs=attrs />>
-	<#if tagIcon !=''>
+<span class="badge<#if color?has_content> bg-${color} text-bg-${color}</#if><#if class?has_content> ${class}</#if>"<#if title?has_content> title='${title}'</#if><#if id?has_content>id='${id}'</#if><@commonAttrs params=params attrs=attrs />>
+	<#if tagIcon?has_content>
 	<@icon style=tagIcon />
 	</#if>
 	<#nested>

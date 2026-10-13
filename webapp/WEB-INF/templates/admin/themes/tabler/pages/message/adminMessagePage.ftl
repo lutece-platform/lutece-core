@@ -59,7 +59,7 @@ Snippet:
 	<@div class="container">
 		<@div class="text-center mb-4">
 			<@link href=".">
-				<#if logoUrl==''>
+				<#if !logoUrl?has_content>
 						${logoSvg!}
 					<#else>
             			<img src="${logoUrl}" width="32" height="32" alt="Logo du site" aria-hidden="true">

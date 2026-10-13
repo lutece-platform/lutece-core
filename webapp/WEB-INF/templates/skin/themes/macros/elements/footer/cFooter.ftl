@@ -33,7 +33,7 @@ Snippet:
 <#macro cFooter title='' titleLevel=2 class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <footer<@commonAttrs id=id class=class params=params attrs=attrs /> >
-    <#if title !=''><@cTitle level=titleLevel>${title}</@cTitle></#if>
+    <#if title?has_content><@cTitle level=titleLevel>${title}</@cTitle></#if>
     <#nested>
 </footer>
 </#macro>

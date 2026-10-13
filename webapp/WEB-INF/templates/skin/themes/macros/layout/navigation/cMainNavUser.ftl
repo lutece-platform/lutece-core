@@ -39,7 +39,7 @@ Snippet:
 <#macro cMainNavUser connected userName urlConnect btnToggle=true userFullName='' userEmail='' userInitials='' hasIcon=false title='#i18n{portal.theme.labelConnect}' id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <ul id="auth-wrapper" class="navbar-nav mon-auth">
-    <li class="nav-item mt-0 dropdown<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
+    <li class="nav-item mt-0 dropdown<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
     <#if !connected>
         <#if btnToggle>
         <button type="button" class="nav-link" id="dropdownAuthUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="#i18n{portal.theme.titleConnect}">

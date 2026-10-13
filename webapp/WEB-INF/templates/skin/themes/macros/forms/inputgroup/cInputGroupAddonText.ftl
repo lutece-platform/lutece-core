@@ -31,7 +31,7 @@ Snippet:
 -->
 <#macro cInputGroupAddonText tag='span' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="input-group-text<#if class!=''> ${class!}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<${tag} class="input-group-text<#if class?has_content> ${class!}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#nested>
 </${tag}>
 </#macro>

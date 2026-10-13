@@ -31,8 +31,8 @@ Snippet:
 -->
 <#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class!=''> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}"<@commonAttrs params=params attrs=attrs />>    
-	<div class="card-body<#if bodyClass!=''> ${bodyClass!}</#if>">
+<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}"<@commonAttrs params=params attrs=attrs />>    
+	<div class="card-body<#if bodyClass?has_content> ${bodyClass!}</#if>">
 		<#nested>
 	</div>
 </div>
