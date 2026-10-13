@@ -34,7 +34,7 @@ Snippet:
     </@cBtnImg>
 
 -->
-<#macro cBtnImg src class='primary' id='' type='submit' params='' attrs={} imgPos='before' disabled=false deprecated...>
+<#macro cBtnImg src class='primary' id='' type='submit' params='' imgPos='before' disabled=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cBtn label='' class='${class!} btn-img' type=submit  disabled=disabled params=params attrs=attrs >
 <#if imgPos='before'>

@@ -34,7 +34,7 @@ Snippet:
     <@radioButton name='status' id='status_inactive' labelKey='Inactive' value='inactive' orientation='inline' />
 
 -->
-<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' attrs={} mandatory=false  deprecated...>
+<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false attrs={}  deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = mandatory || ( propagateMandatory?? && propagateMandatory ) />
 <#-- params and attrs go on the wrapper when there is one, else on the input -->

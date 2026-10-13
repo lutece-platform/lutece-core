@@ -25,7 +25,7 @@ Snippet:
     <@cMultiselectOption name='tags' label='Archived' value='archived' disabled=true />
 
 -->
-<#macro cMultiselectOption name label class='' classCheckbox='' value='' id='' params='' attrs={} disabled=false deprecated...>
+<#macro cMultiselectOption name label class='' classCheckbox='' value='' id='' params='' disabled=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@chItem class=class!>
     <@cCheckbox class=classCheckbox name=name id=id label=label value=value type='button' disabled=disabled params=params attrs=attrs/>

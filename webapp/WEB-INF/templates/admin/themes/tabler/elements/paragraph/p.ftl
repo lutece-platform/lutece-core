@@ -27,7 +27,7 @@ Snippet:
     </@p>
 
 -->
-<#macro p id='' params='' attrs={} class='' hide=[] collapsed=false align='' deprecated...>
+<#macro p id='' params='' class='' hide=[] collapsed=false align='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + displaySettings( hide, 'block' ) + ' ' + alignmentSettings( align, '' ) />
 <p<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>

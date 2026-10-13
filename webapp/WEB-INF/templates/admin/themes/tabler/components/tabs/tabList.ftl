@@ -30,7 +30,7 @@ Snippet:
     </@tabList>
 
 -->
-<#macro tabList style='tabs' vertical=false id='' class='' params='' attrs={} color='' deprecated...>
+<#macro tabList style='tabs' vertical=false id='' class='' params='' color='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- the style of the enclosing @tabs wins over the style parameter -->
 <#local tabStyle = propagateTabStyle!style />

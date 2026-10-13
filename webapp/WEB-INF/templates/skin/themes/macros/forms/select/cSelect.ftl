@@ -52,7 +52,7 @@ Snippet:
     </@cSelect>
 
 -->
-<#macro cSelect name class='form-select' size='' id='' params='' attrs={} multiple=false disabled=false autocomplete='' readonly=false required=false html5Required=true helpMsg='' errorMsg='' deprecated...>
+<#macro cSelect name class='form-select' size='' id='' params='' multiple=false disabled=false autocomplete='' readonly=false required=false html5Required=true helpMsg='' errorMsg='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign idMsg><#if id?has_content>${id}<#else>${name!}</#if></#assign>
 <select name="${name!}" class="${class!}<#if size?has_content> form-select-${size!}</#if><#if errorMsg?has_content> is-invalid</#if>"<#if idMsg?has_content> id="${idMsg}"</#if><#if autocomplete?has_content> autocomplete="${autocomplete}"</#if><@commonAttrs params=params attrs=attrs /><#if disabled> disabled</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if multiple> multiple</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
