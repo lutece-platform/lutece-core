@@ -27,10 +27,9 @@ Snippet:
     </@tr>
 
 -->
-<#macro tr id='' class='' hide=[] params='' deprecated...>
+<#macro tr id='' class='' hide=[] params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
-<tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tr<@commonAttrs id=id class=class classExtra=displaySettings( hide, 'table-cell' ) params=params attrs=attrs />>
 	<#nested>
 </tr>
 </#macro>

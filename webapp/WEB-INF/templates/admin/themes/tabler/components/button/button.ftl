@@ -51,86 +51,85 @@ Snippet:
     <@button type='submit' buttonIcon='send' title='Submit form' color='primary' disabled=true hideTitle=['xs','sm'] />
 
 -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' value='' title='' tooltip='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''  params='' deprecated...>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' value='' title='' tooltip='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''  params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local params = params />
-<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
-	<#local buttonColor = 'default' />
-<#elseif !cancel && color=''>
-	<#local buttonColor = 'primary' />
-<#else>
-	<#local buttonColor = color />
-</#if>
-<#-- Visibility of button title -->
-<#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
-<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
-<#local showTitleClass = '' />
-<#if style != ''>
-	<#if style?contains('card-control')>
-		<#if style?contains('collapse')>
-			<#local widgetAction = 'collapse' />
-			<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				var targetEl = document.querySelector('${buttonTargetId}');
-				if (targetEl) {
-				<#if buttonIcon = 'minus'>
-					targetEl.classList.add('show');
-				<#else>
-					targetEl.classList.add('collapse');
-				</#if>
-				}
-			});
-			</script>
-		<#elseif style?contains('remove')>
-			<#local widgetAction = 'remove' />
-		</#if>
-		<#local btnStyle = style?replace('collapse|remove', '', 'r')?trim />
-	<#elseif style?contains('modal')>
-		<#local widgetAction = 'modal' />
-		<#local btnStyle = style?replace('modal', '', 'r')?trim />
+	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
+		<#local buttonColor = 'default' />
+	<#elseif !cancel && color=''>
+		<#local buttonColor = 'primary' />
 	<#else>
-		<#local btnStyle = style />
+		<#local buttonColor = color />
 	</#if>
-</#if>
-<#-- Size class -->
-<#local buttonSize = '' />
-<#if size?starts_with('style') == true >
-	<#local params = params + ' ' + size />
-<#else>
-	<#local buttonSize = size />
-</#if>	
-<#if dropdownMenu><div class="dropdown"></#if>
-<button class="<#if style!='close'>btn</#if><#if dropdownMenu>-link</#if><#if buttonSize!=''> btn-${buttonSize}</#if><#if buttonColor!='' && !dropdownMenu> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> btn-action</#if><#if class!=''> ${class}</#if>" type="${type}"<#if tooltip!=''>title="${tooltip}"<#else><#if title!=''> title="${title}"</#if></#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
-	<#if buttonIcon!='' && iconPosition='left'>
-		<#local buttonIcon = buttonIcon />
-		<#if buttonIcon?starts_with('<svg')>
-			${buttonIcon!}
+	<#-- Visibility of button title -->
+	<#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
+	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
+	<#local showTitleClass = '' />
+	<#if style != ''>
+		<#if style?contains('card-control')>
+			<#if style?contains('collapse')>
+				<#local widgetAction = 'collapse' />
+				<script>
+				document.addEventListener('DOMContentLoaded', function() {
+					var targetEl = document.querySelector('${buttonTargetId}');
+					if (targetEl) {
+					<#if buttonIcon = 'minus'>
+						targetEl.classList.add('show');
+					<#else>
+						targetEl.classList.add('collapse');
+					</#if>
+					}
+				});
+				</script>
+			<#elseif style?contains('remove')>
+				<#local widgetAction = 'remove' />
+			</#if>
+			<#local btnStyle = style?replace('collapse|remove', '', 'r')?trim />
+		<#elseif style?contains('modal')>
+			<#local widgetAction = 'modal' />
+			<#local btnStyle = style?replace('modal', '', 'r')?trim />
 		<#else>
-		<@icon style=buttonIcon />
+			<#local btnStyle = style />
 		</#if>
 	</#if>
-	<#local nestedContent><#nested /></#local>
-	<#local nestedContent = nestedContent?trim />
-	<#if nestedContent=''><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
-	<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
-	<#if title!='' && dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
-	<#if buttonIcon!='' && iconPosition='right'>
-		<#local buttonIcon = buttonIcon />
-		<#if buttonIcon?starts_with('<svg')>
-			${buttonIcon!}
-		<#else>
-		<@icon style=buttonIcon />
-		</#if>
+	<#-- Size class, or a style attribute when size starts with 'style' -->
+	<#local buttonSize = '' />
+	<#local sizeStyle = '' />
+	<#if size?starts_with('style') == true >
+		<#local sizeStyle = size />
+	<#else>
+		<#local buttonSize = size />
 	</#if>
-</button>
-<#if dropdownMenu>
-	<#-- items given as list items stay in a list; plain links sit in a div, where a li would close the enclosing one -->
-	<#local menuItems><#nested></#local>
-	<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
-	<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
-	<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
-		${menuItems}
-	</${menuTag}>
-</div>
-</#if>
+	<#local classBase = ( style != 'close' )?then( 'btn', '' ) + dropdownMenu?then( '-link', '' ) + buttonSize?has_content?then( ' btn-' + buttonSize, '' ) + ( buttonColor?has_content && !dropdownMenu )?then( ' btn-' + buttonColor, '' ) + ( btnStyle?? && btnStyle?has_content )?then( ' ' + btnStyle!, '' ) + dropdownMenu?then( ' btn-action', '' ) />
+	<#if dropdownMenu><div class="dropdown"></#if>
+	<button<@commonAttrs id=id classBase=classBase class=class params=params attrs=attrs /> type="${type}"<#if tooltip?has_content> title="${tooltip}"<#elseif title?has_content> title="${title}"</#if><#if name?has_content> name="${name}"</#if><#if value?has_content> value="${value}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+		<#if buttonIcon?has_content && iconPosition='left'>
+			<#if buttonIcon?starts_with('<svg')>
+				${buttonIcon!}
+			<#else>
+			<@icon style=buttonIcon />
+			</#if>
+		</#if>
+		<#local nestedContent><#nested /></#local>
+		<#local nestedContent = nestedContent?trim />
+		<#if nestedContent=''><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
+		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
+		<#if title!='' && dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
+		<#if buttonIcon?has_content && iconPosition='right'>
+			<#if buttonIcon?starts_with('<svg')>
+				${buttonIcon!}
+			<#else>
+			<@icon style=buttonIcon />
+			</#if>
+		</#if>
+	</button>
+	<#if dropdownMenu>
+		<#-- items given as list items stay in a list; plain links sit in a div, where a li would close the enclosing one -->
+		<#local menuItems><#nested></#local>
+		<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
+		<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
+		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+			${menuItems}
+		</${menuTag}>
+	</div>
+	</#if>
 </#macro>

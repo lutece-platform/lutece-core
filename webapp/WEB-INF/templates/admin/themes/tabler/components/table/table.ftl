@@ -60,16 +60,11 @@ Snippet:
     </@table>
 
 -->
-<#macro table id='' class='' responsive=true condensed=true hover=true striped=false headBody=false bordered=false narrow=false collapsed=false caption='' params='' deprecated...>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false headBody=false bordered=false narrow=false collapsed=false caption='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local class = class />
-<#if condensed> <#local class += ' table-condensed' /> </#if>
-<#if hover>     <#local class += ' table-hover' /> </#if>
-<#if striped>   <#local class += ' table-striped'   /> </#if>
-<#if bordered>  <#local class += ' table-bordered'  /> </#if>
-<#if collapsed> <#local class += ' collapse' /> </#if>
+<#local classExtra = condensed?then( ' table-condensed', '' ) + hover?then( ' table-hover', '' ) + striped?then( ' table-striped', '' ) + bordered?then( ' table-bordered', '' ) + collapsed?then( ' collapse', '' ) />
 <#if responsive><div class="table-responsive"></#if>
-<table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<table<@commonAttrs id=id classBase='table' class=class classExtra=classExtra params=params attrs=attrs />>
 <#if caption!=''><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>
 	<#nested>

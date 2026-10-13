@@ -28,11 +28,10 @@ Snippet:
     </@pre>
 
 -->
-<#macro pre id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<#macro pre id='' class='' hide=[] collapsed=false align='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) />
+<pre<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 	<#nested>
 </pre>
 </#macro>

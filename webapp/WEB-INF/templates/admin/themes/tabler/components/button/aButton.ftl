@@ -38,9 +38,8 @@ Snippet:
     </@aButton>
 
 -->
-<#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' deprecated...>
+<#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local params = params />
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings( hideTitle, 'block' ) />
 <#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
@@ -50,18 +49,16 @@ Snippet:
 <#else>
 	<#local buttonColor = 'btn-' + color />
 </#if>
-<#if style='card-control'>
-	<#assign style='text-right btn-link' />
-</#if>
-<#local class += alignmentSettings(align,'') />
-<#-- Size class -->
+<#-- Size class, or a style attribute when size starts with 'style' -->
 <#local buttonSize = '' />
-<#if size?starts_with('style') == true ><#local params = params + ' ' + size /><#else><#local buttonSize = size /></#if>	
+<#local sizeStyle = '' />
+<#if size?starts_with('style') == true ><#local sizeStyle = size /><#else><#local buttonSize = size /></#if>
+<#local classBase = style + buttonSize?has_content?then( ' btn-' + buttonSize, '' ) + color?has_content?then( ' ' + buttonColor, '' ) + dropdownMenu?then( ' btn-action', '' ) />
 <#if dropdownMenu><div class="dropdown"></#if>
-<a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if dropdownMenu> btn-action</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-	<#if buttonIcon!='' && iconPosition='left'><#local buttonIcon = buttonIcon  /><@icon style=buttonIcon /></#if>
+<a<@commonAttrs id=id classBase=classBase class=class classExtra=alignmentSettings( align, '' ) params=params attrs=attrs /><#if name?has_content> name="${name}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<#if buttonIcon?has_content && iconPosition='left'><@icon style=buttonIcon /></#if>
 	<span class="${displayTitleClass}">${title}</span>
-	<#if buttonIcon!='' && iconPosition='right'><#local buttonIcon = buttonIcon  /><@icon style=buttonIcon /></#if>
+	<#if buttonIcon?has_content && iconPosition='right'><@icon style=buttonIcon /></#if>
 	<#if !dropdownMenu>
 	<#nested>
 	</#if>

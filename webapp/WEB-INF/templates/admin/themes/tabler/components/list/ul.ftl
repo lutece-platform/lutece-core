@@ -36,11 +36,10 @@ Snippet:
     </@ul>
 
 -->
-<#macro ul id='' class='' align='' hide=[] collapsed=false params='' deprecated...>
+<#macro ul id='' class='' align='' hide=[] collapsed=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
+<#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) + collapsed?then( ' collapse', '' ) />
+<ul<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 <#nested>
 </ul>
 </#macro>
