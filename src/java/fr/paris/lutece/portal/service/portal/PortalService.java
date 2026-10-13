@@ -46,6 +46,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -275,15 +276,15 @@ public final class PortalService
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
 
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
-        model.put( Markers.PAGE_HEADER, tHeader.getHtml( ) );
+        model.put( Markers.PAGE_HEADER, HtmlMarkup.of( tHeader.getHtml( ) ) );
         model.put( MARKER_PAGE_DATA, data );
         model.put( Markers.PAGE_NAME, data.getName( ) == null ? "" : data.getName( ) );
-        model.put( Markers.PAGE_CONTENT, data.getContent( ) == null ? "" : data.getContent( ) );
-        model.put( Markers.PAGE_PATH, data.getPagePath( ) == null ? "" : data.getPagePath( ) );
-        model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml( ) );
+        model.put( Markers.PAGE_CONTENT, HtmlMarkup.of( data.getContent( ) ) );
+        model.put( Markers.PAGE_PATH, HtmlMarkup.of( data.getPagePath( ) ) );
+        model.put( Markers.PAGE_TOOLS_MENU, HtmlMarkup.of( tToolsMenu.getHtml( ) ) );
         model.put( Markers.PAGE_ID, nCurrentPageId );
 
-        model.put( Markers.PAGE_FOOTER, tFooter.getHtml( ) );
+        model.put( Markers.PAGE_FOOTER, HtmlMarkup.of( tFooter.getHtml( ) ) );
 
         String strBaseUrl = request != null ? AppPathService.getBaseUrl( request ) : ""; // request could be null
                                                                                          // (method called by daemons

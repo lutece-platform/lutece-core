@@ -417,10 +417,6 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private SecurityHeader getSecurityHeaderToConfigure( String strSecurityHeaderId )
     {
     	SecurityHeader securityHeader = SecurityHeaderHome.findByPrimaryKey( Integer.parseInt( strSecurityHeaderId ) );
-    	if( securityHeader != null )
-    	{
-            securityHeader.setValue( StringEscapeUtils.escapeHtml4( securityHeader.getValue( ) ) );
-    	}
         
         return securityHeader;
     }
@@ -471,10 +467,6 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private SecurityHeader getSecurityHeaderForModification( String strSecurityHeaderId )
     {
     	SecurityHeader securityHeader = SecurityHeaderHome.findByPrimaryKey( Integer.parseInt( strSecurityHeaderId ) );
-    	if( securityHeader != null )
-    	{
-            securityHeader.setValue( StringEscapeUtils.escapeHtml4( securityHeader.getValue( ) ) );
-    	}
         
         return securityHeader;
     }

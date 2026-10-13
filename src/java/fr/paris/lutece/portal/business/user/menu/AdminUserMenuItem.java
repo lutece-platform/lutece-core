@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
+
+import freemarker.core.TemplateHTMLOutputModel;
+
 /**
  * Admin user menu item
  * 
@@ -86,5 +90,16 @@ public class AdminUserMenuItem
     public String getContent( )
     {
         return _strContent;
+    }
+
+    /**
+     * Get the HTML content of the item as a FreeMarker markup value, written as is by an auto-escaping template
+     * (<code>${item.markup}</code>). The content is HTML rendered by the application.
+     *
+     * @return the HTML content as markup
+     */
+    public TemplateHTMLOutputModel getMarkup( )
+    {
+        return HtmlMarkup.of( _strContent );
     }
 }
