@@ -124,8 +124,8 @@ window.addEventListener( "load", function() {
 			"showMethod": "fadeIn",
 			"hideMethod": "fadeOut"
 		}
-		const urlMessage='<p class="mt-3"><a class="btn btn-primary" target="_blank" href="https://browsehappy.com/?locale=fr">#i18n{theme.toast.msg.updateBrowser}</a></p>';
-		toastr["warning"]("#i18n{theme.toast.msg.ContentBrowser}" + urlMessage, "#i18n{theme.toast.msg.titleBrowser}" + browserName + ' ' + browserVer );
+		const urlMessage='<p class="mt-3"><a class="btn btn-primary" target="_blank" href="https://browsehappy.com/?locale=fr">${i18n('theme.toast.msg.updateBrowser')?js_string?no_esc}</a></p>';
+		toastr["warning"]("${i18n('theme.toast.msg.ContentBrowser')?js_string?no_esc}" + urlMessage, "${i18n('theme.toast.msg.titleBrowser')?js_string?no_esc}" + browserName + ' ' + browserVer );
 	}
 });   
 </script>

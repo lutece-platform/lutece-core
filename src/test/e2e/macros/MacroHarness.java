@@ -51,7 +51,7 @@ public class MacroHarness
             cfg.addAutoInclude( inc );
         }
         TemplateMethodModelEx dskey = a -> "DS Value Missing";
-        TemplateMethodModelEx i18n = a -> String.valueOf( a.get( 0 ) );
+        TemplateMethodModelEx i18n = a -> "#i18n{" + a.get( 0 ) + "}";
         cfg.setSharedVariable( "dskey", dskey );
         cfg.setSharedVariable( "i18n", i18n );
         cfg.setLazyAutoImports( true );

@@ -201,7 +201,7 @@ new LuteceSearchList( searchInput, searchElementList, {
     persistKey: "lutece-admin-prop-search",
     // Add a clear button next to the filter field.
     clearButton: true,
-    clearButtonLabel: "#i18n{portal.util.labelReset}",
+    clearButtonLabel: "${i18n('portal.util.labelReset')?js_string?no_esc}",
     extraSearchFunction: function(){
         // Hide a group (masonry item) when none of its property boxes are visible, so no empty
         // group card is left behind. Groups holding only hidden options are left to the CSS rule.

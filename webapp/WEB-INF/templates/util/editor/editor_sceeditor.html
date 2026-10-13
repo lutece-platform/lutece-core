@@ -35,7 +35,7 @@
 <script>
 const editorTxt = document.querySelector('${( editorSelector! )?js_string?no_esc}');
 sceditor.create( editorTxt, {
-	format: '${( format == 'bbcode' )?then( 'bbcode', 'xhtml' )}',
+	format: '${( ( format == 'bbcode' )?then( 'bbcode', 'xhtml' ) )?js_string?no_esc}',
 	style: '${editorPath?js_string?no_esc}/themes/content/${skin?js_string?no_esc}.min.css'<#if !emo>,
 	emoticonsEnabled: false</#if><#if icons !=''>,
 	icons: '${icons?js_string?no_esc}'</#if><#if plugins !=''>,

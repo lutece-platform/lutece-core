@@ -69,6 +69,6 @@ new LuteceSearchList( searchInput, searchElementList, {
     persistKey: "lutece-admin-caches-search",
     // Add a clear button next to the filter field.
     clearButton: true,
-    clearButtonLabel: "#i18n{portal.util.labelReset}",
+    clearButtonLabel: "${i18n('portal.util.labelReset')?js_string?no_esc}",
 });
 </script>

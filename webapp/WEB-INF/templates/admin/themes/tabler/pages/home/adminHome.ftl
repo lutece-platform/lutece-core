@@ -68,13 +68,13 @@ Snippet:
 <link rel="stylesheet" href="themes/admin/shared/css/dashboard-widgets.css">
 <script>
 window.LuteceDashboardWidgetsLabels = {
-	title: "#i18n{portal.admin.admin_home.dashboard.tools.title}",
-	hidden: "#i18n{portal.admin.admin_home.dashboard.tools.hidden}",
-	noHidden: "#i18n{portal.admin.admin_home.dashboard.tools.noHidden}",
-	showAll: "#i18n{portal.admin.admin_home.dashboard.tools.showAll}",
-	reset: "#i18n{portal.admin.admin_home.dashboard.tools.reset}",
-	collapse: "#i18n{portal.admin.admin_home.dashboard.widget.collapse}",
-	expand: "#i18n{portal.admin.admin_home.dashboard.widget.expand}"
+	title: "${i18n('portal.admin.admin_home.dashboard.tools.title')?js_string?no_esc}",
+	hidden: "${i18n('portal.admin.admin_home.dashboard.tools.hidden')?js_string?no_esc}",
+	noHidden: "${i18n('portal.admin.admin_home.dashboard.tools.noHidden')?js_string?no_esc}",
+	showAll: "${i18n('portal.admin.admin_home.dashboard.tools.showAll')?js_string?no_esc}",
+	reset: "${i18n('portal.admin.admin_home.dashboard.tools.reset')?js_string?no_esc}",
+	collapse: "${i18n('portal.admin.admin_home.dashboard.widget.collapse')?js_string?no_esc}",
+	expand: "${i18n('portal.admin.admin_home.dashboard.widget.expand')?js_string?no_esc}"
 };
 </script>
 <script src="themes/admin/shared/js/dashboard-widgets.js"></script>

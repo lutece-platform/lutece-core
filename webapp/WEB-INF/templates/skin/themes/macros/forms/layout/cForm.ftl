@@ -81,4 +81,5 @@ window.__formValidationConfig = {
 <script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-form-observer.js"></script>
 </#if>
 </#macro>
-<#macro _fvMsg dsKey i18nKey><#assign _ds = dskey(dsKey)!''><#if _ds?has_content && !_ds?starts_with('DS Value')>${_ds?js_string}<#else>#i18n{${i18nKey}}</#if></#macro>
+<#-- a message for a JavaScript string: the site property, or the i18n message (through i18n(), so that it is JavaScript-escaped too) -->
+<#macro _fvMsg dsKey i18nKey><#assign _ds = dskey(dsKey)!''><#if _ds?has_content && !_ds?starts_with('DS Value')>${_ds?js_string?no_esc}<#else>${i18n( i18nKey )?js_string?no_esc}</#if></#macro>
