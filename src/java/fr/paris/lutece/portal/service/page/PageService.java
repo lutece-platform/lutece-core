@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.util.http.SecurityUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -535,7 +536,7 @@ public class PageService implements IPageService, ImageResourceProvider
     private String addColumnOutline( int columnId, String content, Locale locale )
     {
         Map<String, Object> model = new HashMap<>( 2 );
-        model.put( MARK_COLUMN_CONTENT, content );
+        model.put( MARK_COLUMN_CONTENT, HtmlMarkup.of( content ) );
         model.put( MARK_COLUMN_ID, columnId );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_COLUMN_OUTLINE, locale, model );
@@ -952,7 +953,7 @@ public class PageService implements IPageService, ImageResourceProvider
         url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
         url.addParameter( Parameters.RESOURCE_ID, strPageId );
 
-        return url.getUrlWithEntity( );
+        return url.getUrl( );
     }
 
     /**

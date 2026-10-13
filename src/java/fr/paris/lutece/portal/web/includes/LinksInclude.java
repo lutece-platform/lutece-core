@@ -49,6 +49,7 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -179,8 +180,8 @@ public class LinksInclude implements PageInclude
         }
 
         links = new HashMap<>( 2 );
-        links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
-        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
+        links.put( MARK_PLUGINS_CSS_LINKS, HtmlMarkup.of( sbCssLinks.toString( ) ) );
+        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, HtmlMarkup.of( sbJsLinks.toString( ) ) );
         if(cacheService.isCacheEnable() && !cacheService.isClosed( )) {
         	cacheService.put( strKey, links );
         }

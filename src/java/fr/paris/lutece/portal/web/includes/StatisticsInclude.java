@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -111,7 +112,7 @@ public class StatisticsInclude implements PageInclude
             strStatisticalInclude = "";
         }
 
-        rootModel.put( MARK_STATISTICAL_INCLUDE_HEAD, strStatisticalIncludeHead );
-        rootModel.put( MARK_STATISTICAL_INCLUDE, strStatisticalInclude );
+        rootModel.put( MARK_STATISTICAL_INCLUDE_HEAD, HtmlMarkup.of( strStatisticalIncludeHead ) );
+        rootModel.put( MARK_STATISTICAL_INCLUDE, HtmlMarkup.of( strStatisticalInclude ) );
     }
 }

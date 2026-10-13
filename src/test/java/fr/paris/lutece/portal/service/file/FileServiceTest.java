@@ -308,15 +308,10 @@ public class FileServiceTest extends LuteceTestCase
      * the httpclient dependency it came from.
      *
      * <p>
-     * The parsing looks odd because the string is not a query string : it is a whole URL, whose
-     * parameters UrlItem.getUrlWithEntity joins with the numeric entity <code>&amp;#38;</code>.
-     * Splitting it on both <code>&amp;</code> and <code>;</code>, the two separators
-     * URLEncodedUtils defaulted to, therefore yields three tokens for
-     * <code>&lt;url&gt;?provider=X&amp;#38;data=Y</code> : a first name carrying the path, a stray
-     * <code>#38</code>, and <code>data=Y</code>. Only the last one matters, the code under test
-     * reading everything it needs from the encrypted <code>data</code>. Splitting on
-     * <code>&amp;</code> alone would leave <code>#38;data</code> as the name and the test would
-     * fail.
+     * The string is not a query string but a whole URL: splitting it on <code>&amp;</code> and <code>;</code>, the two
+     * separators URLEncodedUtils defaulted to, yields a first name carrying the path, then the parameters. Only
+     * <code>data</code> matters, the code under test reading everything it needs from it. An URL built before
+     * LUT-33153 joined its parameters with the entity <code>&amp;#38;</code>, which this split also handles.
      * </p>
      *
      * @param request

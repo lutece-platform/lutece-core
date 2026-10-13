@@ -199,7 +199,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
             item.addParameter( PARAMETER_PROVIDER, strFileStorageServiceProviderName );
             item.addParameter( PARAMETER_DATA, idEncrytped );
 
-            return item.getUrlWithEntity( );
+            return item.getUrl( );
         }
         catch( GeneralSecurityException e )
         {

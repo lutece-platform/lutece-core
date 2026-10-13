@@ -121,10 +121,13 @@ public class UrlItem implements Serializable
     }
 
     /**
-     * Return the url string.
+     * Return the url string, its parameters separated by the HTML entity &amp;#38;.
      * 
      * @return String The url string with entity code.
+     * @deprecated the templates escape the values they print (HTML auto-escaping): an URL already HTML-encoded is
+     *             encoded twice. Put {@link #getUrl()} in the model.
      */
+    @Deprecated( since = "8.0.2" )
     public String getUrlWithEntity( )
     {
         StringBuilder urlCode = new StringBuilder( _strRoot );
