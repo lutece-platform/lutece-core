@@ -35,19 +35,19 @@ Snippet:
     <@checkBox name='darkMode' id='darkMode' labelKey='Enable dark mode' orientation='switch' value='1' />
 
 -->
-<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
+<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' attrs={} mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
-<#if id = ''><#local id = name /></#if>
+<#local checkboxId = id?has_content?then( id, name ) />
 <#if orientation!='switch'>
-	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass!=''> ${wrapperClass!}</#if>"<#if params!=''> ${params}</#if>></#if>
-	<input type="checkbox" class="custom-control-input<#if class!=''> ${class}</#if>" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
-	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if><#if labelClass!=''> ${labelClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if>>
+	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass!=''> ${wrapperClass!}</#if>"<@commonAttrs params=params attrs=attrs />></#if>
+	<input type="checkbox" class="custom-control-input<#if class!=''> ${class}</#if>" id="${checkboxId}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
+	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if><#if labelClass!=''> ${labelClass!}</#if>" for="${checkboxId}" <#if title!=''> title="${title}"</#if>>
 	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
 	</label>
 	<#if orientation='vertical'></div></#if>
 <#else>
-	<label class="form-check form-switch<#if wrapperClass!=''> ${wrapperClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
-    	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
+	<label class="form-check form-switch<#if wrapperClass!=''> ${wrapperClass!}</#if>" for="${checkboxId}" <#if title!=''> title="${title}"</#if><@commonAttrs params=params attrs=attrs />>
+    	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${checkboxId}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params attrs=attrs /><#if mandatory> required</#if>>
    		<#assign nestedLabel><#nested></#assign>
 		<#if labelKey!=''><span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>">${nestedLabel}</span></#if>
   </label>

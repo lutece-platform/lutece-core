@@ -32,12 +32,10 @@ Snippet:
     </@div>
 
 -->
-<#macro div id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<#macro div id='' class='' hide=[] collapsed=false align='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) />
+<div<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
 	<#nested>
 </div>
 </#macro>

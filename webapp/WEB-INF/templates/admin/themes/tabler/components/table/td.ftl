@@ -42,21 +42,21 @@ Snippet:
     </@td>
 
 -->
-<#macro td id='' class='' hide=[] align='' valign='' cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
+<#macro td id='' class='' hide=[] align='' valign='' cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />	
-	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
+	<#local classExtra = displaySettings( hide, 'table-cell' ) + ' ' + alignmentSettings( align, '' ) />
 	<#if cols!=0>
-		<#local class += ' col-${cols}' />
+		<#local classExtra += ' col-${cols}' />
 	</#if>
 	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
 	<#list breakpoints as breakpointkey,breakpointvalue>
 		<#if breakpointvalue!=0>
-			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+			<#local classExtra += ' col-${breakpointkey}-${breakpointvalue}' />
 		</#if>
 	</#list>
-	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<#if flex><#local class += ' d-flex' /></#if>
-	<td<#if class?trim != ''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+	<#if valign?has_content><#local classExtra += ' align-' + valign /></#if>
+	<#if flex><#local classExtra += ' d-flex' /></#if>
+	<td<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs /><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if>>
 		<#nested>
 	</td>
 </#macro>

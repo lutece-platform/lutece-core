@@ -33,12 +33,13 @@ Snippet:
     <@radioButton name='status' id='status_inactive' labelKey='Inactive' value='inactive' orientation='inline' />
 
 -->
-<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
+<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' attrs={} mandatory=false  deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-<#if orientation='vertical'><div class="radio"<#if params!=''> ${params}</#if>>	</#if>
+<#local isRequired = mandatory || ( propagateMandatory?? && propagateMandatory ) />
+<#-- params and attrs go on the wrapper when there is one, else on the input -->
+<#if orientation='vertical'><div class="radio"<@commonAttrs params=params attrs=attrs />>	</#if>
 <label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass!=''> ${labelClass!}</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
-<input class="<#if class!=''> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!='' && orientation !='vertical'> ${params}</#if><#if mandatory> required</#if>>
+<input class="<#if class!=''> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if orientation !='vertical'><@commonAttrs params=params attrs=attrs /></#if><#if isRequired> required</#if>>
 <#if labelKey!=''>
 <span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
 </#if>

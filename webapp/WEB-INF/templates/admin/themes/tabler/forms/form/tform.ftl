@@ -44,35 +44,23 @@ Snippet:
     </@tform>
 
 -->
-<#macro tform type='' class='' align='' hide=[] required=false action='' method='post' name='' id='' role='' collapsed=false enctype='' boxed=false boxClass='' params='' deprecated...>
+<#macro tform type='' class='' align='' hide=[] required=false action='' method='post' name='' id='' role='' collapsed=false enctype='' boxed=false boxClass='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />	
-<#local class = class />
-<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-<#if hide??>
-	<#if type == 'inline'>
-		<#local class += ' ' + displaySettings(hide,'inline-flex') />
-	<#else>
-		<#local class += ' ' + displaySettings(hide,'block') />
-	</#if>
-</#if>
-<#if collapsed><#local class += ' collapse' /></#if>
+<#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, ( type == 'inline' )?then( 'inline-flex', 'block' ) ) />
+<#if collapsed><#local classExtra += ' collapse' /></#if>
 <#switch type>
-	<#case 'horizontal'>
-		<#local class += ''>
-		<#break>
 	<#case 'inline'>
-		<#local class += ' d-inline-flex align-items-center'>
+		<#local classExtra += ' d-inline-flex align-items-center'>
 		<#break>
 	<#case 'flex'>
-		<#local class += ' d-flex align-items-center'>
+		<#local classExtra += ' d-flex align-items-center'>
 		<#break>
-	<#default>
-		<#local class += ''>
 </#switch>
+<#if align == 'middle'><#local classExtra += ' align-middle' /></#if>
 <#if boxed>
 <div class="card<#if boxClass !=''> ${boxClass!}</#if>">
 <div class="card-body"></#if>
-<form <#if class!=''>class="${class?trim} <#if align='middle'>align-middle</#if>"</#if><#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
+<form<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs /><#if action?has_content> action="${action}"</#if><#if method?has_content> method="${method}"</#if><#if name?has_content> name="${name}"</#if><#if role?has_content> role="${role}"</#if><#if method='post' && enctype?has_content> enctype='${enctype}'</#if>>
 <#if required><@staticText>#i18n{portal.util.message.titleRequiredFields}</@staticText></#if>
 <#nested>
 </form>
