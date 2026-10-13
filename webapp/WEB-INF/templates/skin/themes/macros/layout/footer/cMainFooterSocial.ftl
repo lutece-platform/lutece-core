@@ -51,7 +51,7 @@ Snippet:
         </ul>    
     </div>
     <div class="social-links">
-        <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
+        <#if socialNested?has_content><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
         <h2 class="paris-footer-social-title text-center text-white">#i18n{portal.theme.labelFollow}</h2>
         <ul class="list-inline text-center">
             <li class="list-inline-item">

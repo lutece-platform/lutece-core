@@ -37,7 +37,7 @@ Snippet:
 <#macro cCarousel id='manege' items='' indicatorSize=1 controls=false slideControls=false pagination=false label='Carousel' labelPrev='' labelNext='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local itemSize = indicatorSize />
-<#if items != ''><#local itemSize = items?size - 1 /></#if>
+<#if items?has_content><#local itemSize = items?size - 1 /></#if>
 <#if slideControls>
 <div id="carouselButtons-${id}" class="d-flex justify-content-center py-2">
     <button id="playButton-${id}" type="button" class="btn btn-tertiary" size="mini" aria-label="Démarrer la lecture du carrousel">
@@ -62,7 +62,7 @@ Snippet:
 		</#if>
 	</#if>
     <div class="carousel-inner">
-    <#if items != ''>
+    <#if items?has_content>
         <#local itemIdx = 1>
         <#local isActive = true>
         <#list items as cItem>

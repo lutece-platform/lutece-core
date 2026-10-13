@@ -29,8 +29,8 @@ Snippet:
 <#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' attrs={} headerIcon='' >
 <div class="accordion-item">
 	<h2<@commonAttrs id=childId + '-header' classBase='accordion-header' class=class params=params attrs=attrs />>
-		<button class="accordion-button<#if aClass!=''> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
-		<#if headerIcon!=''><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
+		<button class="accordion-button<#if aClass?has_content> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
+		<#if headerIcon?has_content><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
         <div class="accordion-button-toggle">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="icon"><path d="M6 9l6 6l6 -6"></path></svg>
         </div>

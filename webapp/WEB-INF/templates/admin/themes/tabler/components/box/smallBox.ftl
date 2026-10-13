@@ -34,20 +34,20 @@ Snippet:
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' attrs={} fontSize='40px' progress='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- A figure, as the stat cards of the Tabler dashboards: the label on one line with the icon on its right, the figure under it, the whole card a link to its feature -->
-<div class="card card-sm box-widget lutece-kpi" draggable='true' <#if id!=''> id="${id}" data-id="${id}" data-dw-title="${text}"</#if><@commonAttrs params=params attrs=attrs />>
+<div class="card card-sm box-widget lutece-kpi" draggable='true' <#if id?has_content> id="${id}" data-id="${id}" data-dw-title="${text}"</#if><@commonAttrs params=params attrs=attrs />>
 	<div class="card-body">
 		<#-- The button that hides the figure, shown in place of its icon when the card is pointed or focused (needs an id, to keep the choice) -->
-		<#if id!=''><button type="button" class="btn-action lutece-kpi-hide card-control remove" data-bs-dismiss="alert" data-bs-target="#${id}" title="#i18n{portal.util.labelHide} ${text}"><i class="ti ti-eye-off" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelHide} ${text}</span></button></#if>
+		<#if id?has_content><button type="button" class="btn-action lutece-kpi-hide card-control remove" data-bs-dismiss="alert" data-bs-target="#${id}" title="#i18n{portal.util.labelHide} ${text}"><i class="ti ti-eye-off" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelHide} ${text}</span></button></#if>
 		<div class="d-flex align-items-center gap-2 mb-1">
 			<div class="subheader text-truncate" title="${text}">${text}</div>
-			<#if boxIcon!=''><span class="avatar avatar-square ms-auto<#if color!=''> bg-${color}-lt</#if>"><@icon style=boxIcon /></span></#if>
+			<#if boxIcon?has_content><span class="avatar avatar-square ms-auto<#if color?has_content> bg-${color}-lt</#if>"><@icon style=boxIcon /></span></#if>
 		</div>
-		<${titleLevel} class="lutece-kpi-value"><span class="counter">${title}</span><#if unit!=''> <span class="fs-5 fw-normal text-secondary">${unit}</span></#if></${titleLevel}>
+		<${titleLevel} class="lutece-kpi-value"><span class="counter">${title}</span><#if unit?has_content> <span class="fs-5 fw-normal text-secondary">${unit}</span></#if></${titleLevel}>
 		<#if progress?has_content>
-		<div class="progress progress-sm mt-1" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar<#if color!=''> bg-${color}</#if>" style="width: ${progress}%"></div></div>
+		<div class="progress progress-sm mt-1" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar<#if color?has_content> bg-${color}</#if>" style="width: ${progress}%"></div></div>
 		</#if>
-		<#if url!=''>
-		<a class="stretched-link" href="${url}" title="<#if urlText!=''>${urlText}<#else>${text}</#if>"><span class="visually-hidden"><#if urlText!=''>${urlText}<#else>${text}</#if></span></a>
+		<#if url?has_content>
+		<a class="stretched-link" href="${url}" title="<#if urlText?has_content>${urlText}<#else>${text}</#if>"><span class="visually-hidden"><#if urlText?has_content>${urlText}<#else>${text}</#if></span></a>
 		</#if>
 	</div>
 </div>

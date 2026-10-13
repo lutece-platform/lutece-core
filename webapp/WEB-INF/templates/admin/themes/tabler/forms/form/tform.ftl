@@ -59,7 +59,7 @@ Snippet:
 </#switch>
 <#if align == 'middle'><#local classExtra += ' align-middle' /></#if>
 <#if boxed>
-<div class="card<#if boxClass !=''> ${boxClass!}</#if>">
+<div class="card<#if boxClass?has_content> ${boxClass!}</#if>">
 <div class="card-body"></#if>
 <form<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs /><#if action?has_content> action="${action}"</#if><#if method?has_content> method="${method}"</#if><#if name?has_content> name="${name}"</#if><#if role?has_content> role="${role}"</#if><#if method='post' && enctype?has_content> enctype='${enctype}'</#if>>
 <#if required><@staticText>#i18n{portal.util.message.titleRequiredFields}</@staticText></#if>

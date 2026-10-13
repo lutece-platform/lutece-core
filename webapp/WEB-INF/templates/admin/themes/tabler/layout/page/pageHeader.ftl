@@ -35,15 +35,15 @@ Snippet:
 -->
 <#macro pageHeader id='' title='' titleClass='mb-1' description='' breadcrumb='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader> flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
-	<div class="col-12<#if class !=''> ${class}</#if>">
+<div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader> flex-column flex-md-row</#if><#if titleClass?has_content> ${titleClass!}</#if>">
+	<div class="col-12<#if class?has_content> ${class}</#if>">
 		<div class="page-pretitle"></div>
 		<#if breadcrumb?exists>${breadcrumb}</#if>
 		<h2 class="page-title ${titleClass}">${title}</h2>
-		<#if description !=''><p>${description}</p></#if>
+		<#if description?has_content><p>${description}</p></#if>
 	</div>
 	<!-- Page title actions -->
-	<div id="page-header-tools" class="col d-flex justify-content-end align-items-center d-print-none<#if toolsClass !=''> ${toolsClass}</#if>">
+	<div id="page-header-tools" class="col d-flex justify-content-end align-items-center d-print-none<#if toolsClass?has_content> ${toolsClass}</#if>">
 	<#nested>
 	</div>
 </div>

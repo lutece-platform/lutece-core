@@ -30,7 +30,7 @@ Snippet:
 <#macro breadcrumbs id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <nav aria-label="breadcrumb">
-	<ol class="breadcrumb<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+	<ol class="breadcrumb<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 		<#nested>
 	</ol>
 </nav>

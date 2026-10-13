@@ -35,7 +35,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <script>
 document.querySelectorAll('${selector!}').forEach(elem => {
-	<#if class != ''>elem.classList.add(...'${class!}'.split(' '));</#if>
+	<#if class?has_content>elem.classList.add(...'${class!}'.split(' '));</#if>
 	const btnTitle = elem.dataset.title != undefined ? elem.dataset.title : elem.getAttribute('title');
 	const btnLabel = btnTitle != undefined ? <#noparse>`#i18n{portal.util.labelCopy} ${btnTitle}`</#noparse> : '#i18n{portal.util.labelCopy}';
 	const copyContent = async () => {

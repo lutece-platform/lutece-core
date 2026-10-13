@@ -25,5 +25,5 @@ Snippet:
 -->
 <#macro cPictureSrc srcset media='' type='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<source srcset="${srcset}" <#if media!=''>media="${media!}"</#if><#if type!=''> type="${type!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs />>
+<source srcset="${srcset}" <#if media?has_content>media="${media!}"</#if><#if type?has_content> type="${type!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs />>
 </#macro>

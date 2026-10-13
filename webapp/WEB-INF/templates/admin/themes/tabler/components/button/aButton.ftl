@@ -45,7 +45,7 @@ Snippet:
 <#local displayTitleClass = displaySettings( hideTitle, 'block' ) />
 <#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 	<#local buttonColor = 'btn-default' />
-<#elseif color=''>
+<#elseif !color?has_content>
 	<#local buttonColor = 'btn-primary' />
 <#else>
 	<#local buttonColor = 'btn-' + color />
@@ -65,7 +65,7 @@ Snippet:
 	</#if>
 </a>
 <#if dropdownMenu>
-<div class="dropdown-menu"<#if id!=''> id="${id}" aria-labelledby="${id}"</#if>>
+<div class="dropdown-menu"<#if id?has_content> id="${id}" aria-labelledby="${id}"</#if>>
 <#nested>
 </div>
 </div>

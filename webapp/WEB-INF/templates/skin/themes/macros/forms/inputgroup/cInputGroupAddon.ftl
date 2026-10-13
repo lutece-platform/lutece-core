@@ -32,6 +32,6 @@ Snippet:
 -->
 <#macro cInputGroupAddon append=true addonText='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if addonText !=''><@cInputGroupAddonText class=class id=id params=params attrs=attrs >${addonText!}</@cInputGroupAddonText></#if>
+<#if addonText?has_content><@cInputGroupAddonText class=class id=id params=params attrs=attrs >${addonText!}</@cInputGroupAddonText></#if>
 <#nested>
 </#macro>

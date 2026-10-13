@@ -28,7 +28,7 @@ Snippet:
 <#macro item_navigation item_navigator id='item-navigator' display='' align='' hideButtonTitle=[] buttonColor='info' buttonSize='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local class = alignmentSettings(align,'') />
-<nav id="${id}" class="${class} <#if display!=''>d-inline</#if>">
+<nav id="${id}" class="${class} <#if display?has_content>d-inline</#if>">
 <#if (item_navigator.currentItemId > 0)>
 	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>

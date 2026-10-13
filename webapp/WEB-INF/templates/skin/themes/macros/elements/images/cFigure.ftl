@@ -34,6 +34,6 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <figure <@commonAttrs id=id class=class params=params attrs=attrs />>
 <#nested/>
-<#if caption!=''><@cFigCaption class='figure-caption'>${caption!}</@cFigCaption></#if>
+<#if caption?has_content><@cFigCaption class='figure-caption'>${caption!}</@cFigCaption></#if>
 </figure>
 </#macro>

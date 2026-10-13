@@ -54,12 +54,12 @@ Snippet:
 -->
 <#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' attrs={} for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
-<fieldset<#if class!=''> class="${class}"</#if><#if for!=''> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs params=params attrs=attrs /><#if role!=''> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg !=''> aria-describedby="help_${cId!}"</#if>>
-<#if legend!=''><legend <#if legendClass!='' || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
-<#if helpPos == 'top' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>
+<#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
+<fieldset<#if class?has_content> class="${class}"</#if><#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs params=params attrs=attrs /><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>
+<#if legend?has_content><legend <#if legendClass?has_content || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
+<#if helpPos == 'top' && helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
 <#nested>
-<#if helpPos == 'after' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>
+<#if helpPos == 'after' && helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
 </fieldset>
 </#macro>
 <#--
@@ -87,7 +87,7 @@ Snippet:
 -->
 <#macro cLegend label='' showLabel=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<legend <#if class!=''>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <@commonAttrs id=id />>
-<#if label!=''>${label!} </#if><#nested>
+<legend <#if class?has_content>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <@commonAttrs id=id />>
+<#if label?has_content>${label!} </#if><#nested>
 </legend>
 </#macro>

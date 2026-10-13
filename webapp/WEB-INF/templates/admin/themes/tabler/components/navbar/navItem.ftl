@@ -28,8 +28,8 @@ Snippet:
 -->
 <#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="nav-link<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
-	<#if href !='' >
+<${tag} class="nav-link<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+	<#if href?has_content >
 		<@link class='nav-link' href=href name=name title=title alt=alt target=target active=active /> 
 	</#if>
 	<#nested>

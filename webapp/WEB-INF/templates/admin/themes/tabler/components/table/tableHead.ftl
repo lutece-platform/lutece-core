@@ -33,7 +33,7 @@ Snippet:
 -->
 <#macro tableHead id='' class='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<thead<@commonAttrs id=id /><#if class!=''> class="${class?trim}"</#if><@commonAttrs params=params attrs=attrs />>
+<thead<@commonAttrs id=id /><#if class?has_content> class="${class?trim}"</#if><@commonAttrs params=params attrs=attrs />>
 <#nested>
 </thead>
 </#macro>

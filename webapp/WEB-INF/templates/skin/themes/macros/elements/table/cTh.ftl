@@ -30,7 +30,7 @@ Snippet:
 -->
 <#macro cTh id='' class='' scope='col' role='columnheader' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<th scope="${scope!}" class="<#if class != ''>${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
+<th scope="${scope!}" class="<#if class?has_content>${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
     <#nested>
 </th>
 </#macro>

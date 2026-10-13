@@ -25,7 +25,7 @@ Snippet:
 -->
 <#macro listGroupItem id='' class='' active=false params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if><#if active> active</#if>"<@commonAttrs id=id /><#if active> aria-current="true"</#if><@commonAttrs params=params attrs=attrs />>
+<li class="list-group-item list-group-item-action<#if class?has_content> ${class}</#if><#if active> active</#if>"<@commonAttrs id=id /><#if active> aria-current="true"</#if><@commonAttrs params=params attrs=attrs />>
 	<#nested>
 </li>
 </#macro>

@@ -24,7 +24,7 @@ Snippet:
 -->
 <#macro breadcrumbItem class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="breadcrumb-item<#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<li class="breadcrumb-item<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 	<#nested>
 </li>
 </#macro>

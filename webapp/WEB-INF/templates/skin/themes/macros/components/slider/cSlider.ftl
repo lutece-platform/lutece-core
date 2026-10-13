@@ -57,22 +57,22 @@ Snippet:
         </#if>
     </@cRow>
     <#nested>
-    <#if slides?size gt 0 && ( buttonNext != '' || buttonPrev != '' || linkAll != '' )>
+    <#if slides?size gt 0 && ( buttonNext?has_content || buttonPrev?has_content || linkAll?has_content )>
         <@cBlock class='slider-buttons'>
             <@cContainer>
                 <@cBlock class='d-flex justify-content-end pt-4 pb-md-5 mb-md-5'>
-                    <#if linkAll != ''>
+                    <#if linkAll?has_content>
                         <@cLink class=linkAllClass label=linkAllLabel href=linkAll />
                     </#if>
                     <@cBlock class='d-flex align-items-center justify-content-end gap-1'>
-                        <#if buttonPrev != ''>
+                        <#if buttonPrev?has_content>
                             <#assign prevBtnClass = buttonClass + ' disabled prev-slide'>
                             <#assign prevBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonPrev!} ${slideLabel}"</#assign>
                             <@cBtn label='' class=prevBtnClass type='button' disabled=true params=prevBtnParams>
                                 <@cIcon name='arrow-left' />
                             </@cBtn>
                         </#if>
-                        <#if buttonNext != ''>
+                        <#if buttonNext?has_content>
                             <#assign nextBtnClass = buttonClass + ' ms-sm next-slide'>
                             <#assign nextBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonNext!} ${slideLabel}"</#assign>
                             <@cBtn label='' class=nextBtnClass type='button' params=nextBtnParams>

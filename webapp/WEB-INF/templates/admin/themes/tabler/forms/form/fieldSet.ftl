@@ -41,9 +41,9 @@ Snippet:
 <#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <fieldset<@commonAttrs id=fieldsetId classBase='mb-3' class=class params=fieldsetParams attrs=attrs /><#if disabled> disabled</#if>>
-<#if legend!=''>
+<#if legend?has_content>
 	<#local legendFullClass = legendClass + ' ' + displaySettings( hideLegend, 'block' ) />
-	<legend<#if legendFullClass?trim?has_content> class="${legendFullClass?trim}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>><#if legendIcon!=''><@icon style=legendIcon /> </#if>${legend}</legend>
+	<legend<#if legendFullClass?trim?has_content> class="${legendFullClass?trim}"</#if><#if legendId?has_content> id="${legendId}"</#if><#if legendParams?has_content> ${legendParams}</#if>><#if legendIcon?has_content><@icon style=legendIcon /> </#if>${legend}</legend>
 </#if>
 <#nested>
 </fieldset>

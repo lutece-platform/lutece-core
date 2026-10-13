@@ -56,18 +56,18 @@ Snippet:
 <#local bannerTitlePadding=dskey('portal.theme.site_property.banner.title.padding')>
 <#local bannerBGImagePosY=dskey('portal.theme.site_property.banner.image.positiony')>
 <#local bannerBGImagePosX=dskey('portal.theme.site_property.banner.image.positionx')>
-<#if imageSrc !='' && isBannerImage?boolean><#local bannerClass+=' bg-banner' /></#if>
-<#if imageSrc !='' && isBannerImage?boolean><#local imageStyle +='background-image:url(${imageSrc!});' /></#if>
-<#if imageSrc !='' && bannerBGImagePosY !=''><#local imageStyle +='background-position-y: ${bannerBGImagePosY!};' /></#if>
-<#if imageSrc !='' && bannerBGImagePosX !=''><#local imageStyle +='background-position-x: ${bannerBGImagePosX!};' /></#if>
-<#if bannerTitleColor !=''><#local titleStyle ='color:${bannerTitleColor};' /></#if>
-<#if bannerTitleBGColor !=''><#local titleStyle +='background-color:${bannerTitleBGColor};' /></#if>
-<#if bannerTitlePadding !=''><#local titleStyle +='padding:${bannerTitlePadding};' /></#if>
+<#if imageSrc?has_content && isBannerImage?boolean><#local bannerClass+=' bg-banner' /></#if>
+<#if imageSrc?has_content && isBannerImage?boolean><#local imageStyle +='background-image:url(${imageSrc!});' /></#if>
+<#if imageSrc?has_content && bannerBGImagePosY?has_content><#local imageStyle +='background-position-y: ${bannerBGImagePosY!};' /></#if>
+<#if imageSrc?has_content && bannerBGImagePosX?has_content><#local imageStyle +='background-position-x: ${bannerBGImagePosX!};' /></#if>
+<#if bannerTitleColor?has_content><#local titleStyle ='color:${bannerTitleColor};' /></#if>
+<#if bannerTitleBGColor?has_content><#local titleStyle +='background-color:${bannerTitleBGColor};' /></#if>
+<#if bannerTitlePadding?has_content><#local titleStyle +='padding:${bannerTitlePadding};' /></#if>
 <#local bannerParams = params + imageStyle?has_content?then( ' style="' + imageStyle + '"', '' ) />
 <#if isInternal && !isHomePage><#local bannerClass +=' internal' /></#if>
-<#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass !='' > ${bannerClass!}</#if>"></#if>
-<div class="banner<#if bannerClass !='' > ${bannerClass!}</#if><#if bannerCredits !='' > credits</#if> page-${page_id!}"<#if id !='' > id="${id!}"</#if><#if bannerCredits !='' > data-credits="${bannerCredits!}"</#if><@commonAttrs params=bannerParams attrs=attrs /> >
-<#if hasBannerTitle?boolean && bannerTitle?trim !=''><h1 id="main-banner-title"<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${bannerTitle}</h1></#if>
+<#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass?has_content > ${bannerClass!}</#if>"></#if>
+<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><@commonAttrs params=bannerParams attrs=attrs /> >
+<#if hasBannerTitle?boolean && bannerTitle?trim !=''><h1 id="main-banner-title"<#if titleStyle?has_content> style="${titleStyle}"</#if><#if titleClass?has_content> class="${titleClass}"</#if>>${bannerTitle}</h1></#if>
 <#nested> 
 </div> 
 <#if isFixed></div></#if>

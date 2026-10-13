@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro cTbody class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tbody <#if class!=''>${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<tbody <#if class?has_content>${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
 <#nested>
 </tbody>
 </#macro>

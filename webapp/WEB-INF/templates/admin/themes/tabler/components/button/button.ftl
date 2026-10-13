@@ -56,7 +56,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
-	<#elseif !cancel && color=''>
+	<#elseif !cancel && !color?has_content>
 		<#local buttonColor = 'primary' />
 	<#else>
 		<#local buttonColor = color />
@@ -65,7 +65,7 @@ Snippet:
 	<#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
 	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
 	<#local showTitleClass = '' />
-	<#if style != ''>
+	<#if style?has_content>
 		<#if style?contains('card-control')>
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
@@ -102,7 +102,7 @@ Snippet:
 	</#if>
 	<#local classBase = ( style != 'close' )?then( 'btn', '' ) + dropdownMenu?then( '-link', '' ) + buttonSize?has_content?then( ' btn-' + buttonSize, '' ) + ( buttonColor?has_content && !dropdownMenu )?then( ' btn-' + buttonColor, '' ) + ( btnStyle?? && btnStyle?has_content )?then( ' ' + btnStyle!, '' ) + dropdownMenu?then( ' btn-action', '' ) />
 	<#if dropdownMenu><div class="dropdown"></#if>
-	<button<@commonAttrs id=id classBase=classBase class=class params=params attrs=attrs /> type="${type}"<#if tooltip?has_content> title="${tooltip}"<#elseif title?has_content> title="${title}"</#if><#if name?has_content> name="${name}"</#if><#if value?has_content> value="${value}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+	<button<@commonAttrs id=id classBase=classBase class=class params=params attrs=attrs /> type="${type}"<#if tooltip?has_content> title="${tooltip}"<#elseif title?has_content> title="${title}"</#if><#if name?has_content> name="${name}"</#if><#if value?has_content> value="${value}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction?has_content><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId?has_content> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId?has_content> form="${formId}"</#if>>
 		<#if buttonIcon?has_content && iconPosition='left'>
 			<#if buttonIcon?starts_with('<svg')>
 				${buttonIcon!}
@@ -112,9 +112,9 @@ Snippet:
 		</#if>
 		<#local nestedContent><#nested /></#local>
 		<#local nestedContent = nestedContent?trim />
-		<#if nestedContent=''><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
-		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
-		<#if title!='' && dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
+		<#if !nestedContent?has_content><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
+		<#if nestedContent?has_content && !dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass?has_content></span></#if></#if>
+		<#if title?has_content && dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
 		<#if buttonIcon?has_content && iconPosition='right'>
 			<#if buttonIcon?starts_with('<svg')>
 				${buttonIcon!}
@@ -128,7 +128,7 @@ Snippet:
 		<#local menuItems><#nested></#local>
 		<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
 		<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
-		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id?has_content> id="${id}-content" aria-labelledby="${id}-content"</#if>>
 			${menuItems}
 		</${menuTag}>
 	</div>

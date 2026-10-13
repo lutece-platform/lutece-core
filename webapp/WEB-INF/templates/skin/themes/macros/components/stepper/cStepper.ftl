@@ -38,7 +38,7 @@ Snippet:
 <#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="stepper">
-    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
+    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
     <#if steps?has_content>
 		<#assign nbSteps = steps?size >
         <#list steps as step>

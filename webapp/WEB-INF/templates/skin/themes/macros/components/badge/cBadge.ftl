@@ -32,7 +32,7 @@ Snippet:
 -->
 <#macro cBadge label='' class='' hasp=true dismissible=false id='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="badge <#if class !=''> ${class}</#if><#if dismissible> dismissible</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="badge <#if class?has_content> ${class}</#if><#if dismissible> dismissible</#if>"<@commonAttrs id=id params=params attrs=attrs />>
 <#if dismissible> 
 	<div class="badge-content">
 		<#if hasp><p class="badge-label">${label!}</p><#else>${label!}</#if>

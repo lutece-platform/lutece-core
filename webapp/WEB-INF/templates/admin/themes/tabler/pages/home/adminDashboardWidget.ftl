@@ -56,19 +56,19 @@ Snippet:
 <@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget${class?has_content?then(" " + class, "")}' params=' data-id="${id}" draggable="true"'>
 <#if hasHeader>
 <div class="card-header">
-	<#if boxIcon!=''><span class="avatar avatar-sm bg-${iconColor?has_content?then(iconColor, 'primary')}-lt"><@icon style=boxIcon /></span></#if>
+	<#if boxIcon?has_content><span class="avatar avatar-sm bg-${iconColor?has_content?then(iconColor, 'primary')}-lt"><@icon style=boxIcon /></span></#if>
 	<div class="min-w-0">
 		<h3 class="card-title text-truncate">${title}</h3>
-		<#if subtitle!=''><p class="card-subtitle text-truncate">${subtitle}</p></#if>
+		<#if subtitle?has_content><p class="card-subtitle text-truncate">${subtitle}</p></#if>
 	</div>
 	<#if actions>
 	<div class="card-actions btn-actions">
-		<#if headerActions!=''>${headerActions}</#if>
-		<#if url!=''><a href="${url}" class="btn-action" title="#i18n{portal.util.labelShow} ${title}"><i class="ti ti-arrow-up-right" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelShow} ${title}</span></a></#if>
+		<#if headerActions?has_content>${headerActions}</#if>
+		<#if url?has_content><a href="${url}" class="btn-action" title="#i18n{portal.util.labelShow} ${title}"><i class="ti ti-arrow-up-right" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelShow} ${title}</span></a></#if>
 		<div class="dropdown">
 			<a href="#" class="btn-action" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="#i18n{portal.util.labelActions}"><i class="ti ti-dots-vertical" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelActions}</span></a>
 			<div class="dropdown-menu dropdown-menu-end">
-				<#if actionMenu!=''>${actionMenu}</#if>
+				<#if actionMenu?has_content>${actionMenu}</#if>
 				<@button color='link' class='dropdown-item text-danger' style='card-control remove' buttonTargetId='#${id}_dashboard_card' title='#i18n{portal.util.labelHide}' />
 			</div>
 		</div>
@@ -88,7 +88,7 @@ Snippet:
 <@columns>
 <#nested>
 </@columns>
-<#if !hasHeader && actionMenu !=''>
+<#if !hasHeader && actionMenu?has_content>
 <@columns md=1>
 <div class="dropdown">
 	<a href="#" class="btn-action" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="#i18n{portal.util.labelActions}"><i class="ti ti-dots-vertical" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelActions}</span></a>
@@ -101,7 +101,7 @@ Snippet:
 </@row>
 </@boxBody>
 </#if>
-<#if boxContentFooter != ''>
+<#if boxContentFooter?has_content>
 <@boxFooter>
 ${boxContentFooter!}
 </@boxFooter>

@@ -35,8 +35,8 @@ Snippet:
 -->
 <#macro box color='' id='' style='' class='' title=''  collapsed=false  params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card mb-3<#if color!=''> card-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
-<#if title =''>
+<div class="card mb-3<#if color?has_content> card-${color}</#if><#if style?has_content> text-${style}</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<#if !title?has_content>
 <#nested>
 <#else>
 <@boxHeader title=title collapsed=isCollapsed params=params attrs=attrs skipHeader=true />

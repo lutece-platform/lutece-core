@@ -33,7 +33,7 @@ Snippet:
 
 -->
 <#macro cCascading title id='' class='' params='' attrs={} state=false >
-<details<#if id !=''> id='${id}'</#if> class="cascading ${class!}" <#if state> open</#if> aria-expanded="<#if state>true<#else>false</#if>"<@commonAttrs params=params attrs=attrs />>
+<details<#if id?has_content> id='${id}'</#if> class="cascading ${class!}" <#if state> open</#if> aria-expanded="<#if state>true<#else>false</#if>"<@commonAttrs params=params attrs=attrs />>
   <summary><span class="cascading-label">${title}</span></summary>
   <div class="cascading-content"><#nested></div>
 </details>
