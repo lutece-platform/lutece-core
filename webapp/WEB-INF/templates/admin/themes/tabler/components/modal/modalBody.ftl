@@ -17,7 +17,7 @@ Snippet:
 
     Modal body with ID and additional attributes:
 
-    <@modalBody id='formBody' params='data-step="1"'>
+    <@modalBody id='formBody' attrs={'data-step': "1"}>
         <form>
             <input type='text' class='form-control' name='username' placeholder='Enter username' />
         </form>

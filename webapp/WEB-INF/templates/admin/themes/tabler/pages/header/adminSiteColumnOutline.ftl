@@ -24,8 +24,8 @@ Snippet:
 <@div id='lutece-column-${columnid}' class='lutece-admin-column'>
     <@div class='lutece-column-toolbar'>
 		<@tag class='lutece-admin-column-id' color='dark'>${i18n("portal.site.columnId",columnid)}</@tag>
-		<@button color='primary btn-column-add-portlet' params='data-lutece-add-portlet data-portlet-column="${columnid}" data-portlet-order=""' title='#i18n{portal.site.portletType.labelCreateColumn}' hideTitle=['all'] buttonIcon='layout-grid-add' />
+		<@button color='primary btn-column-add-portlet' attrs={'data-lutece-add-portlet': true, 'data-portlet-column': (columnid), 'data-portlet-order': ""} title='#i18n{portal.site.portletType.labelCreateColumn}' hideTitle=['all'] buttonIcon='layout-grid-add' />
 	</@div>
-	<@div class="lutece-admin-column-outline" params='data-portlet-column="${columnid}"' ><#compress><#nested></#compress></@div>
+	<@div class="lutece-admin-column-outline" attrs={'data-portlet-column': (columnid)} ><#compress><#nested></#compress></@div>
 </@div>
 </#macro>

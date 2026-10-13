@@ -44,7 +44,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <div class="empty<#if class?has_content> ${class}</#if>"<#if id?has_content> id="${id}"</#if>>
 <#if !img?has_content>
-	<div class="empty-icon<#if iconClass?has_content> ${iconClass}</#if>"><@icon prefix='ti ti-' style='${iconName}' params='style="font-size:48px"' /></div>
+	<div class="empty-icon<#if iconClass?has_content> ${iconClass}</#if>"><@icon prefix='ti ti-' style='${iconName}' attrs={'style': "font-size:48px"} /></div>
 <#else>
 	<div class="empty-img<#if imgClass?has_content> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div>
 </#if>

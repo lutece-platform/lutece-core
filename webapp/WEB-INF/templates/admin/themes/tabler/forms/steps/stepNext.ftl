@@ -27,7 +27,7 @@ Snippet:
 <#local stepClass>step step-next<#if class?has_content>${class}</#if></#local>
 <@div class=stepClass id=id params=params attrs=attrs>
 	<@div class='step-title'>
-		<@h class='title' level=titleLevel params='title="${title}" data-step="${step}"'>
+		<@h class='title' level=titleLevel attrs={'title': (title), 'data-step': (step)}>
 			<@span class='step-number'>${step}</@span>
 			<@span>${title}</@span>
 		</@h>
