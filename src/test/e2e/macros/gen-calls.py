@@ -168,6 +168,8 @@ for name in sorted(order):
         if params.get(p) is not None and params[p][:1] not in "'\"":
             continue  # not a string parameter
         for value in values:
+            if re.search(r'&(#\d+|[a-zA-Z]+);', value):
+                continue  # an entity in a literal is a defect of the reference, fixed by LUT-33153
             v = dict(full)
             v[p] = "'%s'" % value.replace("'", "\\'")
             call(v, 'value-%s=%s' % (p, value))
