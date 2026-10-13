@@ -2,7 +2,7 @@
     <@pageColumn>
 		<@pageHeader title='#i18n{portal.site.admin_page.titleAddChildPage}' />
 		<@div id='childpage'>
-			<@tform method='post' action='jsp/admin/site/DoCreateChildPage.jsp' params='enctype="multipart/form-data"'>
+			<@tform method='post' action='jsp/admin/site/DoCreateChildPage.jsp' attrs={'enctype': "multipart/form-data"}>
 			<@input type='hidden' name='page_id' value='${page.id}' />
 			<@input type='hidden' name='node_status' value='1' />
 			<@input type='hidden' name='token' value='${token}' />
@@ -81,7 +81,7 @@
 		<@row>
 			<@columns class='d-flex justify-content-center '>
 				<@figure class="position-relative border-2 border-black">
-					<@img id='preview_image' url='${image_url}' class='img-thumbnail img-fluid p-5' alt='#i18n{portal.site.admin_page.addNewImage}' title='#i18n{portal.site.admin_page.titlePictureProperties}' params='aria-hidden="true"' />
+					<@img id='preview_image' url='${image_url}' class='img-thumbnail img-fluid p-5' alt='#i18n{portal.site.admin_page.addNewImage}' title='#i18n{portal.site.admin_page.titlePictureProperties}' attrs={'aria-hidden': "true"} />
 					<@button color='danger' buttonIcon='trash' class='position-absolute bottom-0 end-0 rounded' size='sm' id='deleteImage' title='#i18n{portal.util.labelDelete}' />
 				</@figure>
 			</@columns>

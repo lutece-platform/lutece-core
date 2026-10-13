@@ -35,7 +35,7 @@ Snippet:
 
     Small non-centered modal with extra attributes:
 
-    <@modal id='alertModal' size='sm' vCentered=false params='data-bs-backdrop="static"'>
+    <@modal id='alertModal' size='sm' vCentered=false attrs={'data-bs-backdrop': "static"}>
         <@modalHeader modalTitle='Alert' />
         <@modalBody>
             <p>This modal cannot be dismissed by clicking outside.</p>

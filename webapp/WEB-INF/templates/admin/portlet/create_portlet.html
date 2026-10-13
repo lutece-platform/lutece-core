@@ -2,13 +2,13 @@
 <#-- A portlet type with a specific template has content to edit : the common properties go to a sticky side bar next to it. Otherwise they are the whole form and sit in the center of the screen. -->
 <#assign hasContent = ( portletType.createSpecificTemplate != "" || portletType.createSpecificFormTemplate != "" ) />
 <#assign fieldCols = hasContent?then( 12, 6 ) />
-<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>
+<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' attrs={'target': "_top"}>
 <@input type='hidden' name='page_id' value='${portlet_page_id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <@box class='manage-portlet'>
 	<@boxHeader title='${portletType.name}' boxTools=true >
 	<#if hasContent>
-		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params='aria-expanded="true" aria-controls="portlet-properties"'/>
+		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] attrs={'aria-expanded': "true", 'aria-controls': "portlet-properties"}/>
 	</#if>
 	</@boxHeader>
 	<@boxBody class='p-0'>
@@ -61,7 +61,7 @@
 					<@radioButton name='accept_alias' orientation='h' id='accept_alias_no' value='0' checked=true labelKey='#i18n{portal.util.labelNo}' labelFor='accept_alias_no' />
 				</@formGroup>
 			</@columns>
-			<@columns xs=12 sm=fieldCols params='hidden'>
+			<@columns xs=12 sm=fieldCols attrs={'hidden': true}>
 				<@formGroup labelKey='#i18n{portal.site.create_portlet.labelDisplayOnDevice}' rows=2>
 					<@checkBox orientation='switch' name='display_on_small_device' id='display_on_small_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
 					<@checkBox orientation='switch' name='display_on_normal_device' id='display_on_normal_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
@@ -77,7 +77,7 @@
 			<@columns xs=12>
 				<@formGroup rows=2 class='mb-0'>
 					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
+					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' attrs={'target': "_top"} color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 				</@formGroup>
 			</@columns>
 		</@row>
@@ -88,7 +88,7 @@
 			<#if portletType.createSpecificFormTemplate != "" ><#include portletType.createSpecificFormTemplate /></#if>
 			<@formGroup rows=2 class='mt-3'>
 				<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
+				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' attrs={'target': "_top"} color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 			</@formGroup>
 		</div>
 		</#if>

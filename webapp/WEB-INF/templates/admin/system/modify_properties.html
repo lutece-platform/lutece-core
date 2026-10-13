@@ -10,7 +10,7 @@
         <@tform>
             <@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
                 <@inputGroup>
-                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' attrs={'autocomplete': "off", 'addons': true} />
                     <@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
                 </@inputGroup>
             </@formGroup>
@@ -42,7 +42,7 @@
                         <@row class='g-3' params=masonryRowParams>
                         <#list groupList?sort as groupCol>
                         <#if groupCol?trim !=''>
-                        <@columns xs=12 sm=6 md=4 class='mb-3' params='data-prop="${groupCol}"'>
+                        <@columns xs=12 sm=6 md=4 class='mb-3' attrs={'data-prop': (groupCol)}>
                            <@box class='properties-group'>
                               <@boxBody>
                                 <#assign groupName=''>
@@ -62,7 +62,7 @@
                                         <#assign helpText=groupItem.help!''>
                                         <@box id='box_${groupItem.key}' class=boxClass>
                                             <@boxBody class='searchable'>
-                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText attrs={'data-property': (groupItem.key)} rows=2>
                                                 <#if groupItem.key?ends_with( ".textblock" )>
                                                     <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
                                                 <#elseif groupItem.key?ends_with( ".htmlblock" )>
@@ -79,7 +79,7 @@
                                                     <#assign optionsRaw = dskey(optionsKey)!''>
                                                     <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
                                                     <@input type='hidden' name='${groupItem.key}' value=groupItem.value?html id='${groupItem.key}_value' />
-                                                    <@select name='${groupItem.key}_select' id='${groupItem.key}' class='form-select property-select' params='data-target="${groupItem.key}_value"'>
+                                                    <@select name='${groupItem.key}_select' id='${groupItem.key}' class='form-select property-select' attrs={'data-target': "${groupItem.key}_value"}>
                                                     <#list optionsRaw?split('|') as opt>
                                                         <#assign optValue = opt?trim>
                                                         <#if optValue != ''><@option value=optValue selected=(optValue == groupItem.value) label=optValue?replace('_', ' ') /></#if>
@@ -102,7 +102,7 @@
                                                     <@inputGroup class='color-wrapper-input'>
                                                         <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                                         <@inputGroupItem>
-                                                            <@input type='color' class='color-input' name='color-input' value=groupItem.value?html params='colorspace="display-p3" alpha' />
+                                                            <@input type='color' class='color-input' name='color-input' value=groupItem.value?html attrs={'colorspace': "display-p3", 'alpha': true} />
                                                         </@inputGroupItem>
                                                     </@inputGroup>
                                                 <#else>
@@ -126,7 +126,7 @@
         </@tabs>
         <#-- Save bar : sticky (not fixed) so it stays at the bottom of the viewport in every layout. Since Tabler 1.5 the boxed
              layout sets contain:layout on .page, which turns a position-fixed bar into one anchored to the bottom of the page box. -->
-        <@row class='sticky-bottom w-100 py-2' params='style="background-color:rgba(255,255,255,.8)"'>
+        <@row class='sticky-bottom w-100 py-2' attrs={'style': "background-color:rgba(255,255,255,.8)"}>
             <@columns class='d-flex justify-content-center align-items-center col-12'>
                 <@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
             </@columns>

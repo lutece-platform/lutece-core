@@ -2,7 +2,7 @@
     <@pageColumn>
         <#assign userImg>
         <#if adminAvatar??>
-            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2  bg-primary rounded' alt='' params='style="max-width:80px"' title='Avatar' />
+            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2  bg-primary rounded' alt='' attrs={'style': "max-width:80px"} title='Avatar' />
         <#else>    
             <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2  bg-primary rounded' alt='' title='' />
         </#if>
@@ -22,8 +22,8 @@
             <@tabContent>
                 <@div class='d-flex justify-content-between pb-3'>
                     <@btnGroup>
-                        <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                        <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                        <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' attrs={'data-check': "check"} hideTitle=['all'] />
+                        <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' attrs={'data-check': "uncheck"}  hideTitle=['all'] />
                     </@btnGroup>
                     <@btnGroup>
                         <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}' color='primary' size='' />
@@ -53,8 +53,8 @@
                 <#if all_role_list?size gt 25>
                 <@div class='d-flex justify-content-between pt-3'>
                     <@btnGroup>
-                        <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                        <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                        <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' attrs={'data-check': "check"} hideTitle=['all'] />
+                        <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' attrs={'data-check': "uncheck"}  hideTitle=['all'] />
                     </@btnGroup>
                     <@btnGroup>
                         <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}' color='primary' size='' />
