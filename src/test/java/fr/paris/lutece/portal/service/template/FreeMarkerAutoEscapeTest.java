@@ -84,6 +84,8 @@ public class FreeMarkerAutoEscapeTest
             Pattern.compile( "insert|options|lang" ),
             // i18n messages of the application, which may hold HTML
             Pattern.compile( "groupItem\\.label|groupItem\\.help!''" ),
+            // HTML of a user attribute type (core or plugin), rendered by its own template
+            Pattern.compile( "attribute\\.getHtml\\w+\\(.*\\)" ),
     };
 
     /**
