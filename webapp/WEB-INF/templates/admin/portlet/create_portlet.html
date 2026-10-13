@@ -3,7 +3,7 @@
 <#assign hasContent = ( portletType.createSpecificTemplate != "" || portletType.createSpecificFormTemplate != "" ) />
 <#assign fieldCols = hasContent?then( 12, 6 ) />
 <#include "/admin/portlet/portlet_form_macros.html" />
-<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>
+<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' attrs={'target': "_top"}>
 <@input type='hidden' name='page_id' value='${portlet_page_id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <#-- The device flags have no field on this form: a new portlet shows on every device -->
@@ -14,7 +14,7 @@
 <@box class='manage-portlet'>
 	<@boxHeader title='${portletType.name}' boxTools=true >
 	<#if hasContent>
-		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.site.modify_portlet.buttonHideProperties}' hideTitle=['all'] params='aria-expanded="true" aria-controls="portlet-properties" data-label-hide="#i18n{portal.site.modify_portlet.buttonHideProperties}" data-label-show="#i18n{portal.site.modify_portlet.buttonShowProperties}"'/>
+		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.site.modify_portlet.buttonHideProperties}' hideTitle=['all'] attrs={'aria-expanded': "true", 'aria-controls': "portlet-properties", 'data-label-hide': "#i18n{portal.site.modify_portlet.buttonHideProperties}", 'data-label-show': "#i18n{portal.site.modify_portlet.buttonShowProperties}"}/>
 	</#if>
 	</@boxHeader>
 	<@boxBody class='p-0'>
@@ -101,7 +101,7 @@
 		<#-- One bar for the whole form, kept in sight at the bottom of the screen however long the content -->
 		<div class="portlet-actions">
 			<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
+			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' attrs={'target': "_top"} color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 		</div>
 	</@boxBody>
 </@box>

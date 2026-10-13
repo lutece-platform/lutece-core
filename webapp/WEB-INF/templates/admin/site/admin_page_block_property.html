@@ -2,7 +2,7 @@
 <#include "/admin/site/admin_page_form.html" />
 <@div id='properties'>
 	<#if authorization != "1">
-	<@tform method='post' action='jsp/admin/site/DoModifyPage.jsp' params='enctype="multipart/form-data"'>
+	<@tform method='post' action='jsp/admin/site/DoModifyPage.jsp' attrs={'enctype': "multipart/form-data"}>
 		<@input type='hidden' name='page_id' value='${page.id}' />
 		<@input type='hidden' name='token' value='${token}' />
 		<@pageForm child=false />

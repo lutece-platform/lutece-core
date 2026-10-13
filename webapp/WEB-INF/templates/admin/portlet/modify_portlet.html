@@ -4,7 +4,7 @@
 <#assign hasContent = ( portletType.modifySpecificTemplate != "" || portletType.modifySpecificFormTemplate != "" ) />
 <#assign fieldCols = hasContent?then( 12, 6 ) />
 <#include "/admin/portlet/portlet_form_macros.html" />
-<@tform id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
+<@tform id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' attrs={'target': "_top"}>
 <@input type='hidden' name='portlet_id' value='${portlet.id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <#-- The device flags have no field on this form: they keep their values -->
@@ -28,7 +28,7 @@
 	<div class="ms-auto d-flex align-items-center gap-2">
 		<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='sm' />
 	<#if hasContent>
-		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.site.modify_portlet.buttonHideProperties}' hideTitle=['all'] params='aria-expanded="true" aria-controls="portlet-properties" data-label-hide="#i18n{portal.site.modify_portlet.buttonHideProperties}" data-label-show="#i18n{portal.site.modify_portlet.buttonShowProperties}"'/>
+		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.site.modify_portlet.buttonHideProperties}' hideTitle=['all'] attrs={'aria-expanded': "true", 'aria-controls': "portlet-properties", 'data-label-hide': "#i18n{portal.site.modify_portlet.buttonHideProperties}", 'data-label-show': "#i18n{portal.site.modify_portlet.buttonShowProperties}"}/>
 	</#if>
 	</div>
 	</@boxHeader>
@@ -61,7 +61,7 @@
 		<@row class='g-2'>
 			<@columns xs=12 sm=fieldCols>
 				<@formGroup labelFor='page_id' labelKey='#i18n{portal.site.modify_portlet.labelPortletPage}' rows=2>
-					<@select name='page_id' id='page_id' default_value='${portlet.pageId?c}' items=portlet_pages_list params='data-current-page="${portlet.pageId?c}"' />
+					<@select name='page_id' id='page_id' default_value='${portlet.pageId?c}' items=portlet_pages_list attrs={'data-current-page': (portlet.pageId?c)} />
 				</@formGroup>
 			</@columns>
 			<@columns xs=12 sm=fieldCols>
@@ -115,7 +115,7 @@
 		<#-- One bar for the whole form, kept in sight at the bottom of the screen however long the content -->
 		<div class="portlet-actions">
 			<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
+			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' attrs={'target': "_top"} color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 		</div>
 	</@boxBody>
 </@box>

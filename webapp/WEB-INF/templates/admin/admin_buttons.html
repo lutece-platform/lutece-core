@@ -3,7 +3,7 @@
 <#assign portletOrderMax = order_max!20 />
 <#assign portletCol = portlet.column />
 <#assign portletPublished = ( portlet.status == portlet_status_published ) />
-<@btnToolbar class='lutece-admin-toolbar d-flex' params='data-portlet-id="${portletId}" data-portlet-order="${portletOrder}" data-portlet-column="${portletCol}" data-portlet-published="${portletPublished?c}" data-position-token="${token_modify_position!}"'>
+<@btnToolbar class='lutece-admin-toolbar d-flex' attrs={'data-portlet-id': (portletId), 'data-portlet-order': (portletOrder), 'data-portlet-column': (portletCol), 'data-portlet-published': (portletPublished?c), 'data-position-token': (token_modify_position!)}>
 <@tag color=portletPublished?then('primary','warning') title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}'>${portletOrder}</@tag>
 <@div class='lutece-admin-toolbar-button d-flex'>
 	<@tform action='jsp/admin/DoModifyPortlet.jsp' type=''>
@@ -11,7 +11,7 @@
 		<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='pencil text-primary' size='' hideTitle=['all'] />
 	</@tform>
 	<#if portletOrder gt 1>
-		<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
+		<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' attrs={'target': "_top"}>
 			<@input type='hidden' name='portlet_id' value=portletId />
 			<@input type='hidden' name='order' value=portletOrder - 1  />
 			<@input type='hidden' name='column' value=portletCol! />
@@ -20,7 +20,7 @@
 		</@tform>
 	</#if>
 	<#if portletOrder lt portletOrderMax>
-		<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
+		<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' attrs={'target': "_top"}>
 			<@input type='hidden' name='portlet_id' value=portletId />
 			<@input type='hidden' name='order' value=portletOrder + 1 />
 			<@input type='hidden' name='column' value=portletCol! />
@@ -43,7 +43,7 @@
 	</#if>
 	<#if custom_action_list?has_content>
 		<#list custom_action_list as custom_action>
-			<@tform action='${custom_action.actionUrl}' params='target="_parent"' type=''>
+			<@tform action='${custom_action.actionUrl}' attrs={'target': "_parent"} type=''>
 				<@input type='hidden' name='id_portlet' value=portletId />
 				<@button color='default' type='submit' title='#i18n{${custom_action.title}}' buttonIcon='globe text-primary' size='' hideTitle=['all'] />
 			</@tform>
@@ -53,6 +53,6 @@
 		<@input type='hidden' name='portlet_id' value=portletId />
 		<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDelete}' buttonIcon='trash  text-danger' size='' hideTitle=['all'] />
 	</@tform>
-	<@button title='#i18n{portal.site.portletPreview.buttonAdd}' buttonIcon='row-insert-bottom text-info' color='default' hideTitle=['all'] size='' params='data-lutece-add-portlet data-portlet-column="${portlet.column}" data-portlet-order="${portlet.order+1}" data-portlet-page="${portlet.pageId!}"  data-portlet-type="${portlet.portletTypeId!}"'/>
+	<@button title='#i18n{portal.site.portletPreview.buttonAdd}' buttonIcon='row-insert-bottom text-info' color='default' hideTitle=['all'] size='' attrs={'data-lutece-add-portlet': true, 'data-portlet-column': (portlet.column), 'data-portlet-order': (portlet.order+1), 'data-portlet-page': (portlet.pageId!), 'data-portlet-type': (portlet.portletTypeId!)}/>
 </@div>
 </@btnToolbar>
