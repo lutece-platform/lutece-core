@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.content.PageData;
@@ -98,7 +99,7 @@ public class TreeMenuInclude implements PageInclude
             }
 
             data.setTreeMenu( buildTreeMenuContentTemplate( nCurrentPageId, nMode, request ) );
-            rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu( ) == null ) ? "" : data.getTreeMenu( ) );
+            rootModel.put( Markers.PAGE_TREE_MENU, HtmlMarkup.of( data.getTreeMenu( ) ) );
         }
     }
 

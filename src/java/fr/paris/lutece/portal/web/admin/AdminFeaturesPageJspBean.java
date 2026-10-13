@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -243,7 +244,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     public String getAdminPage( String strContent )
     {
-        Map<String, String> rootModel = new HashMap<>( );
+        Map<String, Object> rootModel = new HashMap<>( );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );
@@ -262,7 +263,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         rootModel.put( MARK_FEATURE_GROUP, _strFeatureGroup );
 
         rootModel.put( MARK_PAGE_TITLE, getPageTitle( ) );
-        rootModel.put( MARK_PAGE_CONTENT, strContent );
+        rootModel.put( MARK_PAGE_CONTENT, HtmlMarkup.of( strContent ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN, getLocale( ), rootModel );
 

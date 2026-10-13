@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
@@ -588,7 +589,7 @@ public class PortalJspBean
             mailModel.put( PARAMETER_SENDER_NAME, strSenderName );
             mailModel.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
             mailModel.put( Parameters.EMAIL, strReceipientEmail );
-            mailModel.put( PARAMETER_CONTENT, editorBbcodeService.parse( strContent ) );
+            mailModel.put( PARAMETER_CONTENT, HtmlMarkup.ofSanitized( editorBbcodeService.parse( strContent ) ) );
             mailModel.put( MARK_RESOURCE_URL, resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EMAIL_SEND_RESOURCE, request.getLocale( ), mailModel );

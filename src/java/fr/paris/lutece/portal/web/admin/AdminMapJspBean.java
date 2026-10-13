@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -91,7 +92,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE, page );
-        model.put( MARKER_MAP_SITE, map );
+        model.put( MARKER_MAP_SITE, HtmlMarkup.of( map ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
 

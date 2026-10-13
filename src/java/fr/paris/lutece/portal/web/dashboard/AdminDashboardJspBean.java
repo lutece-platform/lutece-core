@@ -44,6 +44,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -121,7 +122,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             String strColumnData = _adminDashboardService.getDashboardData( user, nColumn, request );
 
-            model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, strColumnData );
+            model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, HtmlMarkup.of( strColumnData ) );
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_DASHBOARDS, user.getLocale( ), model );

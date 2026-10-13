@@ -101,7 +101,9 @@ public class UrlParameterItem implements Serializable
      * @param bFirst
      *            True if this is the first url parameter.
      * @return String The string to insert in the url.
+     * @deprecated see {@link UrlItem#getUrlWithEntity()}: use {@link #getCode(boolean)}.
      */
+    @Deprecated( since = "8.0.2" )
     public String getCodeEntity( boolean bFirst )
     {
         return ( ( bFirst ) ? "?" : "&#38;" ) + _strName + "=" + _strValue;

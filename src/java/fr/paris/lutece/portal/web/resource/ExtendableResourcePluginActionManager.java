@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.resource;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
@@ -152,9 +153,9 @@ public final class ExtendableResourcePluginActionManager
 		request.getLocale(), modelTmp);
 		
 		if (model instanceof Map) {
-			((Map<String, Object>) model).put(MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, template.getHtml());
+			((Map<String, Object>) model).put(MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, HtmlMarkup.of( template.getHtml( ) ));
 		} else if (model instanceof Models) {
-			((Models) model).put(MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, template.getHtml());
+			((Models) model).put(MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, HtmlMarkup.of( template.getHtml( ) ));
 		} else {
 			throw new IllegalArgumentException("Unsupported model type: " + model.getClass());
 		}

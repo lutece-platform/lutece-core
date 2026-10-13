@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
@@ -161,7 +162,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
 
         model.put( Markers.PAGE_NAME, ( data.getName( ) == null ) ? "" : data.getName( ) );
         model.put( Markers.PAGE_TITLE, ( data.getName( ) == null ) ? "" : data.getName( ) );
-        model.put( Markers.PAGE_CONTENT, ( data.getContent( ) == null ) ? "" : data.getContent( ) );
+        model.put( Markers.PAGE_CONTENT, HtmlMarkup.of( data.getContent( ) ) );
 
         String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)
 

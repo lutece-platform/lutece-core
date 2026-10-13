@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -269,7 +270,7 @@ public class SearchApp implements XPageApplication
 
         if ( _sponsoredLinksService.isResolvable( ) )
         {
-            model.put( MARK_SPONSOREDLINKS_SET, _sponsoredLinksService.get( ).getHtmlCode( strQuery, locale ) );
+            model.put( MARK_SPONSOREDLINKS_SET, HtmlMarkup.of( _sponsoredLinksService.get( ).getHtmlCode( strQuery, locale ) ) );
         }
 
         model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( ) );

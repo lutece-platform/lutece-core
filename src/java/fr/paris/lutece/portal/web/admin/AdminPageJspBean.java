@@ -47,6 +47,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -503,7 +504,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
         url.addParameter( Parameters.RESOURCE_ID, strPageId );
 
-        return url.getUrlWithEntity( );
+        return url.getUrl( );
     }
 
     // ////////////////////////////////////////////////////////////////////////////////
@@ -559,18 +560,18 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         switch( nParamBlock )
         {
             case BLOCK_SEARCH:
-                model.put( MARK_PAGE_BLOCK, getAdminPageBlockSearch( nPageIdInit, model ) );
+                model.put( MARK_PAGE_BLOCK, HtmlMarkup.of( getAdminPageBlockSearch( nPageIdInit, model ) ) );
 
                 break;
 
             case BLOCK_PROPERTY:
             case BLOCK_CHILDPAGE:
-                model.put( MARK_PAGE_BLOCK, getAdminPageBlockProperty( page, nParamBlock, model, request ) );
+                model.put( MARK_PAGE_BLOCK, HtmlMarkup.of( getAdminPageBlockProperty( page, nParamBlock, model, request ) ) );
 
                 break;
 
             case BLOCK_PORTLETS:
-                model.put( MARK_PAGE_BLOCK, getAdminPageBlockPortlets( page, model, request ) );
+                model.put( MARK_PAGE_BLOCK, HtmlMarkup.of( getAdminPageBlockPortlets( page, model, request ) ) );
 
                 break;
 
@@ -645,7 +646,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             nIndexRow++;
         }
 
-        model.put( MARK_PAGE_TEMPLATES_LIST, strPageTemplatesRow );
+        model.put( MARK_PAGE_TEMPLATES_LIST, HtmlMarkup.of( strPageTemplatesRow.toString( ) ) );
 
         // Add in v2.0
         int nManageAuthorization = 1;
