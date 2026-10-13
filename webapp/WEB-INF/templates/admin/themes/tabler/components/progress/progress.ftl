@@ -32,7 +32,7 @@ Snippet:
     <@progress value=0 color='info' progressId='importProgress' token='import-task-123' label='Importing data...' showReport=true intervalTime=3000 />
 
 -->
-<#macro progress color='primary' id='' params='' attrs={} value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 deprecated...>
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if label?has_content >
 <div id="${progressId}-label" >${label}</div>

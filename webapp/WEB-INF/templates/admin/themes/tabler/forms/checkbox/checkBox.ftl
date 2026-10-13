@@ -36,7 +36,7 @@ Snippet:
     <@checkBox name='darkMode' id='darkMode' labelKey='Enable dark mode' orientation='switch' value='1' />
 
 -->
-<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' attrs={} mandatory=false deprecated...>
+<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local checkboxId = id?has_content?then( id, name ) />
 <#if orientation!='switch'>

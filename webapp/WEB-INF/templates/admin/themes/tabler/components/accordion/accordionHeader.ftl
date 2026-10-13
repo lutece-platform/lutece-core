@@ -26,7 +26,7 @@ Snippet:
     </@accordionHeader>
 
 -->
-<#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' attrs={} headerIcon='' >
+<#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' headerIcon='' attrs={} >
 <div class="accordion-item">
 	<h2<@commonAttrs id=childId + '-header' classBase='accordion-header' class=class params=params attrs=attrs />>
 		<button class="accordion-button<#if aClass?has_content> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">

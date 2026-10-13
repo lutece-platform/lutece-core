@@ -52,7 +52,7 @@ Snippet:
     </@cFieldset>
 
 -->
-<#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' attrs={} for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
+<#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' for='' helpMsg='' helpPos='top' showLabel=true required=false attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
 <fieldset<#if class?has_content> class="${class}"</#if><#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs params=params attrs=attrs /><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>

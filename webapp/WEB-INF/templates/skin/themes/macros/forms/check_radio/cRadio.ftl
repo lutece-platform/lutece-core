@@ -58,7 +58,7 @@ Snippet:
     </@cRadio>
 
 -->
-<#macro cRadio name label type='radio' class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' attrs={} inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true deprecated...>
+<#macro cRadio name label type='radio' class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign nestedContent><#nested></#assign>
 <@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params attrs=attrs inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel nestedContent=nestedContent />

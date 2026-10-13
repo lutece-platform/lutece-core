@@ -23,7 +23,7 @@ Snippet:
     </@li>
 
 -->
-<#macro li id='' params='' attrs={} class='' hide=[] align='' deprecated...>
+<#macro li id='' params='' class='' hide=[] align='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) />
 <li<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>

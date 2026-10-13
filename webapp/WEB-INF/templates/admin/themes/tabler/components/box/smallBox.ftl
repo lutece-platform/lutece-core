@@ -30,7 +30,7 @@ Snippet:
     <@smallBox title='42' text='Pending Tasks' boxIcon='clipboard' color='warning' id='pending-tasks-widget' />
 
 -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' attrs={} fontSize='40px' deprecated...>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="card card-sm mb-3 box-widget" draggable='true' <#if id?has_content> id="${id}" data-id="${id}"</#if><@commonAttrs params=params attrs=attrs />>
 	<div class="card-body">
