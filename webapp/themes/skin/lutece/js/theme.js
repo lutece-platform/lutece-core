@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function(){
               invalidEl.setAttribute("class", "invalid-feedback");
               invalidEl.setAttribute("role", "alert");
               invalidEl.setAttribute("id", `error_${input.id}`);
-              invalidEl.innerHTML = xssMsg;
+              invalidEl.textContent = xssMsg;
               input.insertAdjacentElement("afterend", invalidEl);
               input.scrollIntoView({ behavior: "smooth", block: "center" });
               input.focus();
