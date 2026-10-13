@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import freemarker.core.TemplateHTMLOutputModel;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.io.Serializable;
@@ -151,6 +153,21 @@ public class SiteMessage implements Serializable
         }
 
         return strText;
+    }
+
+    /**
+     * Returns the localized text of the message as a FreeMarker markup value, for a template. The text of the message, an
+     * i18n message of the application, may hold HTML, and so may its arguments (a list built with
+     * AdminMessageService.getFormattedList); an argument may also be a value a user typed. The formatted text is
+     * therefore sanitized: its formatting is kept, any script or event handler is removed.
+     *
+     * @param locale
+     *            The current locale
+     * @return The localized text of the message as markup
+     */
+    public TemplateHTMLOutputModel getMarkup( Locale locale )
+    {
+        return HtmlMarkup.ofSanitized( getText( locale ) );
     }
 
     /**
