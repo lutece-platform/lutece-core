@@ -53,10 +53,10 @@ Snippet:
 <#if sessionTimeoutEnabled == 'true'>
 <#assign sessionTimeoutDuration = ( !dskey('portal.theme.site_property.sessiontimeout.duration')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.duration') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.duration') )?string, '1800' ) />
 <#assign sessionWarningDelay = ( !dskey('portal.theme.site_property.sessiontimeout.warningDelay')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.warningDelay') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.warningDelay') )?string, '120' ) />
-<#assign sessionKeepAliveUrl><#if !dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') != ''>${dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')}<#else>${base_url!}jsp/site/Portal.jsp</#if></#assign>
+<#assign sessionKeepAliveUrl = ( !dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') )?string, ( base_url!'' )?string + 'jsp/site/Portal.jsp' ) />
 <#assign sessionMaxExtensions = ( !dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.maxExtensions') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.maxExtensions') )?string, '10' ) />
 <#assign sessionPosition = ( !dskey('portal.theme.site_property.sessiontimeout.position')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.position') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.position') )?string, 'top-0 end-0' ) />
-<#assign sessionLoginUrl><#if urlAuth?? && urlAuth?has_content>${urlAuth}<#else>jsp/site/Portal.jsp?page=mylutece&action=doLogin</#if></#assign>
+<#assign sessionLoginUrl = ( urlAuth?? && urlAuth?has_content )?then( ( urlAuth )?string, 'jsp/site/Portal.jsp?page=mylutece&action=doLogin' ) />
 <script>
 (function() {
     var pluginConfig = window.__sessionTimeoutConfig || {};
