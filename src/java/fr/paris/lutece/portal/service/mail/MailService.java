@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.mail;
 
 
+import org.apache.commons.text.StringEscapeUtils;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -649,7 +650,8 @@ public final class MailService
      *            The base url of the site
      * @param linkToFrontOffice
      *            True if the link should be directed to the front office, false if it should be directed to the back office.
-     * @return A string containing an html link.
+     * @return A string containing an html link, its site name and URL escaped. Put it in a template model with
+     *         HtmlMarkup.of.
      */
     public static String getSiteLink( String strBaseUrl, boolean linkToFrontOffice )
     {
@@ -659,9 +661,9 @@ public final class MailService
         if ( strSiteName != null )
         {
             sb.append( "<a title=\"" );
-            sb.append( strSiteName );
+            sb.append( StringEscapeUtils.escapeHtml4( strSiteName ) );
             sb.append( "\" href=\"" );
-            sb.append( strBaseUrl );
+            sb.append( StringEscapeUtils.escapeHtml4( strBaseUrl ) );
 
             String strUrl;
 
@@ -676,11 +678,11 @@ public final class MailService
 
             if ( strUrl != null )
             {
-                sb.append( strUrl );
+                sb.append( StringEscapeUtils.escapeHtml4( strUrl ) );
             }
 
             sb.append( "\" >" );
-            sb.append( strSiteName );
+            sb.append( StringEscapeUtils.escapeHtml4( strSiteName ) );
             sb.append( "</a>" );
         }
 

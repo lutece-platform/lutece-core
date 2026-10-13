@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -529,7 +530,7 @@ public class AdminLoginJspBean implements Serializable
         model.put( MARK_TIMESTAMP, timestamp.getTime( ) );
         model.put( MARK_USER_ID, user.getUserId( ) );
         model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + "jsp/admin/AdminResetPassword.jsp" );
-        model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
+        model.put( MARK_SITE_LINK, HtmlMarkup.of( MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) ) );
         Date tokenExpiryDate = new Date(
                 timestamp.getTime( ) + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
         model.put( MARK_RESET_TOKEN_VALIDITY, tokenExpiryDate );
@@ -668,7 +669,7 @@ public class AdminLoginJspBean implements Serializable
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_LOGIN, strAccessCode );
         model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
-        model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
+        model.put( MARK_SITE_LINK, HtmlMarkup.of( MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN, locale, model );
 

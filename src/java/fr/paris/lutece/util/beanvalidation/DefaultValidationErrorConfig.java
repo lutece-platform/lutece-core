@@ -43,8 +43,12 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
     private static final String [ ] VARIABLES_PREFIX = {
             "_str", "_n", "_l", "_"
     };
-    private static final String DEFAULT_WRAPPER_BEGIN = "<strong>";
-    private static final String DEFAULT_WRAPPER_END = "</strong>";
+    /*
+     * No HTML around the field name: the message also carries the value the user typed, so the templates escape it
+     * (LUT-33153), and a tag would show as text.
+     */
+    private static final String DEFAULT_WRAPPER_BEGIN = "";
+    private static final String DEFAULT_WRAPPER_END = "";
     private String _strFieldKeysPrefix = "";
 
     /**

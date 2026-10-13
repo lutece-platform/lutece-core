@@ -112,7 +112,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
         }
 
         model.put( MARK_MESSAGE, message );
-        model.put( MARK_TEXT, message.getText( locale ) );
+        model.put( MARK_TEXT, message.getMarkup( locale ) );
         model.put( MARK_TITLE, message.getTitle( locale ) );
         model.put( MARK_URL, message.getUrl( ) );
         model.put( MARK_TARGET, message.getTarget( ) );
