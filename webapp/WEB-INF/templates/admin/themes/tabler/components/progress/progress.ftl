@@ -38,7 +38,7 @@ Snippet:
 <div id="${progressId}-label" >${label}</div>
 </#if>
 <div class="progress"<@commonAttrs id=id params=params attrs=attrs />>
-	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token?has_content> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token?has_content>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
+	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token?has_content> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token?has_content>token="${token}" intervalTime="${intervalTime}" showReport=${showReport?c}</#if> >
         <#if !text?has_content>${value}%<#else>${text}</#if>
 	</div>       
 </div>

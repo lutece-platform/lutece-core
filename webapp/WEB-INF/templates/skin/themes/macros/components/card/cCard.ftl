@@ -61,7 +61,7 @@ Snippet:
 <#if orientation='v'>
 <div class="card ${class!}"<@commonAttrs id=id params=params attrs=attrs />>
     <#if header?has_content>
-    <div class="card-header<#if headerClass?has_content> ${headerClass}</#if><#if headerImg?has_content> card-header-img</#if>"<#if headerImg?has_content>style="background-image:url(${headerImg});"</#if>>
+    <div class="card-header<#if headerClass?has_content> ${headerClass}</#if><#if headerImg?has_content> card-header-img</#if>"<#if headerImg?has_content> style="background-image:url('${cssUrl(headerImg)}');"</#if>>
     <#if headerLabelClass?has_content><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
     </div>
     </#if>

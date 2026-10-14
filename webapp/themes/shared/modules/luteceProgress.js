@@ -90,16 +90,30 @@ export default class LuteceProgress {
             element.setAttribute('aria-valuenow', percentage);
             element.style.width = percentage + '%';
         }
-        element.innerHTML = percentage + ' /' + getProgressMaxValue(id);
+        element.textContent = percentage + ' /' + getProgressMaxValue(id);
     }
     
+    /**
+     * Writes report lines as text, one per line: a line comes from the server (an imported value, an
+     * error) and must not be read as HTML.
+     */
+    appendReportLines( element, lines, bTrailingBreak ) {
+        lines.forEach( ( line, index ) => {
+            element.append( String( line ) );
+            if ( bTrailingBreak || index < lines.length - 1 ) {
+                element.append( document.createElement( 'br' ) );
+            }
+        } );
+    }
+
     updateProgressReport( id, report, isAppend ) {
         const element = document.getElementById(id + "-report");
         if (!isAppend) {
-            element.innerHTML = report.lines.join("<br />");
+            element.replaceChildren();
+            this.appendReportLines( element, report.lines, false );
         } else {
-            element.innerHTML += new Date().toLocaleTimeString(document.documentElement.lang) + '<br />';
-            element.innerHTML += report.lines.join('<br />') + '<br />';
+            this.appendReportLines( element, [ new Date().toLocaleTimeString(document.documentElement.lang) ], true );
+            this.appendReportLines( element, report.lines, true );
             element.setAttribute( 'lastline', report.lastLine );
         }
     }

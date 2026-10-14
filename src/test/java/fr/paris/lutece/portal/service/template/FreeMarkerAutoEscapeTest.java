@@ -69,6 +69,12 @@ public class FreeMarkerAutoEscapeTest
     /** A variable assigned a string that holds a value: a literal interpolating it, or the value converted by ?string. */
     private static final Pattern STRING_INTERPOLATION = Pattern.compile( "<#(?:assign|local|global)\\s+(\\w+)\\s*=\\s*(?:[^>]*[\"'][^\"'>]*\\$\\{|[^>]*\\)\\?string\\b)" );
 
+    /** An HTML start tag; FreeMarker tags and quoted values are read as a whole. */
+    private static final Pattern HTML_TAG = Pattern.compile( "<[a-zA-Z][\\w:-]*((?:[^<>\"']|\"[^\"]*\"|'[^']*'|<#[^>]*>|</#[^>]*>|\\$\\{[^}]*\\})*)>" );
+
+    /** An attribute whose value is an interpolation without quotes, outside any quoted value. */
+    private static final Pattern UNQUOTED_VALUE = Pattern.compile( "(?<![\\w:-])[\\w:-]+=\\$\\{(?![^}]*\\?c\\})" );
+
     private static final Pattern NO_ESC = Pattern.compile( "\\$\\{([^{}]*)\\?no_esc\\}|=\\s*\\(?\\s*([\\w.'()!]+?)\\s*\\)?\\?no_esc\\b" );
 
     /**
@@ -222,6 +228,38 @@ public class FreeMarkerAutoEscapeTest
         if ( !listFailures.isEmpty( ) )
         {
             fail( String.join( "\n  ", listFailures ) );
+        }
+    }
+
+    /**
+     * Every interpolated attribute value is quoted (OWASP XSS Prevention Cheat Sheet: "Always surround attribute values
+     * with double or single quotation marks"): escaping does not stop a space or an equal sign from adding an
+     * attribute to an unquoted value. A number written with ?c is accepted.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     */
+    @Test
+    public void testAttributeValuesAreQuoted( ) throws IOException
+    {
+        List<String> listFailures = new ArrayList<>( );
+        for ( Path path : templates( ) )
+        {
+            String strSource = Files.readString( path, StandardCharsets.UTF_8 ).replaceAll( "(?s)<#--.*?-->", "" );
+            Matcher tag = HTML_TAG.matcher( strSource );
+            while ( tag.find( ) )
+            {
+                String strTopLevel = tag.group( 1 ).replaceAll( "\"[^\"]*\"|'[^']*'", "\"\"" );
+                Matcher unquoted = UNQUOTED_VALUE.matcher( strTopLevel );
+                while ( unquoted.find( ) )
+                {
+                    listFailures.add( path + " : " + tag.group( ).substring( 0, Math.min( 120, tag.group( ).length( ) ) ) );
+                }
+            }
+        }
+        if ( !listFailures.isEmpty( ) )
+        {
+            fail( listFailures.size( ) + " unquoted attribute value(s):\n  " + String.join( "\n  ", listFailures ) );
         }
     }
 }

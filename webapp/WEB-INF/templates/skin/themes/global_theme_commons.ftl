@@ -63,7 +63,7 @@
 <#assign isMainSidebarMenu = ( dskey('portal.theme.site_property.menu.sidebarMenu.checkbox') == '1' )?then( 'true', 'false' ) />
 <#assign isMainSidebarMenuCollapse = ( dskey('portal.theme.site_property.menu.sidebarMenuCollapse.checkbox') == '1' )?then( 'true', 'false' ) />
 <#assign sidebarCol = ( !dskey('portal.theme.site_property.menu.sidebarMenu.sidebarCol.number')?starts_with('DS') && dskey('portal.theme.site_property.menu.sidebarMenu.sidebarCol.number')?matches('[1-9]') )?then( dskey('portal.theme.site_property.menu.sidebarMenu.sidebarCol.number')?string, '3' ) />
-<#assign urlDefaultSearch = ( dskey('portal.theme.site_property.Url.search')!'' )?string />
+<#assign urlDefaultSearch = safeUrl( ( dskey('portal.theme.site_property.Url.search')!'' )?string, '' ) />
 <#assign mainNavClass='' />
 <#-- MENU MANAGEMENT          -->
 <#-- LAYOUT MANAGEMENT        -->

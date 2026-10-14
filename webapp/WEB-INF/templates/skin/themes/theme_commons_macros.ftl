@@ -123,4 +123,6 @@
 <@cMacro name='translation' group='components/javascript' />
 <@cMacro name='deprecatedWarning' group='utilities/functions'  />
 <@cMacro name='commonAttrs' group='utilities/functions'  />
-<@cMacro name='rand' group='utilities/functions'  />    
+<@cMacro name='rand' group='utilities/functions'  />
+<@cMacro name='cssUrl' group='utilities/functions'  />
+<@cMacro name='safeUrl' group='utilities/functions'  />    
