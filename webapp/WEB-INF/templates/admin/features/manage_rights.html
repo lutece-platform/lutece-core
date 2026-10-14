@@ -26,7 +26,7 @@
                 </@dropdownMenu>
             </div>
         </@pageHeader>
-        <#assign searchValue><#outputformat "HTML">${search!}</#outputformat></#assign>
+        <#assign searchValue>${search!}</#assign>
         <@tform method='get' action='jsp/admin/features/ManageRights.jsp' name='SearchRightsForm'>
             <@div class='row g-2 align-items-center mb-3'>
                 <@div class='col-12 col-md-4'>

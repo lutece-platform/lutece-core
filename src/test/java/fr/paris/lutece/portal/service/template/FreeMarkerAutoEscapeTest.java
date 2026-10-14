@@ -63,11 +63,29 @@ public class FreeMarkerAutoEscapeTest
 
     /** Escaping by hand: a ParseException under auto-escaping, or a double escaping. */
     private static final String [ ] LEGACY_ESCAPING = {
-            "?html", "?xhtml", "?xml", "?rtf", "?web_safe", "<#escape", "<#noescape"
+            "?html", "?xhtml", "?xml", "?rtf", "?web_safe", "<#escape", "<#noescape", "<#noautoesc", "<#outputformat", "auto_esc=false"
     };
 
-    /** A variable assigned a string that holds a value: a literal interpolating it, or the value converted by ?string. */
-    private static final Pattern STRING_INTERPOLATION = Pattern.compile( "<#(?:assign|local|global)\\s+(\\w+)\\s*=\\s*(?:[^>]*[\"'][^\"'>]*\\$\\{|[^>]*\\)\\?string\\b)" );
+    /**
+     * A variable assigned a string that holds a value: a literal interpolating it, the value converted by ?string, or a
+     * concatenation (+, +=).
+     */
+    private static final Pattern STRING_INTERPOLATION = Pattern.compile(
+            "<#(?:assign|local|global)\\s+(\\w+)\\s*(?:\\+=|=\\s*(?:[^>]*[\"'][^\"'>]*\\$\\{|[^>]*\\)\\?string\\b|[^>]*\\+))" );
+
+    /** ?js_string?no_esc, right inside a script only: in HTML text or in an attribute, the value would not be escaped. */
+    private static final Pattern JS_NO_ESC = Pattern.compile( "\\?js_string\\?no_esc" );
+
+    /** A script element. */
+    private static final Pattern SCRIPT = Pattern.compile( "(?is)<script\\b.*?</script>" );
+
+    /** Templates written into a script by their caller, where ?js_string?no_esc is right outside a script element. */
+    private static final String [ ] SCRIPT_SNIPPETS = {
+            // macros writing a piece of JavaScript, called inside a <script> element
+            "admin/themes/tabler/javascript/charcounter/charCounter.ftl", "skin/themes/macros/components/javascript/charCounter.ftl",
+            "skin/themes/macros/components/title/cSetPageTitle.ftl", "admin/util/calendar/macro_datetimepicker.html",
+            "skin/themes/macros/forms/layout/cForm.ftl",
+    };
 
     /** An HTML start tag; FreeMarker tags and quoted values are read as a whole. */
     private static final Pattern HTML_TAG = Pattern.compile( "<[a-zA-Z][\\w:-]*((?:[^<>\"']|\"[^\"]*\"|'[^']*'|<#[^>]*>|</#[^>]*>|\\$\\{[^}]*\\})*)>" );
@@ -260,6 +278,49 @@ public class FreeMarkerAutoEscapeTest
         if ( !listFailures.isEmpty( ) )
         {
             fail( listFailures.size( ) + " unquoted attribute value(s):\n  " + String.join( "\n  ", listFailures ) );
+        }
+    }
+
+    /**
+     * ?js_string?no_esc is only written inside a script element, or in a template that writes a piece of JavaScript
+     * listed in SCRIPT_SNIPPETS: in HTML text or in an attribute, a JavaScript-escaped value is not HTML-escaped.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     */
+    @Test
+    public void testJavaScriptEscapingOnlyInScripts( ) throws IOException
+    {
+        List<String> listFailures = new ArrayList<>( );
+        for ( Path path : templates( ) )
+        {
+            String strPath = path.toString( ).replace( '\\', '/' );
+            if ( Stream.of( SCRIPT_SNIPPETS ).anyMatch( strPath::endsWith ) )
+            {
+                continue;
+            }
+            String strSource = Files.readString( path, StandardCharsets.UTF_8 ).replaceAll( "(?s)<#--.*?-->", "" );
+            List<int [ ]> listScripts = new ArrayList<>( );
+            Matcher script = SCRIPT.matcher( strSource );
+            while ( script.find( ) )
+            {
+                listScripts.add( new int [ ] {
+                        script.start( ), script.end( )
+                } );
+            }
+            Matcher js = JS_NO_ESC.matcher( strSource );
+            while ( js.find( ) )
+            {
+                int nPosition = js.start( );
+                if ( listScripts.stream( ).noneMatch( range -> range [0] <= nPosition && nPosition < range [1] ) )
+                {
+                    listFailures.add( path + " : line " + ( strSource.substring( 0, nPosition ).split( "\n", -1 ).length ) );
+                }
+            }
+        }
+        if ( !listFailures.isEmpty( ) )
+        {
+            fail( listFailures.size( ) + " ?js_string?no_esc outside a script element:\n  " + String.join( "\n  ", listFailures ) );
         }
     }
 }

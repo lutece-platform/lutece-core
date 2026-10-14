@@ -51,22 +51,22 @@ Snippet:
 <#local hasBannerFormTitle = ( dskey('portal.theme.site_property.bannerForm.showFormTitle.checkbox') )?string />
 <#local isBannerFormImage = ( dskey('portal.theme.site_property.bannerForm.showBannerImg.checkbox') == '1' )?then( 'true', 'false' ) />
 <#local bannerCredits=dskey('portal.theme.site_property.banner.credits')>
-<#local bannerTitleColor=dskey('portal.theme.site_property.banner.title.color')>
-<#local bannerTitleBGColor=dskey('portal.theme.site_property.banner.title.bgcolor')>
-<#local bannerTitlePadding=dskey('portal.theme.site_property.banner.title.padding')>
-<#local bannerBGImagePosY=dskey('portal.theme.site_property.banner.image.positiony')>
-<#local bannerBGImagePosX=dskey('portal.theme.site_property.banner.image.positionx')>
+<#local bannerTitleColor=dskey('portal.theme.site_property.banner.title.color')?trim?matches( '#[0-9a-fA-F]{3,8}|[a-zA-Z]+|(rgb|rgba|hsl|hsla)\\([0-9., %]+\\)' )?then( dskey('portal.theme.site_property.banner.title.color')?trim, '' )>
+<#local bannerTitleBGColor=dskey('portal.theme.site_property.banner.title.bgcolor')?trim?matches( '#[0-9a-fA-F]{3,8}|[a-zA-Z]+|(rgb|rgba|hsl|hsla)\\([0-9., %]+\\)' )?then( dskey('portal.theme.site_property.banner.title.bgcolor')?trim, '' )>
+<#local bannerTitlePadding=dskey('portal.theme.site_property.banner.title.padding')?trim?matches( '([0-9.]+(px|rem|em|%)?\\s*){1,4}' )?then( dskey('portal.theme.site_property.banner.title.padding')?trim, '' )>
+<#local bannerBGImagePosY=dskey('portal.theme.site_property.banner.image.positiony')?trim?matches( '[0-9.]+(%|px|rem|em)?|top|bottom|left|right|center' )?then( dskey('portal.theme.site_property.banner.image.positiony')?trim, '' )>
+<#local bannerBGImagePosX=dskey('portal.theme.site_property.banner.image.positionx')?trim?matches( '[0-9.]+(%|px|rem|em)?|top|bottom|left|right|center' )?then( dskey('portal.theme.site_property.banner.image.positionx')?trim, '' )>
 <#if imageSrc?has_content && isBannerImage?boolean><#local bannerClass+=' bg-banner' /></#if>
-<#if imageSrc?has_content && isBannerImage?boolean><#local imageStyle +='background-image:url(${imageSrc!});' /></#if>
+<#if cssUrl( imageSrc! )?has_content && isBannerImage?boolean><#local imageStyle +='background-image:url(\'' + cssUrl( imageSrc ) + '\');' /></#if>
 <#if imageSrc?has_content && bannerBGImagePosY?has_content><#local imageStyle +='background-position-y: ${bannerBGImagePosY!};' /></#if>
 <#if imageSrc?has_content && bannerBGImagePosX?has_content><#local imageStyle +='background-position-x: ${bannerBGImagePosX!};' /></#if>
 <#if bannerTitleColor?has_content><#local titleStyle ='color:${bannerTitleColor};' /></#if>
 <#if bannerTitleBGColor?has_content><#local titleStyle +='background-color:${bannerTitleBGColor};' /></#if>
 <#if bannerTitlePadding?has_content><#local titleStyle +='padding:${bannerTitlePadding};' /></#if>
-<#local bannerParams = params + imageStyle?has_content?then( ' style="' + imageStyle + '"', '' ) />
+<#local bannerAttrs = attrs + imageStyle?has_content?then( { 'style': imageStyle }, { } ) />
 <#if isInternal && !isHomePage><#local bannerClass +=' internal' /></#if>
 <#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass?has_content > ${bannerClass!}</#if>"></#if>
-<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><@commonAttrs params=bannerParams attrs=attrs /> >
+<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><@commonAttrs params=params attrs=bannerAttrs /> >
 <#if hasBannerTitle?boolean && bannerTitle?trim !=''><h1 id="main-banner-title"<#if titleStyle?has_content> style="${titleStyle}"</#if><#if titleClass?has_content> class="${titleClass}"</#if>>${bannerTitle}</h1></#if>
 <#nested> 
 </div> 

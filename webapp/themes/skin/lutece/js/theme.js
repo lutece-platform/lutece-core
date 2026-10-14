@@ -89,15 +89,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
   /* En Form validation */
   // Check XSS chars on submit
-  if (xssChars != "") {
-    // Convert HTML entities in xssChars to UTF-8 plaintext characters
-    if (typeof xssChars === 'string' && xssChars.length > 0) {
-      const tempElement = document.createElement('div');
-      tempElement.style.display = 'none';
-      tempElement.innerHTML = xssChars;
-      xssChars = tempElement.textContent || tempElement.innerText || "";
-      tempElement.remove();
-    }
+  if (typeof xssChars === 'string' && xssChars !== "") {
+    // Convert HTML entities in xssChars to plain characters, in an inert document: no element is created in this page
+    xssChars = new DOMParser().parseFromString(xssChars, 'text/html').documentElement.textContent || "";
     const re = new RegExp(`[${xssChars}]`, "igm");
     const formList = document.querySelectorAll("form");
     formList.forEach((formXss) =>
