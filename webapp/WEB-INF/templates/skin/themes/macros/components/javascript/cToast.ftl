@@ -31,12 +31,8 @@ Snippet:
 -->
 <#macro cInitToast class='' id='' position='position-fixed' showAll=true animation=true duration=2000 triggerId='' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<#assign styleParams='' />
-<#assign toastParams=params />
 <#if duration?number == 0><#assign autohide=false ><#else><#assign autohide=true ></#if>
-<#if position?has_content><#assign styleParams> style="${position}"</#assign></#if>
-<#if styleParams?has_content><#assign toastParams += styleParams /></#if>
-<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=toastParams attrs=attrs />>
+<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=params attrs=attrs + position?has_content?then( { 'style': position }, { } ) />>
 <#nested>
 </div>
 <script>

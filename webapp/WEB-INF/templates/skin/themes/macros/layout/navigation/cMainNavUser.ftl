@@ -87,7 +87,7 @@ Snippet:
                         </a>
                     </p>
                 </#if>    
-                <@cText class='mt-5 text-center'><@cLink href=footerLinkLegal! target='_blank' title='#i18n{portal.theme.site_property.Url.legalURL}' label='#i18n{portal.theme.site_property.Url.legalURL}' /></@cText>
+                <@cText class='mt-5 text-center'><@cLink href=safeUrl( footerLinkLegal!'' ) target='_blank' title='#i18n{portal.theme.site_property.Url.legalURL}' label='#i18n{portal.theme.site_property.Url.legalURL}' /></@cText>
             </div>
         </div>
     </li>
