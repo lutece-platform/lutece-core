@@ -14,3 +14,6 @@ cScrollSpy   the id attribute received the class: id="${class}" is now id="${id}
 option       the id was written without a space before it and without its closing quote: <optionid="x is now <option id="x"
 iconStack    id was written without the attribute name, same fix as pre
 cTile        a stray "}" followed the data-bs-title attribute; title and detail were JavaScript-escaped in an HTML attribute
+cCard        LUT-33153 OWASP rule #4: the header image goes through cssUrl and is quoted in url('...')
+copyElementToClipboard LUT-33153 the toast message is written with textContent instead of innerHTML
+stepCurrent  LUT-33153 the mandatory message is written with textContent instead of innerHTML
