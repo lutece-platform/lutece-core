@@ -100,7 +100,7 @@ Snippet:
 		</div>
 		<div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
 			<!-- Photo -->
-			<div class="bg-cover h-100 min-vh-100" style="background-image: url(${loginLayoutImg!});<#if loginIsCoverContain?number == 1>background-size: contain;</#if>"></div>
+			<div class="bg-cover h-100 min-vh-100" style="background-image: url('${cssUrl(loginLayoutImg)}');<#if loginIsCoverContain?number == 1>background-size: contain;</#if>"></div>
 		</div>
 	</div>
 <#else>

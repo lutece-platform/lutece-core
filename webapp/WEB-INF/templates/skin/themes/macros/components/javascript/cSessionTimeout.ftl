@@ -51,12 +51,12 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#assign sessionTimeoutEnabled = ( !dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.enabled.checkbox') == '1' )?then( 'true', 'false' ) />
 <#if sessionTimeoutEnabled == 'true'>
-<#assign sessionTimeoutDuration = ( !dskey('portal.theme.site_property.sessiontimeout.duration')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.duration') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.duration') )?string, '1800' ) />
-<#assign sessionWarningDelay = ( !dskey('portal.theme.site_property.sessiontimeout.warningDelay')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.warningDelay') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.warningDelay') )?string, '120' ) />
+<#assign sessionTimeoutDuration = ( dskey('portal.theme.site_property.sessiontimeout.duration')?trim?matches( '[0-9]+' ) )?then( dskey('portal.theme.site_property.sessiontimeout.duration')?trim, '1800' ) />
+<#assign sessionWarningDelay = ( dskey('portal.theme.site_property.sessiontimeout.warningDelay')?trim?matches( '[0-9]+' ) )?then( dskey('portal.theme.site_property.sessiontimeout.warningDelay')?trim, '120' ) />
 <#assign sessionKeepAliveUrl = ( !dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.keepAliveUrl') )?string, ( base_url!'' )?string + 'jsp/site/Portal.jsp' ) />
-<#assign sessionMaxExtensions = ( !dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.maxExtensions') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.maxExtensions') )?string, '10' ) />
+<#assign sessionMaxExtensions = ( dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?trim?matches( '[0-9]+' ) )?then( dskey('portal.theme.site_property.sessiontimeout.maxExtensions')?trim, '10' ) />
 <#assign sessionPosition = ( !dskey('portal.theme.site_property.sessiontimeout.position')?starts_with('DS') && dskey('portal.theme.site_property.sessiontimeout.position') != '' )?then( ( dskey('portal.theme.site_property.sessiontimeout.position') )?string, 'top-0 end-0' ) />
-<#assign sessionLoginUrl = ( urlAuth?? && urlAuth?has_content )?then( ( urlAuth )?string, 'jsp/site/Portal.jsp?page=mylutece&action=doLogin' ) />
+<#assign sessionLoginUrl = safeUrl( ( urlAuth?? && urlAuth?has_content )?then( ( urlAuth )?string, 'jsp/site/Portal.jsp?page=mylutece&action=doLogin' ), 'jsp/site/Portal.jsp?page=mylutece&action=doLogin' ) />
 <script>
 (function() {
     var pluginConfig = window.__sessionTimeoutConfig || {};

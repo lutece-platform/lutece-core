@@ -62,7 +62,7 @@
 <#assign isFixedMenu = ( dskey('portal.theme.site_property.menu.fixedMenu.checkbox') == '1' )?then( 'true', 'false' ) />
 <#assign isMainSidebarMenu = ( dskey('portal.theme.site_property.menu.sidebarMenu.checkbox') == '1' )?then( 'true', 'false' ) />
 <#assign isMainSidebarMenuCollapse = ( dskey('portal.theme.site_property.menu.sidebarMenuCollapse.checkbox') == '1' )?then( 'true', 'false' ) />
-<#assign urlDefaultSearch = ( dskey('portal.theme.site_property.Url.search')!'' )?string />
+<#assign urlDefaultSearch = safeUrl( ( dskey('portal.theme.site_property.Url.search')!'' )?string, '' ) />
 <#assign mainNavClass='' />
 <#-- MENU MANAGEMENT          -->
 <#-- LAYOUT MANAGEMENT        -->

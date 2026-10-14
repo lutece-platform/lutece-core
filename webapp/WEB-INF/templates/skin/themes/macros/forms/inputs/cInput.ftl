@@ -99,10 +99,13 @@ function setInvalidMaxMinMessage( input ) {
   if ( value < min || value > max  ) {
     if ( !input.classList.contains('is-invalid') ) {
         input.classList.add('is-invalid');
+        const quantityFeedback = document.createElement('p');
+        quantityFeedback.className = 'invalid-feedback';
+        quantityFeedback.textContent = '${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}';
         if( input.parentNode.classList.contains('input-group') ) {
-            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}</p>' );
+            input.parentNode.before( quantityFeedback );
         } else {
-            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}</p>' );
+            input.before( quantityFeedback );
         }
         input.setAttribute('aria-invalid', 'true');
         input.setAttribute('aria-describedby', 'error_' + input.id);

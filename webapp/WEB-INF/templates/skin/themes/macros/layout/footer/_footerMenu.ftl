@@ -83,7 +83,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <li class="list-inline-item<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
 <#if url?has_content>
-    <a <#if urlClass?has_content >class="${urlClass!}"</#if><#if role?has_content> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target?has_content> target="${target}"</#if>>
+    <a <#if urlClass?has_content >class="${urlClass!}"</#if><#if role?has_content> role="${role!}"</#if> href="${safeUrl(url)}" <#if showTitle>title="${title!}"</#if><#if target?has_content> target="${target}"</#if>>
         ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{portal.theme.newWindowLink}</span></#if>
         <#nested>
     </a>

@@ -12,7 +12,7 @@
                         </strong>
                     </#if>
                     <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
-                        <span class="ti ti-link" ms-2"/>
+                        <span class="ti ti-link ms-2" aria-hidden="true"></span>
                     </a>
                     <#if item.children?size gt 0>
                         <ul>
@@ -32,7 +32,7 @@
                     </strong>
                 </#if>
                 <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
-                    <span class="ti ti-link" mx-2"/>
+                    <span class="ti ti-link mx-2" aria-hidden="true"></span>
                 </a>
                 <ul>
                     <@renderMap items=item.children />
@@ -47,7 +47,7 @@
                     </strong>
                 </#if>
                 <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
-                    <span class="ti ti-link"/>
+                    <span class="ti ti-link" aria-hidden="true"></span>
                 </a>
             </li>
         </#if>

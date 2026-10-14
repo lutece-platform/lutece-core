@@ -120,7 +120,7 @@ var xssChars='<#if xssChars != '' && !xssChars?starts_with('DS') >${( dskey("por
 <#assign xssMsg = dskey('portal.theme.site_property.xss.xssMsg')!''>
 var xssMsg='<#if xssMsg != '' && !xssMsg?starts_with('DS') >${( dskey("portal.theme.site_property.xss.xssMsg")! )?js_string?no_esc}</#if>';
 <#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
-var urlDoLogout='<#if urlDoLogout != '' && !urlDoLogout?starts_with('DS') >${urlDoLogout?js_string?no_esc}</#if>';
+var urlDoLogout='<#if urlDoLogout != '' && !urlDoLogout?starts_with('DS') >${safeUrl( urlDoLogout, '' )?js_string?no_esc}</#if>';
 </script>
 <#if themeJSLinks?? >
 <@themeJSLinks />
