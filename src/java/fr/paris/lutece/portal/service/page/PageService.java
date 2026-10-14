@@ -500,7 +500,7 @@ public class PageService implements IPageService, ImageResourceProvider
 
         for ( int j = 0; j < MAX_COLUMNS; j++ )
         {
-            rootModel.put( "page_content_col" + ( j + 1 ), arrayContent [j] );
+            rootModel.put( "page_content_col" + ( j + 1 ), HtmlMarkup.of( arrayContent [j] ) );
         }
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );

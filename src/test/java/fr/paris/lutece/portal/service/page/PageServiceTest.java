@@ -34,6 +34,12 @@
 package fr.paris.lutece.portal.service.page;
 
 import java.util.List;
+import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.business.page.Page;
+import java.sql.Timestamp;
+import java.security.SecureRandom;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +58,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class PageServiceTest extends LuteceTestCase
 {
+    private static final int MODE_ADMIN = 1;
     private boolean _pageCacheStatus;
     private @Inject IPageService pageService ;
 
@@ -116,5 +123,42 @@ public class PageServiceTest extends LuteceTestCase
         request.addParameter( Parameters.PAGE_ID, "1" );
         pageContent = pageService.getPage( request, 0 );
         assertTrue( pageContent.contains( "<base href=\"http://junit/\">" ) );
+    }
+
+    /**
+     * The columns of a page and its breadcrumb are HTML the core renders, handed to the page template as markup
+     * (LUT-33153): with auto-escaping, a String would be written as text.
+     *
+     * @throws SiteMessageException
+     *             if the page cannot be built
+     */
+    @Test
+    public void testColumnsAndPathAreWrittenAsHtml( ) throws SiteMessageException
+    {
+        Page page = new Page( );
+        page.setParentPageId( PortalService.getRootPageId( ) );
+        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).stream( )
+                .filter( template -> template.getFile( ).endsWith( "page_template2.html" ) ).findFirst( ).orElseThrow( ).getId( ) );
+        page.setName( "columns" + new SecureRandom( ).nextInt( 100000 ) );
+        page.setDateUpdate( new Timestamp( System.currentTimeMillis( ) ) );
+        pageService.createPage( page );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            LocalVariables.setLocal( null, request, new MockHttpServletResponse( ) );
+
+            String strAdminPreview = pageService.getPage( String.valueOf( page.getId( ) ), MODE_ADMIN, request );
+            assertTrue( strAdminPreview.contains( "id=\"lutece-column-1\"" ), "column outline missing" );
+            assertFalse( strAdminPreview.contains( "&lt;div" ), "column escaped" );
+
+            request.addParameter( Parameters.PAGE_ID, String.valueOf( page.getId( ) ) );
+            String strPage = pageService.getPage( request, 0 );
+            assertTrue( strPage.contains( page.getName( ) ), "page missing" );
+            assertFalse( strPage.contains( "&lt;li" ) || strPage.contains( "&lt;a " ), "breadcrumb escaped" );
+        }
+        finally
+        {
+            pageService.removePage( page.getId( ) );
+        }
     }
 }

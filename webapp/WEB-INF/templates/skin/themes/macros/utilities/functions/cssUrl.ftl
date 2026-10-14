@@ -7,7 +7,7 @@ only a validated value in a CSS property value). A URL holding a quote, a parent
 space or < > is refused.
 
 Parameters:
-- url (string, required): the URL, a data: URL included.
+- url (string or markup, required): the URL, a data: URL included.
 
 Snippet:
 
@@ -15,6 +15,6 @@ Snippet:
 
 -->
 <#function cssUrl url>
-<#local value = ( url!'' )?trim />
+<#local value = url?is_markup_output?then( url?markup_string, url?string )?trim />
 <#return value?matches( '[A-Za-z0-9._~:/?#\\[\\]@!$&*+,;=%-]+' )?then( value, '' ) />
 </#function>

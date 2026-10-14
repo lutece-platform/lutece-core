@@ -539,7 +539,7 @@ public final class PortalService
     public static String formatPath( String strPath, int nMode, HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<>( );
-        model.put( Markers.PAGE_PATH, strPath );
+        model.put( Markers.PAGE_PATH, HtmlMarkup.of( strPath ) );
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
         PageData data = new PageData( );

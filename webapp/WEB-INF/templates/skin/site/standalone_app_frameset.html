@@ -45,7 +45,7 @@ ${plugins_css_links}
 <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#071f32">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
-${rss?default("<!-- no RSS feed -->")}
+<#if rss??>${rss}<#else><!-- no RSS feed --></#if>
 <!-- Site JS Include -->
 <#-- Template to add js to header in page_frameset.html theme template -->
 <!-- Included JS Files -->

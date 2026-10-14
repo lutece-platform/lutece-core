@@ -213,8 +213,7 @@
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control'>
 <#-- WARNING : macro fieldInputCombo is deprecated 			-->
 <@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-	<#assign params = "class='" + cssClass + "'" >
-	<@select name=inputName items=items default_value=value params=params />
+	<@select name=inputName items=items default_value=value class=cssClass />
 </@formGroup>
 </#macro>
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>

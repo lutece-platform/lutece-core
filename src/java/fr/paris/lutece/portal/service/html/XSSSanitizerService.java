@@ -42,7 +42,7 @@ public final class XSSSanitizerService
 {
     /** html Cleaner */
     private static IXSSSanitizer _xssSanitizer = CDI.current().select(IXSSSanitizer.class).get( );
-    private static boolean _bInit;
+    private static volatile boolean _bInit;
 
     /**
      * Constructor. Creates a new XSSSanitizerService object.
@@ -75,13 +75,22 @@ public final class XSSSanitizerService
 
     }
 
+    /**
+     * Initializes the sanitizer once. The sanitizer runs on every rich text and message rendering, from concurrent
+     * requests: the flag is volatile and the initialization synchronized, so no thread uses an uninitialized policy.
+     */
     private static void init( )
     {
-        // init XSSSanitizerService
         if ( !_bInit && _xssSanitizer != null )
         {
-            _xssSanitizer.init( );
-            _bInit = true;
+            synchronized( XSSSanitizerService.class )
+            {
+                if ( !_bInit )
+                {
+                    _xssSanitizer.init( );
+                    _bInit = true;
+                }
+            }
         }
     }
 
