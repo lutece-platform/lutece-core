@@ -245,7 +245,8 @@ document.addEventListener('DOMContentLoaded', function() {
       })
       .catch(error => {
         console.error('Error:', error);
-        tbody.innerHTML = '<tr><td colspan="' + totalCols + '" class="text-center text-danger"><i class="ti ti-alert-circle"></i> ' + error.message + '</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="' + totalCols + '" class="text-center text-danger"><i class="ti ti-alert-circle"></i> </td></tr>';
+        tbody.querySelector('td').append(String(error.message));
       });
     }
     
@@ -278,15 +279,13 @@ document.addEventListener('DOMContentLoaded', function() {
           });
           
           // Gérer les valeurs spéciales
-          if (value === null || value === undefined) {
-            value = '';
-          } else if (typeof value === 'boolean') {
-            value = value 
+          if (typeof value === 'boolean') {
+            td.innerHTML = value 
               ? '<i class="ti ti-check text-success"></i>' 
               : '<i class="ti ti-x text-danger"></i>';
+          } else {
+            td.textContent = ( value === null || value === undefined ) ? '' : String(value);
           }
-          
-          td.innerHTML = value;
           tr.appendChild(td);
         });
         
@@ -348,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fonction pour remplacer les placeholders
     function replaceUrlPlaceholders(url, item) {
       return url.replace(/\{(\w+)\}/g, (match, property) => {
-        return item[property] || '';
+        return encodeURIComponent(item[property] ?? '');
       });
     }
     
@@ -365,8 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
       
       const title = editConfig.title + (item.id ? ' - ' + item.id : '');
       
-      offcanvas.innerHTML = '<div class="offcanvas-header"><h5 class="offcanvas-title"><i class="ti ti-' + editConfig.icon + '"></i> ' + title + '</h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body"><div class="text-center p-5"><i class="ti ti-loader-2 animate-spin fs-1"></i><p class="mt-3">Chargement...</p></div></div>';
+      offcanvas.innerHTML = '<div class="offcanvas-header"><h5 class="offcanvas-title"><i class="ti ti-' + editConfig.icon + '"></i> </h5><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button></div><div class="offcanvas-body"><div class="text-center p-5"><i class="ti ti-loader-2 animate-spin fs-1"></i><p class="mt-3">Chargement...</p></div></div>';
       
+      offcanvas.querySelector('.offcanvas-title').append(title);
       document.body.appendChild(offcanvas);
       
       const offcanvasEl = new bootstrap.Offcanvas(offcanvas);

@@ -121,7 +121,10 @@ export default class LuteceBSOffCanvas {
         // Handle iframe error
         iframe.addEventListener('error', () => {
             console.error('Failed to load iframe:', iframeUrl);
-            bodyElement.innerHTML = `<div class="alert alert-danger">Failed to load content from ${iframeUrl}</div>`;
+            const loadError = document.createElement('div');
+            loadError.className = 'alert alert-danger';
+            loadError.textContent = `Failed to load content from ${iframeUrl}`;
+            bodyElement.replaceChildren(loadError);
             window.dispatchEvent(new CustomEvent('offcanvasLoadError', { detail: { id: offCanvasElement.id, url: iframeUrl } }));
             window.removeEventListener('message', cleanupCompleteHandler);
         });
@@ -404,7 +407,7 @@ export default class LuteceBSOffCanvas {
                         window.location.reload();
                     })
                     .catch(error => {
-                        destinationElement.innerHTML = error;
+                        destinationElement.textContent = String(error);
                     });
             });
         }

@@ -39,7 +39,7 @@ Snippet:
 <#if !dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
 <footer class="foot__grid_social z-1" role="contentinfo"<@commonAttrs params=params attrs=attrs />>
     <div class="main-footer">
-        <a class="logo" href="${logoUrl}" target="_blank" title="#i18n{portal.theme.labelGoToSite} ${title}">
+        <a class="logo" href="${safeUrl(logoUrl)}" target="_blank" title="#i18n{portal.theme.labelGoToSite} ${title}">
             <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' /><@cInline> - ${title}</@cInline>
         </a>
         <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{portal.theme.footerInfo}" >
