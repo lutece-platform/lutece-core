@@ -185,7 +185,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				<#assign invalidLabel = i18n('portal.theme.msgMandatory') />
-				pInvalid.innerHTML = '${invalidLabel?js_string?no_esc}';
+				pInvalid.textContent = '${invalidLabel?js_string?no_esc}';
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);
 				} else {
@@ -201,7 +201,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		const at = saveStep.querySelector('.alert-title');
 		const btnReset = document.createElement('button');
 		btnReset.classList.add('btn', 'btn-tertiary', 'ms-sm');
-		btnReset.innerHTML = "${i18n('portal.theme.labelRemoveSaveStep')?js_string?no_esc}";
+		btnReset.textContent = "${i18n('portal.theme.labelRemoveSaveStep')?js_string?no_esc}";
 		btnReset.setAttribute('type', 'button');
 		btnReset.setAttribute('data-bs-target', '#reset-stepModal');
 		btnReset.setAttribute('data-bs-toggle', 'modal');

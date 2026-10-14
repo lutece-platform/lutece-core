@@ -82,16 +82,30 @@ function updateProgressBar(id, percentage) {
     element.textContent = percentage + ' /' + getProgressMaxValue(id);
 }
 
+/**
+ * Writes report lines as text, one per line: a line comes from the server (an imported value, an
+ * error) and must not be read as HTML.
+ */
+function appendReportLines(element, lines, bTrailingBreak) {
+    lines.forEach(function (line, index) {
+        element.append(String(line));
+        if (bTrailingBreak || index < lines.length - 1) {
+            element.append(document.createElement('br'));
+        }
+    });
+}
+
 function updateProgressReport(id, report, isAppend) {
     const element = reportElement(id);
     if (element === null || !report || !Array.isArray(report.lines)) {
         return;
     }
     if (!isAppend) {
-        element.innerHTML = report.lines.join('<br />');
+        element.replaceChildren();
+        appendReportLines(element, report.lines, false);
     } else {
-        element.insertAdjacentHTML('beforeend', new Date().toLocaleTimeString(document.documentElement.lang) + '<br />');
-        element.insertAdjacentHTML('beforeend', report.lines.join('<br />') + '<br />');
+        appendReportLines(element, [new Date().toLocaleTimeString(document.documentElement.lang)], true);
+        appendReportLines(element, report.lines, true);
         element.setAttribute('lastline', report.lastLine);
     }
 }

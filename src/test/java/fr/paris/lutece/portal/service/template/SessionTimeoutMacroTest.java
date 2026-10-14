@@ -61,6 +61,7 @@ public class SessionTimeoutMacroTest
 {
     private static final String TEMPLATES_ROOT = "webapp/WEB-INF/templates";
     private static final String MACRO = "skin/themes/macros/components/javascript/cSessionTimeout.ftl";
+    private static final String SAFE_URL = "skin/themes/macros/utilities/functions/safeUrl.ftl";
     private static final String KEY_PREFIX = "portal.theme.site_property.sessiontimeout.";
 
     /**
@@ -78,7 +79,7 @@ public class SessionTimeoutMacroTest
     {
         Configuration cfg = new Configuration( Configuration.VERSION_2_3_0 );
         StringTemplateLoader snippets = new StringTemplateLoader( );
-        snippets.putTemplate( "snippet.ftl", "<#macro deprecatedWarning args></#macro><#include \"" + MACRO + "\"><@cSessionTimeout />" );
+        snippets.putTemplate( "snippet.ftl", "<#macro deprecatedWarning args></#macro><#include \"" + SAFE_URL + "\"><#include \"" + MACRO + "\"><@cSessionTimeout />" );
         cfg.setTemplateLoader( new MultiTemplateLoader( new TemplateLoader [ ] {
                 new FileTemplateLoader( new File( TEMPLATES_ROOT ) ), snippets
         } ) );
@@ -128,5 +129,26 @@ public class SessionTimeoutMacroTest
         assertFalse( strOutput.contains( "</script><script>alert(1)" ), strOutput );
         assertFalse( Pattern.compile( "[^\\\\]\";alert\\(2\\)" ).matcher( strOutput ).find( ), strOutput );
         assertTrue( strOutput.contains( "keepAliveUrl: \"y\\\";alert(2);//\"" ), strOutput );
+    }
+
+    /**
+     * The durations are written as JavaScript numbers: a value that is not a number falls back to the default, it
+     * cannot add code.
+     *
+     * @throws Exception
+     *             if the template fails
+     */
+    @Test
+    public void testDurationsAreNumbers( ) throws Exception
+    {
+        Map<String, Object> model = new HashMap<>( );
+        model.put( "commonsSiteSharedPath", "" );
+
+        String strOutput = render( Map.of( KEY_PREFIX + "enabled.checkbox", "1", KEY_PREFIX + "duration", "1;alert(3)", KEY_PREFIX + "warningDelay", " 90 " ),
+                model );
+
+        assertTrue( strOutput.contains( "timeoutDuration: 1800," ), strOutput );
+        assertTrue( strOutput.contains( "warningDelay: 90," ), strOutput );
+        assertFalse( strOutput.contains( "alert(3)" ), strOutput );
     }
 }

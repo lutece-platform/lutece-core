@@ -85,8 +85,9 @@ function showCopyToast(message, type) {
 	const toastEl = document.createElement('div');
 	toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
 	toastEl.setAttribute('role', 'status');
-	toastEl.innerHTML = '<div class="d-flex align-items-center"><div class="toast-body">' + message + '</div>'
+	toastEl.innerHTML = '<div class="d-flex align-items-center"><div class="toast-body"></div>'
 		+ '<button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="${i18n('portal.util.labelClose')?js_string?no_esc}"></button></div>';
+	toastEl.querySelector('.toast-body').textContent = message;
 	container.appendChild(toastEl);
 	const toast = new bootstrap.Toast(toastEl, { delay: 5000, autohide: true });
 	toast.show();

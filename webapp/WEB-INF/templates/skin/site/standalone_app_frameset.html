@@ -77,7 +77,7 @@ ${page_content}
 ${plugins_javascript_links!}
 <!-- Theme - Base JS init  -->
 <script>
-var longMenu=${dskey('theme.site_property.menu.longMenu.checkbox')!};
+var longMenu=${( ( dskey('theme.site_property.menu.longMenu.checkbox')!'' ) == '1' )?then( '1', '0' )};
 var xssChars='${( dskey("theme.site_property.xss.xssChars")! )?js_string?no_esc}';
 var xssMsg='${( dskey("theme.site_property.xss.xssMsg")! )?js_string?no_esc}';
 </script>
