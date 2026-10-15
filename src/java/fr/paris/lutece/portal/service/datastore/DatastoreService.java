@@ -117,7 +117,8 @@ public final class DatastoreService
      */
     public static void evictCachedKey( String strKey )
     {
-        if ( isCacheUsable( ) )
+        // A disabled cache still forwards the removal to the cache shared with the other instances
+        if ( _cache != null )
         {
             _cache.remove( strKey );
         }
@@ -501,7 +502,9 @@ public final class DatastoreService
     public static void startCache( )
     {
     	ILuteceCacheManager luteceCacheManager= CDI.current( ).select(ILuteceCacheManager.class).get( );
-       Configuration<String,DataEntity> con= new MutableConfiguration<String, DataEntity>().setTypes(String.class, DataEntity.class);
+        // Cached entities are never modified: they are stored by reference, the copy of every read is avoided
+        Configuration<String, DataEntity> con = new MutableConfiguration<String, DataEntity>( ).setTypes( String.class, DataEntity.class )
+                .setStoreByValue( false );
     	_cache = luteceCacheManager.createCache(CACHE_SERVICE_NAME,con, true );      		
         AppLogService.info( "Datastore's cache started." );
     }

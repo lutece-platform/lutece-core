@@ -17,7 +17,15 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import java.util.concurrent.TimeUnit;
+
+import javax.cache.configuration.CompleteConfiguration;
 import javax.cache.configuration.Configuration;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.CreatedExpiryPolicy;
+import javax.cache.expiry.Duration;
+import javax.cache.expiry.EternalExpiryPolicy;
+import javax.cache.expiry.TouchedExpiryPolicy;
 import javax.cache.spi.CachingProvider;
 
 import org.apache.logging.log4j.LogManager;
@@ -62,6 +70,12 @@ public class CacheConfigUtil {
 	    private static final String PROPERTY_STATISTICS = ".statistics";
 	    private static final String PROPERTY_ENABLEMANAGEMENT = ".enableManagement";
 	    private static final String PROPERTY_PERSISTENCEDIRECTORY =".persistenceDirectory";
+	    private static final String [ ] CONFIG_PROPERTIES = { PROPERTY_MAX_ELEMENTS, PROPERTY_ETERNAL, PROPERTY_TIME_TO_IDLE, PROPERTY_TIME_TO_LIVE,
+	    		PROPERTY_OFF_HEAP_MB, PROPERTY_MAX_ELEMENTS_DISK, PROPERTY_STATISTICS, PROPERTY_ENABLEMANAGEMENT };
+	    private static final String TMPDIR = "java.io.tmpdir";
+	    private static final int DEFAULT_HEAP_ENTRIES = 10000;
+	    /** Value of a numeric setting that is not configured */
+	    static final int UNSET = -1;
 	    
 	    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
@@ -138,6 +152,7 @@ public class CacheConfigUtil {
 	    public static URI createTempEhcacheConfigFile(List<CacheConfig> cacheConfigs, CacheConfig defaultCacheConfig) throws IOException {
 	        logger.info("Creating temporary Ehcache configuration file");
 	    	Path ehcacheXmlPath = Files.createTempFile("ehcache", ".xml");
+	    	boolean bDisk = defaultCacheConfig.getDiskMB( ) > 0 || cacheConfigs.stream( ).anyMatch( c -> c.getDiskMB( ) > 0 );
 	        try (FileWriter writer = new FileWriter(ehcacheXmlPath.toFile())) {
 	            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
 	                    "<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" +
@@ -148,52 +163,22 @@ public class CacheConfigUtil {
 	                    "            http://www.ehcache.org/v3/jsr107 https://www.ehcache.org/schema/ehcache-107-ext.xsd\">\n" +
 	                    "\n" +
 	                    "    <service>\n" +
-	                    "        <jsr107:defaults default-template=\""+defaultCacheConfig.getTemplateName()+"\">\n");
+	                    "        <jsr107:defaults default-template=\""+escape( defaultCacheConfig.getTemplateName())+"\">\n");
 
 	            // Add cache configurations for each cache config
 	            for (CacheConfig cacheConfig : cacheConfigs) {
-	                writer.write("            <jsr107:cache name=\"" + cacheConfig.getName() + "\" template=\"" + cacheConfig.getTemplateName() + "\"/>\n");
+	                writer.write("            <jsr107:cache name=\"" + escape( cacheConfig.getName()) + "\" template=\"" + escape( cacheConfig.getTemplateName()) + "\"/>\n");
 	            }
 
 	            writer.write("        </jsr107:defaults>\n" +
 	                    "    </service>\n");
-	            writer.write( "<persistence directory=\""+defaultCacheConfig.getPersistenceDirectory()+ "\" />\n"+
-	            		
-	            		"    <cache-template name=\"" + defaultCacheConfig.getTemplateName() + "\">\n" +
-                        "        <expiry>\n" +
-                        
-                        (defaultCacheConfig.isEternal( ) ?
-                        		"<none/>": "")+
-                        (defaultCacheConfig.getTimeToLiveSeconds( ) > 0 ?
-                        		"<ttl unit=\"seconds\">" + defaultCacheConfig.getTimeToLiveSeconds() + "</ttl>\n": "")+
-                        (defaultCacheConfig.getTimeToLiveSeconds( ) == 0 && defaultCacheConfig.getTimeToIdleSeconds( ) > 0 ?
-                        		"<tti unit=\"seconds\">" + defaultCacheConfig.getTimeToIdleSeconds() + "</tti>\n" : "") +
-                        "        </expiry>\n" +
-                        "        <resources>\n" +
-                        (defaultCacheConfig.getHeapEntries() >0 ? "<heap unit=\"entries\">" + defaultCacheConfig.getHeapEntries() + "</heap>\n" : "") +
-                        (defaultCacheConfig.getOffheapMB() > 0 ? "<offheap unit=\"MB\">" + defaultCacheConfig.getOffheapMB() + "</offheap>\n" : "") +
-                        (defaultCacheConfig.getDiskMB() > 0 ? "<disk unit=\"MB\" persistent=\"true\">" + defaultCacheConfig.getDiskMB() + "</disk>\n" : "") +
-                        "        </resources>\n" +
-                        "        <jsr107:mbeans enable-management=\"" + defaultCacheConfig.isEnableManagement() + "\"  enable-statistics=\"" + defaultCacheConfig.isStatistics() + "\"/>\n"+
-                        "    </cache-template>\n");
-	            // Write cache templates
+	            if ( bDisk ) {
+	            	writer.write( "    <persistence directory=\""+escape( resolveDirectory( defaultCacheConfig.getPersistenceDirectory()))+ "\" />\n" );
+	            }
+	            writeTemplate( writer, defaultCacheConfig );
+	            // A cache configured by name gets the default settings it does not override
 	            for (CacheConfig cacheConfig : cacheConfigs) {
-	                writer.write("    <cache-template name=\"" + cacheConfig.getTemplateName() + "\">\n" +
-	                		(cacheConfig.isExpiry( ) ?"<expiry>\n":"" )+
-	                        (cacheConfig.isEternal( ) ?
-	                        		"<none/>": "")+
-	                        (cacheConfig.getTimeToLiveSeconds( ) > 0 ?
-	                        		"<ttl unit=\"seconds\">" + cacheConfig.getTimeToLiveSeconds() + "</ttl>\n": "")+
-	                        (cacheConfig.getTimeToLiveSeconds( ) == 0 && cacheConfig.getTimeToIdleSeconds( ) > 0 ?
-	                        		"<tti unit=\"seconds\">" + cacheConfig.getTimeToIdleSeconds() + "</tti>\n" : "") +
-	                        (cacheConfig.isExpiry( ) ?"</expiry>\n":"" )+
-	                        (cacheConfig.isResource( ) ?"<resources>\n":"") +
-	                        (cacheConfig.getHeapEntries() >0 ? "<heap unit=\"entries\">" + cacheConfig.getHeapEntries() + "</heap>\n" : "") +
-	                        (cacheConfig.getOffheapMB() > 0 ? "<offheap unit=\"MB\">" + cacheConfig.getOffheapMB() + "</offheap>\n" : "") +
-	                        (cacheConfig.getDiskMB() > 0 ? "<disk unit=\"MB\" persistent=\"true\">" + cacheConfig.getDiskMB() + "</disk>\n" : "") +
-	                        (cacheConfig.isResource( ) ?"</resources>\n":"") +
-	                        ((cacheConfig.isStatistics( ) || cacheConfig.isEnableManagement( )) ?"<jsr107:mbeans enable-management=\"" + cacheConfig.isEnableManagement() + "\"  enable-statistics=\"" + cacheConfig.isStatistics() + "\"/>\n":"")+
-	                        "    </cache-template>\n");
+	                writeTemplate( writer, cacheConfig.completedBy( defaultCacheConfig ) );
 	            }
 	            writer.write("</config>\n");
 	            logger.info("Ehcache configuration file created at: {}", ehcacheXmlPath);
@@ -202,7 +187,74 @@ public class CacheConfigUtil {
 	            throw e;
 	        }
 	        return ehcacheXmlPath.toUri();
-	    }	    
+	    }
+
+	    /**
+	     * Writes the Ehcache template of a complete cache configuration
+	     *
+	     * @param writer the writer of the configuration file
+	     * @param cacheConfig the configuration, every setting resolved
+	     * @throws IOException If an I/O error occurs.
+	     */
+	    private static void writeTemplate( FileWriter writer, CacheConfig cacheConfig ) throws IOException
+	    {
+	    	StringBuilder sbTemplate = new StringBuilder( "    <cache-template name=\"" ).append( escape( cacheConfig.getTemplateName( ) ) ).append( "\">\n" );
+	    	sbTemplate.append( "        <expiry>" );
+	    	if ( cacheConfig.isEternal( ) || ( cacheConfig.getTimeToLiveSeconds( ) <= 0 && cacheConfig.getTimeToIdleSeconds( ) <= 0 ) )
+	    	{
+	    		sbTemplate.append( "<none/>" );
+	    	}
+	    	else if ( cacheConfig.getTimeToLiveSeconds( ) > 0 )
+	    	{
+	    		sbTemplate.append( "<ttl unit=\"seconds\">" ).append( cacheConfig.getTimeToLiveSeconds( ) ).append( "</ttl>" );
+	    	}
+	    	else
+	    	{
+	    		sbTemplate.append( "<tti unit=\"seconds\">" ).append( cacheConfig.getTimeToIdleSeconds( ) ).append( "</tti>" );
+	    	}
+	    	sbTemplate.append( "</expiry>\n        <resources>\n" );
+	    	// A heap tier is mandatory: an unbounded cache is not allowed
+	    	sbTemplate.append( "            <heap unit=\"entries\">" ).append( cacheConfig.getHeapEntries( ) > 0 ? cacheConfig.getHeapEntries( ) : DEFAULT_HEAP_ENTRIES ).append( "</heap>\n" );
+	    	if ( cacheConfig.getOffheapMB( ) > 0 )
+	    	{
+	    		sbTemplate.append( "            <offheap unit=\"MB\">" ).append( cacheConfig.getOffheapMB( ) ).append( "</offheap>\n" );
+	    	}
+	    	if ( cacheConfig.getDiskMB( ) > 0 )
+	    	{
+	    		sbTemplate.append( "            <disk unit=\"MB\" persistent=\"true\">" ).append( cacheConfig.getDiskMB( ) ).append( "</disk>\n" );
+	    	}
+	    	sbTemplate.append( "        </resources>\n" );
+	    	sbTemplate.append( "        <jsr107:mbeans enable-management=\"" ).append( cacheConfig.isEnableManagement( ) ).append( "\" enable-statistics=\"" ).append( cacheConfig.isStatistics( ) ).append( "\"/>\n" );
+	    	sbTemplate.append( "    </cache-template>\n" );
+	    	writer.write( sbTemplate.toString( ) );
+	    }
+
+	    /**
+	     * Resolves a persistence directory starting with java.io.tmpdir to the temporary directory of the JVM
+	     *
+	     * @param strDirectory the configured directory
+	     * @return the directory
+	     */
+	    static String resolveDirectory( String strDirectory )
+	    {
+	    	if ( strDirectory != null && strDirectory.startsWith( TMPDIR ) )
+	    	{
+	    		return Path.of( System.getProperty( TMPDIR ), strDirectory.substring( TMPDIR.length( ) ) ).toString( );
+	    	}
+	    	return strDirectory;
+	    }
+
+	    /**
+	     * Escapes a value written in an XML attribute
+	     *
+	     * @param strValue the value
+	     * @return the escaped value
+	     */
+	    private static String escape( String strValue )
+	    {
+	    	return strValue.replace( "&", "&amp;" ).replace( "\"", "&quot;" ).replace( "<", "&lt;" ).replace( ">", "&gt;" );
+	    }
+
 	    /**
 	     * Retrieves cache configurations.
 	     *
@@ -248,30 +300,14 @@ public class CacheConfigUtil {
 	        	
 	        	String Keyprefix= KEY_PREFIX+prefix;
 	        	CacheConfig cacheConfig =new CacheConfig.ConfigBuilder(prefix)
-    			.heapEntries(Optional.ofNullable(properties.get( Keyprefix+ PROPERTY_MAX_ELEMENTS))
-                        .map(Integer::parseInt)
-                        .orElse(0))
-    			.offheapMB(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_OFF_HEAP_MB))
-                        .map(Integer::parseInt)
-                        .orElse(0))
-    			.diskMB(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_MAX_ELEMENTS_DISK))
-                        .map(Integer::parseInt)
-                        .orElse(0))
-    		    .timeToLiveSeconds(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_TIME_TO_LIVE))
-                        .map(Integer::parseInt)
-                        .orElse(0))
-                .timeToIdleSeconds(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_TIME_TO_IDLE))
-                        .map(Integer::parseInt)
-                        .orElse(0))
-                .eternal(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_ETERNAL))
-                        .map(Boolean::parseBoolean)
-                        .orElse(false))
-                .statistics(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_STATISTICS))
-                        .map(Boolean::parseBoolean)
-                        .orElse(false))
-                .enableManagement(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_ENABLEMANAGEMENT))
-                        .map(Boolean::parseBoolean)
-                        .orElse(false))
+    			.heapEntries(intValue(properties, Keyprefix + PROPERTY_MAX_ELEMENTS))
+    			.offheapMB(intValue(properties, Keyprefix + PROPERTY_OFF_HEAP_MB))
+    			.diskMB(intValue(properties, Keyprefix + PROPERTY_MAX_ELEMENTS_DISK))
+    		    .timeToLiveSeconds(intValue(properties, Keyprefix + PROPERTY_TIME_TO_LIVE))
+                .timeToIdleSeconds(intValue(properties, Keyprefix + PROPERTY_TIME_TO_IDLE))
+                .eternal(booleanValue(properties, Keyprefix + PROPERTY_ETERNAL))
+                .statistics(booleanValue(properties, Keyprefix + PROPERTY_STATISTICS))
+                .enableManagement(booleanValue(properties, Keyprefix + PROPERTY_ENABLEMANAGEMENT))
                 .build();
 	                  
 	            cacheConfigs.add(cacheConfig);
@@ -288,15 +324,57 @@ public class CacheConfigUtil {
 	        Set<String> prefixes = new HashSet<>();
             int startIndex = KEY_PREFIX.length();
 	        for (String key : keys) {
-	            if (key.startsWith(KEY_PREFIX) && !key.contains("enabled")) {
-	                int endIndex = key.indexOf('.', startIndex);
-	                if (endIndex != -1) {
-	                	prefixes.add(key.substring(startIndex, endIndex));
-	                }
+	            if (key.startsWith(KEY_PREFIX)) {
+	            	for ( String strProperty : CONFIG_PROPERTIES )
+	            	{
+	            		if ( key.endsWith( strProperty ) && key.length( ) > startIndex + strProperty.length( ) )
+	            		{
+	            			prefixes.add( key.substring( startIndex, key.length( ) - strProperty.length( ) ) );
+	            		}
+	            	}
 	            }
 	        }
 	        return prefixes;
 	    }
+
+	    /**
+	     * Reads an integer setting
+	     *
+	     * @param properties the settings
+	     * @param strKey the key
+	     * @return the value, or UNSET when the setting is absent or not a number
+	     */
+	    private static int intValue( Map<String, String> properties, String strKey )
+	    {
+	    	String strValue = properties.get( strKey );
+	    	if ( strValue == null || strValue.isBlank( ) )
+	    	{
+	    		return UNSET;
+	    	}
+	    	try
+	    	{
+	    		return Integer.parseInt( strValue.trim( ) );
+	    	}
+	    	catch( NumberFormatException e )
+	    	{
+	    		logger.warn( "The cache setting {} is not a number: {}", strKey, strValue );
+	    		return UNSET;
+	    	}
+	    }
+
+	    /**
+	     * Reads a boolean setting
+	     *
+	     * @param properties the settings
+	     * @param strKey the key
+	     * @return the value, or null when the setting is absent
+	     */
+	    private static Boolean booleanValue( Map<String, String> properties, String strKey )
+	    {
+	    	String strValue = properties.get( strKey );
+	    	return ( strValue == null || strValue.isBlank( ) ) ? null : Boolean.valueOf( strValue.trim( ) );
+	    }
+
 	    /**
 	     * Loads the default cache configuration.
 	     *
@@ -306,7 +384,7 @@ public class CacheConfigUtil {
 	    {
 	    	Config config = ConfigProvider.getConfig();
 	    	return new CacheConfig.ConfigBuilder("luteceCache")
-	    			.heapEntries(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, Integer.class).orElse(10000))
+	    			.heapEntries(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, Integer.class).orElse(DEFAULT_HEAP_ENTRIES))
 	    			.offheapMB(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_OFF_HEAP_MB,Integer.class).orElse(0))
 	    			.diskMB(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK, Integer.class).orElse(0))
 	    		    .timeToLiveSeconds(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, Integer.class).orElse(1000))
@@ -314,7 +392,7 @@ public class CacheConfigUtil {
                     .eternal(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_ETERNAL, Boolean.class).orElse(false))
                     .statistics(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_STATISTICS, Boolean.class).orElse(false))
                     .enableManagement(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_ENABLEMANAGEMENT, Boolean.class).orElse(false))
-                    .persistenceDirectory(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_PERSISTENCEDIRECTORY, String.class).orElse("java.io.tmpdir/ehcache/"))
+                    .persistenceDirectory(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_PERSISTENCEDIRECTORY, String.class).orElse(TMPDIR + "/ehcache/"))
                     .build();
 	    			
 	    }
@@ -325,11 +403,11 @@ public class CacheConfigUtil {
 	        private int heapEntries;
 	        private int timeToLiveSeconds;
 	        private int timeToIdleSeconds;
-	        private boolean eternal;
+	        private Boolean eternal;
 	        private int offheapMB;
 	        private int diskMB;
-	        private boolean statistics;
-	        private boolean enableManagement;
+	        private Boolean statistics;
+	        private Boolean enableManagement;
 	        private String persistenceDirectory;
 
 			public CacheConfig(ConfigBuilder builder) {
@@ -346,20 +424,43 @@ public class CacheConfigUtil {
 	            this.persistenceDirectory= builder.persistenceDirectory;
 	        }
 
+	        /**
+	         * Returns this configuration with every setting it leaves unset taken from another one. The expiry is taken
+	         * as a whole: a cache that sets its time to live, time to idle or eternal flag does not inherit the others.
+	         *
+	         * @param defaults the configuration that provides the missing settings
+	         * @return the complete configuration
+	         */
+	        public CacheConfig completedBy( CacheConfig defaults )
+	        {
+	        	boolean bOwnExpiry = eternal != null || timeToLiveSeconds != UNSET || timeToIdleSeconds != UNSET;
+	        	return new ConfigBuilder( name )
+	        			.heapEntries( heapEntries != UNSET ? heapEntries : defaults.heapEntries )
+	        			.offheapMB( offheapMB != UNSET ? offheapMB : defaults.offheapMB )
+	        			.diskMB( diskMB != UNSET ? diskMB : defaults.diskMB )
+	        			.timeToLiveSeconds( bOwnExpiry ? timeToLiveSeconds : defaults.timeToLiveSeconds )
+	        			.timeToIdleSeconds( bOwnExpiry ? timeToIdleSeconds : defaults.timeToIdleSeconds )
+	        			.eternal( bOwnExpiry ? Boolean.TRUE.equals( eternal ) : defaults.isEternal( ) )
+	        			.statistics( statistics != null ? statistics : defaults.isStatistics( ) )
+	        			.enableManagement( enableManagement != null ? enableManagement : defaults.isEnableManagement( ) )
+	        			.persistenceDirectory( persistenceDirectory != null ? persistenceDirectory : defaults.persistenceDirectory )
+	        			.build( );
+	        }
+
 	        public static class ConfigBuilder {
 	            // Required parameters
 	            private String name;
 	            private String templateName;
 
-	            // Optional parameters - initialized to default values
-	            private int heapEntries;
-	            private int timeToLiveSeconds;
-	            private int timeToIdleSeconds;
-	            private boolean eternal;
-	            private int offheapMB;
-	            private int diskMB;
-	            private boolean statistics;
-	            private boolean enableManagement;
+	            // Optional parameters - unset until given
+	            private int heapEntries = UNSET;
+	            private int timeToLiveSeconds = UNSET;
+	            private int timeToIdleSeconds = UNSET;
+	            private Boolean eternal;
+	            private int offheapMB = UNSET;
+	            private int diskMB = UNSET;
+	            private Boolean statistics;
+	            private Boolean enableManagement;
 	            private String persistenceDirectory;
 
 	            public ConfigBuilder(String name) {
@@ -382,7 +483,7 @@ public class CacheConfigUtil {
 	                return this;
 	            }
 
-	            public ConfigBuilder eternal(boolean eternal) {
+	            public ConfigBuilder eternal(Boolean eternal) {
 	                this.eternal = eternal;
 	                return this;
 	            }
@@ -397,11 +498,11 @@ public class CacheConfigUtil {
 	                return this;
 	            }
 
-	            public ConfigBuilder statistics(boolean statistics) {
+	            public ConfigBuilder statistics(Boolean statistics) {
 	                this.statistics = statistics;
 	                return this;
 	            }
-	            public ConfigBuilder enableManagement(boolean enableManagement) {
+	            public ConfigBuilder enableManagement(Boolean enableManagement) {
 	                this.enableManagement = enableManagement;
 	                return this;
 	            }
@@ -443,16 +544,16 @@ public class CacheConfigUtil {
 	        }
 
 	        public boolean isStatistics() {
-	            return statistics;
+	            return Boolean.TRUE.equals( statistics );
 	        }
 	        public boolean isEnableManagement() {
-	            return enableManagement;
+	            return Boolean.TRUE.equals( enableManagement );
 	        }
 	        public boolean isEternal() {
-	            return eternal;
+	            return Boolean.TRUE.equals( eternal );
 	        }
 	        public boolean isExpiry() {
-	            return eternal || timeToLiveSeconds > 0 || timeToIdleSeconds > 0;
+	            return isEternal( ) || timeToLiveSeconds > 0 || timeToIdleSeconds > 0;
 	        }
 	        public boolean isResource() {
 	            return offheapMB >0 || diskMB > 0 || heapEntries > 0;
@@ -462,6 +563,82 @@ public class CacheConfigUtil {
 			}
 
 	    }
+	    /**
+	     * Returns the name under which a cache is created in the JCache manager: the cache name without spaces, the
+	     * name its settings are read under.
+	     *
+	     * @param strCacheName the name of the cacheable service
+	     * @return the JCache name
+	     */
+	    public static String getJCacheName( String strCacheName )
+	    {
+	    	return normalizeName( strCacheName );
+	    }
+
+	    /**
+	     * Returns the settings of a cache: its own settings, completed by the default ones
+	     *
+	     * @param strCacheName the cache name
+	     * @return the complete settings
+	     */
+	    static CacheConfig getCacheSettings( String strCacheName )
+	    {
+	    	String strName = normalizeName( strCacheName );
+	    	CacheConfig defaults = loadDefaults( );
+	    	return getCahesConfigs( ).stream( ).filter( c -> c.getName( ).equals( strName ) ).findFirst( )
+	    			.map( c -> c.completedBy( defaults ) ).orElse( defaults );
+	    }
+
+	    /**
+	     * Completes the JCache configuration of a cache with the expiry of its Lutece settings, so that a provider
+	     * without a Lutece generated configuration (Hazelcast, Infinispan) expires the entries too. Ehcache templates
+	     * override this expiry with the same settings. A configuration that sets its own expiry is kept. Immutable values
+	     * are stored by reference.
+	     *
+	     * @param strCacheName the cache name
+	     * @param configuration the configuration given by the cacheable service
+	     * @return the configuration to create the cache with
+	     */
+	    @SuppressWarnings( "unchecked" )
+	    public static <K, V> Configuration<K, V> completeConfiguration( String strCacheName, Configuration<K, V> configuration )
+	    {
+	    	if ( !( configuration instanceof CompleteConfiguration ) )
+	    	{
+	    		return configuration;
+	    	}
+	    	MutableConfiguration<K, V> mutable = new MutableConfiguration<>( (CompleteConfiguration<K, V>) configuration );
+	    	Class<V> valueType = mutable.getValueType( );
+	    	if ( String.class.equals( valueType ) || Number.class.isAssignableFrom( valueType ) || Boolean.class.equals( valueType ) )
+	    	{
+	    		// An immutable value needs no copy on each read and write
+	    		mutable.setStoreByValue( false );
+	    	}
+	    	if ( EternalExpiryPolicy.factoryOf( ).equals( mutable.getExpiryPolicyFactory( ) ) )
+	    	{
+	    		CacheConfig settings = getCacheSettings( strCacheName );
+	    		if ( !settings.isEternal( ) && settings.getTimeToLiveSeconds( ) > 0 )
+	    		{
+	    			mutable.setExpiryPolicyFactory( CreatedExpiryPolicy.factoryOf( new Duration( TimeUnit.SECONDS, settings.getTimeToLiveSeconds( ) ) ) );
+	    		}
+	    		else if ( !settings.isEternal( ) && settings.getTimeToIdleSeconds( ) > 0 )
+	    		{
+	    			mutable.setExpiryPolicyFactory( TouchedExpiryPolicy.factoryOf( new Duration( TimeUnit.SECONDS, settings.getTimeToIdleSeconds( ) ) ) );
+	    		}
+	    	}
+	    	return mutable;
+	    }
+
+	    /**
+	     * Tells whether a cache is shared by several instances of the webapp (any provider but Ehcache)
+	     *
+	     * @param cache the cache
+	     * @return true when the cache is not local to this instance
+	     */
+	    public static boolean isDistributed( javax.cache.Cache<?, ?> cache )
+	    {
+	    	return !cache.getCacheManager( ).getCachingProvider( ).getClass( ).getName( ).startsWith( "org.ehcache." );
+	    }
+
 	    /**
 	     * Returns the cache status froms database
 	     *

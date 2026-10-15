@@ -71,6 +71,8 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     protected volatile Cache<K, V> _cache;
     protected Configuration<K, V> configuration; 
     protected boolean _bPreventGlobalReset;
+    /** A disabled cache that stays open: it serves nothing but still forwards removals to a shared cache */
+    protected volatile boolean _bDisabled;
 
     /**
      * Init & create the cache. Should be called by the class (cache) that extends AbstractCacheableService during its initialization.
@@ -151,10 +153,14 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     protected <C extends Configuration<K, V>> Cache<K, V> createCache(String strCacheName, C configuration, boolean enable) {
        
     	ILutece107CacheManager luteceCacheManager = CDI.current().select(ILutece107CacheManager.class).get();
-    	Cache<K, V> cache = luteceCacheManager.getCache(strCacheName);
-    	if (cache == null && (CacheConfigUtil.getStatusFromDataBase(strCacheName) || enable)) {
-    		cache = createOrGetCache(luteceCacheManager, strCacheName, configuration);
+    	String strJCacheName = CacheConfigUtil.getJCacheName(strCacheName);
+    	boolean bEnabled = enable || CacheConfigUtil.getStatusFromDataBase(strCacheName);
+    	// A shared cache created by another instance is kept even when disabled here, to forward the removals
+    	Cache<K, V> cache = luteceCacheManager.getCache(strJCacheName);
+    	if (cache == null && bEnabled) {
+    		cache = createOrGetCache(luteceCacheManager, strJCacheName, CacheConfigUtil.completeConfiguration(strCacheName, configuration));
         }
+    	_bDisabled = !bEnabled;
     	this.configuration = (cache != null && !cache.isClosed()) ? cache.getConfiguration(Configuration.class) : configuration;
     	_cache = cache;
         CacheService.registerCacheableService(this);
@@ -220,6 +226,16 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      * @return the open cache, or null when the cache is disabled
      */
     private Cache<K, V> activeCache() {
+        return _bDisabled ? null : openCache();
+    }
+
+    /**
+     * Returns the underlying cache when it is open, enabled or not. Removals go through it so that a cache disabled
+     * on this instance keeps the shared cache of the other instances up to date.
+     *
+     * @return the open cache, or null
+     */
+    private Cache<K, V> openCache() {
         Cache<K, V> cache = _cache;
         return (cache != null && !cache.isClosed()) ? cache : null;
     }
@@ -257,17 +273,23 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void enableCache(boolean bEnable) {
+        Cache<K, V> cache = openCache();
+        if (!bEnable) {
+            if (cache != null && !_bDisabled && !CacheConfigUtil.isDistributed(cache)) {
+                // A local cache is emptied and released; a shared cache is left to the other instances
+                cache.clear();
+                cache.close();
+                _cache = null;
+            }
+            _bDisabled = true;
+        } else {
+            _bDisabled = false;
+            if (cache == null) {
+                this.initCache(getName(), true);
+            }
+        }
+        // The status is saved once changed, so that a restart keeps it
         CacheService.updateCacheStatus(this);
-        Cache<K, V> cache = activeCache();
-        if (!bEnable && cache != null) {
-            cache.clear();
-            cache.close();
-        }
-
-        if (bEnable && cache == null) {
-            this.initCache(getName(), bEnable );;
-        }
-        
     }
 
     /**
@@ -276,7 +298,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public void resetCache() {
         try {
-            Cache<K, V> cache = activeCache();
+            Cache<K, V> cache = openCache();
             if (cache != null) {
                 cache.removeAll();
                 CDI.current().getBeanManager().getEvent( ).fire(new LuteceCacheEvent( cache, LuteceCacheEventType.RESET ));
@@ -407,7 +429,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public boolean remove(K key) {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         return cache != null && cache.remove(key);
     }
 
@@ -416,7 +438,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public boolean remove(K key, V oldValue) {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         return cache != null && cache.remove(key, oldValue);
     }
 
@@ -425,8 +447,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public V getAndRemove(K key) {
-        Cache<K, V> cache = activeCache();
-        return cache != null ? cache.getAndRemove(key) : null;
+        Cache<K, V> cache = openCache();
+        if (cache == null) {
+            return null;
+        }
+        V value = cache.getAndRemove(key);
+        return _bDisabled ? null : value;
     }
 
     /**
@@ -461,7 +487,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void removeAll(Set<? extends K> keys) {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         if (cache != null) {
             cache.removeAll(keys);
         }
@@ -472,7 +498,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void removeAll() {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         if (cache != null) {
             cache.removeAll();
         }
@@ -483,7 +509,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void clear() {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         if (cache != null) {
             cache.clear();
             CDI.current().getBeanManager().getEvent( ).fire(new LuteceCacheEvent( cache, LuteceCacheEventType.CLEAR ));
@@ -495,7 +521,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public <C extends Configuration<K, V>> C getConfiguration(Class<C> clazz) {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         if (cache != null) {
             return cache.getConfiguration(clazz);
         }
@@ -534,7 +560,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void close() {
-        Cache<K, V> cache = activeCache();
+        Cache<K, V> cache = openCache();
         if (cache != null) {
             cache.close();
         }
