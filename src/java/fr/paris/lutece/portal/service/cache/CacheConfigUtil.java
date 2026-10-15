@@ -325,12 +325,19 @@ public class CacheConfigUtil {
             int startIndex = KEY_PREFIX.length();
 	        for (String key : keys) {
 	            if (key.startsWith(KEY_PREFIX)) {
+	            	boolean bKnown = key.endsWith( PROPERTY_IS_ENABLED );
 	            	for ( String strProperty : CONFIG_PROPERTIES )
 	            	{
 	            		if ( key.endsWith( strProperty ) && key.length( ) > startIndex + strProperty.length( ) )
 	            		{
 	            			prefixes.add( key.substring( startIndex, key.length( ) - strProperty.length( ) ) );
+	            			bKnown = true;
 	            		}
+	            	}
+	            	if ( !bKnown )
+	            	{
+	            		// Ehcache 2 settings (overflowToDisk, diskPersistent...) have no effect
+	            		logger.warn( "Unknown cache setting ignored: {}", key );
 	            	}
 	            }
 	        }

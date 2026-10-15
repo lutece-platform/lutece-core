@@ -389,6 +389,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void put(K key, V value) {
+        if (value == null) {
+            // JCache refuses a null value: the key no longer has a value, so the entry is dropped
+            logger.debug("Null value put in the cache {} for the key {}: entry removed", getName(), key);
+            remove(key);
+            return;
+        }
         Cache<K, V> cache = activeCache();
         if (cache != null) {
             cache.put(key, value);
