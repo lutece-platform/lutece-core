@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.message;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -73,6 +74,8 @@ public class SiteMessageHandler implements ISiteMessageHandler
     private static final String TEMPLATE_PAGE_SITE_MESSAGE = "skin/site/page_site_message.html";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
     private static final String MARK_BACK_URL = "back_url";
+    private static final String MARK_LUTECE_USER = "lutece_user";
+    private static final int MODE_ADMIN = 1;
 
     @Inject
     private SecurityTokenHandler _securityTokenHandler;
@@ -150,6 +153,11 @@ public class SiteMessageHandler implements ISiteMessageHandler
         if ( request != null )
         {
             locale = request.getLocale( );
+
+            if ( nMode != MODE_ADMIN )
+            {
+                model.put( MARK_LUTECE_USER, SecurityService.getInstance( ).getRegisteredUser( request ) );
+            }
         }
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
