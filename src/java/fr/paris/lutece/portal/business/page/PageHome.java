@@ -37,7 +37,6 @@ import java.util.Collection;
 import java.util.List;
 
 import fr.paris.lutece.portal.business.portlet.Portlet;
-import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
 import fr.paris.lutece.util.ReferenceList;
@@ -68,7 +67,6 @@ public final class PageHome
     public static Page create( Page page )
     {
         _dao.insert( page );
-        CacheService.resetCaches( );
 
         return page;
     }
@@ -92,8 +90,6 @@ public final class PageHome
         _dao.delete( nPageId );
         // We remove extensions of the removed page if any
         ExtendableResourceRemovalListenerService.doRemoveResourceExtentions( Page.RESOURCE_TYPE, Integer.toString( nPageId ) );
-
-        CacheService.resetCaches( );
     }
 
     /**

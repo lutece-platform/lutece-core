@@ -680,6 +680,8 @@ public class PageService implements IPageService, ImageResourceProvider
     public void updatePage( Page page )
     {
         PageHome.update( page );
+        // The name, order or visibility of a page appear in the menus and paths of the other pages
+        resetPageCache( );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
         _pageEvent.fire(event);
     }
@@ -707,8 +709,29 @@ public class PageService implements IPageService, ImageResourceProvider
      */
     public void processPageEvent( @Observes PageEvent event )
     {
-        Page page = event.getPage( );
-        invalidatePage( page.getId( ) );
+        int nType = event.getEventType( );
+        if ( nType == PageEvent.PAGE_CREATED || nType == PageEvent.PAGE_DELETED || nType == PageEvent.PAGE_MOVED )
+        {
+            // The tree of the pages changed: the menus and paths of every cached page are out of date
+            resetPageCache( );
+        }
+        else
+        {
+            Page page = event.getPage( );
+            invalidatePage( page.getId( ) );
+        }
+    }
+
+    /**
+     * Empties the cache of the rendered pages, which hold the menus and paths built from the tree of the pages. The
+     * other caches depending on the pages observe the page events themselves.
+     */
+    private void resetPageCache( )
+    {
+        if ( _cachePages != null && _cachePages.isCacheEnable( ) )
+        {
+            _cachePages.resetCache( );
+        }
     }
 
     /**
