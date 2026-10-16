@@ -146,4 +146,14 @@ public class CacheConfigUtilTest
         assertFalse( settings.eternal( ) );
     }
 
+    /**
+     * A path starting with java.io.tmpdir is located in the temporary directory of the JVM (search index, export).
+     */
+    @Test
+    public void testTemporaryDirectoryPath( )
+    {
+        assertEquals( Path.of( System.getProperty( "java.io.tmpdir" ), "index" ).toString( ),
+                fr.paris.lutece.portal.service.util.AppPathService.resolveTemporaryDirectory( "java.io.tmpdir/index" ) );
+        assertEquals( "/data/index", fr.paris.lutece.portal.service.util.AppPathService.resolveTemporaryDirectory( "/data/index" ) );
+    }
 }

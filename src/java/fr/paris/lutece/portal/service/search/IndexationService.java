@@ -112,7 +112,8 @@ public final class IndexationService
         }
         else
         {
-            _strIndex = AppPropertiesService.getProperty( PATH_INDEX );
+            // java.io.tmpdir/index is the temporary directory of the JVM, not a folder named java.io.tmpdir
+            _strIndex = AppPathService.resolveTemporaryDirectory( AppPropertiesService.getProperty( PATH_INDEX ) );
         }
 
         if ( StringUtils.isEmpty( _strIndex ) )

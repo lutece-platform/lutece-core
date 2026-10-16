@@ -835,22 +835,37 @@ public final class AppPathService
     }
 
     /**
-     * Returns the lutece global export path, defined in lutece.export.path property
+     * Resolves a configured path starting with java.io.tmpdir to the temporary directory of the JVM
+     * (java.io.tmpdir/index becomes /tmp/index). Any other path is returned unchanged.
+     *
+     * @param strPath
+     *            the configured path
+     * @return the resolved path
+     */
+    public static String resolveTemporaryDirectory( String strPath )
+    {
+        if ( strPath != null && strPath.startsWith( SYSTEM_TMP_DIR ) )
+        {
+            return new File( System.getProperty( SYSTEM_TMP_DIR ), strPath.substring( SYSTEM_TMP_DIR.length( ) ) ).getAbsolutePath( );
+        }
+        return strPath;
+    }
+
+    /**
+     * Returns the lutece global export path, defined in lutece.export.path property: an absolute path, a path starting
+     * with java.io.tmpdir (located in the temporary directory of the JVM), or no value for the temporary directory
+     * itself. The directory is created when missing.
      * 
      * @return The export path
      */
     public static String getExportPath( )
     {
-        String strPath = null;
-        String p = AppPropertiesService.getProperty( PROPERTY_EXPORT_PATH, SYSTEM_TMP_DIR );
-        if ( p.startsWith( SYSTEM_TMP_DIR ) )
-        {
-            String strTmpPath = p.replace( SYSTEM_TMP_DIR, "" );
-            File f = new File( System.getProperty( SYSTEM_TMP_DIR ), strTmpPath );
-            f.mkdir( );
-            strPath = f.getAbsolutePath( );
-        }
-        return strPath;
+        String strConfigured = AppPropertiesService.getProperty( PROPERTY_EXPORT_PATH, SYSTEM_TMP_DIR );
+        String strPath = StringUtils.isBlank( strConfigured ) ? System.getProperty( SYSTEM_TMP_DIR )
+                : resolveTemporaryDirectory( strConfigured.trim( ) );
+        File f = new File( strPath );
+        f.mkdirs( );
+        return f.getAbsolutePath( );
     }
 
 }
