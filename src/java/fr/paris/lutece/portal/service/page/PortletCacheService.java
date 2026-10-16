@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import javax.cache.configuration.MutableConfiguration;
+
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -55,6 +57,19 @@ public class PortletCacheService extends AbstractCacheableService<String,String>
     public void init( )
     {
         initCache( SERVICE_NAME, String.class, String.class );
+    }
+
+    /**
+     * Creates the cache typed String/String, whatever the initCache method called: the portlet contents are Strings,
+     * stored by reference (an untyped cache copies every content on each read)
+     *
+     * @param strCacheName
+     *            The cache name
+     */
+    @Override
+    public void initCache( String strCacheName )
+    {
+        createCache( strCacheName, new MutableConfiguration<String, String>( ).setTypes( String.class, String.class ) );
     }
     /**
      * {@inheritDoc }
