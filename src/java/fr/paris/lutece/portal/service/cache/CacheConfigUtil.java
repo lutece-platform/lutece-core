@@ -34,6 +34,8 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
 
 
 /**
@@ -569,6 +571,16 @@ public class CacheConfigUtil {
 				return persistenceDirectory;
 			}
 
+	        /**
+	         * Returns the public view of this configuration
+	         *
+	         * @return the settings
+	         */
+	        public CacheSettings toSettings( )
+	        {
+	        	return new CacheSettings( heapEntries, timeToLiveSeconds, timeToIdleSeconds, isEternal( ), isStatistics( ), isEnableManagement( ) );
+	        }
+
 	    }
 	    /**
 	     * Returns the name under which a cache is created in the JCache manager: the cache name without spaces, the
@@ -633,6 +645,47 @@ public class CacheConfigUtil {
 	    		}
 	    	}
 	    	return mutable;
+	    }
+
+	    /**
+	     * Lets the CDI beans implementing {@link ICacheConfigurationCustomizer} adapt the configuration of a cache to the
+	     * caching provider, for the settings that JCache cannot carry. A customizer that fails is skipped and logged.
+	     *
+	     * @param strCacheName
+	     *            the cache name
+	     * @param configuration
+	     *            the configuration built by the core
+	     * @param provider
+	     *            the caching provider of the cache manager
+	     * @return the configuration to create the cache with
+	     */
+	    public static <K, V> Configuration<K, V> customizeConfiguration( String strCacheName, Configuration<K, V> configuration, CachingProvider provider )
+	    {
+	    	Instance<ICacheConfigurationCustomizer> customizers = CDI.current( ).select( ICacheConfigurationCustomizer.class );
+	    	if ( customizers.isUnsatisfied( ) )
+	    	{
+	    		return configuration;
+	    	}
+	    	String strJCacheName = getJCacheName( strCacheName );
+	    	CacheSettings settings = getCacheSettings( strCacheName ).toSettings( );
+	    	Configuration<K, V> result = configuration;
+	    	for ( ICacheConfigurationCustomizer customizer : customizers )
+	    	{
+	    		if ( customizer.supports( provider ) )
+	    		{
+	    			try
+	    			{
+	    				result = customizer.customize( strJCacheName, result, settings );
+	    				logger.debug( "Configuration of the cache {} customized by {}", strJCacheName, customizer.getClass( ).getName( ) );
+	    			}
+	    			catch( RuntimeException | LinkageError e )
+	    			{
+	    				logger.warn( "The cache configuration customizer {} failed for the cache {}: configuration kept", customizer.getClass( ).getName( ),
+	    						strJCacheName, e );
+	    			}
+	    		}
+	    	}
+	    	return result;
 	    }
 
 	    /**

@@ -131,4 +131,19 @@ public class CacheConfigUtilTest
         assertEquals( Path.of( System.getProperty( "java.io.tmpdir" ), "ehcache" ).toString( ),
                 Path.of( CacheConfigUtil.resolveDirectory( "java.io.tmpdir/ehcache/" ) ).toString( ) );
     }
+
+    /**
+     * The settings given to the configuration customizers are the completed settings of the cache.
+     */
+    @Test
+    public void testSettingsForCustomizers( )
+    {
+        CacheSettings settings = CacheConfigUtil.buildCacheConfigs( Map.of( "core.cache.status.forms.formsCacheService.maxElementsInMemory", "20000" ) )
+                .get( 0 ).completedBy( defaults( ) ).toSettings( );
+
+        assertEquals( 20000, settings.maxElementsInMemory( ) );
+        assertEquals( 1800, settings.timeToLiveSeconds( ) );
+        assertFalse( settings.eternal( ) );
+    }
+
 }
