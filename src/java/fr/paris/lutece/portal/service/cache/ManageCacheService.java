@@ -6,10 +6,15 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ManageCacheService {
+
+	private static final Logger logger = LogManager.getLogger( CacheConfigUtil.CACHE_LOGGER_NAME );
 	
 	/**
      * A concurrent map storing registered cacheable services.
@@ -90,6 +95,31 @@ public class ManageCacheService {
         _listCacheableServicesRegistry.values( ).stream( ).filter( Predicate.not( CacheableService::isPreventGlobalReset ) )
                 .forEach( cs -> cs.resetCache( ) );
     }
+    /**
+     * Applies to this instance the status of each cache saved in the database. With several instances sharing their
+     * caches, a cache enabled or disabled from the back office of one instance is then enabled or disabled on the
+     * others too. A cache whose status is unchanged is not touched; a failure on a cache does not stop the others.
+     */
+    public void refreshStatuses( )
+    {
+        for ( CacheableService<?, ?> cs : _listCacheableServicesRegistry.values( ) )
+        {
+            try
+            {
+                boolean bEnabled = getStatus( cs );
+                if ( bEnabled != cs.isCacheEnable( ) )
+                {
+                    logger.info( "Cache {} {} by another instance", cs.getName( ), bEnabled ? "enabled" : "disabled" );
+                    cs.enableCache( bEnabled );
+                }
+            }
+            catch( RuntimeException e )
+            {
+                logger.warn( "The status of the cache {} could not be refreshed", cs.getName( ), e );
+            }
+        }
+    }
+
     /**
      * Returns the cache status froms database
      *

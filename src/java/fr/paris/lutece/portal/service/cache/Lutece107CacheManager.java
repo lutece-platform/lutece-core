@@ -37,6 +37,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.cache.Cache;
 import javax.cache.CacheException;
@@ -47,6 +50,7 @@ import javax.cache.spi.CachingProvider;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -55,6 +59,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 /**
@@ -73,7 +78,12 @@ public class Lutece107CacheManager implements ILutece107CacheManager
    
     private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
+    private static final String EHCACHE_PACKAGE = "org.ehcache.";
+    private static final String PROPERTY_STATUS_REFRESH = "lutece.cache.status.refreshSeconds";
+    private static final int DEFAULT_STATUS_REFRESH_SECONDS = 30;
+
     private CacheManager _manager;
+    private ScheduledExecutorService _statusRefresh;
  
     @Inject
     @ConfigProperty(name="lutece.cache.jcache.cachingprovider", defaultValue=DEFAULT_JSR107_CACHING_PROVIDER)
@@ -107,6 +117,7 @@ public class Lutece107CacheManager implements ILutece107CacheManager
 				logger.error(" Error Uri CacheManager", e);
 			}
             _manager = cachingProvider.getCacheManager(uri, null, properties);
+            startStatusRefresh( cachingProvider );
     		logger.info(" Lutece107CacheManager initialized ");
 
     }
@@ -115,7 +126,47 @@ public class Lutece107CacheManager implements ILutece107CacheManager
      */
     public void cacheShutDownEvent( @Observes CacheService.ShutDownEvent event )
     {
+        if ( _statusRefresh != null )
+        {
+            _statusRefresh.shutdownNow( );
+        }
     	_manager.close();
+    }
+
+    /**
+     * With a provider shared by several instances (any provider but Ehcache), reads periodically the status of the
+     * caches saved in the database, so that enabling or disabling a cache from the back office of one instance applies
+     * to every instance. Property lutece.cache.status.refreshSeconds: the period, 30 s by default with a shared
+     * provider, 0 (no refresh) with Ehcache.
+     *
+     * @param cachingProvider
+     *            the caching provider
+     */
+    private void startStatusRefresh( CachingProvider cachingProvider )
+    {
+        boolean bDistributed = !cachingProvider.getClass( ).getName( ).startsWith( EHCACHE_PACKAGE );
+        int nSeconds = ConfigProvider.getConfig( ).getOptionalValue( PROPERTY_STATUS_REFRESH, Integer.class )
+                .orElse( bDistributed ? DEFAULT_STATUS_REFRESH_SECONDS : 0 );
+        if ( nSeconds <= 0 )
+        {
+            return;
+        }
+        _statusRefresh = Executors.newSingleThreadScheduledExecutor( runnable -> {
+            Thread thread = new Thread( runnable, "lutece-cache-status-refresh" );
+            thread.setDaemon( true );
+            return thread;
+        } );
+        _statusRefresh.scheduleWithFixedDelay( ( ) -> {
+            try
+            {
+                CDI.current( ).select( ManageCacheService.class ).get( ).refreshStatuses( );
+            }
+            catch( RuntimeException e )
+            {
+                logger.warn( "Cache status refresh failed", e );
+            }
+        }, nSeconds, nSeconds, TimeUnit.SECONDS );
+        logger.info( "Cache status refreshed from the database every {} s", nSeconds );
     }
 
     /**
