@@ -243,6 +243,22 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     }
 
     /**
+     * Logs a failure of the caching provider (a value it cannot serialize, a cluster not reachable...). The cache is
+     * an optimisation: the caller goes on without it, as on a cache miss, and never gets the provider error.
+     *
+     * @param strOperation
+     *            the cache operation
+     * @param key
+     *            the key or keys of the operation
+     * @param e
+     *            the provider error
+     */
+    private void providerError(String strOperation, Object key, RuntimeException e) {
+        logger.warn("Cache {}: {} failed for {}, the cache is bypassed: {}", getName(), strOperation, key, e.toString());
+        logger.debug("Cache provider error", e);
+    }
+
+    /**
      * Returns the underlying cache for an operation that has no meaning on a disabled cache.
      *
      * @return the open cache
@@ -305,8 +321,8 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
                 cache.removeAll();
                 CDI.current().getBeanManager().getEvent( ).fire(new LuteceCacheEvent( cache, LuteceCacheEventType.RESET ));
             }
-        } catch (CacheException | IllegalStateException e) {
-        	logger.error(e.getMessage(), e);
+        } catch (RuntimeException e) {
+        	providerError("resetCache", null, e);
         }
     }
 
@@ -352,7 +368,15 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public V get(K key) {
         Cache<K, V> cache = activeCache();
-        return cache != null ? cache.get(key) : null;
+        if (cache == null) {
+            return null;
+        }
+        try {
+            return cache.get(key);
+        } catch (RuntimeException e) {
+            providerError("get", key, e);
+            return null;
+        }
     }
 
     /**
@@ -361,7 +385,15 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public Map<K, V> getAll(Set<? extends K> keys) {
         Cache<K, V> cache = activeCache();
-        return cache != null ? cache.getAll(keys) : Collections.emptyMap();
+        if (cache == null) {
+            return Collections.emptyMap();
+        }
+        try {
+            return cache.getAll(keys);
+        } catch (RuntimeException e) {
+            providerError("getAll", keys, e);
+            return Collections.emptyMap();
+        }
     }
 
     /**
@@ -370,7 +402,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public boolean containsKey(K key) {
         Cache<K, V> cache = activeCache();
-        return cache != null && cache.containsKey(key);
+        try {
+            return cache != null && cache.containsKey(key);
+        } catch (RuntimeException e) {
+            providerError("containsKey", key, e);
+            return false;
+        }
     }
 
     /**
@@ -399,7 +436,13 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
         }
         Cache<K, V> cache = activeCache();
         if (cache != null) {
-            cache.put(key, value);
+            try {
+                cache.put(key, value);
+            } catch (RuntimeException e) {
+                providerError("put", key, e);
+                // The previous value must not be served instead of the new one
+                remove(key);
+            }
         }
     }
 
@@ -419,7 +462,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     public void putAll(Map<? extends K, ? extends V> map) {
         Cache<K, V> cache = activeCache();
         if (cache != null) {
-            cache.putAll(map);
+            try {
+                cache.putAll(map);
+            } catch (RuntimeException e) {
+                providerError("putAll", map.keySet(), e);
+                removeAll(map.keySet());
+            }
         }
     }
 
@@ -429,7 +477,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public boolean putIfAbsent(K key, V value) {
         Cache<K, V> cache = activeCache();
-        return cache != null && cache.putIfAbsent(key, value);
+        try {
+            return cache != null && cache.putIfAbsent(key, value);
+        } catch (RuntimeException e) {
+            providerError("putIfAbsent", key, e);
+            return false;
+        }
     }
 
     /**
@@ -438,7 +491,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public boolean remove(K key) {
         Cache<K, V> cache = openCache();
-        return cache != null && cache.remove(key);
+        try {
+            return cache != null && cache.remove(key);
+        } catch (RuntimeException e) {
+            providerError("remove", key, e);
+            return false;
+        }
     }
 
     /**
@@ -497,7 +555,11 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     public void removeAll(Set<? extends K> keys) {
         Cache<K, V> cache = openCache();
         if (cache != null) {
-            cache.removeAll(keys);
+            try {
+                cache.removeAll(keys);
+            } catch (RuntimeException e) {
+                providerError("removeAll", keys, e);
+            }
         }
     }
 
