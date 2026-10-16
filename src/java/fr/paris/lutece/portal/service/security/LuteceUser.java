@@ -504,7 +504,14 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     @Override
     public Object clone( ) throws CloneNotSupportedException
     {
-        return super.clone( );
+        // A deep copy of the collections: a caller changing the infos or the workgroups of the copy (a user read from
+        // the cache) must not change the original (the cached user, shared by every reader of a near cache)
+        LuteceUser user = (LuteceUser) super.clone( );
+        user._mapUserInfo = new HashMap<>( _mapUserInfo );
+        user._workgroups = new ArrayList<>( _workgroups );
+        user._roles = ( _roles != null ) ? _roles.clone( ) : null;
+        user._groups = ( _groups != null ) ? _groups.clone( ) : null;
+        return user;
     }
 
     /**
