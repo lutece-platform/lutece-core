@@ -57,7 +57,8 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
 
         if ( mapParams.containsKey( MARK_URL ) )
         {
-            sbKey.append( "[url:" ).append( mapParams.get( MARK_URL ).replace( "/", "" ) ).append( "]" );
+            // The whole URL: removing characters would give the same key to different files (a/bc.pdf, ab/c.pdf)
+            sbKey.append( "[url:" ).append( mapParams.get( MARK_URL ) ).append( "]" );
         }
 
         return sbKey.toString( );
