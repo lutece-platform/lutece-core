@@ -73,6 +73,8 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     protected boolean _bPreventGlobalReset;
     /** A disabled cache that stays open: it serves nothing but still forwards removals to a shared cache */
     protected volatile boolean _bDisabled;
+    // True while enableCache(true) creates the cache: the explicit choice wins over the saved status
+    private transient boolean _bEnabling;
 
     /**
      * Init & create the cache. Should be called by the class (cache) that extends AbstractCacheableService during its initialization.
@@ -154,7 +156,9 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
        
     	ILutece107CacheManager luteceCacheManager = CDI.current().select(ILutece107CacheManager.class).get();
     	String strJCacheName = CacheConfigUtil.getJCacheName(strCacheName);
-    	boolean bEnabled = enable || CacheConfigUtil.getStatusFromDataBase(strCacheName);
+    	// An explicit enableCache(true) wins; otherwise the status saved in the database (back office choice) wins and
+    	// enable is only the status of a cache that has no saved status yet
+    	boolean bEnabled = _bEnabling || CacheConfigUtil.getStatusFromDataBase(strCacheName, enable);
     	// A shared cache created by another instance is kept even when disabled here, to forward the removals
     	Cache<K, V> cache = luteceCacheManager.getCache(strJCacheName);
     	if (cache == null && bEnabled) {
@@ -303,7 +307,12 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
         } else {
             _bDisabled = false;
             if (cache == null) {
-                this.initCache(getName(), true);
+                _bEnabling = true;
+                try {
+                    this.initCache(getName(), true);
+                } finally {
+                    _bEnabling = false;
+                }
             }
         }
         // The status is saved once changed, so that a restart keeps it

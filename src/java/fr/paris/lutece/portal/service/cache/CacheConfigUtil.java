@@ -711,6 +711,22 @@ public class CacheConfigUtil {
 	        String strEnabled = DatastoreService.getInstanceDataValue( CacheConfigUtil.getDSKey( cacheName, PROPERTY_IS_ENABLED ), DISABLED );
 	        return strEnabled.equals( ENABLED );
 	    }
+
+	    /**
+	     * Returns the status of the cache saved in the database, or the given default when no status is saved yet (a
+	     * cache created for the first time). A status chosen in the back office is thus kept across restarts.
+	     *
+	     * @param cacheName
+	     *            the cache name
+	     * @param bDefault
+	     *            the status of a cache that has no saved status
+	     * @return true if the cache is enabled
+	     */
+	    public static boolean getStatusFromDataBase( String cacheName, boolean bDefault )
+	    {
+	        String strEnabled = DatastoreService.getInstanceDataValue( CacheConfigUtil.getDSKey( cacheName, PROPERTY_IS_ENABLED ), null );
+	        return ( strEnabled == null ) ? bDefault : strEnabled.equals( ENABLED );
+	    }
 	    /**
 	     * Return the key of a datastore property
 	     * 
