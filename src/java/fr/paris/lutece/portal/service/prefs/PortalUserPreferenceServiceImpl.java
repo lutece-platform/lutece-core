@@ -53,6 +53,15 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
 	private void init() {
 		super.setDao( _dao );
 	}
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getCacheNamespace( )
+    {
+        return "portal";
+    }
     /**
      * {@inheritDoc }
      */

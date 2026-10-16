@@ -74,21 +74,46 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     }
 
     /**
+     * Returns the name of the preferences stored by this service, which prefixes its cache keys: the back office and
+     * front office preferences share one cache but not their tables, and a same user id can exist in both
+     *
+     * @return the namespace of the cache keys
+     */
+    protected String getCacheNamespace( )
+    {
+        return "admin";
+    }
+
+    /**
+     * Returns the user id used in the cache keys
+     *
+     * @param strUserId
+     *            the user id
+     * @return the user id prefixed by the namespace of this service
+     */
+    private String getCacheUserId( String strUserId )
+    {
+        return getCacheNamespace( ) + ":" + strUserId;
+    }
+
+    /**
      * {@inheritDoc }
      */
     @Override
     public String get( String strUserId, String strKey, String strDefault )
     {
-        String strCacheKey = _cache.getCacheKey( strUserId, strKey );
+        String strCacheKey = _cache.getCacheKey( getCacheUserId( strUserId ), strKey );
         String strValue =  _cache.get( strCacheKey );
 
         if ( strValue == null )
         {
-            strValue = _dao.load( strUserId, strKey, strDefault );
-            if ( strValue != null )
+            // Only a stored value is cached: the default belongs to the caller, another caller may give another one
+            strValue = _dao.load( strUserId, strKey, null );
+            if ( strValue == null )
             {
-                _cache.put( strCacheKey, strValue );
+                return strDefault;
             }
+            _cache.put( strCacheKey, strValue );
         }
 
         return strValue;
@@ -122,7 +147,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void put( String strUserId, String strKey, String strValue )
     {
         _dao.store( strUserId, strKey, strValue );
-        _cache.put( _cache.getCacheKey( strUserId, strKey ), strValue );
+        _cache.put( _cache.getCacheKey( getCacheUserId( strUserId ), strKey ), strValue );
     }
 
     /**
@@ -160,7 +185,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void clear( String strUserId )
     {
         _dao.remove( strUserId );
-        _cache.removeCacheValuesOfUser( strUserId );
+        _cache.removeCacheValuesOfUser( getCacheUserId( strUserId ) );
     }
 
     /**
@@ -170,7 +195,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void clearKey( String strUserId, String strKey )
     {
         _dao.removeKey( strUserId, strKey );
-        _cache.removeCacheValuesOfUser( strUserId );
+        _cache.removeCacheValuesOfUser( getCacheUserId( strUserId ) );
     }
 
     /**
@@ -180,7 +205,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void clearKeyPrefix( String strUserId, String strPrefix )
     {
         _dao.removeKeyPrefix( strUserId, strPrefix );
-        _cache.removeCacheValuesOfUser( strUserId );
+        _cache.removeCacheValuesOfUser( getCacheUserId( strUserId ) );
     }
 
     /**
