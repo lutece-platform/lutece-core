@@ -13,7 +13,8 @@ public class DefaultCacheKeyServiceProduces {
     @Named("pageCacheKeyService")
     @ApplicationScoped
     public ICacheKeyService pageCacheKeyServiceProducer() {
-        return new DefaultCacheKeyService( List.of("page_id","base_url"), null );
+        // theme (chosen by the user) and locale (language of the request) are added by PageService
+        return new DefaultCacheKeyService( List.of("page_id","base_url","theme","locale"), null );
     }
 
     @Produces

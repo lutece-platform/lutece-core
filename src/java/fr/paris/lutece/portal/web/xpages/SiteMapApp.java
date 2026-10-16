@@ -170,13 +170,15 @@ public class SiteMapApp implements XPageApplication
 
             if ( ( user != null ) && ( user.getRoles( ) != null ) )
             {
-                String [ ] roles = user.getRoles( );
+                // A sorted copy: the roles array belongs to the user of the session, shared by its requests
+                String [ ] roles = user.getRoles( ).clone( );
                 Arrays.sort( roles );
                 strRoles = StringUtils.join( roles, ',' );
             }
         }
 
-        return "[m:" + nMode + "][roles:" + strRoles + "]";
+        // The language: the map is rendered with the locale of the request (labels of the pages reserved to a role)
+        return "[m:" + nMode + "][roles:" + strRoles + "][lang:" + request.getLocale( ).getLanguage( ) + "]";
     }
 
     private String buildPageContent( int nMode, HttpServletRequest request )

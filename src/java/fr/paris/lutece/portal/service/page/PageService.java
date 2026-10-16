@@ -130,6 +130,8 @@ public class PageService implements IPageService, ImageResourceProvider
     private static final String PROPERTY_COLUMN_MAX = "nb.columns";
     private static final int DEFAULT_COLUMN_MAX = 5;
     private static final String KEY_THEME = "theme";
+    private static final String KEY_LOCALE = "locale";
+    private static final String PARAMETER_THEME_TEST = "theme_test";
     private static final String TARGET_TOP = "target='_top'";
     private static final String WELCOME_PAGE_ID = "1";
     private static final String WELCOME_PAGE_CACHE_KEY = "mode0";
@@ -263,7 +265,9 @@ public class PageService implements IPageService, ImageResourceProvider
 
         String strKey = getKey( htParamRequest, nMode, user );
 
-    	String strPage = _cachePages.get( strKey );
+        // A page previewed with another theme (theme_test, back office theme screen) is never cached
+        boolean bThemeTest = request.getParameter( PARAMETER_THEME_TEST ) != null;
+    	String strPage = bThemeTest ? null : _cachePages.get( strKey );
 
        if ( strPage != null ) {
             return strPage;
@@ -284,7 +288,7 @@ public class PageService implements IPageService, ImageResourceProvider
            generatedPage = REDIRECTION_KEY + response.getRedirectLocation();
        }
        // Store in cache if allowed
-       if (bCanBeCached && nMode != MODE_ADMIN) {
+       if (bCanBeCached && !bThemeTest && nMode != MODE_ADMIN) {
            _cachePages.putIfAbsent(strKey, generatedPage);
        } 
            return generatedPage;
@@ -317,6 +321,9 @@ public class PageService implements IPageService, ImageResourceProvider
         {
             htParamRequest.put( KEY_THEME, strUserTheme );
         }
+
+        // The page is rendered in the language of the request (templates and i18n): part of the cache key
+        htParamRequest.put( KEY_LOCALE, request.getLocale( ).getLanguage( ) + "-" + LocaleService.getContextUserLocale( request ).getLanguage( ) );
         return htParamRequest;
     }
 
