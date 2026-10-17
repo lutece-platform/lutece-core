@@ -56,10 +56,12 @@ public class LuteceCacheLiteral extends AnnotationLiteral<LuteceCache> implement
     private final Class<?> valueType;
     private final boolean enable;
     private final boolean preventGlobalReset;
+    private final boolean required;
+    private final boolean preventReset;
 
     /**
      * Constructs a new {@code LuteceCacheLiteral} with the specified parameters.
-     * 
+     *
      * @param cacheName the name of the cache
      * @param keyType the class type of the cache keys
      * @param valueType the class type of the cache values
@@ -67,11 +69,29 @@ public class LuteceCacheLiteral extends AnnotationLiteral<LuteceCache> implement
      * @param preventGlobalReset whether the cache can be reset by global resets
      */
     public LuteceCacheLiteral(String cacheName, Class<?> keyType, Class<?> valueType, boolean enable, boolean preventGlobalReset) {
+        this( cacheName, keyType, valueType, enable, preventGlobalReset, false, false );
+    }
+
+    /**
+     * Constructs a new {@code LuteceCacheLiteral} of a cache the webapp cannot run without.
+     *
+     * @param cacheName the name of the cache
+     * @param keyType the class type of the cache keys
+     * @param valueType the class type of the cache values
+     * @param enable whether cache injection is enabled
+     * @param preventGlobalReset whether the cache can be reset by global resets
+     * @param required whether the cache is always enabled
+     * @param preventReset whether every reset of the cache is prevented
+     */
+    public LuteceCacheLiteral(String cacheName, Class<?> keyType, Class<?> valueType, boolean enable, boolean preventGlobalReset, boolean required,
+            boolean preventReset) {
         this.cacheName = cacheName;
         this.keyType = keyType;
         this.valueType = valueType;
         this.enable = enable;
         this.preventGlobalReset = preventGlobalReset;
+        this.required = required;
+        this.preventReset = preventReset;
     }
 
     @Override
@@ -98,5 +118,17 @@ public class LuteceCacheLiteral extends AnnotationLiteral<LuteceCache> implement
     public boolean preventGlobalReset( )
     {
         return preventGlobalReset;
+    }
+
+    @Override
+    public boolean required( )
+    {
+        return required;
+    }
+
+    @Override
+    public boolean preventReset( )
+    {
+        return preventReset;
     }
 }

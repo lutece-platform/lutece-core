@@ -71,6 +71,10 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     protected volatile Cache<K, V> _cache;
     protected Configuration<K, V> configuration; 
     protected boolean _bPreventGlobalReset;
+    /** A required cache is always enabled (see {@link #isRequired()}) */
+    protected boolean _bRequired;
+    /** A cache that is never emptied (see {@link #isPreventReset()}) */
+    protected boolean _bPreventReset;
     /** A disabled cache that stays open: it serves nothing but still forwards removals to a shared cache */
     protected volatile boolean _bDisabled;
     // True while enableCache(true) creates the cache: the explicit choice wins over the saved status
@@ -157,8 +161,8 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     	ILutece107CacheManager luteceCacheManager = CDI.current().select(ILutece107CacheManager.class).get();
     	String strJCacheName = CacheConfigUtil.getJCacheName(strCacheName);
     	// An explicit enableCache(true) wins; otherwise the status saved in the database (back office choice) wins and
-    	// enable is only the status of a cache that has no saved status yet
-    	boolean bEnabled = _bEnabling || CacheConfigUtil.getStatusFromDataBase(strCacheName, enable);
+    	// enable is only the status of a cache that has no saved status yet. A required cache is always enabled.
+    	boolean bEnabled = _bEnabling || isRequired() || CacheConfigUtil.getStatusFromDataBase(strCacheName, enable);
     	// A shared cache created by another instance is kept even when disabled here, to forward the removals
     	Cache<K, V> cache = luteceCacheManager.getCache(strJCacheName);
     	if (cache == null && bEnabled) {
@@ -295,6 +299,11 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void enableCache(boolean bEnable) {
+        if (!bEnable && isRequired()) {
+            // Kept enabled, and the enabled status is saved over a disabled one left in the database
+            logger.warn("Cache {} cannot be disabled: it holds data required by the webapp", getName());
+            bEnable = true;
+        }
         Cache<K, V> cache = openCache();
         if (!bEnable) {
             if (cache != null && !_bDisabled && !CacheConfigUtil.isDistributed(cache)) {
@@ -324,6 +333,10 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void resetCache() {
+        if (isPreventReset()) {
+            logger.info("Cache {} cannot be reset: its entries cannot be rebuilt on a cache miss", getName());
+            return;
+        }
         try {
             Cache<K, V> cache = openCache();
             if (cache != null) {
@@ -707,6 +720,24 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public boolean isPreventGlobalReset( )
     {
-        return _bPreventGlobalReset;
+        return _bPreventGlobalReset || _bPreventReset;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isRequired( )
+    {
+        return _bRequired;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isPreventReset( )
+    {
+        return _bPreventReset;
     }
 }

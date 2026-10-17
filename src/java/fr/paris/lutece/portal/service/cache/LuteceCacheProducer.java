@@ -51,7 +51,8 @@ public class LuteceCacheProducer {
         }
         Lutece107Cache<K, V> cache= (Lutece107Cache<K, V>) luteceCacheManager.getCache(qualifier.cacheName(), qualifier.keyType(), qualifier.valueType( ));
         if( cache == null ) {
-        	cache= new Default107Cache<>(qualifier.cacheName(), (Class<K>) qualifier.keyType(), (Class<V>) qualifier.valueType( ), qualifier.enable( ), qualifier.preventGlobalReset( ) );
+        	cache= new Default107Cache<>(qualifier.cacheName(), (Class<K>) qualifier.keyType(), (Class<V>) qualifier.valueType( ), qualifier.enable( ), qualifier.preventGlobalReset( ),
+        			qualifier.required( ), qualifier.preventReset( ) );
     		logger.info("The new cache '{}' is created", cache.getName() );
         	return cache;
         }

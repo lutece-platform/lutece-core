@@ -97,6 +97,28 @@ public class Default107Cache<K, V> extends AbstractCacheableService<K, V> {
     }
 
     /**
+     * Constructor of a cache the webapp cannot run without: it can be required (never disabled) and protected from
+     * any reset.
+     *
+     * @param name the name of the cache
+     * @param k the class type of the keys
+     * @param v the class type of the values
+     * @param enable the status of the cache when no status is saved
+     * @param preventGlobalReset prevent the cache to be reset by global cache resets
+     * @param required the cache is always enabled (see {@link CacheableService#isRequired()})
+     * @param preventReset the cache is never emptied (see {@link CacheableService#isPreventReset()})
+     */
+    public Default107Cache(String name, Class<K> k, Class<V> v, boolean enable, boolean preventGlobalReset, boolean required, boolean preventReset) {
+        this.name = name;
+        this.configuration = new MutableConfiguration<K, V>().setTypes(k, v);
+        this._bPreventGlobalReset = preventGlobalReset;
+        this._bRequired = required;
+        this._bPreventReset = preventReset;
+        validate();
+        this.initCache(name, enable);
+    }
+
+    /**
      * Returns the name of the cache.
      *
      * @return the name of the cache

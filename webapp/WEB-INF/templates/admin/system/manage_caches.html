@@ -35,6 +35,10 @@
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn cols='12 col-md-5' class='ms-auto' >
 				<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye me-2" btnTitle="#i18n{portal.util.labelMore}" hideTitle=['all']  btnColor="outline-secondary w-50" position="end" />
+				<#-- a required cache is never disabled, a cache whose reset is prevented is never cleared -->
+				<#if (service.required)!false>
+					<@tag color='info' title='#i18n{portal.system.manage_caches.labelRequired}'><@icon style='lock' /></@tag>
+				<#else>
 				<@tform method='post' type='inline' align="middle"
 					action='jsp/admin/system/ConfirmToggleCache.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
@@ -45,11 +49,16 @@
 						<@button type='submit' buttonIcon='player-play me-1' title='#i18n{portal.system.manage_caches.actionEnable}' color='success' />
 					</#if>
 				</@tform>
+				</#if>
+				<#if (service.preventReset)!false>
+					<@tag color='info' title='#i18n{portal.system.manage_caches.labelPreventReset}'><@icon style='trash-off' /></@tag>
+				<#else>
 				<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' color='danger' />
 				</@tform>
+				</#if>
 			</@manageFeatureItemColumn>
 		</@manageFeatureItem>
 		<#assign id=id + 1>

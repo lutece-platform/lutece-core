@@ -104,6 +104,11 @@ public class ManageCacheService {
     {
         for ( CacheableService<?, ?> cs : _listCacheableServicesRegistry.values( ) )
         {
+            if ( cs.isRequired( ) )
+            {
+                // always enabled, whatever the saved status
+                continue;
+            }
             try
             {
                 boolean bEnabled = getStatus( cs );

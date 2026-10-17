@@ -125,4 +125,27 @@ public interface CacheableService<K, V> extends LuteceService {
      * @return true is the cache can be reset by automatic / massive caches resets, false otherwise
      */
     boolean isPreventGlobalReset( );
+
+    /**
+     * Is the cache required by the webapp: it holds data that are not read again elsewhere (the loaded plugins, a
+     * notification shared by the instances...). A required cache is always enabled, whatever the status saved in the
+     * database or chosen in the back office.
+     *
+     * @return true if the cache can never be disabled
+     */
+    default boolean isRequired( )
+    {
+        return false;
+    }
+
+    /**
+     * Can the cache be emptied: a cache whose entries cannot be rebuilt on a cache miss is never reset, neither by a
+     * global reset nor by its own reset.
+     *
+     * @return true if the cache can never be reset
+     */
+    default boolean isPreventReset( )
+    {
+        return false;
+    }
 }

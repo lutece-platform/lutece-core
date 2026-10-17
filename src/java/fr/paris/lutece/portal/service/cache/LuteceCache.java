@@ -84,4 +84,21 @@ public @interface LuteceCache{
 	 */
 	@Nonbinding
 	boolean preventGlobalReset() default false;
+
+	/**
+	 * Flag indicating whether the cache is required by the webapp: it is then always enabled, whatever the status
+	 * saved in the database or chosen in the back office
+	 *
+	 * @return {@code true} if the cache can never be disabled
+	 */
+	@Nonbinding
+	boolean required() default false;
+
+	/**
+	 * Flag indicating whether the cache can never be emptied, neither by a global reset nor by its own reset
+	 *
+	 * @return {@code true} if every reset of the cache is prevented
+	 */
+	@Nonbinding
+	boolean preventReset() default false;
 }

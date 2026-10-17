@@ -111,16 +111,9 @@ public final class PluginService
 
     	if( _pluginCache == null || _pluginCache.isClosed( )) {
     		
-    		_pluginCache = new Default107Cache<String, Plugin>( "pluginCache", String.class, Plugin.class, true, true ){
-    			 @Override
-    		      public void enableCache(boolean bEnable) {
-    				 logger.info( "pluginCache cache cannot be disabled because it contains information required for Lutece to operate correctly." );    			       
-    		      }
-    			 @Override
-    			 public void resetCache() { 
-    				 logger.info( "pluginCache cache cannot be reset because it contains information required for Lutece to operate correctly." );    			       
-    			 }
-    		};
+    		// The loaded plugins are read nowhere else: the cache is required (never disabled, whatever the saved
+    		// status) and never reset
+    		_pluginCache = new Default107Cache<String, Plugin>( "pluginCache", String.class, Plugin.class, true, true, true, true );
     	
     	}else {
             _pluginCache.clear( );
