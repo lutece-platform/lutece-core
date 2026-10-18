@@ -315,12 +315,10 @@ public class PageService implements IPageService, ImageResourceProvider
             htParamRequest.put( Parameters.BASE_URL, AppPathService.getBaseUrl( request ) );
         }
 
+        // The theme of the key is the theme of the user, never the request parameter: without a theme service a
+        // random ?theme= would add one rendered page per value
         String strUserTheme = ThemesService.getUserTheme( request );
-
-        if ( strUserTheme != null )
-        {
-            htParamRequest.put( KEY_THEME, strUserTheme );
-        }
+        htParamRequest.put( KEY_THEME, ( strUserTheme != null ) ? strUserTheme : "" );
 
         // The page is rendered in the language of the request (templates and i18n): part of the cache key
         htParamRequest.put( KEY_LOCALE, request.getLocale( ).getLanguage( ) + "-" + LocaleService.getContextUserLocale( request ).getLanguage( ) );

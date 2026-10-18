@@ -117,4 +117,37 @@ public class PageServiceTest extends LuteceTestCase
         pageContent = pageService.getPage( request, 0 );
         assertTrue( pageContent.contains( "<base href=\"http://junit/\">" ) );
     }
+
+    /**
+     * Tests that a theme request parameter does not add a cache entry: the key holds the theme of the user only
+     * 
+     * @throws SiteMessageException
+     */
+    @Test
+    public void testThemeParameterNotInKey( ) throws SiteMessageException
+    {
+        CacheableService<?, ?> pageCache = null;
+        for ( CacheableService<?, ?> cs : CacheService.getCacheableServicesList( ) )
+        {
+            if ( cs instanceof PageCacheService )
+            {
+                pageCache = cs;
+                break;
+            }
+        }
+        assertNotNull( pageCache );
+        pageCache.resetCache( );
+
+        HttpServletResponse response = new MockHttpServletResponse( );
+        for ( String strTheme : new String [ ] { "junit-theme-a", "junit-theme-b", "junit-theme-c" } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            LocalVariables.setLocal( null, request, response );
+            request.addParameter( Parameters.PAGE_ID, "1" );
+            request.addParameter( "theme", strTheme );
+            pageService.getPage( request, 0 );
+        }
+
+        assertEquals( 1, pageCache.getCacheSize( ) );
+    }
 }
