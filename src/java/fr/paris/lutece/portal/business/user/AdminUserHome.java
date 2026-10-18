@@ -622,6 +622,63 @@ public final class AdminUserHome
     }
 
     /**
+     * Updates the status of a user if his current status is lower. The daemons run on every instance: only the instance whose update changed the user
+     * sends the related mail.
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @param nNewStatus
+     *            The new status
+     * @return true if the user has been updated by this call
+     */
+    public static boolean updateUserStatusIfLower( int nIdUser, int nNewStatus )
+    {
+        return _dao.updateUserStatusIfLower( nIdUser, nNewStatus );
+    }
+
+    /**
+     * Records the first expiration alert of a user if it has not been recorded yet
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @return true if the user has been updated by this call
+     */
+    public static boolean updateFirstAlert( int nIdUser )
+    {
+        return _dao.updateFirstAlert( nIdUser );
+    }
+
+    /**
+     * Records another expiration alert of a user if the user still matches the conditions of the other alerts
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @param alertMaxDate
+     *            Maximum date to send alerts.
+     * @param timeBetweenAlerts
+     *            Timestamp describing the time between two alerts.
+     * @param maxNumberAlerts
+     *            Maximum number of alerts to send to a user
+     * @return true if the user has been updated by this call
+     */
+    public static boolean updateOtherAlert( int nIdUser, Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts )
+    {
+        return _dao.updateOtherAlert( nIdUser, alertMaxDate, timeBetweenAlerts, maxNumberAlerts );
+    }
+
+    /**
+     * Sets the "change password" flag of a user to true if it is not set yet
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @return true if the user has been updated by this call
+     */
+    public static boolean updateChangePasswordIfNotSet( int nIdUser )
+    {
+        return _dao.updateChangePasswordIfNotSet( nIdUser );
+    }
+
+    /**
      * Update the admin user expiration date with the new values. Also update his alert account to 0
      * 
      * @param nIdUser

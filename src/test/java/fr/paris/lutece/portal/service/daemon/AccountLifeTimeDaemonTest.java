@@ -192,6 +192,25 @@ public class AccountLifeTimeDaemonTest extends LuteceTestCase
         assertFalse( AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate ).contains( _user.getUserId( ) ) );
     }
 
+    /**
+     * The daemon runs on every instance: the conditional updates let one instance only change a user, and send the related mail
+     */
+    @Test
+    public void testConditionalUpdatesSucceedOnce( )
+    {
+        setAccountState( AdminUser.ACTIVE_CODE, daysAgo( 1 ), AdminUser.getDefaultDateLastLogin( ) );
+
+        assertTrue( AdminUserHome.updateUserStatusIfLower( _user.getUserId( ), AdminUser.EXPIRED_CODE ) );
+        assertFalse( AdminUserHome.updateUserStatusIfLower( _user.getUserId( ), AdminUser.EXPIRED_CODE ) );
+
+        setAccountState( AdminUser.ACTIVE_CODE, daysAgo( 1 ), AdminUser.getDefaultDateLastLogin( ) );
+        assertTrue( AdminUserHome.updateFirstAlert( _user.getUserId( ) ) );
+        assertFalse( AdminUserHome.updateFirstAlert( _user.getUserId( ) ) );
+
+        assertTrue( AdminUserHome.updateChangePasswordIfNotSet( _user.getUserId( ) ) );
+        assertFalse( AdminUserHome.updateChangePasswordIfNotSet( _user.getUserId( ) ) );
+    }
+
     private void setAccountState( int nStatus, Timestamp maxValidDate, Timestamp lastLogin )
     {
         AdminUserHome.updateUserExpirationDate( _user.getUserId( ), maxValidDate );

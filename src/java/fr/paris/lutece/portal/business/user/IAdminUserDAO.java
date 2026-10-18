@@ -473,6 +473,51 @@ public interface IAdminUserDAO
     void updateChangePassword( List<Integer> listIdUser );
 
     /**
+     * Updates the status of a user if his current status is lower. The daemons run on every instance: only the instance whose update changed the user
+     * sends the related mail.
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @param nNewStatus
+     *            The new status
+     * @return true if the user has been updated by this call
+     */
+    boolean updateUserStatusIfLower( int nIdUser, int nNewStatus );
+
+    /**
+     * Records the first expiration alert of a user if it has not been recorded yet
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @return true if the user has been updated by this call
+     */
+    boolean updateFirstAlert( int nIdUser );
+
+    /**
+     * Records another expiration alert of a user if the user still matches the conditions of {@link #getIdUsersToSendOtherAlert(Timestamp, Timestamp, int)}
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @param alertMaxDate
+     *            Maximum date to send alerts.
+     * @param timeBetweenAlerts
+     *            Timestamp describing the time between two alerts.
+     * @param maxNumberAlerts
+     *            Maximum number of alerts to send to a user
+     * @return true if the user has been updated by this call
+     */
+    boolean updateOtherAlert( int nIdUser, Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts );
+
+    /**
+     * Sets the "change password" flag of a user to true if it is not set yet
+     * 
+     * @param nIdUser
+     *            The id of the user
+     * @return true if the user has been updated by this call
+     */
+    boolean updateChangePasswordIfNotSet( int nIdUser );
+
+    /**
      * Update the admin user expiration date with the new values. Also update his alert account to 0
      * 
      * @param nIdUser

@@ -118,6 +118,12 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_admin_user SET status = ? WHERE id_user IN ( ";
     private static final String SQL_QUERY_UPDATE_NB_ALERT = " UPDATE core_admin_user SET nb_alerts_sent = nb_alerts_sent + 1 WHERE id_user IN ( ";
     private static final String SQL_QUERY_UPDATE_RESET_PASSWORD_LIST_ID = " UPDATE core_admin_user SET reset_password = 1 WHERE id_user IN ( ";
+    // Conditional updates of one user: the daemons run on every instance, only the instance whose update changes the row sends the mail
+    private static final String SQL_QUERY_UPDATE_STATUS_IF_LOWER = " UPDATE core_admin_user SET status = ? WHERE id_user = ? AND status < ? ";
+    private static final String SQL_QUERY_UPDATE_FIRST_ALERT = " UPDATE core_admin_user SET nb_alerts_sent = 1 WHERE id_user = ? AND nb_alerts_sent = 0 AND status < ? ";
+    private static final String SQL_QUERY_UPDATE_OTHER_ALERT = " UPDATE core_admin_user SET nb_alerts_sent = nb_alerts_sent + 1 "
+            + "WHERE id_user = ? AND nb_alerts_sent > 0 and nb_alerts_sent <= ? and status < ? and (account_max_valid_date + nb_alerts_sent * ?) < ? ";
+    private static final String SQL_QUERY_UPDATE_RESET_PASSWORD_IF_NOT_SET = " UPDATE core_admin_user SET reset_password = 1 WHERE id_user = ? AND reset_password = 0 ";
     private static final String SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT = " UPDATE core_admin_user SET nb_alerts_sent = 0, account_max_valid_date = ? WHERE id_user = ? ";
     private static final String SQL_QUERY_UPDATE_DATE_LAST_LOGIN = " UPDATE core_admin_user SET last_login = ? WHERE id_user = ? ";
     private static final String CONSTANT_CLOSE_PARENTHESIS = " ) ";
@@ -1340,6 +1346,73 @@ public class AdminUserDAO implements IAdminUserDAO
             {
                 daoUtil.executeUpdate( );
             }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean updateUserStatusIfLower( int nIdUser, int nNewStatus )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STATUS_IF_LOWER ) )
+        {
+            daoUtil.setInt( 1, nNewStatus );
+            daoUtil.setInt( 2, nIdUser );
+            daoUtil.setInt( 3, nNewStatus );
+            daoUtil.executeUpdate( );
+
+            return daoUtil.getReturnedRowCount( ) == 1;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean updateFirstAlert( int nIdUser )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_FIRST_ALERT ) )
+        {
+            daoUtil.setInt( 1, nIdUser );
+            daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
+            daoUtil.executeUpdate( );
+
+            return daoUtil.getReturnedRowCount( ) == 1;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean updateOtherAlert( int nIdUser, Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_OTHER_ALERT ) )
+        {
+            daoUtil.setInt( 1, nIdUser );
+            daoUtil.setInt( 2, maxNumberAlerts );
+            daoUtil.setInt( 3, AdminUser.EXPIRED_CODE );
+            daoUtil.setLong( 4, timeBetweenAlerts.getTime( ) );
+            daoUtil.setLong( 5, alertMaxDate.getTime( ) );
+            daoUtil.executeUpdate( );
+
+            return daoUtil.getReturnedRowCount( ) == 1;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean updateChangePasswordIfNotSet( int nIdUser )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_RESET_PASSWORD_IF_NOT_SET ) )
+        {
+            daoUtil.setInt( 1, nIdUser );
+            daoUtil.executeUpdate( );
+
+            return daoUtil.getReturnedRowCount( ) == 1;
         }
     }
 

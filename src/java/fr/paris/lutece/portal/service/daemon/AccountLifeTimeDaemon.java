@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -194,7 +195,9 @@ public class AccountLifeTimeDaemon extends Daemon
 
     private void runSetExpiredUser( Timestamp currentTimestamp, StringBuilder sbResult )
     {
-        List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
+        // The daemon runs on every instance: each user is expired, and mailed, by the instance whose update changes it only
+        List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp ).stream( )
+                .filter( nIdUser -> AdminUserHome.updateUserStatusIfLower( nIdUser, AdminUser.EXPIRED_CODE ) ).collect( Collectors.toList( ) );
         if ( CollectionUtils.isNotEmpty( accountsToSetAsExpired ) )
         {
             int nbAccountToExpire = accountsToSetAsExpired.size( );
@@ -208,8 +211,6 @@ public class AccountLifeTimeDaemon extends Daemon
             String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
             sendMailAlerts( accountsToSetAsExpired, "expiration", strBody, strSender, strSubject );
-
-            AdminUserHome.updateUserStatus( accountsToSetAsExpired, AdminUser.EXPIRED_CODE );
 
             StringBuilder sbLogs = new StringBuilder( );
             sbLogs.append( MESSAGE_DAEMON_NAME );
@@ -238,7 +239,8 @@ public class AccountLifeTimeDaemon extends Daemon
         else
         {
             Timestamp firstAlertMaxDate = new Timestamp( currentTimestamp.getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
-            List<Integer> userIdListToSendFirstAlert = AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate );
+            List<Integer> userIdListToSendFirstAlert = AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate ).stream( )
+                    .filter( AdminUserHome::updateFirstAlert ).collect( Collectors.toList( ) );
 
             if ( CollectionUtils.isNotEmpty( userIdListToSendFirstAlert ) )
             {
@@ -253,8 +255,6 @@ public class AccountLifeTimeDaemon extends Daemon
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
                 sendMailAlerts( userIdListToSendFirstAlert, "first", strBody, strSender, strSubject );
-
-                AdminUserHome.updateNbAlert( userIdListToSendFirstAlert );
 
                 StringBuilder sbLogs = new StringBuilder( );
                 sbLogs.append( MESSAGE_DAEMON_NAME );
@@ -287,7 +287,9 @@ public class AccountLifeTimeDaemon extends Daemon
         else
         {
             Timestamp firstAlertMaxDate = new Timestamp( currentTimestamp.getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
-            List<Integer> userIdListToSendNextAlert = AdminUserHome.getIdUsersToSendOtherAlert( firstAlertMaxDate, timeBetweenAlerts, maxNumberOfAlerts );
+            List<Integer> userIdListToSendNextAlert = AdminUserHome.getIdUsersToSendOtherAlert( firstAlertMaxDate, timeBetweenAlerts, maxNumberOfAlerts )
+                    .stream( ).filter( nIdUser -> AdminUserHome.updateOtherAlert( nIdUser, firstAlertMaxDate, timeBetweenAlerts, maxNumberOfAlerts ) )
+                    .collect( Collectors.toList( ) );
 
             if ( CollectionUtils.isNotEmpty( userIdListToSendNextAlert ) )
             {
@@ -302,8 +304,6 @@ public class AccountLifeTimeDaemon extends Daemon
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
                 sendMailAlerts( userIdListToSendNextAlert, "next", strBody, strSender, strSubject );
-
-                AdminUserHome.updateNbAlert( userIdListToSendNextAlert );
 
                 StringBuilder sbLogs = new StringBuilder( );
                 sbLogs.append( MESSAGE_DAEMON_NAME );
@@ -325,7 +325,8 @@ public class AccountLifeTimeDaemon extends Daemon
         if ( AdminUserService.getBooleanSecurityParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) )
         {
             // We notify users with expired passwords
-            List<Integer> accountsWithPasswordsExpired = AdminUserHome.getIdUsersWithExpiredPasswordsList( currentTimestamp );
+            List<Integer> accountsWithPasswordsExpired = AdminUserHome.getIdUsersWithExpiredPasswordsList( currentTimestamp ).stream( )
+                    .filter( AdminUserHome::updateChangePasswordIfNotSet ).collect( Collectors.toList( ) );
 
             if ( CollectionUtils.isNotEmpty( accountsWithPasswordsExpired ) )
             {
@@ -338,7 +339,6 @@ public class AccountLifeTimeDaemon extends Daemon
                     sendMailAlerts( accountsWithPasswordsExpired, "password expiration", strBody, strSender, strSubject );
                 }
 
-                AdminUserHome.updateChangePassword( accountsWithPasswordsExpired );
                 StringBuilder sbLogs = new StringBuilder( );
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( accountsWithPasswordsExpired.size( ) ) );
