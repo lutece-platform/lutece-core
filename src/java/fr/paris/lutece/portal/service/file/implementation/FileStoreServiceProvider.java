@@ -143,6 +143,12 @@ public class FileStoreServiceProvider implements IFileStoreServiceProvider
     {
         Map<String, String> fileData = _dlService.getRequestDataBO( request );
 
+        if ( fileData == null )
+        {
+            // missing or invalid data parameter: unknown file
+            return null;
+        }
+
         // check access rights
         checkAccessRights( fileData, AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) );
 
@@ -159,6 +165,12 @@ public class FileStoreServiceProvider implements IFileStoreServiceProvider
             throws AccessDeniedException, ExpiredLinkException, UserNotSignedException, FileServiceException
     {
         Map<String, String> fileData = _dlService.getRequestDataFO( request );
+
+        if ( fileData == null )
+        {
+            // missing or invalid data parameter: unknown file
+            return null;
+        }
 
         // check access rights
         checkAccessRights( fileData, SecurityService.getInstance( ).getRegisteredUser( request ) );

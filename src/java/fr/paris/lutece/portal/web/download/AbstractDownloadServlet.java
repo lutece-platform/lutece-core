@@ -95,6 +95,7 @@ public abstract class AbstractDownloadServlet extends HttpServlet
                 catch( UserNotSignedException e )
                 {
                     response.sendRedirect( response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) ) );
+                    return;
                 }
                 catch( FileServiceException e )
                 {
@@ -112,6 +113,7 @@ public abstract class AbstractDownloadServlet extends HttpServlet
         catch( SiteMessageException e )
         {
             response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
+            return;
         }
 
         if ( file != null )

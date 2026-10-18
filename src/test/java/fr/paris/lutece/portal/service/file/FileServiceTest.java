@@ -274,6 +274,30 @@ public class FileServiceTest extends LuteceTestCase
     }
 
     /**
+     * A missing, forged or truncated data parameter must give an unknown file, not an exception
+     * 
+     * @throws Exception
+     *             should not happen
+     */
+    @Test
+    public void testDownloadFileInvalidData( ) throws Exception
+    {
+        for ( String strData : new String [ ] {
+                null, "", "abc", "a!b", "QUJD"
+        } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            if ( strData != null )
+            {
+                request.addParameter( DefaultFileDownloadService.PARAMETER_DATA, strData );
+            }
+
+            assertNull( _fileServiceProvider.getFileFromRequestFO( request ) );
+            assertNull( _fileServiceProvider.getFileFromRequestBO( request ) );
+        }
+    }
+
+    /**
      * get lutece test file
      * 
      * @return a file

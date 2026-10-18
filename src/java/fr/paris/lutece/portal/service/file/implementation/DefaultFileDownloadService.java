@@ -255,20 +255,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public Map<String, String> getRequestDataBO( HttpServletRequest request )
     {
-        String strEncryptedDataParam = request.getParameter( FileService.PARAMETER_DATA );
-
-        try
-        {
-            // the base64 encoded data "=" characters could be escaped 
-            String unescapedUrlParam = StringEscapeUtils.unescapeHtml4( strEncryptedDataParam );
-            String strDecryptedData = RsaService.decryptRsa( unescapedUrlParam );
-            return getDecryptedData( strDecryptedData );
-        }
-        catch( GeneralSecurityException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-            return null;
-        }
+        return getRequestData( request );
     }
 
     /**
@@ -277,7 +264,24 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public Map<String, String> getRequestDataFO( HttpServletRequest request )
     {
+        return getRequestData( request );
+    }
+
+    /**
+     * Gets the data of the file from the encrypted data parameter of the request
+     * 
+     * @param request
+     *            The request
+     * @return the map of the data, or null if the data parameter is missing or invalid
+     */
+    private Map<String, String> getRequestData( HttpServletRequest request )
+    {
         String strEncryptedDataParam = request.getParameter( FileService.PARAMETER_DATA );
+
+        if ( StringUtils.isEmpty( strEncryptedDataParam ) )
+        {
+            return null;
+        }
 
         try
         {
@@ -286,9 +290,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
             String strDecryptedData = RsaService.decryptRsa( unescapedUrlParam );
             return getDecryptedData( strDecryptedData );
         }
-        catch( GeneralSecurityException e )
+        catch( GeneralSecurityException | IllegalArgumentException | IndexOutOfBoundsException e )
         {
-            AppLogService.error( e.getMessage( ), e );
+            // the data parameter comes from the request: a forged or truncated value is not an application error
+            AppLogService.info( "Invalid file download data : {}", e.getMessage( ) );
             return null;
         }
     }
@@ -302,6 +307,12 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     protected Map<String, String> getDecryptedData( String strData )
     {
         String [ ] data = strData.split( _separator );
+
+        if ( data.length < 4 )
+        {
+            throw new IllegalArgumentException( "Unexpected format of the file download data" );
+        }
+
         Map<String, String> fileData = buildAdditionnalDatas( data [0], data [1], data [2] );
         fileData.put( PARAMETER_VALIDITY_TIME, data [3] );
 
