@@ -54,6 +54,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import jakarta.annotation.PostConstruct;
@@ -165,8 +166,17 @@ public class Lutece107CacheManager implements ILutece107CacheManager
             {
                 logger.warn( "Cache status refresh failed", e );
             }
+            try
+            {
+                // The plugins installed or uninstalled from another instance
+                PluginService.refreshPluginsStatus( );
+            }
+            catch( RuntimeException e )
+            {
+                logger.warn( "Plugin status refresh failed", e );
+            }
         }, nSeconds, nSeconds, TimeUnit.SECONDS );
-        logger.info( "Cache status refreshed from the database every {} s", nSeconds );
+        logger.info( "Cache and plugin status refreshed from the database every {} s", nSeconds );
     }
 
     /**

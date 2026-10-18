@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.cache;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.inject.Inject;
@@ -120,19 +121,37 @@ public class RequiredCacheTest extends LuteceTestCase
     }
 
     /**
-     * The cache of the loaded plugins is required and never reset.
+     * The loaded plugins are local to the instance, not in a cache: no cache can be disabled or reset to lose them.
      */
     @Test
-    public void testPluginCacheIsRequired( )
+    public void testPluginsNotInACache( )
     {
-        CacheableService<?, ?> pluginCache = CacheService.getCacheableServicesList( ).stream( )
-                .filter( cs -> "pluginCache".equals( cs.getName( ) ) ).findFirst( ).orElseThrow( );
-
-        assertTrue( pluginCache.isRequired( ) );
-        assertTrue( pluginCache.isPreventReset( ) );
-        pluginCache.enableCache( false );
-        pluginCache.resetCache( );
-        assertTrue( pluginCache.isCacheEnable( ) );
+        assertTrue( CacheService.getCacheableServicesList( ).stream( ).noneMatch( cs -> "pluginCache".equals( cs.getName( ) ) ) );
+        CacheService.resetCaches( );
         assertNotNull( PluginService.getCore( ) );
+    }
+
+    /**
+     * A plugin installed or uninstalled by another instance (status saved in the datastore) is applied by the refresh.
+     */
+    @Test
+    public void testPluginStatusRefresh( )
+    {
+        Plugin plugin = PluginService.getPluginList( ).stream( ).findFirst( ).orElse( null );
+        org.junit.jupiter.api.Assumptions.assumeTrue( plugin != null, "no plugin loaded" );
+        boolean bInstalled = plugin.isInstalled( );
+        String strKey = "core.plugins.status." + plugin.getName( ) + ".installed";
+        try
+        {
+            DatastoreService.setInstanceDataValue( strKey, bInstalled ? DatastoreService.VALUE_FALSE : DatastoreService.VALUE_TRUE );
+            PluginService.refreshPluginsStatus( );
+            assertEquals( !bInstalled, PluginService.getPlugin( plugin.getName( ) ).isInstalled( ) );
+        }
+        finally
+        {
+            DatastoreService.setInstanceDataValue( strKey, bInstalled ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE );
+            PluginService.refreshPluginsStatus( );
+        }
+        assertEquals( bInstalled, PluginService.getPlugin( plugin.getName( ) ).isInstalled( ) );
     }
 }

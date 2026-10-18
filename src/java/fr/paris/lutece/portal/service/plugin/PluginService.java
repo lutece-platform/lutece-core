@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -51,8 +52,6 @@ import org.eclipse.microprofile.config.ConfigProvider;
 
 import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
-import fr.paris.lutece.portal.service.cache.Default107Cache;
-import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -85,10 +84,12 @@ public final class PluginService
     // This map holds information associated only with the current instance and not shared across other instances.
     private static Map<String, PluginData> _mapPluginData = new HashMap<>( );
 
-    private static Lutece107Cache<String, Plugin> _pluginCache;
+    // The plugins loaded by this instance. Every instance loads the same plugin files: the objects stay local (a shared
+    // cache served a deserialized copy, without the services the plugin initialized). The installed status and the pool,
+    // saved in the datastore, are applied to the other instances by refreshPluginsStatus.
+    private static final Map<String, Plugin> _mapPlugins = new ConcurrentHashMap<>( );
 
-    // Names of the plugins loaded by this instance, in loading order. Every instance loads the same plugins: reading them by name is served by
-    // the near cache of a distributed cache, whereas iterating the cache fetched and deserialized every plugin on each call.
+    // Names of the plugins loaded by this instance, in loading order
     private static CopyOnWriteArrayList<String> _listPluginNames = new CopyOnWriteArrayList<>( );
 
     
@@ -109,15 +110,7 @@ public final class PluginService
     {
     	loadPluginsStatus( );
 
-    	if( _pluginCache == null || _pluginCache.isClosed( )) {
-    		
-    		// The loaded plugins are read nowhere else: the cache is required (never disabled, whatever the saved
-    		// status) and never reset
-    		_pluginCache = new Default107Cache<String, Plugin>( "pluginCache", String.class, Plugin.class, true, true, true, true );
-    	
-    	}else {
-            _pluginCache.clear( );
-    	}
+    	_mapPlugins.clear( );
     	_listPluginNames.clear( );
     	
         //_mapPlugins.clear( );
@@ -135,7 +128,7 @@ public final class PluginService
         List<Plugin> listPlugins = new ArrayList<>( _listPluginNames.size( ) );
         for ( String strPluginName : _listPluginNames )
         {
-            Plugin plugin = _pluginCache.get( strPluginName );
+            Plugin plugin = _mapPlugins.get( strPluginName );
             if ( plugin != null )
             {
                 listPlugins.add( plugin );
@@ -156,7 +149,7 @@ public final class PluginService
         Plugin plugin = null;
         if ( null != strPluginName )
         {
-            plugin = _pluginCache.get( strPluginName );
+            plugin = _mapPlugins.get( strPluginName );
         }
         return plugin;
     }
@@ -248,7 +241,7 @@ public final class PluginService
                 }
                 
                 plugin.init( );
-                _pluginCache.put(plugin.getName( ), plugin);
+                _mapPlugins.put( plugin.getName( ), plugin );
                 if ( !CORE.equals( plugin.getName( ) ) )
                 {
                     _listPluginNames.addIfAbsent( plugin.getName( ) );
@@ -290,7 +283,7 @@ public final class PluginService
      */
     public static Plugin getCore( )
     {
-    	return _pluginCache.get(CORE);
+    	return _mapPlugins.get( CORE );
         //return _pluginCore;
     }
 
@@ -310,7 +303,63 @@ public final class PluginService
         {
             DatastoreService.setInstanceDataValue( getPoolNameKey( plugin.getName( ) ), plugin.getDbPoolName( ) );
         }
-        _pluginCache.put(plugin.getName( ), plugin);
+        _mapPlugins.put( plugin.getName( ), plugin );
+    }
+
+    /**
+     * Applies to this instance the installed status and the pool of each plugin saved in the datastore: a plugin
+     * installed, uninstalled or moved to another pool from the back office of another instance. The plugin events are
+     * fired on this instance as they were on the other one.
+     */
+    public static void refreshPluginsStatus( )
+    {
+        for ( String strPluginName : _listPluginNames )
+        {
+            Plugin plugin = _mapPlugins.get( strPluginName );
+            if ( plugin == null )
+            {
+                continue;
+            }
+            try
+            {
+                boolean bInstalled = getPluginStatus( plugin );
+                if ( bInstalled != plugin.isInstalled( ) )
+                {
+                    AppLogService.info( "Plugin {} {} by another instance", strPluginName, bInstalled ? "installed" : "uninstalled" );
+                    plugin.setStatus( bInstalled );
+                    fireEvent( plugin, bInstalled ? PluginEvent.PLUGIN_INSTALLED : PluginEvent.PLUGIN_UNINSTALLED );
+                }
+                if ( plugin.isDbPoolRequired( ) )
+                {
+                    // Read directly: getPluginPoolName warns each time a plugin has no pool saved
+                    String strPoolName = DatastoreService.getInstanceDataValue( getPoolNameKey( strPluginName ), null );
+                    if ( strPoolName != null && !strPoolName.equals( plugin.getDbPoolName( ) ) )
+                    {
+                        AppLogService.info( "Plugin {}: pool {} set by another instance", strPluginName, strPoolName );
+                        plugin.setPoolName( strPoolName );
+                        PluginService.getPluginData( strPluginName ).getConnectionService( ).setPool( strPoolName );
+                        fireEvent( plugin, PluginEvent.PLUGIN_POOL_CHANGED );
+                    }
+                }
+            }
+            catch( RuntimeException e )
+            {
+                AppLogService.error( "The status of the plugin {} could not be refreshed", strPluginName, e );
+            }
+        }
+    }
+
+    /**
+     * Fires a plugin event on this instance
+     *
+     * @param plugin
+     *            the plugin
+     * @param nEventType
+     *            the event type
+     */
+    private static void fireEvent( Plugin plugin, int nEventType )
+    {
+        CDI.current( ).getBeanManager( ).getEvent( ).fire( new PluginEvent( plugin, nEventType ) );
     }
 
     /**
