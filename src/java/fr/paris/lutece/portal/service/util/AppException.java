@@ -111,6 +111,26 @@ public class AppException extends RuntimeException
         writeToLogs( );
     }
 
+    /**
+     * Constructor of an exception that is part of the expected behaviour of the caller (for example a resource locked by a concurrent action): the
+     * critical log is not written, the caller logs what is relevant.
+     *
+     * @param strMessage
+     *            The error message
+     * @param t
+     *            The initial throwable
+     * @param bWriteToLogs
+     *            false to not write the critical log
+     */
+    public AppException( String strMessage, Throwable t, boolean bWriteToLogs )
+    {
+        super( strMessage, t );
+        if ( bWriteToLogs )
+        {
+            writeToLogs( );
+        }
+    }
+
     private void writeToLogs( )
     {
 

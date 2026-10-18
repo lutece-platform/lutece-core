@@ -44,6 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.plugins.workflowcore.exception.ResourceWorkflowLockedException;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -295,6 +296,13 @@ public class WorkflowService
                 AppLogService.debug( "Transaction committed for action with id = {}", nIdAction );
 
                 registerResourceEvent( nIdResource, strResourceType );
+            }
+            catch( ResourceWorkflowLockedException e )
+            {
+                // A concurrent action on the same resource: expected, the caller tells the user
+                TransactionManager.rollBack( null );
+                AppLogService.info( "Transaction rollbacked for action with id = {} : {}", nIdAction, e.getMessage( ) );
+                throw new AppException( e.getMessage( ), e, false );
             }
             catch( Exception e )
             {
@@ -924,6 +932,13 @@ public class WorkflowService
 
                 registerResourceEvent( nIdResource, strResourceType );
             }
+            catch( ResourceWorkflowLockedException e )
+            {
+                // A concurrent action on the same resource: expected
+                TransactionManager.rollBack( null );
+                AppLogService.info( "Transaction rollbacked for resource {} {} : {}", strResourceType, nIdResource, e.getMessage( ) );
+                throw new AppException( e.getMessage( ), e, false );
+            }
             catch( Exception e )
             {
                 TransactionManager.rollBack( null );
@@ -1076,6 +1091,13 @@ public class WorkflowService
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
+            }
+            catch( ResourceWorkflowLockedException e )
+            {
+                // A concurrent action on the same resource: expected
+                TransactionManager.rollBack( null );
+                AppLogService.info( "Transaction rollbacked for resource {} {} : {}", strResourceType, nIdResource, e.getMessage( ) );
+                throw new AppException( e.getMessage( ), e, false );
             }
             catch( Exception e )
             {
