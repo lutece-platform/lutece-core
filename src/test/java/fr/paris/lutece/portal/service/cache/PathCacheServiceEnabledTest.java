@@ -204,11 +204,8 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
         pageService.createPage( page );
         try
         {
-            // FIXME : change when LUTECE-1834 Adding or removing a page blows up all caches
-            // is fixed
-            // assertEquals( "junit", service.getFromCache( key ) );
-            assertNull( service.get( key ) );
-            service.put( key, "junit" );
+            // creating a page no longer resets every cache (LUTECE-1834): the cached paths are kept
+            assertEquals( "junit", service.get( key ) );
             page.setDescription( page.getName( ) + page.getName( ) );
             pageService.updatePage( page );
             assertNull( service.get( key ) );

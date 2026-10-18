@@ -109,8 +109,8 @@ public class PathCacheService extends AbstractCacheableService<String,String>
     public void processPageEvent( @Observes PageEvent event )
     {
     	// some cached paths might contain page info that need invalidation, but not for
-        // a page which was just created
-    	if ( isCacheEnable( ) && event.getEventType( ) != PageEvent.PAGE_CREATED )
+        // a page which was just created; reset whatever the status of the cache on this instance
+    	if ( event.getEventType( ) != PageEvent.PAGE_CREATED )
         {
     	  resetCache( );
         }
