@@ -1047,15 +1047,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNull( message );
-            try
-            {
-                portlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
-                fail( "Portlet was not removed" );
-            }
-            catch( NullPointerException e )
-            {
-                portlet = null;
-            }
+            assertNull( PortletHome.findByPrimaryKey( portlet.getId( ) ), "Portlet was not removed" );
+            portlet = null;
         }
         finally
         {

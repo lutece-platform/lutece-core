@@ -128,6 +128,18 @@ public class PortalServiceTest extends LuteceTestCase
         }
     }
 
+    @Test
+    public void testGetXPagePathContentIdTooLarge( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( Parameters.PAGE_ID, "99999999999" );
+        assertNotNull( PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
+
+        MockHttpServletRequest request2 = new MockHttpServletRequest( );
+        request2.setParameter( Parameters.PORTLET_ID, "99999999999" );
+        assertNotNull( PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+    }
+
     private void removePage( int nPageId )
     {
         pageService.removePage( nPageId );

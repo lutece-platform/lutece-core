@@ -64,11 +64,18 @@ public abstract class PortletHome implements PortletHomeInterface
      *
      * @param nKey
      *            the portlet identifier
-     * @return The portlet object
+     * @return The portlet object, or null if the portlet does not exist
      */
     public static Portlet findByPrimaryKey( int nKey )
     {
         Portlet portlet = _dao.load( nKey );
+
+        if ( ( portlet == null ) || ( portlet.getHomeClassName( ) == null ) )
+        {
+            // unknown portlet
+            return null;
+        }
+
         String strHomeClass = portlet.getHomeClassName( );
         Portlet p = null;
 

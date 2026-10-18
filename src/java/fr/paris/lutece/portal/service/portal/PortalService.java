@@ -44,6 +44,7 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -77,6 +78,7 @@ public final class PortalService
 {
     // //////////////////////////////////////////////////////////////////////////
     // Properties
+    private static final int NOT_FOUND_ID = -1;
     private static final String PROPERTY_HOME_PAGE_HEADER = "home.page.header.mode";
     private static final String PROPERTY_INTERNAL_PAGE_HEADER = "internal.page.header.mode";
     private static final String PROPERTY_PAGE_TOOLS_MENU = "page.tools.menu.mode";
@@ -384,9 +386,10 @@ public final class PortalService
         Collection<Page> breadcrumbPages = new ArrayList<Page>( );
         String strPageId = request.getParameter( Parameters.PAGE_ID );
 
+        // an id too large for an int is handled as an unknown page or portlet
         if ( StringUtils.isNotBlank( strPageId ) && StringUtils.isNumeric( strPageId ) )
         {
-            int nPageId = Integer.parseInt( strPageId );
+            int nPageId = NumberUtils.toInt( strPageId, NOT_FOUND_ID );
             breadcrumbPages = getXPagePath( strXPageName, nPageId );
         }
         else
@@ -395,7 +398,7 @@ public final class PortalService
 
             if ( StringUtils.isNotBlank( strPortletId ) && StringUtils.isNumeric( strPortletId ) )
             {
-                int nPortletId = Integer.parseInt( strPortletId );
+                int nPortletId = NumberUtils.toInt( strPortletId, NOT_FOUND_ID );
                 Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
 
                 if ( portlet != null )
