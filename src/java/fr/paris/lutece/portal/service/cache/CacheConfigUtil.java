@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import javax.cache.configuration.CompleteConfiguration;
@@ -80,6 +81,8 @@ public class CacheConfigUtil {
 	    static final int UNSET = -1;
 	    
 	    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
+	    // Unknown settings already reported
+	    private static final Set<String> _setWarnedKeys = ConcurrentHashMap.newKeySet( );
 
 	    /**
 	     * Pre-configures a cache manager with the given URI, caching provider, and properties.
@@ -336,7 +339,7 @@ public class CacheConfigUtil {
 	            			bKnown = true;
 	            		}
 	            	}
-	            	if ( !bKnown )
+	            	if ( !bKnown && _setWarnedKeys.add( key ) )
 	            	{
 	            		// Ehcache 2 settings (overflowToDisk, diskPersistent...) have no effect
 	            		logger.warn( "Unknown cache setting ignored: {}", key );

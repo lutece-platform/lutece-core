@@ -169,10 +169,8 @@ INSERT INTO core_datastore VALUES ('core.cache.status.DatastoreCacheService.enab
 INSERT INTO core_datastore VALUES ('core.cache.status.LinksIncludeCacheService.enabled', '0');
 INSERT INTO core_datastore VALUES ('core.cache.status.LuteceUserCacheService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.LuteceUserCacheService.maxElementsInMemory', '1000');
-INSERT INTO core_datastore VALUES ('core.cache.status.MailAttachmentCacheService.diskPersistent', 'true');
 INSERT INTO core_datastore VALUES ('core.cache.status.MailAttachmentCacheService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.MailAttachmentCacheService.maxElementsInMemory', '10');
-INSERT INTO core_datastore VALUES ('core.cache.status.MailAttachmentCacheService.overflowToDisk', 'true');
 INSERT INTO core_datastore VALUES ('core.cache.status.MailAttachmentCacheService.timeToLiveSeconds', '7200');
 INSERT INTO core_datastore VALUES ('core.cache.status.MyPortalWidgetContentService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.MyPortalWidgetService.enabled', '1');
