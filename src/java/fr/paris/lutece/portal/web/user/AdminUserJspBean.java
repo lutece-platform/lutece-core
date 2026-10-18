@@ -2439,8 +2439,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The request
      * @return The URL of the confirmation page
+     * @throws AccessDeniedException
+     *             If the user is not authorized to modify the user to anonymize
      */
-    public String getAnonymizeAdminUser( HttpServletRequest request )
+    public String getAnonymizeAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         String strAdminUserId = request.getParameter( PARAMETER_USER_ID );
 
@@ -2455,6 +2457,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( user == null )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_ERROR );
+        }
+
+        if ( !isUserAuthorizedToModifyUser( AdminUserService.getAdminUser( request ), user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
         String strUrl = JSP_URL_ANONYMIZE_ADMIN_USER;
@@ -2474,7 +2481,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *            The request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException
-     *             in case of invalid security token
+     *             in case of invalid security token or if the user is not authorized to modify the user to anonymize
      */
     public String doAnonymizeAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -2495,6 +2502,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !getSecurityTokenService( ).validate( request, JSP_URL_ANONYMIZE_ADMIN_USER ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        }
+
+        if ( !isUserAuthorizedToModifyUser( AdminUserService.getAdminUser( request ), user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
         AdminUserService.anonymizeUser( nUserId, getLocale( ) );

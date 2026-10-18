@@ -1292,9 +1292,10 @@ public class AdminUserJspBeanTest extends LuteceTestCase
 
     }
     @Test
-    public void testGetAnonymizeAdminUser( )
+    public void testGetAnonymizeAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        registerAdminUserAdmin( request );
         AdminUser user = getUserToModify( );
         try
         {
@@ -1331,6 +1332,52 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             assertFalse( user.getFirstName( ).equals( stored.getFirstName( ) ) );
             assertFalse( user.getLastName( ).equals( stored.getLastName( ) ) );
             assertFalse( user.getEmail( ).equals( stored.getEmail( ) ) );
+        }
+        finally
+        {
+            disposeOfUser( user );
+        }
+    }
+    @Test
+    public void testGetAnonymizeAdminUserLowerLevel( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            bean.getAnonymizeAdminUser( request );
+            fail( "Should not be able to anonymize a user with a lower level" );
+        }
+        catch( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+        }
+        finally
+        {
+            disposeOfUser( user );
+        }
+    }
+    @Test
+    public void testDoAnonymizeAdminUserLowerLevel( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "jsp/admin/user/DoAnonymizeAdminUser.jsp" ) );
+            bean.doAnonymizeAdminUser( request );
+            fail( "Should not be able to anonymize a user with a lower level" );
+        }
+        catch( AccessDeniedException e )
+        {
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertEquals( user.getAccessCode( ), stored.getAccessCode( ) );
+            assertEquals( user.getEmail( ), stored.getEmail( ) );
         }
         finally
         {
