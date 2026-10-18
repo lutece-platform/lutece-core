@@ -677,9 +677,10 @@ public class CacheConfigUtil {
 	    	}
 	    	MutableConfiguration<K, V> mutable = new MutableConfiguration<>( (CompleteConfiguration<K, V>) configuration );
 	    	Class<V> valueType = mutable.getValueType( );
-	    	if ( String.class.equals( valueType ) || Number.class.isAssignableFrom( valueType ) || Boolean.class.equals( valueType ) )
+	    	boolean bSerializedTier = settings.getOffheapMB( ) > 0 || settings.getDiskMB( ) > 0;
+	    	if ( !bSerializedTier && ( String.class.equals( valueType ) || Number.class.isAssignableFrom( valueType ) || Boolean.class.equals( valueType ) ) )
 	    	{
-	    		// An immutable value needs no copy on each read and write
+	    		// An immutable value needs no copy on each read and write; an offheap or disk tier copies it anyway
 	    		mutable.setStoreByValue( false );
 	    	}
 	    	if ( EternalExpiryPolicy.factoryOf( ).equals( mutable.getExpiryPolicyFactory( ) ) )
