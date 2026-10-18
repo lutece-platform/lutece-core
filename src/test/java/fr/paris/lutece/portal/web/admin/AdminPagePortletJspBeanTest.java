@@ -581,6 +581,118 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     }
 
     /**
+     * Test the move of a portlet
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
+     */
+    @Test
+    public void testDoUpdatePortletPosition( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            int nNewColumn = portlet.getColumn( ) + 1;
+            user = getAdminUser( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "jsp/admin/site/DoModifyPortletPosition.jsp" ) );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( Parameters.COLUMN, Integer.toString( nNewColumn ) );
+            request.addParameter( Parameters.ORDER, "1" );
+            AdminUserUtils.registerAdminUser( request, user );
+            bean.doUpdatePortletPosition( request );
+            assertNull( AdminMessageService.getMessage( request ) );
+            Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+            assertEquals( nNewColumn, storedPortlet.getColumn( ) );
+        }
+        finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test the move of a portlet without token
+     */
+    @Test
+    public void testDoUpdatePortletPositionNoCSRFToken( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        int nColumn = 0;
+        try
+        {
+            portlet = getPortlet( );
+            nColumn = portlet.getColumn( );
+            user = getAdminUser( );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( Parameters.COLUMN, Integer.toString( nColumn + 1 ) );
+            request.addParameter( Parameters.ORDER, "1" );
+            AdminUserUtils.registerAdminUser( request, user );
+            bean.doUpdatePortletPosition( request );
+            fail( "Should have thrown" );
+        }
+        catch( AccessDeniedException e )
+        {
+            Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+            assertEquals( nColumn, storedPortlet.getColumn( ) );
+        }
+        finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test the move of a portlet without the right to manage it
+     */
+    @Test
+    public void testDoUpdatePortletPositionNoRight( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = getPortlet( );
+        int nColumn = portlet.getColumn( );
+        try
+        {
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "jsp/admin/site/DoModifyPortletPosition.jsp" ) );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( Parameters.COLUMN, Integer.toString( nColumn + 1 ) );
+            request.addParameter( Parameters.ORDER, "1" );
+            AdminUserUtils.registerAdminUser( request, new AdminUser( ) );
+            bean.doUpdatePortletPosition( request );
+            fail( "Should not have been able to move the portlet" );
+        }
+        catch( AccessDeniedException e )
+        {
+            Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+            assertEquals( nColumn, storedPortlet.getColumn( ) );
+        }
+        finally
+        {
+            removePortlet( portlet );
+        }
+    }
+
+    /**
      * Test when no parameter given
      * 
      * @throws AccessDeniedException

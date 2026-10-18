@@ -59,6 +59,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.PortletCacheService;
 import fr.paris.lutece.portal.service.page.PortletCustomAdminAction;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -74,9 +75,14 @@ public class PortletContentService
     private static final String MARK_STATUS_UNPUBLISHED = "portlet_status_unpublished";
     private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_MAX_ORDER = "order_max";
+    private static final String MARK_TOKEN_MODIFY_POSITION = "token_modify_position";
 
     // Templates
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
+
+    // Security token of the portlet move buttons: one per request, shared by all the portlets of the page (the page is reloaded after a move)
+    private static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
+    private static final String ATTRIBUTE_TOKEN_MODIFY_POSITION = PortletContentService.class.getName( ) + ".tokenModifyPosition";
 
     // Properties
     private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
@@ -102,6 +108,8 @@ public class PortletContentService
     private ICacheKeyService _cksPortlet;
     @Inject
     private PortletCacheService _cachePortlets;
+    @Inject
+    private ISecurityTokenService _securityTokenService;
 
 //    @Inject
 //    public PortletContentService( PortletCacheService portletCacheService, ICacheKeyService portletCacheKeyService )
@@ -295,6 +303,7 @@ public class PortletContentService
             model.put( MARK_MAX_ORDER, PORTLET_MAX_ORDER );
             model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
             model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
+            model.put( MARK_TOKEN_MODIFY_POSITION, getModifyPositionToken( request ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
 
@@ -302,6 +311,26 @@ public class PortletContentService
         }
 
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Gets the security token of the portlet move buttons, created once per request
+     *
+     * @param request
+     *            The Http request
+     * @return The token
+     */
+    private String getModifyPositionToken( HttpServletRequest request )
+    {
+        String strToken = (String) request.getAttribute( ATTRIBUTE_TOKEN_MODIFY_POSITION );
+
+        if ( strToken == null )
+        {
+            strToken = _securityTokenService.getToken( request, JSP_DO_MODIFY_POSITION );
+            request.setAttribute( ATTRIBUTE_TOKEN_MODIFY_POSITION, strToken );
+        }
+
+        return strToken;
     }
 
     @Deprecated

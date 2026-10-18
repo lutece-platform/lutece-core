@@ -83,6 +83,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private static final String PORTLET_STATUS = "status";
     private static final String JSP_REMOVE_PORTLET = "jsp/admin/site/DoRemovePortlet.jsp";
     private static final String JSP_DO_MODIFY_STATUS = "jsp/admin/site/DoModifyPortletStatus.jsp";
+    private static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_PATH = "jsp/admin/site/";
     @Inject 
@@ -383,10 +384,14 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
      *            The http request
      * @return The Jsp URL of the process result
      * @throws AccessDeniedException
-     *             if the user is not authorized to manage the portlet
+     *             if the security token is invalid or if the user is not authorized to manage the portlet
      */
     public String doUpdatePortletPosition( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !getSecurityTokenService( ).validate( request, JSP_DO_MODIFY_POSITION ) )
+        {
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        }
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         String strColumnId = request.getParameter( Parameters.COLUMN );
         String strOrder = request.getParameter( Parameters.ORDER );
@@ -395,9 +400,19 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
-        int nPortletId = Integer.parseInt( strPortletId );
-        int nColumnId = Integer.parseInt( strColumnId );
-        int nOrder = Integer.parseInt( strOrder );
+        int nPortletId;
+        int nColumnId;
+        int nOrder;
+        try
+        {
+            nPortletId = Integer.parseInt( strPortletId );
+            nColumnId = Integer.parseInt( strColumnId );
+            nOrder = Integer.parseInt( strOrder );
+        }
+        catch( NumberFormatException e )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
+        }
         Portlet portlet = null;
         try
         {
@@ -413,7 +428,12 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
                     nPortletId
             }, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
-       
+        User user = AdminUserService.getAdminUser( request );
+        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        {
+            throw new AccessDeniedException( getMessageErrorAuthorization( user, PortletResourceIdService.PERMISSION_MANAGE, nPortletId ) );
+        }
+
         PortletHome.updatePosition( portlet, nColumnId, nOrder );
 
        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );

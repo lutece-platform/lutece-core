@@ -14,6 +14,7 @@
 			<@input type='hidden' name='portlet_id' value=portletId />
 			<@input type='hidden' name='order' value=portletOrder - 1  />
 			<@input type='hidden' name='column' value=portletCol! />
+			<@input type='hidden' name='token' value='${token_modify_position!}' />
 			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonUp}' buttonIcon='arrows-up ' hideTitle=['all'] />
 		</@tform>
 	</#if>
@@ -22,6 +23,7 @@
 			<@input type='hidden' name='portlet_id' value=portletId />
 			<@input type='hidden' name='order' value=portletOrder + 1 />
 			<@input type='hidden' name='column' value=portletCol! />
+			<@input type='hidden' name='token' value='${token_modify_position!}' />
 			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDown}' buttonIcon='arrows-down ' hideTitle=['all'] />
 		</@tform>
 	</#if>
