@@ -119,4 +119,36 @@ public class PageDAOTest extends LuteceTestCase
         }
 
     }
+
+    /**
+     * The page loaded without its image content has its authorization node, as the page loaded with all its fields
+     */
+    @Test
+    public void testLoadWithoutImageContent( )
+    {
+        Page page = new Page( );
+        try
+        {
+            page.setParentPageId( PortalService.getRootPageId( ) );
+            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+            page.setName( "page" + new SecureRandom( ).nextLong( ) );
+            page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+            page.setDisplayDateUpdate( false );
+            page.setIsManualDateUpdate( false );
+            page.setIdAuthorizationNode( PortalService.getRootPageId( ) );
+            pageService.createPage( page );
+
+            Page pageFull = PageHome.getPage( page.getId( ) );
+            Page pageWithoutImage = PageHome.getPageWithoutImageContent( page.getId( ) );
+
+            assertNotNull( pageWithoutImage );
+            assertEquals( page.getName( ), pageWithoutImage.getName( ) );
+            assertNotNull( pageFull.getIdAuthorizationNode( ) );
+            assertEquals( pageFull.getIdAuthorizationNode( ), pageWithoutImage.getIdAuthorizationNode( ) );
+        }
+        finally
+        {
+            PageHome.remove( page.getId( ) );
+        }
+    }
 }

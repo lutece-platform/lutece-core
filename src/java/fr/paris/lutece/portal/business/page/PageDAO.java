@@ -59,7 +59,7 @@ public final class PageDAO implements IPageDAO
             + "  a.date_update, a.meta_keywords, a.meta_description, a.id_authorization_node, a.display_date_update, a.is_manual_date_update FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
     private static final String SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, "
             + " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.mime_type, "
-            + "  a.date_update, a.meta_keywords, a.meta_description FROM core_page a INNER JOIN "
+            + "  a.date_update, a.meta_keywords, a.meta_description, a.id_authorization_node FROM core_page a INNER JOIN "
             + " core_page_template b ON (a.id_template = b.id_template) WHERE a.id_page = ? ";
     private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = "SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, "
             + " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, "
