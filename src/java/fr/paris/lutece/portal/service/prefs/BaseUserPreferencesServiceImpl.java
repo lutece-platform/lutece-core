@@ -49,6 +49,9 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
+    // Cached for a key that has no stored value: most keys are absent for most users. A value written in the
+    // database by SQL needs the cache to be reset to be seen
+    private static final String MISSING = "\u0000missing";
     @Inject
     private BaseUserPreferencesCacheService _cache;
     @Inject
@@ -107,16 +110,13 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
 
         if ( strValue == null )
         {
-            // Only a stored value is cached: the default belongs to the caller, another caller may give another one
+            // The default belongs to the caller, another caller may give another one: an absent value is cached as
+            // a marker, never as the default
             strValue = _dao.load( strUserId, strKey, null );
-            if ( strValue == null )
-            {
-                return strDefault;
-            }
-            _cache.put( strCacheKey, strValue );
+            _cache.put( strCacheKey, ( strValue != null ) ? strValue : MISSING );
         }
 
-        return strValue;
+        return ( strValue == null || MISSING.equals( strValue ) ) ? strDefault : strValue;
     }
 
     /**
@@ -147,7 +147,8 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void put( String strUserId, String strKey, String strValue )
     {
         _dao.store( strUserId, strKey, strValue );
-        _cache.put( _cache.getCacheKey( getCacheUserId( strUserId ), strKey ), strValue );
+        // Removed rather than put: the next read loads the stored value, whatever the order of concurrent writes
+        _cache.remove( _cache.getCacheKey( getCacheUserId( strUserId ), strKey ) );
     }
 
     /**
@@ -184,8 +185,9 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     @Override
     public void clear( String strUserId )
     {
+        List<String> listKeys = _dao.keys( strUserId );
         _dao.remove( strUserId );
-        _cache.removeCacheValuesOfUser( getCacheUserId( strUserId ) );
+        removeFromCache( strUserId, listKeys );
     }
 
     /**
@@ -195,7 +197,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void clearKey( String strUserId, String strKey )
     {
         _dao.removeKey( strUserId, strKey );
-        _cache.removeCacheValuesOfUser( getCacheUserId( strUserId ) );
+        _cache.remove( _cache.getCacheKey( getCacheUserId( strUserId ), strKey ) );
     }
 
     /**
@@ -204,8 +206,9 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     @Override
     public void clearKeyPrefix( String strUserId, String strPrefix )
     {
+        List<String> listKeys = _dao.keys( strUserId ).stream( ).filter( k -> k.startsWith( strPrefix ) ).toList( );
         _dao.removeKeyPrefix( strUserId, strPrefix );
-        _cache.removeCacheValuesOfUser( getCacheUserId( strUserId ) );
+        removeFromCache( strUserId, listKeys );
     }
 
     /**
@@ -232,5 +235,21 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     {
 
         return _dao.existsValueForKey( strKey, strValue );
+    }
+
+    /**
+     * Removes the cached values of stored keys of a user: the keys come from the database, the cache is not scanned
+     *
+     * @param strUserId
+     *            the user id
+     * @param listKeys
+     *            the keys
+     */
+    private void removeFromCache( String strUserId, List<String> listKeys )
+    {
+        for ( String strKey : listKeys )
+        {
+            _cache.remove( _cache.getCacheKey( getCacheUserId( strUserId ), strKey ) );
+        }
     }
 }

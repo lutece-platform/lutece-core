@@ -103,4 +103,31 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
         List<?> list = service.keys( USER_ID_1 );
         assertTrue( list.size( ) > 0 );
     }
+
+    /**
+     * An absent key is cached once, each caller keeps its own default, and the values of a cleared user are removed
+     */
+    @Test
+    public void testAbsentKeyAndClear( )
+    {
+        IUserPreferencesService prefs = UserPreferencesService.instance( );
+        prefs.clear( USER_ID_1 );
+        service.resetCache( );
+
+        assertEquals( "default A", prefs.get( USER_ID_1, KEY1, "default A" ) );
+        assertEquals( 1, service.getCacheSize( ) );
+        assertEquals( "default B", prefs.get( USER_ID_1, KEY1, "default B" ) );
+        assertEquals( 1, service.getCacheSize( ) );
+
+        prefs.put( USER_ID_1, KEY1, VALUE1 );
+        assertEquals( VALUE1, prefs.get( USER_ID_1, KEY1, DEFAULT ) );
+
+        prefs.clearKey( USER_ID_1, KEY1 );
+        assertEquals( DEFAULT, prefs.get( USER_ID_1, KEY1, DEFAULT ) );
+
+        prefs.put( USER_ID_1, KEY2, VALUE1 );
+        assertEquals( VALUE1, prefs.get( USER_ID_1, KEY2, DEFAULT ) );
+        prefs.clear( USER_ID_1 );
+        assertEquals( DEFAULT, prefs.get( USER_ID_1, KEY2, DEFAULT ) );
+    }
 }
