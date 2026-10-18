@@ -180,7 +180,7 @@ INSERT INTO core_datastore VALUES ('core.cache.status.PageCacheService.enabled',
 INSERT INTO core_datastore VALUES ('core.cache.status.PageCachingFilter.enabled', '0');
 INSERT INTO core_datastore VALUES ('core.cache.status.PageCachingFilter(CAUTION:NEVERUSEWITHUSERDYNAMICDATA).enabled', '0');
 INSERT INTO core_datastore VALUES ('core.cache.status.pathCacheService.enabled', '0');
-INSERT INTO core_datastore VALUES ('core.cache.status.PortalMenuService.enabled', '0');
+INSERT INTO core_datastore VALUES ('core.cache.status.PortalMenuService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.PortletCacheService.enabled', '0');
 INSERT INTO core_datastore VALUES ('core.cache.status.SiteMapService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.StaticFilesCachingFilter.enabled', '0');

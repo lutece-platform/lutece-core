@@ -187,3 +187,9 @@ UPDATE core_admin_right
 SET name = 'portal.users.adminFeature.level_management.name',
     description = 'portal.users.adminFeature.level_management.description'
 WHERE id_right = 'CORE_LEVEL_MANAGEMENT';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev16.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- LUT-33926 : the saved status of a cache now wins over the enabled-by-default of the code. The portal menu cache is
+-- enabled by the code and its seeded '0' never disabled it: keep it enabled
+UPDATE core_datastore SET entity_value = '1' WHERE entity_key = 'core.cache.status.PortalMenuService.enabled' AND entity_value = '0';
