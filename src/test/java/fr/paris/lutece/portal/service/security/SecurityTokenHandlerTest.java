@@ -105,6 +105,39 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     }
 
     /**
+     * An action called through GET or HEAD (a plain link) is checked too: the action runs whatever the method.
+     */
+    @Test
+    public void testAdminActionCheckedOnGet( )
+    {
+        for ( String strMethod : new String [ ] {
+                "GET", "HEAD"
+        } )
+        {
+            MockHttpServletRequest request = post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN );
+            request.setMethod( strMethod );
+            assertFalse( _handler.shouldNotFilter( request ) );
+        }
+    }
+
+    /**
+     * A view displayed through GET is not checked, nor an action declared with the security token disabled.
+     */
+    @Test
+    public void testGetWithoutActionOrDisabledActionNotChecked( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "GET" );
+        request.setServletPath( ADMIN_CONTROLLER );
+        request.setParameter( "view", "confirmRemoveSecurityHeader" );
+        assertTrue( _handler.shouldNotFilter( request ) );
+
+        MockHttpServletRequest requestDisabled = post( ADMIN_CONTROLLER, ACTION_WITHOUT_TOKEN );
+        requestDisabled.setMethod( "GET" );
+        assertTrue( _handler.shouldNotFilter( requestDisabled ) );
+    }
+
+    /**
      * A page parameter does not move a back office request to the front office rules.
      */
     @Test

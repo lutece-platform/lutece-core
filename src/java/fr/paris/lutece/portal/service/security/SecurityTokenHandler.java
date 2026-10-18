@@ -44,6 +44,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -83,6 +85,7 @@ public class SecurityTokenHandler
     private static final String PARAMETER_PAGE = "page";
     private static final String PATH_ADMIN = "/jsp/admin";
     private static final String ACTION_METHOD_PREFIX = "do";
+    private static final String PROPERTY_CHECK_SAFE_METHODS = "lutece.security.token.checkGetActions";
 
     private Set<String> _actionMethods = ConcurrentHashMap.newKeySet( );
     private Map<String, Set<String>> _mapDisabledActionMethods = new ConcurrentHashMap<>( );
@@ -94,6 +97,10 @@ public class SecurityTokenHandler
     private SecurityTokenService _securityTokenService;
     @Inject
     private BeanManager _beanManager;
+    // An @Action runs whatever the HTTP method: a GET (or HEAD) link calling an action is checked too, unless this property is false
+    @Inject
+    @ConfigProperty( name = PROPERTY_CHECK_SAFE_METHODS, defaultValue = "true" )
+    private boolean _bCheckSafeMethods;
 
     /**
      * Registers the actions of every back office MVC controller with the security token enabled, at application startup, so that the token is checked
@@ -213,7 +220,7 @@ public class SecurityTokenHandler
         String strAction = MVCUtils.getAction( request );
 
         if ( null == strAction
-                || ALLOWED_METHODS.contains( request.getMethod( ) ) )
+                || ( !_bCheckSafeMethods && ALLOWED_METHODS.contains( request.getMethod( ) ) ) )
         {
             return true;
         }
