@@ -53,6 +53,8 @@ public class RSAKeyDatastoreProvider implements IRSAKeyProvider
 
 	private static final String DATASTORE_PUBLIC_KEY = "lutece.rsa.key.public";
     private static final String DATASTORE_PRIVATE_KEY = "lutece.rsa.key.private";
+    private static final int WAIT_PRIVATE_KEY_ATTEMPTS = 50;
+    private static final long WAIT_PRIVATE_KEY_DELAY_MS = 100L;
 
 	@Override
 	public PublicKey getPublicKey( ) throws GeneralSecurityException 
@@ -90,10 +92,10 @@ public class RSAKeyDatastoreProvider implements IRSAKeyProvider
 	/**
 	 * Initializes the RSA key pair in the datastore if missing.
 	 * <p>
-	 * Uses {@link DatastoreService#insertDataValueIfAbsent(String, String)} so
-	 * that concurrent initialization from multiple application instances is
-	 * safe: only the first instance wins, the others see their generated pair
-	 * silently discarded and will read the stored pair on the next call.
+	 * The public key is the election: only the instance that inserts it (insert if absent, atomic on the primary key of core_datastore) stores its
+	 * private key. Inserting both keys independently let two instances starting together store the public key of one and the private key of the
+	 * other: every encrypted link then failed. The other instances wait for the private key of the winner. A public key left without private key (an
+	 * instance stopped between the two inserts) is replaced.
 	 * </p>
 	 *
 	 * @throws GeneralSecurityException
@@ -101,26 +103,61 @@ public class RSAKeyDatastoreProvider implements IRSAKeyProvider
 	 */
 	private void initKeys( ) throws GeneralSecurityException
 	{
-		// Generate a candidate key pair (will be discarded if another instance wins the race)
+	    // Generate a candidate key pair (discarded if another instance wins the race)
 	    KeyPairGenerator keyGen = KeyPairGenerator.getInstance( "RSA" );
 	    keyGen.initialize( 2048 );
 	    KeyPair pair = keyGen.generateKeyPair( );
-	    PrivateKey privateKey = pair.getPrivate( );
-	    PublicKey publicKey = pair.getPublic( );
 
-	    String strPublic  = Base64.getEncoder( ).encodeToString( publicKey.getEncoded( ) );
-	    String strPrivate = Base64.getEncoder( ).encodeToString( privateKey.getEncoded( ) );
+	    String strPublic  = Base64.getEncoder( ).encodeToString( pair.getPublic( ).getEncoded( ) );
+	    String strPrivate = Base64.getEncoder( ).encodeToString( pair.getPrivate( ).getEncoded( ) );
 
-	    // Atomic conditional insert — relies on the primary key uniqueness
-	    // constraint of core_datastore.entity_key. Portable across MariaDB,
-	    // PostgreSQL, Oracle, H2, etc.
-	    boolean bPublicInserted  = DatastoreService.insertDataValueIfAbsent( DATASTORE_PUBLIC_KEY,  strPublic  );
-	    boolean bPrivateInserted = DatastoreService.insertDataValueIfAbsent( DATASTORE_PRIVATE_KEY, strPrivate );
-
-	    if ( !bPublicInserted || !bPrivateInserted )
+	    if ( DatastoreService.insertDataValueIfAbsent( DATASTORE_PUBLIC_KEY, strPublic ) )
 	    {
-	        AppLogService.info( "RSA keys already initialized by another instance — using stored pair" );
+	        DatastoreService.setDataValue( DATASTORE_PRIVATE_KEY, strPrivate );
+	        return;
 	    }
+
+	    AppLogService.info( "RSA keys already initialized by another instance, using the stored pair" );
+
+	    if ( !waitForPrivateKey( ) )
+	    {
+	        AppLogService.error( "RSA public key stored without private key, a new key pair is stored" );
+	        DatastoreService.setDataValue( DATASTORE_PUBLIC_KEY, strPublic );
+	        DatastoreService.setDataValue( DATASTORE_PRIVATE_KEY, strPrivate );
+	    }
+	}
+
+	/**
+	 * Waits for the private key stored by the instance that inserted the public key
+	 *
+	 * @return true if the private key is stored
+	 * @throws GeneralSecurityException
+	 *             if the wait is interrupted
+	 */
+	private boolean waitForPrivateKey( ) throws GeneralSecurityException
+	{
+	    for ( int i = 0; i < WAIT_PRIVATE_KEY_ATTEMPTS; i++ )
+	    {
+	        // the datastore cache may hold the key as missing
+	        DatastoreService.evictCachedKey( DATASTORE_PRIVATE_KEY );
+
+	        if ( DatastoreService.existsKey( DATASTORE_PRIVATE_KEY ) )
+	        {
+	            return true;
+	        }
+
+	        try
+	        {
+	            Thread.sleep( WAIT_PRIVATE_KEY_DELAY_MS );
+	        }
+	        catch( InterruptedException e )
+	        {
+	            Thread.currentThread( ).interrupt( );
+	            throw new GeneralSecurityException( "Interrupted while waiting for the RSA private key", e );
+	        }
+	    }
+
+	    return false;
 	}
 
 }
