@@ -64,7 +64,6 @@ public final class PasswordUtil
     private static final String CONSTANT_PASSWORD_REGEX_SPECIAL = "(?=.*[^a-zA-Z0-9])";
     private static final String CONSTANT_PASSWORD_REGEX_UPPER_LOWER = "(?=.*[a-z])(?=.*[A-Z])";
     private static final String CONSTANT_PASSWORD_END_REGEX = "(.*)$";
-    private static final String PARAMETER_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
 
     /** Private Constructor */
     private PasswordUtil( )
@@ -80,7 +79,7 @@ public final class PasswordUtil
     {
         // reinitialize password
         int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE );
-        int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
+        int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH );
 
         if ( nMinPasswordSize > nPasswordSize )
         {

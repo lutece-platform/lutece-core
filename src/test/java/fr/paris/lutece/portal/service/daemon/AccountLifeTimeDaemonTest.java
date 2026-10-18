@@ -174,6 +174,24 @@ public class AccountLifeTimeDaemonTest extends LuteceTestCase
         assertEquals( maxValidDate, user.getAccountMaxValidDate( ) );
     }
 
+    /**
+     * The first alert is sent (alerts counter incremented) when the expiration date is within the configured delay: the daemon reads the delay from
+     * the datastore key written by the admin screen.
+     */
+    @Test
+    public void testFirstAlertSentWithinDelay( )
+    {
+        DatastoreService.setDataValue( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT, "30" );
+        Timestamp maxValidDate = new Timestamp( System.currentTimeMillis( ) + ( 5L * ONE_DAY_MILLIS ) );
+        setAccountState( AdminUser.ACTIVE_CODE, maxValidDate, AdminUser.getDefaultDateLastLogin( ) );
+        Timestamp firstAlertMaxDate = new Timestamp( System.currentTimeMillis( ) + ( 30L * ONE_DAY_MILLIS ) );
+        assertTrue( AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate ).contains( _user.getUserId( ) ) );
+
+        new AccountLifeTimeDaemon( ).run( );
+
+        assertFalse( AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate ).contains( _user.getUserId( ) ) );
+    }
+
     private void setAccountState( int nStatus, Timestamp maxValidDate, Timestamp lastLogin )
     {
         AdminUserHome.updateUserExpirationDate( _user.getUserId( ), maxValidDate );

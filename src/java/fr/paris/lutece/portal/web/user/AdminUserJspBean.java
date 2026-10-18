@@ -2528,7 +2528,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         AdminUser user = AdminUserHome.findByPrimaryKey( AdminUserService.getAdminUser( request ).getUserId( ) );
         String strUrl;
-        int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
+        int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT );
         Timestamp firstAlertMaxDate = new Timestamp( new java.util.Date( ).getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
 
         if ( user.getAccountMaxValidDate( ) != null )
