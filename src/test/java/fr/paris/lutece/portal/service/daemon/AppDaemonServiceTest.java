@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,7 @@ public class AppDaemonServiceTest extends LuteceTestCase
 {
     private static final String JUNIT_DAEMON = "JUNITAppDaemonServiceTest";
     private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
+    private static final String DAEMON_CRON_DSKEY = "core.daemon." + JUNIT_DAEMON + ".cron";
 
     private DaemonEntry _entry;
 
@@ -67,6 +69,7 @@ public class AppDaemonServiceTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
+        DatastoreService.removeInstanceData( DAEMON_CRON_DSKEY );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
     }
     @Test
@@ -102,6 +105,29 @@ public class AppDaemonServiceTest extends LuteceTestCase
 
         assertEquals( 1, _entry.getInterval( ) );
         assertEquals( "1", DatastoreService.getInstanceDataValue( DAEMON_INTERVAL_DSKEY, null ) );
+    }
+
+    @Test
+    public void testModifyScheduleOfRunningDaemon( )
+    {
+        AppDaemonService.startDaemon( JUNIT_DAEMON );
+        try
+        {
+            AppDaemonService.modifyDaemonCron( JUNIT_DAEMON, "0 0 3 * * ?" );
+            assertTrue( AppDaemonService.isDaemonRunning( JUNIT_DAEMON ) );
+            assertEquals( "0 0 3 * * ?", DatastoreService.getInstanceDataValue( DAEMON_CRON_DSKEY, null ) );
+
+            // switching back to an interval clears the stored cron, which would win at the next start
+            AppDaemonService.modifyDaemonInterval( JUNIT_DAEMON, "3600" );
+            assertTrue( AppDaemonService.isDaemonRunning( JUNIT_DAEMON ) );
+            assertEquals( "", _entry.getCron( ) );
+            assertTrue( StringUtils.isEmpty( DatastoreService.getInstanceDataValue( DAEMON_CRON_DSKEY, null ) ) );
+            assertEquals( 3600, _entry.getInterval( ) );
+        }
+        finally
+        {
+            AppDaemonService.stopDaemon( JUNIT_DAEMON );
+        }
     }
 
     @Test

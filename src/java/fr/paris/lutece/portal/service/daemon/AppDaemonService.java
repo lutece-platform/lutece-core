@@ -328,7 +328,10 @@ public final class AppDaemonService
             entry.setInterval( Long.valueOf( strDaemonInterval ) );
             entry.setCron( "" );
             DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
+            // the stored cron would win over the interval at the next start
+            DatastoreService.setInstanceDataValue( getCronExpressionKey( entry.getId( ) ), "" );
             AppLogService.debug( "Interval set to {} seconds for daemon {} ", strDaemonInterval, strDaemonKey );
+            rescheduleThread( entry );
         }
     }
     
@@ -348,7 +351,8 @@ public final class AppDaemonService
         {
             entry.setCron( strDaemonCron );
             DatastoreService.setInstanceDataValue( getCronExpressionKey( entry.getId( ) ), strDaemonCron );
-            AppLogService.debug( "Cron set to {} seconds for daemon {} ", strDaemonCron, strDaemonKey );
+            AppLogService.debug( "Cron set to {} for daemon {} ", strDaemonCron, strDaemonKey );
+            rescheduleThread( entry );
         }
     }
 
@@ -378,6 +382,21 @@ public final class AppDaemonService
         _executor.schedule( entry, nInitialDelay, TimeUnit.SECONDS );
         // update onStartup property
         DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId( ) ), DatastoreService.VALUE_TRUE );
+    }
+
+    /**
+     * Schedules again a running daemon, so that a new interval or cron applies now and not at the next start of the daemon
+     * 
+     * @param entry
+     *            The DaemonEntry
+     */
+    private static void rescheduleThread( DaemonEntry entry )
+    {
+        if ( entry.isRunning( ) && ( _executor != null ) )
+        {
+            cancelScheduledThread( entry.getId( ) );
+            scheduleThread( entry );
+        }
     }
 
     /**
