@@ -48,6 +48,7 @@ import org.apache.logging.log4j.Logger;
 import jakarta.servlet.ServletContext;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
@@ -202,6 +203,8 @@ public final class AppInit
 	            }
 			}
 			StartUpServiceManager.initializeEarlyInitializationServices( );
+			// The database scripts ran: the cache settings are read once for the caches created during the startup
+			CacheConfigUtil.beginStartupMemo( );
             StartUpServiceManager.init( );
             // Initializes Search Engine Indexation Service
             IndexationService.init( );
@@ -240,6 +243,7 @@ public final class AppInit
             // Initialize Content Post Processor Service
             ContentPostProcessorService.init( );
 
+            CacheConfigUtil.endStartupMemo( );
             _bInitSuccessfull = true;
             long endTime = System.currentTimeMillis(); 
             long duration = endTime - startTime; 
@@ -260,6 +264,7 @@ public final class AppInit
         }
         catch( Exception e)
         {
+        	CacheConfigUtil.endStartupMemo( );
         	_logger.error("Error ininitialised service", e);
             _strLoadingFailureCause = e.getMessage( );
             Throwable cause = e.getCause( );

@@ -166,9 +166,11 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     	// A shared cache created by another instance is kept even when disabled here, to forward the removals
     	Cache<K, V> cache = luteceCacheManager.getCache(strJCacheName);
     	if (cache == null && bEnabled) {
-    		Configuration<K, V> completed = CacheConfigUtil.completeConfiguration(strCacheName, configuration);
+    		// The settings are read once for the expiry and the customizers
+    		CacheConfigUtil.CacheConfig settings = CacheConfigUtil.getCacheSettings(strCacheName);
+    		Configuration<K, V> completed = CacheConfigUtil.completeConfiguration(configuration, settings);
     		cache = createOrGetCache(luteceCacheManager, strJCacheName,
-    				CacheConfigUtil.customizeConfiguration(strCacheName, completed, luteceCacheManager.getCachingProvider()));
+    				CacheConfigUtil.customizeConfiguration(strCacheName, completed, luteceCacheManager.getCachingProvider(), settings));
         }
     	_bDisabled = !bEnabled;
     	this.configuration = (cache != null && !cache.isClosed()) ? cache.getConfiguration(Configuration.class) : configuration;

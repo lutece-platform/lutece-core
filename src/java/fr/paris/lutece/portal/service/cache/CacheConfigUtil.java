@@ -81,6 +81,10 @@ public class CacheConfigUtil {
 	    static final int UNSET = -1;
 	    
 	    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
+	    // Settings read once for the caches created during the startup (each read scans every configuration
+	    // property and queries the datastore); null outside the startup
+	    private static volatile List<CacheConfig> _listStartupConfigs;
+	    private static volatile boolean _bStartupMemo;
 	    // Unknown settings already reported
 	    private static final Set<String> _setWarnedKeys = ConcurrentHashMap.newKeySet( );
 
@@ -265,8 +269,37 @@ public class CacheConfigUtil {
 	     *
 	     * @return A list of cache configurations.
 	     */
-	    public static  List<CacheConfig> getCahesConfigs(){	    	
+	    public static  List<CacheConfig> getCahesConfigs(){
+	    	if ( _bStartupMemo )
+	    	{
+	    		List<CacheConfig> listConfigs = _listStartupConfigs;
+	    		if ( listConfigs == null )
+	    		{
+	    			listConfigs = buildCacheConfigs( getConfigPropertiesWithPrefix( ) );
+	    			_listStartupConfigs = listConfigs;
+	    		}
+	    		return listConfigs;
+	    	}
 	    	return buildCacheConfigs( getConfigPropertiesWithPrefix());
+	    }
+
+	    /**
+	     * Reads the cache settings once for the caches created until {@link #endStartupMemo()}: to be called once the
+	     * datastore holds its final settings (after the database scripts ran)
+	     */
+	    public static void beginStartupMemo( )
+	    {
+	    	_listStartupConfigs = null;
+	    	_bStartupMemo = true;
+	    }
+
+	    /**
+	     * Ends the startup: each cache created afterwards (enabled in the back office) reads the current settings
+	     */
+	    public static void endStartupMemo( )
+	    {
+	    	_bStartupMemo = false;
+	    	_listStartupConfigs = null;
 	    }
 	    /**
 	     * Builds the cache configuration map.
@@ -624,6 +657,20 @@ public class CacheConfigUtil {
 	    @SuppressWarnings( "unchecked" )
 	    public static <K, V> Configuration<K, V> completeConfiguration( String strCacheName, Configuration<K, V> configuration )
 	    {
+	    	return completeConfiguration( configuration, getCacheSettings( strCacheName ) );
+	    }
+
+	    /**
+	     * Completes the JCache configuration of a cache with the expiry of its Lutece settings
+	     *
+	     * @param configuration the configuration given by the cacheable service
+	     * @param settings the settings of the cache, from {@link #getCacheSettings(String)}
+	     * @return the configuration to create the cache with
+	     * @see #completeConfiguration(String, Configuration)
+	     */
+	    @SuppressWarnings( "unchecked" )
+	    static <K, V> Configuration<K, V> completeConfiguration( Configuration<K, V> configuration, CacheConfig settings )
+	    {
 	    	if ( !( configuration instanceof CompleteConfiguration ) )
 	    	{
 	    		return configuration;
@@ -637,7 +684,6 @@ public class CacheConfigUtil {
 	    	}
 	    	if ( EternalExpiryPolicy.factoryOf( ).equals( mutable.getExpiryPolicyFactory( ) ) )
 	    	{
-	    		CacheConfig settings = getCacheSettings( strCacheName );
 	    		if ( !settings.isEternal( ) && settings.getTimeToLiveSeconds( ) > 0 )
 	    		{
 	    			mutable.setExpiryPolicyFactory( CreatedExpiryPolicy.factoryOf( new Duration( TimeUnit.SECONDS, settings.getTimeToLiveSeconds( ) ) ) );
@@ -664,13 +710,29 @@ public class CacheConfigUtil {
 	     */
 	    public static <K, V> Configuration<K, V> customizeConfiguration( String strCacheName, Configuration<K, V> configuration, CachingProvider provider )
 	    {
+	    	return customizeConfiguration( strCacheName, configuration, provider, null );
+	    }
+
+	    /**
+	     * Lets the customizers adapt the configuration of a cache to the caching provider
+	     *
+	     * @param strCacheName the cache name
+	     * @param configuration the configuration built by the core
+	     * @param provider the caching provider of the cache manager
+	     * @param cacheSettings the settings of the cache from {@link #getCacheSettings(String)}, or null to read them
+	     * @return the configuration to create the cache with
+	     * @see #customizeConfiguration(String, Configuration, CachingProvider)
+	     */
+	    static <K, V> Configuration<K, V> customizeConfiguration( String strCacheName, Configuration<K, V> configuration, CachingProvider provider,
+	    		CacheConfig cacheSettings )
+	    {
 	    	Instance<ICacheConfigurationCustomizer> customizers = CDI.current( ).select( ICacheConfigurationCustomizer.class );
 	    	if ( customizers.isUnsatisfied( ) )
 	    	{
 	    		return configuration;
 	    	}
 	    	String strJCacheName = getJCacheName( strCacheName );
-	    	CacheSettings settings = getCacheSettings( strCacheName ).toSettings( );
+	    	CacheSettings settings = ( cacheSettings != null ? cacheSettings : getCacheSettings( strCacheName ) ).toSettings( );
 	    	Configuration<K, V> result = configuration;
 	    	for ( ICacheConfigurationCustomizer customizer : customizers )
 	    	{
