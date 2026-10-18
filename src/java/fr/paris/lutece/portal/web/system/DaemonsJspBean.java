@@ -79,6 +79,7 @@ public class DaemonsJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
     private static final String MESSAGE_NUMERIC_FIELD = "portal.util.message.errorNumericField";
     private static final String MESSAGE_INVALID_CRON = "portal.util.message.invalidEntry";
+    private static final String MESSAGE_INVALID_INTERVAL = "portal.system.manage_daemons.message.invalidInterval";
 
     /**
      * Build the manage daemon page
@@ -145,6 +146,15 @@ public class DaemonsJspBean extends AdminFeaturesPageJspBean
                     {
                         strErrorMessage = MESSAGE_NUMERIC_FIELD;
                     }
+                    else
+                        if ( !AppDaemonService.isValidInterval( strDaemonInterval ) )
+                        {
+                            Object [ ] tabFieldIntervalRange = {
+                                    tabFieldInterval [0], String.valueOf( AppDaemonService.MAX_DAEMON_INTERVAL )
+                            };
+
+                            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_INTERVAL, tabFieldIntervalRange, AdminMessage.TYPE_STOP );
+                        }
 
                 if ( strErrorMessage != null )
                 {

@@ -424,6 +424,23 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         assertEquals( lTestInterval, _entry.getInterval( ) );
     }
     @Test
+    public void testDoDaemonActionUpdateIntervalTooLarge( ) throws AccessDeniedException
+    {
+        for ( String strInterval : new String [ ] {
+                "3000000000", "0", "99999999999999999999999"
+        } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "action", "UPDATE_INTERVAL" );
+            request.setParameter( "daemon", JUNIT_DAEMON );
+            request.setParameter( "interval", strInterval );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+            bean.doDaemonAction( request );
+            assertEquals( 1, _entry.getInterval( ) );
+            assertEquals( "1", DatastoreService.getInstanceDataValue( DAEMON_INTERVAL_DSKEY, null ) );
+        }
+    }
+    @Test
     public void testDoDaemonActionUpdateIntervalInvalidToken( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;

@@ -40,6 +40,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -57,6 +59,10 @@ public final class AppDaemonService
     private static final String PROPERTY_DAEMON_CRON = ".cron";
     private static final String KEY_DAEMON = "daemon.";
     private static final String KEY_DAEMON_PREFIX = "core." + KEY_DAEMON;
+    private static final String DEFAULT_DAEMON_INTERVAL = "10";
+
+    /** Maximum interval of a daemon, in seconds: the schedulers handle the interval as an int */
+    public static final long MAX_DAEMON_INTERVAL = Integer.MAX_VALUE;
     private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<>( );
     private static final Random _random = new Random( );
     private static boolean _bInit;
@@ -112,7 +118,16 @@ public final class AppDaemonService
                 {
                     nInitialDelay += nDelay;
 
-                    scheduleThread( entry, nInitialDelay );
+                    try
+                    {
+                        scheduleThread( entry, nInitialDelay );
+                    }
+                    catch( RuntimeException e )
+                    {
+                        // a daemon that cannot be scheduled must not abort the initialization of the other ones
+                        entry.setIsRunning( false );
+                        AppLogService.error( "Unable to schedule daemon {}", entry.getId( ), e );
+                    }
                 }
             }
         }
@@ -141,11 +156,21 @@ public final class AppDaemonService
         // init interval value if no exists
         if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( KEY_DAEMON + entry.getId( ) + PROPERTY_DAEMON_INTERVAL, "10" );
+            strIntervalKeyDefaultValue = getDefaultInterval( entry.getId( ) );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
 
         String strIntervalKeyValue = DatastoreService.getInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
+
+        if ( !isValidInterval( strIntervalKeyValue ) )
+        {
+            // an invalid stored interval must never abort the initialization: fall back to the default one
+            String strDefaultInterval = getDefaultInterval( entry.getId( ) );
+            AppLogService.error( "Invalid interval '{}' stored for daemon {}, the default interval {} is used instead", strIntervalKeyValue, entry.getId( ),
+                    strDefaultInterval );
+            strIntervalKeyValue = strDefaultInterval;
+            DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyValue );
+        }
 
         long lInterval = Long.parseLong( strIntervalKeyValue );
 
@@ -292,6 +317,12 @@ public final class AppDaemonService
     {
         DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
 
+        if ( !isValidInterval( strDaemonInterval ) )
+        {
+            AppLogService.error( "Invalid interval '{}' ignored for daemon {}", strDaemonInterval, strDaemonKey );
+            return;
+        }
+
         if ( entry != null )
         {
             entry.setInterval( Long.valueOf( strDaemonInterval ) );
@@ -417,6 +448,52 @@ public final class AppDaemonService
         DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
 
         return entry.getDaemon( );
+    }
+
+    /**
+     * Tells whether a daemon interval is valid: a number of seconds between 1 and {@link #MAX_DAEMON_INTERVAL}
+     *
+     * @param strInterval
+     *            The interval
+     * @return <code>true</code> if the interval is valid, <code>false</code> otherwise
+     */
+    public static boolean isValidInterval( String strInterval )
+    {
+        if ( !StringUtils.isNumeric( strInterval ) )
+        {
+            return false;
+        }
+
+        try
+        {
+            long lInterval = Long.parseLong( strInterval );
+
+            return lInterval > 0 && lInterval <= MAX_DAEMON_INTERVAL;
+        }
+        catch( NumberFormatException e )
+        {
+            // more digits than a long
+            return false;
+        }
+    }
+
+    /**
+     * Returns the default interval of a daemon, read from the properties
+     *
+     * @param strDaemonKey
+     *            The daemon key
+     * @return The default interval, or {@value #DEFAULT_DAEMON_INTERVAL} if the property is missing or invalid
+     */
+    private static String getDefaultInterval( String strDaemonKey )
+    {
+        String strInterval = AppPropertiesService.getProperty( KEY_DAEMON + strDaemonKey + PROPERTY_DAEMON_INTERVAL, DEFAULT_DAEMON_INTERVAL );
+
+        if ( strInterval != null )
+        {
+            strInterval = strInterval.trim( );
+        }
+
+        return isValidInterval( strInterval ) ? strInterval : DEFAULT_DAEMON_INTERVAL;
     }
 
     /**

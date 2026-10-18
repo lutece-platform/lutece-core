@@ -70,6 +70,41 @@ public class AppDaemonServiceTest extends LuteceTestCase
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
     }
     @Test
+    public void testIsValidInterval( )
+    {
+        assertTrue( AppDaemonService.isValidInterval( "1" ) );
+        assertTrue( AppDaemonService.isValidInterval( String.valueOf( Integer.MAX_VALUE ) ) );
+        assertFalse( AppDaemonService.isValidInterval( null ) );
+        assertFalse( AppDaemonService.isValidInterval( "" ) );
+        assertFalse( AppDaemonService.isValidInterval( "0" ) );
+        assertFalse( AppDaemonService.isValidInterval( "-5" ) );
+        assertFalse( AppDaemonService.isValidInterval( "abc" ) );
+        assertFalse( AppDaemonService.isValidInterval( "3000000000" ) );
+        assertFalse( AppDaemonService.isValidInterval( "99999999999999999999999" ) );
+    }
+
+    @Test
+    public void testRegisterDaemonInvalidStoredInterval( ) throws LuteceInitException
+    {
+        AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
+        DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY, "3000000000" );
+
+        AppDaemonService.registerDaemon( _entry );
+
+        assertEquals( 10, _entry.getInterval( ) );
+        assertEquals( "10", DatastoreService.getInstanceDataValue( DAEMON_INTERVAL_DSKEY, null ) );
+    }
+
+    @Test
+    public void testModifyDaemonIntervalInvalid( )
+    {
+        AppDaemonService.modifyDaemonInterval( JUNIT_DAEMON, "3000000000" );
+
+        assertEquals( 1, _entry.getInterval( ) );
+        assertEquals( "1", DatastoreService.getInstanceDataValue( DAEMON_INTERVAL_DSKEY, null ) );
+    }
+
+    @Test
     public void testRegisterDaemonTwiceIgnored( ) throws LuteceInitException
     {
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _entry ) );
