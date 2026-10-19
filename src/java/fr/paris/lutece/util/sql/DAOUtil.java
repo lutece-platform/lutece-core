@@ -145,6 +145,17 @@ public class DAOUtil implements AutoCloseable
     }
 
     /**
+     * Sets the transaction synchronization managers instead of resolving them (tests)
+     *
+     * @param list
+     *            the managers
+     */
+    static void setTransactionSynchronizationManagers( List<ITransactionSynchronizationManager> list )
+    {
+        _listTransactionSynchronizationManagers = list;
+    }
+
+    /**
      * Tells whether the transaction synchronization managers are resolved
      *
      * @return true if they are memorized

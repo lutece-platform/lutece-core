@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.util.sql;
 
+import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
@@ -48,6 +50,8 @@ public final class TransactionManager
 {
     private static final String DEFAULT_POOL_NAME = "portal";
     private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<>( );
+    // Number of begin calls per pool joined to a transaction managed by the container (JTA)
+    private static ThreadLocal<Map<String, Integer>> _tlJoinedTransactions = new ThreadLocal<>( );
 
     /**
      * Default constructor
@@ -80,6 +84,11 @@ public final class TransactionManager
      */
     public static void beginTransaction( Plugin plugin, int nTransactionIsolation )
     {
+        if ( joinManagedTransaction( plugin ) )
+        {
+            return;
+        }
+
         Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
         MultiPluginTransaction transaction = null;
 
@@ -143,6 +152,11 @@ public final class TransactionManager
      */
     public static void commitTransaction( Plugin plugin )
     {
+        if ( leaveManagedTransaction( plugin, false ) )
+        {
+            return;
+        }
+
         Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
         if ( mapTransactions != null )
@@ -188,6 +202,11 @@ public final class TransactionManager
      */
     public static void rollBack( Plugin plugin, Exception e )
     {
+        if ( leaveManagedTransaction( plugin, true ) )
+        {
+            return;
+        }
+
         Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
         if ( mapTransactions != null )
@@ -220,6 +239,13 @@ public final class TransactionManager
      */
     public static void rollBackEveryTransaction( Throwable e )
     {
+        Map<String, Integer> mapJoined = _tlJoinedTransactions.get( );
+        if ( ( mapJoined != null ) && !mapJoined.isEmpty( ) )
+        {
+            mapJoined.clear( );
+            setManagedTransactionRollbackOnly( );
+        }
+
         Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
         if ( ( mapTransactions != null ) && ( mapTransactions.size( ) > 0 ) )
@@ -308,6 +334,103 @@ public final class TransactionManager
      */
     public static void clear() {
         _tlTransactions.remove();
+        _tlJoinedTransactions.remove( );
+    }
+
+    /**
+     * Joins the transaction managed by the container (JTA) instead of opening a Lutece transaction, when the pool of the plugin is
+     * managed by the container and such a transaction is active: its connection is enlisted in that transaction, so a local commit,
+     * roll back or auto-commit change is refused (DSRA9250E) and the caller of the managed transaction owns its outcome. A nested
+     * begin on a pool already joined is counted, as for a Lutece transaction.
+     *
+     * @param plugin
+     *            The plugin to use the pool of, or null to use the default pool.
+     * @return true if the begin joined the managed transaction
+     */
+    private static boolean joinManagedTransaction( Plugin plugin )
+    {
+        String strPoolName = getPluginPool( plugin );
+        Map<String, Integer> mapJoined = _tlJoinedTransactions.get( );
+
+        if ( ( mapJoined != null ) && mapJoined.containsKey( strPoolName ) )
+        {
+            mapJoined.merge( strPoolName, 1, Integer::sum );
+            return true;
+        }
+
+        MultiPluginTransaction transaction = getCurrentTransaction( plugin );
+        if ( ( ( transaction != null ) && ( transaction.getNbTransactionsOpened( ) > 0 ) ) || !isManagedTransactionActive( plugin ) )
+        {
+            return false;
+        }
+
+        if ( mapJoined == null )
+        {
+            mapJoined = new HashMap<>( );
+            _tlJoinedTransactions.set( mapJoined );
+        }
+        mapJoined.put( strPoolName, 1 );
+        return true;
+    }
+
+    /**
+     * Ends a begin that joined the managed transaction: a commit only counts it down, a roll back marks the managed transaction
+     * rollback only, so that the caller cannot commit what the joined code wanted to cancel.
+     *
+     * @param plugin
+     *            The plugin to use the pool of, or null to use the default pool.
+     * @param bRollBack
+     *            true for a roll back
+     * @return true if the pool had joined the managed transaction
+     */
+    private static boolean leaveManagedTransaction( Plugin plugin, boolean bRollBack )
+    {
+        Map<String, Integer> mapJoined = _tlJoinedTransactions.get( );
+        String strPoolName = getPluginPool( plugin );
+
+        if ( ( mapJoined == null ) || !mapJoined.containsKey( strPoolName ) )
+        {
+            return false;
+        }
+
+        if ( bRollBack )
+        {
+            mapJoined.remove( strPoolName );
+            setManagedTransactionRollbackOnly( );
+        }
+        else if ( mapJoined.merge( strPoolName, -1, Integer::sum ) <= 0 )
+        {
+            mapJoined.remove( strPoolName );
+        }
+        return true;
+    }
+
+    /**
+     * Whether the pool of the plugin is managed by the container and a managed transaction is active on the current thread
+     *
+     * @param plugin
+     *            The plugin to use the pool of, or null to use the default pool.
+     * @return true if the code must join the managed transaction
+     */
+    private static boolean isManagedTransactionActive( Plugin plugin )
+    {
+        PluginConnectionService connectionService = ( plugin != null ) ? plugin.getConnectionService( ) : AppConnectionService.getDefaultConnectionService( );
+
+        if ( ( connectionService == null )
+                || !TransactionSynchronizationManager.MANAGED_CONNECTION_POOL_PROVIDER.equals( connectionService.getPoolProvider( ) ) )
+        {
+            return false;
+        }
+
+        return DAOUtil.getTransactionSynchronizationManagers( ).stream( ).anyMatch( ITransactionSynchronizationManager::isSynchronizationActive );
+    }
+
+    /**
+     * Marks the active managed transactions rollback only
+     */
+    private static void setManagedTransactionRollbackOnly( )
+    {
+        DAOUtil.getTransactionSynchronizationManagers( ).forEach( ITransactionSynchronizationManager::setRollbackOnly );
     }
     /**
      * Get the name of the pool of a given plugin

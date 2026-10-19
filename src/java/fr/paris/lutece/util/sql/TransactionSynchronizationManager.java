@@ -46,7 +46,7 @@ import jakarta.transaction.TransactionSynchronizationRegistry;
 public class TransactionSynchronizationManager implements ITransactionSynchronizationManager
 {
 
-    private static final String MANAGED_CONNECTION_POOL_PROVIDER = "Managed";
+    static final String MANAGED_CONNECTION_POOL_PROVIDER = "Managed";
 
     @Resource
     private TransactionSynchronizationRegistry registry;
@@ -58,6 +58,18 @@ public class TransactionSynchronizationManager implements ITransactionSynchroniz
     public boolean isSynchronizationActive( )
     {
         return null != registry && Status.STATUS_ACTIVE == registry.getTransactionStatus( );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setRollbackOnly( )
+    {
+        if ( isSynchronizationActive( ) )
+        {
+            registry.setRollbackOnly( );
+        }
     }
 
     /**

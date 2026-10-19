@@ -20,4 +20,12 @@ public interface ITransactionSynchronizationManager
      */
     public TransactionSynchronizationContext registerSynchronization(TransactionSynchronizationContext context) throws SQLException;
 
+    /**
+     * Marks the current managed transaction so that its only possible outcome is a roll back
+     */
+    default void setRollbackOnly( )
+    {
+        // no managed transaction support by default
+    }
+
 }
