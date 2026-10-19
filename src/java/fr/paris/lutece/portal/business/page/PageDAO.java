@@ -429,8 +429,12 @@ public final class PageDAO implements IPageDAO
 
         for ( Integer nPortletId : portletIds )
         {
+            // null when the plugin of its type is not installed in the site: the page is shown without it
             Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
-            pageColl.add( portlet );
+            if ( portlet != null )
+            {
+                pageColl.add( portlet );
+            }
         }
 
         page.setPortlets( pageColl );

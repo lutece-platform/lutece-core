@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.sql.DAOUtil;
 import jakarta.inject.Inject;
 
 public class PageDAOTest extends LuteceTestCase
@@ -148,6 +149,45 @@ public class PageDAOTest extends LuteceTestCase
         }
         finally
         {
+            PageHome.remove( page.getId( ) );
+        }
+    }
+
+    /**
+     * A portlet whose type is not installed in the site is left out of the portlets of its page, instead of a null portlet that
+     * broke the rendering of the page (NullPointerException on its column)
+     */
+    @Test
+    public void testPortletOfAMissingTypeIsLeftOut( )
+    {
+        Page page = new Page( );
+        try
+        {
+            page.setParentPageId( PortalService.getRootPageId( ) );
+            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+            page.setName( "page" + new SecureRandom( ).nextLong( ) );
+            page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+            page.setDisplayDateUpdate( false );
+            page.setIsManualDateUpdate( false );
+            page.setIdAuthorizationNode( PortalService.getRootPageId( ) );
+            pageService.createPage( page );
+            try ( DAOUtil daoUtil = new DAOUtil( "INSERT INTO core_portlet ( id_portlet_type, id_page, name, portlet_order, column_no, id_style, accept_alias, display_portlet_title ) VALUES ( 'NOT_INSTALLED_PORTLET', ?, 'junit', 1, 1, 0, 0, 0 )" ) )
+            {
+                daoUtil.setInt( 1, page.getId( ) );
+                daoUtil.executeUpdate( );
+            }
+
+            Page loaded = PageHome.findByPrimaryKey( page.getId( ) );
+
+            assertTrue( loaded.getPortlets( ).stream( ).allMatch( java.util.Objects::nonNull ) );
+        }
+        finally
+        {
+            try ( DAOUtil daoUtil = new DAOUtil( "DELETE FROM core_portlet WHERE id_page = ? AND id_portlet_type = 'NOT_INSTALLED_PORTLET'" ) )
+            {
+                daoUtil.setInt( 1, page.getId( ) );
+                daoUtil.executeUpdate( );
+            }
             PageHome.remove( page.getId( ) );
         }
     }
