@@ -7,8 +7,7 @@ Parameters:
 - class (string, optional): additional CSS classes to add to the container.
 - align (string, optional): the alignment of the container's content.
 - size (string, optional): the size of the container.
-- params (string, optional): additional parameters to add to the container.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - ariaLabel (string, optional): the ARIA label of the container.
 - hide (array, optional): an array of breakpoints to hide the container.
 - deprecated (string, optional): a message indicating that the macro is deprecated.
@@ -31,10 +30,10 @@ Snippet:
     </@btnGroup>
 
 -->
-<#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[] attrs={}   deprecated...>
+<#macro btnGroup id='' class='' align='' size='' params={} ariaLabel='' hide=[]   deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local classExtra = displaySettings( hide, 'inline-flex' ) + ' ' + alignmentSettings( align, '' ) />
-<div<@commonAttrs id=id classBase='btn-group' + size?has_content?then( ' btn-group-' + size, '' ) class=class classExtra=classExtra params=params attrs=attrs /> role="group"<#if ariaLabel?has_content> aria-label="${ariaLabel}"</#if>>
+<div<@commonAttrs id=id classBase='btn-group' + size?has_content?then( ' btn-group-' + size, '' ) class=class classExtra=classExtra params=params /> role="group"<#if ariaLabel?has_content> aria-label="${ariaLabel}"</#if>>
 	<#nested>
 </div>
 </#macro>

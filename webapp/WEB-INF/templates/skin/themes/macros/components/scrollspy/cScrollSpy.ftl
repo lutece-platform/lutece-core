@@ -10,13 +10,12 @@ Parameters:
 - anchorListClass - string - optional - ajoute une classe CSS au à la liste
 - anchorListItemClass - string - optional - ajoute une classe CSS au éléments de la liste
 - anchorsLinkClass - string - optional - ajoute une classe CSS aux ancres
-- anchorsParams - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
+- anchorsParams - map - optional - attributs HTML supplémentaires de la liste d'ancres, par exemple {'data-x': 'y'}
 - anchorColClass - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
 - contentColClass - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
 - id - string - optional - l'Id du wrapper - .row- des colonnes
 - class - string - optional - ajoute une classe CSS au wrapper
 - params - string - optional - permet d'ajouter des parametres HTML au wrapper.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 	<#assign anchorsList = [
@@ -26,11 +25,11 @@ Snippet:
 		{"label":"Item 4", "href":"#anchor-scroll-item-4"},
 		{"label":"Item 5", "href":"#anchor-scroll-item-5"}
 	]>
-	<@cScrollSpy anchorId='scrollspy-sample' anchors= anchorsLinkClass='btn btn-primary' anchorsParams='style="top:100px;"' />
+	<@cScrollSpy anchorId='scrollspy-sample' anchors= anchorsLinkClass='btn btn-primary' anchorsParams={'data-x': 'y'} />
 -->
-<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' attrs={} deprecated...>
+<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams={} anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="row<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 	<div class="${anchorColClass}">
 		<@cAnchor id=anchorId class=anchorClass anchors=anchors listClass=anchorListClass listItemClass=anchorListItemClass anchorsClass=anchorsLinkClass params=anchorsParams />
 	</div>

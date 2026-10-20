@@ -47,7 +47,7 @@ Snippet:
     </@card>
 
 -->
-<#macro card class='mb-3' id='' headerTitle='' headerClass='bg-info' headerIcon='' headerActions='' status='' statusPos='start' ribbon='' ribbonColor='primary' ribbonPos='top' stamp='' stampColor='primary' params='' deprecated...>
+<#macro card class='mb-3' id='' headerTitle='' headerClass='bg-info' headerIcon='' headerActions='' status='' statusPos='start' ribbon='' ribbonColor='primary' ribbonPos='top' stamp='' stampColor='primary' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="card ${class}"<@commonAttrs id=id />>
 	<#if stamp?has_content><div class="card-stamp"><div class="card-stamp-icon bg-${stampColor}">${stamp}</div></div></#if>

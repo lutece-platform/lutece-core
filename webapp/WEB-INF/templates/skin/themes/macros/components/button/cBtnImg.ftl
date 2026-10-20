@@ -8,8 +8,7 @@ Parameters:
 - class (string, optional): CSS class(es) for the button. Default: 'primary'.
 - id (string, optional): The unique identifier for the button. Default: ''.
 - type (string, optional): The button type ('submit' or 'svg' for inline SVG). Default: 'submit'.
-- params (string, optional): Additional HTML attributes for the button. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - imgPos (string, optional): Position of the image relative to the label ('before', 'after'). Default: 'before'.
 - disabled (boolean, optional): If true, disables the button. Default: false.
 
@@ -34,9 +33,9 @@ Snippet:
     </@cBtnImg>
 
 -->
-<#macro cBtnImg src class='primary' id='' type='submit' params='' imgPos='before' disabled=false attrs={} deprecated...>
+<#macro cBtnImg src class='primary' id='' type='submit' params={} imgPos='before' disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cBtn label='' class='${class!} btn-img' type=submit  disabled=disabled params=params attrs=attrs >
+<@cBtn label='' class='${class!} btn-img' type=submit  disabled=disabled params=params >
 <#if imgPos='before'>
     <#if type='svg'>
     <@cFigure>${src}</@cFigure>

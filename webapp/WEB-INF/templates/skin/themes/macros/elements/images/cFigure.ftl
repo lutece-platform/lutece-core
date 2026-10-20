@@ -7,8 +7,7 @@ Parameters:
 - caption (string, optional): Caption text displayed below the figure via a figcaption element. Default: ''.
 - id (string, optional): Unique identifier for the figure element. Default: ''.
 - class (string, optional): CSS class(es) applied to the figure element. Default: 'figure'.
-- params (string, optional): Additional HTML attributes for the figure element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Figure - @cFigure
@@ -30,9 +29,9 @@ Snippet:
     </@cFigure>
 
 -->
-<#macro cFigure caption='' id='' class='figure' params='' attrs={} deprecated...>
+<#macro cFigure caption='' id='' class='figure' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<figure <@commonAttrs id=id class=class params=params attrs=attrs />>
+<figure <@commonAttrs id=id class=class params=params />>
 <#nested/>
 <#if caption?has_content><@cFigCaption class='figure-caption'>${caption!}</@cFigCaption></#if>
 </figure>

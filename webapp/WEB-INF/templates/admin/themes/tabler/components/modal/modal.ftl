@@ -2,8 +2,7 @@
 Description: Generates a Bootstrap modal dialog, with optional parameters for the ID, additional attributes, background color, and size.
 Parameters:
 - id (string): the ID of the modal.
-- params (string, optional): additional attributes to add to the modal, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - bgColor (string, optional): the background color of the modal, using a Bootstrap color class (e.g. "bg-primary").
 - size (string, optional): the size of the modal dialog, using a Bootstrap size class (e.g. "lg").
 - fullScreen (boolean, optional): whether the modal should be displayed in full screen (default is false).
@@ -35,7 +34,7 @@ Snippet:
 
     Small non-centered modal with extra attributes:
 
-    <@modal id='alertModal' size='sm' vCentered=false attrs={'data-bs-backdrop': "static"}>
+    <@modal id='alertModal' size='sm' vCentered=false params={'data-bs-backdrop': "static"}>
         <@modalHeader modalTitle='Alert' />
         <@modalBody>
             <p>This modal cannot be dismissed by clicking outside.</p>
@@ -43,9 +42,9 @@ Snippet:
     </@modal>
 
 -->
-<#macro modal id params='' bgColor='' size='' fullScreen=false vCentered=true attrs={} deprecated...>
+<#macro modal id params={} bgColor='' size='' fullScreen=false vCentered=true deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal ${bgColor} fade" id="${id}" <@commonAttrs params=params attrs=attrs />>
+<div class="modal ${bgColor} fade" id="${id}" <@commonAttrs params=params />>
 	<div class="modal-dialog<#if size?has_content> modal-${size}</#if><#if fullScreen> modal-fullscreen</#if><#if vCentered> modal-dialog-centered</#if>">
 		<div class="modal-content">
 			<#nested>

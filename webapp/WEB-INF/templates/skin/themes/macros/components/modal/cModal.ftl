@@ -16,8 +16,7 @@ Parameters:
 - footer (string, optional): HTML content for the modal footer (e.g., submit buttons). Default: ''.
 - titleLevel (number, optional): Heading level for the title element. Default: 1.
 - class (string, optional): Additional CSS classes for the modal. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Fenêtre modale - @cModal
@@ -45,9 +44,9 @@ Snippet:
     </@cModal>
 
 -->
-<#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=1 class='' params='' attrs={} deprecated...>
+<#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=1 class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal cmodal fade<#if class?has_content> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <@commonAttrs params=params attrs=attrs />>
+<div class="modal cmodal fade<#if class?has_content> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <@commonAttrs params=params />>
     <div class="modal-dialog <#if pos?has_content>modal-dialog-${pos} </#if> <#if scrollable>modal-dialog-scrollable</#if><#if size?has_content>modal-${size}</#if>"<#if role?has_content> role="${role}"</#if>>
         <div class="modal-content">
             <div class="modal-header">

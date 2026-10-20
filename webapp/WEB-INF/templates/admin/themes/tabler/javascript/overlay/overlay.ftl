@@ -7,7 +7,7 @@ Parameters:
 - label (string, optionnal): the label for the element(s), default : #i18n{portal.util.labelLoading}.
 - id (string, optionnal): the ID selector for the element(s), default : 'loading-overlay'.
 - class (string, optional): the CSS class to add to the element(s), default : 'position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center'.
-- params (string, optional): any attributes to add to the element(s) default 'style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"'.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -24,10 +24,10 @@ Snippet:
     </@overlay>
 
 -->
-<#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center ' params='style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"' attrs={} deprecated...>
+<#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center lutece-overlay' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <!-- Loading overlay -->
-<div<@commonAttrs id=id class=class params=params attrs=attrs />>
+<div<@commonAttrs id=id class=class params=params />>
     <div class="page page-center">
       <div class="container container-slim py-4">
         <div class="text-center">

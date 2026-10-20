@@ -26,8 +26,7 @@ Parameters:
 - required (boolean, optional): sets element as required. Default: false.
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
 - showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the input label (false). Default: true.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Champ check - @cFormCheck"
@@ -56,7 +55,7 @@ Snippet:
     </@cFormCheck>
 
 -->
-<#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' attrs={} deprecated...>
+<#macro cFormCheck name label type button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId = id?has_content?then( id?string, name + '-' + random() ) />
 <#local idMsg = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
@@ -65,7 +64,7 @@ Snippet:
 <#if !button>
 <div class="<#if class='form-check'>form-check<#else> ${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg?has_content> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
 <#if selectionButton><div class="selection-check"></#if>
-    <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value?has_content>value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><@commonAttrs params=params attrs=attrs />>
+    <input type="${type}" id="${cId!}" name="${name!}" class="form-check-input" <#if value?has_content>value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><@commonAttrs params=params />>
     <#local cFCLabel><#if labelClass?has_content><span class="${labelClass}"></#if>${label!}<#if labelClass?has_content></span></#if> <#nested></#local>
     <#local cFCClass>form-check-label<#if labelClass?has_content> ${labelClass}</#if><#if textCenter> w-100 justify-content-center</#if></#local>
     <#local cFCRequired=required />
@@ -78,7 +77,7 @@ Snippet:
 <#if selectionButton && nestedContent?has_content><div class="selection-content">${nestedContent}</div></#if>
 </div>
 <#else>
-    <input type="${type!}" name="${name!}" class="btn-check<#if class?has_content> ${class}</#if><#if errorMsg?has_content> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value?has_content> value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><@commonAttrs params=params attrs=attrs />>
+    <input type="${type!}" name="${name!}" class="btn-check<#if class?has_content> ${class}</#if><#if errorMsg?has_content> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value?has_content> value="${value}"</#if><#if errorMsg?has_content> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><@commonAttrs params=params />>
     <#local cFCClass><#if btnClass?has_content>${btnClass}<#else>btn btn-outline-primary</#if><#if labelClass?has_content> ${labelClass}</#if></#local>
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
@@ -95,8 +94,7 @@ Parameters:
 - legendClass (string, optional): CSS class for the legend. Default: ''.
 - class (string, optional): adds a CSS class to the fieldset. Default: ''.
 - required (boolean, optional): indicates if the fields contained in the fieldset are required. Default: false.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Regroupement check - @cFormCheck"
@@ -114,10 +112,10 @@ Snippet:
     </@cFormCheckGroup>
 
 -->
-<#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params='' attrs={} deprecated...>
+<#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId = id?has_content?then( id?string, 'form-check-group-' + random() ) />
-<@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params attrs=attrs helpMsg=helpMsg required=required >
+<@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params helpMsg=helpMsg required=required >
 <#nested>
 </@cFieldset>
 </#macro>

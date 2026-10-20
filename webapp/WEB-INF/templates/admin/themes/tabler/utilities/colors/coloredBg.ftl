@@ -6,8 +6,7 @@ Parameters:
 - color (string): the color of the background, using a Bootstrap color class (e.g. "primary", "secondary", "success", "info", "warning", "danger", "light", or "dark").
 - type (string, optional): the type of the element to use (e.g. "div", "p", "span", etc.).
 - id (string, optional): the ID of the element.
-- params (string, optional): additional parameters to add to the element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -24,9 +23,9 @@ Snippet:
     </@coloredBg>
 
 -->
-<#macro coloredBg color='' type='p' id='' params='' attrs={} deprecated...>
+<#macro coloredBg color='' type='p' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type} class="bg-${color}"<@commonAttrs id=id params=params attrs=attrs />>
+<${type} class="bg-${color}"<@commonAttrs id=id params=params />>
 	<#nested>
 </${type}>
 </#macro>

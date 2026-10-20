@@ -10,8 +10,7 @@ Parameters:
 - tag (string, optional): the HTML tag to use for the navigation item (default is "li").
 - class (string, optional): the class to use for the navigation item.
 - id (string, optional): the ID to use for the navigation item.
-- params (string, optional): additional parameters to include in the navigation item.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -26,9 +25,9 @@ Snippet:
     </@navItem>
 
 -->
-<#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params='' attrs={} deprecated...>
+<#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="nav-link<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<${tag} class="nav-link<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 	<#if href?has_content >
 		<@link class='nav-link' href=href name=name title=title alt=alt target=target active=active /> 
 	</#if>

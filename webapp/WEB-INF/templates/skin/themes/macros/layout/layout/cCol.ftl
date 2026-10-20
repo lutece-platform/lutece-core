@@ -8,8 +8,7 @@ Parameters:
 - default (string, optional): Fallback CSS class when cols is empty. Default: 'col'.
 - class (string, optional): Additional CSS class(es) for the column. Default: ''.
 - id (string, optional): Unique identifier for the column element. Default: ''.
-- params (string, optional): Additional HTML attributes for the column element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Colonne - @cCol"
@@ -31,14 +30,14 @@ Snippet:
     </@cCol>
 
 -->
-<#macro cCol cols='' default='col' class='' id='' params='' attrs={} deprecated...>
+<#macro cCol cols='' default='col' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if cols?has_content>
     <#local cClass>col-${cols} ${class}</#local> 
 <#else>
     <#local cClass>${default!} ${class}</#local>
 </#if>
-<@cSection type='div' class=cClass id=id params=params attrs=attrs >
+<@cSection type='div' class=cClass id=id params=params >
 <#nested>
 </@cSection>
 </#macro>

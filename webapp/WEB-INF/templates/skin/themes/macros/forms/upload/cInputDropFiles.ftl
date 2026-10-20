@@ -25,7 +25,7 @@ Parameters:
 - errorMsg (string, optional): error message on validation failure. Default: ''.
 - class (string, optional): CSS class for the input. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Upload glisser-déposer - @cInputDropFiles"
@@ -49,7 +49,7 @@ Snippet:
     </@cInputDropFiles>
 
 -->
-<#macro cInputDropFiles name handler={} type='dropzone' icon='upload' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro cInputDropFiles name handler={} type='dropzone' icon='upload' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId = ( id?has_content )?then( ( id!'' )?string, ( name!'' )?string ) />
 <#local fileCount = nbFiles?number />
@@ -65,7 +65,7 @@ Snippet:
         </#if>
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
-                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class?has_content> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg?has_content> aria-describedby="help_${cId}"</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if fileCount gt 0> data-nof="${fileCount}"</#if><#if maxSize gt 0> data-mfs="${maxSize}"</#if><#if accept?has_content> accept="${accept}" data-atf="${accept}"</#if><@commonAttrs params=params attrs=attrs />>
+                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class?has_content> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg?has_content> aria-describedby="help_${cId}"</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if fileCount gt 0> data-nof="${fileCount}"</#if><#if maxSize gt 0> data-mfs="${maxSize}"</#if><#if accept?has_content> accept="${accept}" data-atf="${accept}"</#if><@commonAttrs params=params />>
                  <@cIcon name=icon params={"aria-hidden": "true"} />
                 <p class="flex-1 text-start ms-xs my-0">#i18n{portal.theme.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>

@@ -11,8 +11,7 @@ Parameters:
 - titleLevel (number, optional): Heading level for the header title (1-6). Default: 2.
 - class (string, optional): CSS class(es) applied to the header element. Default: ''.
 - id (string, optional): Unique identifier for the header element. Default: ''.
-- params (string, optional): Additional HTML attributes for the header element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: En-tête - @cHeader
@@ -33,9 +32,9 @@ Snippet:
     </@cHeader>
 
 -->
-<#macro cHeader title='' titleClass='' titleUrl='' titleUrlClass='' titleLevel=2 class='' id='' params='' attrs={} deprecated...>
+<#macro cHeader title='' titleClass='' titleUrl='' titleUrlClass='' titleLevel=2 class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<header <@commonAttrs id=id class=class params=params attrs=attrs /> >
+<header <@commonAttrs id=id class=class params=params /> >
     <#if title?has_content><@cTitle level=titleLevel class=titleClass ><#if titleUrl?has_content><a href="${titleUrl!}"<#if titleUrlClass?has_content> class="${titleUrlClass!}"</#if> title="${title!}"></#if>${title!}<#if titleUrl?has_content></a></#if></@cTitle></#if>
     <#nested>
 </header>

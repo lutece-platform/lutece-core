@@ -11,8 +11,7 @@ Parameters:
 - style (string, optional): the style of the button, such as "btn" or "card-control".
 - align (string, optional): the alignment of the button, such as "left" or "right".
 - class (string, optional): additional CSS classes to apply to the button.
-- params (string, optional): additional HTML parameters to apply to the button element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - title (string, optional): the title of the button.
 - tabIndex (string, optional): the tab index of the button.
 - hideTitle (list, optional): a list of screen reader text to hide the title of the button.
@@ -39,7 +38,7 @@ Snippet:
     </@aButton>
 
 -->
-<#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' attrs={} deprecated...>
+<#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings( hideTitle, 'block' ) />
@@ -56,7 +55,7 @@ Snippet:
 <#if size?starts_with('style') == true ><#local sizeStyle = size /><#else><#local buttonSize = size /></#if>
 <#local classBase = style + buttonSize?has_content?then( ' btn-' + buttonSize, '' ) + color?has_content?then( ' ' + buttonColor, '' ) + dropdownMenu?then( ' btn-action', '' ) />
 <#if dropdownMenu><div class="dropdown"></#if>
-<a<@commonAttrs id=id classBase=classBase class=class classExtra=alignmentSettings( align, '' ) params=params attrs=attrs /><#if name?has_content> name="${name}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+<a<@commonAttrs id=id classBase=classBase class=class classExtra=alignmentSettings( align, '' ) params=params /><#if name?has_content> name="${name}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon?has_content && iconPosition='left'><@icon style=buttonIcon /></#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon?has_content && iconPosition='right'><@icon style=buttonIcon /></#if>

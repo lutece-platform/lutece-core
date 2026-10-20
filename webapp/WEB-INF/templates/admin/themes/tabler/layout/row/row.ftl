@@ -8,8 +8,7 @@ Parameters:
 - id (string, optional): the ID of the row container element.
 - collapsed (boolean, optional): whether the row should be initially collapsed.
 - align (string, optional): the alignment of the row container element (left, right, or center).
-- params (string, optional): additional parameters to be added to the row container element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -35,10 +34,10 @@ Snippet:
     </@row>
 
 -->
-<#macro row class='' id='' collapsed=false align='' params='' attrs={} deprecated...>
+<#macro row class='' id='' collapsed=false align='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) />
-<div<@commonAttrs id=id classBase='row' class=class classExtra=classExtra params=params attrs=attrs />>
+<div<@commonAttrs id=id classBase='row' class=class classExtra=classExtra params=params />>
 <#nested>
 </div>
 </#macro>

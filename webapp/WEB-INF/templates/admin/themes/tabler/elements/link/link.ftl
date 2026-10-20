@@ -9,8 +9,7 @@ Parameters:
 - title (string, optional): the title for the link element.
 - alt (string, optional): the alternative text for the link element.
 - target (string, optional): the target for the link element, e.g., "_blank".
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -31,9 +30,9 @@ Snippet:
     </@link>
 
 -->
-<#macro link href='' class='' id='' name='' label='' linkIcon='' title='' alt='' target='' params='' attrs={} deprecated...>
+<#macro link href='' class='' id='' name='' label='' linkIcon='' title='' alt='' target='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<a href="${href}"<@commonAttrs id=id class=class params=params attrs=attrs /><#if name?has_content> name="${name}"</#if><#if target?has_content> target="${target}"</#if><#if title?has_content> title="${title}"</#if><#if alt?has_content> alt="${alt}"</#if>>
+<a href="${href}"<@commonAttrs id=id class=class params=params /><#if name?has_content> name="${name}"</#if><#if target?has_content> target="${target}"</#if><#if title?has_content> title="${title}"</#if><#if alt?has_content> alt="${alt}"</#if>>
 <#if linkIcon?has_content><@icon style=linkIcon class='me-1' /> </#if><#if label?has_content>${label}<#else><#nested></#if>
 </a>
 </#macro>

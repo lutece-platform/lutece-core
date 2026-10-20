@@ -7,8 +7,7 @@ Parameters:
 - color (string, optional): the color of the error message and button, using a Bootstrap color class (e.g. "danger").
 - errorType (string, required): the type of error, such as "404" or "500".
 - id (string, optional): the ID of the error page container.
-- params (string, optional): additional parameters to be added to the error page container.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -21,11 +20,11 @@ Snippet:
     <@errorPage color='danger' errorType='500' id='server-error' />
 
 -->
-<#macro errorPage color='' errorType='' id='' params='' attrs={} deprecated...>
+<#macro errorPage color='' errorType='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@pageContainer>
 <@pageColumn>
-<div class="error-page"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="error-page"<@commonAttrs id=id params=params />>
 	<h2 class="headline text-${color}">${errorType}</h2>
 	<div class="error-content">
 		<h3>

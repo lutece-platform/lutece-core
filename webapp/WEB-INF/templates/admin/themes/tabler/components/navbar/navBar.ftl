@@ -4,8 +4,7 @@ Parameters:
 - tag (string, optional): the HTML tag to use for the navigation bar (default is "nav").
 - class (string, optional): the class to use for the navigation bar.
 - id (string, optional): the ID to use for the navigation bar.
-- params (string, optional): additional parameters to include in the navigation bar.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -26,9 +25,9 @@ Snippet:
     </@navBar>
 
 -->
-<#macro navBar tag='nav' class='' id='' params='' attrs={} deprecated...>
+<#macro navBar tag='nav' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${tag} class="navbar<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<${tag} class="navbar<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 	<#nested>
 </${tag}>
 </#macro>

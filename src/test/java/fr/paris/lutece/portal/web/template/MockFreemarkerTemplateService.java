@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreTemplateMethod;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService;
+import fr.paris.lutece.portal.service.template.HtmlAttributesMethod;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import jakarta.servlet.ServletContext;
@@ -65,6 +66,7 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
         _strAbsolutePath = strAbsolutePath;
         setSharedVariable( "i18n", new I18nTemplateMethod( ) );
         setSharedVariable( "dskey", new DatastoreTemplateMethod( ) );
+        setSharedVariable( "htmlAttributes", new HtmlAttributesMethod( true ) );
         setTemplateAutoEscape( true );
     }
 

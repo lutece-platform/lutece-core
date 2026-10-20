@@ -8,8 +8,7 @@ Parameters:
 - rowCols (string, optional): Number of columns per row for deck layout. Default: ''.
 - class (string, optional): Additional CSS class(es) for the grid container. Default: ''.
 - id (string, optional): The unique identifier for the card layout. Default: ''.
-- params (string, optional): Additional HTML attributes for the card layout. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Layout carte - @cCardLayout
@@ -35,17 +34,18 @@ Snippet:
     </@cCardLayout>
 
 -->
-<#macro cCardLayout type='group' rowCols='' class='' id='' params='' attrs={} deprecated...>
+<#macro cCardLayout type='group' rowCols='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local cParams = params />
 <#if type == 'group'>
     <#local cClass = 'row g-0' />
 <#elseif type == 'deck'>
     <#local cClass>row g-4 row-cols-${rowCols!} ${class!}</#local>
 <#elseif type == 'columns'>
-    <#local cParams>data-masonry='{"percentPosition": true }' ${params?no_esc}</#local>
+    <#local cParams = params + { 'data-masonry': '{"percentPosition": true }' } />
     <#local cClass>row ${class!}</#local>
 </#if>
-<@cBlock class=cClass id=id params=cParams attrs=attrs>
+<@cBlock class=cClass id=id params=cParams>
 <#nested>
 </@cBlock>
 <#if type == 'columns'>

@@ -6,8 +6,7 @@ Description: Generates an HTML <thead> element with an optional ID, class, and a
 Parameters:
 - id (string, optional): the ID of the <thead> element.
 - class (string, optional): the class of the <thead> element.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -31,9 +30,9 @@ Snippet:
     </@tableHead>
 
 -->
-<#macro tableHead id='' class='' params='' attrs={} deprecated...>
+<#macro tableHead id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<thead<@commonAttrs id=id class=class params=params attrs=attrs />>
+<thead<@commonAttrs id=id class=class params=params />>
 <#nested>
 </thead>
 </#macro>

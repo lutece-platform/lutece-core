@@ -32,7 +32,6 @@ Parameters:
  - errorMsg - string - optional - permet de définir le message d'erreur du champs
  - hideErrorMsg - boolean - optional - true permet de masquer le message d'erreur du champs si jamais il est afficher par exemple par le fieldset
  - params - string - optional - permet d'ajouter des parametres HTML au champs de formulaire
- - attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Champ texte - @cInput"
@@ -58,13 +57,13 @@ Snippet:
     <@cInput name='quantity' type='number' min=1 max=100 value='1' />
 
 -->
-<#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=false disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params='' attrs={} deprecated...>
+<#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=false disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local hasError = (errorMsg != '')>
 <#assign idMsg = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
 <#local errorClass = ( hideErrorMsg )?then( 'visually-hidden', '' ) />
-<input type="${type!}" class="<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder?has_content> placeholder="${placeholder!}"<#if ariaLabel?has_content> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params attrs=attrs /><#if pattern?has_content> pattern="${pattern}"</#if><#if accept?has_content> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId?has_content> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
+<input type="${type!}" class="<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder?has_content> placeholder="${placeholder!}"<#if ariaLabel?has_content> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params /><#if pattern?has_content> pattern="${pattern}"</#if><#if accept?has_content> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId?has_content> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
 <#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
 <#if errorMsg?has_content && errorMsg !='_error'><@cFormError idMsg errorMsg errorClass /></#if>
 <#nested>

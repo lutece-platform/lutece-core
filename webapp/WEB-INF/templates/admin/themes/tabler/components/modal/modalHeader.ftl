@@ -4,8 +4,7 @@ Parameters:
 - titleLevel (string, optional): the HTML heading level for the modal title (default is "h4").
 - modalTitle (string, optional): the text content of the modal title.
 - id (string, optional): the ID of the modal header.
-- params (string, optional): additional attributes to add to the modal header, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -20,9 +19,9 @@ Snippet:
     </@modalHeader>
 
 -->
-<#macro modalHeader titleLevel='h4' modalTitle='' id='' params='' attrs={} deprecated...>
+<#macro modalHeader titleLevel='h4' modalTitle='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal-header"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="modal-header"<@commonAttrs id=id params=params />>
 	<${titleLevel} class="modal-title fs-2">${modalTitle}</${titleLevel}>
 	<#nested>
 	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>

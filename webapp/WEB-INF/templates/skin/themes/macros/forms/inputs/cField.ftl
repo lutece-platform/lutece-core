@@ -12,8 +12,7 @@ Parameters:
 - required (boolean, optional): marks the field as required with an asterisk. Default: false.
 - class (string, optional): adds a CSS class to the field container. Default: 'mb-3'.
 - id (string, optional): the ID of the field container. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Champ de formulaire - @cField"
@@ -40,9 +39,9 @@ Snippet:
     </@cField>
 
 -->
-<#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='' id='' params='' attrs={} >
-<#local hasWrapper = class?has_content || id?has_content || params?has_content || attrs?has_content />
-<#if hasWrapper><div<@commonAttrs id=id class=class params=params attrs=attrs />></#if>
+<#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='' id='' params={} >
+<#local hasWrapper = class?has_content || id?has_content || params?has_content />
+<#if hasWrapper><div<@commonAttrs id=id class=class params=params />></#if>
 <#if label?has_content><#local fieldLabel>${label!} ${labelData!}</#local><@cLabel label=fieldLabel class=labelClass for=for showLabel=showLabel required=required /></#if>
 <#assign propagateRequired = required><#nested><#assign propagateRequired = false>
 <#if hasWrapper></div></#if>

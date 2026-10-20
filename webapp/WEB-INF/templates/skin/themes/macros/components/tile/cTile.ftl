@@ -19,8 +19,7 @@ Parameters:
 - tooltipPos (string, optional): tooltip placement when `tooltip` is true. Accepted values: 'top', 'bottom', 'left', 'right'. Default: 'top'.
 - class (string, optional): additional CSS classes applied to the tile container. Default: ''.
 - id (string, optional): unique identifier for the tile container. Default: ''.
-- params (string, optional): additional HTML attributes for the tile container. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Tuile - @cTile
@@ -65,16 +64,16 @@ Snippet:
     </@cRow>
 
 -->
-<#macro cTile title url level=3 target='' detail='' imgName='' badge='' badgeClass='' horizontal=false download=false tooltip=false tooltipPos='top' disabled=false class='' id='' params='' attrs={} deprecated...>
+<#macro cTile title url level=3 target='' detail='' imgName='' badge='' badgeClass='' horizontal=false download=false tooltip=false tooltipPos='top' disabled=false class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if title?has_content && url?has_content>
 <#local r=random() />
 <#local tileLevel = ( level=1 )?then( '2', ( level!'' )?string ) />
 <#local tileLinkClass>tile-link<#if disabled> disabled</#if></#local>
 <#local tileClass>tile<#if class?has_content> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
-<#local tileDownload = ( download )?then( ' download', '' ) />
+<#local tileDownload = download?then( { 'download': true }, {} ) />
 <#local tileTarget = ( download )?then( '', ( target!'' )?string ) />
-<#local tileparams><@commonAttrs params=params attrs=attrs /><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title} - ${detail}"</#if></#local>
+<#local tileparams = params + tooltip?then( { 'data-bs-toggle': 'tooltip', 'data-bs-custom-class': 'custom-tooltip', 'data-bs-placement': tooltipPos, 'data-bs-title': title + ' - ' + detail }, {} ) />
 <@cBlock class=tileClass id=id params=tileparams>
 	<#if imgName?has_content>
 	<@cBlock class='tile-header'>

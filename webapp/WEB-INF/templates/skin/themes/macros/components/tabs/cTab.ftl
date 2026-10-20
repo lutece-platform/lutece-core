@@ -10,7 +10,7 @@ Parameters:
 - navigation (boolean, optional): Whether to render as a list item (li > a) instead of a button. Default: false.
 - disabled (boolean, optional): Whether the tab is disabled. Default: false.
 - class (string, optional): Additional CSS classes. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -33,7 +33,7 @@ Snippet:
     </@cTab>
 
 -->
-<#macro cTab url id='' active=false navigation=false disabled=false class='' params='' deprecated...>
+<#macro cTab url id='' active=false navigation=false disabled=false class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if navigation>
 <li class="nav-item" role="presentation">

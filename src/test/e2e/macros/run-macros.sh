@@ -29,18 +29,21 @@ find "${WORK}/reference" -mindepth 1 -delete
 git -C "${PROJECT}" archive "${REF}" webapp/WEB-INF/templates | tar -x -C "${WORK}/reference"
 
 python3 "${HERE}/gen-calls.py" "${WORK}/reference/webapp/WEB-INF/templates" > "${WORK}/calls.jsonl"
+python3 "${HERE}/params-to-map.py" "${WORK}/calls.jsonl" > "${WORK}/calls-map.jsonl"
 javac -d "${WORK}/classes" -cp "${FREEMARKER_JAR}" "${HERE}/MacroHarness.java"
 
 for side in reference current; do
     templates="${WORK}/reference/webapp/WEB-INF/templates"
     mode="${REF_MODE}"
+    calls="${WORK}/calls.jsonl"
     if [ "${side}" = current ]; then
         templates="${PROJECT}/webapp/WEB-INF/templates"
         mode="${CUR_MODE}"
+        calls="${WORK}/calls-map.jsonl"
     fi
     mkdir -p "${WORK}/${side}-${mode}"
     find "${WORK}/${side}-${mode}" -mindepth 1 -delete
-    java -cp "${WORK}/classes:${FREEMARKER_JAR}:${CORE_CLASSES}:${COMMONS_JARS}" MacroHarness "${templates}" "${WORK}/calls.jsonl" "${WORK}/${side}-${mode}" "${mode}"
+    java -cp "${WORK}/classes:${FREEMARKER_JAR}:${CORE_CLASSES}:${COMMONS_JARS}" MacroHarness "${templates}" "${calls}" "${WORK}/${side}-${mode}" "${mode}"
 done
 
 python3 "${HERE}/compare-macros.py" "${WORK}/reference-${REF_MODE}" "${WORK}/current-${CUR_MODE}"

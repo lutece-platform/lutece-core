@@ -8,8 +8,7 @@ Parameters:
 - items (list, required): List of breadcrumb items, each with 'title' and 'url' attributes. Default: ''.
 - class (string, optional): Additional CSS class(es) for the breadcrumb nav. Default: ''.
 - type (string, optional): If 'fluid', the breadcrumb spans the full page width. Default: ''.
-- params (string, optional): Additional HTML attributes for the breadcrumb nav element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Fil d'ariane - @cBreadCrumb"
@@ -30,9 +29,9 @@ Snippet:
     ] />
 
 -->
-<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' containerClass='' listClass='' type='' params='' attrs={} deprecated...>
+<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' containerClass='' listClass='' type='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class?has_content> ${class!}</#if>"<@commonAttrs params=params attrs=attrs />>
+<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class?has_content> ${class!}</#if>"<@commonAttrs params=params />>
 	<div class="container<#if type='fluid'>-fluid</#if><#if containerClass?has_content> ${containerClass!}</#if> rounded">
 		<ol class="breadcrumb<#if listClass?has_content> ${listClass!}</#if>">
         <#if home?has_content>

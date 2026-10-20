@@ -11,7 +11,7 @@ Parameters:
 - class (string, optional): CSS classes for the title column. Default is 'col-md-4 col-lg-5'.
 - toolsClass (string, optional): additional CSS classes for the tools container.
 - responsiveHeader (boolean, optional): if true, the header layout switches to column direction on small screens. Default is false.
-- params (string, optional): additional HTML attributes for the header element.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -33,7 +33,7 @@ Snippet:
     </@pageHeader>
 
 -->
-<#macro pageHeader id='' title='' titleClass='mb-1' description='' breadcrumb='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
+<#macro pageHeader id='' title='' titleClass='mb-1' description='' breadcrumb='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader> flex-column flex-md-row</#if><#if titleClass?has_content> ${titleClass!}</#if>">
 	<div class="col-12<#if class?has_content> ${class}</#if>">

@@ -4,7 +4,7 @@
 		     <@tform method='post' type='inline'>
 				<@formGroup labelFor='search_daemon' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
-						<@input type='text' name='search_daemon' id='search_daemon' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' attrs={'autocomplete': "off", 'addons': true} />
+						<@input type='text' name='search_daemon' id='search_daemon' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' autoComplete='off' />
 						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>
@@ -35,7 +35,7 @@
 							<@input type='hidden' name='token' value='${token}' />
 							<@formGroup labelFor='interval' labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' class='d-inline-flex align-items-center' labelClass='me-2 mb-0'>
 								<@inputGroup>
-									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' attrs={'addons': true} />
+									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm'  />
 									<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
 								</@inputGroup> 
 							</@formGroup>
@@ -48,7 +48,7 @@
 							<@input type='hidden' name='token' value='${token}' />
 							<@formGroup labelFor='cron'  labelKey='#i18n{portal.system.manage_daemons.columnTitleCron}' class='d-inline-flex align-items-center' labelClass='me-2 mb-0'>								
 								<@inputGroup>
-									<@input type='text' name='cron' id='cron' value='${(daemon.cron)!}' size='sm' attrs={'addons': true} />
+									<@input type='text' name='cron' id='cron' value='${(daemon.cron)!}' size='sm'  />
 									<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateCron}' name='action' value='UPDATE_CRON' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
 								</@inputGroup>
 							</@formGroup>

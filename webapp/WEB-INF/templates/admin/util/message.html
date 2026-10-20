@@ -3,12 +3,7 @@
 <@div class='d-flex justify-content-center align-items-center'>
 <#if message.cancel>
     <#if url?has_content>
-        <#if target?has_content>
-            <#assign params>target="${target}" style="margin-bottom: 0"</#assign>
-        <#else>
-            <#assign params>target="${target}" style="margin-bottom: 0"</#assign>
-        </#if>
-        <@tform type='form' action=url params=params>
+        <@tform type='form' action=url class='mb-0' params=( target!'' )?has_content?then( { 'target': target }, {} )>
             <#if list_parameters?exists>
                 <#assign keys = list_parameters?keys>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
@@ -29,8 +24,7 @@
 <#else>
     <#if url?has_content>
 	    <#if url !="javascript:history.go(-1)">
-           <#assign params>target="${target}"</#assign>
-           <@tform action=url params=params>
+           <@tform action=url params=( target!'' )?has_content?then( { 'target': target }, {} )>
                <#if list_parameters?exists>
                    <#assign keys = list_parameters?keys>
                    <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>

@@ -16,8 +16,7 @@ Parameters:
 - collapsedClass (string, optional): CSS class applied to the mobile accordion body. Default: ''.
 - class (string, optional): additional CSS class on the `<table>`. Default: ''.
 - id (string, optional): the ID of the `<table>` and the seed for the accordion variant. **WARNING**: the default 'changeme' triggers a duplicate-ID risk warning — always set a unique id when using `cTableResponsive`. Default: 'changeme'.
-- params (string, optional): additional HTML attributes for the `<table>`. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -56,11 +55,11 @@ Snippet:
     </@cTable>
 
 -->
-<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' attrs={} deprecated...>
+<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- ATTENTION : Risque de duplication d'id ! --></#if>
 <div class="<#if id?has_content>d-none d-md-block </#if>table-responsive<#if breakpoint?has_content>${breakpoint}</#if>">
-<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class?has_content> ${class}</#if>"<#if summary?has_content> summary="${summary!}"</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class?has_content> ${class}</#if>"<#if summary?has_content> summary="${summary!}"</#if><@commonAttrs id=id params=params /> >
 <#if caption?has_content> <caption class="visually-hidden">${caption!}</caption></#if>
 <#nested>
 </table>

@@ -7,8 +7,7 @@ Parameters:
 - level (number, optional): Heading level from 1 to 6. Default: 1.
 - id (string, optional): Unique identifier for the heading element. Default: ''.
 - class (string, optional): CSS class(es) applied to the heading element. Default: ''.
-- params (string, optional): Additional HTML attributes for the heading element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Titre - @cTitle
@@ -31,9 +30,9 @@ Snippet:
     <@cTitle level=3>Contact Information</@cTitle>
 
 -->
-<#macro cTitle level=1 id='' class='' params='' attrs={} deprecated...>
+<#macro cTitle level=1 id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<h${level}<@commonAttrs id=id class=class params=params attrs=attrs />>
+<h${level}<@commonAttrs id=id class=class params=params />>
 <#nested/>
 </h${level}>
 </#macro>

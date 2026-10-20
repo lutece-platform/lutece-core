@@ -24,8 +24,7 @@ Parameters:
 - required (boolean, optional): sets element as required. Default: false.
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
 - showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the checkbox label (false). Default: true.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Case à cocher - @cCheckbox"
@@ -52,9 +51,9 @@ Snippet:
     <@cCheckbox name='subscribe' label='Subscribe' type='button' btnClass='btn btn-outline-primary' />
 
 -->
-<#macro cCheckbox name label type='checkbox' class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' attrs={} deprecated...>
+<#macro cCheckbox name label type='checkbox' class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params attrs=attrs inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel />
+<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel />
 </#macro>
 <#--
 Macro: cCheckboxList
@@ -81,8 +80,7 @@ Parameters:
 - checked (boolean, optional): checks the element. Default: false.
 - required (boolean, optional): sets element as required. Default: false.
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -93,9 +91,9 @@ Snippet:
     </@cCheckboxList>
 
 -->
-<#macro cCheckboxList name label  type='checkbox' class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true params='' attrs={} deprecated...>
+<#macro cCheckboxList name label  type='checkbox' class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params attrs=attrs inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel>
+<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel>
 <#nested>
 </@cFormCheck>
 </#macro>

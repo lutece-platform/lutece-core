@@ -8,8 +8,7 @@ Parameters:
 - type (string, optional): Layout type ('vertical' for stacked). Default: ''.
 - class (string, optional): Additional CSS class(es) for the toolbar. Default: ''.
 - id (string, optional): The unique identifier for the toolbar. Default: ''.
-- params (string, optional): Additional HTML attributes for the toolbar. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Barre d'outils - @cBtnToolbar
@@ -35,10 +34,10 @@ Snippet:
     </@cBtnToolbar>
 
 -->
-<#macro cBtnToolbar label type='' class='' id='' params='' attrs={} deprecated...>
+<#macro cBtnToolbar label type='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-toolbar<#if type='vertical'>-vertical</#if><#if class?has_content> ${class}</#if></#local>
-<@cSection type='div' class=btnClass id=id params=params attrs={'role': 'toolbar', 'aria-label': label} + attrs>
+<@cSection type='div' class=btnClass id=id params=params + {'role': 'toolbar', 'aria-label': label}>
     <#nested>
 </@cSection>
 </#macro>

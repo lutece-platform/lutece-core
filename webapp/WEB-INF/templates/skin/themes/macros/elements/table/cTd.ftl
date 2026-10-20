@@ -11,8 +11,7 @@ Parameters:
 - role (string, optional): ARIA role for the table cell. Default: ''.
 - colspan (string, optional): Number of columns the cell should span. Default: ''.
 - nospan (boolean, optional): If true, omits the inner span wrapper around the cell content. Default: false.
-- params (string, optional): Additional HTML attributes for the table cell. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -32,9 +31,9 @@ Snippet:
     </@cTr>
 
 -->
-<#macro cTd id='' class='' scope='' headers='' role='' colspan='' nospan=false params='' attrs={} deprecated...>
+<#macro cTd id='' class='' scope='' headers='' role='' colspan='' nospan=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<td<#if scope?has_content> scope="${scope!}"</#if><#if colspan?has_content> colspan="${colspan!}"</#if><#if headers?has_content> headers="${headers!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs /><#if role?has_content> role="${role!}"</#if>>
+<td<#if scope?has_content> scope="${scope!}"</#if><#if colspan?has_content> colspan="${colspan!}"</#if><#if headers?has_content> headers="${headers!}"</#if><@commonAttrs id=id class=class params=params /><#if role?has_content> role="${role!}"</#if>>
 <#if !nospan><span><#nested></span><#else><#nested></#if>
 </td>
 </#macro>

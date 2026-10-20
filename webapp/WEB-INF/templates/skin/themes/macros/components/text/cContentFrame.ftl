@@ -10,8 +10,7 @@ Parameters:
 - titleClass (string, optional): Additional CSS classes for the title element. Default: ''.
 - contentClass (string, optional): Additional CSS classes for the content wrapper. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Mise en avant - @cContentFrame
@@ -32,9 +31,9 @@ Snippet:
     </@cContentFrame>
 
 -->
-<#macro cContentFrame title class='content-frame-primary' titleLevel=2 titleClass='' contentClass='' id='' params='' attrs={} deprecated...>
+<#macro cContentFrame title class='content-frame-primary' titleLevel=2 titleClass='' contentClass='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="content-frame ${class}" <@commonAttrs id=id params=params attrs=attrs /> >
+<div class="content-frame ${class}" <@commonAttrs id=id params=params /> >
 <#if title?? && title?has_content><@cTitle level=titleLevel class='h4 content-frame-title ${titleClass}'>${title}</@cTitle></#if>
 <div class="content-frame-content<#if contentClass?has_content> ${contentClass}</#if>"><#nested></div>
 </div>

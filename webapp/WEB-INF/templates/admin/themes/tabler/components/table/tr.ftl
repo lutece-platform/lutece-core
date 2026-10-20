@@ -8,8 +8,7 @@ Parameters:
 - class (string, optional): the class of the <tr> element.
 - hide (string[], optional): an array of breakpoint names at which to hide the table row.
 - align (string, optional): the horizontal alignment of the table cell contents.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -28,9 +27,9 @@ Snippet:
     </@tr>
 
 -->
-<#macro tr id='' class='' hide=[] params='' attrs={} deprecated...>
+<#macro tr id='' class='' hide=[] params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tr<@commonAttrs id=id class=class classExtra=displaySettings( hide, 'table-cell' ) params=params attrs=attrs />>
+<tr<@commonAttrs id=id class=class classExtra=displaySettings( hide, 'table-cell' ) params=params />>
 	<#nested>
 </tr>
 </#macro>

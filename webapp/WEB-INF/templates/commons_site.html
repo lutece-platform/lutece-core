@@ -6,7 +6,7 @@
 -->
 <#-- Do not remove this comment -->
 <#macro comboSiteWithParams name default_value additionalParameters items >
-<select class="form-select" id="${name}" name="${name}" ${additionalParameters?no_esc} >
+<select class="form-select" id="${name}" name="${name}"${htmlAttributes( {}, additionalParameters )}>
 <#list items as item>
 <#if default_value="${item.code}">
 	<option selected="selected" value="${item.code}" >${item.name}</option>
@@ -17,7 +17,7 @@
 </select>
 </#macro>
 <#macro comboSiteSortedWithParams name default_value additionalParameters items >
-<select class="form-select" id="${name}" name="${name}" ${additionalParameters?no_esc} >
+<select class="form-select" id="${name}" name="${name}"${htmlAttributes( {}, additionalParameters )}>
 <#list items?sort_by("name") as item>
 <#if default_value="${item.code}">
 <option selected="selected" value="${item.code}" >${item.name}</option>
@@ -28,7 +28,7 @@
 </select>
 </#macro>
 <#macro comboSiteWithParamsAndLength name default_value additionalParameters items max_length >
-<select class="form-select" id="${name}" name="${name}" ${additionalParameters?no_esc} >
+<select class="form-select" id="${name}" name="${name}"${htmlAttributes( {}, additionalParameters )}>
 <#list items as item>
 <#if max_length < item.name?length ><#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" ><#else><#assign item_new = "${item.name}"></#if>
 <#if default_value="${item.code}">
@@ -40,7 +40,7 @@
 </select>
 </#macro>
 <#macro comboSite name default_value items >
-<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters={} items=items />
 </#macro>
 <#macro comboSiteSorted name default_value items >
 <@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
@@ -332,8 +332,7 @@
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
 <div class="mb-3">
 	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
-	<#assign params = "class='" + cssClass + "'" >
-	<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
+	<@comboWithParams name=inputName items=items default_value=value additionalParameters={'class': cssClass} />
 	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 </div>
 </#macro>

@@ -11,8 +11,7 @@ Parameters:
 - animation (boolean, optional): Whether toast animations are enabled. Default: true.
 - duration (number, optional): Display duration of toasts in milliseconds (0 for persistent). Default: 2000.
 - triggerId (string, optional): ID of the trigger element (e.g., a button) to show toasts on click. Default: ''.
-- params (string, optional): Additional HTML attributes for the container. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -29,10 +28,10 @@ Snippet:
     </@cInitToast>
 
 -->
-<#macro cInitToast class='' id='' position='position-fixed' showAll=true animation=true duration=2000 triggerId='' params='' attrs={} deprecated...>
+<#macro cInitToast class='' id='' position='position-fixed' showAll=true animation=true duration=2000 triggerId='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if duration?number == 0><#assign autohide=false ><#else><#assign autohide=true ></#if>
-<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=params attrs=attrs + position?has_content?then( { 'style': position }, { } ) />>
+<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=params />>
 <#nested>
 </div>
 <script>
@@ -80,8 +79,7 @@ Parameters:
 - dismiss (boolean, optional): Whether to display a close button. Default: true.
 - class (string, optional): Additional CSS classes for the toast. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Notification toast - @cToast
@@ -103,9 +101,9 @@ Snippet:
     <@cToast title='New message' content='You have a new notification.' imgUrl='images/avatar.png' delay=0 />
 
 -->
-<#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' attrs={} deprecated...>
+<#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<@commonAttrs id=id params=params attrs=attrs /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true">
+<div<@commonAttrs id=id params=params /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true">
   <#if title?has_content>
     <div class="toast-header">
       <#if imgUrl?has_content><img src="${imgUrl}" class="rounded me-2"></#if>

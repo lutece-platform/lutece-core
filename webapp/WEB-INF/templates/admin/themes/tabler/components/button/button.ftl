@@ -10,8 +10,7 @@ Parameters:
 - color (string, optional): the color of the button.
 - style (string, optional): the style of the button.
 - class (string, optional): additional CSS classes to add to the button.
-- params (string, optional): additional parameters to add to the button.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - value (string, optional): the value attribute of the button.
 - title (string, optional): the title attribute of the button.
 - tabIndex (string, optional): the tab index of the button.
@@ -52,7 +51,7 @@ Snippet:
     <@button type='submit' buttonIcon='send' title='Submit form' color='primary' disabled=true hideTitle=['xs','sm'] />
 
 -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' value='' title='' tooltip='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''  params='' attrs={} deprecated...>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' value='' title='' tooltip='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''  params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
@@ -102,7 +101,7 @@ Snippet:
 	</#if>
 	<#local classBase = ( style != 'close' )?then( 'btn', '' ) + dropdownMenu?then( '-link', '' ) + buttonSize?has_content?then( ' btn-' + buttonSize, '' ) + ( buttonColor?has_content && !dropdownMenu )?then( ' btn-' + buttonColor, '' ) + ( btnStyle?? && btnStyle?has_content )?then( ' ' + btnStyle!, '' ) + dropdownMenu?then( ' btn-action', '' ) />
 	<#if dropdownMenu><div class="dropdown"></#if>
-	<button<@commonAttrs id=id classBase=classBase class=class params=params attrs=attrs /> type="${type}"<#if tooltip?has_content> title="${tooltip}"<#elseif title?has_content> title="${title}"</#if><#if name?has_content> name="${name}"</#if><#if value?has_content> value="${value}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction?has_content><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId?has_content> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId?has_content> form="${formId}"</#if>>
+	<button<@commonAttrs id=id classBase=classBase class=class params=params /> type="${type}"<#if tooltip?has_content> title="${tooltip}"<#elseif title?has_content> title="${title}"</#if><#if name?has_content> name="${name}"</#if><#if value?has_content> value="${value}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction?has_content><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId?has_content> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId?has_content> form="${formId}"</#if>>
 		<#if buttonIcon?has_content && iconPosition='left'>
 			<#if buttonIcon?starts_with('<svg')>
 				${buttonIcon!}

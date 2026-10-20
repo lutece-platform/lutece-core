@@ -29,7 +29,7 @@ Snippet:
     <@initToolTip options='placement: "bottom", html: true' />
 
 -->
-<#macro initToolTip class='' id='' options='' autohide=false animation=true duration=2000 params='' deprecated...>
+<#macro initToolTip class='' id='' options='' autohide=false animation=true duration=2000 params={} deprecated...>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')

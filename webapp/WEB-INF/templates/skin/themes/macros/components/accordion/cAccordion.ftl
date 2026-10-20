@@ -19,8 +19,7 @@ Parameters:
 - border (boolean, optional): If true, a border is added to the accordion. Default: false.
 - state (boolean, optional): If true, the accordion is expanded by default. Default: true.
 - hasCollapse (boolean, optional): If true, shows the collapse toggle icon. Default: true.
-- params (string, optional): Additional HTML attributes for the accordion. Default: ‘’.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Accordéon - @cAccordion
@@ -76,14 +75,14 @@ Snippet:
     </@cAccordion>
 
 -->
-<#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' attrs={} deprecated...>
+<#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local iconType = class?contains('danger')?then( 'danger', class?contains('warning')?then( 'warning', class?contains('success')?then( 'success', 'info' ) ) ) />
 <#local accordionRole = ( class?contains('danger') || class?contains('warning') )?then( 'alert', 'status' ) />
 <div class="accordion" id="acc${id!}" <#if class?contains('outline')>role="${accordionRole}"</#if> >
-    <div class="card ${class!}<#if border> with-border</#if><#if subTitle?has_content> with-subtitle</#if>"<@commonAttrs params=params attrs=attrs />>
+    <div class="card ${class!}<#if border> with-border</#if><#if subTitle?has_content> with-subtitle</#if>"<@commonAttrs params=params />>
         <#local cardTitleClass>card-header m-0<#if !state> collapsed</#if></#local>
-        <#local titleParams>data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" <#if hasCollapse>aria-expanded="<#if state>true<#else>false</#if></#if>" aria-controls="collapseAcc${id}"</#local>
+        <#local titleParams = { 'data-bs-toggle': 'collapse', 'data-bs-target': '#collapseAcc' + id, 'aria-controls': 'collapseAcc' + id } + hasCollapse?then( { 'aria-expanded': state?c }, {} ) />
         <@cTitle level=titleLevel class=cardTitleClass params=titleParams>
             <button class="btn btn-link btn-header-accordion w-100<#if iconType != 'info'> main-${iconType}-color-text</#if>" type="button" data-bs-toggle="collapse" data-show-label="${btnShowLabel}" data-hide-label="${btnHideLabel}" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-labelledby="headingAcc${id}">
             <span class="d-flex<#if !class?contains('outline') && !header?has_content> flex-column<#else> align-items-center</#if> flex-1">

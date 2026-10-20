@@ -8,8 +8,7 @@ Parameters:
 - titleLevel (number, optional): Heading level for the footer title (1-6). Default: 2.
 - class (string, optional): CSS class(es) applied to the footer element. Default: ''.
 - id (string, optional): Unique identifier for the footer element. Default: ''.
-- params (string, optional): Additional HTML attributes for the footer element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Pied de page - @cFooter
@@ -30,9 +29,9 @@ Snippet:
     </@cFooter>
 
 -->
-<#macro cFooter title='' titleLevel=2 class='' id='' params='' attrs={} deprecated...>
+<#macro cFooter title='' titleLevel=2 class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<footer<@commonAttrs id=id class=class params=params attrs=attrs /> >
+<footer<@commonAttrs id=id class=class params=params /> >
     <#if title?has_content><@cTitle level=titleLevel>${title}</@cTitle></#if>
     <#nested>
 </footer>

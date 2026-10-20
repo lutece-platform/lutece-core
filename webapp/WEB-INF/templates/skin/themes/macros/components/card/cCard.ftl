@@ -31,8 +31,7 @@ Parameters:
 - vcolsInit (number, optional): Initial column size for smallest screens (0 disables responsive). Default: 12.
 - vcols (object, optional): Column ratio between image and content for horizontal layout. Default: [4,8].
 - hoverEffect (boolean, optional): If true, adds a hover effect on the card image. Default: true.
-- params (string, optional): Additional HTML attributes for the card. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Carte - @cCard
@@ -56,10 +55,10 @@ Snippet:
     </@cCard>
 
 -->
-<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' attrs={} deprecated...>
+<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if orientation='v'>
-<div class="card ${class!}"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="card ${class!}"<@commonAttrs id=id params=params />>
     <#if header?has_content>
     <div class="card-header<#if headerClass?has_content> ${headerClass}</#if><#if headerImg?has_content> card-header-img</#if>"<#if headerImg?has_content> style="background-image:url('${cssUrl(headerImg)}');"</#if>>
     <#if headerLabelClass?has_content><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
@@ -84,7 +83,7 @@ Snippet:
     <#if footer?has_content><div class="card-footer text-muted<#if footerClass?has_content> ${footerClass}</#if>">${footer!}</div></#if>
 </div>
 <#else>
-<div class="card ${class!}"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="card ${class!}"<@commonAttrs id=id params=params />>
 	<@cRow class='m-0'>
 		<#if img?has_content>
 			<div class="<#if vcolsInit gt 0>col-${vcolsInit} col-md-${vcols[0]}<#else>col-${vcols[0]}</#if> ${imgClass} p-0">

@@ -9,8 +9,7 @@ Parameters:
 - fragment (string, optional): URL fragment appended to pagination links (e.g., anchor id). Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Pagination - @cPagination
@@ -28,9 +27,9 @@ Snippet:
     <@cPagination paginator=paginator fragment='results' label='Search results pagination' />
 
 -->
-<#macro cPagination paginator label='Pagination' fragment='' class='' id='' params='' attrs={} deprecated...>
+<#macro cPagination paginator label='Pagination' fragment='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="${label!}" <@commonAttrs id=id class=class params=params attrs=attrs /> >
+<nav aria-label="${label!}" <@commonAttrs id=id class=class params=params /> >
 <#if (paginator.pagesCount > 1) >
 	<@cPaginationLinks paginator=paginator class=class fragment=fragment />
 </#if>

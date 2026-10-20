@@ -5,8 +5,7 @@ Description: Generates a dropdown menu list element with a specified ID and addi
 
 Parameters:
 - id (string, optional): the ID for the dropdown menu list.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -20,9 +19,9 @@ Snippet:
     </@dropdownList>
 
 -->
-<#macro dropdownList id='' params='' attrs={} deprecated...>
+<#macro dropdownList id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="dropdown-menu"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="dropdown-menu"<@commonAttrs id=id params=params />>
 <#nested>
 </div>
 </#macro>

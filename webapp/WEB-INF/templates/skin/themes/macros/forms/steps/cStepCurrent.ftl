@@ -28,8 +28,7 @@ Parameters:
 - hasSteps (boolean, optional): displays step number in the header. Default: true.
 - hasMandatory (boolean, optional): adds mandatory field warnings. Default: true.
 - class (string, optional): CSS class for the step section. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Étape courante - @cStepCurrent"
@@ -57,10 +56,10 @@ Snippet:
     </@cStepCurrent>
 
 -->
-<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' attrs={} deprecated...>
+<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass = ( !showTitle )?then( ' step-no-title', '' ) />
-<@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params attrs=attrs >
+<@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params >
 <#if showTitle>
 <@cBlock class='step-title'>
 	<@cContainer>
@@ -93,31 +92,31 @@ Snippet:
 		<@cBlock class='step-current-toolbar d-flex justify-content-center justify-content-sm-end'>
 			<@chList class='list-unstyled d-flex justify-content-end flex-column flex-sm-row align-items-center mt-0 me-xs'>
 			<#if actionPrevStep?has_content && showPrevStep >
-				<#assign paramsPrevStep> name="${actionPrevStep}" formnovalidate<#if titlePrevStep?has_content> title="${titlePrevStep}"</#if></#assign>
+				<#assign paramsPrevStep = { 'name': actionPrevStep, 'formnovalidate': true } + titlePrevStep?has_content?then( { 'title': titlePrevStep }, {} ) />
 				<@chItem>
 					<@cBtn class='tertiary ms-sm' id=actionPrevStep params=paramsPrevStep label=labelPrevStep />
 				</@chItem>
 			</#if> 
 			<#if actionSaveForBackUpStep?has_content>
-				<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep?has_content> title="${titleSaveForBackUpStep}"</#if></#assign>
+				<#assign paramsSaveForBackUpStep = { 'name': actionSaveForBackUpStep, 'formnovalidate': true } + titleSaveForBackUpStep?has_content?then( { 'title': titleSaveForBackUpStep }, {} ) />
 				<@chItem>
 					<@cBtn class='tertiary ms-sm' id=actionSaveForBackUpStep params=paramsSaveForBackUpStep label='#i18n{portal.theme.labelSaveStep}' />
 				</@chItem>
 			</#if>
 			<#if actionResetBackUpStep?has_content>    
-				<#assign paramsResetBackUpStep> name="${actionResetBackUpStep}" formnovalidate<#if titleResetBackUpStep?has_content> title="${titleResetBackUpStep}"</#if></#assign>
+				<#assign paramsResetBackUpStep = { 'name': actionResetBackUpStep, 'formnovalidate': true } + titleResetBackUpStep?has_content?then( { 'title': titleResetBackUpStep }, {} ) />
 				<@chItem id='reset-backup' >
 					<@cBtn class='tertiary  ms-sm' id=actionResetBackUpStep params=paramsResetBackUpStep label=labelResetBackUpStep />
 				</@chItem>
 			</#if>
 			<#if actionNextStep?has_content>
-				<#assign paramsNextStep> name="${actionNextStep}"<#if titleNextStep?has_content> title="${titleNextStep}"</#if></#assign>
+				<#assign paramsNextStep = { 'name': actionNextStep } + titleNextStep?has_content?then( { 'title': titleNextStep }, {} ) />
 				<@chItem>
 					<@cBtn class='primary ms-sm' id=actionNextStep params=paramsNextStep label=labelNextStep />
 				</@chItem>
 			</#if>
 			<#if actionSaveStep?has_content>    
-				<#assign paramsSaveStep> name="${actionSaveStep}" <#if titleSaveStep?has_content> title="${titleSaveStep}"</#if></#assign>
+				<#assign paramsSaveStep = { 'name': actionSaveStep } + titleSaveStep?has_content?then( { 'title': titleSaveStep }, {} ) />
 				<@chItem>
 					<@cBtn class='secondary' id=actionSaveStep params=paramsSaveStep label=labelSaveStep />
 				</@chItem>

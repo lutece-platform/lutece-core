@@ -7,8 +7,7 @@ Parameters:
 - name (string, optional): Name of the icon. Default: 'check'.
 - class (string, optional): Additional CSS classes for the icon. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - prefix (string, optional): CSS class prefix for the icon font. Default: 'ti ti-'.
 - type (string, optional): HTML element type to render. Default: 'span'.
 
@@ -28,11 +27,11 @@ Snippet:
 
     As an inline element with extra attributes:
 
-    <@cIcon name='alert-circle' class='text-danger' params='aria-hidden="true"' />
+    <@cIcon name='alert-circle' class='text-danger' params={'aria-hidden': 'true'} />
 
 -->
-<#macro cIcon name='check' class='' id='' title='' params='' prefix='ti ti-' type='span' attrs={} deprecated...>
+<#macro cIcon name='check' class='' id='' title='' params={} prefix='ti ti-' type='span' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local iconParams><#if title?has_content>${params?no_esc} title="${title}"<#else>${params?no_esc}</#if></#local>
-<@cInline type=type class='${prefix}${name} ${class}' id=id params=iconParams attrs=attrs />
+<#local iconParams = params + title?has_content?then( { 'title': title }, {} ) />
+<@cInline type=type class='${prefix}${name} ${class}' id=id params=iconParams />
 </#macro>

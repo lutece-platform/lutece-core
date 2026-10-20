@@ -26,8 +26,7 @@ Parameters:
 @param - showPrevStep - boolean - optional - Show previous step button, default true 
 @param - hasSteps - boolean - optional - Show step infos in header of step, default true 
 @param - hasMandatory - boolean - optional - Add mandatory warning, default true 
-@param - params - string - optional - additional HTML attributes to include in the parent block element default ''
-@param - attrs - hash - optional - additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}; prefer it to params, the value is escaped like any value of the page; default {}
+@param - params - map - optional - additional HTML attributes as name/value pairs, e.g. {'aria-label': label}; default {}
 
 Snippet:
 
@@ -52,9 +51,9 @@ Snippet:
     </@stepCurrent>
 
 -->
-<#macro stepCurrent title step=1 showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' attrs={} deprecated...>
+<#macro stepCurrent title step=1 showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@div id='current_step' class='step step-current ${class!}' params=params attrs=attrs >
+<@div id='current_step' class='step step-current ${class!}' params=params >
 	<@div class='step-title d-flex justify-content-between'>
 		<#if hasSteps>
 			<@h class='title' level=titleLevel params={"data-step": (step), "title": "${title} - #i18n{theme.labelCurrentStep}", "aria-current": "step"}>
@@ -74,33 +73,33 @@ Snippet:
 			<@columns class='d-flex justify-content-end align-items-center'>
 				<@ul class='list-unstyled d-flex justify-content-end flex-column flex-sm-row align-items-center mb-0'>
 				<#if actionNextStep?has_content>
-					<#assign paramsNextStep> name="${actionNextStep}"<#if titleNextStep?has_content> title="${titleNextStep}"</#if></#assign>
+					<#assign paramsNextStep = {} />
 					<@li class='order-5'>
-						<@button class='primary mt-xs ms-sm' type='submit' id=actionNextStep params=paramsNextStep title=labelNextStep />
+						<@button class='primary mt-xs ms-sm' type='submit' id=actionNextStep name=actionNextStep tooltip=titleNextStep! params=paramsNextStep title=labelNextStep />
 					</@li>
 				</#if>    
 				<#if actionSaveStep?has_content>    
-					<#assign paramsSaveStep> name="${actionSaveStep}" formnovalidate<#if titleSaveStep?has_content> title="${titleSaveStep}"</#if></#assign>
+					<#assign paramsSaveStep = { 'formnovalidate': true } />
 					<@li class='order-5'>
-						<@button class='secondary' type='submit' id=actionSaveStep params=paramsSaveStep title=labelSaveStep />
+						<@button class='secondary' type='submit' id=actionSaveStep name=actionSaveStep tooltip=titleSaveStep! params=paramsSaveStep title=labelSaveStep />
 					</@li>
 				</#if>
 				<#if actionPrevStep?has_content && showPrevStep >
-					<#assign paramsPrevStep> name="${actionPrevStep}" formnovalidate<#if titlePrevStep?has_content> title="${titlePrevStep}"</#if></#assign>
+					<#assign paramsPrevStep = { 'formnovalidate': true } />
 					<@li class='order-2'>
-						<@button class='tertiary ms-sm' type='submit' id=actionPrevStep params=paramsPrevStep title=labelPrevStep />
+						<@button class='tertiary ms-sm' type='submit' id=actionPrevStep name=actionPrevStep tooltip=titlePrevStep! params=paramsPrevStep title=labelPrevStep />
 					</@li>
 				</#if> 
 				<#if actionSaveForBackUpStep?has_content>
-					<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep?has_content> title="${titleSaveForBackUpStep}"</#if></#assign>
+					<#assign paramsSaveForBackUpStep = { 'formnovalidate': true } />
 					<@li class='order-3'>
-						<@button class='tertiary ms-sm' type='submit' id=actionSaveForBackUpStep params=paramsSaveForBackUpStep title='#i18n{forms.step.save}' />
+						<@button class='tertiary ms-sm' type='submit' id=actionSaveForBackUpStep name=actionSaveForBackUpStep tooltip=titleSaveForBackUpStep! params=paramsSaveForBackUpStep title='#i18n{forms.step.save}' />
 					</@li>
 				</#if>
 				<#if actionResetBackUpStep?has_content>    
-					<#assign paramsResetBackUpStep> name="${actionResetBackUpStep}" formnovalidate<#if titleResetBackUpStep?has_content> title="${titleResetBackUpStep}"</#if></#assign>
+					<#assign paramsResetBackUpStep = { 'formnovalidate': true } />
 					<@li id='reset-backup' class='order-4 visually-hidden'>
-						<@button class='tertiary  ms-sm' type='submit' id=actionResetBackUpStep params=paramsResetBackUpStep title=labelResetBackUpStep />
+						<@button class='tertiary  ms-sm' type='submit' id=actionResetBackUpStep name=actionResetBackUpStep tooltip=titleResetBackUpStep! params=paramsResetBackUpStep title=labelResetBackUpStep />
 					</@li>
 				</#if>
 				</@ul>

@@ -9,8 +9,7 @@ Parameters:
 - hide (list, optional): a list of display settings to hide the paragraph element, e.g., ["md", "lg"].
 - collapsed (boolean, optional): whether to collapse the paragraph element.
 - align (string, optional): the alignment setting for the paragraph element, e.g., "center" or "right".
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -27,10 +26,10 @@ Snippet:
     </@p>
 
 -->
-<#macro p id='' params='' class='' hide=[] collapsed=false align='' attrs={} deprecated...>
+<#macro p id='' params={} class='' hide=[] collapsed=false align='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + displaySettings( hide, 'block' ) + ' ' + alignmentSettings( align, '' ) />
-<p<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
+<p<@commonAttrs id=id class=class classExtra=classExtra params=params />>
 	<#nested>
 </p>
 </#macro>

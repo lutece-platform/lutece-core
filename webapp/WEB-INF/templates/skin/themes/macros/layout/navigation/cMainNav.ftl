@@ -28,8 +28,7 @@ Parameters:
 - id (string, optional): Unique identifier for the navbar. Default: ''.
 - class (string, optional): Additional CSS class(es) for the navbar. Default: ''.
 - role (string, optional): ARIA role attribute for the navbar. Default: ''.
-- params (string, optional): Additional HTML attributes for the navbar. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Navigation principale - @cMainNav"
@@ -54,7 +53,7 @@ Snippet:
     <@cMainNav title='Admin Portal' isSidebar=true isSibebarCollapsible=true isFixed=true hasSearchMenu=true />
 
 -->
-<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' attrs={} deprecated...>
+<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign pageId = ( page_id?? )?then( ( page_id!'1' )?string, '0' ) />
 <#if isSidebar>
@@ -69,7 +68,7 @@ Snippet:
 </#if>
 <#local logoAltDS=dskey('portal.theme.site_property.menu.logo.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /></#if>
-<div class="container-md main-header<#if class?has_content> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass?has_content> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role?has_content> role='${role!}'</#if><@commonAttrs id=id params=params attrs=attrs />>
+<div class="container-md main-header<#if class?has_content> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass?has_content> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role?has_content> role='${role!}'</#if><@commonAttrs id=id params=params />>
 <nav class="navbar navbar-expand-lg navbar-light topnav lutece-ds-topbar" aria-labelledby="main-nav-title">
     <a class="navbar-brand topnav__brand" href="${href!'.'}">
        <#if logoHeader?has_content><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>

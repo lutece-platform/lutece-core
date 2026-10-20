@@ -10,8 +10,7 @@ Parameters:
 - id (string, optional): the ID of the element. Default: ''.
 - helpMsg (string, optional): content of the help message. Default: ''.
 - errorMsg (string, optional): content of the error message. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - disabled (boolean, optional): disables the multiselect. Default: false.
 
 Showcase:
@@ -38,13 +37,13 @@ Snippet:
     </@cMultiselect>
 
 -->
-<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false attrs={} deprecated...>
+<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params={} disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id?has_content>${id}<#else>msg-${random()!}</#if></#local>
 <div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}">
 	<div class="tags-container mt-s"></div>
     <div class="dropdown">
-        <button class="form-select multi-select <#if disabled>disabled</#if>" type="button" id='btn-${cId}' data-bs-toggle="dropdown" aria-expanded="false"<#if disabled> disabled</#if><@commonAttrs params=params attrs=attrs />>
+        <button class="form-select multi-select <#if disabled>disabled</#if>" type="button" id='btn-${cId}' data-bs-toggle="dropdown" aria-expanded="false"<#if disabled> disabled</#if><@commonAttrs params=params />>
             ${labelOptionSelection!}
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">

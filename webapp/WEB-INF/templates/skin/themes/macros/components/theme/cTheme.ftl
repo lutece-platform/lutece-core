@@ -7,8 +7,7 @@ Parameters:
 - theme (string, optional): Default theme on initialization ('light' or 'dark'). Default: 'light'.
 - class (string, optional): CSS classes for positioning the switcher. Default: 'start-0 mb-3 me-3'.
 - id (string, optional): HTML id attribute for the dropdown button. Default: ''.
-- params (string, optional): Additional HTML attributes/styles. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Theme Switcher - @cThemeSwitcher
@@ -27,10 +26,10 @@ Snippet:
     <@cThemeSwitcher theme='dark' class='end-0 mb-3 me-3' />
 
 -->
-<#macro cThemeSwitcher theme='light' class='start-0 mb-3 me-3' id='' params='' attrs={} deprecated...>
+<#macro cThemeSwitcher theme='light' class='start-0 mb-3 me-3' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- THEME Switcher button -->
-<div class="dropdown position-fixed bottom-0 ${class} bd-mode-toggle"<@commonAttrs params=params attrs=attrs />>
+<div class="dropdown position-fixed bottom-0 ${class} bd-mode-toggle"<@commonAttrs params=params />>
   <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
     <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
     <span class="visually-hidden visually-hidden" id="bd-theme-text">Toggle theme</span>

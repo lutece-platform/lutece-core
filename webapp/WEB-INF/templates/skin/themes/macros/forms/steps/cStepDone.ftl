@@ -13,11 +13,10 @@ Parameters:
 - actionAriaLabelKey (string, optional): i18n key for the ARIA label of the edit button. Default: 'portal.theme.ariaLabelUpdate'.
 - actionHref (string, optional): URL for the edit link (used instead of submit button). Default: ''.
 - actionClass (string, optional): CSS class for the edit button/link. Default: ''.
-- actionParams (string, optional): additional HTML attributes for the edit button. Default: ''.
+- actionParams (map, optional): additional HTML attributes of the edit button. Default: {}.
 - class (string, optional): CSS class for the step section. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Étape terminée - @cStepDone"
@@ -38,9 +37,9 @@ Snippet:
     </@cStepDone>
 
 -->
-<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' attrs={} deprecated...>
+<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams={} class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cSection class='step step-done ${class!}' id=id params=params attrs=attrs>
+<@cSection class='step step-done ${class!}' id=id params=params>
 	<@cSection class='step-title'>
         <@cContainer class='d-flex justify-content-between align-items-center'>
             <@cTitle class='title mt-0' level=titleLevel params={"title": ( title )} >
@@ -49,7 +48,7 @@ Snippet:
             </@cTitle>
             <@cSection type='span' class='d-none d-sm-block'>
             <#if actionHref?has_content>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!'' ) attrs={'aria-label': i18n( actionAriaLabelKey, title )} />
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!{} ) + {'aria-label': i18n( actionAriaLabelKey, title )} />
             <#elseif actionName?has_content>
                 <@cBtn class='secondary btn-sm-block' label=actionLabel! params={"name": actionName, "value": ( idx!'' ), "aria-label": i18n( actionAriaLabelKey, title ), "formnovalidate": true} />
             </#if>
@@ -63,7 +62,7 @@ Snippet:
             </@chList>
             <@cSection type='div' class='d-block d-sm-none mt-m'>
             <#if actionHref?has_content>
-                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!'' ) attrs={'aria-label': i18n( actionAriaLabelKey, title )} />
+                <@cLink label=actionLabel! class='btn btn-secondary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!{} ) + {'aria-label': i18n( actionAriaLabelKey, title )} />
             <#elseif actionName?has_content>
                 <@cBtn class='secondary btn-sm-block' label=actionLabel! params={"name": actionName, "value": ( idx!'' ), "aria-label": i18n( actionAriaLabelKey, title ), "formnovalidate": true} />
             </#if>

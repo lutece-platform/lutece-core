@@ -11,8 +11,7 @@ Parameters:
 - footer (string, optional): the footer text for the item.
 - class (string, optional): additional classes to add to the list item.
 - id (string, optional): the ID for the list item.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -35,9 +34,9 @@ Snippet:
     </@timelineItem>
 
 -->
-<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params='' attrs={} deprecated...>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li<@commonAttrs id=id class=class params=params attrs=attrs />>
+<li<@commonAttrs id=id class=class params=params />>
 	<#if iconFace?has_content><div class="list-timeline-icon ${iconBg}"><@icon style=iconFace /></div></#if>
 	<div class="list-timeline-content">
 		<#if time?has_content><div class="list-timeline-time">${time}</div></#if>

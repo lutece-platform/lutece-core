@@ -7,8 +7,7 @@ Parameters:
 - id (string, optional): the ID of the container element. If not provided, a default ID will be generated.
 - icon (string, optional): the icon to display in the header.
 - collapsed (boolean, optional): whether the accordion should be collapsed by default.
-- params (string, optional): additional HTML attributes to include in the container element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -25,9 +24,9 @@ Snippet:
     </@accordion>
 
 -->
-<#macro accordion id title class='' headerClass='' icon='' collapsed=false params='' attrs={} deprecated...>
+<#macro accordion id title class='' headerClass='' icon='' collapsed=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@accordionContainer id=id class=class params=params attrs=attrs>
+<@accordionContainer id=id class=class params=params>
    <@accordionPanel collapsed=collapsed childId='${id}Child'>
       <@accordionHeader class=headerClass title=title headerIcon=icon />
       <@accordionBody>

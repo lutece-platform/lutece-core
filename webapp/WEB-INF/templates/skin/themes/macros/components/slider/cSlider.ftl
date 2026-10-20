@@ -15,8 +15,7 @@ Parameters:
 - linkAll (string, optional): URL for a "view all" link. Default: ''.
 - linkAllLabel (string, optional): Label for the "view all" link. Default: '#i18n{portal.util.labelMore}'.
 - linkAllClass (string, optional): CSS classes for the "view all" link. Default: 'btn btn-link-primary me-sm'.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Slider - @cSlider
@@ -40,11 +39,11 @@ Snippet:
     </@cSlider>
 
 -->
-<#macro cSlider id sliderLabel class='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4' slides={} slideLabel='slide' buttonNext='#i18n{portal.util.labelNext}' buttonPrev='#i18n{portal.util.labelPrevious}' buttonClass='light rounded-circle' linkAll='' linkAllLabel='#i18n{portal.util.labelMore}' linkAllClass='btn btn-link-primary me-sm' params='' attrs={}>
+<#macro cSlider id sliderLabel class='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4' slides={} slideLabel='slide' buttonNext='#i18n{portal.util.labelNext}' buttonPrev='#i18n{portal.util.labelPrevious}' buttonClass='light rounded-circle' linkAll='' linkAllLabel='#i18n{portal.util.labelMore}' linkAllClass='btn btn-link-primary me-sm' params={}>
 <#assign sliderInnerId = id + '-theme-slider'>
 <#assign sliderRowClass = 'theme-slider ' + class!>
-<#assign sliderParams>aria-roledescription="slide" aria-label="${sliderLabel!}" ${params?no_esc}</#assign>
-<@cSection id=id class='theme-slider-wrapper' params=sliderParams attrs=attrs>
+<#assign sliderParams = params + { 'aria-roledescription': 'slide', 'aria-label': sliderLabel! } />
+<@cSection id=id class='theme-slider-wrapper' params=sliderParams>
     <@cRow id=sliderInnerId class=sliderRowClass params={"aria-live": "off"}>
         <#if slides?size gt 0>
             <#assign slideIdx=1 />
@@ -168,8 +167,7 @@ Parameters:
 - slide (object, optional): Slide data object with properties: index, id, class, img, imgAlt, link, linkLabel, url, content. Default: {}.
 - currentIndex (number, optional): Current slide index for accessibility labeling. Default: 1.
 - lastIndex (number, optional): Total number of slides for accessibility labeling. Default: 1.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -178,7 +176,7 @@ Snippet:
     <@cSlide slide=mySlideData currentIndex=1 lastIndex=5 />
 
 -->
-<#macro cSlide slide={} currentIndex=1 lastIndex=1 params='' attrs={}>
+<#macro cSlide slide={} currentIndex=1 lastIndex=1 params={}>
 <#if slide?size gt 0>
     <#assign slideIndex = ( slide.index?? && slide.index!='' )?then( ( slide.index!'' )?string, ( currentIndex!'' )?string ) />
     <#assign slideId = ( slide.id?? && slide.id!='' )?then( ( slide.id!'' )?string, '' ) />
@@ -188,8 +186,8 @@ Snippet:
     <#assign slideUrl = ( slide.link?? && slide.link!='' )?then( ( slide.url!'' )?string, '' ) />
     <#assign slideLinkLabel = ( slide.linkLabel?? && slide.linkLabel!='' )?then( ( slide.linkLabel!'' )?string, '' ) />
     <#assign slideContent = ( slide.content?? && slide.content!='' )?then( ( slide.content!'' )?string, '' ) />
-    <#assign slideParams>role="group" aria-roledescription="slide" aria-label="${slideIndex!} / ${lastIndex}" ${params?no_esc}</#assign>
-    <@cCard class=slideClass id=slideId title=slideLinkLabel titleUrl=slideUrl img=slideImg params=slideParams attrs=attrs>
+    <#assign slideParams = params + { 'role': 'group', 'aria-roledescription': 'slide', 'aria-label': slideIndex! + ' / ' + lastIndex } />
+    <@cCard class=slideClass id=slideId title=slideLinkLabel titleUrl=slideUrl img=slideImg params=slideParams>
         <@cText class='card-text'>${slideContent}</@cText>
         <#nested>
     </@cCard>

@@ -7,8 +7,7 @@ Parameters:
 - label (string, required): the label of the option group.
 - class (string, optional): CSS class for the optgroup. Default: ''.
 - disabled (boolean, optional): disables the option group. Default: false.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -26,9 +25,9 @@ Snippet:
     </@cSelect>
 
 -->
-<#macro cOptgroup label class='' disabled=false params='' attrs={} deprecated...>
+<#macro cOptgroup label class='' disabled=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<optgroup label="${label!}" <#if disabled> disabled</#if><@commonAttrs class=class params=params attrs=attrs />>
+<optgroup label="${label!}" <#if disabled> disabled</#if><@commonAttrs class=class params=params />>
 <#nested>
 </optgroup>
 </#macro>

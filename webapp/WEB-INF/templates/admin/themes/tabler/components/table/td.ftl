@@ -18,8 +18,7 @@ Parameters:
 - colspan (int, optional): the number of columns to span.
 - rowspan (int, optional): the number of rows to span.
 - flex (boolean, optional): whether to use flexbox for layout.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Deprecation:
 - args (string[]): the list of deprecated arguments.
@@ -43,7 +42,7 @@ Snippet:
     </@td>
 
 -->
-<#macro td id='' class='' hide=[] align='' valign='' cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' attrs={} deprecated...>
+<#macro td id='' class='' hide=[] align='' valign='' cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />	
 	<#local classExtra = displaySettings( hide, 'table-cell' ) + ' ' + alignmentSettings( align, '' ) />
 	<#if cols!=0>
@@ -57,7 +56,7 @@ Snippet:
 	</#list>
 	<#if valign?has_content><#local classExtra += ' align-' + valign /></#if>
 	<#if flex><#local classExtra += ' d-flex' /></#if>
-	<td<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs /><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if>>
+	<td<@commonAttrs id=id class=class classExtra=classExtra params=params /><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if>>
 		<#nested>
 	</td>
 </#macro>

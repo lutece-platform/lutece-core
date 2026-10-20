@@ -7,8 +7,7 @@ Parameters:
 - label (string, required): the label text.
 - class (string, optional): CSS class for the label. Default: ''.
 - id (string, optional): the ID of the label. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - for (string, optional): the ID of the associated form element. Default: ''.
 - showLabel (boolean, optional): displays or hides the label (uses visually-hidden class). Default: true.
 - required (boolean, optional): displays a required asterisk (*) after the label. Default: false.
@@ -36,10 +35,10 @@ Snippet:
     <@cInput name='search' id='search' placeholder='Search...' />
 
 -->
-<#macro cLabel label class='' id='' params='' for='' showLabel=true required=false showRequiredLabel=true attrs={} deprecated...>
+<#macro cLabel label class='' id='' params={} for='' showLabel=true required=false showRequiredLabel=true deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isrequired=required />
-<label class="form-label<#if class?has_content> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for?has_content> for="${for!}"</#if><@commonAttrs id=id params=params attrs=attrs />>
+<label class="form-label<#if class?has_content> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for?has_content> for="${for!}"</#if><@commonAttrs id=id params=params />>
 <#nested> 
 ${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xxs" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
 </label>

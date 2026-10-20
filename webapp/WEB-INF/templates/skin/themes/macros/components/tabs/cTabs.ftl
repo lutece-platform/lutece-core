@@ -7,8 +7,7 @@ Parameters:
 - navigation (boolean, optional): Whether to wrap tabs in a nav > ul structure (true) or a div structure (false). Default: false.
 - id (string, optional): HTML id attribute. Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Onglets - @cTabs
@@ -47,19 +46,19 @@ Snippet:
     </@cTabContent>
 
 -->
-<#macro cTabs navigation=false id='' class='' params='' attrs={} deprecated...>
+<#macro cTabs navigation=false id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if navigation>
 	<nav>
 		<div class="nav-tabs-container">
-			<ul class="nav nav-tabs<#if class?has_content> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
+			<ul class="nav nav-tabs<#if class?has_content> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params />>
 				<#nested>
 			</ul>
 		</div>
 	</nav>
 <#else>
 	<div class="nav-tabs-container">
-		<div class="nav nav-tabs<#if class?has_content> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params attrs=attrs />>
+		<div class="nav nav-tabs<#if class?has_content> ${class!}</#if>" role="tablist"<@commonAttrs id=id params=params />>
 			<#nested>
 		</div>
 	</div>

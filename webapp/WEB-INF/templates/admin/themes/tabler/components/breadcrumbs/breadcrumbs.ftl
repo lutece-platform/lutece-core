@@ -6,8 +6,7 @@ Description: Generates an HTML element for breadcrumbs.
 Parameters:
 - id (string, optional): the ID of the breadcrumbs element.
 - class (string, optional): the CSS class of the breadcrumbs element.
-- params (string, optional): additional HTML attributes to include in the breadcrumbs element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -27,10 +26,10 @@ Snippet:
     </@breadcrumbs>
 
 -->
-<#macro breadcrumbs id='' class='' params='' attrs={} deprecated...>
+<#macro breadcrumbs id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <nav aria-label="breadcrumb">
-	<ol class="breadcrumb<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+	<ol class="breadcrumb<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 		<#nested>
 	</ol>
 </nav>

@@ -4,8 +4,7 @@ Description: Generates the body content for a Bootstrap modal dialog, with optio
 
 Parameters:
 - id (string, optional): the ID of the modal body.
-- params (string, optional): additional attributes to add to the modal body, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -17,16 +16,16 @@ Snippet:
 
     Modal body with ID and additional attributes:
 
-    <@modalBody id='formBody' attrs={'data-step': "1"}>
+    <@modalBody id='formBody' params={'data-step': "1"}>
         <form>
             <input type='text' class='form-control' name='username' placeholder='Enter username' />
         </form>
     </@modalBody>
 
 -->
-<#macro modalBody id='' params='' attrs={} deprecated...>
+<#macro modalBody id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal-body"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="modal-body"<@commonAttrs id=id params=params />>
 	<#nested>
 </div>
 </#macro>

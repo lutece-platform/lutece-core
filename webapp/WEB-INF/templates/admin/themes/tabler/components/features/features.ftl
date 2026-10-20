@@ -9,8 +9,7 @@ Parameters:
 - colClass (string, optional): classes for the inner column wrapper ('card' layout only). Default: 'space-y'.
 - listClass (string, optional): classes for the unordered list element ('card' layout only). Default: 'space-y'.
 - id (string, optional): the ID of the container element.
-- params (string, optional): additional HTML attributes to add to the container.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -41,18 +40,18 @@ Snippet:
     </@manageFeature>
 
 -->
-<#macro manageFeature layout='card' class='mt-2' colClass='space-y' listClass='space-y' id='' params='' attrs={} deprecated...>
+<#macro manageFeature layout='card' class='mt-2' colClass='space-y' listClass='space-y' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local parentLayout = .globals.manageFeatureLayout!'card' />
 <#global manageFeatureLayout = layout />
 <#if layout == 'list'>
-<@box class='features ${class}' id=id params=params attrs=attrs>
+<@box class='features ${class}' id=id params=params>
     <@listGroup class='list-group-flush'>
         <#nested>
     </@listGroup>
 </@box>
 <#else>
-<div class="features row row-cards<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="features row row-cards<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
     <div class="col ${colClass}">
         <ul class="list-unstyled ${listClass}">
             <#nested>
@@ -75,8 +74,7 @@ Parameters:
 - liClass (string, optional): additional classes to add to the list item element.
 - bodyClass (string, optional): additional classes to add to the card body element ('card' layout only).
 - id (string, optional): the ID of the card element ('card' layout) or of the list group item ('list' layout).
-- params (string, optional): additional HTML attributes to add to the card element ('card' layout) or to the list group item ('list' layout).
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes of the card element ('card' layout) or of the list group item ('list' layout) as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -112,11 +110,11 @@ Snippet:
     </@manageFeatureItem>
 
 -->
-<#macro manageFeatureItem layout='' class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' attrs={} deprecated...>
+<#macro manageFeatureItem layout='' class='' align='start' valign='center' liClass='' bodyClass='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local itemLayout = (layout?has_content)?then(layout, .globals.manageFeatureLayout!'card') />
 <#if itemLayout == 'list'>
-<@listGroupItem class='${liClass} ${class}'?trim id=id params=params attrs=attrs>
+<@listGroupItem class='${liClass} ${class}'?trim id=id params=params>
     <div class="row g-2 justify-content-${align} align-items-${valign}">
     <#nested>
     </div>
@@ -124,7 +122,7 @@ Snippet:
 <#return>
 </#if>
 <li class="<#if liClass?has_content> ${liClass}</#if>">
-    <div class="card<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+    <div class="card<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
         <div class="card-body<#if bodyClass?has_content> ${bodyClass}</#if>">
             <div class="row g-3 justify-content-${align} align-items-${valign}">
             <#nested>
@@ -148,8 +146,7 @@ Parameters:
 - align (string, optional): horizontal alignment of the column content. Default: 'start'.
 - class (string, optional): additional classes to add to the column element.
 - id (string, optional): the ID of the column element.
-- params (string, optional): additional HTML attributes to add to the column element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -180,9 +177,9 @@ Snippet:
     </@manageFeatureItemColumn>
 
 -->
-<#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' attrs={} deprecated...>
+<#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols?has_content> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols?has_content> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 <#nested>
 </div>
 </#macro>

@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.template;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,7 +56,8 @@ import freemarker.template.TemplateException;
 
 /**
  * Tests the commonAttrs macro (LUT-33387), declared for the back office and for the front office, with the HTML
- * auto-escaping the core runs with (LUT-33153). Only the FreeMarker engine is needed: no Lutece context.
+ * auto-escaping the core runs with (LUT-33153), with the htmlAttributes function it calls. Only the FreeMarker engine is
+ * needed: no Lutece context.
  */
 public class CommonAttrsMacroTest
 {
@@ -82,6 +84,7 @@ public class CommonAttrsMacroTest
         cfg.addAutoInclude( strDeclaration );
         cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
         cfg.setAutoEscapingPolicy( Configuration.ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY );
+        cfg.setSharedVariable( "htmlAttributes", new HtmlAttributesMethod( true ) );
         StringWriter out = new StringWriter( );
         cfg.getTemplate( "snippet.ftl" ).process( new HashMap<String, Object>( ), out );
         return out.toString( );
@@ -112,84 +115,108 @@ public class CommonAttrsMacroTest
 
     /**
      * Empty values write no attribute.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
      */
     @Test
     public void testNothingIsWrittenForEmptyValues( ) throws IOException, TemplateException
     {
         assertRenders( "", "<@commonAttrs />" );
-        assertRenders( "", "<@commonAttrs id='' class='' classBase=' ' classExtra='  ' params='' />" );
+        assertRenders( "", "<@commonAttrs id='' class='' classBase=' ' classExtra='  ' params={} />" );
     }
 
     /**
      * id, class and params are written in this order, each preceded by a space.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
      */
     @Test
     public void testIdClassAndParams( ) throws IOException, TemplateException
     {
-        assertRenders( " id=\"main\" class=\"row\" data-x", "<@commonAttrs id='main' class='row' params='data-x' />" );
+        assertRenders( " id=\"main\" class=\"row\" data-x=\"1\"", "<@commonAttrs id='main' class='row' params={'data-x': '1'} />" );
     }
 
     /**
-     * classBase, class and classExtra make one class attribute, in this order, without extra spaces.
+     * classBase, class, classExtra and the class of params make one class attribute, in this order, without extra spaces
+     * nor duplicates.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
      */
     @Test
     public void testClassesAreJoinedInOrder( ) throws IOException, TemplateException
     {
         assertRenders( " class=\"btn btn-primary\"", "<@commonAttrs classBase=' btn  btn-primary ' />" );
         assertRenders( " class=\"collapse d-flex\"", "<@commonAttrs classExtra=' collapse   d-flex ' />" );
-        assertRenders( " class=\"card mine collapse\"", "<@commonAttrs classBase='card' class='mine' classExtra=' collapse' />" );
+        assertRenders( " class=\"card mine collapse mt-3\"", "<@commonAttrs classBase='card' class='mine' classExtra=' collapse' params={'class': 'mt-3 card'} />" );
     }
 
     /**
      * A string or number is written as a value, true as a valueless attribute, false not at all, an empty string as an
      * empty value.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
      */
     @Test
-    public void testAttrs( ) throws IOException, TemplateException
+    public void testParamsValues( ) throws IOException, TemplateException
     {
         assertRenders( " aria-hidden=\"true\" data-n=\"1234.5\" disabled alt=\"\"",
-                "<@commonAttrs attrs={'aria-hidden': 'true', 'data-n': 1234.5, 'disabled': true, 'hidden': false, 'alt': ''} />" );
+                "<@commonAttrs params={'aria-hidden': 'true', 'data-n': 1234.5, 'disabled': true, 'hidden': false, 'alt': ''} />" );
     }
 
     /**
-     * A name that is not a valid attribute name is ignored.
+     * The attributes of the macro win over params, but the classes.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
      */
     @Test
-    public void testAnInvalidAttributeNameIsIgnored( ) throws IOException, TemplateException
+    public void testMacroParamsWinOverParams( ) throws IOException, TemplateException
     {
-        assertRenders( " title=\"t\"", "<@commonAttrs attrs={'x onclick=\"y\"': 'z', 'title': 't'} />" );
+        assertRenders( " role=\"status\" title=\"t\"", "<@commonAttrs macroParams={'role': 'status'} params={'title': 't'} />" );
     }
 
     /**
-     * A value cannot close its attribute nor add another one.
+     * A value cannot close its attribute nor add another one, a markup value included.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
      */
     @Test
     public void testAValueCannotBreakItsAttribute( ) throws IOException, TemplateException
     {
-        assertRenders( " title=\"x&quot; onmouseover=&quot;alert(1)\"", "<#assign value='x\" onmouseover=\"alert(1)' /><@commonAttrs attrs={'title': value} />" );
+        assertRenders( " title=\"x&quot; onmouseover=&quot;alert(1)\"", "<#assign value='x\" onmouseover=\"alert(1)' /><@commonAttrs params={'title': value} />" );
+        assertRenders( " class=\"x &lt;b&gt;c&lt;/b&gt;\" title=\"a&lt;b&gt;c&lt;/b&gt;\"",
+                "<#assign c><b>c</b></#assign><#assign t>a<b>c</b></#assign><@commonAttrs classBase='x' class=c params={'title': t} />" );
     }
 
     /**
-     * params is HTML written by the template author: written as is, whether a string or a captured block.
+     * params is a map: a string or a captured block fails the rendering, and so does the removed attrs argument of the
+     * macros.
      */
     @Test
-    public void testParamsIsWrittenAsIs( ) throws IOException, TemplateException
-    {
-        assertRenders( " data-x=\"1\" hidden", "<@commonAttrs params='data-x=\"1\" hidden' />" );
-        assertRenders( " title=\"a&lt;b\"", "<#assign v='a<b' /><#assign p>title=\"${v}\"</#assign><@commonAttrs params=p />" );
-    }
-
-    /**
-     * With auto-escaping, a markup value (a captured block) is written as is, in class and in attrs.
-     */
-    @Test
-    public void testAMarkupValueIsKeptAsIs( ) throws IOException, TemplateException
+    public void testParamsIsAMap( )
     {
         for ( String strDeclaration : DECLARATIONS )
         {
-            assertEquals( " class=\"x <b>c</b>\" title=\"a<b>c</b>\"",
-                    render( strDeclaration, "<#assign c><b>c</b></#assign><#assign t>a<b>c</b></#assign><@commonAttrs classBase='x' class=c attrs={'title': t} />" ),
-                    strDeclaration );
+            assertThrows( TemplateException.class, ( ) -> render( strDeclaration, "<@commonAttrs params='data-x=\"1\" hidden' />" ), strDeclaration );
+            assertThrows( TemplateException.class, ( ) -> render( strDeclaration, "<#assign p>title=\"t\"</#assign><@commonAttrs params=p />" ), strDeclaration );
+            assertThrows( TemplateException.class, ( ) -> render( strDeclaration, "<@commonAttrs attrs={'title': 't'} />" ), strDeclaration );
         }
     }
 }

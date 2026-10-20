@@ -9,8 +9,8 @@ Parameters:
 - showLabel (boolean, optional): displays or hides the label. Default: false.
 - labelDecrease (string, optional): accessible label for the decrease button. Default: '#i18n{portal.theme.labelFormQuantityDecrease}'.
 - labelIncrease (string, optional): accessible label for the increase button. Default: '#i18n{portal.theme.labelFormQuantityIncrease}'.
-- paramsDecrease (string, optional): parameters for the button for exemple "disabled". Default: ''.
-- paramsIncrease (string, optional): parameters for the button for exemple "disabled". Default: ''.
+- paramsDecrease (map, optional): additional attributes of the decrease button, e.g. {'disabled': true}. Default: {}.
+- paramsIncrease (map, optional): additional attributes of the increase button, e.g. {'disabled': true}. Default: {}.
 - minQty (string, optional): minimum selectable value. Default: '0'.
 - maxQty (string, optional): maximum selectable value. Default: '10'.
 - id (string, optional): the ID of the input. Default: ''.
@@ -19,7 +19,6 @@ Parameters:
 - disabled (boolean, optional): disables the input and buttons. Default: false.
 - helpMsg (string, optional): help message displayed below the picker. Default: ''.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Showcase:
 - desc: "Sélecteur de quantité - @cQuantityPicker"
@@ -40,19 +39,19 @@ Snippet:
     <@cQuantityPicker name='seats' label='Number of seats' showLabel=true minQty='1' maxQty='20' required=true />
 
 -->
-<#macro cQuantityPicker name label='#i18n{portal.theme.labelFormQuantityChoose}' showLabel=false labelDecrease='#i18n{portal.theme.labelFormQuantityDecrease}' labelIncrease='#i18n{portal.theme.labelFormQuantityIncrease}' paramsDecrease='' paramsIncrease='' minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' attrs={} deprecated...>
+<#macro cQuantityPicker name label='#i18n{portal.theme.labelFormQuantityChoose}' showLabel=false labelDecrease='#i18n{portal.theme.labelFormQuantityDecrease}' labelIncrease='#i18n{portal.theme.labelFormQuantityIncrease}' paramsDecrease={} paramsIncrease={} minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
 <#local cId = id?has_content?then( id, name ) />
-<#local inputParams>data-min="${minQty}" data-max="${maxQty}" ${params?no_esc}</#local>
+<#local inputParams = params + { 'data-min': minQty, 'data-max': maxQty } />
 <#if errorMsg?has_content><#assign isInvalid = 'is-invalid' /></#if>
 <#local errorClass = ( hideErrorMsg )?then( 'visually-hidden', '' ) />
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>
-        <@cBtn label='−' class='light quantity-btn decrement-quantity' params=paramsDecrease attrs={'aria-label': labelDecrease, 'data-direction': '-1'} />
-        <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=inputParams attrs=attrs />
-        <@cBtn label='+' class='light quantity-btn increment-quantity' params=paramsIncrease attrs={'aria-label': labelIncrease, 'data-direction': '1'} />
+        <@cBtn label='−' class='light quantity-btn decrement-quantity' params=paramsDecrease + {'aria-label': labelDecrease, 'data-direction': '-1'} />
+        <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=inputParams />
+        <@cBtn label='+' class='light quantity-btn increment-quantity' params=paramsIncrease + {'aria-label': labelIncrease, 'data-direction': '1'} />
     </@cInputGroup>
 </@cBlock>
 <#if helpMsg?has_content><@cFormHelp cId helpMsg /></#if>

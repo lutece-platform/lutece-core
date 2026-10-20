@@ -10,8 +10,7 @@ Parameters:
 - imageSrc (string, required): Path to a background image covering the full banner area. Default: urlDefaultBannerImage.
 - class (string, optional): Additional CSS class(es) for the banner. Default: ''.
 - id (string, optional): Unique identifier for the banner element. Default: 'main-banner'.
-- params (string, optional): Additional HTML attributes for the banner element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Bandeau principal - @cMainBanner"
@@ -33,7 +32,7 @@ Snippet:
     </@cMainBanner>
 
 -->
-<#macro cMainBanner title='${favourite!}' titleClass='' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome?boolean imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params='' attrs={}  >
+<#macro cMainBanner title='${favourite!}' titleClass='' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome?boolean imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params={}  >
 <#local isOnlyHome=isBannerOnlyHome  />
 <#-- TODO data n'est pas disponible dans ce contexte, à vérifier -->
 <#local isHomePage=false />
@@ -63,10 +62,10 @@ Snippet:
 <#if bannerTitleColor?has_content><#local titleStyle ='color:${bannerTitleColor};' /></#if>
 <#if bannerTitleBGColor?has_content><#local titleStyle +='background-color:${bannerTitleBGColor};' /></#if>
 <#if bannerTitlePadding?has_content><#local titleStyle +='padding:${bannerTitlePadding};' /></#if>
-<#local bannerAttrs = attrs + imageStyle?has_content?then( { 'style': imageStyle }, { } ) />
+<#local bannerAttrs = imageStyle?has_content?then( { 'style': imageStyle }, { } ) />
 <#if isInternal && !isHomePage><#local bannerClass +=' internal' /></#if>
 <#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass?has_content > ${bannerClass!}</#if>"></#if>
-<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><@commonAttrs params=params attrs=bannerAttrs /> >
+<div class="banner<#if bannerClass?has_content > ${bannerClass!}</#if><#if bannerCredits?has_content > credits</#if> page-${page_id!}"<#if id?has_content > id="${id!}"</#if><#if bannerCredits?has_content > data-credits="${bannerCredits!}"</#if><@commonAttrs macroParams=bannerAttrs params=params /> >
 <#if hasBannerTitle?boolean && bannerTitle?trim !=''><h1 id="main-banner-title"<#if titleStyle?has_content> style="${titleStyle}"</#if><#if titleClass?has_content> class="${titleClass}"</#if>>${bannerTitle}</h1></#if>
 <#nested> 
 </div> 

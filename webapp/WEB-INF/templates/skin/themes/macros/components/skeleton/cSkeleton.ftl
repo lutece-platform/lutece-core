@@ -7,8 +7,7 @@ Parameters:
 - bones (sequence, optional): List of bone type strings defining the skeleton layout ('text', 'short', 'image', 'button'). Default: {} (displays a single text bone).
 - id (string, optional): HTML id attribute. Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Skeleton loader - @cSkeleton
@@ -29,9 +28,9 @@ Snippet:
     <@cSkeleton bones=['text', 'text', 'short'] class='my-4' id='loading-placeholder' />
 
 -->  
-<#macro cSkeleton bones={} id='' class='' params='' attrs={} deprecated...>
+<#macro cSkeleton bones={} id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated /> 
-<div class="skeleton<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
+<div class="skeleton<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params />>
 <#if bones?size gt 0>
     <#list bones as bone>
         <#switch bone>

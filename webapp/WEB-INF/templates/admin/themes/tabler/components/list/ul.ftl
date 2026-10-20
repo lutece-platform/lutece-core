@@ -9,8 +9,7 @@ Parameters:
 - align (string, optional): the alignment of the unordered list within its parent element ("left", "center", or "right").
 - hide (list, optional): a list of strings representing the CSS display values for hiding the unordered list at different screen sizes (e.g. ["md:hidden"] to hide the unordered list on medium screens and up).
 - collapsed (boolean, optional): whether the unordered list should be initially collapsed (hidden).
-- params (string, optional): additional attributes to add to the unordered list, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -37,10 +36,10 @@ Snippet:
     </@ul>
 
 -->
-<#macro ul id='' class='' align='' hide=[] collapsed=false params='' attrs={} deprecated...>
+<#macro ul id='' class='' align='' hide=[] collapsed=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) + collapsed?then( ' collapse', '' ) />
-<ul<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
+<ul<@commonAttrs id=id class=class classExtra=classExtra params=params />>
 <#nested>
 </ul>
 </#macro>

@@ -9,8 +9,7 @@ Parameters:
 - role (string, optional): ARIA role attribute for the fieldset. Default: 'group'.
 - class (string, optional): CSS class for the fieldset. Default: ''.
 - id (string, optional): the ID of the fieldset. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - for (string, optional): links an ID with the fieldset. Default: ''.
 - helpMsg (string, optional): help message for the fieldset. Default: ''.
 - helpPos (string, optional): position of the help message, 'top' (after legend) or 'after' (after content). Default: 'top'.
@@ -52,10 +51,10 @@ Snippet:
     </@cFieldset>
 
 -->
-<#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' for='' helpMsg='' helpPos='top' showLabel=true required=false attrs={} deprecated...>
+<#macro cFieldset legend='' legendClass='' role='group' class='' id='' params={} for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
-<fieldset<#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs class=class params=params attrs=attrs /><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>
+<fieldset<#if for?has_content> for="${for!}"</#if> id="fieldset-${cId}"<@commonAttrs class=class params=params /><#if role?has_content> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg?has_content> aria-describedby="help_${cId!}"</#if>>
 <#if legend?has_content><legend <#if legendClass?has_content || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
 <#if helpPos == 'top' && helpMsg?has_content><@cFormHelp cId helpMsg /></#if>
 <#nested>
@@ -72,7 +71,7 @@ Parameters:
 - showLabel (boolean, optional): displays or hides the legend. Default: true.
 - class (string, optional): CSS class for the legend. Default: ''.
 - id (string, optional): the ID of the legend. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -85,7 +84,7 @@ Snippet:
     <@cLegend label='Filter options' showLabel=false />
 
 -->
-<#macro cLegend label='' showLabel=true class='' id='' params='' deprecated...>
+<#macro cLegend label='' showLabel=true class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <legend <#if class?has_content>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <@commonAttrs id=id />>
 <#if label?has_content>${label!} </#if><#nested>

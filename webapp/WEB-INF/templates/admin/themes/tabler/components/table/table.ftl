@@ -15,8 +15,7 @@ Parameters:
 - narrow (boolean, optional): whether to make the table cells narrower.
 - collapsed (boolean, optional): whether to collapse the table.
 - caption (string, optional): the caption for the table.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -61,11 +60,11 @@ Snippet:
     </@table>
 
 -->
-<#macro table id='' class='' responsive=true condensed=true hover=true striped=false headBody=false bordered=false narrow=false collapsed=false caption='' params='' attrs={} deprecated...>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false headBody=false bordered=false narrow=false collapsed=false caption='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = condensed?then( ' table-condensed', '' ) + hover?then( ' table-hover', '' ) + striped?then( ' table-striped', '' ) + bordered?then( ' table-bordered', '' ) + collapsed?then( ' collapse', '' ) />
 <#if responsive><div class="table-responsive"></#if>
-<table<@commonAttrs id=id classBase='table' class=class classExtra=classExtra params=params attrs=attrs />>
+<table<@commonAttrs id=id classBase='table' class=class classExtra=classExtra params=params />>
 <#if caption?has_content><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>
 	<#nested>

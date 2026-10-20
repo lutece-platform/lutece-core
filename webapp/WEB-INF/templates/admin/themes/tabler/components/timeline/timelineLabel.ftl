@@ -8,7 +8,7 @@ Parameters:
 - label (string, optional): the text content of the label.
 - class (string, optional): additional CSS classes to add to the element.
 - id (string, optional): the ID of the element.
-- params (string, optional): additional parameters to add to the HTML code.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -21,7 +21,7 @@ Snippet:
     <@timelineLabel bg='info' label='Week 12' />
 
 -->
-<#macro timelineLabel bg='primary' label='' class='' id='' params='' deprecated...>
+<#macro timelineLabel bg='primary' label='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <!-- no label -->
 </#macro>

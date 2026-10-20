@@ -7,8 +7,7 @@ Parameters:
 - class (string, optional): additional CSS classes to add to the container.
 - align (string, optional): the alignment of the container's content.
 - ariaLabel (string, optional): the ARIA label of the container.
-- params (string, optional): additional parameters to add to the container.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -34,9 +33,9 @@ Snippet:
     </@btnToolbar>
 
 -->
-<#macro btnToolbar id='' class='' vertical=false align='' ariaLabel='' params='' attrs={} deprecated...>
+<#macro btnToolbar id='' class='' vertical=false align='' ariaLabel='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<@commonAttrs id=id classBase='btn-group' + vertical?then( '-vertical', '' ) class=class classExtra=alignmentSettings( align, '' ) params=params attrs=attrs /> role="toolbar"<#if ariaLabel?has_content> aria-label="${ariaLabel}"</#if>>
+<div<@commonAttrs id=id classBase='btn-group' + vertical?then( '-vertical', '' ) class=class classExtra=alignmentSettings( align, '' ) params=params /> role="toolbar"<#if ariaLabel?has_content> aria-label="${ariaLabel}"</#if>>
 <#nested>
 </div>
 </#macro>

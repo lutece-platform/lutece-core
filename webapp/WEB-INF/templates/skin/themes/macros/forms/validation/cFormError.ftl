@@ -7,8 +7,7 @@ Parameters:
 - id (string, required): the ID of the related field, used to generate the error element ID (error_{id}).
 - label (string, required): the error message content.
 - class (string, optional): adds a CSS class to the error message. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Erreur de formulaire - @cFormError"
@@ -26,9 +25,9 @@ Snippet:
     <@cFormError id='email' label='Please enter a valid email address.' />
 
 -->
-<#macro cFormError id label class='' params='' attrs={} deprecated...>
+<#macro cFormError id label class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cClass>invalid-feedback<#if class?has_content> ${class!}</#if></#local>
-<#local cParam><#if params?has_content> ${params?no_esc}  role="status"</#if></#local>
-<@cText class=cClass id="error_${id!}" params=cParam attrs=attrs><@cIcon name='alert-error' class='main-danger-color' />${label!}</@cText>
+<#local cParam = params?has_content?then( params + { 'role': 'status' }, {} ) />
+<@cText class=cClass id="error_${id!}" params=cParam><@cIcon name='alert-error' class='main-danger-color' />${label!}</@cText>
 </#macro>

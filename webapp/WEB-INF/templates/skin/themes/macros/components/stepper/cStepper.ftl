@@ -13,8 +13,7 @@ Parameters:
 - a11StatusMsg (string, optional): Accessible status message for the active step. Default: ''.
 - class (string, optional): Additional CSS classes (use 'pie' for pie-chart style). Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Stepper - @cStepper
@@ -35,10 +34,10 @@ Snippet:
     <@cStepper steps=mySteps haspicto=true title=true />
 
 -->
-<#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' attrs={} deprecated...>
+<#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="stepper">
-    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
+    <ol class="stepper-list <#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params /> >
     <#if steps?has_content>
 		<#assign nbSteps = steps?size >
         <#list steps as step>

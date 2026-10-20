@@ -10,8 +10,7 @@ Parameters:
 - linkLabelUrl (string, optional): Label text for the navigation link. Default: ''.
 - id (string, optional): The unique identifier for the error container. Default: ''.
 - class (string, optional): Additional CSS class(es) for the error container. Default: ''.
-- params (string, optional): Additional HTML attributes for the error container. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Message d'erreur - @cErrorMessage
@@ -28,11 +27,11 @@ Snippet:
     <@cErrorMessage title='Access denied' text='You do not have permission to view this page.' linkUrl='jsp/site/Portal.jsp?page=login' linkLabelUrl='Sign in' />
 
 -->
-<#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params='' attrs={} deprecated...>
+<#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cContainer class='d-flex align-items-center justify-content-center vh-100'>
   <@cRow>
-    <@cCol class=class! id=id params=params attrs=attrs >
+    <@cCol class=class! id=id params=params >
       <@cAlert title=title type='danger' class='d-block'>
         <#-- title and text may be strings or captured blocks: compare their source -->
         <#local titleSource = title?is_markup_output?then( title?markup_string, title ) />

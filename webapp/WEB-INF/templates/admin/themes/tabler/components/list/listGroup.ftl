@@ -5,8 +5,7 @@ Description: Generates an HTML unordered list (<ul>) with the Bootstrap "list-gr
 Parameters:
 - id (string, optional): the ID attribute of the unordered list.
 - class (string, optional): the class attribute of the unordered list.
-- params (string, optional): additional attributes to add to the unordered list, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -26,9 +25,9 @@ Snippet:
     </@listGroup>
 
 -->
-<#macro listGroup id='' class='' params='' attrs={} deprecated...>
+<#macro listGroup id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<ul class="list-group<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<ul class="list-group<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 	<#nested>
 </ul>
 </#macro>

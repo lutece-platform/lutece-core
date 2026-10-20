@@ -22,3 +22,17 @@ offcanvas    LUT-33153 no onclick="event.preventDefault();": Bootstrap already p
 cOffcanvas   same as offcanvas
 sortSite     LUT-33153 the sort buttons are links (href) instead of buttons navigating in an onclick handler
 coreAdminJSLinks LUT-33153 loads lutece-actions.js, which runs the data-lutece-action behaviours
+stepDone     LUT-33387 actionParams is a map (the harness passes {} for a sample string), the classes are written once
+cStepDone    same as stepDone
+cQuantityPicker LUT-33387 paramsDecrease and paramsIncrease are maps (the harness passes {} for a sample string)
+boxHeader    LUT-33387 titleParams is a map written by commonAttrs (the harness passes {} for a sample string)
+fieldSet     LUT-33387 fieldsetParams and legendParams are maps written by commonAttrs (the harness passes {} for a sample string)
+btnGroupRadioCheckbox LUT-33387 labelParams is a map written by commonAttrs (the harness passes {} for a sample string)
+cInitToast   LUT-33387 no style="<position>": the position is a class, written in the class attribute only
+cCardLayout  LUT-33387 params was lost unless type was columns: it is now written for every type
+td           LUT-33387 htmlAttributes writes each class once (d-flex was written twice)
+cStepGroup   same as td (step-group was written twice)
+input        LUT-33387 params was lost on a hidden input: it is now written
+overlay      LUT-33387 no style in params: the overlay background is the class lutece-overlay
+empty        LUT-33387 no style in params: the icon size is the class lutece-fs-48
+cAccordion   LUT-33387 a stray quote followed data-bs-target when the accordion is not collapsible

@@ -5,8 +5,7 @@ Description: Generates an HTML <div> element for a tab panel, with an optional I
 
 Parameters:
 - id (string, required): the ID of the <div> element for the tab panel.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - active (boolean, optional): whether or not the tab panel is active.
 
 Snippet:
@@ -24,9 +23,9 @@ Snippet:
     </@tabPanel>
 
 -->
-<#macro tabPanel id class='' params='' active=false attrs={} deprecated...>
+<#macro tabPanel id class='' params={} active=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="tab-pane fade<#if active> show active</#if><#if class?has_content> ${class}</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<@commonAttrs params=params attrs=attrs />>
+<div class="tab-pane fade<#if active> show active</#if><#if class?has_content> ${class}</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<@commonAttrs params=params />>
 <#nested>
 </div>
 </#macro>

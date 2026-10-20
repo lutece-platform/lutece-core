@@ -15,8 +15,7 @@ Parameters:
 - title (string, optional): Accessible label for the connection button/icon. Default: '#i18n{portal.theme.labelConnect}'.
 - id (string, optional): Unique identifier for the menu item. Default: ''.
 - class (string, optional): Additional CSS class(es) for the menu item. Default: ''.
-- params (string, optional): Additional HTML attributes for the menu item. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Menu utilisateur - @cMainNavUser"
@@ -36,10 +35,10 @@ Snippet:
     </@cMainNavUser>
 
 -->
-<#macro cMainNavUser connected userName urlConnect btnToggle=true userFullName='' userEmail='' userInitials='' hasIcon=false title='#i18n{portal.theme.labelConnect}' id='' class='' params='' attrs={} deprecated...>
+<#macro cMainNavUser connected userName urlConnect btnToggle=true userFullName='' userEmail='' userInitials='' hasIcon=false title='#i18n{portal.theme.labelConnect}' id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <ul id="auth-wrapper" class="navbar-nav mon-auth">
-    <li class="nav-item mt-0 dropdown<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
+    <li class="nav-item mt-0 dropdown<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params />>
     <#if !connected>
         <#if btnToggle>
         <button type="button" class="nav-link" id="dropdownAuthUser" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="#i18n{portal.theme.titleConnect}">

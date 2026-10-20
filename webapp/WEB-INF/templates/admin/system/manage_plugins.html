@@ -6,7 +6,7 @@
 				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
 					formStyle='inline'>
 					<@inputGroup>
-						<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' attrs={'autocomplete': "off", 'addons': true} />
+						<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' autoComplete='off' />
 						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>
@@ -15,7 +15,7 @@
 				<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type'
 					hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
-						<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list attrs={'addons': true} />
+						<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
 						<@button type='submit' color='primary' buttonIcon='search' title='Search' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>

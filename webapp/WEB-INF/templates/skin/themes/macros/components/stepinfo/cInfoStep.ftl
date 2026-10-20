@@ -14,7 +14,7 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - imgClass (string, optional): CSS class for step pictogram images. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -36,8 +36,7 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - imgClass (string, optional): CSS class for pictogram images. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Info étape - @cInfoStep
@@ -59,7 +58,7 @@ Snippet:
 
 -->
 
-<#macro cInfoStepOld steps haspicto=false hasidx=false title=false showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' imgClass='' id='' params='' attrs={} deprecated...>
+<#macro cInfoStepOld steps haspicto=false hasidx=false title=false showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' imgClass='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="info-step">
     <#if steps?has_content>
@@ -75,7 +74,7 @@ Snippet:
         </ol>
     </#if>
     </#if>
-    <ol class="info-step-list<#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
+    <ol class="info-step-list<#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params /> >
     <#if steps?has_content>
         <#list steps as step>
             <li<#if step.status??> class="${step.status}"</#if>>
@@ -116,10 +115,10 @@ Snippet:
     </ol>
 </div>
 </#macro>
-<#macro cInfoStep steps haspicto=false verticalStepper=false hasidx=false title=false titleLevel=3 showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' imgClass='' params='' attrs={} deprecated...>
+<#macro cInfoStep steps haspicto=false verticalStepper=false hasidx=false title=false titleLevel=3 showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' imgClass='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="c-info-step-wrapper<#if verticalStepper> stepper-vertical<#else> stepper-horizontal c-info-step-default</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
-  <ol class="c-info-step<#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="c-info-step-wrapper<#if verticalStepper> stepper-vertical<#else> stepper-horizontal c-info-step-default</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params /> >
+  <ol class="c-info-step<#if hasidx> list-idx</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
     <#if steps?has_content>
         <#list steps as step>
             <li class="c-info-step__item<#if step.status??> ${step.status}</#if>">
