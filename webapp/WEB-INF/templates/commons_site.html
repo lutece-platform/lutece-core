@@ -332,7 +332,7 @@
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
 <div class="mb-3">
 	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
-	<@comboWithParams name=inputName items=items default_value=value additionalParameters={'class': cssClass} />
+	<@select id=inputName name=inputName default_value=value items=items class=cssClass />
 	<#if i18nHelpBlockKey?has_content><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 </div>
 </#macro>
