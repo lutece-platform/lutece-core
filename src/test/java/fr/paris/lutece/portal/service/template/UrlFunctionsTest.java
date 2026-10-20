@@ -148,7 +148,8 @@ public class UrlFunctionsTest
     }
 
     /**
-     * cssUrl keeps a URL that cannot end url("..."), data: URLs included, and refuses any other.
+     * cssUrl keeps a relative, http, https or data:image/ URL that cannot end url("..."), and refuses any other: a script scheme
+     * (javascript:, vbscript:), a data: URL that is not an image, or a quote, a parenthesis, a space.
      *
      * @throws Exception
      *             if the template fails
@@ -159,13 +160,13 @@ public class UrlFunctionsTest
         for ( String strDirectory : DIRECTORIES )
         {
             for ( String strUrl : new String [ ] {
-                    "images/logo.png", "https://cdn.example.org/a.jpg?v=2", "data:image/png;base64,iVBORw0KGgo+/="
+                    "images/logo.png", "//cdn.example.org/a.jpg", "https://cdn.example.org/a.jpg?v=2", "HTTP://cdn.example.org/a.jpg", "data:image/png;base64,iVBORw0KGgo+/=", "a/b:c.png"
             } )
             {
                 assertEquals( strUrl, render( strDirectory, "${cssUrl(url)}", strUrl ), strDirectory );
             }
             for ( String strUrl : new String [ ] {
-                    "x.png\");background:url(//evil", "x.png') ; color:red", "a b.png", "x\\\".png", "<x>"
+                    "x.png\");background:url(//evil", "x.png') ; color:red", "a b.png", "x\\\".png", "<x>", "javascript:alert", "JaVaScRiPt:x", "vbscript:x", "data:text/html,x", "data:,x", "ftp://host/a.png"
             } )
             {
                 assertEquals( "", render( strDirectory, "${cssUrl(url)}", strUrl ), strDirectory + " " + strUrl );
