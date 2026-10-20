@@ -40,7 +40,6 @@ Snippet:
 <#local isrequired=required />
 <label class="form-label<#if class?has_content> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for?has_content> for="${for!}"</#if><@commonAttrs id=id params=params />>
 <#nested> 
-${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xxs" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
+${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xxs" title="#i18n{portal.theme.labelMandatory}" aria-hidden="true">*</span></#if>
 </label>
-<#if propagateRequired?? && propagateRequired ><#local isrequired=true /></#if>
 </#macro>

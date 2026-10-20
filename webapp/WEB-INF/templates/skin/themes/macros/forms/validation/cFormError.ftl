@@ -28,6 +28,6 @@ Snippet:
 <#macro cFormError id label class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cClass>invalid-feedback<#if class?has_content> ${class!}</#if></#local>
-<#local cParam = params?has_content?then( params + { 'role': 'status' }, {} ) />
+<#local cParam = params + { 'role': 'status' } />
 <@cText class=cClass id="error_${id!}" params=cParam><@cIcon name='alert-error' class='main-danger-color' />${label!}</@cText>
 </#macro>

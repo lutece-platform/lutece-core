@@ -9,7 +9,7 @@ textarea {
   font-size: var(--lutece-ds-fs-lg);
   color: var(--lutece-ds-text);
   background: var(--bs-white);
-  border: 1px solid var(--lutece-ds-border);
+  border: 1px solid var(--lutece-ds-border-strong);
   border-radius: var(--lutece-ds-radius-sm);
   padding: 0 14px;
   transition: border-color var(--lutece-ds-dur-base), box-shadow var(--lutece-ds-dur-base);
@@ -70,14 +70,22 @@ label {
 }
    */
 .form-control::placeholder {
-	font-size: 13px;
-	color: #999;
+	font-size: inherit;
+	color: #767676;
 }
   
 .form-control:focus {
 	outline: 0;
 	border-color: #3C5BFE;
 	box-shadow: none;
+}
+
+/* Keyboard focus is shown by a 2px outline, not by the color of a 1px border alone (WCAG 2.4.7, 1.4.11) */
+.form-control:focus-visible,
+.form-select:focus-visible,
+:is( input, select, textarea ):focus-visible {
+	outline: 2px solid var(--lutece-ds-primary);
+	outline-offset: 2px;
 }
 
 

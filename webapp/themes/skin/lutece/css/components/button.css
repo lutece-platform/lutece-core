@@ -35,7 +35,7 @@
 
 .btn:active,
 .btn:focus {
-	outline: 1px solid var(--lutece-ds-text);
+	outline: 2px solid var(--lutece-ds-text);
 	outline-offset: calc(var(--lutece-ds-sp-2xs) / 2);
 	text-decoration: underline !important;
 }

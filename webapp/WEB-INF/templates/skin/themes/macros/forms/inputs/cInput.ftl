@@ -64,7 +64,8 @@ Snippet:
 <#local hasError = (errorMsg != '')>
 <#assign idMsg = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
 <#local errorClass = ( hideErrorMsg )?then( 'visually-hidden', '' ) />
-<input type="${type!}" class="<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder?has_content> placeholder="${placeholder!}"<#if ariaLabel?has_content> aria-label="${ariaLabel!}"</#if></#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs macroParams=( width?number gt 0 )?then( { 'style': 'width:' + width?number?c + 'px' }, {} ) params=params /><#if pattern?has_content> pattern="${pattern}"</#if><#if accept?has_content> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId?has_content> list="${datalistId!}"</#if><#if hasError> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
+<#local describedBy = ( ( errorMsg?has_content && errorMsg != '_error' )?then( 'error_' + idMsg, '' ) + ' ' + helpMsg?has_content?then( 'help_' + idMsg, '' ) )?trim />
+<input type="${type!}" class="<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if><#if type == 'tel' && phoneCountry == 'FR'> fr-number</#if>" name="${name!}" id="<#if id?has_content>${id}<#else>${name!}</#if>" value="${value!}"<#if placeholder?has_content> placeholder="${placeholder!}"</#if><#if ariaLabel?has_content> aria-label="${ariaLabel!}"</#if><#if autocomplete?has_content> autocomplete="${autocomplete!}"</#if><#if title?has_content> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs macroParams=( width?number gt 0 )?then( { 'style': 'width:' + width?number?c + 'px' }, {} ) params=params /><#if pattern?has_content> pattern="${pattern}"</#if><#if accept?has_content> accept="${accept}"</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if isRequired><#if html5Required> required</#if> aria-required="true"</#if><#if datalistId?has_content> list="${datalistId!}"</#if><#if hasError> aria-invalid="true"</#if><#if describedBy?has_content> aria-describedby="${describedBy}"</#if>>
 <#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>
 <#if errorMsg?has_content && errorMsg !='_error'><@cFormError idMsg errorMsg errorClass /></#if>
 <#nested>
@@ -92,58 +93,50 @@ document.addEventListener('DOMContentLoaded', function() {
 </#if>
 <#if type == 'number' && ( min gt 0 || max gt 0 )>
 <script>
-function setInvalidMaxMinMessage( input ) {
-  const value = parseFloat(input.value);
-  const min = input.hasAttribute('min') ? parseFloat(input.getAttribute('min')) : -Infinity;
-  const max = input.hasAttribute('max') ? parseFloat(input.getAttribute('max')) : Infinity;
-  if ( value < min || value > max  ) {
-    if ( !input.classList.contains('is-invalid') ) {
-        input.classList.add('is-invalid');
-        const quantityFeedback = document.createElement('p');
-        quantityFeedback.className = 'invalid-feedback';
-        quantityFeedback.textContent = '${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}';
-        if( input.parentNode.classList.contains('input-group') ) {
-            input.parentNode.before( quantityFeedback );
-        } else {
-            input.before( quantityFeedback );
-        }
-        input.setAttribute('aria-invalid', 'true');
-        input.setAttribute('aria-describedby', 'error_' + input.id);
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('${idMsg?js_string?no_esc}');
+  if ( !input ) {
+    return;
+  }
+  const errorId = 'error_' + input.id;
+  const message = '${( i18n('portal.theme.labelQuantityInvalid',min,max) )?js_string?no_esc}';
+  function check( ) {
+    const value = parseFloat( input.value );
+    const min = input.hasAttribute('min') ? parseFloat(input.getAttribute('min')) : -Infinity;
+    const max = input.hasAttribute('max') ? parseFloat(input.getAttribute('max')) : Infinity;
+    let feedback = document.getElementById( errorId );
+    if ( value < min || value > max ) {
+      if ( !feedback ) {
+        feedback = document.createElement('p');
+        feedback.className = 'invalid-feedback';
+        feedback.id = errorId;
+        ( input.closest('.input-group') || input ).after( feedback );
+      }
+      feedback.textContent = message;
+      input.classList.add('is-invalid');
+      input.setAttribute('aria-invalid', 'true');
+      const tokens = ( input.getAttribute('aria-describedby') || '' ).split(' ').filter( function( t ) { return t && t !== errorId; } );
+      input.setAttribute('aria-describedby', [ errorId ].concat( tokens ).join(' ') );
+      return false;
     }
-    return false;
-  } else {
-    if ( input.classList.contains('is-invalid') ) {
-        input.classList.remove('is-invalid');
-        input.removeAttribute('aria-invalid');
-        input.removeAttribute('aria-describedby');
-        // Remove the error message if it exists
-        const errorMsg = input.closest('.col').querySelector('.invalid-feedback'); 
-        if (errorMsg) {
-          errorMsg.remove();
-        }
+    if ( feedback && feedback.textContent === message ) {
+      feedback.remove();
+      input.classList.remove('is-invalid');
+      input.removeAttribute('aria-invalid');
+      const tokens = ( input.getAttribute('aria-describedby') || '' ).split(' ').filter( function( t ) { return t && t !== errorId; } );
+      if ( tokens.length ) { input.setAttribute('aria-describedby', tokens.join(' ') ); } else { input.removeAttribute('aria-describedby'); }
     }
     return true;
   }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  const input${idMsg} = document.getElementById('${idMsg?js_string?no_esc}');
-  if ( input${idMsg}  ) {
-
-      input${idMsg}.addEventListener('blur', function() {
-        setInvalidMaxMinMessage( input${idMsg} );
-      });
-    
-      input${idMsg}.closest('form').addEventListener('submit', function(e) {
-        const value = parseFloat(input${idMsg}.value);
-        if ( input${idMsg} && input${idMsg}.closest('.col').style.display !== 'none' && input${idMsg}.value !== '' ) {
-          if( !setInvalidMaxMinMessage( input${idMsg} ) ) {
-            input${idMsg}.focus();
-            e.preventDefault();
-          }
-        }
-      });
-   }
+  input.addEventListener('blur', check );
+  if ( input.form ) {
+    input.form.addEventListener('submit', function( e ) {
+      if ( input.offsetParent !== null && input.value !== '' && !check( ) ) {
+        input.focus();
+        e.preventDefault();
+      }
+    });
+  }
 });
 </script>
 </#if>
