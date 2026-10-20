@@ -8,19 +8,12 @@
     </@div>
 </@formGroup>
 <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.passwordHelpText")}' mandatory=true rows=2 >
-<@row>
-    <@div class='col pe-0'>     
-        <@div class='input-icon'>
-            <@span class='input-icon-addon'><@icon style='lock' /></@span>
-            <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.passwordHelpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
-        </@div>
-    </@div>
-    <@div class='col-auto ps-1'>    
-         <@button color='secondary' class='btn btn-2 btn-icon' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
-              <@icon style='eye' />
-         </@button>
-    </@div>
-</@row>
+<@inputGroup class='input-group-flat'>
+    <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.passwordHelpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
+    <@inputGroupItem>
+        <button type="button" class="link-secondary input-group-link border-0 bg-transparent p-0" id="lutece-password-toggler" title="${i18n('portal.admin.admin_login.passwordShow')}" aria-label="${i18n('portal.admin.admin_login.passwordShow')}" aria-controls="password" aria-pressed="false"><@icon style='eye' class='icon' /></button>
+    </@inputGroupItem>
+</@inputGroup>
 </@formGroup>
 <@formField class='has-text-centered text-center'>
     <@button type='submit' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />

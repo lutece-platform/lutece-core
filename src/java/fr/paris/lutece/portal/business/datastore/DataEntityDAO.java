@@ -79,6 +79,13 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public boolean insertIfAbsent( DataEntity entity )
     {
+        // An AppException is logged as soon as it is built: skip the insert when the key is already there,
+        // so that only a real concurrent creation goes through the duplicate key path below
+        if ( load( entity.getKey( ) ) != null )
+        {
+            return false;
+        }
+
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setString( 1, entity.getKey( ) );

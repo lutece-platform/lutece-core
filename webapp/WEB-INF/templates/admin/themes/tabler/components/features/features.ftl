@@ -1,12 +1,13 @@
 <#--
 Macro: manageFeature
 
-Description: Generates a container for listing manageable feature items as cards. Replaces the @table macro for CRUD entity lists, rendering items as a vertical list of cards instead of table rows.
+Description: Generates a container for listing manageable feature items as cards or as a compact list. Replaces the @table macro for CRUD entity lists, rendering items as a vertical list of cards (or of list rows) instead of table rows.
 
 Parameters:
-- class (string, optional): additional classes to add to the row container. Default: 'mt-2'.
-- colClass (string, optional): classes for the inner column wrapper. Default: 'space-y'.
-- listClass (string, optional): classes for the unordered list element. Default: 'space-y'.
+- layout (string, optional): how the items are rendered, 'card' (one card per item) or 'list' (one flush list group inside a single box, one row per item). The nested @manageFeatureItem follow it. Default: 'card'.
+- class (string, optional): additional classes to add to the container (the row in 'card' layout, the box in 'list' layout). Default: 'mt-2'.
+- colClass (string, optional): classes for the inner column wrapper ('card' layout only). Default: 'space-y'.
+- listClass (string, optional): classes for the unordered list element ('card' layout only). Default: 'space-y'.
 - id (string, optional): the ID of the container element.
 - params (string, optional): additional HTML attributes to add to the container.
 
@@ -28,30 +29,52 @@ Snippet:
         ...
     </@manageFeature>
 
+    Compact list layout (a single box, one row per item):
+
+    <@manageFeature layout='list' id='my-list'>
+        <#list item_list as item>
+            <@manageFeatureItem id='item_${item.id}'>
+                ...
+            </@manageFeatureItem>
+        </#list>
+    </@manageFeature>
+
 -->
-<#macro manageFeature class='mt-2' colClass='space-y' listClass='space-y' id='' params='' deprecated...>
+<#macro manageFeature layout='card' class='mt-2' colClass='space-y' listClass='space-y' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row row-cards<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<#local parentLayout = .globals.manageFeatureLayout!'card' />
+<#global manageFeatureLayout = layout />
+<#if layout == 'list'>
+<@box class='features ${class}' id=id params=params>
+    <@listGroup class='list-group-flush'>
+        <#nested>
+    </@listGroup>
+</@box>
+<#else>
+<div class="features row row-cards<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
     <div class="col ${colClass}">
         <ul class="list-unstyled ${listClass}">
             <#nested>
         </ul>
     </div>
 </div>
+</#if>
+<#global manageFeatureLayout = parentLayout />
 </#macro>
 <#--
 Macro: manageFeatureItem
 
-Description: Generates a single feature item rendered as a card within a manageFeature list. Each item is displayed as a list item containing a card with a row layout for its columns.
+Description: Generates a single feature item within a manageFeature list. In 'card' layout the item is a list item containing a card; in 'list' layout it is a list group item. Both hold a row layout for its columns.
 
 Parameters:
-- class (string, optional): additional classes to add to the card element.
+- layout (string, optional): 'card' or 'list'. Default: the layout of the enclosing @manageFeature ('card' outside of one).
+- class (string, optional): additional classes to add to the card element ('card' layout) or to the list group item ('list' layout).
 - align (string, optional): horizontal alignment of the row content. Default: 'start'.
 - valign (string, optional): vertical alignment of the row content. Default: 'center'.
 - liClass (string, optional): additional classes to add to the list item element.
-- bodyClass (string, optional): additional classes to add to the card body element.
-- id (string, optional): the ID of the card element.
-- params (string, optional): additional HTML attributes to add to the card element.
+- bodyClass (string, optional): additional classes to add to the card body element ('card' layout only).
+- id (string, optional): the ID of the card element ('card' layout) or of the list group item ('list' layout).
+- params (string, optional): additional HTML attributes to add to the card element ('card' layout) or to the list group item ('list' layout).
 
 Snippet:
 
@@ -80,9 +103,24 @@ Snippet:
         ...
     </@manageFeatureItem>
 
+    Forcing the list layout on a single item:
+
+    <@manageFeatureItem layout='list' id='item_${item.id}'>
+        ...
+    </@manageFeatureItem>
+
 -->
-<#macro manageFeatureItem class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' deprecated...>
+<#macro manageFeatureItem layout='' class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local itemLayout = (layout != '')?then(layout, .globals.manageFeatureLayout!'card') />
+<#if itemLayout == 'list'>
+<@listGroupItem class='${liClass} ${class}'?trim id=id params=params>
+    <div class="row g-2 justify-content-${align} align-items-${valign}">
+    <#nested>
+    </div>
+</@listGroupItem>
+<#return>
+</#if>
 <li class="<#if liClass !=''> ${liClass}</#if>">
     <div class="card<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
         <div class="card-body<#if bodyClass !=''> ${bodyClass}</#if>">
