@@ -202,6 +202,7 @@ if( storedSidebar === 'folded' || storedSidebar === 'folded-hover' ){
 					</div>
 					<#if menuHome?number == 1>
 					<div class="col col-md-auto">
+						<nav aria-label="#i18n{portal.users.admin_header.title.viewSite}">
 						<ul class="navbar-nav">
 							<li class="nav-item">
 								<a class="nav-link" href="." target="_blank" title="#i18n{portal.users.admin_header.title.viewSite}">
@@ -210,6 +211,7 @@ if( storedSidebar === 'folded' || storedSidebar === 'folded-hover' ){
 								</a>
 							</li>
 						</ul>
+						</nav>
 					</div>
 					</#if>
 				</div>
