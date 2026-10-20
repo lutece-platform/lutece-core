@@ -29,6 +29,8 @@ Snippet:
 	<#nested>
 	</small>
 <#else>
-	<span class="form-help" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover" data-bs-html="true" data-bs-content="<#nested>">?</span>
+	<#local helpContent><#nested></#local>
+	<button type="button" class="btn btn-link p-0 form-help" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="focus hover" data-bs-html="true" data-bs-content="${helpContent?markup_string?trim}" aria-label="#i18n{portal.util.labelHelp}"<#if labelFor?has_content> aria-describedby="help_${labelFor}"</#if>>?</button>
+	<span class="visually-hidden"<#if labelFor?has_content> id="help_${labelFor}"</#if>>${helpContent}</span>
 </#if>
 </#macro>
