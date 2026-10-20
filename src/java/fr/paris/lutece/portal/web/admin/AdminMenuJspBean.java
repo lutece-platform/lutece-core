@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.admin;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,7 @@ import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuI
 import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.admin.HomeShortcutService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -80,6 +82,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.dashboard.DashboardJspBean;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.IPassword;
@@ -120,6 +123,12 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
     private static final String MARK_PASSWORD_FORMAT_NUMERO = "password_format_numero";
     private static final String MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
+    private static final String MARK_HOME_SHORTCUTS = "home_shortcuts";
+    private static final String MARK_HOME_SHORTCUT_GROUPS = "home_shortcut_groups";
+    private static final String MARK_HOME_SHORTCUTS_OWN = "home_shortcuts_own";
+    private static final String MARK_HOME_SHORTCUTS_CAN_SET_DEFAULT = "home_shortcuts_can_set_default";
+    private static final String MARK_HOME_SHORTCUTS_MAX = "home_shortcuts_max";
+    private static final String MARK_HOME_SHORTCUTS_USER_ENABLED = "home_shortcuts_user_enabled";
 
 
     // Templates
@@ -132,11 +141,15 @@ public class AdminMenuJspBean implements Serializable
 
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";
+    private static final String PARAMETER_SHORTCUT = "shortcut";
+    private static final String PARAMETER_SHORTCUT_ACTION = "shortcut_action";
+    private static final String SHORTCUT_ACTION_RESET = "reset";
+    private static final String SHORTCUT_ACTION_DEFAULT = "default";
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
-    private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";
-    private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
+    // The default icon of the plugins up to v7, removed from the core: the plugins that still declare it get the default icon of today
+    private static final String LEGACY_DEFAULT_FEATURE_ICON = "images/admin/skin/feature_default_icon.png";
     private static final String REFERER = "referer";
 
     // Jsp
@@ -157,6 +170,8 @@ public class AdminMenuJspBean implements Serializable
     private DashboardService _dashboardService;
     @Inject
     private ISecurityTokenService _securityTokenService;
+    @Inject
+    private HomeShortcutService _homeShortcutService;
     
     /**
      * Returns the Administration header menu
@@ -183,7 +198,7 @@ public class AdminMenuJspBean implements Serializable
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
 
-        int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
+        int nZoneMax = _dashboardService.getZoneCount( );
         setDashboardData( model, user, request, nZoneMax );
 
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
@@ -232,6 +247,18 @@ public class AdminMenuJspBean implements Serializable
         AdminUser user = AdminUserService.getAdminUser( request );
 
         Map<String, Object> model = new HashMap<>( );
+        // The home greets the user and offers the features it has the right of
+        model.put( MARK_USER, user );
+
+        // The shortcuts of the header, and what the dialog that changes them needs: the menu of the user to pick from
+        List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
+        model.put( MARK_HOME_SHORTCUTS, _homeShortcutService.getShortcuts( user, listFeatureGroups ) );
+        model.put( MARK_HOME_SHORTCUT_GROUPS, listFeatureGroups );
+        model.put( MARK_HOME_SHORTCUTS_OWN, _homeShortcutService.hasOwnShortcuts( user ) );
+        model.put( MARK_HOME_SHORTCUTS_CAN_SET_DEFAULT, user.checkRight( DashboardJspBean.RIGHT_MANAGE_DASHBOARD ) );
+        model.put( MARK_HOME_SHORTCUTS_MAX, HomeShortcutService.MAX_SHORTCUTS );
+        model.put( MARK_HOME_SHORTCUTS_USER_ENABLED, _homeShortcutService.isUserShortcutsEnabled( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE_ADMIN_HOME ) );
 
         setDashboardData( model, user, request );
 
@@ -253,7 +280,7 @@ public class AdminMenuJspBean implements Serializable
     private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request )
     {
         List<IDashboardComponent> listDashboards = _dashboardService.getDashboards( user, request );
-        int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
+        int nZoneMax = _dashboardService.getZoneCount( );
 
         if ( CollectionUtils.isNotEmpty( listDashboards ) )
         {
@@ -374,6 +401,56 @@ public class AdminMenuJspBean implements Serializable
     }
 
     /**
+     * Changes the shortcuts of the home page: saves the list of the user, resets it to the default (both when the site property
+     * portal.site.site_property.bo.shortcuts.checkbox is on), or saves it as the default for everyone (right CORE_DASHBOARD_MANAGEMENT)
+     *
+     * @param request
+     *            The HTTP request
+     * @return The forward Url
+     * @throws AccessDeniedException
+     *             if the security token is invalid, if the user may not set the default list, or if the users may not choose their own
+     */
+    public String doModifyHomeShortcuts( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !_securityTokenService.validate( request, TEMPLATE_ADMIN_HOME ) )
+        {
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        }
+
+        AdminUser user = AdminUserService.getAdminUser( request );
+        String strAction = request.getParameter( PARAMETER_SHORTCUT_ACTION );
+        String [ ] strShortcuts = request.getParameterValues( PARAMETER_SHORTCUT );
+        List<String> listIds = ( strShortcuts != null ) ? Arrays.asList( strShortcuts ) : Collections.emptyList( );
+
+        // A list of one's own only when the site lets the users choose their shortcuts
+        if ( !SHORTCUT_ACTION_DEFAULT.equals( strAction ) && !_homeShortcutService.isUserShortcutsEnabled( ) )
+        {
+            throw new AccessDeniedException( "The users may not choose their own shortcuts" );
+        }
+
+        if ( SHORTCUT_ACTION_RESET.equals( strAction ) )
+        {
+            _homeShortcutService.resetUserShortcuts( user );
+        }
+        else
+            if ( SHORTCUT_ACTION_DEFAULT.equals( strAction ) )
+            {
+                if ( !user.checkRight( DashboardJspBean.RIGHT_MANAGE_DASHBOARD ) )
+                {
+                    throw new AccessDeniedException( "The user " + user.getAccessCode( ) + " may not set the default shortcuts" );
+                }
+
+                _homeShortcutService.saveDefaultShortcuts( listIds, getFeatureGroupsList( user ) );
+            }
+            else
+            {
+                _homeShortcutService.saveUserShortcuts( user, listIds, getFeatureGroupsList( user ) );
+            }
+
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( );
+    }
+
+    /**
      * Change the current language of the user
      *
      * @param request
@@ -416,7 +493,7 @@ public class AdminMenuJspBean implements Serializable
             String strPluginName = right.getPluginName( );
             Plugin plugin = PluginService.getPlugin( strPluginName );
 
-            if ( plugin != null )
+            if ( plugin != null && StringUtils.isNotBlank( plugin.getIconUrl( ) ) && !LEGACY_DEFAULT_FEATURE_ICON.equals( plugin.getIconUrl( ) ) )
             {
                 strIconUrl = plugin.getIconUrl( );
             }

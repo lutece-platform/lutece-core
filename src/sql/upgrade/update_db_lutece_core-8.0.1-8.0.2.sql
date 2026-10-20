@@ -203,21 +203,6 @@ DELETE FROM core_datastore WHERE entity_key LIKE 'core.cache.status.%.diskPersis
     OR entity_key LIKE 'core.cache.status.%.diskSpoolBufferSizeMB'
     OR entity_key LIKE 'core.cache.status.%.memoryStoreEvictionPolicy';
 
--- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev16.sql
--- preconditions onFail:MARK_RAN onError:WARN
--- comment The profiles of the back office rich text editor, managed in the "Text editor" tab of the technical settings
--- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile'
-CREATE TABLE IF NOT EXISTS core_editor_profile (
-	id_profile int AUTO_INCREMENT NOT NULL,
-	name varchar(100) NOT NULL,
-	description varchar(255) default NULL,
-	editor_name varchar(255) default NULL,
-	config LONG VARCHAR,
-	priority int default 0 NOT NULL,
-	is_default SMALLINT default 0 NOT NULL,
-	PRIMARY KEY (id_profile)
-);
-
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev17.sql
 -- preconditions onFail:MARK_RAN onError:WARN
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile_target'
@@ -285,3 +270,42 @@ INSERT INTO core_text_editor VALUES ('milkdown', 'portal.admindashboard.editors.
 -- comment The default profile of Milkdown
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE editor_name = 'milkdown' AND is_default = 1
 INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile of the editor matches', 'milkdown', '{}', 0, 1 );
+
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev28.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The figures of the site on the admin home, in the strip of the first zone after the users and the plugins
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_dashboard WHERE dashboard_name = 'CORE_SITE_KPIS'
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SITE_KPIS', 1, 3);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev29.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The layout of the homepage dashboards, a panel of the technical dashboard: never placed until now, it could not be reached
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_admin_dashboard WHERE dashboard_name = 'adminHomePageAdminDashboardComponent'
+INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) SELECT 'adminHomePageAdminDashboardComponent', 1, COALESCE( MAX( dashboard_order ), 0 ) + 1 FROM core_admin_dashboard WHERE dashboard_column = 1;
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev30.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The default shortcuts of the homepage header, the two buttons it showed until now; each user may then choose their own
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'core.home.shortcuts.default'
+INSERT INTO core_datastore VALUES ('core.home.shortcuts.default', 'CORE_ADMIN_SITE,CORE_USERS_MANAGEMENT');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev31.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The site property that lets the users choose their own shortcuts of the homepage header (on by default)
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.bo.shortcuts.checkbox'
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.checkbox', '1');
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev16.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The profiles of the back office rich text editor, managed in the "Text editor" tab of the technical settings
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile'
+CREATE TABLE IF NOT EXISTS core_editor_profile (
+	id_profile int AUTO_INCREMENT NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(255) default NULL,
+	editor_name varchar(255) default NULL,
+	config LONG VARCHAR,
+	priority int default 0 NOT NULL,
+	is_default SMALLINT default 0 NOT NULL,
+	PRIMARY KEY (id_profile)
+);

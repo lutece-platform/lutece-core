@@ -45,10 +45,13 @@ import fr.paris.lutece.util.sort.AttributeComparator;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
@@ -64,6 +67,7 @@ public class DashboardService
 {
     // Properties
     private static final String PROPERTY_COLUMN_COUNT = "dashboard.columnCount";
+    private static final String PROPERTY_ZONE_COUNT = "lutece.dashboard.zones.count";
 
     // Constants
     private static final String ALL = "ALL";
@@ -71,6 +75,7 @@ public class DashboardService
     private static final String ORDER = "order";
     private static final int CONSTANTE_FIRST_ORDER = 1;
     private static final int CONSTANTE_DEFAULT_COLUMN_COUNT = 3;
+    private static final int CONSTANTE_DEFAULT_ZONE_COUNT = 4;
 
     DashboardService( )
     {
@@ -103,6 +108,17 @@ public class DashboardService
     public int getColumnCount( )
     {
         return AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_COUNT, CONSTANTE_DEFAULT_COLUMN_COUNT );
+    }
+
+    /**
+     * Returns the zone count of the admin homepage, with {@link DashboardService#PROPERTY_ZONE_COUNT}. Default is
+     * {@link DashboardService#CONSTANTE_DEFAULT_ZONE_COUNT}
+     * 
+     * @return the zone count
+     */
+    public int getZoneCount( )
+    {
+        return AppPropertiesService.getPropertyInt( PROPERTY_ZONE_COUNT, CONSTANTE_DEFAULT_ZONE_COUNT );
     }
 
     /**
@@ -224,6 +240,76 @@ public class DashboardService
         {
             // update dashboard
             DashboardHome.update( dashboard );
+        }
+    }
+
+    /**
+     * Saves a whole layout of the dashboards: for each zone, its dashboards in their order, and the dashboards taken off the homepage. The
+     * orders of a zone start at 1 and follow the given list; the dashboards of that zone left out of the list (those the user has no right
+     * to see) keep their place after them. A name that matches no declared dashboard is ignored.
+     *
+     * @param mapZones
+     *            the dashboard names of each zone, in their order, with the zone number as key
+     * @param collectionUnset
+     *            the names of the dashboards taken off the homepage
+     */
+    public void doSaveLayout( Map<Integer, List<String>> mapZones, Collection<String> collectionUnset )
+    {
+        for ( Map.Entry<Integer, List<String>> entry : mapZones.entrySet( ) )
+        {
+            int nZone = entry.getKey( );
+            int nOrder = CONSTANTE_FIRST_ORDER;
+            Set<String> setPlaced = new HashSet<>( );
+
+            for ( String strName : entry.getValue( ) )
+            {
+                if ( DashboardFactory.getDashboardComponent( strName ) == null || !setPlaced.add( strName ) )
+                {
+                    AppLogService.debug( "Dashboard layout : unknown or repeated dashboard {} ignored", strName );
+                    continue;
+                }
+
+                IDashboardComponent dashboard = DashboardHome.findByPrimaryKey( strName );
+                boolean bCreate = dashboard == null;
+
+                if ( bCreate )
+                {
+                    dashboard = DashboardFactory.getDashboardComponent( strName );
+                }
+
+                dashboard.setZone( nZone );
+                dashboard.setOrder( nOrder++ );
+
+                if ( bCreate )
+                {
+                    DashboardHome.create( dashboard );
+                }
+                else
+                {
+                    DashboardHome.update( dashboard );
+                }
+            }
+
+            // The dashboards of the zone the user did not see go after the others, in their order
+            List<IDashboardComponent> listZoneDashboards = getDashboardComponents( nZone );
+            Collections.sort( listZoneDashboards );
+
+            for ( IDashboardComponent dashboard : listZoneDashboards )
+            {
+                if ( !setPlaced.contains( dashboard.getName( ) ) )
+                {
+                    dashboard.setOrder( nOrder++ );
+                    DashboardHome.update( dashboard );
+                }
+            }
+        }
+
+        for ( String strName : collectionUnset )
+        {
+            if ( DashboardHome.findByPrimaryKey( strName ) != null )
+            {
+                DashboardHome.remove( strName );
+            }
         }
     }
 

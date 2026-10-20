@@ -6,6 +6,7 @@ INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_ord
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('editorAdminDashboardComponent', 1, 3);
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('autoIncludesAdminDashboardComponent', 1, 4);
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('featuresAdminDashboardComponent', 1, 5);
+INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('adminHomePageAdminDashboardComponent', 1, 6);
 
 INSERT INTO core_admin_right VALUES ('CORE_ADMIN_SITE', 'portal.site.adminFeature.admin_site.name', 2, 'jsp/admin/site/AdminSite.jsp', 'portal.site.adminFeature.admin_site.description', 1, NULL, 'SITE', 'ti ti-home-edit', 'jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-site', 1, 0);
 INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.admindashboard.adminFeature.right_management.name', 0, NULL, 'portal.admindashboard.adminFeature.right_management.description', 0, '', 'SYSTEM', 'ti ti-dashboard', NULL, 8, 0);
@@ -53,6 +54,7 @@ INSERT INTO core_admin_user (access_code,last_name,first_name,email,status,passw
 
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 2);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SITE_KPIS', 1, 3);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USER', 4, 1);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_PAGES', 2, 1);
 
@@ -205,6 +207,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', '
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.widget.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.checkbox', '1');
+INSERT INTO core_datastore VALUES ('core.home.shortcuts.default', 'CORE_ADMIN_SITE,CORE_USERS_MANAGEMENT');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');

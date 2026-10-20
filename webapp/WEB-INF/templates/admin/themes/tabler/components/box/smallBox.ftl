@@ -2,7 +2,7 @@
 Macro: smallBox
 Description: Generates an HTML element for a small box widget with an icon, title, and text.
 Parameters:
-- color (string, optional): the background color of the widget.
+- color (string, optional): the color of the square behind the icon (a Tabler color: primary, green, azure...).
 - title (string, required): the title of the widget.
 - text (string, required): the text content of the widget.
 - boxIcon (string, optional): the icon to use in the widget.
@@ -13,6 +13,7 @@ Parameters:
 - id (string, optional): the ID of the widget element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the widget element.
 - fontSize (string, optional): the font size of the widget icon.
+- progress (number, optional): a percentage, shown as a thin bar under the figure.
 
 Snippet:
 
@@ -29,23 +30,24 @@ Snippet:
     <@smallBox title='42' text='Pending Tasks' boxIcon='clipboard' color='warning' id='pending-tasks-widget' />
 
 -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' deprecated...>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' progress='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card card-sm mb-3 box-widget" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#-- A figure, as the stat cards of the Tabler dashboards: the label on one line with the icon on its right, the figure under it, the whole card a link to its feature -->
+<div class="card card-sm box-widget lutece-kpi" draggable='true' <#if id!=''> id="${id}" data-id="${id}" data-dw-title="${text}"</#if><#if params!=''> ${params}</#if>>
 	<div class="card-body">
-		<div class="row align-items-center">
-			<div class="col-auto">
-				<#if color !=''><span class="bg-${color} text-white avatar"></#if>
-					<@icon style=boxIcon  />
-				<#if color !=''></span></#if>
-			</div>
-			<div class="col">
-			<#if url!=''><a class="card-link" href="${url}"></#if>
-			<${titleLevel} class="font-weight-medium"><span class="counter">${title}</span><#if unit!=''> ${unit}</#if></${titleLevel}>
-			<div class="text-muted">${text}</div>
-			<#if url!=''></a></#if>
-			</div>
+		<#-- The button that hides the figure, shown in place of its icon when the card is pointed or focused (needs an id, to keep the choice) -->
+		<#if id!=''><button type="button" class="btn-action lutece-kpi-hide card-control remove" data-bs-dismiss="alert" data-bs-target="#${id}" title="#i18n{portal.util.labelHide} ${text}"><i class="ti ti-eye-off" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelHide} ${text}</span></button></#if>
+		<div class="d-flex align-items-center gap-2 mb-1">
+			<div class="subheader text-truncate" title="${text}">${text}</div>
+			<#if boxIcon!=''><span class="avatar avatar-square ms-auto<#if color!=''> bg-${color}-lt</#if>"><@icon style=boxIcon /></span></#if>
 		</div>
+		<${titleLevel} class="lutece-kpi-value"><span class="counter">${title}</span><#if unit!=''> <span class="fs-5 fw-normal text-secondary">${unit}</span></#if></${titleLevel}>
+		<#if progress?has_content>
+		<div class="progress progress-sm mt-1" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar<#if color!=''> bg-${color}</#if>" style="width: ${progress}%"></div></div>
+		</#if>
+		<#if url!=''>
+		<a class="stretched-link" href="${url}" title="<#if urlText!=''>${urlText}<#else>${text}</#if>"><span class="visually-hidden"><#if urlText!=''>${urlText}<#else>${text}</#if></span></a>
+		</#if>
 	</div>
 </div>
 </#macro>

@@ -166,6 +166,11 @@
             <dashboard-component-class>fr.paris.lutece.portal.web.SiteDashboardComponent</dashboard-component-class>
             <dashboard-feature-right>CORE_ADMIN_SITE</dashboard-feature-right>
         </dashboard-component>
+        <dashboard-component>
+            <dashboard-component-name>CORE_SITE_KPIS</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.SiteKpisDashboardComponent</dashboard-component-class>
+            <dashboard-feature-right>CORE_ADMIN_SITE</dashboard-feature-right>
+        </dashboard-component>
     </dashboard-components>
 
     <!-- Admin Dashboard components -->
