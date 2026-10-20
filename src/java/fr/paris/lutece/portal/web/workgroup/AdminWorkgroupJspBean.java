@@ -61,6 +61,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.message.MessageHtml;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -352,9 +353,9 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( !_removalListenerService.checkForRemoval( strWorkgroupKey, listErrors, getLocale( ) ) )
         {
-            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
+            MessageHtml cause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {
-                    strCause
+                    cause
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, JSP_PATH+JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );

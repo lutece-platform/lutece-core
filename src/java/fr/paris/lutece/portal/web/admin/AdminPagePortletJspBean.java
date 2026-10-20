@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.message.MessageHtml;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -202,9 +203,9 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         Locale locale = AdminUserService.getLocale( request );
         if ( !_removalListenerService.checkForRemoval( strPortletId, listErrors, locale ) )
         {
-            String strCause = AdminMessageService.getFormattedList( listErrors, locale );
+            MessageHtml cause = AdminMessageService.getFormattedList( listErrors, locale );
             Object [ ] args = {
-                    strCause, portlet.getName( )
+                    cause, portlet.getName( )
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_PORTLET, args, MESSAGE_CANNOT_REMOVE_PORTLET_TITLE, strUrl, strTarget,

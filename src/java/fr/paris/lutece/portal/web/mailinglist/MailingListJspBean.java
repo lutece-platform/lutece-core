@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.message.MessageHtml;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -344,9 +345,9 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( !_removalListenerService.checkForRemoval( strId, listErrors, getLocale( ) ) )
         {
-            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
+            MessageHtml cause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {
-                    strCause
+                    cause
             };
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, JSP_URL_MANAGE_MAILINGLISTS, AdminMessage.TYPE_STOP );
         }
