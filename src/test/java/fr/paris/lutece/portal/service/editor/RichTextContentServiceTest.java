@@ -181,4 +181,39 @@ public class RichTextContentServiceTest extends LuteceTestCase
         assertEquals( "Hello A & B\nsecond\nline", strText );
         assertEquals( "", RichTextContentService.getText( null ) );
     }
+
+    /**
+     * What a rich text content needs is kept (LUT-33153): class, role, aria-*, the target of a link with rel noopener,
+     * tel: links, the spans and scope of cells, the start of a list, pre, hr, dl, figure, section, article, details and
+     * the iframe of an allowed video host. The id, data-* attributes, event handlers and any other iframe are removed.
+     *
+     * @throws RichTextParsingException
+     *             if the rendering fails
+     */
+    @Test
+    public void testRichTextPolicy( ) throws RichTextParsingException
+    {
+        String strHtml = RichTextContentService.getContent( "<p class=\"lead text-center\" role=\"note\" aria-label=\"x\" id=\"intro\" data-bs-toggle=\"modal\">p</p>"
+                + "<a href=\"https://lutece.paris.fr\" target=\"_blank\">a</a><a href=\"tel:0123456789\">t</a>"
+                + "<table><tr><th scope=\"col\" colspan=\"2\">h</th></tr></table><ol start=\"3\"><li>x</li></ol>"
+                + "<pre>code</pre><hr><dl><dt>t</dt><dd>d</dd></dl><figure><figcaption>c</figcaption></figure><section>s</section>"
+                + "<article>a</article><details open><summary>s</summary>d</details>"
+                + "<iframe src=\"https://www.youtube-nocookie.com/embed/x\" title=\"video\"></iframe>"
+                + "<iframe src=\"https://evil.example/x\"></iframe><iframe src=\"http://www.youtube.com/embed/x\"></iframe>" );
+
+        for ( String strKept : new String [ ] {
+                "class=\"lead text-center\"", "role=\"note\"", "aria-label=\"x\"", "target=\"_blank\"", "noopener", "href=\"tel:0123456789\"",
+                "colspan=\"2\"", "scope=\"col\"", "start=\"3\"", "<pre>", "<hr", "<dl>", "<figure>", "<section>", "<article>", "<details",
+                "<summary>", "src=\"https://www.youtube-nocookie.com/embed/x\""
+        } )
+        {
+            assertTrue( strHtml.contains( strKept ), strKept + " -> " + strHtml );
+        }
+        for ( String strRemoved : new String [ ] {
+                "id=", "data-bs-toggle", "evil.example", "http://www.youtube.com"
+        } )
+        {
+            assertFalse( strHtml.contains( strRemoved ), strRemoved + " -> " + strHtml );
+        }
+    }
 }
