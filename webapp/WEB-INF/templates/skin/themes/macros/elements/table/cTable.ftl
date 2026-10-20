@@ -83,6 +83,7 @@ Snippet:
 <div class="d-md-none" id="accordion-table-${id!}"></div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const escapeHtml = ( text ) => text.replace( /&/g, '&amp;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' ).replace( /"/g, '&quot;' ).replace( /'/g, '&#39;' );
     <#if id='changeme'>console.warn( "macro cTable : ATTENTION : Risque de duplication. Modifier l'id de la macro cTable !" )</#if>
     const rows = document.querySelectorAll('table#${id?js_string?no_esc} tbody tr');
     rows.forEach(function(row, index) {
@@ -90,14 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
         let accordionContent = '';
         cells.forEach(function(cell, i) {
             const headerSelector = document.querySelector('table#${id?js_string?no_esc} thead th:nth-child(' + (i + 1) + ')')
-            const headerText = headerSelector.querySelector('a:not(.btn-sort), button') ? headerSelector.innerHTML : headerSelector.textContent;
+            const headerText = headerSelector.querySelector('a:not(.btn-sort), button') ? headerSelector.innerHTML : escapeHtml( headerSelector.textContent );
             const cellText = cell.getHTML();
-            const cellClass = cell.className;
+            const cellClass = escapeHtml( cell.className );
             <#noparse>accordionContent += `<p class="fw-bold">${headerText}</p><p class='mb-4 ${cellClass}'>${cellText}</p>`;</#noparse>
         });
         
         const accordionItem = `
-            <@cAccordion id='heading${id}` + index + `' title='` + cells[0].textContent + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
+            <@cAccordion id='heading${id}` + index + `' title='` + escapeHtml( cells[0].textContent ) + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
                 ` + accordionContent + `
             </@cAccordion>`;
 
