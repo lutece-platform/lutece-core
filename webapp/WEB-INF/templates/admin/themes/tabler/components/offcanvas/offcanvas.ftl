@@ -53,7 +53,7 @@
 <#macro offcanvas id position='end' class='' title='#i18n{portal.util.labelModify}' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false keepPageHeader=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnDropdown><div class="btn-group"></#if>
-<a id="btn-${id}" title="${title}" data-lutece-offcanvas-title="${title}" class="btn<#if btnColor?has_content> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass?has_content> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><@commonAttrs params=params />>
+<a id="btn-${id}" title="${title}" data-lutece-offcanvas-title="${title}" class="btn<#if btnColor?has_content> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass?has_content> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> aria-disabled="true" tabindex="-1"</#if> data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button"<#if !useIframe> aria-controls="${id}"</#if> <#if badgeContent?has_content>style="overflow:inherit"</#if><@commonAttrs params=params />>
     <#if btnIcon?has_content><@icon style='${btnIcon}' /></#if>
     <#-- Visibility of button title -->
     <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
@@ -74,6 +74,7 @@ ${btnDropdownContent!}
         btn.setAttribute('data-lutece-offcanvas-id', '${id?js_string?no_esc}'); 
         btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position?js_string?no_esc}<#if size?has_content> w-${size?js_string?no_esc}</#if><#if class?has_content> ${class?js_string?no_esc}</#if>');
         btn.setAttribute('data-lutece-use-iframe', 'true');
+        btn.setAttribute('data-lutece-close-label', '${i18n( 'portal.util.labelClose' )?js_string?no_esc}');
         btn.setAttribute('data-lutece-load-content-url', '${targetUrl?js_string?no_esc}');
         btn.setAttribute('data-lutece-load-content-target', '${targetElement?js_string?no_esc}');
         btn.setAttribute('data-lutece-redirect-form', '<#if redirectForm>true<#else>false</#if>');
@@ -85,8 +86,8 @@ ${btnDropdownContent!}
 <#else>
 <div class="offcanvas offcanvas-${position} <#if size?has_content>w-${size}</#if><#if class?has_content> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> data-lutece-reload-on-close=<#if reloadOnClose>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
     <div class="offcanvas-header border-bottom text-break <#if !title?has_content>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
-        <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="Fermer">
-            <i class="ti ti-x fs-5"></i>
+        <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="#i18n{portal.util.labelClose}">
+            <i class="ti ti-x fs-5" aria-hidden="true"></i>
         </button>
         <#if title?has_content><h2 class="offcanvas-title fw-bolder me-5 text-start" id="${id}Label">${title}</h2></#if>
     </div>
