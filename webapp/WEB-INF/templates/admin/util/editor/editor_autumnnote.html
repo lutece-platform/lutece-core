@@ -1,0 +1,32 @@
+<#-- Autumn Note, a back office rich text editor. Its Lutece integration (insert service buttons, toolbar keywords, dialog) is in
+     themes/admin/shared/js/editors/autumnnote/lutece-autumnnote.js. -->
+<link rel="stylesheet" href="themes/admin/shared/js/editors/autumnnote/autumnnote.css">
+<script src="themes/admin/shared/js/editors/autumnnote/autumnnote.min.js"></script>
+<script src="themes/admin/shared/js/editors/lutece-editor-upload.js"></script>
+<script src="themes/admin/shared/js/editors/lutece-editor-insert.js"></script>
+<script src="themes/admin/shared/js/editors/autumnnote/lutece-autumnnote.js"></script>
+<#-- The signature of the TinyMCE editors, so that the calls of the plugins work unchanged. Autumn Note edits in the page itself, without an iframe:
+     cssFiles has nothing to apply to, and editorWidth and type are not used either. -->
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
+<#local editorLang = ( locale?? && 2 <= locale?string?length && locale?string?substring( 0, 2 ) == 'fr' )?then( 'fr', 'en' ) />
+<script>
+document.addEventListener( 'DOMContentLoaded', function () {
+	LuteceAutumnNote.init( {
+		selector: '${selector?js_string}',
+		insert: [${insert}],
+		config: {<#list config as opt, val>'${opt?js_string}': <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val?js_string}'<#else>null</#if><#sep>, </#sep></#list>},
+		<#-- The config of the editor profile, chosen by editor.html. A plugin that includes this template directly, as the blog does, has none. -->
+		profileConfig: ${( ( textEditorProfile.config )!'{}' )?replace( '<', '\\u003c' )},
+		lang: '${editorLang}',
+		library: {
+			imageType: '<@editorDatastoreValue key='library.insert_service_media_type_image' />',
+			imageSpace: '<@editorDatastoreValue key='library.insert_service_media_type_image_space' />',
+			pdfType: '<@editorDatastoreValue key='library.insert_service_media_type_pdf' />',
+			pdfSpace: '<@editorDatastoreValue key='library.insert_service_media_type_pdf_space' />'
+		}
+	} );
+} );
+</script>
+</#macro>
+<#-- A datastore value, empty when the key does not exist (the library plugin is not installed) -->
+<#macro editorDatastoreValue key><#local value = dskey( key )!'' /><#if !value?starts_with( 'DS Value' )>${value?js_string}</#if></#macro>

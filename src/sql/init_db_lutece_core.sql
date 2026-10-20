@@ -385,8 +385,9 @@ INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
 INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expiré. Lors de votre prochaine connexion, vous pourrez le changer.');
 
-INSERT INTO core_text_editor VALUES ('tinymce5', 'portal.admindashboard.editors.labelBackTinyMCE5', 1);
 INSERT INTO core_text_editor VALUES ('tinymce6', 'portal.admindashboard.editors.labelBackTinyMCE6', 1);
+INSERT INTO core_text_editor VALUES ('autumnnote', 'portal.admindashboard.editors.labelBackAutumnNote', 1);
+INSERT INTO core_text_editor VALUES ('milkdown', 'portal.admindashboard.editors.labelBackMilkdown', 1);
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
 INSERT INTO core_text_editor VALUES ('sceeditor', 'portal.admindashboard.editors.labelFrontSceEditor', 0);
@@ -425,3 +426,20 @@ INSERT INTO core_user_right VALUES ('CORE_PORTLET_TEMPLATE_MANAGEMENT',2);
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.user.themes.colors.checkbox'
 -- Theme property read by the templates under 'menu.user.themes.colors.checkbox' (8.0.2): the insert above uses 'color'
 UPDATE core_datastore SET entity_key = 'portal.theme.site_property.menu.user.themes.colors.checkbox' WHERE entity_key = 'portal.theme.site_property.menu.user.themes.color.checkbox';
+
+-- changeset core:init_db_lutece_core.sql-rev3.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE editor_name = 'tinymce6'
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE editor_name = 'autumnnote'
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE editor_name = 'milkdown'
+-- Default profiles of the back office rich text editors: one per editor, applies when no other profile of the editor matches, cannot be removed
+--
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile of the editor matches', 'tinymce6', '{}', 0, 1 );
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile of the editor matches', 'autumnnote', '{}', 0, 1 );
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile of the editor matches', 'milkdown', '{}', 0, 1 );
+
+--
+-- Example of editor profile: the HTML portlets (plugin html)
+--
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'HTML portlets', 'Example: a taller editor with tables and media for the HTML portlets', 'tinymce6', '{ "height": 600, "menubar": "edit insert format table", "toolbar": "undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | table link image media | luteceAll | code fullscreen" }', 1, 0 );
+INSERT INTO core_editor_profile_target ( id_profile, target_type, target_value ) SELECT id_profile, 'plugin', 'html' FROM core_editor_profile WHERE name = 'HTML portlets' AND editor_name = 'tinymce6';

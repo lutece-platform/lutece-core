@@ -8,5 +8,6 @@ tinymce.addI18n( 'fr_FR', {
   'Add link to site page': 'Ajouter un lien vers une page du site',
   'Add link to blog post': 'Ajouter un lien vers un ou des billets',
   'Close Dialog': 'Fermer',
+  'Upload a pdf': 'Téléverser un pdf',
 });
   

@@ -1,0 +1,32 @@
+<#-- Milkdown (Crepe), a back office rich text editor that edits Markdown: the field keeps HTML, reduced to what Markdown expresses. Its Lutece
+     integration (insert service buttons in the top bar, upload, profiles) is in themes/admin/shared/js/editors/milkdown/lutece-milkdown.js,
+     the bundle and how it is built in themes/admin/shared/js/editors/milkdown/build/. -->
+<link rel="stylesheet" href="themes/admin/shared/js/editors/milkdown/milkdown.min.css">
+<script src="themes/admin/shared/js/editors/milkdown/milkdown.min.js"></script>
+<script src="themes/admin/shared/js/editors/lutece-editor-upload.js"></script>
+<script src="themes/admin/shared/js/editors/lutece-editor-insert.js"></script>
+<script src="themes/admin/shared/js/editors/milkdown/lutece-milkdown.js"></script>
+<#-- The signature of the TinyMCE editors, so that the calls of the plugins work unchanged: cssFiles, editorWidth and type are not used. -->
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
+<#local editorLang = ( locale?? && 2 <= locale?string?length && locale?string?substring( 0, 2 ) == 'fr' )?then( 'fr', 'en' ) />
+<script>
+document.addEventListener( 'DOMContentLoaded', function () {
+	LuteceMilkdown.init( {
+		selector: '${selector?js_string}',
+		insert: [${insert}],
+		config: {<#list config as opt, val>'${opt?js_string}': <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val?js_string}'<#else>null</#if><#sep>, </#sep></#list>},
+		<#-- The config of the editor profile, chosen by editor.html. A plugin that includes this template directly, as the blog does, has none. -->
+		profileConfig: ${( ( textEditorProfile.config )!'{}' )?replace( '<', '\\u003c' )},
+		lang: '${editorLang}',
+		library: {
+			imageType: '<@editorDatastoreValue key='library.insert_service_media_type_image' />',
+			imageSpace: '<@editorDatastoreValue key='library.insert_service_media_type_image_space' />',
+			pdfType: '<@editorDatastoreValue key='library.insert_service_media_type_pdf' />',
+			pdfSpace: '<@editorDatastoreValue key='library.insert_service_media_type_pdf_space' />'
+		}
+	} );
+} );
+</script>
+</#macro>
+<#-- A datastore value, empty when the key does not exist (the library plugin is not installed) -->
+<#macro editorDatastoreValue key><#local value = dskey( key )!'' /><#if !value?starts_with( 'DS Value' )>${value?js_string}</#if></#macro>

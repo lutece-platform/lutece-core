@@ -1,29 +1,111 @@
 <@tabPanel id='editors'>
     <@pageHeader title="#i18n{portal.admindashboard.editorChoice.title}" titleClass="pb-3"/>
-    <@row>
-        <@columns sm=12 md=6>
-            <@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp' boxed=true>
-                <@input type='hidden' name='token' value='${token}' />
-                <@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}' rows=2>
-                    <#if !current_editor_back_office??><#assign current_editor_back_office = ""></#if>
-                    <@select name='editor_back_office' items=listEditorsBackOffice default_value=current_editor_back_office />
-                </@formGroup>
-                <@formGroup rows=2>
-                    <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
-                </@formGroup>
-            </@tform>
-        </@columns>
-        <@columns sm=12 md=6>
-            <@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp' boxed=true>
-                <@input type='hidden' name='token' value='${token}' />
-                <@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorFrontOffice}' rows=2>
-                    <#if !current_editor_front_office??><#assign current_editor_front_office = ""></#if>
-                    <@select name='editor_front_office' items=listEditorsFrontOffice default_value=current_editor_front_office />
-                </@formGroup>
-                <@formGroup rows=2>
-                    <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
-                </@formGroup>
-            </@tform>
-        </@columns>
-    </@row>
+    <#-- The last opened tab is kept by the script below rather than by keepState: admin-tabs.js would replace the #editors hash, which opens this panel -->
+    <@tabs id='editorsTabs' keepState=false>
+        <@tabList>
+            <@tabLink active=true href='#editorsBackOffice' title='#i18n{portal.admindashboard.editorChoice.tabBackOffice}' tabLabel='#i18n{portal.admindashboard.editorChoice.tabBackOffice}' />
+            <@tabLink href='#editorsFrontOffice' title='#i18n{portal.admindashboard.editorChoice.tabFrontOffice}' tabLabel='#i18n{portal.admindashboard.editorChoice.tabFrontOffice}' />
+        </@tabList>
+        <@tabContent>
+            <@tabPanel id='editorsBackOffice' active=true>
+                <@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp'>
+                    <@input type='hidden' name='token' value='${token}' />
+                    <@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}' rows=2>
+                        <#if !current_editor_back_office??><#assign current_editor_back_office = ""></#if>
+                        <@inputGroup>
+                            <@select name='editor_back_office' items=listEditorsBackOffice default_value=current_editor_back_office />
+                            <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
+                        </@inputGroup>
+                    </@formGroup>
+                </@tform>
+                <#if editor_profiles_by_editor??>
+                <@pageHeader title='#i18n{portal.admindashboard.editorProfile.title}' description='#i18n{portal.admindashboard.editorProfile.description}' titleClass='pt-4 pb-3'>
+                    <@aButton href='jsp/admin/admindashboard/ManageEditorProfiles.jsp?view=createEditorProfile' buttonIcon='plus' title='#i18n{portal.admindashboard.editorProfile.buttonCreate}' color='primary' />
+                </@pageHeader>
+                <#list editor_profiles_by_editor as editorName, profiles>
+                <@h level=3 class='mt-3'>${editor_labels[editorName]!editorName}<#if editorName == current_editor_back_office!''> <span class="badge bg-green-lt">#i18n{portal.admindashboard.editorProfile.labelCurrentEditor}</span></#if></@h>
+                <#assign movableCount = profiles?filter( p -> !p.default )?size>
+                <@manageFeature>
+                    <#list profiles as profile>
+                    <@manageFeatureItem>
+                        <@manageFeatureItemColumn cols='5' dir='column' align='start' flex=true>
+                            <strong>${profile.name}</strong>
+                            <#if profile.default><span class="badge bg-secondary-lt">#i18n{portal.admindashboard.editorProfile.labelDefault}</span></#if>
+                            <#if profile.description?has_content><span class="text-secondary">${profile.description}</span></#if>
+                        </@manageFeatureItemColumn>
+                        <@manageFeatureItemColumn cols='5' dir='column' align='start' flex=true>
+                            <#if profile.default>
+                            <span class="text-secondary">#i18n{portal.admindashboard.editorProfile.labelAppliesOtherwise}</span>
+                            <#else>
+                            <span>#i18n{portal.admindashboard.editorProfile.labelPlugins} : ${profile.plugins?join(', ')}</span>
+                            <#if profile.roles?has_content><span>#i18n{portal.admindashboard.editorProfile.labelRoles} : <#list profile.roles as role>${role_labels[role]!role}<#sep>, </#sep></#list></span></#if>
+                            <#if profile.workgroups?has_content><span>#i18n{portal.admindashboard.editorProfile.labelWorkgroups} : <#list profile.workgroups as workgroup>${workgroup_labels[workgroup]!workgroup}<#sep>, </#sep></#list></span></#if>
+                            </#if>
+                        </@manageFeatureItemColumn>
+                        <@manageFeatureItemColumn cols='2' align='end'>
+                            <#if !profile.default>
+                            <#if profile?index gt 0>
+                            <@tform method='post' action='jsp/admin/admindashboard/ManageEditorProfiles.jsp' class='d-inline'>
+                                <@input type='hidden' name='action' value='moveEditorProfile' />
+                                <@input type='hidden' name='_csrftoken' value='${move_profile_token}' />
+                                <@input type='hidden' name='profile_id' value='${profile.id}' />
+                                <@input type='hidden' name='direction' value='up' />
+                                <@button type='submit' buttonIcon='arrow-up' title='#i18n{portal.admindashboard.editorProfile.buttonMoveUp}' hideTitle=['all'] size='sm' color='secondary' />
+                            </@tform>
+                            </#if>
+                            <#if profile?index lt movableCount - 1>
+                            <@tform method='post' action='jsp/admin/admindashboard/ManageEditorProfiles.jsp' class='d-inline'>
+                                <@input type='hidden' name='action' value='moveEditorProfile' />
+                                <@input type='hidden' name='_csrftoken' value='${move_profile_token}' />
+                                <@input type='hidden' name='profile_id' value='${profile.id}' />
+                                <@input type='hidden' name='direction' value='down' />
+                                <@button type='submit' buttonIcon='arrow-down' title='#i18n{portal.admindashboard.editorProfile.buttonMoveDown}' hideTitle=['all'] size='sm' color='secondary' />
+                            </@tform>
+                            </#if>
+                            </#if>
+                            <@aButton href='jsp/admin/admindashboard/ManageEditorProfiles.jsp?view=modifyEditorProfile&profile_id=${profile.id}' buttonIcon='pencil' title='#i18n{portal.util.labelModify}' hideTitle=['all'] size='sm' />
+                            <#if !profile.default>
+                            <@aButton href='jsp/admin/admindashboard/ManageEditorProfiles.jsp?view=confirmRemoveEditorProfile&profile_id=${profile.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' color='danger' />
+                            </#if>
+                        </@manageFeatureItemColumn>
+                    </@manageFeatureItem>
+                    </#list>
+                </@manageFeature>
+                </#list>
+                </#if>
+            </@tabPanel>
+            <@tabPanel id='editorsFrontOffice'>
+                <@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp'>
+                    <@input type='hidden' name='token' value='${token}' />
+                    <@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorFrontOffice}' rows=2>
+                        <#if !current_editor_front_office??><#assign current_editor_front_office = ""></#if>
+                        <@select name='editor_front_office' items=listEditorsFrontOffice default_value=current_editor_front_office />
+                    </@formGroup>
+                    <@formGroup rows=2>
+                        <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
+                    </@formGroup>
+                </@tform>
+            </@tabPanel>
+        </@tabContent>
+    </@tabs>
+    <script>
+    /* Reopens the last tab (back office or front office) opened in this browser session */
+    document.addEventListener( 'DOMContentLoaded', function () {
+        const storageKey = 'lutece-admin-editors-tab';
+        const tabs = document.getElementById( 'editorsTabs' );
+        if ( !tabs ) {
+            return;
+        }
+        let storedPanel = null;
+        try { storedPanel = sessionStorage.getItem( storageKey ); } catch ( e ) { /* storage unavailable: the back office tab stays open */ }
+        const storedLink = storedPanel ? tabs.querySelector( '[data-bs-toggle="tab"][aria-controls="' + storedPanel + '"]' ) : null;
+        const Tab = ( window.bootstrap && window.bootstrap.Tab ) || ( window.tabler && window.tabler.Tab );
+        if ( storedLink && Tab ) {
+            Tab.getOrCreateInstance( storedLink ).show( );
+        }
+        tabs.addEventListener( 'shown.bs.tab', function ( event ) {
+            try { sessionStorage.setItem( storageKey, event.target.getAttribute( 'aria-controls' ) ); } catch ( e ) { /* not kept */ }
+        } );
+    } );
+    </script>
 </@tabPanel>
