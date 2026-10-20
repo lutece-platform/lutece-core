@@ -27,7 +27,7 @@
 				<@manageFeatureItem liClass='plugin-item'>
 					<@manageFeatureItemColumn class='searchable' flex=false>
 						<@h level=3 class='d-flex align-items-center'>
-							<@img url=core.iconUrl alt='' class='thumbnail thumbnail-sm me-2' params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/apps.svg'\"" />
+							<@img url=core.iconUrl alt='' class='thumbnail thumbnail-sm me-2' attrs={'data-lutece-fallback-src': "themes/admin/shared/images/apps.svg"} />
 							<@span class='title'>${core.name}</@span>
 							<small class='ms-2 fw-normal'>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${core.version}</strong></small>
 						</@h>
@@ -43,7 +43,7 @@
 				<@manageFeatureItem liClass='plugin-item' id='plugin_${plugin.name}_${plugin.version}'>
 					<@manageFeatureItemColumn class='searchable' flex=false>
 						<@h level=3 class='d-flex flex-wrap align-items-center'>
-							<@img url='${plugin.iconUrl}' alt='' class='thumbnail thumbnail-sm img-invert me-2' params=' onerror="this.onerror=null;this.src=\'themes/admin/shared/images/apps.svg\'"' />
+							<@img url='${plugin.iconUrl}' alt='' class='thumbnail thumbnail-sm img-invert me-2' attrs={'data-lutece-fallback-src': "themes/admin/shared/images/apps.svg"} />
 							<@span class='title'>${plugin.name}</@span>
 							<small class='ms-2 me-2 fw-normal'>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${plugin.version}</strong></small>
 							<#if plugin.installed>

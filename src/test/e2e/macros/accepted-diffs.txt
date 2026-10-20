@@ -17,3 +17,8 @@ cTile        a stray "}" followed the data-bs-title attribute; title and detail 
 cCard        LUT-33153 OWASP rule #4: the header image goes through cssUrl and is quoted in url('...')
 copyElementToClipboard LUT-33153 the toast message is written with textContent instead of innerHTML
 stepCurrent  LUT-33153 the mandatory message is written with textContent instead of innerHTML
+cBadge       LUT-33153 the dismiss button declares data-lutece-action="hide-parent" instead of an onclick handler
+offcanvas    LUT-33153 no onclick="event.preventDefault();": Bootstrap already prevents the default of a toggling link
+cOffcanvas   same as offcanvas
+sortSite     LUT-33153 the sort buttons are links (href) instead of buttons navigating in an onclick handler
+coreAdminJSLinks LUT-33153 loads lutece-actions.js, which runs the data-lutece-action behaviours
