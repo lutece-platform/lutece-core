@@ -15,10 +15,10 @@ Parameters:
 - classExtra (string, optional): classes the calling macro adds after class, as a plain string. A
   macro never rewrites its class parameter: it accumulates its own classes in classBase or classExtra.
 - macroParams (map, optional): attributes the calling macro writes itself (role, aria-*, data-*...). They win over
-  params, but the classes, which are gathered.
+  params.
 - params (map, optional): the params of the calling macro, as its caller passed them: additional HTML attributes as
   name/value pairs, e.g. {'aria-label': label, 'hidden': !visible}. Names out of the allow list (event handlers,
-  URLs, styles...) are refused, every value is escaped (a markup included): a true boolean writes the name alone,
+  URLs, styles, class: pass it to the class parameter...) are refused, every value is escaped (a markup included): a true boolean writes the name alone,
   false writes nothing, any other value is written, even empty (alt=""). A string or a markup fails the rendering:
   params is a map.
 

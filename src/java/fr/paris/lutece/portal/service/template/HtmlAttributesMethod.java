@@ -67,7 +67,8 @@ import freemarker.template.TemplateScalarModel;
  * checked for syntax;</li>
  * <li><code>params</code> is the map the caller of the macro passes: its names must be in the allow list (aria-*, data-*
  * and a fixed set of HTML attributes), so it never carries an event handler, a URL or a style;</li>
- * <li>the classes of both maps are concatenated, without duplicates; any other attribute given by both is the macro's;</li>
+ * <li>params never carries the class: a caller passes it to the class parameter of the macro, which may also write a
+ * class of its own outside this function; any attribute given by both maps is the macro's;</li>
  * <li>every value is escaped, a markup value included: true writes the name alone, false and null write nothing, a
  * number is written as a computer number.</li>
  * </ul>
@@ -139,19 +140,24 @@ public class HtmlAttributesMethod implements TemplateMethodModelEx
         for ( Map.Entry<String, TemplateModel> entry : params.entrySet( ) )
         {
             String strName = entry.getKey( );
-            if ( !isAllowed( strName ) )
+            if ( ATTRIBUTE_CLASS.equals( strName.toLowerCase( Locale.ROOT ) ) )
             {
-                refuse( strName, "is not an allowed attribute of params" );
+                refuse( strName, "is not an attribute of params: pass it to the class parameter of the macro" );
             }
             else
-                if ( !ATTRIBUTE_CLASS.equals( strName.toLowerCase( Locale.ROOT ) ) && macroNames.contains( strName.toLowerCase( Locale.ROOT ) ) )
+                if ( !isAllowed( strName ) )
                 {
-                    refuse( strName, "is already written by the macro" );
+                    refuse( strName, "is not an allowed attribute of params" );
                 }
                 else
-                {
-                    add( attributes, classes, strName, entry.getValue( ), false );
-                }
+                    if ( macroNames.contains( strName.toLowerCase( Locale.ROOT ) ) )
+                    {
+                        refuse( strName, "is already written by the macro" );
+                    }
+                    else
+                    {
+                        add( attributes, classes, strName, entry.getValue( ), false );
+                    }
         }
 
         return HTMLOutputFormat.INSTANCE.fromMarkup( write( attributes, classes ) );
@@ -378,7 +384,7 @@ public class HtmlAttributesMethod implements TemplateMethodModelEx
 
     /**
      * Tells whether a caller may give an attribute through params: aria-*, data-* (but the ones that turn off the
-     * Bootstrap sanitizer), the class and the fixed set of HTML attributes. Event handlers, URLs and styles never are.
+     * Bootstrap sanitizer) and the fixed set of HTML attributes. Event handlers, URLs, styles and the class never are.
      *
      * @param strName
      *            the name
@@ -395,7 +401,7 @@ public class HtmlAttributesMethod implements TemplateMethodModelEx
         {
             return !DATA_REFUSED.contains( strKey );
         }
-        return ATTRIBUTE_CLASS.equals( strKey ) || NAME_ARIA.matcher( strKey ).matches( ) || NAMES_ALLOWED.contains( strKey );
+        return NAME_ARIA.matcher( strKey ).matches( ) || NAMES_ALLOWED.contains( strKey );
     }
 
     /**
