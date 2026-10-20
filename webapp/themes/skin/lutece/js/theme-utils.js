@@ -88,37 +88,43 @@ function setCharCounter(selCounters) {
   document.querySelectorAll(counters).forEach(function (counterElement) {
     let nCounterMax = counterElement.getAttribute("maxlength");
     if (!isNaN(nCounterMax) && nCounterMax > 0) {
-      let tag = `<span class="ms-2 counter-number text-dark fw-bold">0 /</span><small class="text-dark"> ${nCounterMax} caractères maximum</small>`;
+      let tag = `<span class="ms-2 counter-number fw-bold">0 /</span><small> ${nCounterMax} caractères maximum</small>`;
       counterElement.parentElement.querySelector("label").insertAdjacentHTML('beforeend', tag);
       let counter = counterElement.parentElement.querySelector(".counter-number"),
         nChars = 0;
+      // One live region per field: its text changes when the maximum is reached, so the alert is not repeated at each key
+      const limitAlert = document.createElement("p");
+      limitAlert.setAttribute("role", "alert");
+      limitAlert.className = "visually-hidden";
+      counterElement.insertAdjacentElement("afterend", limitAlert);
+      const showLimit = function () {
+        limitAlert.textContent = nChars >= nCounterMax ? "Vous avez atteint le nombre de caractères maximum" : "";
+      };
 
-      counterElement.addEventListener("keyup", function () {
+      const updateCounter = function () {
         nChars = counterElement.value.length;
         counter.innerHTML = nChars + " /";
-        if (nChars >= nCounterMax) {
-          counterElement.insertAdjacentHTML('afterend', '<p role="alert" class="visually-hidden">Vous avez atteint le nombre de caractères maximum</p>');
-          return false;
-        }
-      });
+        showLimit();
+      };
 
+      // input covers typing, cut, drop, autofill and the paste below
+      counterElement.addEventListener("input", updateCounter);
+
+      // Pasted text: white space collapsed, inserted at the caret (or in place
+      // of the selection) and cut to the room left under the maximum
       counterElement.addEventListener("paste", function (event) {
         event.preventDefault();
-        const content = counterElement.value;
-        counterElement.value = "";
-        let clip = event.clipboardData.getData("Text");
-        let final_clip = content + clip.replace(/\s+/g, " ");
-        if (final_clip.length > nCounterMax) {
-          final_clip = final_clip.substring(0, nCounterMax);
-        }
-        counterElement.value = final_clip;
-        nChars = counterElement.value.length;
-        counter.innerHTML = nChars + " /";
-        if (nChars >= nCounterMax) {
-          counterElement.insertAdjacentHTML('afterend', '<p role="alert" class="visually-hidden">Vous avez atteint le nombre de caractères maximum</p>');
-          return false;
-        }
+        const start = counterElement.selectionStart;
+        const end = counterElement.selectionEnd;
+        const room = nCounterMax - (counterElement.value.length - (end - start));
+        const clip = (event.clipboardData || window.clipboardData).getData("text").replace(/\s+/g, " ").substring(0, Math.max(0, room));
+        counterElement.setRangeText(clip, start, end, "end");
+        counterElement.dispatchEvent(new Event("input", { bubbles: true }));
       });
+
+      // Initial count of a prefilled field, without the alert
+      nChars = counterElement.value.length;
+      counter.innerHTML = nChars + " /";
     } else {
       counterElement.parentElement.querySelector("label").insertAdjacentHTML('afterend', "<!-- WARNING no max-length attribute on the input below = no counter shown -->");
     }
@@ -176,7 +182,7 @@ function initAccessiblePopovers() {
     var hideTimeout = null;
     var popover = bootstrap.Popover.getOrCreateInstance(trigger, {
       trigger: 'manual',
-      html: trigger.getAttribute('data-bs-html') === 'true' || true,
+      html: trigger.getAttribute('data-bs-html') === 'true',
       container: 'body'
     });
 

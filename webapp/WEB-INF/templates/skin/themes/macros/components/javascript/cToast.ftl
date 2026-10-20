@@ -107,7 +107,7 @@ Snippet:
 -->
 <#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<#if id !=''> id="${id}"</#if> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<#if params !=''> ${params}"</#if>>
+<div<#if id !=''> id="${id}"</#if> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<#if params !=''> ${params}</#if>>
   <#if title !=''>
     <div class="toast-header">
       <#if imgUrl !=''><img src="${imgUrl}" class="rounded me-2"></#if>

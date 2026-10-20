@@ -246,3 +246,25 @@ form .form-row.dropzone > .col > label{
 		width: 100%;
 	}
 }
+/* Maximum number of files reached: message added under the dropzone by */
+/* the asynchronousupload front-office script (p.group-file-info)       */
+.group-files .group-file-info {
+	display: flex;
+	align-items: center;
+	gap: var(--lutece-ds-sp-xs);
+	margin-block: var(--lutece-ds-sp-xs);
+	padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-sm);
+	border-inline-start: 4px solid var(--lutece-ds-warning);
+	border-radius: var(--lutece-ds-radius-md);
+	background-color: var(--lutece-ds-warning-bg);
+	color: var(--lutece-ds-text);
+	font-size: var(--lutece-ds-fs-sm);
+	font-weight: 600;
+}
+.group-files .group-file-info:empty {
+	display: none;
+}
+.group-files .group-file-info .ti {
+	color: var(--lutece-ds-warning);
+	font-size: 1.25em;
+}

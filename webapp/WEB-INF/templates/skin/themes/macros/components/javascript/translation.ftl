@@ -99,7 +99,8 @@
         var m = document.cookie.match(new RegExp('googtrans=\\/' + defaultLang + '\\/([^;]+)'));
         if (m && m[1] !== defaultLang) return m[1];
         if (m) return null;
-        var choice = localStorage.getItem('userLangChoice');
+        var choice = null;
+        try { choice = localStorage.getItem('userLangChoice'); } catch (e) { /* storage blocked */ }
         if (choice) return choice !== defaultLang ? choice : null;
         var browserLang = (navigator.language || navigator.userLanguage || defaultLang).substring(0, 2);
         return browserLang !== defaultLang ? browserLang : null;
@@ -190,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let themeSwitch = document.getElementById('theme-switch');
     let isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-    if (isDark) {
+    if (isDark && themeSwitch) {
         themeSwitch.checked = true;
     }
 
@@ -210,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('[data-lang]').forEach(function(el) { el.classList.remove('active'); });
                 item.classList.add('active');
                 bootstrap.Dropdown.getOrCreateInstance(btn).hide();
-                localStorage.setItem('userLangChoice', lang);
+                try { localStorage.setItem('userLangChoice', lang); } catch (e) { /* storage blocked */ }
                 if (lang === defaultLang) {
                     // Reset to original: remove Google Translate cookie on all domain levels and reload
                     let expiry = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
@@ -247,7 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </#if>
     // Auto-translate only if user has never made an explicit choice and browser is not the default lang
-    let userChoice = localStorage.getItem('userLangChoice');
+    let userChoice = null;
+    try { userChoice = localStorage.getItem('userLangChoice'); } catch (e) { /* storage blocked */ }
     if (!storedLang && userChoice !== defaultLang) {
         if (userChoice) {
             // User previously chose a non-default language (e.g. on another page)
