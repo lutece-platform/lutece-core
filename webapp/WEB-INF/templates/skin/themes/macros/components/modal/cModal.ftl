@@ -14,7 +14,7 @@ Parameters:
 - dismissible (boolean, optional): Whether to show close button in header and footer. Default: true.
 - dismissLabel (string, optional): Label for the dismiss button. Default: '#i18n{portal.theme.labelClose}'.
 - footer (string, optional): HTML content for the modal footer (e.g., submit buttons). Default: ''.
-- titleLevel (number, optional): Heading level for the title element. Default: 1.
+- titleLevel (number, optional): Heading level for the title element. Default: 2 (the page keeps its own h1).
 - class (string, optional): Additional CSS classes for the modal. Default: ''.
 - params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
@@ -44,7 +44,7 @@ Snippet:
     </@cModal>
 
 -->
-<#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=1 class='' params={} deprecated...>
+<#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=2 class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="modal cmodal fade<#if class?has_content> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <@commonAttrs params=params />>
     <div class="modal-dialog <#if pos?has_content>modal-dialog-${pos} </#if> <#if scrollable>modal-dialog-scrollable</#if><#if size?has_content>modal-${size}</#if>"<#if role?has_content> role="${role}"</#if>>

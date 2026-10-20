@@ -41,7 +41,7 @@ Snippet:
     </@th>
 
 -->
-<#macro th id='' title='' scope='' class='' align='' valign='' hide=[] cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params={} deprecated...>
+<#macro th id='' title='' scope='col' sort='' class='' align='' valign='' hide=[] cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = displaySettings( hide, 'table-cell' ) + ' ' + alignmentSettings( align, 'text' ) />
 <#if cols!=0>
@@ -55,7 +55,7 @@ Snippet:
 </#list>
 <#if valign?has_content><#local classExtra += ' align-' + valign /></#if>
 <#if flex><#local classExtra += ' d-flex' /></#if>
-<th<@commonAttrs id=id class=class classExtra=classExtra params=params /><#if title?has_content> title="${title}"</#if><#if scope?has_content> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if>>
+<th<@commonAttrs id=id class=class classExtra=classExtra params=params /><#if title?has_content> title="${title}"</#if><#if scope?has_content> scope="${scope}"</#if><#if sort?has_content> aria-sort="${sort}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if>>
 	<#nested>
 </th>
 </#macro>

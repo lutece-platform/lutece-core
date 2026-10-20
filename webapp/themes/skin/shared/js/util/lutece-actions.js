@@ -8,6 +8,8 @@
  *   data-lutece-action="close"        on a link or a button: closes the window (a popup)
  *   data-lutece-action="hide-parent"  on a button: hides its parent element (a dismissible badge)
  *   data-lutece-action="submit"       on a field: submits its form when its value changes
+ *   data-lutece-action="skip"         on a link whose href ends with #id: moves the focus to that element of the
+ *                                     page, as an in-page link would without the <base href> of the page
  *   data-lutece-confirm="message"     on a link or a button: asks the message, and cancels the click when refused
  *   data-lutece-fallback-src="url"    on an image: shows this relative URL when the image cannot be loaded
  *
@@ -49,6 +51,25 @@
      *
      * @param {Event} event the click
      */
+    function skipTo( link, event ) {
+        const href = link.getAttribute( 'href' ) || '';
+        const target = href.indexOf( '#' ) >= 0 ? document.getElementById( href.substring( href.indexOf( '#' ) + 1 ) ) : null;
+        if ( !target ) {
+            return;
+        }
+        event.preventDefault( );
+        if ( !target.hasAttribute( 'tabindex' ) ) {
+            target.setAttribute( 'tabindex', '-1' );
+        }
+        target.focus( );
+        target.scrollIntoView( );
+    }
+
+    /**
+     * Runs the action declared on the clicked element.
+     *
+     * @param {Event} event the click
+     */
     function onClick( event ) {
         const confirmed = event.target.closest( '[data-lutece-confirm]' );
         if ( confirmed && !window.confirm( confirmed.getAttribute( 'data-lutece-confirm' ) ) ) {
@@ -70,6 +91,9 @@
             case 'close':
                 event.preventDefault( );
                 window.close( );
+                break;
+            case 'skip':
+                skipTo( element, event );
                 break;
             case 'hide-parent':
                 event.preventDefault( );

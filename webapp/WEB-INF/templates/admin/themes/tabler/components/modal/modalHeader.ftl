@@ -22,7 +22,7 @@ Snippet:
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="modal-header"<@commonAttrs id=id params=params />>
-	<${titleLevel} class="modal-title fs-2">${modalTitle}</${titleLevel}>
+	<${titleLevel} class="modal-title fs-2"<#if currentModalId?? && currentModalId?has_content> id="${currentModalId}-title"</#if>>${modalTitle}</${titleLevel}>
 	<#nested>
 	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>
 </div>

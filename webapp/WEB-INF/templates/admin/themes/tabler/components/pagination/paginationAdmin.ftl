@@ -66,8 +66,8 @@ Snippet:
         <#-- Affichage du nombre d'éléments -->
         <#if showcount == 1>
           <div class="mb-3">
-            <span class="badge bg-info text-info-fg">
-              <i class="ti ti-list-numbers"></i>
+            <span class="badge bg-info text-info-fg" aria-live="polite">
+              <i class="ti ti-list-numbers" aria-hidden="true"></i>
               <span id="${tableId}-count">${paginator.itemsCount}</span> ${paginator.labelItemCount}
             </span>
           </div>
@@ -77,17 +77,18 @@ Snippet:
           <thead>
             <tr>
               <#list columns as column>
-                <th class="${(column.sortable?? && column.sortable)?then('sortable cursor-pointer', '')}" data-sort="${column.property!}">
-                  ${column.name}
+                <th scope="col" class="${(column.sortable?? && column.sortable)?then('sortable cursor-pointer', '')}" data-sort="${column.property!}">
                   <#if column.sortable?? && column.sortable>
-                    <i class="ti ti-arrows-sort ms-1"></i>
+                    <button type="button" class="btn btn-link p-0 text-reset">${column.name}<span class="visually-hidden"> #i18n{portal.util.sort.label}</span><i class="ti ti-arrows-sort ms-1" aria-hidden="true"></i></button>
+                  <#else>
+                  ${column.name}
                   </#if>
                 </th>
               </#list>
               <#-- Colonnes d'actions -->
               <#if actions?has_content>
                 <th class="text-center" style="width: 150px;">
-                  <i class="ti ti-settings"></i> Actions
+                  <i class="ti ti-settings" aria-hidden="true"></i> #i18n{portal.util.labelActions}
                 </th>
               </#if>
             </tr>
@@ -96,7 +97,7 @@ Snippet:
             <#-- Le contenu sera chargé dynamiquement -->
             <tr>
               <td colspan="${columns?size + (actions?has_content?then(1, 0))}" class="text-center">
-                <i class="ti ti-loader-2 animate-spin"></i> Chargement...
+                <span role="status"><i class="ti ti-loader-2 animate-spin" aria-hidden="true"></i> #i18n{portal.util.labelLoading}</span>
               </td>
             </tr>
           </tbody>
@@ -107,7 +108,7 @@ Snippet:
             <#-- Sélecteur du nombre d'items par page -->
             <#if combo == 1>
               <div class="d-flex align-items-center">
-                <label for="${tableId}-items-per-page" class="me-2">Éléments par page:</label>
+                <label for="${tableId}-items-per-page" class="me-2">#i18n{portal.util.labelItemCountPerPage}</label>
                 <select id="${tableId}-items-per-page" class="form-select form-select-sm" style="width: auto;">
                   <option value="5"<#if paginator.itemsPerPage == 5> selected</#if>>5</option>
                   <option value="10"<#if paginator.itemsPerPage == 10> selected</#if>>10</option>
@@ -120,7 +121,7 @@ Snippet:
           </div>
           <div class="col-md-6 text-end">
             <#-- Liens de pagination -->
-            <nav aria-label="Pagination">
+            <nav aria-label="#i18n{portal.util.labelPagination}">
               <ul id="${tableId}-pagination" class="pagination pagination-sm mb-0 justify-content-end">
                 <#-- Les liens seront générés dynamiquement -->
               </ul>

@@ -32,14 +32,15 @@ Snippet:
 -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<@commonAttrs id=id params=params />>
+<#local inPageTab = href?contains('#') && !href?contains('.jsp') />
+<li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<#if inPageTab> role="presentation"</#if><@commonAttrs id=id params=params />>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
-<#local tabLinkAttrs = { 'role': 'tab', 'aria-selected': active?c, 'aria-controls': href?remove_beginning('#') } />
-<#if href?contains('#') && href?contains('.jsp') == false>
-	<#local tabLinkAttrs += { 'data-bs-toggle': 'tab' } />
+<#if inPageTab>
+	<#local tabLinkAttrs = { 'role': 'tab', 'aria-selected': active?c, 'aria-controls': href?remove_beginning('#'), 'data-bs-toggle': 'tab' } />
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
 <#else>
+	<#local tabLinkAttrs = active?then( { 'aria-current': 'page' }, {} ) />
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
 <#if !href?has_content>

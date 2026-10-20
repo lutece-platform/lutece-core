@@ -127,7 +127,7 @@ Snippet:
 		<#local menuItems><#nested></#local>
 		<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
 		<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
-		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id?has_content> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id?has_content> id="${id}-content" aria-labelledby="${id}"</#if>>
 			${menuItems}
 		</${menuTag}>
 	</div>

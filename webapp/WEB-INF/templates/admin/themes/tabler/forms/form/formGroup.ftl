@@ -13,6 +13,7 @@ Parameters:
 - labelId (string, optional): the ID of the label element.
 - labelClass (string, optional): additional CSS classes to add to the label element.
 - helpKey (string, optional): the internationalization key for the help text.
+- errorKey (string, optional): the error message of the field, written after it with the id error_<labelFor>; the field inside gets aria-invalid and aria-describedby.
 - mandatory (boolean, optional): whether the input field is mandatory.
 - hideLabel (list, optional): a list of label properties to hide (e.g. "label", "i18nLabel").
 - collapsed (boolean, optional): whether to collapse the form group.
@@ -39,7 +40,7 @@ Snippet:
     </@formGroup>
 
 -->
-<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params={} deprecated...>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' errorKey='' mandatory=false hideLabel=[] collapsed=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'><#local validation = 'is-valid'><#elseif groupStyle='error'><#local validation = 'is-invalid'></#if>
 <#local classBase = ( formStyle == 'col' )?then( 'row', '' ) />
@@ -73,9 +74,16 @@ Snippet:
 	<@formLabel class=formLabelClass?trim labelFor=labelFor labelKeyDesc=labelKeyDesc labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 </#if>
 <#assign propagateMandatory = mandatory>
+<#assign propagateHelpId = ( helpKey?has_content && labelFor?has_content )?then( 'help_' + labelFor, '' ) />
+<#assign propagateErrorId = ( errorKey?has_content && labelFor?has_content )?then( 'error_' + labelFor, '' ) />
+<#assign propagateInvalid = errorKey?has_content || groupStyle == 'error' />
 <div class="${divClass}">
 <#nested>
 <#assign propagateMandatory = false>
+<#assign propagateHelpId = '' />
+<#assign propagateErrorId = '' />
+<#assign propagateInvalid = false />
+<#if errorKey?has_content><p class="invalid-feedback d-block"<#if labelFor?has_content> id="error_${labelFor}"</#if>>${errorKey}</p></#if>
 <#if helpKey?has_content><#if formStyle!='inline'><p class="mb-0"></#if><small class="text-muted form-text"<#if labelFor?has_content> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
 </div>
 </div>

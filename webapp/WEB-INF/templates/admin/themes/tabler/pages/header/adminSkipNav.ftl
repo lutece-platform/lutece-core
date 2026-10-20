@@ -18,10 +18,10 @@ Snippet:
 -->
 <#macro adminSkipNav skipNav=true skipContent=true deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="#i18n{portal.theme.skipNavLabel}" role="navigation" >
+<nav aria-label="#i18n{portal.theme.skipNavLabel}">
     <ul class="skip-links">
-        <#if skipNav><li><a href="jsp/admin/AdminMenu.jsp#main-menu">#i18n{portal.theme.skipNavLabel}</a></li></#if>
-        <#if skipContent><li><a id="skip-nav" href="jsp/admin/AdminMenu.jsp#lutece-main">#i18n{portal.util.labelSkipContent}</a></li></#if>
+        <#if skipNav><li><a href="jsp/admin/AdminMenu.jsp#main-menu" data-lutece-action="skip">#i18n{portal.theme.skipNavLabel}</a></li></#if>
+        <#if skipContent><li><a id="skip-nav" href="jsp/admin/AdminMenu.jsp#lutece-main" data-lutece-action="skip">#i18n{portal.util.labelSkipContent}</a></li></#if>
     </ul>
     <div id="top" class="visually-hidden visually-hidden-focusable">#i18n{portal.util.labelHome}</div>
 </nav> 

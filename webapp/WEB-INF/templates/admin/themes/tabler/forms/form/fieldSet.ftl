@@ -41,7 +41,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <fieldset<@commonAttrs id=fieldsetId classBase='mb-3' class=class params=fieldsetParams /><#if disabled> disabled</#if>>
 <#if legend?has_content>
-	<#local legendFullClass = legendClass + ' ' + displaySettings( hideLegend, 'block' ) />
+	<#local legendFullClass = legendClass + ' ' + hideLegend?seq_contains( 'all' )?then( 'visually-hidden', displaySettings( hideLegend, 'block' ) ) />
 	<legend<#if legendFullClass?trim?has_content> class="${legendFullClass?trim}"</#if><#if legendId?has_content> id="${legendId}"</#if><@commonAttrs params=legendParams />><#if legendIcon?has_content><@icon style=legendIcon /> </#if>${legend}</legend>
 </#if>
 <#nested>

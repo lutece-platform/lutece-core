@@ -28,7 +28,7 @@ Snippet:
     </@th>
 
 -->
-<#macro sort jsp_url attribute id='' type='text' titleAscDesc=[] deprecated...>
+<#macro sort jsp_url attribute id='' type='text' titleAscDesc=[] columnLabel='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if jsp_url?contains("?")>
 <#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" />
@@ -55,9 +55,10 @@ Snippet:
 <#if titleAscDesc?size gt 1><#local sortLabels = titleAscDesc /></#if>
 <#local sortId = 'sort${id!}_${attribute!}' />
 <div class="dropdown float-end lutece-table-sort" id="${sortId}" data-sort-attribute="${attribute}">
-	<button type="button" class="btn btn-action btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.util.sort.label}">
+	<#local sortButtonLabel>#i18n{portal.util.sort.label}<#if columnLabel?has_content> ${columnLabel}</#if></#local>
+	<button type="button" class="btn btn-action btn-sm" data-bs-toggle="dropdown" aria-expanded="false" title="${sortButtonLabel}">
 		<@icon style='chevron-down' />
-		<span class="visually-hidden">#i18n{portal.util.sort.label}</span>
+		<span class="visually-hidden">${sortButtonLabel}</span>
 	</button>
 	<ul class="dropdown-menu">
 		<li>

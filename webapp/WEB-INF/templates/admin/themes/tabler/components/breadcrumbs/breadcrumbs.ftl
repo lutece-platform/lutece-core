@@ -28,7 +28,7 @@ Snippet:
 -->
 <#macro breadcrumbs id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="breadcrumb">
+<nav aria-label="#i18n{portal.theme.breadcrumb}">
 	<ol class="breadcrumb<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 		<#nested>
 	</ol>

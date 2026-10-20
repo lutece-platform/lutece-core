@@ -55,7 +55,7 @@ Snippet:
 <#if size?starts_with('style') == true ><#local sizeStyle = size /><#else><#local buttonSize = size /></#if>
 <#local classBase = style + buttonSize?has_content?then( ' btn-' + buttonSize, '' ) + color?has_content?then( ' ' + buttonColor, '' ) + dropdownMenu?then( ' btn-action', '' ) />
 <#if dropdownMenu><div class="dropdown"></#if>
-<a<@commonAttrs id=id classBase=classBase class=class classExtra=alignmentSettings( align, '' ) params=params /><#if name?has_content> name="${name}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+<a<@commonAttrs id=id classBase=classBase class=class classExtra=alignmentSettings( align, '' ) params=params /><#if name?has_content> name="${name}"</#if> href="${href}" title="${title}"<#if target?has_content> target="${target}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> aria-disabled="true" tabindex="-1"</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon?has_content && iconPosition='left'><@icon style=buttonIcon /></#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon?has_content && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -64,7 +64,7 @@ Snippet:
 	</#if>
 </a>
 <#if dropdownMenu>
-<div class="dropdown-menu"<#if id?has_content> id="${id}" aria-labelledby="${id}"</#if>>
+<div class="dropdown-menu"<#if id?has_content> id="${id}-content" aria-labelledby="${id}"</#if>>
 <#nested>
 </div>
 </div>
