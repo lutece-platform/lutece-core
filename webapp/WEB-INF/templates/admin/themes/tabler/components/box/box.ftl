@@ -34,7 +34,7 @@ Snippet:
 -->
 <#macro box color='' id='' style='' class='' title=''  collapsed=false  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card mb-3<#if color!=''> card-${color}<#else> card-transparent</#if> card-outline<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card mb-3<#if color!=''> card-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if title =''>
 <#nested>
 <#else>

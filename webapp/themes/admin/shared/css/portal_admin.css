@@ -7,3 +7,10 @@
 @import url( partials/portal_insert_admin.min.css );
 @import url( partials/portal_copy_admin.min.css );
 @import url( partials/portal_progress_admin.min.css );
+/* WCAG 1.4.11 (non-text contrast): the border is the only outline of an unchecked radio, checkbox or switch. Tabler's gray-200 gives
+   1.26:1 on white, gray-500 gives 4.74:1 on white and 3.78:1 on the dark theme. The pages without Tabler (the insert services, which load
+   Bootstrap) take the fallback, the gray-600 of Bootstrap: 4.69:1 on white. Specificity (0,2,0): above the base rule of Tabler, equal
+   to its :focus-visible, .is-valid and .is-invalid rules, which keep their colour as tabler.min.css is loaded after this file. */
+.form-check-input:not(:checked, :disabled) {
+	border-color: var(--tblr-gray-500, #6c757d);
+}
