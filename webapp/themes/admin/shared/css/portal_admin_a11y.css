@@ -15,3 +15,8 @@
 :root:not([data-bs-theme=dark]) .alert-info {
 	--tblr-alert-variant-color: #2f6da3;
 }
+
+/* The description of an alert is gray-500 (#6b7280): 4.3:1 on the tinted background of a danger alert */
+:root:not([data-bs-theme=dark]) .alert-description {
+	color: #4b5563;
+}
