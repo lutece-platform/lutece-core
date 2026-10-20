@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -182,7 +181,7 @@ public final class AdminUserService
     private static final String MARK_NOTIFY_USER_PASSWORD_EXPIRED = "notify_user_password_expired";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_USER = "user";
-    private static final String MARK_SITE_LINK = "site_link";
+    private static final String MARK_SITE_URL = "site_url";
     private static final String MARK_LOGIN_URL = "login_url";
     private static final String MARK_RESET_TOKEN_VALIDITY = "reset_token_validity";
     private static final String MARK_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
@@ -1349,7 +1348,7 @@ public final class AdminUserService
         model.put( MARK_PASSWORD, strPassword );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_LOGIN_URL, strBaseUrl + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
-        model.put( MARK_SITE_LINK, HtmlMarkup.of( MailService.getSiteLink( strBaseUrl, false ) ) );
+        model.put( MARK_SITE_URL, MailService.getSiteUrl( strBaseUrl, false ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
 
