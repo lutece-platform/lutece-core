@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.cache.configuration.MutableConfiguration;
+
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import jakarta.annotation.PostConstruct;
@@ -56,7 +58,7 @@ public class LinksIncludeCacheService extends AbstractCacheableService<String,Ma
     @PostConstruct
     public void init( )
     {
-        initCache( SERVICE_NAME, String.class, (Class<Map<String, Object>>)(Class<?>)HashMap.class);
+        createCache( SERVICE_NAME, new MutableConfiguration<String, Map<String, Object>>( ).setTypes( String.class, (Class<Map<String, Object>>) (Class<?>) HashMap.class ), true );
     }
 
     @Override

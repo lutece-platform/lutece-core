@@ -168,7 +168,7 @@ INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce6');
 INSERT INTO core_datastore VALUES ('core.cache.status.BaseUserPreferencesCacheService.enabled', '0');
 INSERT INTO core_datastore VALUES ('core.cache.status.BaseUserPreferencesCacheService.maxElementsInMemory', '1000');
 INSERT INTO core_datastore VALUES ('core.cache.status.DatastoreCacheService.enabled', '1');
-INSERT INTO core_datastore VALUES ('core.cache.status.LinksIncludeCacheService.enabled', '0');
+INSERT INTO core_datastore VALUES ('core.cache.status.LinksIncludeCacheService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.LuteceUserCacheService.enabled', '1');
 INSERT INTO core_datastore VALUES ('core.cache.status.LuteceUserCacheService.maxElementsInMemory', '1000');
 INSERT INTO core_datastore VALUES ('core.cache.status.MailAttachmentCacheService.enabled', '1');

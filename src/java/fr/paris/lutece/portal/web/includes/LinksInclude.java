@@ -51,6 +51,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.PageData;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -143,7 +144,7 @@ public class LinksInclude implements PageInclude
         Locale locale = request.getLocale( );
         Map<String, Object> links;
         LinksIncludeCacheService cacheService = CDI.current().select(LinksIncludeCacheService.class).get( );
-    	String strKey = cacheService.getCacheKey( nMode, strPage, locale );
+    	String strKey = cacheService.getCacheKey( nMode, getCacheKeyPage( strPage, installedPlugins ), getCacheKeyLocale( locale ) );
         if(cacheService.isCacheEnable() && !cacheService.isClosed( )) {
         	links = cacheService.get( strKey );
         	if ( links != null )
@@ -299,6 +300,45 @@ public class LinksInclude implements PageInclude
             AppLogService.error( "Error while closing stream for {}", strResourceURI, e );
         }
         return resourceURI;
+    }
+
+    /**
+     * Returns the page part of the links cache key. The page changes the links only when it is the id of an XPage of an installed plugin: any other value
+     * gives the links of no page, so it shares their cache entry instead of adding one per value.
+     * 
+     * @param strPage
+     *            the page parameter of the request
+     * @param installedPlugins
+     *            the installed plugins
+     * @return the page, or <code>null</code> when it is not the id of an XPage of an installed plugin
+     */
+    String getCacheKeyPage( String strPage, List<Plugin> installedPlugins )
+    {
+        return installedPlugins.stream( ).anyMatch( plugin -> isPluginXPage( strPage, plugin ) ) ? strPage : null;
+    }
+
+    /**
+     * Returns the locale part of the links cache key: the available locale of the same language as the request locale, or the default locale. The request
+     * locale comes from the client, so it is never used as is in the key.
+     * 
+     * @param locale
+     *            the request locale
+     * @return an available locale
+     */
+    Locale getCacheKeyLocale( Locale locale )
+    {
+        if ( locale != null )
+        {
+            for ( Locale availableLocale : I18nService.getAdminAvailableLocales( ) )
+            {
+                if ( availableLocale.getLanguage( ).equals( locale.getLanguage( ) ) )
+                {
+                    return availableLocale;
+                }
+            }
+        }
+
+        return I18nService.getDefaultLocale( );
     }
 
     /**

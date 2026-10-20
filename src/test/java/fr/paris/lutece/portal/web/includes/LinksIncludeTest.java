@@ -43,6 +43,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.cache.configuration.Configuration;
@@ -54,8 +55,12 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.content.PageData;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.test.mocks.MockServletContext;
@@ -1030,5 +1035,37 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                 // This failure is legit because the cache is disabled and if ehcache is used as implementation then the exception will be thrown                
             }
         }
+    }
+
+    @Test
+    public void testGetCacheKeyPage( )
+    {
+        Plugin xpagePlugin = new PluginDefaultImplementation( )
+        {
+            @Override
+            public List<XPageApplicationEntry> getApplications( )
+            {
+                XPageApplicationEntry entry = new XPageApplicationEntry( );
+                entry.setId( "linksIncludeXPage" );
+                return List.of( entry );
+            }
+        };
+        List<Plugin> installedPlugins = List.of( PluginService.getCore( ), xpagePlugin );
+        LinksInclude include = new LinksInclude( );
+
+        assertEquals( "linksIncludeXPage", include.getCacheKeyPage( "linksIncludeXPage", installedPlugins ) );
+        assertNull( include.getCacheKeyPage( "notAnXPage", installedPlugins ) );
+        assertNull( include.getCacheKeyPage( null, installedPlugins ) );
+    }
+
+    @Test
+    public void testGetCacheKeyLocale( )
+    {
+        LinksInclude include = new LinksInclude( );
+
+        assertEquals( new Locale( "fr" ), include.getCacheKeyLocale( Locale.FRANCE ) );
+        assertEquals( new Locale( "en" ), include.getCacheKeyLocale( Locale.UK ) );
+        assertEquals( I18nService.getDefaultLocale( ), include.getCacheKeyLocale( new Locale( "xx", "YY" ) ) );
+        assertEquals( I18nService.getDefaultLocale( ), include.getCacheKeyLocale( null ) );
     }
 }
