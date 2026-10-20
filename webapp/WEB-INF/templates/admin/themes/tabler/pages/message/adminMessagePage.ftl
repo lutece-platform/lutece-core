@@ -76,6 +76,7 @@ Snippet:
 		</@row>
 	</@div>
 </@div>
+<script src="themes/admin/shared/js/util/lutece-actions.js"></script>
 <script>
 document.documentElement.classList.remove('loading');
 </script>

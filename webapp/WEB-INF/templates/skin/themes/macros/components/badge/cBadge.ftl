@@ -37,7 +37,7 @@ Snippet:
 	<div class="badge-content">
 		<#if hasp><p class="badge-label">${label!}</p><#else>${label!}</#if>
 		<#nested>
-		<button type="button" class="btn-close" onclick="this.parentElement.style.display='none';" aria-label="Fermer"></button>
+		<button type="button" class="btn-close" data-lutece-action="hide-parent" aria-label="Fermer"></button>
 	</div>	
 <#else>
 	<#if hasp><p class="badge-label">${label!}</p><#else>${label!}</#if>

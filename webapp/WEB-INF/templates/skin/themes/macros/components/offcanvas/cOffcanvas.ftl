@@ -55,7 +55,7 @@ Snippet:
 <#macro cOffcanvas id position='end' class='' title='' btnTitle='' btnColor='primary' btnTitleShow=true btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true reloadOnClose=false badgeContent='' badgeColor='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnTitle?has_content>
-<a id="btn-${id}" class="btn<#if btnColor?has_content> btn-${btnColor} </#if><#if btnSize?has_content> btn-${btnSize}</#if> ${btnClass}<#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
+<a id="btn-${id}" class="btn<#if btnColor?has_content> btn-${btnColor} </#if><#if btnSize?has_content> btn-${btnSize}</#if> ${btnClass}<#if badgeContent?has_content> position-relative</#if>" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
     <#if btnIcon?has_content><@cIcon name=btnIcon /></#if>
     <#if btnIcon?has_content && btnTitle?has_content && btnTitleShow><span class="ms-xs"></#if>
     <#if btnTitleShow>${btnTitle}</#if>

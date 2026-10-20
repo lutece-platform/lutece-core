@@ -129,6 +129,7 @@ var urlDoLogout='<#if urlDoLogout != '' && !urlDoLogout?starts_with('DS') >${saf
 <script src="${commonsGlobalThemeCode}/${commonsSiteJsPath}/vendor/js/bootstrap.bundle.min.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
 </#if>
 <#-- Plugins JS includes   			-->
+<script src="themes/skin/shared/js/util/lutece-actions.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
 ${plugins_javascript_links!}
 <!-- Theme - Base JS init  -->
 <#assign optJsFooter=.get_optional_template('theme_frameset_footer_js.html')>

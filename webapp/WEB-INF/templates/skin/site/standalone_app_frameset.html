@@ -136,6 +136,7 @@ window.addEventListener( "load", function() {
 <#assign optUserFooter=.get_optional_template('theme_frameset_footer_user.html')>
 <#if optUserFooter.exists><@optUserFooter.include /></#if>
 </#if>
+<script src="themes/skin/shared/js/util/lutece-actions.js"></script>
 <script src="js/site.js"></script>
 <#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 </body>
