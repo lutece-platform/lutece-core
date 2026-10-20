@@ -250,7 +250,7 @@ public class FreeMarkerAutoEscapeTest
             Matcher matcher = STRING_INTERPOLATION.matcher( strSource );
             while ( matcher.find( ) )
             {
-                if ( Pattern.compile( "\\bparams\\s*=\\s*\\(?\\s*" + matcher.group( 1 ) + "\\b" ).matcher( strSource ).find( ) )
+                if ( Pattern.compile( "\\bparams\\s*=\\s*\\(?\\s*" + matcher.group( 1 ) + "\\b(?!\\s*\\?)" ).matcher( strSource ).find( ) )
                 {
                     listFailures.add( path + " : params=" + matcher.group( 1 ) );
                 }

@@ -17,7 +17,7 @@ Parameters:
 - readonly - boolean - Default false, champ en lecture seule ou non
 - helpMsg - string - Default '', Message d'aide pour l'input
 - errorMsg - string - Default '', Message d'erreur pour l'input
-- params - string - Default '', Tous autres paramètres à ajouter à l'input
+- params - map - Default {}, attributs HTML supplémentaires de l'input, par exemple {'aria-label': label}
 - separator - boolean - Default true, Séparateur auto-inséré lors de la saisie en fonction du format de date. Si vrai, le séparateur est inséré automatiquement après le jour et le mois en fonction du format de date. De plus, si la date saisie est invalide ou incomplète, le focus est conservé dans le champ à la sortie, l'attribut aria-invalid est positionné et le message d'erreur (invalid-feedback) est affiché ; la soumission du formulaire est bloquée tant que la date est invalide (y compris avec type='').
 - #nested - string - Default '', Contenu textuel a ajouter après l'input
 

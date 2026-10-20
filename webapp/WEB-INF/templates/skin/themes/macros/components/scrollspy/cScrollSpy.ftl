@@ -15,7 +15,7 @@ Parameters:
 - contentColClass - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
 - id - string - optional - l'Id du wrapper - .row- des colonnes
 - class - string - optional - ajoute une classe CSS au wrapper
-- params - string - optional - permet d'ajouter des parametres HTML au wrapper.
+- params - map - optional - attributs HTML supplémentaires du wrapper, par exemple {'data-x': 'y'}
 
 Snippet:
 	<#assign anchorsList = [
