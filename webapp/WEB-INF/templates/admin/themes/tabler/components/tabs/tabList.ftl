@@ -33,9 +33,12 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#-- the style of the enclosing @tabs wins over the style parameter -->
 <#local tabStyle = propagateTabStyle!style />
+<#-- a list of in-page tabs is a tablist; a list of links to other pages (tabLink with a .jsp href) stays a list of links -->
+<#local tabsContent><#nested></#local>
+<#local inPageTabs = tabsContent?markup_string?contains( 'role="tab"' ) />
 <div class="card-header">
-<ul<@commonAttrs id=id classBase='nav nav-' + tabStyle + ' card-header-tabs' + vertical?then( ' flex-column mb-3', '' ) class=class params=params /> data-bs-toggle="tabs" role="tablist">
-<#nested>
+<ul<@commonAttrs id=id classBase='nav nav-' + tabStyle + ' card-header-tabs' + vertical?then( ' flex-column mb-3', '' ) class=class params=params /><#if inPageTabs> data-bs-toggle="tabs" role="tablist"</#if>>
+${tabsContent}
 </ul>
 </div>
 </#macro>
