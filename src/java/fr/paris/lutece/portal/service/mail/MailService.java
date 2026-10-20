@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.mail;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
@@ -644,6 +645,23 @@ public final class MailService
     }
 
     /**
+     * Get the URL of the site back office or front office, for a link in an e-mail: the template writes the link itself,
+     * <code>&lt;a title="${site_name}" href="${site_url}"&gt;${site_name}&lt;/a&gt;</code>, so the site name and the URL
+     * are escaped by the HTML auto-escaping (LUT-33153).
+     *
+     * @param strBaseUrl
+     *            The base url of the site
+     * @param linkToFrontOffice
+     *            True for the front office, false for the back office
+     * @return the URL of the site
+     */
+    public static String getSiteUrl( String strBaseUrl, boolean linkToFrontOffice )
+    {
+        String strPath = linkToFrontOffice ? AppPathService.getPortalUrl( ) : AppPathService.getAdminMenuUrl( );
+        return StringUtils.defaultString( strBaseUrl ) + StringUtils.defaultString( strPath );
+    }
+
+    /**
      * Get a string that contains an html link to the site back office or front office.
      * 
      * @param strBaseUrl
@@ -652,7 +670,9 @@ public final class MailService
      *            True if the link should be directed to the front office, false if it should be directed to the back office.
      * @return A string containing an html link, its site name and URL escaped. Put it in a template model with
      *         HtmlMarkup.of.
+     * @deprecated put the site name and getSiteUrl in the model, and let the template write the link
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static String getSiteLink( String strBaseUrl, boolean linkToFrontOffice )
     {
         StringBuilder sb = new StringBuilder( );
