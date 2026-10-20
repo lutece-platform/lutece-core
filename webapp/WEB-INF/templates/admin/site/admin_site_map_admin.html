@@ -13,8 +13,9 @@
             <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
                 <span class="ti ti-link"></span>
             </a>
-            <#-- Filtrer les éléments de niveau > 0 et les passer à la macro -->
-            <#assign childItems = items?filter(i -> i.level gt 0)>
+            <#-- Child pages of the root (tree built by MenuTreeBuilder), plus the first level pages
+                 listed beside the root by the flat list of older cores -->
+            <#assign childItems = item.children + items?filter(i -> i.level gt 0)>
             <#if childItems?size gt 0>
                 <ul><@renderSubMap items=childItems /></ul>
             </#if>

@@ -177,4 +177,24 @@ public interface IPortletDAO
      * @return list of orders used for this column
      */
     List<Integer> getUsedOrdersForColumns( int pageId, int columnId );
+
+    /**
+     * The portlets of a column, in their order, with only their identifier, name, page, column and order loaded
+     *
+     * @param nPageId
+     *            the page id
+     * @param nColumnId
+     *            the column id
+     * @return the portlets of the column
+     */
+    List<Portlet> selectColumnPositions( int nPageId, int nColumnId );
+
+    /**
+     * The portlets of a page, by column and in their order, with only their identifier, type, name, page, column and order loaded
+     *
+     * @param nPageId
+     *            the page id
+     * @return the portlets of the page
+     */
+    List<Portlet> selectPagePositions( int nPageId );
 }

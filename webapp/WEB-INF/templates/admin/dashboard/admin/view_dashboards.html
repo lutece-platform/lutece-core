@@ -64,7 +64,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tabListParent = document.getElementById('adminTechnicalList');
     const tabList = tabListParent.querySelectorAll('.nav-link');
-    const tabListContent = document.getElementById('admin-tab-content').querySelectorAll('.tab-pane');
+    // Only the panels of the page: a panel may hold tabs of its own (e.g. the editors panel)
+    const tabListContent = document.getElementById('admin-tab-content').querySelectorAll(':scope > .tab-pane');
 
 	const urlHash = document.location.hash; 
 	if( urlHash != undefined && urlHash != '' ) {
@@ -101,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const tabs = document.getElementById('adminTechnical').querySelectorAll('.nav-link');
+    // Only the links of the menu, not the ones of the tabs inside a panel
+    const tabs = tabListParent.querySelectorAll('.nav-link');
     
     for (const tab of tabs) {
         tab.addEventListener('show.bs.tab', (e) => {
@@ -143,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const activeTab = sessionStorage.getItem('activeFeatureTab');
-    const tabToActivate = document.querySelector(`.nav-link[href="#${activeTab}"]`);
+    const tabToActivate = tabListParent.querySelector(`.nav-link[href="#${activeTab}"]`);
 
     if (tabToActivate) {
         tabToActivate.click();

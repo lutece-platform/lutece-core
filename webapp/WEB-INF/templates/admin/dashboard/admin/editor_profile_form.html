@@ -1,0 +1,106 @@
+<#--
+Macro: editorProfileForm
+
+Description: The form of an editor profile, shared by its creation and modification pages. The editor is chosen at the creation only, the editor of the back office by default. The targets (plugins, roles, workgroups) are not shown for a default profile: it applies when no other profile of its editor does.
+
+Parameters:
+- action (string, required): the action of the form, createEditorProfile or modifyEditorProfile.
+- title (string, required): the title of the page.
+-->
+<#macro editorProfileForm action title>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title=title>
+			<@aButton href='jsp/admin/admindashboard/ManageEditorProfiles.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' />
+		</@pageHeader>
+		<@messages errors=errors![] />
+		<@tform method='post' name='editor_profile' action='jsp/admin/admindashboard/ManageEditorProfiles.jsp' boxed=true>
+			<@input type='hidden' name='action' value=action />
+			<#if profile.id gt 0><@input type='hidden' name='profile_id' value='${profile.id}' /></#if>
+			<@formGroup labelFor='profile_name' labelKey='#i18n{portal.admindashboard.editorProfile.labelName}' mandatory=true rows=2>
+				<@input type='text' name='profile_name' id='profile_name' value='${profile.name!}' maxlength=100 mandatory=true />
+			</@formGroup>
+			<@formGroup labelFor='profile_description' labelKey='#i18n{portal.admindashboard.editorProfile.labelDescription}' rows=2>
+				<@input type='text' name='profile_description' id='profile_description' value='${profile.description!}' maxlength=255 />
+			</@formGroup>
+			<#if action = 'createEditorProfile'>
+			<@formGroup labelFor='profile_editor' labelKey='#i18n{portal.admindashboard.editorProfile.labelEditor}' helpKey='#i18n{portal.admindashboard.editorProfile.helpEditor}' mandatory=true rows=2>
+				<@select id='profile_editor' name='profile_editor' items=editors_list default_value='${profile.editorName!}' mandatory=true />
+			</@formGroup>
+			<#else>
+			<@formGroup labelKey='#i18n{portal.admindashboard.editorProfile.labelEditor}' helpKey='#i18n{portal.admindashboard.editorProfile.helpEditorFixed}' rows=2>
+				<p class="form-control-plaintext">${editor_label!profile.editorName!}</p>
+			</@formGroup>
+			</#if>
+			<#if profile.default>
+			<@alert color='info'>#i18n{portal.admindashboard.editorProfile.helpDefaultProfile}</@alert>
+			<#else>
+			<@formGroup labelKey='#i18n{portal.admindashboard.editorProfile.labelPlugins}' helpKey='#i18n{portal.admindashboard.editorProfile.helpPlugins}' mandatory=true rows=2>
+				<div class="row">
+				<#list plugins_list as plugin>
+					<div class="col-12 col-md-4 col-xl-3"><@checkBox name='profile_plugins' id='profile_plugin_${plugin?index}' labelKey=plugin.name value=plugin.code checked=profile.plugins?seq_contains( plugin.code ) /></div>
+				</#list>
+				</div>
+			</@formGroup>
+			<@formGroup labelKey='#i18n{portal.admindashboard.editorProfile.labelRoles}' helpKey='#i18n{portal.admindashboard.editorProfile.helpRoles}' rows=2>
+				<div class="row">
+				<#list roles_list as role>
+					<div class="col-12 col-md-6 col-xl-4"><@checkBox name='profile_roles' id='profile_role_${role?index}' labelKey=role.name value=role.code checked=profile.roles?seq_contains( role.code ) /></div>
+				</#list>
+				</div>
+			</@formGroup>
+			<@formGroup labelKey='#i18n{portal.admindashboard.editorProfile.labelWorkgroups}' helpKey='#i18n{portal.admindashboard.editorProfile.helpWorkgroups}' rows=2>
+				<#if workgroups_list?has_content>
+				<div class="row">
+				<#list workgroups_list as workgroup>
+					<div class="col-12 col-md-6 col-xl-4"><@checkBox name='profile_workgroups' id='profile_workgroup_${workgroup?index}' labelKey=workgroup.name value=workgroup.code checked=profile.workgroups?seq_contains( workgroup.code ) /></div>
+				</#list>
+				</div>
+				<#else>
+				<p class="text-secondary">#i18n{portal.admindashboard.editorProfile.labelNoWorkgroup}</p>
+				</#if>
+			</@formGroup>
+			</#if>
+			<@formGroup labelFor='profile_config' labelKey='#i18n{portal.admindashboard.editorProfile.labelConfig}' helpKey='#i18n{portal.admindashboard.editorProfile.helpConfig}' rows=2>
+				<@input type='textarea' name='profile_config' id='profile_config' class='font-monospace' rows=12>${(profile.config!'{}')?html}</@input>
+			</@formGroup>
+			<@formGroup rows=2>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' color='primary' />
+				<@aButton href='jsp/admin/admindashboard/ManageEditorProfiles.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='danger' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
+<script>
+/* The configuration must be empty or a JSON object, and one plugin at least must be chosen: checked before the form is sent */
+document.addEventListener( 'DOMContentLoaded', function () {
+	const form = document.forms[ 'editor_profile' ];
+	const config = document.getElementById( 'profile_config' );
+	const plugins = form.querySelectorAll( 'input[name="profile_plugins"]' );
+	config.addEventListener( 'input', function () { config.setCustomValidity( '' ); } );
+	plugins.forEach( function ( plugin ) { plugin.addEventListener( 'change', function () { plugins[ 0 ].setCustomValidity( '' ); } ); } );
+	form.addEventListener( 'submit', function ( event ) {
+		let isValid = config.value.trim( ) === '';
+		if ( !isValid ) {
+			try {
+				const value = JSON.parse( config.value );
+				isValid = value !== null && typeof value === 'object' && !Array.isArray( value );
+			} catch ( e ) {
+				isValid = false;
+			}
+		}
+		if ( !isValid ) {
+			event.preventDefault( );
+			config.setCustomValidity( '#i18n{portal.admindashboard.message.editorProfileInvalidConfig}' );
+			config.reportValidity( );
+			return;
+		}
+		if ( plugins.length > 0 && !Array.from( plugins ).some( function ( plugin ) { return plugin.checked; } ) ) {
+			event.preventDefault( );
+			plugins[ 0 ].setCustomValidity( '#i18n{portal.admindashboard.message.editorProfilePluginMandatory}' );
+			plugins[ 0 ].reportValidity( );
+		}
+	} );
+} );
+</script>
+</#macro>

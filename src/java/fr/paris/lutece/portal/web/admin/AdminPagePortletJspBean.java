@@ -82,8 +82,10 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS = "portal.site.message.confirmModifyStatus";
     private static final String PORTLET_STATUS = "status";
     private static final String JSP_REMOVE_PORTLET = "jsp/admin/site/DoRemovePortlet.jsp";
-    private static final String JSP_DO_MODIFY_STATUS = "jsp/admin/site/DoModifyPortletStatus.jsp";
-    private static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
+    /** The action of the security token of a status change, from the toolbar of the preview or the switch of the portlet form */
+    public static final String JSP_DO_MODIFY_STATUS = "jsp/admin/site/DoModifyPortletStatus.jsp";
+    /** The action of the security token of a portlet move, from the toolbar of the preview, the preview or the portlets tab */
+    public static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_PATH = "jsp/admin/site/";
     @Inject 
@@ -436,8 +438,41 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 
         PortletHome.updatePosition( portlet, nColumnId, nOrder );
 
-       return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
-        
+        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
+    }
+
+    /**
+     * Processes the Order and Column Update of the portlet called by a script, which saves several moves one after the other: the
+     * security token is used once, the answer gives the one of the next move
+     *
+     * @param request
+     *            The http request
+     * @return The JSON answer: whether the move is saved, and the security token of the next move
+     * @throws AccessDeniedException
+     *             if the security token is invalid, or if the user is not authorized to manage the portlet
+     */
+    public String doUpdatePortletPositionJson( HttpServletRequest request ) throws AccessDeniedException
+    {
+        boolean bSaved = doUpdatePortletPosition( request ).startsWith( JSP_ADMIN_SITE );
+
+        return "{\"saved\":" + bSaved + ",\"token\":\"" + getSecurityTokenService( ).getToken( request, JSP_DO_MODIFY_POSITION ) + "\"}";
+    }
+
+    /**
+     * Processes the status change of the portlet called by a script, from the switch of the portlet form: the security token is used
+     * once, the answer gives the one of the next change
+     *
+     * @param request
+     *            The http request
+     * @return The JSON answer: whether the status is saved, and the security token of the next change
+     * @throws AccessDeniedException
+     *             if the security token is invalid, or if the user is not authorized to manage the portlet
+     */
+    public String doModifyPortletStatusJson( HttpServletRequest request ) throws AccessDeniedException
+    {
+        boolean bSaved = doModifyPortletStatus( request ).startsWith( JSP_ADMIN_SITE );
+
+        return "{\"saved\":" + bSaved + ",\"token\":\"" + getSecurityTokenService( ).getToken( request, JSP_DO_MODIFY_STATUS ) + "\"}";
     }
 
     private String getMessageErrorAuthorization( User user, String permission, int nPortletId )

@@ -70,6 +70,9 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PAGE_TITLE_CREATE_LEVEL = "portal.features.create_level.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_LEVEL = "portal.features.modify_level.pageTitle";
 
+    // Messages
+    private static final String MESSAGE_LEVEL_ALREADY_EXISTS = "portal.features.message.levelAlreadyExists";
+
     // Markers
     private static final String MARK_LEVEL = "level";
     private static final String MARK_LEVEL_ID = "level_id";
@@ -121,6 +124,10 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         if ( !StringUtils.isNumeric( strId ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP );
+        }
+        if ( LevelHome.findByPrimaryKey( Integer.parseInt( strId ) ) != null )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_LEVEL_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_LEVEL ) )
         {

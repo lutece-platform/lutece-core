@@ -2,6 +2,12 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 const isIt = '${.data_model.input}', insertCode='${insert}';
+// An editor other than TinyMCE (Autumn Note) receives the insert through luteceEditorInsert, set by the dialog it opened
+if ( parent !== window && parent.luteceEditorInsert ) {
+	parent.luteceEditorInsert.insert( insertCode );
+	parent.luteceEditorInsert.close( );
+	return;
+}
 switch ( isIt ) {
 	case 'slider-file':
 		sessionStorage.setItem('slidercode', insertCode );
@@ -24,7 +30,7 @@ switch ( isIt ) {
 		parent.tinymce.activeEditor.insertContent( insertCode );
 		parent.tinymce.activeEditor.windowManager.close();
 		break;
-	// TinyMCE 5	
+	// TinyMCE: insert services still pass input=tinymce5, whatever the version of the editor
 	case '':
 	case 'tinymce5':
 		parent.tinymce.activeEditor.insertContent( insertCode );

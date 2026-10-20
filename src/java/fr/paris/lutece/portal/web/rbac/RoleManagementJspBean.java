@@ -402,6 +402,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 Role roleFront = new Role( );
                 roleFront.setRole( strNewRoleKey );
                 roleFront.setRoleDescription( strRoleDescription );
+                roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
                 RoleHome.create( roleFront );
             }
 

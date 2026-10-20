@@ -32,6 +32,8 @@
 </#if>
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<#-- The metadata of the sharing extension (opengraph) when it is added to the page -->
+<#if page_id?? && isExtendInstalled?? && isExtendInstalled>@Extender[${page_id},PAGE,opengraph,{header:true}]@</#if>
 <!-- Le style -->
 <#if themeCSSLinks??>
 <@themeCSSLinks />
@@ -94,13 +96,12 @@ ${page_path}
 <div class="main-content">
 ${page_content}
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@cIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
-</div>
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>
-<!-- Extends -->
-@Extender[${page_id},PAGE,comment]@
-@Extender[${page_id},PAGE,feedback]@
+<!-- Extends: every extender added to the page (plugin extend, ResourceExtenderService) -->
+@Extender[${page_id},PAGE,all]@
 </#if>
 ${contextinclude_2!}
+</div>
 <#assign optMainContentFooter=.get_optional_template('theme_frameset_content_footer.html')>
 <#if optMainContentFooter.exists><@optMainContentFooter.include /></#if>
 <!-- Footer -->

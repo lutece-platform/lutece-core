@@ -79,6 +79,8 @@ public final class PageDAO implements IPageDAO
             + " FROM core_page WHERE id_parent = ? ORDER BY page_order";
     private static final String SQL_QUERY_CHILDPAGE_MINIMAL_DATA = "SELECT id_page ,id_parent, name, description, role FROM core_page "
             + " WHERE id_parent = ? ORDER BY page_order";
+    private static final String SQL_QUERY_SELECTALL_MINIMAL_DATA = "SELECT id_page, id_parent, name, description, role, node_status FROM core_page "
+            + " ORDER BY id_parent, page_order, id_page";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_page , id_parent,  name, description, date_update, "
             + " page_order, status, role, code_theme, image_content, mime_type , meta_keywords, meta_description,id_authorization_node, display_date_update, is_manual_date_update  FROM core_page ";
     private static final String SQL_QUERY_BY_ROLE_KEY = "SELECT id_page , id_parent,  name, description, date_update, "
@@ -98,6 +100,7 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE = "  SELECT id_page FROM core_page  "
             + "WHERE id_parent=? AND( id_authorization_node IS NULL OR id_page != id_authorization_node ) ";
     private static final String SQL_QUERY_UPDATE_AUTORISATION_NODE = " UPDATE core_page SET id_authorization_node = ? WHERE id_page=? ";
+    private static final String SQL_QUERY_UPDATE_POSITION = " UPDATE core_page SET id_parent = ? , page_order = ? WHERE id_page = ? ";
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // Access methods to data
@@ -518,6 +521,35 @@ public final class PageDAO implements IPageDAO
     /**
      * {@inheritDoc}
      */
+    @Override
+    public List<Page> selectAllPagesMinimalData( )
+    {
+        List<Page> pageList = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_MINIMAL_DATA ) )
+        {
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                Page page = new Page( );
+                page.setId( daoUtil.getInt( nIndex++ ) );
+                page.setParentPageId( daoUtil.getInt( nIndex ) );
+                page.setOrigParentPageId( daoUtil.getInt( nIndex++ ) );
+                page.setName( daoUtil.getString( nIndex++ ) );
+                page.setDescription( daoUtil.getString( nIndex++ ) );
+                page.setRole( daoUtil.getString( nIndex++ ) );
+                page.setNodeStatus( daoUtil.getInt( nIndex++ ) );
+                pageList.add( page );
+            }
+        }
+
+        return pageList;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public List<Page> selectAllPages( )
     {
         List<Page> pageList = new ArrayList<>( );
@@ -814,5 +846,21 @@ public final class PageDAO implements IPageDAO
         }
 
         return listIdPage;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updatePosition( int nIdPage, int nIdParentPage, int nOrder )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_POSITION ) )
+        {
+            daoUtil.setInt( 1, nIdParentPage );
+            daoUtil.setInt( 2, nOrder );
+            daoUtil.setInt( 3, nIdPage );
+
+            daoUtil.executeUpdate( );
+        }
     }
 }

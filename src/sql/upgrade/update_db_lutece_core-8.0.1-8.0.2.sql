@@ -203,6 +203,75 @@ DELETE FROM core_datastore WHERE entity_key LIKE 'core.cache.status.%.diskPersis
     OR entity_key LIKE 'core.cache.status.%.diskSpoolBufferSizeMB'
     OR entity_key LIKE 'core.cache.status.%.memoryStoreEvictionPolicy';
 
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev17.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile_target'
+CREATE TABLE IF NOT EXISTS core_editor_profile_target (
+	id_profile int NOT NULL,
+	target_type varchar(20) NOT NULL,
+	target_value varchar(255) NOT NULL,
+	PRIMARY KEY (id_profile, target_type, target_value)
+);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev18.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The default profile of the editor: applies when no other profile matches
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE is_default = 1
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile matches', NULL, '{}', 0, 1 );
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev19.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment An editor profile belongs to an editor: the default profile created without editor goes to the text editor of the back office.
+-- comment The default profile of each other editor is created by the "Text editor" tab of the technical settings.
+UPDATE core_editor_profile SET editor_name = COALESCE( ( SELECT entity_value FROM core_datastore WHERE entity_key = 'core.backOffice.defaultEditor' AND entity_value <> '' ), 'tinymce6' ) WHERE editor_name IS NULL;
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev21.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Example of editor profile for the HTML portlets (plugin html) with tinymce6
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE name = 'HTML portlets' AND editor_name = 'tinymce6'
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'HTML portlets', 'Example: a taller editor with tables and media for the HTML portlets', 'tinymce6', '{ "height": 600, "menubar": "edit insert format table", "toolbar": "undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | table link image media | lutece | code fullscreen" }', 1, 0 );
+INSERT INTO core_editor_profile_target ( id_profile, target_type, target_value ) SELECT id_profile, 'plugin', 'html' FROM core_editor_profile WHERE name = 'HTML portlets' AND editor_name = 'tinymce6';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev22.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment TinyMCE 5 is removed from the core: the back office moves to TinyMCE 6, and the profiles of TinyMCE 5 go with it.
+-- comment The "Text editor" tab of the technical settings creates the default profile of TinyMCE 6 if it has none.
+UPDATE core_datastore SET entity_value = 'tinymce6' WHERE entity_key = 'core.backOffice.defaultEditor' AND entity_value = 'tinymce5';
+DELETE FROM core_editor_profile_target WHERE id_profile IN ( SELECT id_profile FROM core_editor_profile WHERE editor_name = 'tinymce5' );
+DELETE FROM core_editor_profile WHERE editor_name = 'tinymce5';
+DELETE FROM core_text_editor WHERE editor_name = 'tinymce5';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev23.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment In the toolbar of a profile, lutece is now the "Lutece contents" button alone and luteceAll the button with those of the insert services.
+-- comment The example profile of the HTML portlets keeps all of them, unless it has been modified.
+UPDATE core_editor_profile SET config = '{ "height": 600, "menubar": "edit insert format table", "toolbar": "undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | table link image media | luteceAll | code fullscreen" }' WHERE name = 'HTML portlets' AND editor_name = 'tinymce6' AND config = '{ "height": 600, "menubar": "edit insert format table", "toolbar": "undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | table link image media | lutece | code fullscreen" }';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev24.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Autumn Note, a second back office rich text editor next to TinyMCE 6. The default editor of the back office does not change.
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_text_editor WHERE editor_name = 'autumnnote' AND backOffice = 1
+INSERT INTO core_text_editor VALUES ('autumnnote', 'portal.admindashboard.editors.labelBackAutumnNote', 1);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev25.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The default profile of Autumn Note
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE editor_name = 'autumnnote' AND is_default = 1
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile of the editor matches', 'autumnnote', '{}', 0, 1 );
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev26.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment Milkdown, a back office rich text editor that edits Markdown: the field keeps HTML, reduced to what Markdown expresses. The default editor of the back office does not change.
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_text_editor WHERE editor_name = 'milkdown' AND backOffice = 1
+INSERT INTO core_text_editor VALUES ('milkdown', 'portal.admindashboard.editors.labelBackMilkdown', 1);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev27.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The default profile of Milkdown
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_editor_profile WHERE editor_name = 'milkdown' AND is_default = 1
+INSERT INTO core_editor_profile ( name, description, editor_name, config, priority, is_default ) VALUES ( 'Default profile', 'Applies when no other profile of the editor matches', 'milkdown', '{}', 0, 1 );
+
+
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev28.sql
 -- preconditions onFail:MARK_RAN onError:WARN
 -- comment The figures of the site on the admin home, in the strip of the first zone after the users and the plugins
@@ -226,3 +295,17 @@ INSERT INTO core_datastore VALUES ('core.home.shortcuts.default', 'CORE_ADMIN_SI
 -- comment The site property that lets the users choose their own shortcuts of the homepage header (on by default)
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.bo.shortcuts.checkbox'
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.checkbox', '1');
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev16.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The profiles of the back office rich text editor, managed in the "Text editor" tab of the technical settings
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile'
+CREATE TABLE IF NOT EXISTS core_editor_profile (
+	id_profile int AUTO_INCREMENT NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(255) default NULL,
+	editor_name varchar(255) default NULL,
+	config LONG VARCHAR,
+	priority int default 0 NOT NULL,
+	is_default SMALLINT default 0 NOT NULL,
+	PRIMARY KEY (id_profile)
+);

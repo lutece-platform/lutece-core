@@ -11,10 +11,11 @@
 			</@tform>
             <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" btnClass="ms-2" position="end" />
         </@pageHeader>
-        <#if roles_list?has_content>
+        <#-- The list always holds the default role 'none' (RoleHome.findAll), which is not shown: the empty state is for a list without any other -->
+        <#assign pageRoles = roles_list?filter( role -> role.role != "none" ) />
+        <#if pageRoles?has_content>
             <@manageFeature>
-            <#list roles_list as role>
-                <#if role.role !="none">
+            <#list pageRoles as role>
                     <@manageFeatureItem>
                         <@manageFeatureItemColumn auto=true class='searchable' >
                             <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleId} : <strong>${role.role}</strong></@p>
@@ -33,12 +34,11 @@
                             <@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' />
                         </@manageFeatureItemColumn>
                     </@manageFeatureItem>    
-                </#if>
             </#list>
             </@manageFeature>
         <#else>
             <@card>
-                <@empty />
+                <@empty iconName='lock' title='#i18n{portal.role.manage_roles.noRole}' subtitle='#i18n{portal.role.manage_roles.noRoleHelp}' />
             </@card>
         </#if>
     </@pageColumn>

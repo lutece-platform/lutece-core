@@ -186,6 +186,9 @@ public abstract class PortletHome implements PortletHomeInterface
         // Creation of the portlet child
         getDAO( ).insert( portlet );
 
+        // Its order is a place in its column: the portlets from that place down move one step, the column keeps the orders 1 to n
+        placeInColumn( portlet, portlet.getPageId( ), portlet.getColumn( ), portlet.getColumn( ), portlet.getOrder( ) );
+
         // Invalidate the portlet
         invalidate( portlet );
 
@@ -193,36 +196,60 @@ public abstract class PortletHome implements PortletHomeInterface
     }
 
     /**
-     * Deletes the portlet in the database
+     * Deletes the portlet in the database. The column it leaves closes the gap: it keeps the orders 1 to n, which the preview sends back as
+     * places
      *
      * @param portlet
      *            the portlet to remove
      */
     public synchronized void remove( Portlet portlet )
     {
+        Portlet former = _dao.load( portlet.getId( ) );
+
         // Deleting of the portlet child
         getDAO( ).delete( portlet.getId( ) );
 
         // Deleting of the portlet parent and its alias if exist
         _dao.delete( portlet.getId( ) );
 
+        if ( former.getId( ) == portlet.getId( ) )
+        {
+            renumberColumn( getColumnWithout( former.getPageId( ), former.getColumn( ), portlet ), former.getColumn( ) );
+        }
+
         // Invalidate the portlet
         invalidate( portlet );
     }
 
     /**
-     * Updates a portlet with the values of the specified portlet instance
+     * Updates a portlet with the values of the specified portlet instance. When it moves to another page, that page is invalidated too, as
+     * the page it joins
      *
      * @param portlet
      *            portlet to update
      */
     public void update( Portlet portlet )
     {
+        // The position stored before, to tell whether the portlet moves
+        Portlet former = _dao.load( portlet.getId( ) );
+
         getDAO( ).store( portlet );
         _dao.store( portlet );
 
+        // A new page, column or order is a place in the column, as on creation: the column it leaves closes the gap
+        if ( former.getId( ) == portlet.getId( ) && ( former.getPageId( ) != portlet.getPageId( ) || former.getColumn( ) != portlet.getColumn( )
+                || former.getOrder( ) != portlet.getOrder( ) ) )
+        {
+            placeInColumn( portlet, former.getPageId( ), former.getColumn( ), portlet.getColumn( ), portlet.getOrder( ) );
+        }
+
         // Invalidate the portlet
         invalidate( portlet );
+
+        if ( former.getId( ) == portlet.getId( ) && former.getPageId( ) != portlet.getPageId( ) )
+        {
+            notifyListeners( new PortletEvent( PortletEvent.INVALIDATE, portlet.getId( ), former.getPageId( ) ) );
+        }
     }
 
     /**
@@ -304,6 +331,121 @@ public abstract class PortletHome implements PortletHomeInterface
 
         // Invalidate the portlet
         invalidate( portlet );
+    }
+
+    /**
+     * Puts a portlet at a place of a column of its page. The portlets of that column keep their order around it and take the orders 1
+     * to n; the column it leaves, if it changes column, closes the gap. Only the portlets whose position changes are updated, and the page
+     * is invalidated once
+     *
+     * @param portlet
+     *            the portlet, with its current column; its column and its order are set to the new ones
+     * @param nColumn
+     *            the column
+     * @param nOrder
+     *            the place in the column, from 1; beyond the last portlet, the portlet goes last
+     */
+    public static void placeInColumn( Portlet portlet, int nColumn, int nOrder )
+    {
+        placeInColumn( portlet, portlet.getPageId( ), portlet.getColumn( ), nColumn, nOrder );
+
+        invalidate( portlet );
+    }
+
+    /**
+     * The portlets of a column of a page, in their order, with only their identifier, name, page, column and order loaded
+     *
+     * @param nPageId
+     *            the page
+     * @param nColumn
+     *            the column
+     * @return the portlets of the column
+     */
+    public static List<Portlet> getColumnPositions( int nPageId, int nColumn )
+    {
+        return _dao.selectColumnPositions( nPageId, nColumn );
+    }
+
+    /**
+     * The portlets of a page, by column and in their order, with only their identifier, type, name, page, column and order loaded
+     *
+     * @param nPageId
+     *            the page
+     * @return the portlets of the page
+     */
+    public static List<Portlet> getPagePositions( int nPageId )
+    {
+        return _dao.selectPagePositions( nPageId );
+    }
+
+    /**
+     * Puts a portlet at a place of a column of its page, coming from another column, possibly of another page, or from the same one. It
+     * invalidates nothing: the caller invalidates the portlet, and so its page, once
+     *
+     * @param portlet
+     *            the portlet, with its new page; its column and its order are set to the new ones
+     * @param nFormerPageId
+     *            the page the portlet comes from
+     * @param nFormerColumn
+     *            the column the portlet comes from, which closes the gap when it is not the new one
+     * @param nColumn
+     *            the column
+     * @param nOrder
+     *            the place in the column, from 1; beyond the last portlet, the portlet goes last
+     */
+    private static void placeInColumn( Portlet portlet, int nFormerPageId, int nFormerColumn, int nColumn, int nOrder )
+    {
+        List<Portlet> listColumn = getColumnWithout( portlet.getPageId( ), nColumn, portlet );
+        listColumn.add( Math.max( 0, Math.min( nOrder - 1, listColumn.size( ) ) ), portlet );
+        renumberColumn( listColumn, nColumn );
+
+        if ( nFormerPageId != portlet.getPageId( ) || nFormerColumn != nColumn )
+        {
+            renumberColumn( getColumnWithout( nFormerPageId, nFormerColumn, portlet ), nFormerColumn );
+        }
+    }
+
+    /**
+     * The portlets of a column of a page, in their order, without a portlet
+     *
+     * @param nPageId
+     *            the page
+     * @param nColumn
+     *            the column
+     * @param portlet
+     *            the portlet left out
+     * @return the portlets of the column
+     */
+    private static List<Portlet> getColumnWithout( int nPageId, int nColumn, Portlet portlet )
+    {
+        List<Portlet> listColumn = _dao.selectColumnPositions( nPageId, nColumn );
+        listColumn.removeIf( columnPortlet -> columnPortlet.getId( ) == portlet.getId( ) );
+
+        return listColumn;
+    }
+
+    /**
+     * Gives the portlets of a column the orders 1 to n, in the order of the list, updating only the portlets whose position changes. A
+     * position is not a content: it invalidates nothing, the page of the column is invalidated once by the caller
+     *
+     * @param listColumn
+     *            the portlets of the column, in their new order
+     * @param nColumn
+     *            the column
+     */
+    private static void renumberColumn( List<Portlet> listColumn, int nColumn )
+    {
+        for ( int i = 0; i < listColumn.size( ); i++ )
+        {
+            Portlet columnPortlet = listColumn.get( i );
+
+            if ( columnPortlet.getColumn( ) != nColumn || columnPortlet.getOrder( ) != i + 1 )
+            {
+                _dao.updatePosition( columnPortlet, nColumn, i + 1 );
+                columnPortlet.setColumn( nColumn );
+                columnPortlet.setOrder( i + 1 );
+            }
+        }
     }
 
     /**

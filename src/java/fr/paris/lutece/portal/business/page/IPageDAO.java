@@ -118,6 +118,14 @@ public interface IPageDAO
     Collection<Page> selectChildPagesMinimalData( int nParentPageId );
 
     /**
+     * Select all the pages of the site, ordered by parent then by order among the child pages of the parent. For each page, only select :
+     * Id, pageParentId, name, description, role and node status
+     *
+     * @return The list of objects Page
+     */
+    List<Page> selectAllPagesMinimalData( );
+
+    /**
      * Loads all the pages for a portal
      * 
      * @return The pages of the current portal (without portlets list, of course !)
@@ -200,4 +208,16 @@ public interface IPageDAO
      * @return an id list
      */
     List<Integer> selectPageForChangeAutorisationNode( int nIdParentPage );
+
+    /**
+     * Updates the place of a page in the tree: its parent and its order among the child pages of that parent
+     *
+     * @param nIdPage
+     *            the page id
+     * @param nIdParentPage
+     *            the parent page id
+     * @param nOrder
+     *            the order among the child pages of the parent
+     */
+    void updatePosition( int nIdPage, int nIdParentPage, int nOrder );
 }

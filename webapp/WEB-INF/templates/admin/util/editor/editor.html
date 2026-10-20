@@ -1,7 +1,39 @@
-<#assign textEditorName = richTextEditorBackOffice() >
+<#-- The editor of the back office and its profile, chosen for the plugin of the rendered template (or the plugin assigned to editorProfilePlugin before this
+     include) and the connected user, among the profiles of that editor in the "Text editor" tab of the technical settings. The config of the profile is merged last. -->
+<#assign textEditorProfile = richTextEditorProfile( editorProfilePlugin!'' ) >
+<#assign textEditorName = textEditorProfile.editor >
 <#if textEditorName?has_content>
 	<#assign importUrl = "/admin/util/editor/editor_" + textEditorName + ".html">
 	<#include importUrl />
+	<#if ((textEditorProfile.config)!'{}') != '{}' && !editorProfileScriptAdded??>
+	<#global editorProfileScriptAdded = true>
+<#-- The config of the profile is merged into every tinymce.init call, after the editor template has built its own: the editor templates, the ones of the
+     core as the ones a theme overrides, need no change. In its toolbars, luteceAll stands for the lutece button followed by those of the insert services of the site. -->
+<script>
+( function () {
+	if ( typeof tinymce === 'undefined' ) {
+		return;
+	}
+	const profileConfig = ${textEditorProfile.config?replace( '<', '\\u003c' )};
+	const init = tinymce.init.bind( tinymce );
+	tinymce.init = function ( config ) {
+		const merged = Object.assign( {}, config, profileConfig );
+		// In the toolbars of a profile, the buttons are taken as they are: lutece (the "Lutece contents" dialog of all the insert services), luteceImage,
+		// lutecePdf, lutecePageLink, luteceNewsletterBlog, luteceUploadPdf. luteceAll stands for lutece followed by the buttons of the insert services of the site.
+		// luteceToolbar holds those buttons, set by the editor template; a button whose insert service the site does not offer is left out.
+		const serviceButtons = [ 'luteceImage', 'lutecePdf', 'lutecePageLink', 'luteceNewsletterBlog', 'luteceUploadPdf' ];
+		const availableButtons = ( typeof luteceToolbar !== 'undefined' ) ? luteceToolbar.trim( ).split( /\s+/ ).filter( Boolean ) : [];
+		[ 'toolbar', 'quickbars_insert_toolbar', 'quickbars_selection_toolbar' ].forEach( function ( key ) {
+			if ( typeof profileConfig[ key ] === 'string' ) {
+				merged[ key ] = profileConfig[ key ].replace( /\bluteceAll\b/g, [ 'lutece' ].concat( availableButtons ).join( ' ' ) )
+					.split( ' ' ).filter( function ( button ) { return !serviceButtons.includes( button ) || availableButtons.includes( button ); } ).join( ' ' );
+			}
+		} );
+		return init( merged );
+	};
+} )( );
+</script>
+	</#if>
 <#else>
 	<#macro initEditor deprecated...><!-- rich text editor disabled --></#macro>
 </#if>

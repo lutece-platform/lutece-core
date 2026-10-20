@@ -1,12 +1,12 @@
 /*!
- * Tabler Icons 3.46.0 by tabler - https://tabler.io
+ * Tabler Icons 3.49.0 by tabler - https://tabler.io
  * License - https://github.com/tabler/tabler-icons/blob/main/LICENSE
  */
 @font-face {
   font-family: "tabler-icons-filled";
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/tabler-icons-filled.woff2?v3.46.0") format("woff2"), url("./fonts/tabler-icons-filled.woff?") format("woff"), url("./fonts/tabler-icons-filled.ttf?v3.46.0") format("truetype");
+  src: url("./fonts/tabler-icons-filled.woff2?v3.49.0") format("woff2"), url("./fonts/tabler-icons-filled.woff?") format("woff"), url("./fonts/tabler-icons-filled.ttf?v3.49.0") format("truetype");
 }
 .ti {
   font-family: "tabler-icons-filled" !important;
@@ -2446,7 +2446,7 @@
 }
 
 .ti-home:before {
-  content: "\fe2b";
+  content: "\102b3";
 }
 
 .ti-home-2:before {

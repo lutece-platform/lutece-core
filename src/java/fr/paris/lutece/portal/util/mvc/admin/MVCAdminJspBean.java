@@ -53,6 +53,8 @@ import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -71,6 +73,7 @@ import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
+import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
@@ -168,6 +171,10 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
+            if ( m == null )
+            {
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP ) );
+            }
         	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.DEFAULT_VIEW, _controller.securityTokenEnabled( ));
             return (String) processView(m, request);
         }

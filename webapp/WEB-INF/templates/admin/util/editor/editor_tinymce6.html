@@ -1,5 +1,6 @@
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="themes/admin/shared/js/editors/tinymce6/tinymce.min.js"></script>
+<script src="themes/admin/shared/js/editors/lutece-editor-upload.js"></script>
 <#macro initEditor editorWidth=0 cssFiles='' type='' insert='"pagelinkservice","library"' selector='.richtext' config={}>
 <#assign editorLocale='fr_FR' />
 <#assign themeEditorConfig={}>
@@ -29,16 +30,16 @@ if( luteceInsertServices.length > 0){
 }
 
 let editorQuickbarMenu = 'quicktable lutece themeiconpicker template',
-	  editorToolbar = 'undo redo | paste | blocks fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr blockquote link | lutece themeiconpicker | code | fullscreen',
+	  editorToolbar = 'undo redo | paste | blocks fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | hr blockquote link | lutece image themeiconpicker | code | fullscreen',
 	  luteceToolbar = '',
     insertServiceConfigImage = {},
     insertServiceConfigPdf = {},
-    selectionToolbar='h2 h3 | bold italic underline | blocks | hr blockquote quicklink';
+    selectionToolbar='h2 h3 | bold italic underline | blocks | hr blockquote quicklink image';
     
 // Set buttons
 if( luteceInsertServices.length > 0 ){
 	<#-- Check if plugin library insert service template exists -->
-	<#local optLibraryInsertService=.get_optional_template('admin/plugins/library/editor_insert_service.html')>
+	<#local optLibraryInsertService=.get_optional_template('/admin/plugins/library/editor_insert_service.html')>
 	<#if optLibraryInsertService.exists><@optLibraryInsertService.include /></#if>
 
 	if( luteceInsertServices.includes('pagelinkservice') && autorizedInsertService.includes('pagelinkservice') ){
@@ -51,13 +52,18 @@ if( luteceInsertServices.length > 0 ){
 	}
 }
 
+// Upload of images and PDF files into the spaces of the library, when the plugin library offers it to the user. Asked only when the
+// plugin is there (its insert service template), without holding the page: the editors start once the answer is in
+<#local optLibraryUpload=.get_optional_template('/admin/plugins/library/editor_insert_service.html')>
+const editorUploadConfig = <#if optLibraryUpload.exists>LuteceEditorUpload.getConfig( )<#else>Promise.resolve( { image: false, pdf: false } )</#if>;
+
 const customEditorConfig = {<#if config?size gt 0><#list config as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'</#if><#sep>,</#sep></#list>,</#if> ...insertServiceConfigImage, ...insertServiceConfigPdf };
 
 let tinyToolbar = ''
 let tinyQuickbarMenu = ''
 if( luteceToolbar != '' ){
-  tinyToolbar = editorToolbar.replace( 'lutece', luteceToolbar )
-  tinyQuickbarMenu = editorQuickbarMenu.replace( 'lutece', luteceToolbar )
+  tinyToolbar = editorToolbar.replace( 'lutece', 'lutece' + luteceToolbar ) // the 'lutece' button (all the insert services) stays, followed by the buttons of the insert services
+  tinyQuickbarMenu = editorQuickbarMenu.replace( 'lutece', 'lutece' + luteceToolbar ) // the 'lutece' button (all the insert services) stays, followed by the buttons of the insert services
 } else {
   tinyToolbar = editorToolbar
   tinyQuickbarMenu = editorQuickbarMenu
@@ -98,6 +104,7 @@ let editorConfig = {
   quickbars_selection_toolbar: selectionToolbar,
   block_formats: 'Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5',
   language: '${editorLocale}',
+  promotion: false, // hides the "Upgrade" button of the menu bar
   document_base_url : '${webapp_url}' || document.baseURI,
   color_map: colorMap,
   image_caption: true,
@@ -118,10 +125,19 @@ let editorConfig = {
 };
 <#if optEditorConfig.exists><@setEditorConfigOptionScript /></#if>
 document.addEventListener( "DOMContentLoaded", function() {
-  	const tinyInst = tinymce.init( editorConfig );
-    tinyInst.then( (ti) => {
-      ti.forEach( ( editor ) => { editor.contentDocument.body.dataset.bsTheme = 'light'; } );
-    });
+  editorUploadConfig.then( ( editorUpload ) => {
+    // The PDF button follows the buttons of the insert services, after the 'lutece' button
+    const addPdfButton = ( buttons ) => ( typeof buttons === 'string' ) ? buttons.replace( /\blutece\b((?: lutece\w+)*)/, 'lutece$1 luteceUploadPdf' ) : buttons;
+    if( editorUpload.pdf ){
+      editorConfig.toolbar = addPdfButton( editorConfig.toolbar );
+      editorConfig.quickbars_insert_toolbar = addPdfButton( editorConfig.quickbars_insert_toolbar );
+    }
+    // The configuration of the editor, as the theme and the caller set it, keeps the last word
+    const uploadEditorConfig = editorUpload.image ? { images_upload_handler: LuteceEditorUpload.tinymceImageHandler, automatic_uploads: true } : {};
+    return tinymce.init( { ...uploadEditorConfig, ...editorConfig } );
+  } ).then( (ti) => {
+    ti.forEach( ( editor ) => { editor.contentDocument.body.dataset.bsTheme = 'light'; } );
+  });
 })
 </script>
 </#macro>

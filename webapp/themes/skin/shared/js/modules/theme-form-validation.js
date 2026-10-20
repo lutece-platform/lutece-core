@@ -399,6 +399,12 @@ const FormValidation = (function() {
         const type = input.type;
         
         if (type === 'checkbox') {
+            // A group of checkboxes sharing a name is answered when any of them is checked
+            const form = input.form || document;
+            const group = input.name ? form.querySelectorAll(`input[type="checkbox"][name="${CSS.escape(input.name)}"]`) : [];
+            if (group.length > 1) {
+                return Array.from(group).filter(box => box.checked).map(box => box.value);
+            }
             return input.checked ? input.value : '';
         }
         

@@ -1,58 +1,60 @@
 <@cTpl>
-<#macro renderMap items> 
-<#list items as item>
-    <#if item.level==0>
-        <div class="lutece-tree" id="lutece-map-tree">
-            <ul>
-                <li class="lutece-tree-node" data-tree-icon="home">
-                    ${item.pageName}
-                    <#if "none" != item.role> 
-                        <strong>
-                            - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
-                        </strong>
-                    </#if>
-                    <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
-                        <span class="ti ti-link" ms-2"/>
-                    </a>
-                    <#if item.children?size gt 0>
-                        <ul>
-                            <@renderMap items=item.children />
-                        </ul>
-                    </#if>
-                </li>
-            </ul>
-        </div>
-    <#else>
-        <#if item.children?size gt 0>
-            <li class="lutece-tree-node" data-tree-icon="folder" id="node-${item.pageId}">
-                ${item.pageName}
-                <#if "none" != item.role> 
-                    <strong>
-                        - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
-                    </strong>
-                </#if>
-                <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
-                    <span class="ti ti-link" mx-2"/>
-                </a>
-                <ul>
-                    <@renderMap items=item.children />
-                </ul>
-            </li>  
-        <#else>
-            <li class="lutece-tree-item" data-tree-icon="file" id="node-${item.pageId}">
-                ${item.pageName}
-                <#if "none" != item.role> 
-                    <strong>
-                        - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
-                    </strong>
-                </#if>
-                <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
-                    <span class="ti ti-link"/>
-                </a>
-            </li>
-        </#if>
-    </#if>
-</#list> 
+<#macro renderPageInfo item>
+<#if "none" != item.role>
+    <@cBadge class='text-bg-warning ms-2' hasp=false>
+        <@cIcon name='lock' class='me-1' params='aria-hidden="true"' />#i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
+    </@cBadge>
+</#if>
+<#if (item.pageDescription!'')?has_content && item.pageDescription != item.pageName>
+    <@cText class='small text-muted mb-0'>${item.pageDescription}</@cText>
+</#if>
 </#macro>
-<@renderMap items=mapItems />
+<#macro renderPages items>
+<@chList class='list-unstyled mb-0'>
+    <#list items as item>
+        <@chItem class='py-1'>
+            <@cLink href='${site_path}?page_id=${item.pageId}' label=item.pageName />
+            <@renderPageInfo item=item />
+            <#if item.children?has_content>
+                <@cBlock class='border-start ps-3 ms-1 mt-1'>
+                    <@renderPages items=item.children />
+                </@cBlock>
+            </#if>
+        </@chItem>
+    </#list>
+</@chList>
+</#macro>
+<@cContainer>
+    <@cRow>
+        <@cCol>
+            <@cTitle level=2 class='mb-4'>#i18n{portal.site.site_map.pageTitle}</@cTitle>
+            <@cSection type='nav' params='aria-label="#i18n{portal.site.site_map.pageTitle}"'>
+                <#list mapItems as home>
+                    <@cBlock class='lead mb-4'>
+                        <@cLink href='${site_path}?page_id=${home.pageId}' label=home.pageName nestedPos='before'>
+                            <@cIcon name='home' class='me-1' params='aria-hidden="true"' />
+                        </@cLink>
+                        <@renderPageInfo item=home />
+                    </@cBlock>
+                    <#if home.children?has_content>
+                        <@cCardLayout type='deck' rowCols='1 row-cols-md-2 row-cols-lg-3' class='mb-4'>
+                            <#list home.children as section>
+                                <@cBlock class='col'>
+                                    <@cCard title=section.pageName titleUrl='${site_path}?page_id=${section.pageId}' class='h-100'>
+                                        <@renderPageInfo item=section />
+                                        <#if section.children?has_content>
+                                            <@cBlock class='mt-3'>
+                                                <@renderPages items=section.children />
+                                            </@cBlock>
+                                        </#if>
+                                    </@cCard>
+                                </@cBlock>
+                            </#list>
+                        </@cCardLayout>
+                    </#if>
+                </#list>
+            </@cSection>
+        </@cCol>
+    </@cRow>
+</@cContainer>
 </@cTpl>

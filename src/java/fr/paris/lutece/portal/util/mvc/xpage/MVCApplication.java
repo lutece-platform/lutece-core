@@ -56,7 +56,9 @@ import org.apache.logging.log4j.Logger;
 
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
@@ -80,6 +82,7 @@ import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
+import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -208,6 +211,10 @@ public abstract class MVCApplication implements XPageApplication
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
+            if ( m == null )
+            {
+                SiteMessageService.setMessage( request, Messages.MESSAGE_INVALID_ENTRY, SiteMessage.TYPE_STOP );
+            }
         	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.DEFAULT_VIEW, _controller.securityTokenEnabled( ) );
             return processView( m,  request  );
         }
