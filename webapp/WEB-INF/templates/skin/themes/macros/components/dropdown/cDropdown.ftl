@@ -50,7 +50,7 @@ Snippet:
 <#macro cDropdown label items=[] itemType='link' type='' centered=false dropup=false autoclose='' nobutton=false header='' dark=false dropDownMenuType='ul' class='' btnClass='secondary' noclass=false id='' disabled=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if centered>
-<div class="btn-group ${direction}">
+<div class="btn-group dropdown-center">
 </#if>
 <div class="dropdown<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 <#if !nobutton>
@@ -61,12 +61,12 @@ Snippet:
     <#else>
     <button type="button" class="btn btn-${btnClass!}">${label!}</button>
     <button type="button" class="btn btn-${btnClass!} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="visually-hidden">#i18n{theme.labelDropdownToggle}</span>
+        <span class="visually-hidden">#i18n{portal.theme.labelDropdownToggle}</span>
     </button>
     </#if>
 </#if>
     <${dropDownMenuType} class="dropdown-menu<#if dark> dropdown-menu-dark</#if>">
-        <#if header?has_content><li><h4 class="dropdown-header">${header!}</h6></li></#if>
+        <#if header?has_content><li><h6 class="dropdown-header">${header!}</h6></li></#if>
         <#if items?has_content && items?size gt 0>
             <#list items as item>
                 <li><#if itemType='link'><a class="dropdown-item<#if item.active='true'> active</#if><#if item.disabled='true'> disabled</#if>"<#if item.disabled='true'> aria-disabled="true"</#if> href="${item.action!}">${item.label!}</a><#else><button class="dropdown-item<#if item.active='true'> active</#if><#if item.disabled='true'> disabled</#if>"<#if item.disabled='true'> aria-disabled="true"</#if> type="${item.action}">${item.label!}</button></#if></li>
@@ -110,8 +110,10 @@ Snippet:
 <#macro cDropdownItem label action='' type='link' active=false disabled=false header=false class='' nestedPos='before' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <li>
-<#if type='link'>
-<a class="dropdown-<#if !header>item<#else>header</#if><#if class?has_content> ${class}</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if><@commonAttrs id=id params=params /> href="${href!}">
+<#if header>
+<h6 class="dropdown-header<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />><#if nestedPos='before'><#nested></#if><#if label?has_content>${label!}</#if><#if nestedPos='after'><#nested></#if></h6>
+<#elseif type='link'>
+<a class="dropdown-<#if !header>item<#else>header</#if><#if class?has_content> ${class}</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if><@commonAttrs id=id params=params /> href="${action!}">
 <#if header><h4></#if><#if nestedPos='before'><#nested></#if><#if label?has_content>${label!}</#if><#if nestedPos='after'><#nested></#if><#if header></h4></#if>
 </a>
 <#else>

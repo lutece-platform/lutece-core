@@ -32,6 +32,6 @@ Snippet:
 -->
 <#macro cIcon name='check' class='' id='' title='' params={} prefix='ti ti-' type='span' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local iconParams = params + title?has_content?then( { 'title': title }, {} ) />
+<#local iconParams = params + title?has_content?then( { 'title': title, 'role': 'img', 'aria-label': title }, { 'aria-hidden': 'true' } ) />
 <@cInline type=type class='${prefix}${name} ${class}' id=id params=iconParams />
 </#macro>

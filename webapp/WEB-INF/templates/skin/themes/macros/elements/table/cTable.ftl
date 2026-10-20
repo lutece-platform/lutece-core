@@ -6,7 +6,8 @@ Description: Generates a themed responsive content table with a caption, optiona
 Parameters:
 - caption (string, optional): table caption text (rendered visually hidden inside `<caption>`). Default: ''.
 - captionClass (string, optional): CSS class applied to the `<caption>`. Use 'visually-hidden' to hide it from sighted users (useful when a heading precedes the table). Default: 'visually-hidden'.
-- summary (string, optional): value of the `summary` attribute on the `<table>`. Default: ''.
+- summary (string, optional): ignored, the `summary` attribute is obsolete in HTML: describe the table in its caption. Default: ''.
+- responsive (boolean, optional): on small screens, show the rows as an accordion (cTableResponsive) instead of the table. Never done for a table holding form controls, which would be duplicated. Default: true.
 - breakpoint (string, optional): breakpoint suffix for the responsive wrapper. Accepted values: '', '-sm', '-md', '-lg', '-xl', '-xxl'. Default: ''.
 - themed (boolean, optional): apply the theme's `ctable` class. If false, Bootstrap 5 default table styling is used. Default: true.
 - collapsible (boolean, optional): on small screens, hide all cells except the first column. Requires `themed=true`. Default: true.
@@ -60,26 +61,27 @@ Snippet:
     </@cTable>
 
 -->
-<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params={} deprecated...>
+<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' responsive=true class='' id='changeme' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- #i18n{portal.theme.msgInfoTableUpdateId} --></#if>
+<#local hasAccordion = responsive && id?has_content />
 <div class="table-responsive<#if breakpoint?has_content>${breakpoint}</#if>"<#if id?has_content> id="table-wrapper-${id}"</#if>>
-<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class?has_content> ${class}</#if>"<#if summary?has_content> summary="${summary!}"</#if><@commonAttrs id=id params=params /> >
-<#if caption?has_content> <caption class="visually-hidden">${caption!}</caption></#if>
+<table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params /> >
+<#if caption?has_content> <caption<#if captionClass?has_content> class="${captionClass}"</#if>>${caption!}</caption></#if>
 <#nested>
 </table>
 </div>
-<#if id?has_content><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
+<#if hasAccordion><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
-<#macro sortSite jsp_url attribute asc=false desc=true id='' class='' params=''>
+<#macro sortSite jsp_url attribute asc=false desc=true id='' columnLabel='' class='' params=''>
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" /></#if>
 <#if asc>
-<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
+<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}<#if columnLabel?has_content> ${columnLabel}</#if>" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
 	<@cIcon name='arrow-up' class='main-color' />
 </a>
 </#if>
 <#if desc>
-<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
+<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}<#if columnLabel?has_content> ${columnLabel}</#if>" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
 	<@cIcon name='arrow-down' class='main-color' />
 </a>
 </#if>
@@ -92,6 +94,11 @@ Snippet:
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     <#if id='changeme'>console.warn( "#i18n{portal.theme.msgInfoTableUpdateId}" )</#if>
+    const table = document.querySelector('table#${id?js_string?no_esc}');
+    // A table holding form controls is never duplicated in an accordion: the table stays shown
+    if ( table && table.querySelector( 'input, select, textarea, button[name]' ) ) {
+        return;
+    }
     const tableWrapper = document.getElementById('table-wrapper-${id?js_string?no_esc}');
     const accordion = document.getElementById('accordion-table-${id?js_string?no_esc}');
     const mql = window.matchMedia('(min-width: 768px)');

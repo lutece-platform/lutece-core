@@ -51,56 +51,46 @@ Snippet:
 <#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams={} isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
+<#local groupTitle>${title!}<#if iteration gt 0> (${iteration+1})</#if></#local>
+<#local toolbar>
+<#if iterable && ( iteration gt 0 || iteration lte iterationMax )>
+<div class="step-group-toolbar d-flex justify-content-end mt-0">
+	<#if iteration gt 0>
+	<@cBtn label='' class='danger me-sm mt-0' params={"name": "action_removeIteration", "value": "rm_${iteration}"} >
+		<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline><@cInline class='visually-hidden'> ${groupTitle}</@cInline>
+	</@cBtn>
+	</#if>
+	<#if iteration lte iterationMax>
+	<@cBtn label='' class='primary' params={"name": "action_addIteration", "value": "add_${iteration}"}>
+		<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline><@cInline class='visually-hidden'> ${title!}</@cInline>
+	</@cBtn>
+	</#if>
+</div>
+</#if>
+</#local>
+<#local helpParams = help?has_content?then( { 'aria-describedby': 'help_' + cId?markup_string }, {} ) />
 <@cBlock class='step-group'>
 <#if title?has_content>
 	<#if isFieldset>
-		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
-		<#local legendClass = ( iterable && iteration gt 0 )?then( 'd-flex justify-content-between align-items-center', '' ) />
-		<@cLegend label='' id='legend-${cId}' class=legendClass params=headerParams + {'tabindex': '-1'}>
-			<@cInline class='${titleClass} group-title'>	
-			${title!}<#if iteration gt 0> (${iteration+1})</#if>
-			<#if iterable && iteration gt 0>
-			<div class="btn btn-group ms-auto mt-0">
-			<@cBtn label='' class='danger me-sm ms-auto mt-0' params={"name": "action_removeIteration", "value": "rm_${iteration}"} >
-				<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
-			</@cBtn>
-			</#if>
-			<#if iterable && iteration lte iterationMax>
-			<@cBtn label='' class='primary ms-auto' params={"name": "action_addIteration", "value": "add_${iteration}"}>
-				<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
-			</@cBtn>
-			<#if iterable && iteration gt 0></div></#if>
-			</#if>
-			</@cInline>
+		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params + helpParams >
+		<@cLegend label='' id='legend-${cId}' params=headerParams + {'tabindex': '-1'}>
+			<@cInline class='${titleClass} group-title'>${groupTitle}</@cInline>
 		</@cLegend>
+		${toolbar}
 		<#if help?has_content>
 			<@cRow>
-				<@cCol>${help}</@cCol>
+				<@cCol id='help_${cId}'>${help}</@cCol>
 			</@cRow>
 		</#if>
 		<#nested>
 		</@cFieldset>
 	<#else>
-		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
-			<#local localTitleClass = ( iterable && iteration gt 0 )?then( 'd-flex justify-content-between align-items-center', '' ) />
-			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params=headerParams + {'tabindex': '-1'}>
-				${title!}<#if iteration gt 0> (${iteration+1})</#if>
-				<#if iterable && iteration gt 0>
-				<div class="btn btn-group ms-auto mt-0">
-				<@cBtn label='' class='danger me-sm ms-auto mt-0' params={"name": "action_removeIteration", "value": "rm_${iteration}"} >
-					<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
-				</@cBtn>
-				</#if>
-				<#if iterable && iteration lte iterationMax>
-				<@cBtn label='' class='primary ms-auto' params={"name": "action_addIteration", "value": "add_${iteration}"}>
-					<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
-				</@cBtn>
-				<#if iterable && iteration gt 0></div></#if>
-				</#if>
-			</@cTitle>
+		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params + helpParams >
+			<@cTitle level=noFieldsetTitleLevel class='${titleClass} group-title' params=headerParams + {'tabindex': '-1'}>${groupTitle}</@cTitle>
+			${toolbar}
 			<#if help?has_content>
 				<@cRow>
-					<@cCol>${help}</@cCol>
+					<@cCol id='help_${cId}'>${help}</@cCol>
 				</@cRow>
 			</#if>
 			<#nested>

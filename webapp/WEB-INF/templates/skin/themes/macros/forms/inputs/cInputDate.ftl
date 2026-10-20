@@ -112,6 +112,15 @@ Parameters:
 		if (el.placeholder === '') {
 			el.placeholder = fmtHint.toLowerCase();
 		}
+		const hintId = el.id + '-format';
+		if (el.id && !document.getElementById(hintId)) {
+			const hint = document.createElement('small');
+			hint.id = hintId;
+			hint.className = 'form-text d-block';
+			hint.textContent = fmtHint.toLowerCase();
+			(el.closest('.input-group') || el).after(hint);
+			el.setAttribute('aria-describedby', ((el.getAttribute('aria-describedby') || '') + ' ' + hintId).trim());
+		}
 		// Format digits, inserting the separator as soon as a part is complete ("01" → "01/")
 		function formatWithSep(digits) {
 			let result = '', di = 0;
