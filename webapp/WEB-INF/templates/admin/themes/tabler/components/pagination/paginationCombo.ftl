@@ -23,7 +23,7 @@ Snippet:
 <#if paginator??>
 <@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='#i18n{portal.util.labelItemCountPerPage}' formStyle='inline' class='ms-auto'>
 <@inputGroup size='sm'>
-	<@select attrs={'data-max-item': (paginator.itemsCount)} size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
+	<@select params={"data-max-item": (paginator.itemsCount)} size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
   			<#if nb_items_per_page = nb >
   				<@option selected=true value=nb label=nb />

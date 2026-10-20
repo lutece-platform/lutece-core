@@ -3,7 +3,7 @@
 <@tform name='form_contact' id='form_contact' action='jsp/admin/DoAdminFormContact.jsp'>
 	<p class="font-weight-bold text-center">#i18n{portal.admin.message.admin_form_contact.sendingError}</p>
 	<@formGroup  labelFor='message_contact' labelKey='#i18n{portal.admin.admin_forgot_password.loginLabel}' hideLabel=['all']>
-		<@input type='textarea' name='message_contact' attrs={'required': true} placeHolder='#i18n{portal.admin.admin_form_contact.messageContactLabel}' />
+		<@input type='textarea' name='message_contact' params={"required": true} placeHolder='#i18n{portal.admin.admin_form_contact.messageContactLabel}' />
 	</@formGroup>
 	<@formGroup class='text-center'>
 		<@button type='submit' buttonIcon='envelope' title='#i18n{portal.admin.admin_form_contact.buttonSubmit}' style='btn-block' />

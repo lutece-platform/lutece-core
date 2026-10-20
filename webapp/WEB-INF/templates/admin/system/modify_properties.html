@@ -1,4 +1,3 @@
-<#assign masonryRowParams = 'data-masonry=\'{"percentPosition": true }\'' />
 <style>
 /* Collapse the masonry item when its group only holds hidden options, so no empty gap is left in the layout */
 [data-prop]:has(input.hidden-options){ display:none; }
@@ -10,7 +9,7 @@
         <@tform>
             <@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
                 <@inputGroup>
-                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' attrs={'autocomplete': "off", 'addons': true} />
+                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' autoComplete="off" />
                     <@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
                 </@inputGroup>
             </@formGroup>
@@ -41,7 +40,7 @@
                         <#if groupList?size gt 0>
                         <@row class='g-3' params=masonryRowParams>
                         <#list groupList?sort?filter( g -> g?trim != '' ) + groupList?filter( g -> g?trim == '' ) as groupCol>
-                        <@columns xs=12 sm=6 md=4 class='mb-3' attrs={'data-prop': (groupCol)}>
+                        <@columns xs=12 sm=6 md=4 class='mb-3' params={"data-prop": (groupCol)}>
                            <@box class='properties-group'>
                               <@boxBody>
                                 <#assign groupName=''>
@@ -64,7 +63,7 @@
                                         <#assign helpText=( groupItem.help!'' )?no_esc>
                                         <@box id='box_${groupItem.key}' class=boxClass>
                                             <@boxBody class='searchable'>
-                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText attrs={'data-property': (groupItem.key)} rows=2>
+                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params={"data-property": (groupItem.key)} rows=2>
                                                 <#if groupItem.key?ends_with( ".textblock" )>
                                                     <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value}</@input>
                                                 <#elseif groupItem.key?ends_with( ".htmlblock" )>
@@ -81,7 +80,7 @@
                                                     <#assign optionsRaw = dskey(optionsKey)!''>
                                                     <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
                                                     <@input type='hidden' name='${groupItem.key}' value=groupItem.value id='${groupItem.key}_value' />
-                                                    <@select name='${groupItem.key}_select' id='${groupItem.key}' class='form-select property-select' attrs={'data-target': "${groupItem.key}_value"}>
+                                                    <@select name='${groupItem.key}_select' id='${groupItem.key}' class='form-select property-select' params={"data-target": "${groupItem.key}_value"}>
                                                     <#list optionsRaw?split('|') as opt>
                                                         <#assign optValue = opt?trim>
                                                         <#if optValue != ''><@option value=optValue selected=(optValue == groupItem.value) label=optValue?replace('_', ' ') /></#if>
@@ -104,7 +103,7 @@
                                                     <@inputGroup class='color-wrapper-input'>
                                                         <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value />
                                                         <@inputGroupItem>
-                                                            <@input type='color' class='color-input' name='color-input' value=groupItem.value attrs={'colorspace': "display-p3", 'alpha': true} />
+                                                            <@input type='color' class='color-input' name='color-input' value=groupItem.value params={"colorspace": "display-p3", "alpha": true} />
                                                         </@inputGroupItem>
                                                     </@inputGroup>
                                                 <#else>

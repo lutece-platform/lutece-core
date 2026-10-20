@@ -34,6 +34,6 @@ Snippet:
 <#if brlink><span class="d-block"></#if>
 <#nested>
 <#if brlink></span></#if>
-<@cLink target='_blank' href=url label=label class=class showTarget=true params='rel="noopener"' />
+<@cLink target='_blank' href=url label=label class=class showTarget=true params={"rel": "noopener"} />
 </@cText>
 </#macro>

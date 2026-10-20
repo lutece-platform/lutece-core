@@ -90,7 +90,7 @@ Snippet:
             <#if class?contains('outline')>
                 <span class="card-header-prepend">
 <#local cardAlertIcon = {'danger':'alert-triangle','warning':'alert-triangle','success':'circle-check','info':'info-circle'}[iconType]!'info-circle' />
-                <@cIcon name=cardAlertIcon params='aria-hidden="true"' />
+                <@cIcon name=cardAlertIcon params={"aria-hidden": "true"} />
                 </span>
                 <span<#if titleClass?has_content>class="d-block ${titleClass}"</#if> id="headingAcc${id}">${title}</span>
                 <#if header?has_content>${header}</#if>
@@ -121,7 +121,7 @@ Snippet:
             </div>
             <div class="card-footer d-block d-sm-none text-center<#if class?contains('alert')> bg-transparent</#if>">
                 <button class="btn btn-link btn-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-label="${btnShowLabel}">
-                    <@cIcon name='chevron-down' params='aria-hidden="true"' />
+                    <@cIcon name='chevron-down' params={"aria-hidden": "true"} />
                 </button>
             </div>
         </#if>

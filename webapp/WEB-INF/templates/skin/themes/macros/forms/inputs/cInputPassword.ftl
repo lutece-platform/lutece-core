@@ -59,7 +59,7 @@ Password with confirmation field sync:
     <#if icon?has_content><@cIcon name='${icon!}' /></#if>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=(autocomplete!='')?then(autocomplete,'off') params=params attrs=attrs>
     <#if btnShowPassword>
-    <@cBtn class='secondary toggle-password' type='button' label='' attrs={'data-bs-toggle': "#${passId}", 'aria-pressed': "false", 'title': "#i18n{portal.theme.labelPasswordShow}", 'tabindex': "0"}>
+    <@cBtn class='secondary toggle-password' type='button' label='' params={"data-bs-toggle": "#${passId}", "aria-pressed": "false", "title": "#i18n{portal.theme.labelPasswordShow}", "tabindex": "0"}>
          <@cIcon name='eye-off' class='main-info-color' />
     </@cBtn>
     </#if>

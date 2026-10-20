@@ -57,12 +57,12 @@ Snippet:
 <@div id='current_step' class='step step-current ${class!}' params=params attrs=attrs >
 	<@div class='step-title d-flex justify-content-between'>
 		<#if hasSteps>
-			<@h class='title' level=titleLevel attrs={'data-step': (step), 'title': "${title} - #i18n{theme.labelCurrentStep}", 'aria-current': "step"}>
+			<@h class='title' level=titleLevel params={"data-step": (step), "title": "${title} - #i18n{theme.labelCurrentStep}", "aria-current": "step"}>
 				<@span class='step-number'>${step}</@span>
 				<@span>${title}</@span>
 			</@h>
 		<#else>
-			<@h level=titleLevel class='title no-step' attrs={'title': "${title} - #i18n{theme.labelCurrentStep}"}>${title}</@h>
+			<@h level=titleLevel class='title no-step' params={"title": "${title} - #i18n{theme.labelCurrentStep}"}>${title}</@h>
 		</#if>
 		<#if hasMandatory><@p class='text-end mandatory-warning mb-0 ms-auto'>#i18n{forms.message.mandatory.fields}</@p></#if>
 	</@div>

@@ -62,12 +62,12 @@ Snippet:
 			${title!}<#if iteration gt 0> (${iteration+1})</#if>
 			<#if iterable && iteration gt 0>
 			<div class="btn btn-group ms-auto mt-0">
-			<@cBtn label='' class='danger me-sm ms-auto mt-0' attrs={'name': "action_removeIteration", 'value': "rm_${iteration}"} >
+			<@cBtn label='' class='danger me-sm ms-auto mt-0' params={"name": "action_removeIteration", "value": "rm_${iteration}"} >
 				<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
 			</@cBtn>
 			</#if>
 			<#if iterable && iteration lte iterationMax>
-			<@cBtn label='' class='primary ms-auto' attrs={'name': "action_addIteration", 'value': "add_${iteration}"}>
+			<@cBtn label='' class='primary ms-auto' params={"name": "action_addIteration", "value": "add_${iteration}"}>
 				<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
 			</@cBtn>
 			<#if iterable && iteration gt 0></div></#if>
@@ -88,12 +88,12 @@ Snippet:
 				${title!}<#if iteration gt 0> (${iteration+1})</#if>
 				<#if iterable && iteration gt 0>
 				<div class="btn btn-group ms-auto mt-0">
-				<@cBtn label='' class='danger me-sm ms-auto mt-0' attrs={'name': "action_removeIteration", 'value': "rm_${iteration}"} >
+				<@cBtn label='' class='danger me-sm ms-auto mt-0' params={"name": "action_removeIteration", "value": "rm_${iteration}"} >
 					<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
 				</@cBtn>
 				</#if>
 				<#if iterable && iteration lte iterationMax>
-				<@cBtn label='' class='primary ms-auto' attrs={'name': "action_addIteration", 'value': "add_${iteration}"}>
+				<@cBtn label='' class='primary ms-auto' params={"name": "action_addIteration", "value": "add_${iteration}"}>
 					<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
 				</@cBtn>
 				<#if iterable && iteration gt 0></div></#if>

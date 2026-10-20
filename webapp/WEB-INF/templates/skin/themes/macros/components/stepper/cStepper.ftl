@@ -57,7 +57,7 @@ Snippet:
 				<#else>
 					<div class="idx" data-idx="${step?index + 1}" aria-hidden="true">
 						<#if step.status?? && (step.status == 'done')>
-							<@cIcon name='check' title='' class='main-color' params='aria-label="#i18n{portal.theme.labelStepDone}"' />
+							<@cIcon name='check' title='' class='main-color' params={"aria-label": "#i18n{portal.theme.labelStepDone}"} />
 						<#else>
 							<span>${step?index + 1}</span>
 						</#if>

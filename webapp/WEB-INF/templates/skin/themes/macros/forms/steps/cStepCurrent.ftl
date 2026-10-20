@@ -65,19 +65,19 @@ Snippet:
 <@cBlock class='step-title'>
 	<@cContainer>
 		<#if hasSteps>
-			<@cTitle class='title ${titleClass}' level=titleLevel attrs={'data-step': ( step ), 'title': "${title} - #i18n{portal.theme.labelCurrentStep}", 'aria-current': "step", 'tabindex': "0"}>
+			<@cTitle class='title ${titleClass}' level=titleLevel params={"data-step": ( step ), "title": "${title} - #i18n{portal.theme.labelCurrentStep}", "aria-current": "step", "tabindex": "0"}>
 				<#if step?number!=0><@cText type='span' class='step-number'>${step}</@cText></#if>
 				<@cText type='span'>${title?replace('- hidden','')}</@cText>
 			</@cTitle>
 		<#else>
-			<@cTitle level=titleLevel class='title no-step' attrs={'title': "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", 'tabindex': "0"}>
+			<@cTitle level=titleLevel class='title no-step' params={"title": "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", "tabindex": "0"}>
 				${title} <@cText type='span' class='step-number visually-hidden'>${step}</@cText>
 			</@cTitle>
 		</#if>
 	</@cContainer>
 </@cBlock>
 <#else>
-<@cTitle level=titleLevel class='step-title visually-hidden' attrs={'title': "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", 'tabindex': "0"}>
+<@cTitle level=titleLevel class='step-title visually-hidden' params={"title": "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", "tabindex": "0"}>
 	${title} <@cText type='span' class='step-number'>${step}</@cText>
 </@cTitle>
 </#if>

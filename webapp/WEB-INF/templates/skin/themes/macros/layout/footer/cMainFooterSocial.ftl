@@ -56,22 +56,22 @@ Snippet:
         <ul class="list-inline text-center">
             <li class="list-inline-item">
                 <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
-                    <@cIcon name='brand-facebook' params='aria-hidden="true"' />
+                    <@cIcon name='brand-facebook' params={"aria-hidden": "true"} />
                 </a>    
             </li>
             <li class="list-inline-item">
                 <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
-                    <@cIcon name='brand-x' params='aria-hidden="true"' />
+                    <@cIcon name='brand-x' params={"aria-hidden": "true"} />
                 </a>    
             </li>
             <li class="list-inline-item">
                 <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
-                    <@cIcon name='brand-instagram' params='aria-hidden="true"' />
+                    <@cIcon name='brand-instagram' params={"aria-hidden": "true"} />
                 </a>    
             </li>
             <li class="list-inline-item">
                 <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
-                    <@cIcon name='brand-linkedin' params='aria-hidden="true"' />
+                    <@cIcon name='brand-linkedin' params={"aria-hidden": "true"} />
                 </a>    
             </li>
         </ul>

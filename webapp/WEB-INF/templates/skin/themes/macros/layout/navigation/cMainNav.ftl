@@ -101,14 +101,14 @@ Snippet:
             <#if hasMenu && hasSearchMenu && typeSearch='field'>
                 <#assign formSearchAction = ( !searchAction?has_content )?then( ( urlSearch!'' )?string, ( searchAction!'' )?string ) />
                 <@cMainNavItem title='' url='' class='ms-md-auto' >
-                    <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
+                    <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' role="search">
                         <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
                         <#if searchParams?has_content>${searchParams?no_esc}</#if>
                         <@cLabel for='header-query-top' class='visually-hidden' label='#i18n{portal.util.labelSearch}' />
                         <@cInputGroup class='mt-0'>
                             <@cInput name='query' id='header-query-top' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' autocomplete='on' />
                             <@cInputGroupAddon>
-                                <@cBtn label='' id='button-main-search' class='secondary' params='aria-label="#i18n{portal.site.page_menu_tools.labelSearch}"'>
+                                <@cBtn label='' id='button-main-search' class='secondary' params={"aria-label": "#i18n{portal.site.page_menu_tools.labelSearch}"}>
                                     <@cIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
                                 </@cBtn >
                             </@cInputGroupAddon>
@@ -164,14 +164,14 @@ Snippet:
                     <#if hasMenu && hasSearchMenu>
                         <#assign formSearchAction = ( !searchAction?has_content )?then( ( urlSearch!'' )?string, ( searchAction!'' )?string ) />
                         <@cMainNavItem title='' url='' class='ms-md-auto' >
-                            <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
+                            <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' role="search">
                                 <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
                                 <#if searchParams?has_content>${searchParams?no_esc}</#if>
                                 <@cLabel for='header-query-top' class='visually-hidden' label='#i18n{portal.util.labelSearch}' />
                                 <@cInputGroup class='mt-0'>
                                     <@cInput name='query' id='header-query-top' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' autocomplete='on' />
                                     <@cInputGroupAddon>
-                                        <@cBtn label='' id='button-main-search' class='secondary' params='aria-label="#i18n{portal.site.page_menu_tools.labelSearch}"'>
+                                        <@cBtn label='' id='button-main-search' class='secondary' params={"aria-label": "#i18n{portal.site.page_menu_tools.labelSearch}"}>
                                             <@cIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
                                         </@cBtn >
                                     </@cInputGroupAddon>

@@ -45,7 +45,7 @@ Snippet:
 <#assign sliderRowClass = 'theme-slider ' + class!>
 <#assign sliderParams>aria-roledescription="slide" aria-label="${sliderLabel!}" ${params?no_esc}</#assign>
 <@cSection id=id class='theme-slider-wrapper' params=sliderParams attrs=attrs>
-    <@cRow id=sliderInnerId class=sliderRowClass params='aria-live="off"'>
+    <@cRow id=sliderInnerId class=sliderRowClass params={"aria-live": "off"}>
         <#if slides?size gt 0>
             <#assign slideIdx=1 />
             <#list slides as slideItem>
@@ -67,15 +67,13 @@ Snippet:
                     <@cBlock class='d-flex align-items-center justify-content-end gap-1'>
                         <#if buttonPrev?has_content>
                             <#assign prevBtnClass = buttonClass + ' disabled prev-slide'>
-                            <#assign prevBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonPrev!} ${slideLabel}"</#assign>
-                            <@cBtn label='' class=prevBtnClass type='button' disabled=true params=prevBtnParams>
+                            <@cBtn label='' class=prevBtnClass type='button' disabled=true params={"tabindex": "0", "aria-controls": sliderInnerId, "aria-label": "${buttonPrev!} ${slideLabel}"}>
                                 <@cIcon name='arrow-left' />
                             </@cBtn>
                         </#if>
                         <#if buttonNext?has_content>
                             <#assign nextBtnClass = buttonClass + ' ms-sm next-slide'>
-                            <#assign nextBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonNext!} ${slideLabel}"</#assign>
-                            <@cBtn label='' class=nextBtnClass type='button' params=nextBtnParams>
+                            <@cBtn label='' class=nextBtnClass type='button' params={"tabindex": "0", "aria-controls": sliderInnerId, "aria-label": "${buttonNext!} ${slideLabel}"}>
                                 <@cIcon name='arrow-right' />
                             </@cBtn>
                         </#if>

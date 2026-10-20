@@ -53,7 +53,7 @@ Snippet:
 	The header of the Tabler "card actions": the icon, the title and its subtitle on the left, the actions on the right: the buttons of
 	the widget, a link to its feature and the menu, which keeps the entries of the widget and the one that hides it
 -->
-<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget${class?has_content?then(" " + class, "")}' attrs={'data-id': (id), 'draggable': "true"}>
+<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget${class?has_content?then(" " + class, "")}' params={"data-id": (id), "draggable": "true"}>
 <#if hasHeader>
 <div class="card-header">
 	<#if boxIcon?has_content><span class="avatar avatar-sm bg-${iconColor?has_content?then(iconColor, 'primary')}-lt"><@icon style=boxIcon /></span></#if>

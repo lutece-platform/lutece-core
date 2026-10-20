@@ -38,7 +38,7 @@ Snippet:
         </@cBtn>
     </@cCol>
     <@cCol cols='12 col-md-5'>
-        <@cBlock attrs={'aria-valuemax': "100", 'aria-valuemin': "0", 'aria-valuetext': ( label! ), 'aria-label': "#i18n{portal.theme.labelPasswordStrength}", 'aria-valuenow': "0", 'role': "meter", 'id': "aria-${id}-meter"}>
+        <@cBlock id="aria-${id}-meter" params={"aria-valuemax": "100", "aria-valuemin": "0", "aria-valuetext": ( label! ), "aria-label": "#i18n{portal.theme.labelPasswordStrength}", "aria-valuenow": "0", "role": "meter"}>
             <@cBlock class="indicator visually-hidden d-flex align-items-center justify-content-end">
                 <@cInline>${labelSecurity!}</@cInline><#if !indicator?has_content><@cInline class='ml-2'><@cInline class='dot'></@cInline></@cInline><#else>${indicator}</#if><@cInline class='meter-text ml-1'></@cInline>
             </@cBlock>    

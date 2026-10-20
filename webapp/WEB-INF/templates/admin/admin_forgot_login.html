@@ -5,7 +5,7 @@
 	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_forgot_login.emailLabel}' hideLabel=['all'] rows=2>
 		<@inputGroup class='input-icon input-group-flat'>
         	<@inputGroupItem type='icon'><@icon style='envelope' /></@inputGroupItem>
-			<@input type='email' name='email' id='email' autoComplete='username' attrs={'autofocus': true} placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
+			<@input type='email' name='email' id='email' autoComplete='username' params={"autofocus": true} placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
 		</@inputGroup>
 	</@formGroup>
 	<@formGroup rows=2>

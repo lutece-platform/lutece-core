@@ -66,7 +66,7 @@ Snippet:
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
                 <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class?has_content> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg?has_content> aria-describedby="help_${cId}"</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if fileCount gt 0> data-nof="${fileCount}"</#if><#if maxSize gt 0> data-mfs="${maxSize}"</#if><#if accept?has_content> accept="${accept}" data-atf="${accept}"</#if><@commonAttrs params=params attrs=attrs />>
-                 <@cIcon name=icon params='aria-hidden="true"' />
+                 <@cIcon name=icon params={"aria-hidden": "true"} />
                 <p class="flex-1 text-start ms-xs my-0">#i18n{portal.theme.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>
         <#elseif type="button">
