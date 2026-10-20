@@ -58,7 +58,7 @@ public class HtmlAttributesMethodTest
 {
     private static final String [ ] REFUSED_NAMES = {
             "onclick", "OnClick", "ONMOUSEOVER", "href", "src", "action", "formaction", "style", "srcdoc", ":href", "x-on:click", "v-on:click",
-            "@click", "hx-on", "xlink:href", "data-bs-sanitize", "data-bs-allow-list", "addons", "x\"y"
+            "@click", "hx-on", "xlink:href", "data-bs-sanitize", "data-bs-allow-list", "addons", "x\"y", "class"
     };
 
     /**
@@ -183,7 +183,7 @@ public class HtmlAttributesMethodTest
     {
         for ( String strName : new String [ ] {
                 "aria-label", "aria-hidden", "data-bs-toggle", "data-portlet-id", "title", "name", "value", "role", "tabindex", "autocomplete",
-                "enctype", "formnovalidate", "target", "rel", "hidden", "required", "autofocus", "accesskey", "draggable", "class", "Title"
+                "enctype", "formnovalidate", "target", "rel", "hidden", "required", "autofocus", "accesskey", "draggable", "Title"
         } )
         {
             assertTrue( HtmlAttributesMethod.isAllowed( strName ), strName );
@@ -193,8 +193,7 @@ public class HtmlAttributesMethodTest
     }
 
     /**
-     * The classes of the macro and of the caller are gathered without duplicates; any other attribute both give is the
-     * macro's.
+     * An attribute both give is the macro's; the class is never an attribute of params.
      *
      * @throws Exception
      *             if the rendering fails
@@ -202,10 +201,10 @@ public class HtmlAttributesMethodTest
     @Test
     public void testMacroAttributesWinOverParams( ) throws Exception
     {
-        String strSnippet = "<div${htmlAttributes( {'class': 'btn btn-primary', 'role': 'status'}, {'class': 'mt-3 btn', 'role': 'alert'} )}>";
+        String strSnippet = "<div${htmlAttributes( {'class': 'btn btn-primary btn', 'role': 'status'}, {'role': 'alert', 'title': 't'} )}>";
 
         assertThrows( TemplateException.class, ( ) -> render( true, strSnippet ) );
-        assertEquals( "<div class=\"btn btn-primary mt-3\" role=\"status\">", render( false, strSnippet ) );
+        assertEquals( "<div class=\"btn btn-primary\" role=\"status\" title=\"t\">", render( false, strSnippet ) );
     }
 
     /**

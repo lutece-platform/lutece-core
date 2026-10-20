@@ -143,8 +143,8 @@ public class CommonAttrsMacroTest
     }
 
     /**
-     * classBase, class, classExtra and the class of params make one class attribute, in this order, without extra spaces
-     * nor duplicates.
+     * classBase, class and classExtra make one class attribute, in this order, without extra spaces nor duplicates; a
+     * class in params is refused.
      *
      * @throws IOException
      *             if a template cannot be read
@@ -156,7 +156,11 @@ public class CommonAttrsMacroTest
     {
         assertRenders( " class=\"btn btn-primary\"", "<@commonAttrs classBase=' btn  btn-primary ' />" );
         assertRenders( " class=\"collapse d-flex\"", "<@commonAttrs classExtra=' collapse   d-flex ' />" );
-        assertRenders( " class=\"card mine collapse mt-3\"", "<@commonAttrs classBase='card' class='mine' classExtra=' collapse' params={'class': 'mt-3 card'} />" );
+        assertRenders( " class=\"card mine collapse\"", "<@commonAttrs classBase='card' class='mine card' classExtra=' collapse' />" );
+        for ( String strDeclaration : DECLARATIONS )
+        {
+            assertThrows( TemplateException.class, ( ) -> render( strDeclaration, "<@commonAttrs class='mine' params={'class': 'mt-3'} />" ), strDeclaration );
+        }
     }
 
     /**
