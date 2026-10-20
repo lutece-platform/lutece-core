@@ -57,6 +57,9 @@ import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.portlet.PortletType;
+import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -65,6 +68,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.upload.MultipartItem;
@@ -809,5 +813,96 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertNotNull( children );
             assertTrue( children.isEmpty( ) );
         }
+    }
+
+    /**
+     * The page of the site administration, for a user with the right to administer the site and the roles given
+     */
+    private String getAdminPageHtml( AdminUser user ) throws AccessDeniedException
+    {
+        Map<String, Right> rights = new HashMap<>( );
+        rights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE, RightHome.findByPrimaryKey( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE ) );
+        user.setRights( rights );
+        user.setLocale( Locale.FRENCH );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+        request.addParameter( "param_block", "2" );
+        AdminUserUtils.registerAdminUser( request, user );
+        _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+
+        return _bean.getAdminPage( request );
+    }
+
+    /**
+     * A user holding a new role, with the permissions given on the resource type given, on every resource
+     */
+    private AdminUser getUserWithPermissions( String strResourceType, String... strPermissions )
+    {
+        String strRoleKey = "ROLE_" + new BigInteger( 40, new SecureRandom( ) ).toString( 32 );
+
+        for ( String strPermission : strPermissions )
+        {
+            RBAC rbac = new RBAC( );
+            rbac.setResourceTypeKey( strResourceType );
+            rbac.setPermissionKey( strPermission );
+            rbac.setResourceId( RBAC.WILDCARD_RESOURCES_ID );
+            rbac.setRoleKey( strRoleKey );
+            RBACHome.create( rbac );
+        }
+
+        RBACRole role = new RBACRole( );
+        role.setKey( strRoleKey );
+        role.setDescription( strRoleKey );
+        AdminUser user = new AdminUser( );
+        Map<String, RBACRole> roles = new HashMap<>( );
+        roles.put( strRoleKey, role );
+        user.setRoles( roles );
+
+        return user;
+    }
+
+    @Test
+    public void testGetAdminPageManageTabs( ) throws AccessDeniedException
+    {
+        // The test page sits under the authorization node of the root page, as the pages of a site do: without a node, everyone may manage it
+        _page.setIdAuthorizationNode( PageHome.findByPrimaryKey( PortalService.getRootPageId( ) ).getIdAuthorizationNode( ) );
+        PageHome.update( _page );
+        assertNotNull( PageHome.findByPrimaryKey( _page.getId( ) ).getIdAuthorizationNode( ) );
+
+        // The user who may manage the page, and no portlet: the properties and the child page tabs and the button adding a child page,
+        // not the portlets nor the add tabs
+        String strHtml = getAdminPageHtml( _adminUser );
+        assertTrue( strHtml.contains( "id=\"lutece-site-tab-properties\"" ) );
+        assertTrue( strHtml.contains( "id=\"lutece-site-tab-childpage\"" ) );
+        assertTrue( strHtml.contains( "data-lutece-site-open-tab=\"childpage\"" ) );
+        assertFalse( strHtml.contains( "id=\"lutece-site-tab-portlets\"" ) );
+        assertFalse( strHtml.contains( "id=\"lutece-site-tab-add\"" ) );
+
+        // The user who may manage and create portlets, and not the page: the portlets and the add tabs only, even when the URL asks for
+        // the properties
+        AdminUser portletUser = getUserWithPermissions( PortletType.RESOURCE_TYPE, PortletResourceIdService.PERMISSION_MANAGE,
+                PortletResourceIdService.PERMISSION_CREATE );
+
+        try
+        {
+            strHtml = getAdminPageHtml( portletUser );
+            assertTrue( strHtml.contains( "id=\"lutece-site-tab-portlets\"" ) );
+            assertTrue( strHtml.contains( "id=\"lutece-site-tab-add\"" ) );
+            assertFalse( strHtml.contains( "id=\"lutece-site-tab-properties\"" ) );
+            assertFalse( strHtml.contains( "id=\"lutece-site-panel-properties\"" ) );
+            assertFalse( strHtml.contains( "id=\"lutece-site-tab-childpage\"" ) );
+            assertFalse( strHtml.contains( "id=\"lutece-site-panel-childpage\"" ) );
+            assertFalse( strHtml.contains( "data-lutece-site-open-tab=\"childpage\"" ) );
+        }
+        finally
+        {
+            removeUser( portletUser );
+        }
+
+        // A user without any of these rights: no sidebar at all
+        strHtml = getAdminPageHtml( new AdminUser( ) );
+        assertFalse( strHtml.contains( "<aside class=\"lutece-site-inspector\"" ) );
+        assertFalse( strHtml.contains( "id=\"lutece-site-tab-" ) );
     }
 }

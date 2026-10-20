@@ -104,6 +104,20 @@ public interface IPageService
     void updatePage( Page page );
 
     /**
+     * Moves a page in the tree: it takes a place among the child pages of a parent, which keep their order around it and take the orders
+     * 1 to n; the child pages of the parent it leaves close the gap. Its authorization node follows its new parent when it is not a node
+     * of its own. The parent is assumed checked: an existing page, neither the page nor one of its descendants
+     *
+     * @param page
+     *            the page, with its current parent
+     * @param nParentPageId
+     *            the new parent page
+     * @param nPlace
+     *            the place among the child pages of the parent, from 1; beyond the last one, the page goes last
+     */
+    void movePage( Page page, int nParentPageId, int nPlace );
+
+    /**
      * Remove the page
      * 
      * @param nPageId

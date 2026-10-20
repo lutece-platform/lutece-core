@@ -1,8 +1,6 @@
-<@columns>
-<@radioButton orientation='h' class='form-imagecheck-input' name='page_template_id' id='page_template_id_${page_template.id}' value='${page_template.id}' checked=checked='checked="checked"' labelFor='page_template_id_${page_template.id}' labelClass='form-imagecheck mb-2 ps-0' >
-<@span class='form-imagecheck-figure'>
-	<@img class='form-imagecheck-image' url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='${page_template.description}' title='${page_template.description}' params='aria-hidden="true" style="width:64px;height:64px;"' /> 
-	<@span class='text-center text-muted fw-medium text-truncate d-inline-block pt-1 ps-1' params='style="width:66px"'>${page_template.description}</@span>
-</@span>
-</@radioButton>
-</@columns>
+<#-- A page template to choose, in the page forms of admin_page_form.html: the label holds its radio button, so that two forms of the same document need no id -->
+<label class="lutece-site-template" title="${page_template.description}">
+	<input type="radio" class="lutece-site-template-input" name="page_template_id" value="${page_template.id}"<#if checked?has_content> checked</#if>>
+	<img src="themes/admin/shared/images/page_templates/${page_template.picture}" alt="" width="40" height="40">
+	<span>${page_template.description}</span>
+</label>

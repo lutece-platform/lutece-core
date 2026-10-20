@@ -1,0 +1,90 @@
+<#-- The parts common to the creation and the modification forms of a portlet (create_portlet.html, modify_portlet.html) -->
+
+<#-- The places in a column: the order the server gives the portlet, 1 for the top, n + 1 after the n-th other portlet of the column
+     (PortletHome.placeInColumn)
+     - others: the other portlets of the column, in their order
+     - selected: the place selected, 0 for none -->
+<#macro placeOptions others selected=0>
+	<option value="1"<#if selected == 1> selected</#if>>#i18n{portal.site.modify_portlet.placeTop}</option>
+	<#list others as other>
+	<option value="${other?index + 2}"<#if selected == other?index + 2> selected</#if>>${i18n( 'portal.site.modify_portlet.placeAfter', other.name )?html}</option>
+	</#list>
+</#macro>
+
+<#-- The places of each column of the page, which the place list takes when the column changes
+     - places: the other portlets of each column, by column number
+     - otherPage: also the places of a column of another page, whose portlets are not known: the top or the end -->
+<#macro placeTemplates places otherPage=false>
+	<#list places as column, others>
+	<template data-portlet-places="${column}"><@placeOptions others=others /></template>
+	</#list>
+	<#if otherPage>
+	<template data-portlet-places="other-page">
+		<option value="1">#i18n{portal.site.modify_portlet.placeTop}</option>
+		<option value="9999">#i18n{portal.site.modify_portlet.placeEnd}</option>
+	</template>
+	</#if>
+</#macro>
+
+<#-- The behaviour of the form: the button showing or hiding the properties, and the place list following the page and the column.
+     The place list (#order) keeps the current place when the portlet stays in its column (data-current-column, data-current-place),
+     and goes to the end of the column otherwise. With data-from-url, the column and the place come from the parameters
+     portlet_column and portlet_order of the address, as the buttons and the drag and drop of the site administration give them -->
+<#macro portletFormScript>
+<script>
+{
+	const btnProp = document.getElementById( 'btn-toggle-properties' );
+	if ( btnProp != null ) {
+		const portletProp = document.getElementById( 'portlet-properties' );
+		btnProp.addEventListener( 'click', ( e ) => {
+			const hidden = portletProp.classList.toggle( 'd-none' );
+			const btn = e.currentTarget;
+			const btnIcon = btn.querySelector( '.ti' );
+			btnIcon.classList.toggle( 'ti-layout-sidebar-left-collapse', !hidden );
+			btnIcon.classList.toggle( 'ti-layout-sidebar-left-expand', hidden );
+			btn.setAttribute( 'aria-expanded', hidden ? 'false' : 'true' );
+			btn.title = hidden ? btn.dataset.labelShow : btn.dataset.labelHide;
+		} );
+	}
+
+	const pageSelect = document.querySelector( 'select#page_id' );
+	const columnSelect = document.getElementById( 'column' );
+	const placeSelect = document.getElementById( 'order' );
+	const placeHelp = document.getElementById( 'order-help' );
+	const fillPlaces = ( ) => {
+		// On another page, its portlets are not known here: the top or the end of the column
+		const otherPage = pageSelect != null && pageSelect.value !== pageSelect.dataset.currentPage;
+		const places = document.querySelector( 'template[data-portlet-places="' + ( otherPage ? 'other-page' : columnSelect.value ) + '"]' );
+		placeSelect.replaceChildren( ...( places ? places.content.cloneNode( true ).children : [ ] ) );
+		const keep = !otherPage && columnSelect.value === placeSelect.dataset.currentColumn && !!placeSelect.dataset.currentPlace;
+		if ( keep ) {
+			placeSelect.value = placeSelect.dataset.currentPlace;
+		}
+		if ( !keep || placeSelect.selectedIndex < 0 ) {
+			placeSelect.selectedIndex = placeSelect.options.length - 1;
+		}
+		if ( placeHelp != null ) {
+			placeHelp.hidden = !otherPage;
+		}
+	};
+	if ( placeSelect != null && columnSelect != null ) {
+		if ( placeSelect.dataset.fromUrl !== undefined ) {
+			const params = new URLSearchParams( window.location.search );
+			const column = params.get( 'portlet_column' );
+			if ( column != null && [ ...columnSelect.options ].some( ( option ) => option.value === column ) ) {
+				columnSelect.value = column;
+			}
+			placeSelect.dataset.currentColumn = columnSelect.value;
+			fillPlaces( );
+			// The order asked is a place: beyond the last portlet, the end of the column
+			const order = parseInt( params.get( 'portlet_order' ), 10 );
+			if ( !isNaN( order ) ) {
+				placeSelect.selectedIndex = Math.min( Math.max( order, 1 ), placeSelect.options.length ) - 1;
+			}
+		}
+		pageSelect?.addEventListener( 'change', fillPlaces );
+		columnSelect.addEventListener( 'change', fillPlaces );
+	}
+}
+</script>
+</#macro>

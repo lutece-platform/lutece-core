@@ -1,0 +1,105 @@
+<#-- The form of a page in the sidebar of the site administration (admin_page.html): the properties of the page
+     (admin_page_block_property.html) or a child page to create under it (admin_page_block_childpage.html).
+     The fields sit on a grid, two a row in the sidebar and more when it spans the screen; a long field takes the whole row.
+     Both forms can be loaded in the same document: their ids carry a prefix, and the script of admin_page.html
+     (luteceAdminSiteInitPageProperties) finds the fields by their name and their data attributes.
+     - child: true for the child page to create, false for the properties of the page -->
+<#macro pageForm child=false>
+<#local p = child?then( 'childpage_', 'page_' ) />
+<div class="lutece-site-form">
+	<@fieldSet class='lutece-site-form-section' legend='#i18n{portal.site.admin_page.sectionPage}'>
+		<@formGroup formStyle='' class='lutece-site-field-wide' labelFor='${p}name' labelKey='#i18n{portal.site.admin_page.labelName}' mandatory=true rows=2>
+			<@input type='text' id='${p}name' name='page_name' value=child?then( '#i18n{portal.site.admin_page.labelNewPage} ', page.name! ) />
+		</@formGroup>
+		<@formGroup formStyle='' class='lutece-site-field-wide' labelFor='${p}description' labelKey='#i18n{portal.site.admin_page.labelDescription}' rows=2>
+			<@input type='textarea' id='${p}description' name='page_description' rows=2><#if child>#i18n{portal.site.admin_page.labelNewPage}<#else>${page.description!}</#if></@input>
+		</@formGroup>
+	</@fieldSet>
+
+	<@fieldSet class='lutece-site-form-section' legend='#i18n{portal.site.admin_page.sectionLayout}'>
+		<div class="lutece-site-field-wide lutece-site-templates" role="radiogroup" aria-label="#i18n{portal.site.admin_page.labelPageTemplateList}">${page_templates_list}</div>
+		<#if page_themes_list?size gt 1>
+		<@formGroup formStyle='' class='lutece-site-field-wide' labelFor='${p}theme' labelKey='#i18n{portal.site.admin_page.labelTheme}' rows=2>
+			<@select name='theme' id='${p}theme' default_value='${page.codeTheme}' items=page_themes_list />
+		</@formGroup>
+		</#if>
+	</@fieldSet>
+
+	<@fieldSet class='lutece-site-form-section' legend='#i18n{portal.site.admin_page.sectionPosition}'>
+		<@formGroup formStyle='' labelFor='${p}order' labelKey='#i18n{portal.site.admin_page.labelOrderPage}' rows=2>
+			<@select name='order' id='${p}order' default_value='${page.order}' items=page_order_list />
+		</@formGroup>
+		<#-- The root page has no parent; a child page goes under this page -->
+		<#local parentId = child?then( page.id, page.parentPageId ) />
+		<#if page.id gt 1>
+		<@formGroup formStyle='' labelFor='${p}parent_id' labelKey='#i18n{portal.site.admin_page.labelParentPageId}' rows=2>
+			<@input type='number' id='${p}parent_id' name='parent_id' value='${parentId?c}' />
+		</@formGroup>
+		<#else>
+		<@input type='hidden' name='parent_id' value='${parentId?c}' />
+		</#if>
+	</@fieldSet>
+
+	<@fieldSet class='lutece-site-form-section' legend='#i18n{portal.site.admin_page.sectionDate}'>
+		<div class="lutece-site-field-wide">
+			<@checkBox orientation='switch' value='1' name='display_update_date' id='${p}display_update_date' labelKey='#i18n{portal.site.admin_page.labelDisplayUpdateDate}' checked=page.displayDateUpdate />
+		</div>
+		<div class="lutece-site-field-wide lutece-site-date" data-page-manual-date<#if !page.displayDateUpdate> hidden</#if>>
+			<@checkBox orientation='switch' value='1' name='enable_manual_update_date' id='${p}enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate />
+			<@inputGroup>
+				<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
+				<@input type='date' id='${p}manual_update_date' name='manual_update_date' value='${page_update_date!}' disabled=!page.isManualDateUpdate params='aria-label="#i18n{portal.site.admin_page.labelEnableManualUpdateDate}"' />
+			</@inputGroup>
+		</div>
+	</@fieldSet>
+
+	<@fieldSet class='lutece-site-form-section' legend='#i18n{portal.site.admin_page.titlePictureProperties}'>
+		<div class="lutece-site-field-wide lutece-site-image">
+			<#-- A click on the thumbnail opens the file choice -->
+			<img data-page-image src="${image_url}" alt="" title="#i18n{portal.site.admin_page.addNewImage}">
+			<div class="lutece-site-image-fields">
+				<label class="visually-hidden" for="${p}image_content">#i18n{portal.site.admin_page.labelNewPicture}</label>
+				<input type="file" class="form-control form-control-sm" id="${p}image_content" name="image_content" accept="image/*">
+				<@checkBox orientation='switch' value='1' name='update_image' id='${p}update_image' labelKey='#i18n{portal.site.admin_page.checkedUpdateImage}' />
+			</div>
+			<button type="button" class="btn btn-sm btn-ghost-danger btn-icon" data-page-image-delete title="#i18n{portal.util.labelDelete}"><i class="ti ti-trash" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelDelete}</span></button>
+		</div>
+	</@fieldSet>
+
+	<@fieldSet class='lutece-site-form-section' legend='#i18n{portal.site.admin_page.labelAutorisation}'>
+		<@formGroup formStyle='' labelFor='${p}role' labelKey='#i18n{portal.site.admin_page.labelRole}' rows=2>
+			<@select name='role' id='${p}role' default_value='${page.role}' items=page_roles_list sort=true />
+		</@formGroup>
+		<#-- A child page is created as its own authorization node: the hidden node_status of the child page form -->
+		<#if !child>
+		<@formGroup formStyle='' labelFor='${p}node_status' labelKey='#i18n{portal.site.admin_page.labelNodeStatus}' rows=2>
+			<@select name='node_status' id='${p}node_status'>
+				<@option value="0" selected=page.nodeStatus=0 label='#i18n{portal.site.admin_page.labelNodeStatus0}' />
+				<@option value="1" selected=page.nodeStatus!=0 label='#i18n{portal.site.admin_page.labelNodeStatus1}' />
+			</@select>
+		</@formGroup>
+		</#if>
+	</@fieldSet>
+
+	<details class="lutece-site-form-more">
+		<summary>#i18n{portal.site.admin_page.labelMetadata}</summary>
+		<div class="lutece-site-form-section">
+			<@formGroup formStyle='' class='lutece-site-field-wide' labelFor='${p}meta_keywords' labelKey='#i18n{portal.site.admin_page.labelMetaKeywords}' helpKey='#i18n{portal.site.admin_page.labelMetaKeywordsInfo}' rows=2>
+				<@input type='text' id='${p}meta_keywords' name='meta_keywords' maxlength=250 value=page.metaKeywords! />
+			</@formGroup>
+			<@formGroup formStyle='' class='lutece-site-field-wide' labelFor='${p}meta_description' labelKey='#i18n{portal.site.admin_page.labelMetaDescription}' rows=2>
+				<@input type='text' id='${p}meta_description' name='meta_description' maxlength=250 value=page.metaDescription! />
+			</@formGroup>
+		</div>
+	</details>
+
+	<#-- One button, kept in sight at the bottom of the sidebar -->
+	<div class="lutece-site-form-actions">
+	<#if child>
+		<@button type='submit' buttonIcon='plus' title='#i18n{portal.site.admin_page.buttonAdd}' color='primary' size='' />
+	<#else>
+		<@button type='submit' buttonIcon='check' title='#i18n{portal.site.admin_page.buttonModify}' color='primary' size='' />
+	</#if>
+	</div>
+</div>
+</#macro>

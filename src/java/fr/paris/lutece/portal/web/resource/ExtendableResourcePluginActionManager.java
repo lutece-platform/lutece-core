@@ -60,6 +60,8 @@ public final class ExtendableResourcePluginActionManager
 
     // TEMPLATES
     private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.html";
+    /** The actions as a plain list, for a page that shows them in its own panel (the inspector of the site workspace) */
+    public static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION_LIST = "admin/resource/extendable_resource_actions_list.html";
 
     /**
      * Instantiates a new extendable resource plugin action manager.
@@ -85,7 +87,29 @@ public final class ExtendableResourcePluginActionManager
     public static void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model, String strIdExtendableResource,
             String strExtendableResourceType )
     {
-        fillModelInternal(request, adminUser, (Object) model, strIdExtendableResource, strExtendableResourceType);
+        fillModelInternal(request, adminUser, (Object) model, strIdExtendableResource, strExtendableResourceType, TEMPLATE_EXTENDABLE_RESOURCE_ACTION);
+    }
+
+    /**
+     * Fill the model with all actions, rendered by the given template instead of the default offcanvas
+     *
+     * @param request
+     *            the request
+     * @param adminUser
+     *            the admin user
+     * @param model
+     *            the model
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strTemplate
+     *            the template rendering the actions, for instance {@link #TEMPLATE_EXTENDABLE_RESOURCE_ACTION_LIST}
+     */
+    public static void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model, String strIdExtendableResource,
+            String strExtendableResourceType, String strTemplate )
+    {
+        fillModelInternal(request, adminUser, (Object) model, strIdExtendableResource, strExtendableResourceType, strTemplate);
     }
     /**
      * Fill the model with all actions and adds the list to the given marker. It also add the mapParameter to the models.
@@ -104,7 +128,7 @@ public final class ExtendableResourcePluginActionManager
     public static void fillModel( HttpServletRequest request, AdminUser adminUser, Models model, String strIdExtendableResource,
             String strExtendableResourceType )
     {
-        fillModelInternal(request, adminUser, (Object) model, strIdExtendableResource, strExtendableResourceType);
+        fillModelInternal(request, adminUser, (Object) model, strIdExtendableResource, strExtendableResourceType, TEMPLATE_EXTENDABLE_RESOURCE_ACTION);
     }
     /**
      * Internal helper method used to populate the given model (either a {@link Map} or a {@link Models})
@@ -136,11 +160,13 @@ public final class ExtendableResourcePluginActionManager
      *            The identifier of the extendable resource
      * @param strExtendableResourceType
      *            The type of the extendable resource
+     * @param strTemplate
+     *            The template rendering the actions
      * @throws IllegalArgumentException
      *            If the provided {@code model} is not an instance of {@link Map} or {@link Models}
      */
     private static void fillModelInternal(HttpServletRequest request, AdminUser adminUser, Object model,
-            String strIdExtendableResource, String strExtendableResourceType) {
+            String strIdExtendableResource, String strExtendableResourceType, String strTemplate) {
 		Map<String, Object> modelTmp = new HashMap<>();
 		modelTmp.put(MARK_ID_EXTENDABLE_RESOURCE, strIdExtendableResource);
 		modelTmp.put(MARK_EXTENDABLE_RESOURCE_TYPE, strExtendableResourceType);
@@ -148,7 +174,7 @@ public final class ExtendableResourcePluginActionManager
 		PluginActionManager.fillModel(request, adminUser, modelTmp,
 		IExtendableResourcePluginAction.class, MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS);
 		
-		HtmlTemplate template = AppTemplateService.getTemplate(TEMPLATE_EXTENDABLE_RESOURCE_ACTION,
+		HtmlTemplate template = AppTemplateService.getTemplate(strTemplate,
 		request.getLocale(), modelTmp);
 		
 		if (model instanceof Map) {
