@@ -1,0 +1,13 @@
+<#-- The actions of plugin extend on a resource as a plain list, without the offcanvas of extendable_resource_actions.html:
+     a page shows them in its own panel (the extensions tab of the site workspace, admin_page.html). Each action brings its own form. -->
+<#compress>
+<#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
+<ul class="lutece-extend-actions">
+<#list listExtendableResourceActions as resourceTypeAction>
+<#if resourceTypeAction.buttonTemplate?? && resourceTypeAction.buttonTemplate!=''>
+<li><#include resourceTypeAction.buttonTemplate /></li>
+</#if>
+</#list>
+</ul>
+</#if>
+</#compress>

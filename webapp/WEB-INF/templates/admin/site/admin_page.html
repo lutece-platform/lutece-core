@@ -1,38 +1,201 @@
+<#-- The workspace of a page of the site: the tree of the site on the left, the page and its preview in the middle, the inspector on the right
+     (properties, portlets, adding a portlet, child page). The properties and the child page are the blocks of AdminPageJspBean, loaded in their
+     tab on first display (param_block=2 and 5); a link to AdminSite.jsp?param_block=2 or 5 opens the page with that tab open. -->
+<#assign rootPageId = 1 />
+<#assign pagesById = {} />
+<#list site_pages![] as item><#assign pagesById = pagesById + { item.pageId?c: item } /></#list>
+<#assign pagePath = [] />
+<#assign pathItem = pagesById[ page.id?c ]! />
+<#list 1..64 as guard><#if !pathItem?has_content><#break></#if><#assign pagePath = [ pathItem ] + pagePath /><#assign pathItem = pagesById[ pathItem.parentId?c ]! /></#list>
+<#assign pathIds = pagePath?map( pathPage -> pathPage.pageId?c ) />
+<#-- The properties and the child page tabs, and the button adding a child page, only for the users who may manage the page (AdminPageJspBean) -->
+<#assign canManagePage = can_manage_page!false />
+<#-- The portlets tab for the users who may manage a type of portlet, the add tab for those who may create one (RBAC, AdminPageJspBean);
+     without any tab, the sidebar is left out -->
+<#assign canManagePortlets = can_manage_portlets!false />
+<#assign canAddPortlet = ( portlet_types_list![] )?filter( type -> type.name != '' )?has_content />
+<#-- The extensions tab when plugin extend gives the page actions (ExtendableResourcePluginActionManager, extendable_resource_actions_list.html) -->
+<#assign extendActions = ( extendableResourceActionsHtml!'' )?trim />
+<#assign hasExtend = extendActions?has_content />
+<#assign hasInspector = canManagePage || canManagePortlets || canAddPortlet || hasExtend />
+<#assign activeTab><#if canManagePage><#switch param_block!0><#case 2>properties<#break><#case 5>childpage<#break><#default></#switch></#if></#assign>
 <@pageContainer class='lutece-admin-site'>
-    <@pageColumn>
-        <@div id='lutece-admin-site-preview-box'>
-            <@row class='lutece-admin-site-header justify-content-between'>
-               <@columns class='d-none d-md-block flex-1'>
-                <@breadcrumbs class='breadcrumb-arrows has-arrow-separator '>
-                    <#if page.id=1>
-                        <@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
-                    <#else>
-                        <@breadcrumbItem>
-                            <@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /></@link>
-                        </@breadcrumbItem>
-                        <#if page.parentPageId gt 1>
-                            <@breadcrumbItem>
-                                <@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>... [${page.parentPageId}]</@link>
-                            </@breadcrumbItem>
-                        </#if>
-                        <@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
-                    </#if>
-                </@breadcrumbs>
-                </@columns>
-                <@adminSiteToolbar />
-            </@row>
-            <@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
-                <@p class='text-center' params='hidden'><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' params='style="height: 2rem;margin-top: 1rem "' /></@p>
-                ${page_block}
-                <!-- HTML iframe to show FO  -->
-                <@div id='lutece-admin-site-preview-wrapper' class='d-flex justify-content-center w-100'>
-                    <@div id='lutece-admin-site-preview-frame' class='desktop'>
-                        <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
-                    </@div>
-                </@div>
-            </@div>
-        </@div>
-    </@pageColumn>
+	<@pageColumn>
+		<div id="lutece-admin-site-preview-box" class="lutece-site-ws">
+			<#-- Tree of the site -->
+			<aside class="lutece-site-tree" aria-labelledby="lutece-site-tree-title">
+				<div class="lutece-site-tree-head">
+					<h2 class="lutece-site-label" id="lutece-site-tree-title">#i18n{portal.site.admin_page.tabAdminMapSite}</h2>
+					<button type="button" class="btn btn-sm btn-ghost-secondary btn-icon lutece-site-tree-toggle" id="lutece-site-tree-toggle" aria-expanded="true" aria-controls="lutece-site-tree-body" title="#i18n{portal.site.admin_page.buttonCollapseTree}" data-text-collapse="#i18n{portal.site.admin_page.buttonCollapseTree}" data-text-expand="#i18n{portal.site.admin_page.buttonExpandTree}"><i class="ti ti-layout-sidebar-left-collapse" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.site.admin_page.buttonCollapseTree}</span></button>
+				</div>
+				<div class="lutece-site-tree-body" id="lutece-site-tree-body">
+				<label class="lutece-site-search" for="lutece-site-tree-search"><i class="ti ti-search" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.site.admin_page.searchPages}</span><input type="search" id="lutece-site-tree-search" placeholder="#i18n{portal.site.admin_page.searchPages}" autocomplete="off"></label>
+				<nav aria-labelledby="lutece-site-tree-title">
+					<ul class="lutece-site-pages" id="lutece-site-pages">
+					<#-- site_pages is flat, each page followed by its child pages: a page has children when the next one is deeper. Its branch is open
+					     on the path of the current page, folded elsewhere, until the user opens or folds it (remembered in the browser) -->
+					<#list site_pages![] as item>
+						<#assign hasChildren = item?has_next && ( site_pages[ item?index + 1 ].level!0 ) gt ( item.level!0 ) />
+						<li data-search="${item.pageName?lower_case} ${item.pageId?c}" data-page-id="${item.pageId?c}" data-parent-id="${item.parentId?c}" data-level="${item.level!0}"<#if item.pageId != rootPageId> draggable="true"</#if><#if hasChildren> data-branch-open="${( pathIds?seq_contains( item.pageId?c ) )?c}"</#if> style="--lutece-site-level:${item.level!0}">
+							<#if hasChildren><button type="button" class="lutece-site-twisty" aria-expanded="true" title="#i18n{portal.site.admin_page.labelChildPagesOf} ${item.pageName}"><i class="ti ti-chevron-down" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.site.admin_page.labelChildPagesOf} ${item.pageName}</span></button><#else><span class="lutece-site-twisty" aria-hidden="true"></span></#if>
+							<a href="jsp/admin/site/AdminSite.jsp?page_id=${item.pageId?c}"<#if item.pageId == page.id> aria-current="page"</#if> title="${item.pageDescription!}"<#if item.pageId != rootPageId> aria-keyshortcuts="Alt+ArrowUp Alt+ArrowDown"</#if>>
+								<i class="ti ti-${( item.pageId == rootPageId )?then( 'home', hasChildren?then( 'folder', 'file' ) )}" aria-hidden="true"></i>
+								<span class="lutece-site-page-name">${item.pageName}</span>
+								<#if item.role?? && item.role != 'none'><i class="ti ti-lock" aria-hidden="true" title="#i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}"></i><span class="visually-hidden">#i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}</span></#if>
+								<span class="lutece-site-page-id">#${item.pageId?c}</span>
+							</a>
+						</li>
+					</#list>
+					</ul>
+					<p class="lutece-site-nomatch" id="lutece-site-nomatch" hidden>#i18n{portal.site.admin_page.noPageMatch}</p>
+				</nav>
+				<p class="lutece-site-hint">#i18n{portal.site.admin_page.labelMovePageHint}</p>
+				<#-- A page dropped in the tree, or moved by Alt+arrow, is sent by this form: the page reloads with the tree as stored -->
+				<form id="lutece-site-move-page" action="jsp/admin/site/DoMovePage.jsp" method="post" hidden>
+					<input type="hidden" name="token" value="${move_page_token}">
+					<input type="hidden" name="page_id">
+					<input type="hidden" name="parent_id">
+					<input type="hidden" name="before_id" disabled>
+					<input type="hidden" name="after_id" disabled>
+				</form>
+				<#if canManagePage><button type="button" class="btn btn-sm btn-outline-secondary lutece-site-add-child" data-lutece-site-open-tab="childpage"><i class="ti ti-file-plus me-1" aria-hidden="true"></i>#i18n{portal.site.admin_page.buttonAddChildPage}</button></#if>
+				</div>
+			</aside>
+
+			<#-- The page and its preview -->
+			<section class="lutece-site-center" aria-labelledby="lutece-site-page-title">
+				<div class="lutece-site-head">
+					<div class="lutece-site-title">
+						<nav class="lutece-site-crumbs" aria-label="#i18n{portal.site.admin_page.tabAdminMapSite}">
+						<#list pagePath as item><#if item?has_next><a href="jsp/admin/site/AdminSite.jsp?page_id=${item.pageId?c}">${item.pageName}</a><i class="ti ti-chevron-right" aria-hidden="true"></i></#if></#list>
+						</nav>
+						<h2 id="lutece-site-page-title">${page.name}</h2>
+						<p class="lutece-site-meta">
+							<#if page_template_info??><span><i class="ti ti-layout" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelPageTemplateList} : ${page_template_info.description}</span></#if>
+							<#if page_update_date_info?has_content><span><i class="ti ti-clock" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelUpdated} ${page_update_date_info}</span></#if>
+							<#if page.role?? && page.role != 'none'><span><i class="ti ti-lock" aria-hidden="true"></i> #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${page.role}</span></#if>
+							<span>#${page.id}</span>
+						</p>
+					</div>
+					<div class="lutece-site-actions">
+						<div class="btn-group btn-group-sm" role="group" aria-label="#i18n{portal.site.admin_page.labelPreviewSize}">
+							<@button id='display-desktop' title='#i18n{portal.site.admin_page.buttonXLargeScreen}' buttonIcon='device-desktop' color='light' class='btn-preview active' hideTitle=['all'] size='sm' />
+							<@button id='display-laptop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='device-laptop' color='light' class='btn-preview' hideTitle=['all'] size='sm' />
+							<@button id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='device-tablet' color='light' class='btn-preview' hideTitle=['all'] size='sm' />
+							<@button id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='device-mobile' color='light' class='btn-preview' hideTitle=['all'] size='sm' />
+						</div>
+						<#if page.id != rootPageId>
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='light' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' />
+						</#if>
+						<@aButton href='jsp/site/Portal.jsp?page_id=${page.id}' title='#i18n{portal.site.admin_page.buttonViewPage}' buttonIcon='external-link' color='light' size='sm' target='_blank' />
+						<@button id='iframe-fullscreen' color='light' buttonIcon='maximize' size='sm' title='#i18n{portal.site.admin_page.buttonFullscreen}' hideTitle=['all'] />
+					</div>
+				</div>
+				<@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
+					<@p class='text-center' params='hidden'><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' params='style="height: 2rem;margin-top: 1rem "' /></@p>
+					<!-- HTML iframe to show FO  -->
+					<@div id='lutece-admin-site-preview-wrapper' class='d-flex justify-content-center w-100'>
+						<@div id='lutece-admin-site-preview-frame' class='desktop'>
+							<iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
+							<#-- Over the preview while it reloads: see luteceSitePreviewBusy -->
+							<div id="lutece-admin-site-preview-busy" class="lutece-site-preview-busy" role="status" hidden><span class="lutece-site-preview-spinner spinner-border text-primary" aria-hidden="true"></span><span class="visually-hidden">#i18n{portal.site.admin_page.labelLoading}</span></div>
+						</@div>
+					</@div>
+				</@div>
+			</section>
+
+			<#-- Inspector -->
+			<#if hasInspector>
+			<aside class="lutece-site-inspector" aria-label="${page.name}">
+				<div class="lutece-site-tabs" role="tablist" aria-label="${page.name}">
+					<#if canAddPortlet><button type="button" role="tab" id="lutece-site-tab-add" aria-controls="lutece-site-panel-add" data-tab="add"><i class="ti ti-square-plus" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.tabAdd}</span></button></#if>
+					<#if canManagePage><button type="button" role="tab" id="lutece-site-tab-properties" aria-controls="lutece-site-panel-properties" data-tab="properties"><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.labelPageProperty}</span></button></#if>
+					<#if hasExtend><button type="button" role="tab" id="lutece-site-tab-extend" aria-controls="lutece-site-panel-extend" data-tab="extend"><i class="ti ti-puzzle" aria-hidden="true"></i><span>#i18n{portal.admin.resource.extend}</span></button></#if>
+					<#if canManagePortlets><button type="button" role="tab" id="lutece-site-tab-portlets" aria-controls="lutece-site-panel-portlets" data-tab="portlets"><i class="ti ti-layout-grid" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.tabPortlets} <span class="lutece-site-count">${( page_portlets![] )?size}</span></span></button></#if>
+					<#if canManagePage><button type="button" role="tab" id="lutece-site-tab-childpage" aria-controls="lutece-site-panel-childpage" data-tab="childpage"><i class="ti ti-file-plus" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.labelChildPagePage}</span></button></#if>
+				</div>
+				<#if canManagePage>
+				<div class="lutece-site-panel" role="tabpanel" id="lutece-site-panel-properties" aria-labelledby="lutece-site-tab-properties" hidden data-lutece-site-load="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2" data-lutece-site-target="#properties">
+					<div class="lutece-site-panel-body"><#if activeTab == 'properties'>${page_block}</#if></div>
+					<#if page.id != rootPageId>
+					<div class="lutece-site-danger">
+						<p>#i18n{portal.site.admin_page.labelDeleteWarning}</p>
+						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' />
+					</div>
+					</#if>
+				</div>
+				</#if>
+				<#if hasExtend>
+				<div class="lutece-site-panel" role="tabpanel" id="lutece-site-panel-extend" aria-labelledby="lutece-site-tab-extend" hidden>
+					${extendActions}
+				</div>
+				</#if>
+				<#if canManagePortlets>
+				<div class="lutece-site-panel" role="tabpanel" id="lutece-site-panel-portlets" aria-labelledby="lutece-site-tab-portlets" hidden>
+					<#if page_portlets?has_content>
+					<#assign portletColumns = [] />
+					<#list page_portlets?sort_by( 'column' ) as portlet><#if !portletColumns?seq_contains( portlet.column )><#assign portletColumns = portletColumns + [ portlet.column ] /></#if></#list>
+					<#assign portletTypeIcons = {} />
+					<#list portlet_types_list as portlet_type><#assign portletTypeIcons = portletTypeIcons + { portlet_type.id: portlet_type.iconName!'puzzle' } /></#list>
+					<p class="lutece-site-hint">#i18n{portal.site.admin_page.labelReorderPortlets}</p>
+					<#-- The columns, each one a list a portlet can be dragged to; luteceSitePortlets in the script below saves the moves -->
+					<div id="lutece-site-columns" data-moved-message="#i18n{portal.site.admin_page.labelPortletMoved}" data-position-token="${position_token!}">
+					<#list portletColumns as column>
+					<div class="lutece-site-column" data-portlet-column="${column}">
+					<h3 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} ${column}</h3>
+					<ul class="lutece-site-portlets" data-portlet-column="${column}">
+						<#list page_portlets?filter( p -> p.column == column )?sort_by( 'order' ) as portlet>
+						<li draggable="true" data-portlet-id="${portlet.id?c}" data-portlet-name="${portlet.name?html}">
+							<span class="lutece-site-portlet-grip" aria-hidden="true"><i class="ti ti-grip-vertical"></i></span>
+							<i class="ti ti-${portletTypeIcons[ portlet.portletTypeId ]!'puzzle'}" aria-hidden="true"></i>
+							<span class="lutece-site-portlet-name">${portlet.name}</span>
+							<span class="btn-group" role="group">
+								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="up" title="${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}"><i class="ti ti-arrow-up" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}</span></button>
+								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="down" title="${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}"><i class="ti ti-arrow-down" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}</span></button>
+							</span>
+							<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params='target="preview"'>
+								<@input type='hidden' name='portlet_id' value=portlet.id />
+								<@button type='submit' color='light' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify} ${portlet.name}' hideTitle=['all'] />
+							</@tform>
+							<@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='light' buttonIcon='trash' size='sm' title='#i18n{portal.util.labelDelete} ${portlet.name}' hideTitle=['all'] />
+						</li>
+						</#list>
+					</ul>
+					</div>
+					</#list>
+					</div>
+					<#-- A column the preview shows a portlet in, when the sidebar does not list it yet -->
+					<template id="lutece-site-column-template"><div class="lutece-site-column"><h3 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} <span></span></h3><ul class="lutece-site-portlets"></ul></div></template>
+					<p class="visually-hidden" id="lutece-site-portlets-status" role="status"></p>
+					<#else>
+					<p class="lutece-site-empty">#i18n{portal.site.admin_page.labelNoPortlet}</p>
+					</#if>
+				</div>
+				</#if>
+				<#if canAddPortlet>
+				<div class="lutece-site-panel" role="tabpanel" id="lutece-site-panel-add" aria-labelledby="lutece-site-tab-add" hidden>
+					<label class="lutece-site-search" for="lutece-site-type-search"><i class="ti ti-search" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.site.admin_page.labelPortletType}</span><input type="search" id="lutece-site-type-search" placeholder="#i18n{portal.site.admin_page.labelPortletType}" autocomplete="off"></label>
+					<p class="lutece-site-hint">#i18n{portal.site.admin_page.labelDragPortletType}</p>
+					<ul class="lutece-site-types" id="lutece-site-types">
+					<#list portlet_types_list?sort_by( 'name' ) as portlet_type>
+						<#if portlet_type.name != ''>
+						<li data-search="${portlet_type.name?lower_case}" data-portlet-type-id="${portlet_type.id}" data-portlet-type-name="${portlet_type.name}" data-portlet-type-icon="${portlet_type.iconName!'puzzle'}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}"><a href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" target="preview" title="${portlet_type.name}"><span class="lutece-site-type-icon lutece-site-tint-${portlet_type?index % 6}" aria-hidden="true"><i class="ti ti-${portlet_type.iconName!'puzzle'}"></i></span><span class="lutece-site-type-name">${portlet_type.name}</span></a></li>
+						</#if>
+					</#list>
+					</ul>
+				</div>
+				</#if>
+				<#if canManagePage>
+				<div class="lutece-site-panel" role="tabpanel" id="lutece-site-panel-childpage" aria-labelledby="lutece-site-tab-childpage" hidden data-lutece-site-load="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5" data-lutece-site-target="#childpage">
+					<div class="lutece-site-panel-body"><#if activeTab == 'childpage'>${page_block}</#if></div>
+				</div>
+				</#if>
+			</aside>
+			</#if>
+		</div>
+		<#-- The other blocks (search, portlets) stay in the page for the code that reads them -->
+		<#if activeTab == '' && page_block?has_content && ( canManagePage || ![ 2, 5 ]?seq_contains( param_block!0 ) )><div hidden>${page_block}</div></#if>
+	</@pageColumn>
 </@pageContainer>
 <#if page_message !="">
 <@initToast>
@@ -43,6 +206,169 @@
 <@addToast content='#i18n{portal.site.message.pageIdInvalid}' class='text-bg-warning border-0' id='invalid-page-id' />
 </@initToast>
 </#if>
+<style>
+	.lutece-site-ws { --lutece-site-line: var( --tblr-border-color, #dce1e7 ); --lutece-site-muted: var( --tblr-secondary, #6c757d ); display: grid; width: 100%; grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ) minmax( 18rem, 22rem ); gap: 0; min-height: calc( 100vh - 4rem ); background: var( --tblr-bg-surface, #fff ); }
+	.lutece-site-ws > aside, .lutece-site-center { min-width: 0; }
+	.lutece-site-tree { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; padding: 1rem; border-inline-end: 1px solid var( --lutece-site-line ); }
+	.lutece-site-tree > * { min-width: 0; }
+	.lutece-site-tree-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+	.lutece-site-tree-toggle { flex: none; }
+	.lutece-site-tree-body { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; }
+	.lutece-site-tree-body > * { min-width: 0; }
+	.lutece-site-tree-body > .btn { justify-self: start; }
+	.lutece-site-tree-body > .btn.lutece-site-add-child { justify-self: stretch; }
+	/* A page dragged in the tree, and where it would go: before a page, after it, or inside it as its last child page */
+	.lutece-site-pages li[draggable] > a { cursor: grab; }
+	.lutece-site-pages li.lutece-site-dragging { opacity: .45; }
+	.lutece-site-pages li.lutece-site-drop-before > a { box-shadow: inset 0 2px 0 var( --tblr-primary ); }
+	.lutece-site-pages li.lutece-site-drop-after > a { box-shadow: inset 0 -2px 0 var( --tblr-primary ); }
+	.lutece-site-pages li.lutece-site-drop-inside > a { background: var( --tblr-primary-lt, #e7f0fc ); outline: 1px dashed var( --tblr-primary ); outline-offset: -1px; }
+	.lutece-site-tree-collapsed .lutece-site-tree { padding-inline: .5rem; }
+	.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: center; }
+	.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset( 50% ); white-space: nowrap; }
+	.lutece-site-inspector { display: grid; grid-template-rows: auto 1fr; align-content: start; border-inline-start: 1px solid var( --lutece-site-line ); }
+	.lutece-site-label { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-site-muted ); }
+	.lutece-site-search { display: flex; align-items: center; gap: .5rem; margin: 0; padding: .375rem .625rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: var( --lutece-site-muted ); }
+	.lutece-site-search:focus-within { border-color: var( --tblr-primary ); }
+	.lutece-site-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: inherit; }
+	.lutece-site-pages, .lutece-site-portlets, .lutece-site-types { list-style: none; margin: 0; padding: 0; }
+	.lutece-site-pages li { display: flex; align-items: center; gap: .125rem; padding-inline-start: calc( var( --lutece-site-level, 0 ) * 1rem ); }
+	.lutece-site-pages li[hidden], .lutece-site-pages li.lutece-site-folded { display: none; }
+	.lutece-site-pages.lutece-site-searching li.lutece-site-folded:not([hidden]) { display: flex; }
+	.lutece-site-pages.lutece-site-searching .lutece-site-twisty { visibility: hidden; }
+	.lutece-site-twisty { display: grid; place-items: center; flex: none; width: 1.25rem; height: 1.25rem; padding: 0; border: 0; border-radius: var( --tblr-border-radius, .25rem ); background: none; color: var( --lutece-site-muted ); }
+	button.lutece-site-twisty:hover { background: var( --tblr-bg-surface-secondary, #f1f3f6 ); color: var( --tblr-body-color ); }
+	button.lutece-site-twisty .ti { transition: transform .15s; }
+	button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg ); }
+	.lutece-site-pages a { flex: 1; min-width: 0; display: flex; align-items: center; gap: .5rem; padding: .25rem .5rem; border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .875rem; }
+	.lutece-site-pages a:hover { background: var( --tblr-bg-surface-secondary, #f1f3f6 ); }
+	.lutece-site-pages a[aria-current="page"] { background: var( --tblr-primary-lt, #e7f0fc ); font-weight: 600; }
+	.lutece-site-page-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.lutece-site-page-id { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
+	.lutece-site-nomatch, .lutece-site-empty { margin: 0; color: var( --lutece-site-muted ); }
+	.lutece-site-center { display: grid; grid-template-rows: auto 1fr; }
+	.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .75rem 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
+	.lutece-site-title { display: grid; gap: .125rem; flex: 1; min-width: 12rem; }
+	.lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
+	.lutece-site-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; font-size: .8rem; color: var( --lutece-site-muted ); }
+	.lutece-site-crumbs a { color: inherit; }
+	.lutece-site-meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
+	.lutece-site-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+	.lutece-site-actions .btn-preview.active { background: var( --tblr-primary-lt, #e7f0fc ); color: var( --tblr-primary ); }
+	/* The tabs share the width of the sidebar, whatever their number (up to five: add, properties, extensions, portlets, child page):
+	   an icon above a short label, which may wrap rather than push a tab out of sight */
+	.lutece-site-tabs { display: grid; grid-auto-columns: minmax( 0, 1fr ); grid-auto-flow: column; border-bottom: 1px solid var( --lutece-site-line ); padding: 0 .25rem; }
+	.lutece-site-tabs button { display: flex; flex-direction: column; align-items: center; gap: .25rem; min-width: 0; border: 0; background: none; padding: .625rem .125rem .5rem; margin-bottom: -1px; color: var( --lutece-site-muted ); border-bottom: 2px solid transparent; font-size: .75rem; line-height: 1.2; text-align: center; overflow-wrap: break-word; hyphens: auto; }
+	.lutece-site-tabs button > .ti { font-size: 1.25rem; }
+	.lutece-site-tabs button:hover { color: var( --tblr-body-color ); }
+	.lutece-site-tabs button[aria-selected="true"] { color: var( --tblr-body-color ); font-weight: 600; border-bottom-color: var( --tblr-primary ); }
+	.lutece-site-tabs button[aria-selected="true"] > .ti { color: var( --tblr-primary ); }
+	.lutece-site-count { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
+	.lutece-site-tabs .lutece-site-count { display: inline-block; min-width: 1.25em; padding: 0 .3em; border-radius: 1em; background: var( --tblr-bg-surface-secondary, #f1f3f5 ); font-weight: 400; }
+	.lutece-site-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; overflow-y: auto; max-height: calc( 100vh - 8rem ); }
+	.lutece-site-panel-body .page-header, .lutece-site-panel-body .page-body { margin: 0; padding: 0; }
+	.lutece-site-panel-body .container, .lutece-site-panel-body .container-xl, .lutece-site-panel-body .container-fluid { padding: 0; max-width: none; }
+	.lutece-site-panel-body .row > [class*="col"] { flex: 0 0 100%; max-width: 100%; }
+	/* The page forms of the properties and the child page tabs (admin_page_form.html): sections of fields on a grid, two fields a row
+	   in the sidebar and more when it spans the screen */
+	.lutece-site-form { display: grid; gap: 1rem; }
+	.lutece-site-form-section { display: grid; grid-template-columns: repeat( auto-fill, minmax( 8.5rem, 1fr ) ); gap: .5rem .75rem; align-items: start; min-width: 0; margin: 0; padding: 0; border: 0; }
+	.lutece-site-form-section > legend, .lutece-site-form-more > summary { float: none; width: auto; margin: 0 0 .5rem; padding: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-site-muted ); }
+	.lutece-site-form-more > summary { cursor: pointer; }
+	.lutece-site-field-wide { grid-column: 1 / -1; }
+	.lutece-site-form .form-label { margin-bottom: .25rem; font-size: .8rem; }
+	.lutece-site-form .form-check { margin-bottom: .25rem; }
+	.lutece-site-form textarea { min-height: 0; }
+	.lutece-site-date { display: grid; gap: .25rem; }
+	.lutece-site-templates { display: grid; grid-template-columns: repeat( auto-fill, minmax( 4.5rem, 1fr ) ); gap: .375rem; }
+	.lutece-site-template { position: relative; display: grid; justify-items: center; gap: .25rem; margin: 0; padding: .375rem .25rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); font-size: .7rem; text-align: center; cursor: pointer; }
+	.lutece-site-template img { width: 2.5rem; height: 2.5rem; }
+	.lutece-site-template span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var( --lutece-site-muted ); }
+	/* The radio button stays in the page for the keyboard and the screen readers, its label shows the choice */
+	.lutece-site-template-input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+	.lutece-site-template:hover { border-color: var( --tblr-primary ); }
+	.lutece-site-template:has( :checked ) { border-color: var( --tblr-primary ); background: var( --tblr-primary-lt, #e7f0fc ); }
+	.lutece-site-template:has( :checked ) span { color: var( --tblr-body-color ); font-weight: 600; }
+	.lutece-site-template:has( :focus-visible ) { outline: 2px solid var( --tblr-primary ); outline-offset: 2px; }
+	.lutece-site-image { display: grid; grid-template-columns: 4rem minmax( 0, 1fr ) auto; gap: .5rem; align-items: center; }
+	.lutece-site-image img { width: 4rem; height: 4rem; object-fit: cover; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); cursor: pointer; }
+	.lutece-site-image-fields { display: grid; gap: .25rem; min-width: 0; }
+	/* The page forms (properties, child page) fill the sidebar and scroll with the page, not inside the panel: their buttons, centered at the
+	   bottom of the sidebar, stay in sight at the bottom of the screen, as those of the portlet edition (portal_portlet_admin.min.css) */
+	.lutece-site-panel:has( .lutece-site-form-actions ) { display: flex; flex-direction: column; max-height: none; overflow: visible; }
+	.lutece-site-panel:has( .lutece-site-form-actions ) > .lutece-site-panel-body,
+	.lutece-site-panel-body > :has( .lutece-site-form-actions ),
+	.lutece-site-panel-body form:has( .lutece-site-form-actions ),
+	.lutece-site-form:has( > .lutece-site-form-actions ) { flex: 1 1 auto; display: flex; flex-direction: column; }
+	.lutece-site-form > .lutece-site-form-section, .lutece-site-form > details { flex: none; }
+	.lutece-site-form-actions { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: auto -1rem -1rem; padding: .75rem; background: var( --tblr-bg-surface, #fff ); border-top: 1px solid var( --lutece-site-line ); }
+	.lutece-site-portlets { display: grid; gap: .375rem; }
+	.lutece-site-portlets li { display: flex; align-items: center; gap: .5rem; padding: .375rem .5rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
+	.lutece-site-portlets form { margin: 0; }
+	.lutece-site-column { display: grid; gap: .375rem; }
+	#lutece-site-columns { display: grid; gap: .75rem; }
+	/* A column left empty stays a place to drop a portlet in */
+	.lutece-site-portlets:empty { min-height: 2.5rem; border: 1px dashed var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
+	.lutece-site-portlets li[draggable] { cursor: grab; background: var( --tblr-bg-surface, #fff ); }
+	.lutece-site-portlets li.lutece-site-dragging { opacity: .5; border-style: dashed; border-color: var( --tblr-primary ); }
+	.lutece-site-portlet-grip { flex: none; color: var( --lutece-site-muted ); }
+	.lutece-site-portlets .btn-group .btn:disabled { opacity: .35; }
+	.lutece-site-portlet-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.lutece-site-types { display: grid; grid-template-columns: repeat( auto-fill, minmax( 9rem, 1fr ) ); gap: .375rem; }
+	.lutece-site-types a { display: flex; align-items: center; gap: .5rem; padding: .375rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .8rem; }
+	.lutece-site-types a:hover { border-color: var( --tblr-primary ); }
+	/* A long name keeps two lines next to the icon, the title of the link gives it whole */
+	.lutece-site-type-name { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }
+	.lutece-site-hint { margin: 0; font-size: .75rem; color: var( --lutece-site-muted ); }
+	/* The extensions tab: one row an extension, its name, then Add, or its state with Settings and Remove (create_extender_from_resource.html of plugin extend) */
+	.lutece-extend-actions { list-style: none; margin: 0; padding: 0; }
+	.lutece-extend-actions > li + li { border-top: 1px solid var( --lutece-site-line ); }
+	.lutece-extend-actions form { margin: 0; }
+	.lutece-extend-actions .extend-action-menu { display: flex; align-items: center; gap: .5rem; padding: .5rem 0; }
+	.lutece-extend-actions .extend-action-name { display: flex; flex-direction: column; gap: .125rem; min-width: 0; margin-inline-end: auto; }
+	.lutece-extend-actions .extend-action-name > span { display: inline-flex; align-items: center; gap: .5rem; }
+	.lutece-extend-actions .extend-action-link { font-size: .75rem; padding-inline-start: 1.5rem; }
+	/* The state, Settings and Remove each in their column, so that the rows line up whether an extension has settings or not */
+	.lutece-extend-actions .extend-action-buttons { display: grid; grid-template-columns: auto 2.25rem 2.25rem; align-items: center; justify-items: end; gap: .25rem; flex: none; }
+	.lutece-extend-actions .extend-action-buttons > button[value="remove"] { grid-column: 3; }
+	.lutece-extend-actions .extend-action-buttons > button[value="add"] { grid-column: 1 / -1; }
+	.lutece-site-type-icon { display: grid; place-items: center; flex: none; width: 1.75rem; height: 1.75rem; border-radius: .375rem; }
+	.lutece-site-tint-0 { background: #fdf0e6; color: #a8520e; } .lutece-site-tint-1 { background: #e9f3ee; color: #26734a; } .lutece-site-tint-2 { background: #efeafb; color: #5b3fb0; }
+	.lutece-site-tint-3 { background: #e6f4f7; color: #0f6b7c; } .lutece-site-tint-4 { background: #fbeaf0; color: #a1305c; } .lutece-site-tint-5 { background: #eef1f6; color: #3d4f6e; }
+	.lutece-site-danger { display: grid; gap: .5rem; justify-items: start; padding-top: .75rem; border-top: 1px solid var( --lutece-site-line ); }
+	.lutece-site-danger p { margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
+	@media ( max-width: 75rem ) {
+		.lutece-site-ws { grid-template-columns: minmax( 12rem, 15rem ) minmax( 0, 1fr ); }
+		.lutece-site-inspector { grid-column: 1 / -1; border-inline-start: 0; border-top: 1px solid var( --lutece-site-line ); }
+		.lutece-site-panel { max-height: none; }
+	}
+	@media ( max-width: 48rem ) {
+		.lutece-site-ws { grid-template-columns: minmax( 0, 1fr ); }
+		.lutece-site-tree { border-inline-end: 0; border-bottom: 1px solid var( --lutece-site-line ); }
+		.lutece-site-pages { max-height: 14rem; overflow-y: auto; }
+	}
+	.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: 3rem minmax( 0, 1fr ) minmax( 18rem, 22rem ); }
+	/* Without any tab for the user (no right on the page nor on the portlets), the sidebar is left out: the preview takes its place */
+	@media ( min-width: 75.01rem ) {
+		.lutece-site-ws:not( :has( > .lutece-site-inspector ) ) { grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ); }
+		.lutece-site-ws.lutece-site-tree-collapsed:not( :has( > .lutece-site-inspector ) ) { grid-template-columns: 3rem minmax( 0, 1fr ); }
+	}
+	@media ( max-width: 75rem ) {
+		.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: 3rem minmax( 0, 1fr ); }
+	}
+	@media ( max-width: 48rem ) {
+		.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: minmax( 0, 1fr ); }
+		.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: space-between; }
+		.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+	}
+	/* The preview while it reloads: a veil over its last state, then a cover until the new page has loaded with its styles */
+	.lutece-site-preview-busy { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; line-height: normal; text-shadow: none; cursor: progress; background: color-mix( in srgb, var( --tblr-bg-surface, #fff ) 55%, transparent ); transition: background-color .15s ease-out; }
+	.lutece-site-preview-busy[hidden] { display: none; }
+	.lutece-site-preview-busy[data-state="cover"] { background: var( --tblr-bg-surface, #fff ); }
+	/* The spinner shows only when the reload lasts, a quick one does not blink */
+	.lutece-site-preview-spinner { opacity: 0; transition: opacity .2s ease-out .25s; }
+	.lutece-site-preview-busy:not([hidden]) .lutece-site-preview-spinner { opacity: 1; }
+</style>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Admin responsive preview
@@ -51,25 +377,32 @@ document.addEventListener("DOMContentLoaded", function() {
     const previewFrame = document.getElementById( 'lutece-admin-site-preview-frame' );
     const previewIframe = document.getElementById( 'lutece-admin-site-preview' );
     const previewBox = document.getElementById( 'lutece-admin-site-preview-box' );
+
+    // Called by the preview: 'veil' when it starts to reload or to leave, 'cover' when its page goes away, so that the new page
+    // never shows before its styles. The load of the iframe lifts it
+    const previewBusy = document.getElementById( 'lutece-admin-site-preview-busy' );
+    let previewBusyTimer;
+    window.luteceSitePreviewBusy = ( state ) => {
+        clearTimeout( previewBusyTimer );
+        previewBusy.dataset.state = state;
+        previewBusy.hidden = false;
+        // A navigation that never leaves the page, such as a download, does not keep the veil
+        if ( state === 'veil' ) {
+            previewBusyTimer = setTimeout( ( ) => { previewBusy.hidden = true; }, 10000 );
+        }
+    };
+    previewIframe.addEventListener( 'load', ( ) => {
+        clearTimeout( previewBusyTimer );
+        previewBusy.hidden = true;
+    } );
     const btnPreview = document.querySelectorAll( '.btn-preview' );
     const defaultIframeWidth = ( previewBox.innerWidth - 50 ) + "px";
-    const btnPortlet = document.querySelectorAll( '.btn-portlet' );
-    const offPortlet = document.getElementById( 'portlet-type-wrapper' );
-    const offPage = document.getElementById( 'page-properties' );
-    const offChildPage = document.getElementById( 'childpage-properties' );
-    const portletOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offPortlet);
-
-    btnPortlet.forEach( btn => {
-        btn.addEventListener("click", function(){
-            portletOffcanvas.hide();
-        })
-    });
         
     function _resizePreview( ) {
         previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
         previewFrame.style.width = "100%";
         previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
-        previewIframe.style.width = "105%";
+        previewIframe.style.width = "110%";
         previewIframe.style.paddingInlineEnd = "15px";
     }
 
@@ -116,15 +449,20 @@ document.addEventListener("DOMContentLoaded", function() {
         img.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXBob3RvLXBsdXMiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iY3VycmVudENvbG9yIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogIDxwYXRoIHN0cm9rZT0ibm9uZSIgZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0xNSA4aC4wMSIgLz4KICA8cGF0aCBkPSJNMTIuNSAyMWgtNi41YTMgMyAwIDAgMSAtMyAtM3YtMTJhMyAzIDAgMCAxIDMgLTNoMTJhMyAzIDAgMCAxIDMgM3Y2LjUiIC8+CiAgPHBhdGggZD0iTTMgMTZsNSAtNWMuOTI4IC0uODkzIDIuMDcyIC0uODkzIDMgMGw0IDQiIC8+CiAgPHBhdGggZD0iTTE0IDE0bDEgLTFjLjY3IC0uNjQ0IDEuNDUgLS44MjQgMi4xODIgLS41NCIgLz4KICA8cGF0aCBkPSJNMTYgMTloNiIgLz4KICA8cGF0aCBkPSJNMTkgMTZ2NiIgLz4KPC9zdmc+CgoK';
     }
 
-    function _initPageProperties( timer ){
-        const imageContent = document.querySelector( '#image_content' );
-        const previewImage = document.querySelector( '#preview_image' );
-        const updateImage = document.querySelector( '#update_image' );
-        const btnDelImage = document.getElementById('deleteImage');
-        const updateDate = document.querySelector( '#display_update_date' );
-        const manualDate = document.querySelector( '#manual_date' );
-        const enableUpdateDate = document.querySelector( '#enable_manual_update_date' );
-        const manualUpdateDate = document.querySelector( '#manual_update_date' );
+    function _initPageProperties( root ){
+        root = root || document;
+        // The fields are found by their name: the properties and the child page forms share them, with ids of their own (admin_page_form.html)
+        if ( !root.querySelector( '[name="image_content"]' ) ) {
+            return;
+        }
+        const imageContent = root.querySelector( '[name="image_content"]' );
+        const previewImage = root.querySelector( '[data-page-image]' );
+        const updateImage = root.querySelector( '[name="update_image"]' );
+        const btnDelImage = root.querySelector( '[data-page-image-delete]' );
+        const updateDate = root.querySelector( '[name="display_update_date"]' );
+        const manualDate = root.querySelector( '[data-page-manual-date]' );
+        const enableUpdateDate = root.querySelector( '[name="enable_manual_update_date"]' );
+        const manualUpdateDate = root.querySelector( '[name="manual_update_date"]' );
 
         // Image management
         // updateImage.parentElement.setAttribute('hidden','hidden')
@@ -163,16 +501,22 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         // Date Management
+        // The manual date shows only when the date is displayed
         updateDate.addEventListener( "change", (event) => {
-            manualDate.classList.toggle('visually-hidden')
+            manualDate.hidden = !event.currentTarget.checked
         });
 
         enableUpdateDate.addEventListener( "change", (event) => {
             manualUpdateDate.disabled = !event.currentTarget.checked
-            manualUpdateDate.nextElementSibling.disabled = !event.currentTarget.checked
         });
     }
     
+    // The properties and the child page are loaded in their tab: their image and date fields are set up once they are there
+    window.luteceAdminSiteInitPageProperties = ( root ) => {
+        // the child page block may lack some of the fields of the properties
+        try { _initPageProperties( root ); } catch ( e ) { console.warn( 'Page properties', e ); }
+    };
+
     // Init preview size
     _resizePreview();
     
@@ -226,29 +570,453 @@ document.addEventListener("DOMContentLoaded", function() {
         btnMaximize.remove();
     }
 
-    // ChildPage and Page Offcanvas event 
-    let pageTimeId = 0;
-    offPage.addEventListener('shown.bs.offcanvas', event => {
-        pageTimeId = setTimeout(() => {
-            _initPageProperties( )
-        }, "1200");   
-    })
-    
-    offPage.addEventListener('hide.bs.offcanvas', event => {
-        clearTimeout( pageTimeId );   
-    })
-
-    let childPageTimeId = 0;
-    offChildPage.addEventListener('shown.bs.offcanvas', event => {
-        childPageTimeId = setTimeout(() => {
-            _initPageProperties( childPageTimeId )
-        }, "1200");   
-    })
-
-    offPage.addEventListener('hide.bs.offcanvas', event => {
-        clearTimeout( childPageTimeId );   
-    })
-
 });
 </script>
-<@overlay />
+<script type="module">
+import LuteceContentLoader from './themes/shared/modules/luteceContentLoader.js';
+
+const ws = document.getElementById( 'lutece-admin-site-preview-box' );
+const tabs = [ ...ws.querySelectorAll( '.lutece-site-tabs [role="tab"]' ) ];
+const TREE_KEY = 'lutece.adminSite.treeCollapsed';
+const remember = ( key, value ) => { try { localStorage.setItem( key, value ); } catch ( e ) { /* not remembered */ } };
+const remembered = ( key ) => { try { return localStorage.getItem( key ); } catch ( e ) { return null; } };
+
+// The tree of the site can be collapsed to a narrow column, the choice is remembered in the browser
+const treeToggle = document.getElementById( 'lutece-site-tree-toggle' );
+const treeBody = document.getElementById( 'lutece-site-tree-body' );
+const collapseTree = ( collapsed, store ) => {
+	ws.classList.toggle( 'lutece-site-tree-collapsed', collapsed );
+	treeBody.hidden = collapsed;
+	treeToggle.setAttribute( 'aria-expanded', String( !collapsed ) );
+	const label = collapsed ? treeToggle.dataset.textExpand : treeToggle.dataset.textCollapse;
+	treeToggle.title = label;
+	treeToggle.querySelector( '.visually-hidden' ).textContent = label;
+	treeToggle.querySelector( '.ti' ).className = 'ti ti-layout-sidebar-left-' + ( collapsed ? 'expand' : 'collapse' );
+	if ( store ) {
+		remember( TREE_KEY, String( collapsed ) );
+	}
+};
+treeToggle.addEventListener( 'click', ( ) => collapseTree( treeToggle.getAttribute( 'aria-expanded' ) === 'true', true ) );
+collapseTree( remembered( TREE_KEY ) === 'true', false );
+
+// A tab loads its block on first display: the properties and the child page of AdminPageJspBean (param_block)
+const load = async ( panel ) => {
+	const body = panel.querySelector( '.lutece-site-panel-body' );
+	if ( !panel.dataset.luteceSiteLoad || !body || panel.dataset.loaded ) {
+		if ( body && body.querySelector( 'form' ) && !panel.dataset.loaded ) {
+			panel.dataset.loaded = 'true';
+			window.luteceAdminSiteInitPageProperties?.( body );
+		}
+		return;
+	}
+	panel.dataset.loaded = 'true';
+	body.innerHTML = '<div class="d-flex justify-content-center py-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">#i18n{portal.site.admin_page.labelLoading}</span></div></div>';
+	const loader = new LuteceContentLoader( panel.dataset.luteceSiteLoad, 'html', panel.dataset.luteceSiteTarget );
+	loader.addEventListener( 'success', ( event ) => {
+		body.replaceChildren( event.detail.targetElement );
+		window.luteceAdminSiteInitPageProperties?.( body );
+	} );
+	loader.addEventListener( 'warning', ( ) => { window.location.href = panel.dataset.luteceSiteLoad; } );
+	loader.addEventListener( 'error', ( ) => { window.location.href = panel.dataset.luteceSiteLoad; } );
+	await loader.load( );
+};
+
+const select = ( name, focus ) => {
+	const tab = tabs.find( ( t ) => t.dataset.tab === name ) || tabs[ 0 ];
+	if ( !tab ) {
+		return; // no tab for this user: the sidebar is left out
+	}
+	tabs.forEach( ( other ) => {
+		const selected = other === tab;
+		other.setAttribute( 'aria-selected', String( selected ) );
+		other.tabIndex = selected ? 0 : -1;
+		document.getElementById( other.getAttribute( 'aria-controls' ) ).hidden = !selected;
+	} );
+	if ( focus ) {
+		tab.focus( );
+	}
+	load( document.getElementById( tab.getAttribute( 'aria-controls' ) ) );
+};
+tabs.forEach( ( tab, index ) => {
+	tab.addEventListener( 'click', ( ) => select( tab.dataset.tab ) );
+	tab.addEventListener( 'keydown', ( event ) => {
+		const moves = { ArrowRight: 1, ArrowLeft: -1 };
+		if ( event.key in moves ) {
+			event.preventDefault( );
+			select( tabs[ ( index + moves[ event.key ] + tabs.length ) % tabs.length ].dataset.tab, true );
+		}
+	} );
+} );
+ws.querySelectorAll( '[data-lutece-site-open-tab]' ).forEach( ( button ) => button.addEventListener( 'click', ( ) => select( button.dataset.luteceSiteOpenTab, true ) ) );
+// An extension added, set or removed leaves the workspace for its own page, and comes back to the extensions tab once
+const RETURN_TAB_KEY = 'lutece.adminSite.returnTab';
+document.getElementById( 'lutece-site-panel-extend' )?.addEventListener( 'submit', ( ) => { try { sessionStorage.setItem( RETURN_TAB_KEY, 'extend' ); } catch ( e ) { /* not remembered */ } } );
+let returnTab = null;
+try { returnTab = sessionStorage.getItem( RETURN_TAB_KEY ); sessionStorage.removeItem( RETURN_TAB_KEY ); } catch ( e ) { returnTab = null; }
+// The tab asked by the URL (param_block, or #extender, the anchor of the former extensions offcanvas), else the one to come back to, else adding a portlet
+select( '${activeTab}' || ( window.location.hash === '#extender' ? 'extend' : '' ) || returnTab || 'add' );
+
+// Branches of the tree: a twisty folds the pages below its page, the choices are remembered in the browser
+const BRANCHES_KEY = 'lutece.adminSite.treeBranches';
+const pagesList = document.getElementById( 'lutece-site-pages' );
+const pageItems = [ ...pagesList.querySelectorAll( ':scope > li' ) ];
+let branches = {};
+try { branches = JSON.parse( remembered( BRANCHES_KEY ) || '{}' ) || {}; } catch ( e ) { branches = {}; }
+const isOpen = ( li ) => li.dataset.pageId in branches ? branches[ li.dataset.pageId ] : li.dataset.branchOpen === 'true';
+const refreshTree = ( ) => {
+	let foldedBelow = null;
+	pageItems.forEach( ( li ) => {
+		const level = Number( li.dataset.level );
+		if ( foldedBelow !== null && level > foldedBelow ) {
+			li.classList.add( 'lutece-site-folded' );
+			return;
+		}
+		foldedBelow = null;
+		li.classList.remove( 'lutece-site-folded' );
+		const twisty = li.querySelector( 'button.lutece-site-twisty' );
+		if ( twisty ) {
+			const open = isOpen( li );
+			twisty.setAttribute( 'aria-expanded', String( open ) );
+			if ( !open ) {
+				foldedBelow = level;
+			}
+		}
+	} );
+};
+pageItems.forEach( ( li ) => li.querySelector( 'button.lutece-site-twisty' )?.addEventListener( 'click', ( ) => {
+	branches[ li.dataset.pageId ] = !isOpen( li );
+	remember( BRANCHES_KEY, JSON.stringify( branches ) );
+	refreshTree( );
+} ) );
+refreshTree( );
+
+// Searches: the pages of the tree, the portlet types; a search of the tree shows the matching pages of the folded branches too
+const filter = ( input, list, noMatch ) => {
+	if ( !input || !list ) {
+		return; // the tab holding the list is not shown to this user
+	}
+	const run = ( ) => {
+		const query = input.value.trim( ).toLowerCase( );
+		list.classList.toggle( 'lutece-site-searching', query !== '' );
+		let shown = 0;
+		list.querySelectorAll( ':scope > li' ).forEach( ( li ) => {
+			const match = !query || li.dataset.search.includes( query );
+			li.hidden = !match;
+			shown += match ? 1 : 0;
+		} );
+		if ( noMatch ) {
+			noMatch.hidden = shown > 0;
+		}
+	};
+	input.addEventListener( 'input', run );
+	input.addEventListener( 'keydown', ( event ) => {
+		if ( event.key === 'Enter' ) {
+			event.preventDefault( );
+			const first = list.querySelector( ':scope > li:not([hidden]) a' );
+			if ( first && input.id === 'lutece-site-tree-search' ) {
+				first.click( );
+			}
+		}
+	} );
+};
+// Moving a page in the tree. The list is flat, each page followed by its descendants, and leaves out the pages the user may not view:
+// a page knows its parent by its identifier (data-parent-id), and has none here when its parent is left out. A page dropped on the top
+// quarter of another goes before it, on the bottom quarter after it, elsewhere inside it as its last child page; Alt+arrow up or down
+// moves it among its sister pages. DoMovePage.jsp stores the move, the page reloads
+const moveForm = document.getElementById( 'lutece-site-move-page' );
+const parentOf = ( li ) => pageItems.find( ( item ) => item.dataset.pageId === li.dataset.parentId ) || null;
+const childrenOf = ( parent ) => pageItems.filter( ( li ) => li.dataset.parentId === parent.dataset.pageId );
+// The page and its descendants shown
+const branchOf = ( li ) => {
+	const branch = [ li ];
+	for ( let i = 0; i < branch.length; i++ ) {
+		branch.push( ...childrenOf( branch[ i ] ) );
+	}
+	return branch;
+};
+// The place is told by a sister page, the page going before it or after it, or by none, the page going last: DoMovePage.jsp finds it
+// among all the child pages of the parent, those this tree leaves out too
+const movePage = ( li, parent, where, sibling ) => {
+	const siblings = childrenOf( parent );
+	const current = siblings.indexOf( li );
+	if ( current >= 0 && ( ( where === 'before' && siblings[ current + 1 ] === sibling ) || ( where === 'after' && siblings[ current - 1 ] === sibling )
+			|| ( !where && current === siblings.length - 1 ) ) ) {
+		return;
+	}
+	moveForm.elements.page_id.value = li.dataset.pageId;
+	moveForm.elements.parent_id.value = parent.dataset.pageId;
+	moveForm.elements.before_id.disabled = ( where !== 'before' );
+	moveForm.elements.before_id.value = ( where === 'before' ) ? sibling.dataset.pageId : '';
+	moveForm.elements.after_id.disabled = ( where !== 'after' );
+	moveForm.elements.after_id.value = ( where === 'after' ) ? sibling.dataset.pageId : '';
+	moveForm.submit( );
+};
+let draggedPage = null;
+let dropTarget = null;
+const clearDrop = ( ) => {
+	pageItems.forEach( ( li ) => li.classList.remove( 'lutece-site-drop-before', 'lutece-site-drop-after', 'lutece-site-drop-inside' ) );
+	dropTarget = null;
+};
+pagesList.addEventListener( 'dragstart', ( event ) => {
+	const li = event.target.closest?.( 'li[draggable]' );
+	// Not while searching: the pages shown are not the tree
+	if ( !li || pagesList.classList.contains( 'lutece-site-searching' ) ) {
+		event.preventDefault( );
+		return;
+	}
+	draggedPage = li;
+	event.dataTransfer.clearData( );
+	event.dataTransfer.setData( 'application/x-lutece-page', li.dataset.pageId );
+	event.dataTransfer.effectAllowed = 'move';
+	li.classList.add( 'lutece-site-dragging' );
+} );
+pagesList.addEventListener( 'dragover', ( event ) => {
+	if ( !draggedPage ) {
+		return;
+	}
+	const target = event.target.closest?.( 'li[data-page-id]' );
+	clearDrop( );
+	// Not into itself nor into one of its descendants
+	if ( !target || branchOf( draggedPage ).includes( target ) ) {
+		return;
+	}
+	const box = target.getBoundingClientRect( );
+	const ratio = ( event.clientY - box.top ) / box.height;
+	// The root page has no sister: only inside it
+	const where = !parentOf( target ) ? 'inside' : ( ratio < .25 ? 'before' : ( ratio > .75 ? 'after' : 'inside' ) );
+	event.preventDefault( );
+	event.dataTransfer.dropEffect = 'move';
+	target.classList.add( 'lutece-site-drop-' + where );
+	dropTarget = { li: target, where };
+} );
+pagesList.addEventListener( 'drop', ( event ) => {
+	if ( !draggedPage || !dropTarget ) {
+		return;
+	}
+	event.preventDefault( );
+	const { li, where } = dropTarget;
+	const page = draggedPage;
+	if ( where === 'inside' ) {
+		movePage( page, li, null, null );
+	} else {
+		movePage( page, parentOf( li ), where, li );
+	}
+} );
+pagesList.addEventListener( 'dragend', ( ) => {
+	draggedPage?.classList.remove( 'lutece-site-dragging' );
+	draggedPage = null;
+	clearDrop( );
+} );
+pagesList.addEventListener( 'keydown', ( event ) => {
+	if ( !event.altKey || ( event.key !== 'ArrowUp' && event.key !== 'ArrowDown' ) ) {
+		return;
+	}
+	const li = event.target.closest( 'li[draggable]' );
+	const parent = li && parentOf( li );
+	if ( !parent ) {
+		return;
+	}
+	event.preventDefault( );
+	const siblings = childrenOf( parent );
+	const index = siblings.indexOf( li );
+	// Up: before the sister page above; down: after the one below
+	if ( event.key === 'ArrowUp' && index > 0 ) {
+		movePage( li, parent, 'before', siblings[ index - 1 ] );
+	} else if ( event.key === 'ArrowDown' && index < siblings.length - 1 ) {
+		movePage( li, parent, 'after', siblings[ index + 1 ] );
+	}
+} );
+
+filter( document.getElementById( 'lutece-site-tree-search' ), document.getElementById( 'lutece-site-pages' ), document.getElementById( 'lutece-site-nomatch' ) );
+filter( document.getElementById( 'lutece-site-type-search' ), document.getElementById( 'lutece-site-types' ), null );
+ws.querySelector( '.lutece-site-pages [aria-current="page"]' )?.scrollIntoView( { block: 'nearest' } );
+
+// A portlet type dragged into a column of the preview: the preview shows where it goes and opens its creation form there
+// (luteceSitePortletTypeDrag in AdminPagePreview.jsp). A click still opens the form, the column and the order chosen in it
+const typePreview = document.getElementById( 'lutece-admin-site-preview' );
+const typeDrag = ( type ) => {
+	try { typePreview.contentWindow.luteceSitePortletTypeDrag?.( type ); } catch ( e ) { /* the preview shows a page of another origin */ }
+};
+document.querySelectorAll( '#lutece-site-types > li[data-portlet-type-href]' ).forEach( ( li ) => {
+	const link = li.querySelector( 'a' );
+	link.addEventListener( 'dragstart', ( event ) => {
+		// Not the link itself: dropped anywhere else, it would open the form in its own window
+		event.dataTransfer.clearData( );
+		event.dataTransfer.setData( 'application/x-lutece-portlet-type', li.dataset.portletTypeId );
+		event.dataTransfer.effectAllowed = 'copy';
+		typeDrag( { href: li.dataset.portletTypeHref, name: li.dataset.portletTypeName, icon: li.dataset.portletTypeIcon } );
+	} );
+	link.addEventListener( 'dragend', ( ) => typeDrag( null ) );
+} );
+
+// The portlets of the "Portlets" tab: a portlet dragged to a place of a column, or moved one step by its arrows, takes that place
+// (DoModifyPortletPosition.jsp, which renumbers the columns). The preview reloads once the moves are saved, and the list follows the
+// preview each time it loads: a portlet moved in the preview takes its place here too
+const columnsBox = document.getElementById( 'lutece-site-columns' );
+if ( columnsBox ) {
+	const status = document.getElementById( 'lutece-site-portlets-status' );
+	const columnTemplate = document.getElementById( 'lutece-site-column-template' );
+	const itemsOf = ( list ) => [ ...list.querySelectorAll( ':scope > li[data-portlet-id]' ) ];
+
+	// The arrows of the first and the last portlet of a column are of no use; a column left empty loses its blank text, so that it shows
+	const refresh = ( ) => {
+		columnsBox.querySelectorAll( '.lutece-site-portlets' ).forEach( ( list ) => {
+			const items = itemsOf( list );
+			if ( items.length === 0 ) {
+				list.textContent = '';
+			}
+			items.forEach( ( item, i ) => {
+				item.querySelector( '[data-move="up"]' ).disabled = ( i === 0 );
+				item.querySelector( '[data-move="down"]' ).disabled = ( i === items.length - 1 );
+			} );
+		} );
+	};
+
+	// The moves are saved one after the other, in the order they were made; the preview reloads after the last one. A security token is
+	// used once: each answer gives the one of the next move
+	let token = columnsBox.dataset.positionToken;
+	let saving = Promise.resolve( );
+	let pending = 0;
+	let failed = false;
+	const save = ( item ) => {
+		const list = item.parentElement;
+		const column = list.dataset.portletColumn;
+		const place = itemsOf( list ).indexOf( item ) + 1;
+		status.textContent = columnsBox.dataset.movedMessage.replace( '{0}', item.dataset.portletName ).replace( '{1}', place ).replace( '{2}', column );
+		pending++;
+		window.luteceSitePreviewBusy?.( 'veil' );
+		const portletId = item.dataset.portletId;
+		saving = saving
+			.then( ( ) => fetch( 'jsp/admin/site/DoModifyPortletPositionJson.jsp', { method: 'POST',
+				body: new URLSearchParams( { portlet_id: portletId, column: column, order: place, token: token } ) } ) )
+			.then( ( response ) => response.json( ) )
+			.then( ( answer ) => {
+				token = answer.token;
+				failed = failed || !answer.saved;
+			} )
+			.catch( ( ) => { failed = true; } )
+			.then( ( ) => {
+				if ( --pending > 0 ) {
+					return;
+				}
+				if ( failed ) {
+					// The list may no longer tell the stored order: the whole page shows it again
+					window.location.reload( );
+				} else {
+					typePreview.contentWindow.location.replace( new URL( typePreview.getAttribute( 'src' ), document.baseURI ).href );
+				}
+			} );
+	};
+
+	// The arrows
+	columnsBox.addEventListener( 'click', ( event ) => {
+		const button = event.target.closest( '[data-move]' );
+		if ( !button || button.disabled ) {
+			return;
+		}
+		const item = button.closest( 'li[data-portlet-id]' );
+		const sibling = button.dataset.move === 'up' ? item.previousElementSibling : item.nextElementSibling;
+		if ( !sibling ) {
+			return;
+		}
+		item.parentElement.insertBefore( item, button.dataset.move === 'up' ? sibling : sibling.nextElementSibling );
+		refresh( );
+		// The focus stays on the arrow, or goes to the other one when this one has reached the end of the column
+		( button.disabled ? item.querySelector( '[data-move]:not(:disabled)' ) : button )?.focus( );
+		save( item );
+	} );
+
+	// The drag and drop: the portlet follows the pointer among the portlets of the column under it
+	let dragged = null;
+	let origin = null;
+	columnsBox.addEventListener( 'dragstart', ( event ) => {
+		const item = event.target.closest?.( 'li[data-portlet-id]' );
+		if ( !item ) {
+			return;
+		}
+		dragged = item;
+		origin = { list: item.parentElement, next: item.nextElementSibling };
+		event.dataTransfer.effectAllowed = 'move';
+		event.dataTransfer.setData( 'application/x-lutece-portlet', item.dataset.portletId );
+		item.classList.add( 'lutece-site-dragging' );
+	} );
+	columnsBox.addEventListener( 'dragover', ( event ) => {
+		const list = dragged && event.target.closest?.( '.lutece-site-column' )?.querySelector( '.lutece-site-portlets' );
+		if ( !list ) {
+			return;
+		}
+		event.preventDefault( );
+		event.dataTransfer.dropEffect = 'move';
+		const next = itemsOf( list ).filter( ( item ) => item !== dragged ).find( ( item ) => {
+			const box = item.getBoundingClientRect( );
+			return event.clientY < box.top + box.height / 2;
+		} );
+		if ( next ) {
+			if ( dragged.nextElementSibling !== next ) {
+				list.insertBefore( dragged, next );
+			}
+		} else if ( list.lastElementChild !== dragged ) {
+			list.appendChild( dragged );
+		}
+	} );
+	columnsBox.addEventListener( 'drop', ( event ) => {
+		if ( dragged ) {
+			event.preventDefault( );
+		}
+	} );
+	columnsBox.addEventListener( 'dragend', ( ) => {
+		if ( !dragged ) {
+			return;
+		}
+		const item = dragged;
+		dragged = null;
+		item.classList.remove( 'lutece-site-dragging' );
+		refresh( );
+		if ( item.parentElement !== origin.list || item.nextElementSibling !== origin.next ) {
+			save( item );
+		}
+	} );
+
+	// The list follows the preview of the page once it has loaded: the column and the order of each portlet it shows
+	typePreview.addEventListener( 'load', ( ) => {
+		let previewDocument;
+		try {
+			previewDocument = typePreview.contentDocument;
+		} catch ( e ) {
+			return;
+		}
+		// Not while a form shows in the preview, nor while a move is being saved
+		if ( !previewDocument || !/AdminPagePreview\.jsp$/.test( typePreview.contentWindow.location.pathname ) || pending > 0 || dragged ) {
+			return;
+		}
+		const positions = new Map( );
+		previewDocument.querySelectorAll( '.lutece-admin-toolbar[data-portlet-id]' ).forEach( ( toolbar ) => {
+			positions.set( toolbar.dataset.portletId, { column: toolbar.dataset.portletColumn, order: parseInt( toolbar.dataset.portletOrder, 10 ) } );
+		} );
+		const byColumn = new Map( );
+		// A portlet the preview does not show, in a column its template has not, stays where it is
+		columnsBox.querySelectorAll( 'li[data-portlet-id]' ).forEach( ( item ) => {
+			const position = positions.get( item.dataset.portletId );
+			if ( position ) {
+				byColumn.set( position.column, [ ...( byColumn.get( position.column ) || [ ] ), { item, order: position.order } ] );
+			}
+		} );
+		byColumn.forEach( ( entries, column ) => {
+			let section = columnsBox.querySelector( '.lutece-site-column[data-portlet-column="' + column + '"]' );
+			if ( !section ) {
+				section = columnTemplate.content.firstElementChild.cloneNode( true );
+				section.dataset.portletColumn = column;
+				section.querySelector( 'ul' ).dataset.portletColumn = column;
+				section.querySelector( 'h3 span' ).textContent = column;
+				const after = [ ...columnsBox.children ].find( ( other ) => parseInt( other.dataset.portletColumn, 10 ) > parseInt( column, 10 ) );
+				columnsBox.insertBefore( section, after || null );
+			}
+			const list = section.querySelector( 'ul' );
+			entries.sort( ( a, b ) => a.order - b.order ).forEach( ( entry ) => list.appendChild( entry.item ) );
+		} );
+		refresh( );
+	} );
+
+	refresh( );
+}
+</script>

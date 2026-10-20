@@ -82,6 +82,8 @@ public final class PortletDAO implements IPortletDAO
             + " b.home_class, a.accept_alias , a.role , b.plugin_name , a.display_portlet_title, a.status , a.device_display_flags, a.id_template "
             + " FROM core_portlet a , core_portlet_type b WHERE a.id_portlet_type = b.id_portlet_type ORDER BY a.date_update DESC LIMIT 1 ";
     private static final String SQL_QUERY_SELECT_ORDER_FROM_PAGE_AND_COLUMN = " SELECT portlet_order FROM core_portlet WHERE column_no = ? AND id_page = ?  ORDER BY portlet_order";
+    private static final String SQL_QUERY_SELECT_POSITIONS_FROM_PAGE_AND_COLUMN = " SELECT id_portlet, portlet_order, name FROM core_portlet WHERE column_no = ? AND id_page = ? ORDER BY portlet_order, id_portlet";
+    private static final String SQL_QUERY_SELECT_POSITIONS_FROM_PAGE = " SELECT id_portlet, id_portlet_type, name, column_no, portlet_order FROM core_portlet WHERE id_page = ? ORDER BY column_no, portlet_order, id_portlet";
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // Access methods to data
@@ -495,5 +497,64 @@ public final class PortletDAO implements IPortletDAO
         }
 
         return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Portlet> selectColumnPositions( int nPageId, int nColumnId )
+    {
+        List<Portlet> list = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_POSITIONS_FROM_PAGE_AND_COLUMN ) )
+        {
+            daoUtil.setInt( 1, nColumnId );
+            daoUtil.setInt( 2, nPageId );
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                PortletImpl portlet = new PortletImpl( );
+                portlet.setId( daoUtil.getInt( 1 ) );
+                portlet.setOrder( daoUtil.getInt( 2 ) );
+                portlet.setName( daoUtil.getString( 3 ) );
+                portlet.setColumn( nColumnId );
+                portlet.setPageId( nPageId );
+                list.add( portlet );
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Portlet> selectPagePositions( int nPageId )
+    {
+        List<Portlet> list = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_POSITIONS_FROM_PAGE ) )
+        {
+            daoUtil.setInt( 1, nPageId );
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                PortletImpl portlet = new PortletImpl( );
+                portlet.setId( daoUtil.getInt( nIndex++ ) );
+                portlet.setPortletTypeId( daoUtil.getString( nIndex++ ) );
+                portlet.setName( daoUtil.getString( nIndex++ ) );
+                portlet.setColumn( daoUtil.getInt( nIndex++ ) );
+                portlet.setOrder( daoUtil.getInt( nIndex++ ) );
+                portlet.setPageId( nPageId );
+                list.add( portlet );
+            }
+        }
+
+        return list;
     }
 }

@@ -33,12 +33,16 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
@@ -53,9 +57,13 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.admin.AdminMapJspBean;
+import fr.paris.lutece.portal.web.admin.AdminPagePortletJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.menu.MenuItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
@@ -88,10 +96,17 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_STYLES_COMBO = "portlet_style_combo";
     private static final String MARK_PORTLET_TEMPLATES_COMBO = "portlet_template_combo";
     private static final String MARK_PORTLET_ROLES_COMBO = "portlet_role_combo";
+    private static final String MARK_PORTLET_PAGES_LIST = "portlet_pages_list";
+    private static final String MARK_PORTLET_COLUMN_PLACES = "portlet_column_places";
+    private static final String MARK_PORTLET_PLACE = "portlet_place";
+    private static final String MARK_PORTLET_PAGE_NAME = "portlet_page_name";
     private static final String MARK_SMALL_CHECKED = "small_checked";
     private static final String MARK_NORMAL_CHECKED = "normal_checked";
     private static final String MARK_LARGE_CHECKED = "large_checked";
     private static final String MARK_XLARGE_CHECKED = "xlarge_checked";
+    private static final String MARK_STATUS_PUBLISHED = "portlet_status_published";
+    private static final String MARK_STATUS_UNPUBLISHED = "portlet_status_unpublished";
+    private static final String MARK_STATUS_TOKEN = "status_token";
     private static final String VALUE_CHECKED = "checked=\"checked\"";
     private static final String VALUE_UNCHECKED = "";
 
@@ -357,6 +372,19 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_TEMPLATES_COMBO, PortletTemplateHome.findReferenceList( strPortletTypeId ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
 
+        // The page is the one the portlet is created on: its name, and the places its columns offer
+        if ( StringUtils.isNumeric( strPageId ) )
+        {
+            int nPageId = Integer.parseInt( strPageId );
+            Page page = PageHome.getPage( nPageId );
+            model.put( MARK_PORTLET_PAGE_NAME, ( page != null ) ? page.getName( ) : "" );
+            putColumnPlaces( model, nPageId, null );
+        }
+        else
+        {
+            model.put( MARK_PORTLET_COLUMN_PLACES, new LinkedHashMap<String, List<Portlet>>( ) );
+        }
+
         return AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
     }
 
@@ -392,12 +420,115 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( portlet.getPortletTypeId( ) ) );
         model.put( MARK_PORTLET_TEMPLATES_COMBO, PortletTemplateHome.findReferenceList( portlet.getPortletTypeId( ) ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
+        model.put( MARK_PORTLET_PAGES_LIST, getPagesTree( portlet.getPageId( ) ) );
+        putColumnPlaces( model, portlet.getPageId( ), portlet );
         putCheckBox( model, MARK_SMALL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE ) );
         putCheckBox( model, MARK_NORMAL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ) );
         putCheckBox( model, MARK_LARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ) );
         putCheckBox( model, MARK_XLARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
+        model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
+        model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
+        // The switch of the status saves it at once: the form gets the security token of its first change, when the request is known
+        HttpServletRequest request = LocalVariables.getRequest( );
+        if ( request != null )
+        {
+            model.put( MARK_STATUS_TOKEN, getSecurityTokenService( ).getToken( request, AdminPagePortletJspBean.JSP_DO_MODIFY_STATUS ) );
+        }
 
         return AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
+    }
+
+    /**
+     * The pages of the site the user may view, in the order of its tree (as the tree of the site administration shows it), each name
+     * indented by its level, for the page a portlet moves to
+     *
+     * @param nCurrentPageId
+     *            the page of the portlet, listed even when the user may not view it
+     * @return the pages, the identifier as code
+     */
+    private ReferenceList getPagesTree( int nCurrentPageId )
+    {
+        ReferenceList listPages = new ReferenceList( );
+        boolean bCurrentListed = false;
+
+        for ( MenuItem item : AdminMapJspBean.getMapItems( getUser( ), null ) )
+        {
+            listPages.addItem( item.getPageId( ), getPageLabel( item.getPageId( ), item.getPageName( ), item.getLevel( ) ) );
+            bCurrentListed |= ( item.getPageId( ) == nCurrentPageId );
+        }
+
+        if ( !bCurrentListed )
+        {
+            Page current = PageHome.getPageWithoutImageContent( nCurrentPageId );
+
+            if ( current.getId( ) == nCurrentPageId )
+            {
+                listPages.addItem( current.getId( ), getPageLabel( current.getId( ), current.getName( ), 0 ) );
+            }
+        }
+
+        return listPages;
+    }
+
+    /**
+     * The label of a page in the list: indented by non-breaking spaces, the identifier telling apart the pages of the same name
+     *
+     * @param nPageId
+     *            the page
+     * @param strName
+     *            its name
+     * @param nLevel
+     *            its depth
+     * @return the label
+     */
+    private static String getPageLabel( int nPageId, String strName, int nLevel )
+    {
+        return "\u00a0\u00a0\u00a0".repeat( nLevel ) + strName + " (" + nPageId + ")";
+    }
+
+    /**
+     * Puts the places a portlet can take in each column of a page: the other portlets of the column, after which it can go, and the
+     * current place of the portlet in its column
+     *
+     * @param model
+     *            the model
+     * @param nPageId
+     *            the page
+     * @param portlet
+     *            the portlet modified, left out of the places, or null for a portlet being created
+     */
+    private static void putColumnPlaces( Map<String, Object> model, int nPageId, Portlet portlet )
+    {
+        Map<String, List<Portlet>> mapPlaces = new LinkedHashMap<>( );
+        int nPlace = 1;
+        int nColumnNumMax = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_NUM_MAX, 1 );
+
+        if ( portlet != null )
+        {
+            nColumnNumMax = Math.max( nColumnNumMax, portlet.getColumn( ) );
+        }
+
+        for ( int nColumn = 1; nColumn <= nColumnNumMax; nColumn++ )
+        {
+            List<Portlet> listOthers = new ArrayList<>( );
+
+            for ( Portlet columnPortlet : PortletHome.getColumnPositions( nPageId, nColumn ) )
+            {
+                if ( portlet != null && columnPortlet.getId( ) == portlet.getId( ) )
+                {
+                    nPlace = listOthers.size( ) + 1;
+                }
+                else
+                {
+                    listOthers.add( columnPortlet );
+                }
+            }
+
+            mapPlaces.put( String.valueOf( nColumn ), listOthers );
+        }
+
+        model.put( MARK_PORTLET_COLUMN_PLACES, mapPlaces );
+        model.put( MARK_PORTLET_PLACE, nPlace );
     }
 
     /**

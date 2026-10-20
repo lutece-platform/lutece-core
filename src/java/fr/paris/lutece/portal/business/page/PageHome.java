@@ -189,6 +189,17 @@ public final class PageHome
     }
 
     /**
+     * Return all the pages of the site in one query, ordered by parent then by order, with only their identifier, parent, name,
+     * description, role and node status: enough to build the tree of the site
+     *
+     * @return the pages
+     */
+    public static List<Page> getAllPagesMinimalData( )
+    {
+        return _dao.selectAllPagesMinimalData( );
+    }
+
+    /**
      * Returns the list of page
      *
      * @return the list of pages
@@ -279,5 +290,20 @@ public final class PageHome
     public static void updateAuthorizationNode( int nIdPage, Integer nIdAuthorizationNode )
     {
         _dao.updateAutorisationNode( nIdPage, nIdAuthorizationNode );
+    }
+
+    /**
+     * Updates the place of a page in the tree, its parent and its order, and nothing else of it
+     *
+     * @param nIdPage
+     *            the page id
+     * @param nIdParentPage
+     *            the parent page id
+     * @param nOrder
+     *            the order among the child pages of the parent
+     */
+    public static void updatePosition( int nIdPage, int nIdParentPage, int nOrder )
+    {
+        _dao.updatePosition( nIdPage, nIdParentPage, nOrder );
     }
 }

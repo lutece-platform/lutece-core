@@ -3,18 +3,39 @@
 <#-- A portlet type with a specific template has content to edit : the common properties go to a sticky side bar next to it. Otherwise they are the whole form and sit in the center of the screen. -->
 <#assign hasContent = ( portletType.modifySpecificTemplate != "" || portletType.modifySpecificFormTemplate != "" ) />
 <#assign fieldCols = hasContent?then( 12, 6 ) />
-<@tform typ='inline' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
+<#include "/admin/portlet/portlet_form_macros.html" />
+<@tform id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
 <@input type='hidden' name='portlet_id' value='${portlet.id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
+<#-- The device flags have no field on this form: they keep their values -->
+<#if small_checked?has_content><input type="hidden" name="display_on_small_device" value="1"></#if>
+<#if normal_checked?has_content><input type="hidden" name="display_on_normal_device" value="1"></#if>
+<#if large_checked?has_content><input type="hidden" name="display_on_large_device" value="1"></#if>
+<#if xlarge_checked?has_content><input type="hidden" name="display_on_xlarge_device" value="1"></#if>
 <@box class='manage-portlet'>
-	<@boxHeader title='${portletType.name}' boxTools=true >
+	<@boxHeader title='${portletType.name}' titleAuto=false>
+	<#-- The status is saved at once by the switch, apart from the form: the switch has no name, the form does not send it -->
+	<#assign portletPublished = ( portlet.status == portlet_status_published ) />
+	<div id="portlet-status" class="portlet-status d-flex align-items-center gap-2 ms-3" data-portlet-id="${portlet.id}" data-status-published="${portlet_status_published}" data-status-unpublished="${portlet_status_unpublished}" data-token="${status_token!}" data-label-published="#i18n{portal.site.modify_portlet.statusPublished}" data-label-unpublished="#i18n{portal.site.modify_portlet.statusUnpublished}" data-error-message="#i18n{portal.site.modify_portlet.messageStatusError}">
+		<span class="visually-hidden">#i18n{portal.site.modify_portlet.labelStatus}</span>
+		<span id="portlet-status-badge" class="badge <#if portletPublished>bg-success text-bg-success<#else>bg-warning text-bg-warning</#if>"><#if portletPublished>#i18n{portal.site.modify_portlet.statusPublished}<#else>#i18n{portal.site.modify_portlet.statusUnpublished}</#if></span>
+		<label class="form-check form-switch m-0" for="portlet-status-switch" title="#i18n{portal.site.modify_portlet.labelStatusSwitch}">
+			<input class="form-check-input" type="checkbox" role="switch" id="portlet-status-switch" aria-describedby="portlet-status-badge"<#if portletPublished> checked</#if><#if !status_token?has_content> disabled</#if>>
+			<span class="visually-hidden">#i18n{portal.site.modify_portlet.labelStatusSwitch}</span>
+		</label>
+		<span id="portlet-status-message" class="text-danger small" role="status"></span>
+	</div>
+	<div class="ms-auto d-flex align-items-center gap-2">
+		<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='sm' />
 	<#if hasContent>
-		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.util.labelMore}' hideTitle=['all'] params='aria-expanded="true" aria-controls="portlet-properties"'/>
+		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.site.modify_portlet.buttonHideProperties}' hideTitle=['all'] params='aria-expanded="true" aria-controls="portlet-properties" data-label-hide="#i18n{portal.site.modify_portlet.buttonHideProperties}" data-label-show="#i18n{portal.site.modify_portlet.buttonShowProperties}"'/>
 	</#if>
+	</div>
 	</@boxHeader>
 	<@boxBody class='p-0'>
 		<div class="portlet-editor<#if hasContent> portlet-editor-with-content</#if>">
 		<div id="portlet-properties" class="portlet-properties <#if hasContent>portlet-properties-aside<#else>portlet-properties-centered</#if>">
+		<@fieldSet legend='#i18n{portal.site.modify_portlet.sectionGeneral}'>
 		<@row class='g-2'>
 			<@columns xs=12 sm=fieldCols>
 				<@formGroup labelFor='portlet_name' labelKey='#i18n{portal.site.create_portlet.labelPortletTitle}' rows=2 mandatory=true>
@@ -23,19 +44,10 @@
 			</@columns>
 			<@columns xs=12 sm=fieldCols>
 				<@formGroup formStyle='' labelKey='#i18n{portal.site.create_portlet.labelDisplayPortletTitle}' labelClass='mb-3' rows=2>
-					<#if portlet.displayPortletTitle = 0><#assign checked = true><#else><#assign checked = false></#if>
-					<@radioButton name='display_portlet_title' id='display_portlet_title_yes' value='0' orientation='h' checked=checked labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}' labelFor='display_portlet_title_yes'/>
-					<#if portlet.displayPortletTitle = 1><#assign checked = true><#else><#assign checked = false></#if>
-					<@radioButton name='display_portlet_title' id='display_portlet_title_no' value='1' orientation='h' checked=checked labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}' labelFor='display_portlet_title_no'/>
+					<@radioButton name='display_portlet_title' id='display_portlet_title_yes' value='0' orientation='h' checked=( portlet.displayPortletTitle == 0 ) labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}' labelFor='display_portlet_title_yes'/>
+					<@radioButton name='display_portlet_title' id='display_portlet_title_no' value='1' orientation='h' checked=( portlet.displayPortletTitle == 1 ) labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}' labelFor='display_portlet_title_no'/>
 				</@formGroup>
 			</@columns>
-			<#if portletType.id?starts_with('DOCUMENT')>
-			<@columns xs=12 sm=fieldCols>
-				<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
-					<@select name='style' default_value='${portlet.styleId}' items=portlet_style_combo />
-				</@formGroup>
-			</@columns>
-			</#if>
 			<#if portlet_template_combo?has_content>
 			<@columns xs=12 sm=fieldCols>
 				<@formGroup labelFor='id_template' labelKey='#i18n{portal.site.create_portlet.labelTemplate}' rows=2 mandatory=true>
@@ -43,80 +55,108 @@
 				</@formGroup>
 			</@columns>
 			</#if>
+		</@row>
+		</@fieldSet>
+		<@fieldSet legend='#i18n{portal.site.modify_portlet.sectionPlacement}'>
+		<@row class='g-2'>
 			<@columns xs=12 sm=fieldCols>
-				<@formGroup labelFor='page_id' labelKey='#i18n{portal.site.modify_portlet.labelPortletPageId}' rows=2>
-					<@input type='text' name='page_id' value='${portlet.pageId}' />
+				<@formGroup labelFor='page_id' labelKey='#i18n{portal.site.modify_portlet.labelPortletPage}' rows=2>
+					<@select name='page_id' id='page_id' default_value='${portlet.pageId?c}' items=portlet_pages_list params='data-current-page="${portlet.pageId?c}"' />
 				</@formGroup>
 			</@columns>
-			<@columns xs=6 sm=fieldCols>
+			<@columns xs=12 sm=fieldCols>
 				<@formGroup labelFor='column' labelKey='#i18n{portal.site.create_portlet.labelColumn}' rows=2>
 					<@select name='column' id='column' default_value='${portlet.column}' items=portlet_columns_combo />
 				</@formGroup>
 			</@columns>
-			<@columns xs=6 sm=fieldCols>
-				<@formGroup labelFor='order' labelKey='#i18n{portal.site.create_portlet.labelOrder}' rows=2>
-					<@select name='order' id='order' default_value='${portlet.order}' items=portlet_order_combo />
-				</@formGroup>
-			</@columns>
 			<@columns xs=12 sm=fieldCols>
-				<@formGroup formStyle='' labelKey='#i18n{portal.site.create_portlet.labelAlias}' labelClass='mb-3' rows=2>
-					<#if portlet.acceptAlias = 1><#assign checked = true><#else><#assign checked = false></#if>
-					<@radioButton name='accept_alias' id='accept_alias_yes' value='1' orientation='h' checked=checked labelKey='#i18n{portal.util.labelYes}' labelFor='accept_alias_yes' />
-					<#if portlet.acceptAlias = 0><#assign checked = true><#else><#assign checked = false></#if>
-					<@radioButton name='accept_alias' id='accept_alias_no' value='0' orientation='h' checked=checked labelKey='#i18n{portal.util.labelNo}' labelFor='accept_alias_no' />
-				</@formGroup>
-			</@columns>
-			<@columns xs=12 sm=fieldCols params='hidden'>
-				<@formGroup labelKey='#i18n{portal.site.create_portlet.labelDisplayOnDevice}' rows=2>
-					<#if small_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
-					<@checkBox orientation='switch' name='display_on_small_device' id='display_on_small_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
-					<#if normal_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
-					<@checkBox orientation='switch' name='display_on_normal_device' id='display_on_normal_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
-					<#if large_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
-					<@checkBox orientation='switch' name='display_on_large_device' id='display_on_large_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxLargeDevice}' />
-					<#if xlarge_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
-					<@checkBox orientation='switch' name='display_on_xlarge_device' id='display_on_xlarge_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
-				</@formGroup>
-			</@columns>
-			<@columns xs=12 sm=fieldCols>
-				<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
-					<@select name='role' default_value='${portlet.role}' items=portlet_role_combo />
-				</@formGroup>
-			</@columns>
-			<@columns xs=12>
-				<@formGroup rows=2 class='mb-0'>
-					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
+				<@formGroup labelFor='order' labelKey='#i18n{portal.site.modify_portlet.labelPlace}' rows=2>
+					<select id="order" name="order" class="form-select" aria-describedby="order-help" data-current-column="${portlet.column}" data-current-place="${portlet_place}">
+						<@placeOptions others=portlet_column_places[ portlet.column?c ]![] selected=portlet_place />
+					</select>
+					<p id="order-help" class="form-text" hidden>#i18n{portal.site.modify_portlet.helpPlaceOtherPage}</p>
 				</@formGroup>
 			</@columns>
 		</@row>
+		<@placeTemplates places=portlet_column_places otherPage=true />
+		</@fieldSet>
+		<details class="portlet-properties-more">
+			<summary>#i18n{portal.site.modify_portlet.sectionAdvanced}</summary>
+			<@row class='g-2'>
+				<@columns xs=12 sm=fieldCols>
+					<@formGroup formStyle='' labelKey='#i18n{portal.site.create_portlet.labelAlias}' labelClass='mb-3' rows=2>
+						<@radioButton name='accept_alias' id='accept_alias_yes' value='1' orientation='h' checked=( portlet.acceptAlias == 1 ) labelKey='#i18n{portal.util.labelYes}' labelFor='accept_alias_yes' />
+						<@radioButton name='accept_alias' id='accept_alias_no' value='0' orientation='h' checked=( portlet.acceptAlias == 0 ) labelKey='#i18n{portal.util.labelNo}' labelFor='accept_alias_no' />
+					</@formGroup>
+				</@columns>
+				<@columns xs=12 sm=fieldCols>
+					<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
+						<@select name='role' default_value='${portlet.role}' items=portlet_role_combo />
+					</@formGroup>
+				</@columns>
+				<#-- The style applies to the portlets rendered by XML and XSL only, the server asks for it in that case alone -->
+				<#if portlet.isContentGeneratedByXmlAndXsl( )>
+				<@columns xs=12 sm=fieldCols>
+					<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
+						<@select name='style' default_value='${portlet.styleId}' items=portlet_style_combo />
+					</@formGroup>
+				</@columns>
+				</#if>
+			</@row>
+		</details>
 		</div>
 		<#if hasContent>
 		<div id="portlet-content" class="portlet-content">
 			<#if portletType.modifySpecificTemplate != "" ><#include portletType.modifySpecificTemplate /></#if>
 			<#if portletType.modifySpecificFormTemplate != "" ><#include portletType.modifySpecificFormTemplate /></#if>
-			<@formGroup rows=2 class='mt-3'>
-				<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
-				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
-			</@formGroup>
 		</div>
 		</#if>
+		</div>
+		<#-- One bar for the whole form, kept in sight at the bottom of the screen however long the content -->
+		<div class="portlet-actions">
+			<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
+			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 		</div>
 	</@boxBody>
 </@box>
 </@tform>
 <#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate! /></#if>
+<@portletFormScript />
 <script>
-const btnProp = document.getElementById('btn-toggle-properties');
-if ( btnProp != null ){
-	const portletProp = document.getElementById('portlet-properties');
-	btnProp.addEventListener( 'click', (e) => {
-		const hidden = portletProp.classList.toggle('d-none');
-		const btn = e.currentTarget;
-		const btnIcon = btn.querySelector('.ti');
-		btnIcon.classList.toggle('ti-layout-sidebar-left-collapse', !hidden);
-		btnIcon.classList.toggle('ti-layout-sidebar-left-expand', hidden);
-		btn.setAttribute('aria-expanded', hidden ? 'false' : 'true');
-	});
+// The switch of the status saves it at once. A security token is used once: each answer gives the one of the next change
+{
+	const box = document.getElementById( 'portlet-status' );
+	const toggle = document.getElementById( 'portlet-status-switch' );
+	const badge = document.getElementById( 'portlet-status-badge' );
+	const message = document.getElementById( 'portlet-status-message' );
+	const show = ( published ) => {
+		toggle.checked = published;
+		badge.textContent = published ? box.dataset.labelPublished : box.dataset.labelUnpublished;
+		badge.classList.toggle( 'bg-success', published );
+		badge.classList.toggle( 'text-bg-success', published );
+		badge.classList.toggle( 'bg-warning', !published );
+		badge.classList.toggle( 'text-bg-warning', !published );
+	};
+	toggle?.addEventListener( 'change', ( ) => {
+		const published = toggle.checked;
+		toggle.disabled = true;
+		message.textContent = '';
+		fetch( 'jsp/admin/site/DoModifyPortletStatusJson.jsp', { method: 'POST',
+			body: new URLSearchParams( { portlet_id: box.dataset.portletId,
+				status: published ? box.dataset.statusPublished : box.dataset.statusUnpublished, token: box.dataset.token } ) } )
+			.then( ( response ) => response.json( ) )
+			.then( ( answer ) => {
+				box.dataset.token = answer.token;
+				if ( !answer.saved ) {
+					throw new Error( );
+				}
+				show( published );
+			} )
+			.catch( ( ) => {
+				show( !published );
+				message.textContent = box.dataset.errorMessage;
+			} )
+			.finally( ( ) => { toggle.disabled = false; } );
+	} );
 }
 </script>

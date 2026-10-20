@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.page;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -689,6 +690,98 @@ public class PageService implements IPageService, ImageResourceProvider
         resetPageCache( );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
         _pageEvent.fire(event);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void movePage( Page page, int nParentPageId, int nPlace )
+    {
+        int nFormerParentPageId = page.getParentPageId( );
+
+        List<Integer> listSiblings = getChildPageIdsWithout( nParentPageId, page.getId( ) );
+        listSiblings.add( Math.max( 0, Math.min( nPlace - 1, listSiblings.size( ) ) ), page.getId( ) );
+        renumberChildPages( nParentPageId, listSiblings );
+
+        if ( nFormerParentPageId != nParentPageId )
+        {
+            renumberChildPages( nFormerParentPageId, getChildPageIdsWithout( nFormerParentPageId, page.getId( ) ) );
+        }
+
+        page.setParentPageId( nParentPageId );
+        page.setOrder( listSiblings.indexOf( page.getId( ) ) + 1 );
+
+        // A page that is not an authorization node of its own takes the one of its new parent, and so do its descendants
+        if ( nFormerParentPageId != nParentPageId && page.getNodeStatus( ) != 0 )
+        {
+            Page parent = PageHome.getPageWithoutImageContent( nParentPageId );
+            Integer nNode = ( parent != null ) ? parent.getIdAuthorizationNode( ) : null;
+
+            if ( nNode == null || !nNode.equals( page.getIdAuthorizationNode( ) ) )
+            {
+                page.setIdAuthorizationNode( nNode );
+                PageHome.updateAuthorizationNode( page.getId( ), nNode );
+                updateChildrenAuthorizationNode( page.getId( ), nNode );
+            }
+        }
+
+        _pageEvent.fire( new PageEvent( page, PageEvent.PAGE_MOVED ) );
+
+        // The parents list their child pages: the one it left and the one it joins change too
+        for ( int nParent : ( nFormerParentPageId != nParentPageId ) ? new int [ ] {
+                nFormerParentPageId, nParentPageId
+        } : new int [ ] {
+                nParentPageId
+        } )
+        {
+            Page parent = PageHome.getPageWithoutImageContent( nParent );
+
+            if ( nParent > 0 && parent.getId( ) == nParent )
+            {
+                _pageEvent.fire( new PageEvent( parent, PageEvent.PAGE_CONTENT_MODIFIED ) );
+            }
+        }
+    }
+
+    /**
+     * The child pages of a page, in their order, without a page
+     *
+     * @param nParentPageId
+     *            the parent page
+     * @param nExcludedPageId
+     *            the page left out
+     * @return the identifiers of the child pages
+     */
+    private static List<Integer> getChildPageIdsWithout( int nParentPageId, int nExcludedPageId )
+    {
+        List<Integer> listIds = new ArrayList<>( );
+
+        for ( Page child : PageHome.getChildPagesMinimalData( nParentPageId ) )
+        {
+            if ( child.getId( ) != nExcludedPageId )
+            {
+                listIds.add( child.getId( ) );
+            }
+        }
+
+        return listIds;
+    }
+
+    /**
+     * Gives the child pages of a page the orders 1 to n, in the order of the list
+     *
+     * @param nParentPageId
+     *            the parent page
+     * @param listIds
+     *            the identifiers of the child pages, in their new order
+     */
+    private static void renumberChildPages( int nParentPageId, List<Integer> listIds )
+    {
+        for ( int i = 0; i < listIds.size( ); i++ )
+        {
+            PageHome.updatePosition( listIds.get( i ), nParentPageId, i + 1 );
+        }
     }
 
     /**

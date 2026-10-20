@@ -1,207 +1,466 @@
 @import url(tabler-icons.min.css);
 
+/* Dialog adding a portlet: the tiles of the "Add" tab of AdminSite.jsp */
 .lutece-dialog {
-    --lutece-ds-white: #FFFFFF;
-    --lutece-ds-neutral-300: #B8C3D1;
-    --lutece-ds-neutral-900: #0A1A2B;
-    --lutece-ds-border-width-md: .2rem;
-    --lutece-ds-sp-2xs: .4rem;
-    --lutece-ds-sp-xs: .8rem;
-    --lutece-ds-sp-md: 2.6rem;
-    --lutece-ds-sp-lg: 4rem;
-    --lutece-ds-fs-3xl: 2.4rem;
-    --lutece-ds-shadow-card-filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .16));
-    background-color: var(--lutece-ds-white);
-    top: -200px;
-    border: 0;
+    --lutece-dialog-line: #dce1e7;
+    --lutece-dialog-ink: #1d273b;
+    --lutece-dialog-muted: #5c6b7f;
+    --lutece-dialog-accent: #206bc4;
+    position: fixed;
+    inset: 0;
+    width: min(760px, calc(100vw - 32px));
+    max-height: calc(100vh - 64px);
+    margin: auto;
     padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: var(--lutece-dialog-ink);
+    box-shadow: 0 24px 48px rgba(10, 26, 43, .24), 0 2px 6px rgba(10, 26, 43, .12);
+    font: 400 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif
+}
+
+.lutece-dialog *,
+.lutece-dialog *::before,
+.lutece-dialog *::after {
+    box-sizing: border-box
 }
 
 .lutece-dialog::backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--lutece-ds-neutral-900);
-    animation: none;
-    opacity: .5;
-}
-
-.lutece-dialog .lutece-dialog-fullscreen {
-    max-width: none;
-    width: 100vw;
-    height: 100%;
-    margin: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: grid;
-    place-items: center
-}
-
-.lutece-dialog .lutece-dialog-fullscreen .lutece-dialog-content {
-    width: 100%;
-    height: 100%;
-    border-radius: 0
+    background-color: rgba(10, 26, 43, .5)
 }
 
 .lutece-dialog .lutece-dialog-content {
-    border: var(--lutece-ds-border-width-md) solid var(--lutece-ds-neutral-300)
-}
-
-.lutece-dialog .lutece-dialog-content .lutece-dialog-header {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    max-height: calc(100vh - 64px)
+}
+
+.lutece-dialog .lutece-dialog-header {
+    display: flex;
     align-items: center;
-    border-bottom: var(--lutece-ds-border-width-md) solid var(--lutece-ds-neutral-300);
-    padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-md)
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px 14px 20px;
+    border-bottom: 1px solid var(--lutece-dialog-line)
 }
 
-.lutece-dialog .lutece-dialog-content .lutece-dialog-body {
-    padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-md)
+.lutece-dialog .lutece-dialog-title {
+    margin: 0;
+    color: var(--lutece-dialog-ink);
+    font: 600 16px/1.3 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif
 }
 
-.lutece-dialog .lutece-dialog-content .lutece-dialog-body .btn-new-portlet {
-    height: auto !important
+.lutece-dialog .lutece-dialog-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--lutece-dialog-muted);
+    font-size: 18px;
+    cursor: pointer
 }
 
+.lutece-dialog .lutece-dialog-close:hover {
+    background-color: rgba(10, 26, 43, .07);
+    color: var(--lutece-dialog-ink)
+}
+
+.lutece-dialog .lutece-dialog-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap
+}
+
+.lutece-dialog .lutece-dialog-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 16px 20px;
+    overflow-y: auto
+}
+
+.lutece-dialog .lutece-dialog-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+.lutece-dialog .lutece-dialog-types li {
+    display: flex;
+    margin: 0;
+    padding: 0
+}
+
+.lutece-dialog .lutece-dialog-types li::before {
+    content: none
+}
+
+.lutece-dialog .lutece-dialog-type {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid var(--lutece-dialog-line);
+    border-radius: 6px;
+    color: var(--lutece-dialog-ink);
+    font-size: 14px;
+    text-decoration: none;
+    transition: border-color .15s, box-shadow .15s
+}
+
+.lutece-dialog .lutece-dialog-type:hover,
+.lutece-dialog .lutece-dialog-type:focus-visible {
+    border-color: var(--lutece-dialog-accent);
+    box-shadow: 0 0 0 3px rgba(32, 107, 196, .12);
+    color: var(--lutece-dialog-ink);
+    text-decoration: none
+}
+
+.lutece-dialog .lutece-dialog-type:focus-visible {
+    outline: 2px solid var(--lutece-dialog-accent);
+    outline-offset: 1px
+}
+
+.lutece-dialog .lutece-dialog-type-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    font-size: 18px
+}
+
+.lutece-dialog .lutece-dialog-type-name {
+    min-width: 0;
+    overflow-wrap: anywhere
+}
+
+.lutece-dialog .lutece-dialog-tint-0 { background: #fdf0e6; color: #a8520e }
+.lutece-dialog .lutece-dialog-tint-1 { background: #e9f3ee; color: #26734a }
+.lutece-dialog .lutece-dialog-tint-2 { background: #efeafb; color: #5b3fb0 }
+.lutece-dialog .lutece-dialog-tint-3 { background: #e6f4f7; color: #0f6b7c }
+.lutece-dialog .lutece-dialog-tint-4 { background: #fbeaf0; color: #a1305c }
+.lutece-dialog .lutece-dialog-tint-5 { background: #eef1f6; color: #3d4f6e }
+
+.lutece-dialog .lutece-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 20px;
+    border-top: 1px solid var(--lutece-dialog-line)
+}
+
+.lutece-dialog .lutece-dialog-button {
+    min-height: 34px;
+    padding: 0 14px;
+    border: 1px solid var(--lutece-dialog-line);
+    border-radius: 6px;
+    background: #ffffff;
+    color: var(--lutece-dialog-ink);
+    font: 500 14px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    cursor: pointer
+}
+
+.lutece-dialog .lutece-dialog-button:hover {
+    background-color: #f1f3f6
+}
+
+/*
+ * Admin layer of the page preview: columns, portlets and their toolbars.
+ * Sizes are in px so that they do not follow the root font size of the front office theme.
+ */
+.lutece-admin-column,
+.lutece-admin-portlet {
+    --lutece-admin-accent: #206bc4;
+    --lutece-admin-accent-soft: rgba(32, 107, 196, .08);
+    --lutece-admin-line: #b8c3d1;
+    --lutece-admin-ink: #1d273b;
+    --lutece-admin-muted: #5c6b7f;
+    --lutece-admin-surface: #ffffff;
+    --lutece-admin-warning: #f59f00;
+    --lutece-admin-danger: #d63939;
+    --lutece-admin-shadow: 0 4px 14px rgba(10, 26, 43, .16), 0 1px 3px rgba(10, 26, 43, .12);
+    --lutece-admin-radius: 8px;
+    --lutece-admin-speed: .15s
+}
+
+/* Column: a light dashed frame, a header tab on its top edge */
 .lutece-admin-column {
-    padding: var(--spacing-1);
     position: relative;
-    border: 2px dotted transparent;
-    border-radius: var(--lutece-ds-sp-md)
+    margin-block: 22px 8px;
+    padding: 18px 8px 8px;
+    border: 1px dashed var(--lutece-admin-line);
+    border-radius: var(--lutece-admin-radius);
+    transition: border-color var(--lutece-admin-speed), background-color var(--lutece-admin-speed)
 }
 
-.lutece-admin-column:has(.lutece-admin-column-outline:empty),
-.lutece-admin-column:hover {
-    --default-border-radius: .25rem;
-    border-color: var(--lutece-ds-neutral-300);
-    margin-block-start: var(--lutece-ds-sp-xs)
+.lutece-admin-column:hover,
+.lutece-admin-column:focus-within {
+    border-color: var(--lutece-admin-muted)
+}
+
+.lutece-admin-column .lutece-column-toolbar {
+    position: absolute;
+    top: 0;
+    left: 12px;
+    z-index: 400;
+    display: flex;
+    align-items: stretch;
+    transform: translateY(-50%);
+    background-color: var(--lutece-admin-surface);
+    border: 1px solid var(--lutece-admin-line);
+    border-radius: 999px;
+    overflow: hidden;
+    font: 600 12px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    transition: border-color var(--lutece-admin-speed), box-shadow var(--lutece-admin-speed)
+}
+
+.lutece-admin-column:hover > .lutece-column-toolbar,
+.lutece-admin-column:focus-within > .lutece-column-toolbar {
+    border-color: var(--lutece-admin-muted);
+    box-shadow: var(--lutece-admin-shadow)
+}
+
+.lutece-admin-column .lutece-column-toolbar .lutece-admin-column-id {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0 10px;
+    border-radius: 0;
+    background: var(--lutece-admin-ink) !important;
+    color: #ffffff !important;
+    font: inherit;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    box-shadow: none
+}
+
+.lutece-admin-column .lutece-column-toolbar .btn-column-add-portlet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 26px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-left: 1px solid var(--lutece-admin-line);
+    border-radius: 0;
+    background-color: var(--lutece-admin-surface);
+    color: var(--lutece-admin-accent);
+    font-size: 16px;
+    line-height: 1;
+    box-shadow: none
+}
+
+.lutece-admin-column .lutece-column-toolbar .btn-column-add-portlet:hover,
+.lutece-admin-column .lutece-column-toolbar .btn-column-add-portlet:focus-visible {
+    background-color: var(--lutece-admin-accent);
+    color: #ffffff
+}
+
+.lutece-admin-column .lutece-column-toolbar .btn-column-add-portlet:focus-visible {
+    outline: 2px solid var(--lutece-admin-accent);
+    outline-offset: -4px;
+    box-shadow: inset 0 0 0 4px #ffffff
+}
+
+/* Empty column: a drop zone carrying the "add a portlet" invitation */
+.lutece-admin-column:has(.lutece-admin-column-outline:empty) {
+    min-height: 112px;
+    background-color: rgba(184, 195, 209, .12)
 }
 
 .lutece-admin-column:has(.lutece-admin-column-outline:empty)::before {
     content: var(--column-empty-text);
     display: grid;
     place-items: center;
-    text-align: center;
-    grid-template-columns: 1fr;
-    grid-auto-rows: 20vh;
-    font-size: var(--lutece-ds-fs-3xl);
-    font-weight: 600
+    min-height: 86px;
+    padding: 8px;
+    color: var(--lutece-admin-muted);
+    font: 500 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    text-align: center
 }
 
 .lutece-admin-column:has(.lutece-admin-column-outline:empty) .lutece-admin-column-outline {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%
+    inset: 0
 }
 
-.lutece-admin-column .lutece-column-toolbar {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 400;
-    padding: var(--lutece-ds-sp-2xs)
-}
-
-.lutece-admin-column:has(.lutece-admin-column-outline:empty) .lutece-column-toolbar,
-.lutece-admin-column:hover .lutece-column-toolbar {
-    display: flex
-}
-
-.lutece-admin-column:has(.lutece-admin-column-outline:empty) .lutece-admin-column-id,
-.lutece-admin-column:hover .lutece-column-toolbar .lutece-admin-column-id {
-    position: absolute;
-    top: .25rem;
-    left: .25rem;
-    border-radius: 15px;
-    padding: var(--lutece-ds-sp-xs);
-    color: var(--lutece-ds-white);
-    box-shadow: var(--lutece-ds-shadow-card-filter)
-}
-
-.lutece-admin-column .lutece-column-toolbar .btn-column-add-portlet {
-    position: absolute;
-    top: .1rem;
-    right: .1rem;
-    padding: .75rem 1.4rem;
-    border-top-right-radius: 15px;
-    transition: border-bottom-left-radius .5s ease-out
-}
-
-.lutece-admin-column .lutece-column-toolbar .btn-column-add-portlet:hover {
-    border-bottom-left-radius: 15px
-}
-
-.lutece-admin-column:hover .lutece-column-toolbar .btn-column-add-portlet::before {
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px
-}
-
-.lutece-admin-portlet {
-    padding: var(--spacing-3);
-    border: var(--lutece-ds-border-width-md);
+/* Column receiving a portlet being dragged */
+.lutece-admin-column:has(.lutece-dragging),
+body:has(.lutece-dragging) .lutece-admin-column:has(.lutece-admin-column-outline:empty) {
+    border-color: var(--lutece-admin-accent);
     border-style: dashed;
-    border-color: transparent;
-    border-radius: var(--lutece-ds-sp-lg);
-    position: relative;
-    margin-bottom: var(--lutece-ds-sp-lg);
-    min-height: auto;
-    transition: min-height 2s ease-in-out
+    background-color: var(--lutece-admin-accent-soft)
 }
 
-.lutece-admin-portlet:hover {
-    border-color: var(--lutece-ds-neutral-300)
+body:has(.lutece-dragging) .lutece-admin-column:has(.lutece-admin-column-outline:empty)::before {
+    color: var(--lutece-admin-accent)
+}
+
+/* Portlet: an outline that does not move the layout, the toolbar on its top right corner */
+.lutece-admin-portlet {
+    position: relative;
+    margin-block: 6px 14px;
+    padding: 12px;
+    border-radius: var(--lutece-admin-radius);
+    outline: 1px solid transparent;
+    outline-offset: 0;
+    transition: outline-color var(--lutece-admin-speed), background-color var(--lutece-admin-speed)
+}
+
+.lutece-admin-portlet:last-child {
+    margin-block-end: 0
+}
+
+.lutece-admin-portlet:hover,
+.lutece-admin-portlet:focus-within {
+    outline: 2px solid var(--lutece-admin-accent);
+    background-color: var(--lutece-admin-accent-soft)
+}
+
+.lutece-admin-portlet.lutece-dragging {
+    opacity: .55;
+    outline: 2px dashed var(--lutece-admin-accent)
+}
+
+/* Suspended portlet: hatched and faded, so that it reads as absent from the published page */
+.lutece-admin-portlet:has(> .lutece-admin-toolbar[data-portlet-published="false"]) {
+    outline: 1px dashed var(--lutece-admin-warning);
+    background-image: repeating-linear-gradient(-45deg, rgba(245, 159, 0, .07) 0 10px, transparent 10px 20px)
+}
+
+.lutece-admin-portlet:has(> .lutece-admin-toolbar[data-portlet-published="false"]) > :not(.lutece-admin-toolbar) {
+    opacity: .6
+}
+
+.lutece-admin-portlet:has(> .lutece-admin-toolbar[data-portlet-published="false"]):hover,
+.lutece-admin-portlet:has(> .lutece-admin-toolbar[data-portlet-published="false"]):focus-within {
+    outline: 2px solid var(--lutece-admin-warning)
 }
 
 .lutece-admin-portlet .lutece-admin-toolbar {
     position: absolute;
-    right: .25rem;
-    top: .25rem;
+    top: 0;
+    right: 12px;
     z-index: 120;
     display: flex;
     align-items: center;
+    gap: 2px;
+    padding: 3px;
+    transform: translateY(-50%);
+    background-color: var(--lutece-admin-surface);
+    border: 1px solid var(--lutece-admin-line);
+    border-radius: var(--lutece-admin-radius);
+    box-shadow: var(--lutece-admin-shadow);
     opacity: 0;
-    transition: opacity 1s ease-out;
-    background-color: var(--lutece-ds-white);
-    padding: 2px 5px;
-    border: 4px solid var(--lutece-ds-neutral-300);
-    border-radius: 8px;
-    box-shadow: 4px 5px 12px 4px #dddddd
+    pointer-events: none;
+    transition: opacity var(--lutece-admin-speed) ease-out
 }
 
-.lutece-admin-portlet:first-child .lutece-admin-toolbar {
-    right: 4.5rem
+.lutece-admin-portlet:hover > .lutece-admin-toolbar,
+.lutece-admin-portlet:focus-within > .lutece-admin-toolbar {
+    opacity: 1;
+    pointer-events: auto
 }
 
-.lutece-admin-portlet:hover .lutece-admin-toolbar {
-    opacity: 1
-}
-
+/* Order badge, also the handle the portlet is dragged by */
 .lutece-admin-portlet .lutece-admin-toolbar .badge {
-    color: var(--lutece-ds-white) !important;
-    margin: -1.5px .5px -1.5px -5px;
-    padding: 1.2rem;
-    border-start-start-radius: 5px !important;
-    border-end-start-radius: 5px !important;
-    border-start-end-radius: 0 !important;
-    border-end-end-radius: 0 !important
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    margin: 0 2px 0 0;
+    padding: 0 6px;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    font: 700 13px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    cursor: grab
+}
+
+.lutece-admin-portlet .lutece-admin-toolbar .badge.bg-warning {
+    color: var(--lutece-admin-ink) !important
+}
+
+.lutece-admin-portlet .lutece-admin-toolbar .lutece-admin-toolbar-button {
+    display: flex;
+    align-items: center;
+    gap: 2px
+}
+
+.lutece-admin-portlet .lutece-admin-toolbar form {
+    display: flex;
+    margin: 0
 }
 
 .lutece-admin-portlet .lutece-admin-toolbar .btn {
-    font-size: 1.5rem;
-    padding: 0 .5rem !important;
-    margin: 0 .5rem;
-    opacity: .75;
-    min-height: 3rem
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    min-height: 0;
+    margin: 0;
+    padding: 0 !important;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--lutece-admin-ink);
+    font-size: 18px;
+    line-height: 1;
+    box-shadow: none;
+    transition: background-color var(--lutece-admin-speed)
 }
 
 .lutece-admin-portlet .lutece-admin-toolbar .btn:hover {
-    opacity: 1
+    background-color: rgba(10, 26, 43, .07)
+}
+
+.lutece-admin-portlet .lutece-admin-toolbar .btn:focus-visible {
+    outline: 2px solid var(--lutece-admin-accent);
+    outline-offset: 1px
+}
+
+/* Delete apart from the other actions */
+.lutece-admin-portlet .lutece-admin-toolbar form[action$="RemovePortlet.jsp"] {
+    margin-inline-start: 3px;
+    padding-inline-start: 3px;
+    border-inline-start: 1px solid var(--lutece-admin-line)
+}
+
+.lutece-admin-portlet .lutece-admin-toolbar form[action$="RemovePortlet.jsp"] .btn:hover {
+    background-color: rgba(214, 57, 57, .1)
+}
+
+/* No hover on touch screens: the toolbars stay visible */
+@media (hover: none) and (pointer: coarse) {
+    .lutece-admin-portlet .lutece-admin-toolbar {
+        opacity: 1;
+        pointer-events: auto
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lutece-admin-column,
+    .lutece-admin-column .lutece-column-toolbar,
+    .lutece-admin-portlet,
+    .lutece-admin-portlet .lutece-admin-toolbar,
+    .lutece-admin-portlet .lutece-admin-toolbar .btn {
+        transition: none
+    }
 }

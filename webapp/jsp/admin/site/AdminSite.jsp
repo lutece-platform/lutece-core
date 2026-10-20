@@ -9,7 +9,3 @@ ${ adminPageJspBean.init( pageContext.request, AdminPageJspBean.RIGHT_MANAGE_ADM
 
 <%@ include file="../AdminFooter.jsp"%>
 
-<%@page import="fr.paris.lutece.portal.web.admin.AdminMapJspBean"%>
-
-${ adminMapJspBean.init( pageContext.request, AdminMapJspBean.RIGHT_MANAGE_ADMIN_SITE ) }
-${ adminMapJspBean.getMap( pageContext.request ) }

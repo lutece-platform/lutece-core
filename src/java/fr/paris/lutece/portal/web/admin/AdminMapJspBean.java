@@ -47,9 +47,12 @@ import fr.paris.lutece.portal.web.menu.MenuItem.MenuTreeBuilder;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
@@ -107,16 +110,8 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
      */
     public String getMapTemplate( HttpServletRequest request )
     {
-        int nLevel = 0;
-
-        String strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
-        Integer nCurrentPageId = null != strCurrentPageId ? Integer.parseInt(strCurrentPageId) : null;
-        
-        List<MenuItem> mapItems = new ArrayList<MenuItem>( );
-        buildMenu( request, mapItems, PortalService.getRootPageId( ), nLevel, nCurrentPageId );
-
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_MAP_ITEMS, MenuTreeBuilder.buildTree( mapItems ) );
+        model.put( MARK_MAP_ITEMS, MenuTreeBuilder.buildTree( getMapItems( request ) ) );
         model.put( "site_path", AppPropertiesService.getProperty( PROPERTY_ADMIN_PATH ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_TREE, getLocale( ), model );
@@ -124,43 +119,93 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         return t.getHtml();
     }
     
-    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nLevel, Integer nCurrentPageId )
+    /**
+     * The pages of the site the user may view, in the order of the tree: each page followed by its child pages, with its level
+     *
+     * @param request
+     *            the request, its page_id the current page
+     * @return the pages, flat
+     */
+    public List<MenuItem> getMapItems( HttpServletRequest request )
     {
-        Page page = PageHome.getPage( nPageId );
+        String strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
+        Integer nCurrentPageId = null;
 
-        User user = AdminUserService.getAdminUser( request );
-        String strPageId = Integer.toString( nPageId );
-
-        boolean bAuthorizationPage;
-
-        if ( nPageId == PortalService.getRootPageId( ) )
+        try
         {
-            bAuthorizationPage = true;
+            nCurrentPageId = ( strCurrentPageId != null ) ? Integer.valueOf( strCurrentPageId ) : null;
         }
-        else
+        catch( NumberFormatException e )
         {
-            // Control the node_status
-            if ( page.getNodeStatus( ) != 0 )
-            {
-                Page parentPage = PageHome.getPage( page.getParentPageId( ) );
-                int nParentPageNodeStatus = parentPage.getNodeStatus( );
-                int nParentPageId = parentPage.getId( );
-
-                // If 0 the page have a node authorization, else
-                // the parent page node_status must be controlled
-                // until it is equal to 0
-                while ( nParentPageNodeStatus != 0 )
-                {
-                    parentPage = PageHome.getPage( nParentPageId );
-                    nParentPageNodeStatus = parentPage.getNodeStatus( );
-                    nParentPageId = parentPage.getParentPageId( );
-                }
-
-                strPageId = Integer.toString( parentPage.getId( ) );
-            }
-
-            bAuthorizationPage = RBACService.isAuthorized( Page.RESOURCE_TYPE, strPageId, PageResourceIdService.PERMISSION_VIEW, user );
+            // no current page
         }
+
+        return getMapItems( AdminUserService.getAdminUser( request ), nCurrentPageId );
+    }
+
+    /**
+     * The pages of the site a user may view, in the order of the tree: each page followed by its child pages, with its level. The pages
+     * are read in one query, ordered by parent then by order, and the tree is walked in memory; a page the user may not view is left
+     * out, its child pages are not
+     *
+     * @param user
+     *            the user
+     * @param nCurrentPageId
+     *            the current page, or null
+     * @return the pages, flat
+     */
+    public static List<MenuItem> getMapItems( User user, Integer nCurrentPageId )
+    {
+        Map<Integer, Page> mapPages = new HashMap<>( );
+        Map<Integer, List<Page>> mapChildren = new HashMap<>( );
+
+        for ( Page page : PageHome.getAllPagesMinimalData( ) )
+        {
+            mapPages.put( page.getId( ), page );
+            mapChildren.computeIfAbsent( page.getParentPageId( ), k -> new ArrayList<>( ) ).add( page );
+        }
+
+        List<MenuItem> mapItems = new ArrayList<>( );
+        Page root = mapPages.get( PortalService.getRootPageId( ) );
+
+        if ( root != null )
+        {
+            buildMenu( user, mapItems, root, 0, nCurrentPageId, mapPages, mapChildren, new HashSet<>( ) );
+        }
+
+        return mapItems;
+    }
+
+    /**
+     * Adds a page, if the user may view it, then its child pages, depth first; a loop in the tree stops at the page seen again
+     *
+     * @param user
+     *            the user
+     * @param flatMenu
+     *            the pages listed
+     * @param page
+     *            the page
+     * @param nLevel
+     *            its depth, 0 for the root
+     * @param nCurrentPageId
+     *            the current page, or null
+     * @param mapPages
+     *            the pages of the site by identifier
+     * @param mapChildren
+     *            the child pages of each page, in their order
+     * @param setVisited
+     *            the pages already seen
+     */
+    private static void buildMenu( User user, List<MenuItem> flatMenu, Page page, int nLevel, Integer nCurrentPageId, Map<Integer, Page> mapPages,
+            Map<Integer, List<Page>> mapChildren, Set<Integer> setVisited )
+    {
+        if ( !setVisited.add( page.getId( ) ) )
+        {
+            return;
+        }
+
+        boolean bAuthorizationPage = ( page.getId( ) == PortalService.getRootPageId( ) ) || RBACService.isAuthorized( Page.RESOURCE_TYPE,
+                Integer.toString( getAuthorizationNode( page, mapPages ) ), PageResourceIdService.PERMISSION_VIEW, user );
 
         if ( bAuthorizationPage )
         {
@@ -172,9 +217,38 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
             flatMenu.add( menuItem );
         }
 
-        for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
+        for ( Page pageChild : mapChildren.getOrDefault( page.getId( ), Collections.emptyList( ) ) )
         {
-            buildMenu( request, flatMenu, pageChild.getId( ), nLevel + 1, nCurrentPageId );
+            buildMenu( user, flatMenu, pageChild, nLevel + 1, nCurrentPageId, mapPages, mapChildren, setVisited );
         }
+    }
+
+    /**
+     * The page whose rights a page follows: itself when it is an authorization node (node_status 0), else the closest such ancestor
+     *
+     * @param page
+     *            the page
+     * @param mapPages
+     *            the pages of the site by identifier
+     * @return the identifier of the authorization node
+     */
+    private static int getAuthorizationNode( Page page, Map<Integer, Page> mapPages )
+    {
+        Page node = page;
+        Set<Integer> setVisited = new HashSet<>( );
+
+        while ( node.getNodeStatus( ) != 0 && setVisited.add( node.getId( ) ) )
+        {
+            Page parent = mapPages.get( node.getParentPageId( ) );
+
+            if ( parent == null )
+            {
+                break;
+            }
+
+            node = parent;
+        }
+
+        return node.getId( );
     }
 }

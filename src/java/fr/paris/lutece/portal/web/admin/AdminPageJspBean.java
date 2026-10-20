@@ -38,6 +38,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.spi.CDI;
@@ -46,10 +47,13 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
+import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
@@ -117,14 +121,25 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PAGE_TEMPLATE = "page_template";
     private static final String MARK_INDEX_ROW = "index_row";
     private static final String MARK_AUTORIZATION = "authorization";
+    private static final String MARK_CAN_MANAGE_PAGE = "can_manage_page";
+    private static final String MARK_CAN_MANAGE_PORTLETS = "can_manage_portlets";
     private static final String MARK_PAGE_BLOCK = "page_block";
     private static final String MARK_PAGE_UPDATE_DATE = "page_update_date";
     private static final String MARK_ADMIN_USER_LANGUAGE = "admin_user_language";
+    private static final String MARK_SITE_PAGES = "site_pages";
+    private static final String MARK_MOVE_PAGE_TOKEN = "move_page_token";
+    private static final String MARK_POSITION_TOKEN = "position_token";
+    private static final String MARK_PAGE_PORTLETS = "page_portlets";
+    private static final String MARK_PAGE_TEMPLATE_INFO = "page_template_info";
+    private static final String MARK_PAGE_UPDATE_DATE_INFO = "page_update_date_info";
+    private static final String MARK_PARAM_BLOCK = "param_block";
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
     private static final String PARAMETER_BLOCK = "param_block";
+    private static final String PARAMETER_BEFORE_ID = "before_id";
+    private static final String PARAMETER_AFTER_ID = "after_id";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
     private static final int BLOCK_SEARCH = 1;
     private static final int BLOCK_PROPERTY = 2;
@@ -149,6 +164,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_PATH = "jsp/admin/site/";
     private static final String JSP_REMOVE_PAGE = JSP_PATH + "DoRemovePage.jsp";
+    private static final String JSP_MOVE_PAGE = JSP_PATH + "DoMovePage.jsp";
 
     // Messages
     private static final String MESSAGE_TITLE_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInTitleName";
@@ -354,6 +370,91 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             }
         }
         return null;
+    }
+
+    /**
+     * Moves a page in the tree of the site, dragged in the tree of the site administration: it takes a place among the child pages of a
+     * parent, the other child pages keeping their order around it. The place is told by a sister page, the page going before it
+     * (before_id) or after it (after_id), or by none, the page going last: the tree the user sees leaves out the pages the user may not
+     * view, a place counted in it would not be the place among all the child pages. A missing, negative or out of range number is
+     * refused, and so is an unknown page (it loads with the identifier 0)
+     *
+     * @param request
+     *            The http request, with the page, its parent and the sister page it goes before or after, if any
+     * @return The url of the page in the site administration, or of an error message
+     * @throws AccessDeniedException
+     *             if the security token is invalid, or if the user may not manage the page or its new parent
+     */
+    public String doMovePage( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !getSecurityTokenService( ).validate( request, JSP_MOVE_PAGE ) )
+        {
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        }
+
+        int nPageId = NumberUtils.toInt( request.getParameter( Parameters.PAGE_ID ), -1 );
+        int nParentPageId = NumberUtils.toInt( request.getParameter( Parameters.PARENT_ID ), -1 );
+        String strBeforeId = request.getParameter( PARAMETER_BEFORE_ID );
+        String strAfterId = request.getParameter( PARAMETER_AFTER_ID );
+        int nSiblingId = NumberUtils.toInt( ( strBeforeId != null ) ? strBeforeId : strAfterId, -1 );
+
+        if ( nPageId < 0 || nParentPageId < 0 || ( ( strBeforeId != null || strAfterId != null ) && nSiblingId < 0 ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        Page page = PageHome.getPageWithoutImageContent( nPageId );
+
+        if ( page.getId( ) != nPageId || !PageHome.checkPageExist( nParentPageId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+        }
+
+        if ( nPageId == PortalService.getRootPageId( ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ROOT_PAGE_FORBIDDEN, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !_pageService.isAuthorizedAdminPage( nPageId, PageResourceIdService.PERMISSION_MANAGE, getUser( ) )
+                || !_pageService.isAuthorizedAdminPage( nParentPageId, PageResourceIdService.PERMISSION_MANAGE, getUser( ) ) )
+        {
+            throw new AccessDeniedException( "User " + getUser( ) + " may not move the page " + nPageId + " under the page " + nParentPageId );
+        }
+
+        if ( nParentPageId != page.getParentPageId( ) )
+        {
+            // The checks of a new parent in the properties form: an existing page, neither this page nor one of its descendants. They
+            // change the page they are given: a copy, the page keeps its parent until it moves
+            Page check = new Page( );
+            check.setId( page.getId( ) );
+            check.setParentPageId( page.getParentPageId( ) );
+            String strErrorUrl = getNewParentPageId( request, check, nParentPageId );
+
+            if ( strErrorUrl != null )
+            {
+                return strErrorUrl;
+            }
+        }
+
+        List<Integer> listSiblingIds = PageHome.getChildPagesMinimalData( nParentPageId ).stream( ).map( Page::getId )
+                .filter( nId -> nId != nPageId ).collect( Collectors.toList( ) );
+        int nPlace = listSiblingIds.size( ) + 1;
+
+        if ( nSiblingId >= 0 )
+        {
+            int nIndex = listSiblingIds.indexOf( nSiblingId );
+
+            if ( nIndex < 0 )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+            }
+
+            nPlace = ( strBeforeId != null ) ? nIndex + 1 : nIndex + 2;
+        }
+
+        _pageService.movePage( page, nParentPageId, nPlace );
+
+        return getUrlPage( nPageId );
     }
 
     /**
@@ -582,7 +683,27 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser( ) ) );
         model.put( MARK_PAGE, page );
-        ExtendableResourcePluginActionManager.fillModel( request, getUser( ), model, strPageId, Page.RESOURCE_TYPE );
+        // The workspace of the page: the tree of the site, the portlets of the page by column, its template and its last change
+        model.put( MARK_SITE_PAGES, CDI.current( ).select( AdminMapJspBean.class ).get( ).getMapItems( request ) );
+        model.put( MARK_MOVE_PAGE_TOKEN, getSecurityTokenService( ).getToken( request, JSP_MOVE_PAGE ) );
+        model.put( MARK_POSITION_TOKEN, getSecurityTokenService( ).getToken( request, AdminPagePortletJspBean.JSP_DO_MODIFY_POSITION ) );
+        // The portlets tab, for the users who may manage a type of portlet (RBAC), listing the portlets of the page they may manage, as the
+        // preview shows the toolbar of those only (PortletContentService)
+        User user = getUser( );
+        List<Portlet> listPortlets = PortletHome.getPagePositions( page.getId( ) );
+        model.put( MARK_PAGE_PORTLETS, listPortlets.stream( )
+                .filter( portlet -> RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
+                .collect( Collectors.toList( ) ) );
+        model.put( MARK_CAN_MANAGE_PORTLETS, !RBACService
+                .getAuthorizedCollection( PortletTypeHome.getPortletTypesList( getLocale( ) ), PortletResourceIdService.PERMISSION_MANAGE, user ).isEmpty( ) );
+        model.put( MARK_PAGE_TEMPLATE_INFO, PageTemplateHome.findByPrimaryKey( page.getPageTemplateId( ) ) );
+        model.put( MARK_PAGE_UPDATE_DATE_INFO, ( page.getDateUpdate( ) != null ) ? DateUtil.getDateString( page.getDateUpdate( ), getLocale( ) ) : "" );
+        model.put( MARK_PARAM_BLOCK, nParamBlock );
+        // The properties and the child page tabs, and the button that adds a child page, for the users who may manage the page
+        model.put( MARK_CAN_MANAGE_PAGE, _pageService.isAuthorizedAdminPage( page.getId( ), PageResourceIdService.PERMISSION_MANAGE, getUser( ) ) );
+        // The extensions of the page (plugin extend) in their tab of the inspector
+        ExtendableResourcePluginActionManager.fillModel( request, getUser( ), model, strPageId, Page.RESOURCE_TYPE,
+                ExtendableResourcePluginActionManager.TEMPLATE_EXTENDABLE_RESOURCE_ACTION_LIST );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale( ), model );
 
