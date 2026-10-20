@@ -4,7 +4,7 @@ Description: Generates an HTML element for a box header with an optional title, 
 Parameters:
 - title (string, optional): the title of the box header.
 - i18nTitleKey (string, optional): the i18n key of the title of the box header.
-- titleLevel (string, optional): the HTML heading level for the title of the box header.
+- titleLevel (string, optional): the HTML heading level for the title of the box header, h2 by default so that it follows the h1 of the page header (the card-title class keeps its size).
 - titleClass (string, optional): the CSS class of the box title element.
 - titleParams (map, optional): additional HTML attributes of the box title element as name/value pairs, e.g. {'data-x': 'y'}. Default: {}.
 - titleActions (boolean, optional): whether to display title actions in the header.
@@ -36,7 +36,7 @@ Snippet:
     </@boxHeader>
 
 -->
-<#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h3' titleParams={} titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params={} boxTools=false skipHeader=false deprecated...>
+<#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h2' titleParams={} titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params={} boxTools=false skipHeader=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="card-header<#if class?has_content> ${class}</#if><#if skipHeader> skip-header</#if>"<@commonAttrs id=id params=params />>
 	<${titleLevel} class="card-title<#if titleClass?has_content> ${titleClass}</#if><#if showTitle=false> visually-hidden</#if>"<@commonAttrs params=titleParams />><#if title?has_content>${title}</#if><#if i18nTitleKey?has_content>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
