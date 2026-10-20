@@ -6,8 +6,7 @@ Description: Generates an HTML tfoot element to define the footer section of a t
 Parameters:
 - class (string, optional): CSS class(es) applied to the tfoot element. Default: ''.
 - id (string, optional): Unique identifier for the tfoot element. Default: ''.
-- params (string, optional): Additional HTML attributes for the tfoot element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -27,9 +26,9 @@ Snippet:
     </@cTable>
 
 --> 
-<#macro cTfoot class='' id='' params='' attrs={} deprecated...>
+<#macro cTfoot class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tfoot <#if class?has_content>thead-${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<tfoot <#if class?has_content>thead-${class!}</#if><@commonAttrs id=id params=params /> >
 <#nested>
 </tfoot>
 </#macro>

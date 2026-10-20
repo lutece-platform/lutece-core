@@ -12,8 +12,7 @@ Parameters:
 - size (string, optional): the size of the select field (e.g. "sm", "md", "lg").
 - sort (boolean, optional): whether to sort the options alphabetically by name.
 - multiple (integer, optional): the number of visible options when the select field is expanded. If set to a value greater than 1, the select field allows multiple selections.
-- params (string, optional): additional parameters to add to the select field.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - title (string, optional): the title attribute of the select field.
 - disabled (boolean, optional): whether the select field is disabled.
 - tabIndex (integer, optional): the tab index of the select field.
@@ -43,11 +42,11 @@ Snippet:
     </@select>
 
 -->
-<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false attrs={} deprecated...>
+<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params={} title='' disabled=false tabIndex=0 maxLength=0 mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = mandatory || ( propagateMandatory?? && propagateMandatory ) />
 <#local classBase = size?has_content?then( 'form-control form-control-' + size, '' ) />
-<select<@commonAttrs id=id classBase=classBase class=class classExtra=class?has_content?then( '', 'form-select' ) params=params attrs=attrs /> name="${name}"<#if (multiple &gt; 0)> multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if title?has_content> title="${title}"</#if><#if isRequired> required</#if><#if disabled> disabled</#if>>
+<select<@commonAttrs id=id classBase=classBase class=class classExtra=class?has_content?then( '', 'form-select' ) params=params /> name="${name}"<#if (multiple &gt; 0)> multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if title?has_content> title="${title}"</#if><#if isRequired> required</#if><#if disabled> disabled</#if>>
 <#if items?has_content>
 <#if sort=true>
 <#list items?sort_by("name") as item>

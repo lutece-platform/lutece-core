@@ -13,8 +13,7 @@ Parameters:
 - tabLabel (string, optional): the label of the tab.
 - tabIcon (string, optional): the icon of the tab.
 - tabClass (string, optional): the class of the tab content.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -31,9 +30,9 @@ Snippet:
     <@tabLink href='jsp/admin/ManageUsers.jsp' title='Manage Users' tabIcon='settings' tabClass='ms-auto' />
 
 -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params='' attrs={} deprecated...>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<@commonAttrs id=id params=params />>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
 <#local tabLinkAttrs = { 'role': 'tab', 'aria-selected': active?c, 'aria-controls': href?remove_beginning('#') } />
@@ -46,7 +45,7 @@ Snippet:
 <#if !href?has_content>
 	<#nested>
 <#else>
-	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title attrs=tabLinkAttrs>
+	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkAttrs>
 		<#if tabIcon?has_content><@icon style=tabIcon class='mr-1 me-1'/></#if> <#if tabLabel?has_content>${tabLabel!}<#else>${title!}</#if>
 		<#nested>
 	</@link>

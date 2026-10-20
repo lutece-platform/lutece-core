@@ -7,7 +7,7 @@ Parameters:
 - url (string, optional): the URL of a settings page for the widget.
 - class (string, optional): the class to apply to the widget element.
 - bodyClass (string, optional): the class to apply to the widget body element.
-- params (string, optional): additional parameters to add to the widget element.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - boxIcon (string, optional): a Tabler icon name shown on a light square before the title.
 - iconColor (string, optional): the Tabler color of that square (azure, green, purple...); 'primary' when empty.
 - subtitle (string, optional): a line of text under the title.
@@ -47,7 +47,7 @@ Snippet:
     </@adminDashboardWidget>
 
 -->
-<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='vmax-dvh-50 overflow-y-auto ' boxContentFooter='' actions=true actionMenu='' params='' boxIcon='' iconColor='' subtitle='' headerActions='' flush=false deprecated...>
+<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='vmax-dvh-50 overflow-y-auto ' boxContentFooter='' actions=true actionMenu='' params={} boxIcon='' iconColor='' subtitle='' headerActions='' flush=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#--
 	The header of the Tabler "card actions": the icon, the title and its subtitle on the left, the actions on the right: the buttons of

@@ -6,8 +6,7 @@ Description: Generates a form row container (wraps cRow) to organize form fields
 Parameters:
 - class (string, optional): CSS class for the row. Default: ''.
 - id (string, optional): the ID of the row. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Ligne de formulaire - @cFormRow"
@@ -31,8 +30,8 @@ Snippet:
     </@cFormRow>
 
 -->
-<#macro cFormRow class='' id='' params='' attrs={}>
-<@cRow class=class id=id params=params attrs=attrs >
+<#macro cFormRow class='' id='' params={}>
+<@cRow class=class id=id params=params >
 <#nested>
 </@cRow>
 </#macro>

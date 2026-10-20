@@ -6,15 +6,14 @@ Description: Generates a fieldset element with a specified class, ID, legend, an
 Parameters:
 - class (string, optional): additional classes to add to the fieldset.
 - fieldsetId (string, optional): the ID for the fieldset.
-- fieldsetParams (string, optional): additional parameters to add to the fieldset.
+- fieldsetParams (map, optional): additional HTML attributes of the fieldset as name/value pairs, e.g. {'data-x': 'y'}. Default: {}.
 - legend (string, optional): the text to use as the legend for the fieldset.
 - legendClass (string, optional): additional classes to add to the legend.
 - legendId (string, optional): the ID for the legend.
 - legendIcon (string, optional): the name of the icon to use in the legend.
-- legendParams (string, optional): additional parameters to add to the legend.
+- legendParams (map, optional): additional HTML attributes of the legend as name/value pairs, e.g. {'data-x': 'y'}. Default: {}.
 - hideLegend (list, optional): list of strings that, if non-empty, hide the legend.
 - disabled (boolean, optional): specifies whether the fieldset is disabled.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -38,12 +37,12 @@ Snippet:
     </@fieldSet>
 
 -->
-<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false attrs={} deprecated...>
+<#macro fieldSet class='' fieldsetId='' fieldsetParams={} legend='' legendClass='' legendId='' legendIcon='' legendParams={} hideLegend=[] disabled=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<fieldset<@commonAttrs id=fieldsetId classBase='mb-3' class=class params=fieldsetParams attrs=attrs /><#if disabled> disabled</#if>>
+<fieldset<@commonAttrs id=fieldsetId classBase='mb-3' class=class params=fieldsetParams /><#if disabled> disabled</#if>>
 <#if legend?has_content>
 	<#local legendFullClass = legendClass + ' ' + displaySettings( hideLegend, 'block' ) />
-	<legend<#if legendFullClass?trim?has_content> class="${legendFullClass?trim}"</#if><#if legendId?has_content> id="${legendId}"</#if><#if legendParams?has_content> ${legendParams?no_esc}</#if>><#if legendIcon?has_content><@icon style=legendIcon /> </#if>${legend}</legend>
+	<legend<#if legendFullClass?trim?has_content> class="${legendFullClass?trim}"</#if><#if legendId?has_content> id="${legendId}"</#if><@commonAttrs params=legendParams />><#if legendIcon?has_content><@icon style=legendIcon /> </#if>${legend}</legend>
 </#if>
 <#nested>
 </fieldset>

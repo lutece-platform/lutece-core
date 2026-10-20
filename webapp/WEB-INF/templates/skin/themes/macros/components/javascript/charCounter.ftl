@@ -12,7 +12,7 @@ Parameters:
 - dangerClass (string, optional): CSS class when character count exceeds the limit. Default: 'text-danger'.
 - id (string, optional): HTML id attribute. Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -25,7 +25,7 @@ Snippet:
     <@charcounter maxChars=500 selector='.description-field' title='Characters used' />
 
 -->
-<#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>
+<#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local charcounterTitle = title?has_content?then( title, i18n('portal.util.labelCharCount') ) />
 // Limite la saisie du Titre a n chars

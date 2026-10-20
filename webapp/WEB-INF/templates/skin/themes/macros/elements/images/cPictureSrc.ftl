@@ -9,8 +9,7 @@ Parameters:
 - type (string, optional): MIME type of the image resource (e.g., 'image/webp'). Default: ''.
 - class (string, optional): CSS class(es) applied to the source element. Default: ''.
 - id (string, optional): Unique identifier for the source element. Default: ''.
-- params (string, optional): Additional HTML attributes for the source element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -23,7 +22,7 @@ Snippet:
     </@cPicture>
 
 -->
-<#macro cPictureSrc srcset media='' type='' class='' id='' params='' attrs={} deprecated...>
+<#macro cPictureSrc srcset media='' type='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<source srcset="${srcset}" <#if media?has_content>media="${media!}"</#if><#if type?has_content> type="${type!}"</#if><@commonAttrs id=id class=class params=params attrs=attrs />>
+<source srcset="${srcset}" <#if media?has_content>media="${media!}"</#if><#if type?has_content> type="${type!}"</#if><@commonAttrs id=id class=class params=params />>
 </#macro>

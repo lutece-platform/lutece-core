@@ -6,8 +6,7 @@ Description: Generates an HTML picture element for responsive image rendering. W
 Parameters:
 - id (string, optional): Unique identifier for the picture element. Default: ''.
 - class (string, optional): CSS class(es) applied to the picture element. Default: ''.
-- params (string, optional): Additional HTML attributes for the picture element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Picture responsive - @cPicture
@@ -24,9 +23,9 @@ Snippet:
     </@cPicture>
 
 -->
-<#macro cPicture id='' class='' params='' attrs={} deprecated...>
+<#macro cPicture id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<picture<@commonAttrs id=id class=class params=params attrs=attrs />>
+<picture<@commonAttrs id=id class=class params=params />>
 <#nested/>
 </picture>
 </#macro>

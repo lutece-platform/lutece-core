@@ -6,8 +6,7 @@ Description: Generates an HTML tbody element to group the body rows of a table. 
 Parameters:
 - class (string, optional): CSS class(es) applied to the tbody element. Default: ''.
 - id (string, optional): Unique identifier for the tbody element. Default: ''.
-- params (string, optional): Additional HTML attributes for the tbody element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -24,9 +23,9 @@ Snippet:
     </@cTable>
 
 -->
-<#macro cTbody class='' id='' params='' attrs={} deprecated...>
+<#macro cTbody class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<tbody <#if class?has_content>${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<tbody <#if class?has_content>${class!}</#if><@commonAttrs id=id params=params /> >
 <#nested>
 </tbody>
 </#macro>

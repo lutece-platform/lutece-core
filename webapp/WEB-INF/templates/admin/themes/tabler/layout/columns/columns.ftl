@@ -31,8 +31,7 @@ Parameters:
 - class (string, optional): the CSS class of the column element.
 - align (string, optional): the text alignment of the column element (left, right, center, justify).
 - collapsed (boolean, optional): whether to add the "collapse" class to the column element (useful for hiding/showing columns).
-- params (string, optional): any additional attributes to include in the column element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -61,7 +60,7 @@ Snippet:
     </@columns>
 
 -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params='' attrs={} deprecated...>
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) />
 <#local classExtra += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
@@ -79,7 +78,7 @@ Snippet:
 </#if>
 <#-- a column without any class is a plain auto-layout column -->
 <#local classBase = ( class?has_content || classExtra?trim?has_content )?then( '', 'col' ) />
-<${tag}<@commonAttrs id=id classBase=classBase class=class classExtra=classExtra params=params attrs=attrs />>
+<${tag}<@commonAttrs id=id classBase=classBase class=class classExtra=classExtra params=params />>
 	<#nested>
 </${tag}>
 </#macro>

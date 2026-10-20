@@ -7,8 +7,7 @@ Parameters:
 - id (string, required): the ID of the progress bar.
 - description (string, optional): a description of the progress bar.
 - inputId (string, optional): the ID of the input field to use for the progress bar update.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -21,9 +20,9 @@ Snippet:
     <@passwordComplexity id='pwdComplexity' inputId='new_password' description='Password must contain at least 8 characters' />
 
 -->
-<#macro passwordComplexity id description='' params='' inputId='password' value='0' attrs={} >
+<#macro passwordComplexity id description='' params={} inputId='password' value='0' >
 <@deprecatedWarning args=deprecated />
-<div class="lutece-progress-wrapper "<@commonAttrs params=params attrs=attrs />>
+<div class="lutece-progress-wrapper "<@commonAttrs params=params />>
     <progress id="${id}" value="0" max="100" class="lutece-progress lutece-progress-danger"></progress>
     <span id="${id}-text" class="lutece-progress-text">0%</span>
     <div aria-live="polite" class="visually-hidden" id="${id}-status"></div>

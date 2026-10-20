@@ -6,8 +6,7 @@ Description: Generates a Bootstrap grid row element to contain columns.
 Parameters:
 - class (string, optional): Additional CSS class(es) for the row. Default: ''.
 - id (string, optional): Unique identifier for the row element. Default: ''.
-- params (string, optional): Additional HTML attributes for the row element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Ligne de grille - @cRow"
@@ -32,9 +31,9 @@ Snippet:
     </@cRow>
 
 -->
-<#macro cRow class='' id='' params='' attrs={} deprecated...>
+<#macro cRow class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cSection type='div' class='row ${class}' id=id params=params attrs=attrs>
+<@cSection type='div' class='row ${class}' id=id params=params>
 <#nested>
 </@cSection>
 </#macro>

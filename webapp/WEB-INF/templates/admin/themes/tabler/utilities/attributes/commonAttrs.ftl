@@ -1,8 +1,9 @@
 <#-- Macro: commonAttrs
 
-Description: Writes the attributes every macro shares: id, class, params and attrs. It is the single
-place where they are written, so the escaping rule of these attributes is decided once for all the
-macros. It writes nothing for an empty value, and each attribute is preceded by a space.
+Description: Writes the attributes every macro shares: id, class and params. It is the single place where they are
+written, so the escaping rule of these attributes is decided once for all the macros: it calls the htmlAttributes
+function of the core (HtmlAttributesMethod), which writes each attribute preceded by a space and nothing for an empty
+value of the macro.
 The same macro is declared for the front office (skin/themes/macros/utilities/functions/commonAttrs.ftl):
 keep both files identical.
 
@@ -10,52 +11,31 @@ Parameters:
 - id (string, optional): the id attribute.
 - classBase (string, optional): classes the calling macro writes before class, as a plain string
   (e.g. 'btn btn-primary').
-- class (string or markup, optional): the class parameter of the calling macro, as its caller passed
-  it. It is written as is, never rewritten.
+- class (string or markup, optional): the class parameter of the calling macro, as its caller passed it.
 - classExtra (string, optional): classes the calling macro adds after class, as a plain string. A
-  macro never rewrites its class parameter: it accumulates its own classes in classBase or
-  classExtra, so the type of the parameter (string or markup) is kept.
-- params (string, optional): a bundle of attributes written as is, never escaped, e.g.
-  'data-x="1" aria-hidden="true"'. It is HTML written by the template author: it must never contain
-  data (no ${...} of a value a user can set, in a string literal or a capture), which goes to attrs.
-  Deprecated: use attrs.
-- attrs (hash, optional): additional attributes as name/value pairs, e.g. {'aria-hidden': 'true'}.
-  The caller gives only data, the macro writes the structure (name, equal sign, quotes). The value
-  is escaped like any other interpolation of the page, so it can never close the attribute or add
-  another one; a markup value (a captured block) is written as is. A true boolean writes a valueless
-  attribute ({'disabled': true}), a false boolean writes nothing ({'hidden': !visible}); any other
-  value is written, even empty (alt=""), exactly as a params bundle would. A name that is not a
-  valid attribute name is ignored.
+  macro never rewrites its class parameter: it accumulates its own classes in classBase or classExtra.
+- macroParams (map, optional): attributes the calling macro writes itself (role, aria-*, data-*...). They win over
+  params, but the classes, which are gathered.
+- params (map, optional): the params of the calling macro, as its caller passed them: additional HTML attributes as
+  name/value pairs, e.g. {'aria-label': label, 'hidden': !visible}. Names out of the allow list (event handlers,
+  URLs, styles...) are refused, every value is escaped (a markup included): a true boolean writes the name alone,
+  false writes nothing, any other value is written, even empty (alt=""). A string or a markup fails the rendering:
+  params is a map.
 
 Snippet:
 
     Inside a macro:
 
-    <#macro alertBox id='' class='' collapsed=false params='' attrs={} deprecated...>
+    <#macro alertBox id='' class='' collapsed=false params={} deprecated...>
     <#local classExtra = collapsed?then( 'collapse', '' ) />
-    <div<@commonAttrs id=id classBase='alert' class=class classExtra=classExtra params=params attrs=attrs />>
+    <div<@commonAttrs id=id classBase='alert' class=class classExtra=classExtra macroParams={'role': 'alert'} params=params />>
     ...
 
     Calling a macro with attributes:
 
-    <@div id='main' attrs={'role': 'region', 'aria-label': label, 'hidden': !visible}>...</@div>
+    <@div id='main' params={'role': 'region', 'aria-label': label, 'hidden': !visible}>...</@div>
 
 -->
-<#macro commonAttrs id='' classBase='' class='' classExtra='' params='' attrs={}>
-<#local before = classBase?trim?replace( '\\s+', ' ', 'r' ) />
-<#local after = classExtra?trim?replace( '\\s+', ' ', 'r' ) />
-<#if id?has_content> id="${id}"</#if><#t>
-<#if before?has_content || class?has_content || after?has_content> class="<#t>
-${before}<#if before?has_content && class?has_content> </#if>${class}<#if ( before?has_content || class?has_content ) && after?has_content> </#if>${after}"<#t>
-</#if>
-<#if params?has_content> ${params?no_esc}</#if><#t>
-<#list attrs as attrName, attrValue>
-<#if attrName?matches( '[A-Za-z_:][-A-Za-z0-9_:.]*' )>
-<#if attrValue?is_boolean>
-<#if attrValue> ${attrName}</#if><#t>
-<#else>
- ${attrName}="<#if attrValue?is_number>${attrValue?c}<#else>${attrValue}</#if>"<#rt>
-</#if>
-</#if>
-</#list>
+<#macro commonAttrs id='' classBase='' class='' classExtra='' macroParams={} params={}>
+${htmlAttributes( { 'id': id, 'class': classBase + ' ' + class + ' ' + classExtra } + macroParams, params )}<#t>
 </#macro>

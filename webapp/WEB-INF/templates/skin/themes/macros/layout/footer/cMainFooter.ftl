@@ -6,8 +6,7 @@ Description: Generates the main site footer with navigation links, social media 
 Parameters:
 - title (string, required): Name of the digital service displayed in the footer. Default: mainSite.
 - nested_pos (string, required): Position of nested content relative to the footer menu: 'before' or 'after'. Default: 'after'.
-- params (string, optional): Additional HTML attributes for the footer element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Pied de page principal - @cMainFooter"
@@ -27,13 +26,13 @@ Snippet:
     </@cMainFooter>
 
 -->
-<#macro cMainFooter title=mainSite nested_pos='after'  params='' attrs={} deprecated...>
+<#macro cMainFooter title=mainSite nested_pos='after'  params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local logoAltDS=dskey('portal.theme.site_property.layout.footer.logoFooter.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
 <#if !dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></#if>
 <#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
-<footer role="contentinfo"<@commonAttrs params=params attrs=attrs />>
+<footer role="contentinfo"<@commonAttrs params=params />>
   <div class="container">
     <div class="row align-items-center border-bottom py-5">
       <div class="col-lg-2">

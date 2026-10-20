@@ -9,8 +9,7 @@ Parameters:
 - titleClass (string, optional): CSS class(es) applied to the article title. Default: ''.
 - class (string, optional): CSS class(es) applied to the article element. Default: 'portlet'.
 - id (string, optional): Unique identifier for the article element. Default: ''.
-- params (string, optional): Additional HTML attributes for the article element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Article - @cArticle
@@ -30,9 +29,9 @@ Snippet:
     </@cArticle>
 
 -->
-<#macro cArticle title='' titleLevel=2 titleClass='' class='portlet' content=false id='' params='' attrs={} deprecated...>
+<#macro cArticle title='' titleLevel=2 titleClass='' class='portlet' content=false id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<article class="<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs /> >
+<article class="<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params /> >
 <#if title?has_content><@cTitle level=titleLevel class=titleClass>${title}</@cTitle></#if> 
 <#if !content>
 <#nested>

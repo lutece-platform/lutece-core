@@ -4,7 +4,6 @@ Parameters:
 - title (string): the title of the notification.
 - content (string): the content of the notification.
 - type (string, optional): the type of the notification
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -21,9 +20,9 @@ Snippet:
     <@addToast title='New Message' content='You have a new notification.' titleImg='themes/admin/shared/images/avatar.png' titleInfo='2 min ago' />
 
 -->
-<#macro addToast title='' content='' titleImg='' titleInfo='' dismiss=true class='' id='' params='' attrs={} deprecated...>
+<#macro addToast title='' content='' titleImg='' titleInfo='' dismiss=true class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<@commonAttrs id=id classBase='toast' class=class params=params attrs=attrs /> role="alert" aria-live="assertive" aria-atomic="true">
+<div<@commonAttrs id=id classBase='toast' class=class params=params /> role="alert" aria-live="assertive" aria-atomic="true">
   <#if title?has_content>
     <div class="toast-header">
       <#if titleImg?has_content><img src="${titleImg}" class="rounded me-2" alt="..."></#if>

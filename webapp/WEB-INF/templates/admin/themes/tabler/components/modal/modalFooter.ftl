@@ -2,8 +2,7 @@
 Description: Generates the footer content for a Bootstrap modal dialog, with optional parameters for the ID and additional attributes.
 Parameters:
 - id (string, optional): the ID of the modal footer.
-- params (string, optional): additional attributes to add to the modal footer, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -16,15 +15,15 @@ Snippet:
 
     Modal footer with ID and custom attributes:
 
-    <@modalFooter id='wizardFooter' attrs={'data-step': "final"}>
+    <@modalFooter id='wizardFooter' params={'data-step': "final"}>
         <button type='button' class='btn btn-outline-secondary'>Previous</button>
         <button type='submit' class='btn btn-success'>Submit</button>
     </@modalFooter>
 
 -->
-<#macro modalFooter id='' params='' attrs={} deprecated...>
+<#macro modalFooter id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal-footer"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="modal-footer"<@commonAttrs id=id params=params />>
 	<#nested>
 </div>
 </#macro>

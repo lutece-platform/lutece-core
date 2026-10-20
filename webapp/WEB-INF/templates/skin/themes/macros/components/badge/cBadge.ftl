@@ -9,8 +9,7 @@ Parameters:
 - hasp (boolean, optional): If true, wraps the label in a paragraph element. Default: true.
 - dismissible (boolean, optional): If true, displays a close button to dismiss the badge. Default: false.
 - id (string, optional): The unique identifier for the badge. Default: ''.
-- params (string, optional): Additional HTML attributes for the badge. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Badge - @cBadge
@@ -30,9 +29,9 @@ Snippet:
     <@cBadge label='Filter: Paris' class='secondary' dismissible=true />
 
 -->
-<#macro cBadge label='' class='' hasp=true dismissible=false id='' params='' attrs={} deprecated...>
+<#macro cBadge label='' class='' hasp=true dismissible=false id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="badge <#if class?has_content> ${class}</#if><#if dismissible> dismissible</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="badge <#if class?has_content> ${class}</#if><#if dismissible> dismissible</#if>"<@commonAttrs id=id params=params />>
 <#if dismissible> 
 	<div class="badge-content">
 		<#if hasp><p class="badge-label">${label!}</p><#else>${label!}</#if>

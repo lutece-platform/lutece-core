@@ -10,15 +10,14 @@ Parameters:
 - iterationMax (number, optional): maximum number of iterations allowed. Default: 10.
 - labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.portal.theme.labelAdd}'.
 - labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.portal.theme.labelDelete}'.
-- headerParams (string, optional): additional HTML attributes for the group header. Default: ''.
+- headerParams (map, optional): additional HTML attributes of the group header, e.g. {'data-x': 'y'}. Default: {}.
 - isFieldset (boolean, optional): uses a fieldset element as parent. Default: false.
 - noFieldsetTitleLevel (number, optional): heading level when not using a fieldset. Default: 3.
 - titleClass (string, optional): CSS class for the title element. Default: 'h3'.
 - help (string, optional): help content displayed in an accordion. Default: ''.
 - class (string, optional): CSS class for the group container. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Groupe d'étapes - @cStepGroup"
@@ -49,15 +48,15 @@ Snippet:
     </@cStepGroup>
 
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' attrs={} deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' headerParams={} isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if !id?has_content>id-${random()}<#else>${id}</#if></#local>
 <@cBlock class='step-group'>
 <#if title?has_content>
 	<#if isFieldset>
-		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params attrs=attrs >
+		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
 		<#local legendClass = ( iterable && iteration gt 0 )?then( 'd-flex justify-content-between align-items-center', '' ) />
-		<@cLegend label='' id='legend-${cId}' class=legendClass params=headerParams attrs={'tabindex': '-1'}>
+		<@cLegend label='' id='legend-${cId}' class=legendClass params=headerParams + {'tabindex': '-1'}>
 			<@cInline class='${titleClass} group-title'>	
 			${title!}<#if iteration gt 0> (${iteration+1})</#if>
 			<#if iterable && iteration gt 0>
@@ -82,9 +81,9 @@ Snippet:
 		<#nested>
 		</@cFieldset>
 	<#else>
-		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params attrs=attrs >
+		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
 			<#local localTitleClass = ( iterable && iteration gt 0 )?then( 'd-flex justify-content-between align-items-center', '' ) />
-			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params=headerParams attrs={'tabindex': '-1'}>
+			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params=headerParams + {'tabindex': '-1'}>
 				${title!}<#if iteration gt 0> (${iteration+1})</#if>
 				<#if iterable && iteration gt 0>
 				<div class="btn btn-group ms-auto mt-0">
@@ -108,7 +107,7 @@ Snippet:
 		</@cBlock>
 	</#if>
 <#else>
-	<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params attrs=attrs >
+	<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
 		<#if help?has_content><@cRow><@cCol>${help}</@cCol></@cRow></#if>
 		<#nested>
 	</@cBlock>

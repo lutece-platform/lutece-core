@@ -11,8 +11,7 @@ Parameters:
 - bodyClass (string, optional): Additional CSS classes for the card body. Default: ''.
 - title (string, optional): Title displayed in mobile view. Default: ''.
 - titleLevel (number, optional): Heading level for the mobile title. Default: 3.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -29,9 +28,9 @@ Snippet:
     </@cTabPane>
 
 -->
-<#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params='' attrs={} deprecated...>
+<#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}"<@commonAttrs params=params attrs=attrs />>    
+<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class?has_content> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}"<@commonAttrs params=params />>    
 	<div class="card-body<#if bodyClass?has_content> ${bodyClass!}</#if>">
 		<#nested>
 	</div>

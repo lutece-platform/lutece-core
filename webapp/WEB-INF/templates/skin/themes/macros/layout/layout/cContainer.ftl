@@ -7,8 +7,7 @@ Parameters:
 - type (string, optional): Container type; set to 'fluid' for a full-width container. Default: ''.
 - class (string, optional): Additional CSS class(es) for the container. Default: ''.
 - id (string, optional): Unique identifier for the container element. Default: ''.
-- params (string, optional): Additional HTML attributes for the container element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: "Conteneur - @cContainer"
@@ -30,7 +29,7 @@ Snippet:
     </@cContainer>
 
 -->
-<#macro cContainer type='' class='' id='' params='' attrs={} deprecated...>
+<#macro cContainer type='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local tpl=.caller_template_name?keep_after("skin/") />
 <@cTpl tpl=tpl>
@@ -39,7 +38,7 @@ Snippet:
 <#else>
     <#local cClass>container<#if type?has_content>-fluid</#if></#local>
 </#if>
-<@cSection type='div' class=cClass id=id params=params attrs=attrs>
+<@cSection type='div' class=cClass id=id params=params>
 <#nested>
 </@cSection>
 </@cTpl>

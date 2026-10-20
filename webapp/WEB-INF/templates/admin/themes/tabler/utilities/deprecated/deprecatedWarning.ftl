@@ -15,9 +15,8 @@ Snippet:
 -->
 <#macro deprecatedWarning args=[] >
 <#if args?size != 0 >
-<#-- an empty attrs is ignored: core macros pass it on to the macros they call, which a site theme may
-     override with a version that does not declare attrs yet -->
-<#local wrongArgs = args?keys?filter( key -> key != 'attrs' || args[key]?has_content ) />
-<#if wrongArgs?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list wrongArgs as key >${key}, </#list> ... --></#if>
+<#-- attrs is removed (LUT-33387): an attribute given through it would be lost without a word, so it fails -->
+<#if args?keys?seq_contains( 'attrs' )><#stop 'The attrs argument of the macros is removed: pass the attributes as params={...}' /></#if>
+<!-- Warning : wrong or deprecated argument(s) : <#list args?keys as key >${key}, </#list> ... -->
 </#if>
 </#macro>

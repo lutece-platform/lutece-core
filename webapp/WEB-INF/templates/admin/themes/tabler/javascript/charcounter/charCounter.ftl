@@ -21,7 +21,7 @@ Snippet:
     <@charcounter maxChars=100 selector='.title-input' warningClass='text-orange' dangerClass='text-red' />
 
 -->
-<#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>
+<#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local charcounterTitle = title?has_content?then( title, i18n('portal.util.labelCharCount') ) />
 // Limite la saisie du Titre a n chars

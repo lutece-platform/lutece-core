@@ -8,8 +8,7 @@ Parameters:
 - class (string, optional): CSS class for the select. Default: 'form-select'.
 - size (string, optional): adds a size suffix to form-select class, 'lg' or 'sm'. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - multiple (boolean, optional): enables multiple selection. Default: false.
 - disabled (boolean, optional): disables the select. Default: false.
 - autocomplete (string, optional): the autocomplete attribute value. Default: ''.
@@ -52,10 +51,10 @@ Snippet:
     </@cSelect>
 
 -->
-<#macro cSelect name class='form-select' size='' id='' params='' multiple=false disabled=false autocomplete='' readonly=false required=false html5Required=true helpMsg='' errorMsg='' attrs={} deprecated...>
+<#macro cSelect name class='form-select' size='' id='' params={} multiple=false disabled=false autocomplete='' readonly=false required=false html5Required=true helpMsg='' errorMsg='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign idMsg = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
-<select name="${name!}" class="${class!}<#if size?has_content> form-select-${size!}</#if><#if errorMsg?has_content> is-invalid</#if>"<#if idMsg?has_content> id="${idMsg}"</#if><#if autocomplete?has_content> autocomplete="${autocomplete}"</#if><@commonAttrs params=params attrs=attrs /><#if disabled> disabled</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if multiple> multiple</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
+<select name="${name!}" class="${class!}<#if size?has_content> form-select-${size!}</#if><#if errorMsg?has_content> is-invalid</#if>"<#if idMsg?has_content> id="${idMsg}"</#if><#if autocomplete?has_content> autocomplete="${autocomplete}"</#if><@commonAttrs params=params /><#if disabled> disabled</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if multiple> multiple</#if><#if errorMsg?has_content> aria-invalid="true" aria-describedby="error_${idMsg!}"<#elseif helpMsg?has_content> aria-describedby="help_${idMsg!}"</#if>>
 <#nested>
 </select>
 <#if helpMsg?has_content><@cFormHelp idMsg helpMsg /></#if>

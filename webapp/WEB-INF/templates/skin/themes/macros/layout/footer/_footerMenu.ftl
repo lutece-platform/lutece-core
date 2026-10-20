@@ -63,8 +63,7 @@ Parameters:
 - showTitle (boolean, optional): If true, adds a title attribute with the label text. Default: false.
 - id (string, optional): Unique identifier for the list item. Default: ''.
 - class (string, optional): Additional CSS class(es) for the list item. Default: ''.
-- params (string, optional): Additional HTML attributes for the list item. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -79,9 +78,9 @@ Snippet:
     </@_footerLinkItem>
 
 -->
-<#macro _footerLinkItem title url urlClass='' target='' role='navitem' showTitle=false id='' class='' params='' attrs={} deprecated...>
+<#macro _footerLinkItem title url urlClass='' target='' role='navitem' showTitle=false id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="list-inline-item<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params attrs=attrs />>
+<li class="list-inline-item<#if class?has_content > ${class!}</#if>"<#if id?has_content > id="${id!}"</#if><@commonAttrs params=params />>
 <#if url?has_content>
     <a <#if urlClass?has_content >class="${urlClass!}"</#if><#if role?has_content> role="${role!}"</#if> href="${safeUrl(url)}" <#if showTitle>title="${title!}"</#if><#if target?has_content> target="${target}"</#if>>
         ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{portal.theme.newWindowLink}</span></#if>

@@ -10,8 +10,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the alert container. Default: ''.
 - classText (string, optional): CSS class(es) applied to the alert text. Default: ''.
 - dismissible (boolean, optional): If true, a close button is displayed. Default: false.
-- params (string, optional): Additional HTML attributes for the alert. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Alerte - @cAlert
@@ -50,7 +49,7 @@ Snippet:
     </@cAlert>
 
 -->
-<#macro cAlert id='' title='' isHtmlTitle=false htmlTitleLevel=3 type='primary' iconType='informative' class='' classText='' dismissible=false params='' attrs={} deprecated...>
+<#macro cAlert id='' title='' isHtmlTitle=false htmlTitleLevel=3 type='primary' iconType='informative' class='' classText='' dismissible=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local allClass=class?split(' ')! /> 
 <#local typeClass=allClass[0]! /> 
@@ -74,7 +73,7 @@ Snippet:
 <#local ariaRole='status' />
 </#if>
 <#local alertClass>alert alert-outline alert-${alertType}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
-<@cBlock class=alertClass! params=params id=id! attrs={'role': ariaRole} + attrs>
+<@cBlock class=alertClass! params=params + {'role': ariaRole} id=id!>
     <@cBlock class='alert-header'>
         <@cBlock class='alert-icon'><@cIcon name=alertIconName! title=alertIconTitle! /></@cBlock>
         <@cBlock class='alert-text ${classText!}'><#if title?has_content><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>

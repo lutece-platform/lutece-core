@@ -11,8 +11,7 @@ Parameters:
 - hide (list, optional): a list of breakpoint-specific display settings to hide the element at certain screen sizes.
 - collapsed (boolean, optional): whether or not the tabs are collapsed by default.
 - keepState (boolean, optional): persists the active tab in localStorage and supports URL hash navigation (#panel-X where X is the 0-based tab index). Default: true.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -67,11 +66,11 @@ Snippet:
     </@tabs>
 
 -->
-<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false keepState=true params='' attrs={} deprecated...>
+<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false keepState=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + displaySettings( hide, 'block' ) />
 <#assign propagateTabStyle = style />
-<div<@commonAttrs id=id classBase='card ' + color class=class classExtra=classExtra params=params attrs=attrs /><#if keepState> data-keep-state="true"</#if>>
+<div<@commonAttrs id=id classBase='card ' + color class=class classExtra=classExtra params=params /><#if keepState> data-keep-state="true"</#if>>
 <#nested>
 </div>
 <#if keepState>

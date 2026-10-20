@@ -16,8 +16,7 @@ Parameters:
 - mandatory (boolean, optional): whether the input field is mandatory.
 - hideLabel (list, optional): a list of label properties to hide (e.g. "label", "i18nLabel").
 - collapsed (boolean, optional): whether to collapse the form group.
-- params (string, optional): additional parameters to add to the form group element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -40,13 +39,13 @@ Snippet:
     </@formGroup>
 
 -->
-<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' attrs={} deprecated...>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'><#local validation = 'is-valid'><#elseif groupStyle='error'><#local validation = 'is-invalid'></#if>
 <#local classBase = ( formStyle == 'col' )?then( 'row', '' ) />
 <#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'><#local classBase += ' mb-3' /><#elseif formStyle='inline'><#local classBase += ' g-3' /></#if>
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + validation! />
-<div<@commonAttrs id=id classBase=classBase class=class classExtra=classExtra params=params attrs=attrs />>
+<div<@commonAttrs id=id classBase=classBase class=class classExtra=classExtra params=params />>
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 <#local formLabelClass = labelClass />
 <#if rows=1>

@@ -9,8 +9,7 @@ Parameters:
 - hide (list): list of display settings to hide the element on specific screen sizes (default: [])
 - collapsed (boolean): boolean to determine if the element is initially collapsed (default: false)
 - align (string): alignment of the content within the div element (default: '')
-- params (string): additional parameters to include in the div element (default: '')
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -33,10 +32,10 @@ Snippet:
     </@div>
 
 -->
-<#macro div id='' class='' hide=[] collapsed=false align='' params='' attrs={} deprecated...>
+<#macro div id='' class='' hide=[] collapsed=false align='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) />
-<div<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
+<div<@commonAttrs id=id class=class classExtra=classExtra params=params />>
 	<#nested>
 </div>
 </#macro>

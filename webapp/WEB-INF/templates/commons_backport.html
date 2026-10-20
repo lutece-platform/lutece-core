@@ -13,7 +13,7 @@
 </#macro>
 <#macro combo name default_value items>
 <#-- WARNING : macro combo is deprecated -->
-<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters={} items=items />
 </#macro>
 <#macro comboSorted name default_value items >
 <#-- WARNING : macro comboSorted is deprecated -->
@@ -152,16 +152,14 @@
 </#macro>
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 <#-- WARNING : macro fieldInputText is deprecated -->
-	<#if maxlength gt 0><#local params>maxlength="${maxlength}"</#local></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' mandatory=mandatory helpKey='#i18n{${i18nHelpBlockKey}}'>
-		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
+		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' maxlength=maxlength />
 	</@formGroup>
 </#macro>
 <#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='#i18n{${i18nHelpBlockKey}}' cssClass=''>
 <#-- WARNING : macro fieldInputPassword is deprecated -->
-	<#if maxlength gt 0><#local params>maxlength="${maxlength}"</#local></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='' mandatory=mandatory>
-		<@input type='password' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
+		<@input type='password' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' maxlength=maxlength />
 	</@formGroup>
 </#macro>
 <#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
@@ -219,8 +217,7 @@
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 <#-- WARNING : macro fieldTextArea is deprecated 			-->
 <@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-	<#if maxlength gt 0><#local params>maxlength="${maxlength}"</#local></#if>
-	<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
+	<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' maxlength=maxlength>${value!}</@input>
 </@formGroup>
 </#macro>
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
@@ -257,11 +254,11 @@
 <#-- WARNING : macro headerButtons is deprecated 			-->
 <#nested>
 </#macro>
-<#macro listTabs type='tabs' id='' params='' attrs={}>
+<#macro listTabs type='tabs' id='' params={}>
 <#-- WARNING : macro listTabs is deprecated 				-->
-<@tabList style=type id=id params=params attrs=attrs />
+<@tabList style=type id=id params=params />
 </#macro>
-<#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' id='' params=''>
+<#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' id='' params={}>
 <#-- WARNING : macro badge is deprecated 					-->
 <@tag color=color class=class title=title tagIcon=badgeIcon id=id />
 </#macro>
