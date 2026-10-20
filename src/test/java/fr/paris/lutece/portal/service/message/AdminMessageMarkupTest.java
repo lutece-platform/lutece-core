@@ -36,6 +36,9 @@ package fr.paris.lutece.portal.service.message;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,14 +49,15 @@ import freemarker.core.HTMLOutputFormat;
 import freemarker.template.TemplateModelException;
 
 /**
- * The text of a message handed to a template (LUT-33153): its HTML is kept, an argument cannot inject a script.
+ * The text of a message handed to a template (LUT-33153): the HTML of the i18n message is kept, an argument is escaped
+ * unless it is HTML the application built (MessageHtml).
  */
 public class AdminMessageMarkupTest extends LuteceTestCase
 {
     private static final String KEY_WITH_HTML = "portal.system.message.confirmToggleCache";
 
     /**
-     * The formatting of the i18n message is kept, the script of an argument is removed.
+     * The formatting of the i18n message is kept, an argument is shown as text.
      *
      * @throws TemplateModelException
      *             if the markup cannot be read
@@ -69,7 +73,55 @@ public class AdminMessageMarkupTest extends LuteceTestCase
 
         assertTrue( strHtml.contains( "<b>" ), strHtml );
         assertFalse( strHtml.contains( "<script" ), strHtml );
-        assertFalse( strHtml.contains( "onerror" ), strHtml );
+        assertFalse( strHtml.contains( "<img" ), strHtml );
+        assertTrue( strHtml.contains( "&lt;img" ), strHtml );
+    }
+
+    /**
+     * A link in an argument a user typed is shown as text: the sanitizer would keep an https link, the escaping does not.
+     *
+     * @throws TemplateModelException
+     *             if the markup cannot be read
+     */
+    @Test
+    public void testLinkInAnArgumentIsText( ) throws TemplateModelException
+    {
+        String strArgument = "<a href=\"https://example.org/\">click</a>";
+        AdminMessage adminMessage = new AdminMessage( KEY_WITH_HTML, new Object [ ] {
+                strArgument
+        }, null, "", "", AdminMessage.TYPE_CONFIRMATION, false );
+        SiteMessage siteMessage = new SiteMessage( KEY_WITH_HTML, new Object [ ] {
+                strArgument
+        }, null, "", "", SiteMessage.TYPE_INFO, SiteMessage.TYPE_BUTTON_HIDDEN, null, null );
+
+        for ( String strHtml : new String [ ] {
+                HTMLOutputFormat.INSTANCE.getMarkupString( adminMessage.getMarkup( Locale.ENGLISH ) ),
+                HTMLOutputFormat.INSTANCE.getMarkupString( siteMessage.getMarkup( Locale.ENGLISH ) )
+        } )
+        {
+            assertFalse( strHtml.contains( "<a " ), strHtml );
+            assertTrue( strHtml.contains( "&lt;a href" ), strHtml );
+        }
+    }
+
+    /**
+     * A message with an HTML argument is kept in the session: it must be serializable, and its text unchanged.
+     *
+     * @throws IOException
+     *             if the message cannot be serialized
+     */
+    @Test
+    public void testMessageWithAnHtmlArgumentIsSerializable( ) throws IOException
+    {
+        AdminMessage message = new AdminMessage( KEY_WITH_HTML, new Object [ ] {
+                MessageHtml.of( "<ul><li>x</li></ul>" )
+        }, null, "", "", AdminMessage.TYPE_CONFIRMATION, false );
+
+        try ( ObjectOutputStream out = new ObjectOutputStream( new ByteArrayOutputStream( ) ) )
+        {
+            out.writeObject( message );
+        }
+        assertTrue( message.getText( Locale.ENGLISH ).contains( "<ul><li>x</li></ul>" ) );
     }
 
     /**
@@ -81,9 +133,9 @@ public class AdminMessageMarkupTest extends LuteceTestCase
     @Test
     public void testFormattedListArgumentStaysAList( ) throws TemplateModelException
     {
-        String strList = AdminMessageService.getFormattedList( List.of( "first <i>item</i>", "<svg onload=alert(1)>" ), Locale.ENGLISH );
+        MessageHtml list = AdminMessageService.getFormattedList( List.of( "first <i>item</i>", "<svg onload=alert(1)>" ), Locale.ENGLISH );
         AdminMessage message = new AdminMessage( KEY_WITH_HTML, new Object [ ] {
-                strList
+                list
         }, null, "", "", AdminMessage.TYPE_CONFIRMATION, false );
 
         String strHtml = HTMLOutputFormat.INSTANCE.getMarkupString( message.getMarkup( Locale.ENGLISH ) );
