@@ -35,19 +35,30 @@ package fr.paris.lutece.portal.web.insert;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.html.EncodingService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.insert.InsertResourceIdService;
 import fr.paris.lutece.portal.service.insert.InsertService;
 import fr.paris.lutece.portal.service.insert.InsertServiceManager;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
+
+import org.apache.commons.lang3.StringUtils;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
@@ -85,6 +96,14 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_INSERT = "insert";
     private static final String PARAMETER_SELECTED_TEXT = "selected_text";
     private static final String MARK_INSERT_SERVICES_LIST = "insert_services_list";
+    private static final String MARK_INSERT_SERVICE_GROUPS = "insert_service_groups";
+    private static final String MARK_GROUP_PLUGIN_NAME = "plugin_name";
+    private static final String MARK_GROUP_PLUGIN = "plugin";
+    private static final String MARK_GROUP_PLUGIN_DISPLAY_NAME = "plugin_display_name";
+    private static final String SUFFIX_DESCRIPTION_KEY = ".description";
+    private static final String SUFFIX_NAME_KEY = ".name";
+    private static final String PREFIX_MODULE_KEY = "module.";
+    private static final String MARK_GROUP_SERVICES = "services";
     private static final String MARK_SELECTED_TEXT = "selected_text";
     private static final String MARK_INPUT = "input";
     private static final String MARK_INSERT = "insert";
@@ -108,9 +127,12 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList( );
         User user = getUser( );
         
+        Collection<InsertService> listAuthorizedServices = RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, user );
+
         // building from a template
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, user ) );
+        model.put( MARK_INSERT_SERVICES_LIST, listAuthorizedServices );
+        model.put( MARK_INSERT_SERVICE_GROUPS, getServiceGroups( listAuthorizedServices, getLocale( ) ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
         
@@ -125,6 +147,101 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
             t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE, getLocale( ), model );
         }
         return t.getHtml( );
+    }
+
+    /**
+     * Groups the insert services by plugin, in the order of the services
+     *
+     * @param listServices
+     *            the insert services
+     * @param locale
+     *            the locale of the display names of the plugins
+     * @return for each plugin: plugin_name, plugin_display_name, plugin (null when the plugin is not found) and services
+     */
+    private static List<Map<String, Object>> getServiceGroups( Collection<InsertService> listServices, Locale locale )
+    {
+        Map<String, List<InsertService>> mapServicesByPlugin = new LinkedHashMap<>( );
+
+        for ( InsertService service : listServices )
+        {
+            mapServicesByPlugin.computeIfAbsent( service.getPluginName( ), strPluginName -> new ArrayList<>( ) ).add( service );
+        }
+
+        List<Map<String, Object>> listGroups = new ArrayList<>( );
+
+        for ( Map.Entry<String, List<InsertService>> entry : mapServicesByPlugin.entrySet( ) )
+        {
+            Map<String, Object> group = new HashMap<>( );
+            Plugin plugin = PluginService.getPlugin( entry.getKey( ) );
+            group.put( MARK_GROUP_PLUGIN_NAME, entry.getKey( ) );
+            group.put( MARK_GROUP_PLUGIN_DISPLAY_NAME, getPluginDisplayName( entry.getKey( ), plugin, locale ) );
+            group.put( MARK_GROUP_PLUGIN, plugin );
+            group.put( MARK_GROUP_SERVICES, entry.getValue( ) );
+            listGroups.add( group );
+        }
+
+        return listGroups;
+    }
+
+    /**
+     * The display name of a plugin: the key of its description with name in place of description (blog.plugin.name, module.x.y.module.name), or its
+     * technical name, capitalized, when it has none
+     *
+     * @param strPluginName
+     *            the name of the plugin
+     * @param plugin
+     *            the plugin, null when not found
+     * @param locale
+     *            the locale
+     * @return the display name
+     */
+    private static String getPluginDisplayName( String strPluginName, Plugin plugin, Locale locale )
+    {
+        String strDescriptionKey = ( plugin != null ) ? plugin.getDescription( ) : null;
+
+        if ( StringUtils.endsWith( strDescriptionKey, SUFFIX_DESCRIPTION_KEY ) )
+        {
+            String strNameKey = StringUtils.removeEnd( strDescriptionKey, SUFFIX_DESCRIPTION_KEY ) + SUFFIX_NAME_KEY;
+            String strName = null;
+
+            if ( strNameKey.startsWith( PREFIX_MODULE_KEY ) )
+            {
+                // the bundle of a module cannot be listed: a missing key logs a warning
+                strName = I18nService.getLocalizedString( strNameKey, locale );
+            }
+            else if ( hasPluginKey( strPluginName, strNameKey.substring( strNameKey.indexOf( '.' ) + 1 ) ) )
+            {
+                strName = I18nService.getLocalizedString( strNameKey, locale );
+            }
+
+            if ( StringUtils.isNotBlank( strName ) )
+            {
+                return strName;
+            }
+        }
+
+        return StringUtils.capitalize( strPluginName.replace( '-', ' ' ) );
+    }
+
+    /**
+     * Tells whether the bundle of a plugin holds a key, without the warning of a missing key
+     *
+     * @param strPluginName
+     *            the name of the plugin
+     * @param strKey
+     *            the key, without the name of the plugin
+     * @return true if the bundle holds it
+     */
+    private static boolean hasPluginKey( String strPluginName, String strKey )
+    {
+        try
+        {
+            return Collections.list( I18nService.getPluginBundleKeys( strPluginName ) ).contains( strKey );
+        }
+        catch( MissingResourceException e )
+        {
+            return false;
+        }
     }
 
     /**

@@ -579,3 +579,30 @@ CREATE TABLE IF NOT EXISTS core_portlet_template (
 	template_path varchar(255) default NULL,
 	PRIMARY KEY (id_template)
 );
+
+--
+-- Table structure for tables core_editor_profile and core_editor_profile_target
+-- The profiles of the back office rich text editor, and the plugins, roles and workgroups they target. Managed in the "Text editor" tab of the technical settings.
+--
+-- changeset core:create_db_lutece_core.sql-rev3.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile'
+CREATE TABLE IF NOT EXISTS core_editor_profile (
+	id_profile int AUTO_INCREMENT NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(255) default NULL,
+	editor_name varchar(255) default NULL,
+	config LONG VARCHAR,
+	priority int default 0 NOT NULL,
+	is_default SMALLINT default 0 NOT NULL,
+	PRIMARY KEY (id_profile)
+);
+-- changeset core:create_db_lutece_core.sql-rev4.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile_target'
+CREATE TABLE IF NOT EXISTS core_editor_profile_target (
+	id_profile int NOT NULL,
+	target_type varchar(20) NOT NULL,
+	target_value varchar(255) NOT NULL,
+	PRIMARY KEY (id_profile, target_type, target_value)
+);

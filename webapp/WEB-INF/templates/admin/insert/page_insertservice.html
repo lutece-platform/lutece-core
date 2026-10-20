@@ -1,11 +1,84 @@
-<@h level=2 class='visually-hidden'>#i18n{portal.insert.page_insertservice.labelInsert}</@h>
-<@div class='row row-cols-4 mt-3 p-5' id='insert-service'>    
-<#list insert_services_list as insertservice>
-    <@columns class='mb-3'>
-        <@link class='btn btn-lg btn-outline-dark d-flex flex-column justify-content-center' params='style="min-height:10rem"' href='jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${.data_model.input}&amp;selected_text=${selected_text}'>
-        <@p class='text-center'>#i18n{${insertservice.labelKey}}</@p>
-        <@icon style='plus ${insertservice.pluginName} fs-1' /> 
-        </@link>
-    </@columns>
-</#list>
-</@div>
+<#--
+ # The insert services offered to the user, opened by the Lutece button of the rich text editors. Two views, chosen with a toggle and remembered in the
+ # browser: tiles (one per service, illustrated with the icon of its plugin) and plugins (the plugins on the left, the services of the chosen one on the right).
+ # Without script, the tiles show and the toggle stays hidden. Styles: insert_service.css, behaviours: lutece-insert.js (InsertServiceHeader.jsp).
+ #
+ # Model: insert_service_groups (plugin_name, plugin_display_name: the <plugin>.plugin.name key of the plugin or its name, plugin: the Plugin or null,
+ #   services: the insert services of the plugin), input, selected_text.
+-->
+<#-- The icon of the kind of insertion, by insert service; a link by default -->
+<#assign insertServiceKindIcons = { 'librarylinkservice': 'photo', 'libraryuploadlinkservice': 'upload', 'INTERNAL_LINK_INSERT_SERVICE': 'file-text', 'PAGE_INSERT_SERVICE': 'file-text', 'DOCUMENT_INSERT_SERVICE': 'file-description' } />
+<#macro insertServiceUrl service>jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${service.id}&amp;plugin_name=${service.pluginName}&amp;input=${.data_model.input!}&amp;selected_text=${selected_text!}</#macro>
+<#macro insertServicePluginName group>${group.plugin_display_name!group.plugin_name}</#macro>
+<#-- The icon of the plugin, or a generic icon when the plugin has none or its file is missing -->
+<#macro insertServicePluginIcon group>
+<#if group.plugin?? && group.plugin.iconUrl?has_content><img src="${group.plugin.iconUrl}" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><i class="ti ti-apps" aria-hidden="true" hidden></i><#else><i class="ti ti-apps" aria-hidden="true"></i></#if>
+</#macro>
+<div class="lutece-insert">
+	<@h level=2 class='visually-hidden'>#i18n{portal.insert.page_insertservice.labelInsert}</@h>
+	<div class="lutece-insert-tools justify-content-end">
+		<div class="btn-group btn-group-sm lutece-insert-views" role="group" aria-label="#i18n{portal.insert.page_insertservice.labelView}" data-lutece-insert-views data-target="#insert_services" data-storage-key="lutece.insertServices.view" data-default-view="tiles" hidden>
+			<button type="button" class="btn btn-outline-secondary" data-view="tiles" aria-pressed="true"><i class="ti ti-layout-grid me-1" aria-hidden="true"></i>#i18n{portal.insert.page_insertservice.viewTiles}</button>
+			<button type="button" class="btn btn-outline-secondary" data-view="plugins" aria-pressed="false"><i class="ti ti-layout-sidebar me-1" aria-hidden="true"></i>#i18n{portal.insert.page_insertservice.viewPlugins}</button>
+		</div>
+	</div>
+	<div id="insert_services" data-view="tiles">
+		<#-- Tiles -->
+		<ul class="lutece-insert-tiles">
+		<#list insert_service_groups as group>
+			<#list group.services as service>
+			<li>
+				<a class="lutece-insert-tile" href="<@insertServiceUrl service=service />">
+					<span class="lutece-insert-illu lutece-insert-tint-${group?index % 6}" aria-hidden="true">
+						<span><@insertServicePluginIcon group=group /></span>
+						<span class="lutece-insert-kind"><i class="ti ti-${insertServiceKindIcons[ service.id ]!'link'}"></i></span>
+					</span>
+					<span class="lutece-insert-text">
+						<span class="lutece-insert-label"><@insertServicePluginName group=group /></span>
+						<span class="lutece-insert-title">#i18n{${service.labelKey}}</span>
+					</span>
+				</a>
+			</li>
+			</#list>
+		</#list>
+		</ul>
+		<#-- Plugins: the plugins on the left, the services of the chosen plugin on the right -->
+		<div class="lutece-insert-panes">
+			<div role="tablist" aria-orientation="vertical" aria-label="#i18n{portal.insert.page_insertservice.labelPlugins}" data-lutece-insert-tabs>
+			<#list insert_service_groups as group>
+				<button type="button" class="lutece-insert-pane-tab" role="tab" id="insert_tab_${group?index}" aria-controls="insert_panel_${group?index}" aria-selected="${( group?index == 0 )?c}" tabindex="${( group?index == 0 )?then( '0', '-1' )}">
+					<span class="lutece-insert-badge lutece-insert-tint-${group?index % 6}" aria-hidden="true"><@insertServicePluginIcon group=group /></span>
+					<span><@insertServicePluginName group=group /></span>
+					<span class="lutece-insert-count">${group.services?size}</span>
+				</button>
+			</#list>
+			</div>
+			<#list insert_service_groups as group>
+			<div class="lutece-insert-pane" role="tabpanel" id="insert_panel_${group?index}" aria-labelledby="insert_tab_${group?index}" tabindex="0"<#if group?index != 0> hidden</#if>>
+				<div class="lutece-insert-pane-head">
+					<span class="lutece-insert-badge lutece-insert-tint-${group?index % 6}" aria-hidden="true"><@insertServicePluginIcon group=group /></span>
+					<span class="lutece-insert-text">
+						<span class="lutece-insert-title"><@insertServicePluginName group=group /></span>
+						<#if group.plugin?? && group.plugin.description?has_content><span class="lutece-insert-summary">#i18n{${group.plugin.description}}</span></#if>
+					</span>
+				</div>
+				<ul class="lutece-insert-rows">
+				<#list group.services as service>
+					<li>
+						<a class="lutece-insert-row" href="<@insertServiceUrl service=service />">
+							<span class="lutece-insert-badge lutece-insert-tint-${group?index % 6}" aria-hidden="true"><i class="ti ti-${insertServiceKindIcons[ service.id ]!'link'}"></i></span>
+							<span class="lutece-insert-text"><span class="lutece-insert-title">#i18n{${service.labelKey}}</span></span>
+							<i class="ti ti-chevron-right lutece-insert-chevron" aria-hidden="true"></i>
+						</a>
+					</li>
+				</#list>
+				</ul>
+			</div>
+			</#list>
+		</div>
+	</div>
+</div>
+<style>
+	<#-- Only the view chosen shows -->
+	#insert_services[data-view="tiles"] .lutece-insert-panes, #insert_services[data-view="plugins"] .lutece-insert-tiles { display: none; }
+</style>

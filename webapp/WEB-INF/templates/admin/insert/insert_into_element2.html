@@ -3,7 +3,11 @@
 	// TinyMCE insert
 	var textToInsert = document.getElementById("tag").innerHTML.replace(/\r|\n|\r\n/g, "");
 	var t1 = '${.data_model.input}';
- 	if ( t1 !='undefined' ){
+	// An editor other than TinyMCE (Autumn Note) receives the insert through luteceEditorInsert, set by the dialog it opened
+	if ( parent !== window && parent.luteceEditorInsert ) {
+		parent.luteceEditorInsert.insert( textToInsert );
+		parent.luteceEditorInsert.close( );
+	} else if ( t1 !='undefined' ){
 		var elementInput = opener.document.getElementById("${.data_model.input}");
 		elementInput.value = textToInsert;
 		window.close();

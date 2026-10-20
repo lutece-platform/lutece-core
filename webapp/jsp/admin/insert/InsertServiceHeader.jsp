@@ -19,6 +19,9 @@
 <link href="themes/admin/shared/css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
 <link href="themes/admin/shared/css/vendor/tabler/tabler-icons.min.css" rel="stylesheet">
 <link href="themes/admin/shared/css/portal_admin.min.css" rel="stylesheet" >
+<!-- The visual language and the behaviours of the insert service screens -->
+<link href="themes/admin/shared/css/insert_service.min.css" rel="stylesheet">
+<script src="themes/admin/shared/js/insert/lutece-insert.js" defer></script>
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
