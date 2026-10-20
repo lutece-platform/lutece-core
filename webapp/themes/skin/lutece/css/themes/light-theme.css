@@ -118,7 +118,7 @@
 	
 	/* Texte */
     --lutece-ds-text: var(--lutece-ds-neutral-900);                   /* --cl-ink-900 	*/
-    --lutece-ds-text-subtle: var(--lutece-ds-neutral-500);            /* --cl-ink-500 	*/
+    --lutece-ds-text-subtle: #64748B;            /* --cl-ink-500 darkened: 4.76:1 on white (WCAG 1.4.3) */
     --lutece-ds-text-muted: var(--lutece-ds-blue-700);
 	--lutece-ds-comment: #7AA9FF;
 	--lutece-ds-keyword: #FF8A6A;
