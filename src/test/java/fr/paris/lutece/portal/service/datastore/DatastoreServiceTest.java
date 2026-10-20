@@ -163,4 +163,58 @@ public class DatastoreServiceTest extends LuteceTestCase
             pool.shutdownNow( );
         }
     }
+
+    /**
+     * Templates read the site properties and the theme keys only; any other marker is left unresolved.
+     */
+    @Test
+    public void testReplaceKeysTemplateKeysOnly( )
+    {
+        String strSiteKey = "test.site_property.replaceKeys";
+        String strOtherKey = "test.replaceKeys.other";
+        DatastoreService.setDataValue( strSiteKey, VALUE1 );
+        DatastoreService.setDataValue( strOtherKey, VALUE2 );
+        try
+        {
+            assertEquals( "a " + VALUE1 + " b", DatastoreService.replaceKeys( "a #dskey{" + strSiteKey + "} b" ) );
+            assertEquals( "a #dskey{" + strOtherKey + "} b", DatastoreService.replaceKeys( "a #dskey{" + strOtherKey + "} b" ) );
+        }
+        finally
+        {
+            DatastoreService.removeData( strSiteKey );
+            DatastoreService.removeData( strOtherKey );
+        }
+    }
+
+    /**
+     * A value containing the group reference and escape characters of a regular expression replacement is written as is.
+     */
+    @Test
+    public void testReplaceKeysValueWrittenAsIs( )
+    {
+        String strKey = "test.site_property.replaceKeysQuoted";
+        String strValue = "cost $1 \\ $";
+        DatastoreService.setDataValue( strKey, strValue );
+        try
+        {
+            assertEquals( "[" + strValue + "]", DatastoreService.replaceKeys( "[#dskey{" + strKey + "}]" ) );
+        }
+        finally
+        {
+            DatastoreService.removeData( strKey );
+        }
+    }
+
+    @Test
+    public void testIsTemplateKey( )
+    {
+        assertTrue( DatastoreService.isTemplateKey( "portal.site.site_property.name" ) );
+        assertTrue( DatastoreService.isTemplateKey( "portal.theme.site_property.banner.title" ) );
+        assertTrue( DatastoreService.isTemplateKey( "sitelabels.site_property.mylabel" ) );
+        assertTrue( DatastoreService.isTemplateKey( "theme.globalThemeCode" ) );
+        assertTrue( DatastoreService.isTemplateKey( "mylutece.security.public_url.mylutece.url" ) );
+        assertFalse( DatastoreService.isTemplateKey( "core.advanced_parameters.any" ) );
+        assertFalse( DatastoreService.isTemplateKey( "site_property" ) );
+        assertFalse( DatastoreService.isTemplateKey( null ) );
+    }
 }

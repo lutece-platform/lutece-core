@@ -40,10 +40,12 @@ import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.inject.spi.CDI;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,6 +65,10 @@ public final class DatastoreService
     private static final String DATASTORE_KEY = "dskey";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
     static final String VALUE_MISSING = "DS Value Missing";
+    private static final String TEMPLATE_KEY_PART = ".site_property.";
+    private static final List<String> TEMPLATE_KEY_PREFIXES = Arrays.asList( "theme.globalTheme", "mylutece.security.public_url." );
+    private static final String PROPERTY_TEMPLATE_KEY_PREFIXES = "datastore.template.allowedKeyPrefixes";
+    private static final int LOGGED_KEY_MAX_LENGTH = 100;
     private static final DataEntity ENTITY_MISSING = new DataEntity( null, null );
     public static Lutece107Cache<String,DataEntity> _cache;
     private static boolean _bDatabase = true;
@@ -426,14 +432,24 @@ public final class DatastoreService
                 do
                 {
                     String strKey = matcher.group( 1 );
-                    String strValue = DatastoreService.getDataValue( strKey, VALUE_MISSING );
+                    String strValue;
 
-                    if ( VALUE_MISSING.equals( strValue ) )
+                    if ( isTemplateKey( strKey ) )
                     {
-                        AppLogService.getLogger().warn( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
+                        strValue = DatastoreService.getDataValue( strKey, VALUE_MISSING );
+
+                        if ( VALUE_MISSING.equals( strValue ) )
+                        {
+                            AppLogService.getLogger().warn( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
+                        }
+                    }
+                    else
+                    {
+                        logKeyNotAllowed( strKey );
+                        strValue = matcher.group( );
                     }
 
-                    matcher.appendReplacement( sb, strValue );
+                    matcher.appendReplacement( sb, Matcher.quoteReplacement( strValue ) );
                 }
                 while ( matcher.find( ) );
 
@@ -443,6 +459,50 @@ public final class DatastoreService
         }
 
         return result;
+    }
+
+    /**
+     * Tells whether a datastore key can be read from a template, by the <code>#dskey{key}</code> marker or the <code>dskey( key )</code> method. Templates
+     * read the site properties (keys containing <code>.site_property.</code>) and the keys starting with a prefix of the core or of the property
+     * <code>datastore.template.allowedKeyPrefixes</code> (comma separated).
+     *
+     * @param strKey
+     *            the key
+     * @return true if a template can read the key
+     */
+    public static boolean isTemplateKey( String strKey )
+    {
+        if ( strKey == null )
+        {
+            return false;
+        }
+
+        if ( strKey.contains( TEMPLATE_KEY_PART ) || TEMPLATE_KEY_PREFIXES.stream( ).anyMatch( strKey::startsWith ) )
+        {
+            return true;
+        }
+
+        String strPrefixes = AppPropertiesService.getProperty( PROPERTY_TEMPLATE_KEY_PREFIXES, "" );
+
+        return Arrays.stream( strPrefixes.split( "," ) ).map( String::trim ).anyMatch( strPrefix -> !strPrefix.isEmpty( ) && strKey.startsWith( strPrefix ) );
+    }
+
+    /**
+     * Logs a key that a template is not allowed to read. The key may come from the content of the page, so it is logged shortened and on one line.
+     *
+     * @param strKey
+     *            the key
+     */
+    static void logKeyNotAllowed( String strKey )
+    {
+        String strLogged = strKey.replaceAll( "\\p{Cntrl}", " " );
+
+        if ( strLogged.length( ) > LOGGED_KEY_MAX_LENGTH )
+        {
+            strLogged = strLogged.substring( 0, LOGGED_KEY_MAX_LENGTH ) + "...";
+        }
+
+        AppLogService.getLogger( ).warn( "Datastore key not readable from a template, left unresolved : {}", strLogged );
     }
 
     /**

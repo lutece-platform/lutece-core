@@ -42,6 +42,13 @@ public class DatastoreTemplateMethod extends AbstractMessageFormatTemplateMethod
     @Override
     protected String getPattern( String key, Locale locale )
     {
+        if ( !DatastoreService.isTemplateKey( key ) )
+        {
+            DatastoreService.logKeyNotAllowed( key );
+
+            return DatastoreService.VALUE_MISSING;
+        }
+
         return DatastoreService.getDataValue( key, DatastoreService.VALUE_MISSING );
     }
 }
