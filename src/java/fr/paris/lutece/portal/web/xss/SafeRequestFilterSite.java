@@ -52,7 +52,6 @@ public class SafeRequestFilterSite extends SafeRequestFilter
 {
 
     private static final String PROPERTY_ACTIVATE_XSS_FILTER = "lutece.safe.request.site.activateXssFilter";
-    private static final String PROPERTY_SANITIZE_FILTER_MODE = "lutece.safe.request.site.sanitizeFilterMode";
     private static final String PROPERTY_XSS_CHARACTERS = "lutece.safe.request.site.xssCharacters";
 
     /**
@@ -62,16 +61,15 @@ public class SafeRequestFilterSite extends SafeRequestFilter
     public void init( FilterConfig config ) throws ServletException
     {
         String xssFilter = AppPropertiesService.getProperty( PROPERTY_ACTIVATE_XSS_FILTER );
-        String sanitizeFilterMode = AppPropertiesService.getProperty( PROPERTY_SANITIZE_FILTER_MODE );
         String xssCharacters = AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS );
 
-        if( xssFilter == null && sanitizeFilterMode==null && xssCharacters==null )
+        if ( xssFilter == null && xssCharacters == null )
         {
             initFromFilterConfig( config );
         }
         else
         {
-            initFilter( Boolean.parseBoolean(xssFilter), Boolean.parseBoolean(sanitizeFilterMode), xssCharacters );
+            initFilter( Boolean.parseBoolean( xssFilter ), xssCharacters );
         }
     }
 
