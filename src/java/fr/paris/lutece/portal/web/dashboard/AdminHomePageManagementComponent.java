@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.dashboard;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import java.util.Map;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.dashboard.DashboardHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
@@ -65,6 +67,8 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
     private static final String MARK_LIST_AVAILABLE_COLUMNS = "list_available_columns";
     private static final String MARK_MAP_AVAILABLE_ORDERS = "map_available_orders";
     private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
+    private static final String MARK_ZONES = "zones";
+    private static final String MARK_DISPLAYED_ZONE_COUNT = "displayed_zone_count";
 
     private DashboardService _service = CDI.current( ).select( DashboardService.class ).get( );
 
@@ -93,6 +97,21 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
         model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
+
+        // The zones to arrange: those of the homepage, and those beyond that still hold a dashboard, so that it can be moved back
+        int nDisplayedZoneCount = Math.max( _service.getColumnCount( ),
+                _service.getZoneCount( ) - 1 );
+        int nLastZone = Math.max( nDisplayedZoneCount, DashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) );
+        List<Integer> listZones = new ArrayList<>( );
+
+        for ( int nZone = 1; nZone <= nLastZone; nZone++ )
+        {
+            listZones.add( nZone );
+        }
+
+        model.put( MARK_ZONES, listZones );
+        model.put( MARK_DISPLAYED_ZONE_COUNT, nDisplayedZoneCount );
+
         model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );

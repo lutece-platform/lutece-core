@@ -34,8 +34,10 @@
 package fr.paris.lutece.portal.web.admin;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
@@ -43,6 +45,8 @@ import javax.security.auth.login.LoginException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.IAdminUserDAO;
@@ -53,9 +57,11 @@ import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvid
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.prefs.AdminUserPreferencesService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -473,6 +479,156 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         {
             _user.setAccessibilityMode( bAccessibilityMode );
             AdminUserHome.update( _user );
+        }
+    }
+
+    /**
+     * A user nobody else has, with the rights given: its shortcuts are its own
+     */
+    private AdminUser getShortcutUser( MockHttpServletRequest request, String... strRights )
+    {
+        AdminUser user = new AdminUser( );
+        user.setUserId( 900000 + new SecureRandom( ).nextInt( 99999 ) );
+        user.setAccessCode( "junit-shortcuts" );
+        user.setLocale( Locale.FRENCH );
+
+        Map<String, Right> mapRights = new HashMap<>( );
+
+        for ( String strRight : strRights )
+        {
+            mapRights.put( strRight, RightHome.findByPrimaryKey( strRight ) );
+        }
+
+        user.setRights( mapRights );
+        AdminUserUtils.registerAdminUser( request, user );
+
+        return user;
+    }
+
+    private MockHttpServletRequest getShortcutsRequest( String strAction, String... strShortcuts )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "shortcut_action", strAction );
+
+        if ( strShortcuts.length > 0 )
+        {
+            request.setParameter( "shortcut", strShortcuts );
+        }
+
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/user/admin_home.html" ) );
+
+        return request;
+    }
+
+    @Test
+    public void testDoModifyHomeShortcutsSaveAndReset( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = getShortcutsRequest( "save", "CORE_USERS_MANAGEMENT", "CORE_ADMIN_SITE", "CORE_CACHE_MANAGEMENT" );
+        AdminUser user = getShortcutUser( request, "CORE_ADMIN_SITE", "CORE_USERS_MANAGEMENT" );
+        String strUserId = Integer.toString( user.getUserId( ) );
+
+        try
+        {
+            instance.doModifyHomeShortcuts( request );
+            assertEquals( "CORE_USERS_MANAGEMENT,CORE_ADMIN_SITE", AdminUserPreferencesService.instance( ).get( strUserId, "core.home.shortcuts", null ),
+                    "the order is kept, a right the user lacks is dropped" );
+
+            request = getShortcutsRequest( "reset" );
+            AdminUserUtils.registerAdminUser( request, user );
+            instance.doModifyHomeShortcuts( request );
+            assertFalse( AdminUserPreferencesService.instance( ).existsKey( strUserId, "core.home.shortcuts" ) );
+        }
+        finally
+        {
+            AdminUserPreferencesService.instance( ).clearKey( strUserId, "core.home.shortcuts" );
+        }
+    }
+
+    @Test
+    public void testDoModifyHomeShortcutsDefault( ) throws AccessDeniedException
+    {
+        String strDefaultBefore = DatastoreService.getDataValue( "core.home.shortcuts.default", null );
+
+        // Without the right to manage the home page, the default list may not be set
+        MockHttpServletRequest request = getShortcutsRequest( "default", "CORE_USERS_MANAGEMENT" );
+        getShortcutUser( request, "CORE_ADMIN_SITE", "CORE_USERS_MANAGEMENT" );
+
+        try
+        {
+            instance.doModifyHomeShortcuts( request );
+            fail( "Should have thrown" );
+        }
+        catch( AccessDeniedException e )
+        {
+            assertEquals( strDefaultBefore, DatastoreService.getDataValue( "core.home.shortcuts.default", null ) );
+        }
+
+        request = getShortcutsRequest( "default", "CORE_USERS_MANAGEMENT" );
+        getShortcutUser( request, "CORE_ADMIN_SITE", "CORE_USERS_MANAGEMENT", "CORE_DASHBOARD_MANAGEMENT" );
+
+        try
+        {
+            instance.doModifyHomeShortcuts( request );
+            assertEquals( "CORE_USERS_MANAGEMENT", DatastoreService.getDataValue( "core.home.shortcuts.default", null ) );
+        }
+        finally
+        {
+            if ( strDefaultBefore != null )
+            {
+                DatastoreService.setDataValue( "core.home.shortcuts.default", strDefaultBefore );
+            }
+            else
+            {
+                DatastoreService.removeData( "core.home.shortcuts.default" );
+            }
+        }
+    }
+
+    @Test
+    public void testDoModifyHomeShortcutsUserDisabled( )
+    {
+        String strEnabledBefore = DatastoreService.getDataValue( "portal.site.site_property.bo.shortcuts.checkbox", null );
+        MockHttpServletRequest request = getShortcutsRequest( "save", "CORE_USERS_MANAGEMENT" );
+        AdminUser user = getShortcutUser( request, "CORE_ADMIN_SITE", "CORE_USERS_MANAGEMENT" );
+
+        try
+        {
+            DatastoreService.setDataValue( "portal.site.site_property.bo.shortcuts.checkbox", "0" );
+            instance.doModifyHomeShortcuts( request );
+            fail( "Should have thrown" );
+        }
+        catch( AccessDeniedException e )
+        {
+            assertFalse( AdminUserPreferencesService.instance( ).existsKey( Integer.toString( user.getUserId( ) ), "core.home.shortcuts" ) );
+        }
+        finally
+        {
+            if ( strEnabledBefore != null )
+            {
+                DatastoreService.setDataValue( "portal.site.site_property.bo.shortcuts.checkbox", strEnabledBefore );
+            }
+            else
+            {
+                DatastoreService.removeData( "portal.site.site_property.bo.shortcuts.checkbox" );
+            }
+        }
+    }
+
+    @Test
+    public void testDoModifyHomeShortcutsInvalidToken( )
+    {
+        MockHttpServletRequest request = getShortcutsRequest( "save", "CORE_USERS_MANAGEMENT" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, "invalid" );
+        AdminUser user = getShortcutUser( request, "CORE_ADMIN_SITE", "CORE_USERS_MANAGEMENT" );
+
+        try
+        {
+            instance.doModifyHomeShortcuts( request );
+            fail( "Should have thrown" );
+        }
+        catch( AccessDeniedException e )
+        {
+            assertFalse( AdminUserPreferencesService.instance( ).existsKey( Integer.toString( user.getUserId( ) ), "core.home.shortcuts" ) );
         }
     }
 }

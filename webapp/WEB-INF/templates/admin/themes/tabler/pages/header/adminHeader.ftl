@@ -303,6 +303,17 @@ Parameters:
 </#if>
 </#macro>
 <#--
+Macro: adminFeatureIcon
+Description: The icon of a menu entry or of a feature group, which is either the class of an icon font (e.g. 'ti ti-sitemap') or the path
+of an image (the icon a plugin declares, e.g. 'themes/admin/shared/plugins/forms/images/forms.svg').
+Parameters:
+- icon (string, required): the class or the path; nothing is written when it is empty.
+- class (string, optional): classes added to the icon.
+-->
+<#macro adminFeatureIcon icon class=''>
+<#if icon?matches( '.*\\.(png|svg|gif|jpe?g|webp)$', 'i' )><img src="${icon}" class="admin-feature-icon<#if class!=''> ${class}</#if>" width="20" height="20" alt="" aria-hidden="true"><#elseif icon?has_content><i class="${icon}<#if class!=''> ${class}</#if>" aria-hidden="true"></i></#if>
+</#macro>
+<#--
 Macro: adminHeaderMenu
 Description: Main features menu (feature groups and their features). Internal helper of adminHeader.
 Parameters:
@@ -318,7 +329,7 @@ Parameters:
 	<#if feature_group.features?size gt 1>
 	<li class="nav-item dropdown">
 		<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}" data-bs-toggle="dropdown" data-bs-auto-close="${autoClose}" role="button" aria-haspopup="true" aria-expanded="false">
-			<span class="nav-link-icon"><i class="${icon_class}"></i></span>
+			<span class="nav-link-icon"><@adminFeatureIcon icon=icon_class /></span>
 			<span class="nav-link-title">${feature_group.label}</span>
 		</a>
 		<div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
@@ -327,11 +338,11 @@ Parameters:
 				<#list feature_group.features as feature>
 					<#if !feature.externalFeature>
 					<a class="dropdown-item" id="feature-${feature.id?lower_case}" href="${feature.url}?plugin_name=${feature.pluginName}" title="${feature.name}">
-						<#if feature.iconUrl?has_content><i class="${feature.iconUrl} icon-inline me-1"></i></#if>${feature.name}
+						<@adminFeatureIcon icon=feature.iconUrl! class='icon-inline me-1' />${feature.name}
 					</a>
 					<#else>
 					<a class="dropdown-item" id="feature-${feature.id?lower_case}" href="${feature.url}" title="${feature.name}">
-						<#if feature.iconUrl?has_content><i class="${feature.iconUrl} icon-inline me-1"></i></#if>${feature.name}
+						<@adminFeatureIcon icon=feature.iconUrl! class='icon-inline me-1' />${feature.name}
 					</a>
 					</#if>
 				</#list>
@@ -343,7 +354,7 @@ Parameters:
 	<#list feature_group.features as feature>
 	<li class="nav-item">
 		<a class="nav-link" id="feature-${feature.id?lower_case}" href="<#if !feature.externalFeature>${feature.url}?plugin_name=${feature.pluginName}<#else>${feature.url}</#if>">
-			<#if feature.iconUrl?has_content><span class="nav-link-icon"><i class="${feature.iconUrl}"></i></span></#if>
+			<#if feature.iconUrl?has_content><span class="nav-link-icon"><@adminFeatureIcon icon=feature.iconUrl /></span></#if>
 			<span class="nav-link-title">${feature.name}</span>
 		</a>
 	</li>
@@ -351,6 +362,34 @@ Parameters:
 	</#if>
 </#list>
 </ul>
+<#-- An image icon that cannot be loaded (a plugin declaring a file that does not exist) gives way to a generic icon -->
+<script>
+document.currentScript.previousElementSibling.querySelectorAll( 'img.admin-feature-icon' ).forEach( img => {
+	const fallback = ( ) => {
+		const icon = document.createElement( 'i' );
+		icon.className = 'ti ti-apps ' + img.className.replace( 'admin-feature-icon', '' ).trim( );
+		icon.setAttribute( 'aria-hidden', 'true' );
+		img.replaceWith( icon );
+	};
+	if ( img.complete && img.naturalWidth === 0 ) {
+		fallback( );
+	} else {
+		img.addEventListener( 'error', fallback, { once: true } );
+	}
+});
+</script>
+<style>
+img.admin-feature-icon { width: 1.25rem; height: 1.25rem; object-fit: contain; vertical-align: middle; }
+/* The entries of a menu: the menu grows with its labels up to a width, past which a label goes on a second line, whole, rather than
+   overflowing or being cut (several labels only differ at their end, e.g. "Formulaires - ...") */
+#main-menu .dropdown-menu-column { width: max-content; max-width: min( 22rem, 90vw ); }
+/* In the sidebar the menus open in its width: the labels go on a second line there; in the folded rail they open beside it, as above */
+.navbar-vertical #main-menu .dropdown-menu-column { width: auto; max-width: none; }
+.navbar-vertical.navbar-folded #main-menu .dropdown-menu-column { width: max-content; max-width: min( 22rem, 90vw ); }
+#main-menu .dropdown-item { white-space: normal; overflow-wrap: anywhere; align-items: flex-start; line-height: 1.3; }
+/* The icons, images or glyphs, on the same width: the labels start at the same place */
+#main-menu .dropdown-item > .admin-feature-icon, #main-menu .dropdown-item > i { flex-shrink: 0; width: 1.25rem; text-align: center; }
+</style>
 </#macro>
 <#--
 Macro: adminHeaderTools

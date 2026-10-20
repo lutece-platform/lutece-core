@@ -202,3 +202,27 @@ DELETE FROM core_datastore WHERE entity_key LIKE 'core.cache.status.%.diskPersis
     OR entity_key LIKE 'core.cache.status.%.diskExpiryThreadIntervalSeconds'
     OR entity_key LIKE 'core.cache.status.%.diskSpoolBufferSizeMB'
     OR entity_key LIKE 'core.cache.status.%.memoryStoreEvictionPolicy';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev28.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The figures of the site on the admin home, in the strip of the first zone after the users and the plugins
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_dashboard WHERE dashboard_name = 'CORE_SITE_KPIS'
+INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SITE_KPIS', 1, 3);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev29.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The layout of the homepage dashboards, a panel of the technical dashboard: never placed until now, it could not be reached
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_admin_dashboard WHERE dashboard_name = 'adminHomePageAdminDashboardComponent'
+INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) SELECT 'adminHomePageAdminDashboardComponent', 1, COALESCE( MAX( dashboard_order ), 0 ) + 1 FROM core_admin_dashboard WHERE dashboard_column = 1;
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev30.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The default shortcuts of the homepage header, the two buttons it showed until now; each user may then choose their own
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'core.home.shortcuts.default'
+INSERT INTO core_datastore VALUES ('core.home.shortcuts.default', 'CORE_ADMIN_SITE,CORE_USERS_MANAGEMENT');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev31.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The site property that lets the users choose their own shortcuts of the homepage header (on by default)
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.bo.shortcuts.checkbox'
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.checkbox', '1');

@@ -8,6 +8,11 @@ Parameters:
 - class (string, optional): the class to apply to the widget element.
 - bodyClass (string, optional): the class to apply to the widget body element.
 - params (string, optional): additional parameters to add to the widget element.
+- boxIcon (string, optional): a Tabler icon name shown on a light square before the title.
+- iconColor (string, optional): the Tabler color of that square (azure, green, purple...); 'primary' when empty.
+- subtitle (string, optional): a line of text under the title.
+- headerActions (string, optional): HTML of buttons shown in the header, before the link and the menu (e.g. a "Create" button).
+- flush (boolean, optional): the content goes against the edges of the card, without padding nor wrapper, for a list-group-flush or a table.
 
 Snippet:
 
@@ -26,6 +31,15 @@ Snippet:
         </table>
     </@adminDashboardWidget>
 
+    Compact dashboard widget, its content a flush list, with an icon, a subtitle and a header button:
+
+    <#assign createButton><a class="btn btn-sm btn-primary" href="jsp/admin/plugins/myplugin/CreateEntity.jsp"><i class="ti ti-plus" aria-hidden="true"></i>Create</a></#assign>
+    <@adminDashboardWidget id='widget-entities' title='Entities' boxIcon='list' iconColor='azure' subtitle='3 entities' url='jsp/admin/plugins/myplugin/ManageEntities.jsp' headerActions=createButton flush=true>
+        <div class="list-group list-group-flush">
+            <div class="list-group-item">Entity 1</div>
+        </div>
+    </@adminDashboardWidget>
+
     Dashboard widget without header:
 
     <@adminDashboardWidget id='widget-quick' title='Quick Actions' hasHeader=false>
@@ -33,28 +47,41 @@ Snippet:
     </@adminDashboardWidget>
 
 -->
-<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='vmax-dvh-50 overflow-y-auto ' boxContentFooter='' actions=true actionMenu='' params='' deprecated...>
+<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='vmax-dvh-50 overflow-y-auto ' boxContentFooter='' actions=true actionMenu='' params='' boxIcon='' iconColor='' subtitle='' headerActions='' flush=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
+<#--
+	The header of the Tabler "card actions": the icon, the title and its subtitle on the left, the actions on the right: the buttons of
+	the widget, a link to its feature and the menu, which keeps the entries of the widget and the one that hides it
+-->
+<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget${class?has_content?then(" " + class, "")}' params=' data-id="${id}" draggable="true"'>
 <#if hasHeader>
-<@boxHeader titleLevel='h3' title=title! titleActions=actions>
-<div class="dropdown">
-	<a href="#" class="btn-action" data-bs-toggle="dropdown">
-	<!-- Download SVG icon from http://tabler.io/icons/icon/dots-vertical -->
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-		<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-		<path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-		<path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-	</svg>
-	</a>
-	<div class="dropdown-menu dropdown-menu-end">
-		<#if actionMenu!=''>${actionMenu!}</#if>
-		<#if url!=''><@aButton color='link' class='dropdown-item' href=url! title='#i18n{portal.util.labelShow} ${title!}' /></#if>
-		<@button color='link' class='dropdown-item text-danger' style='card-control remove' buttonTargetId='#${id}_dashboard_card' title='#i18n{portal.util.labelHide}' />
+<div class="card-header">
+	<#if boxIcon!=''><span class="avatar avatar-sm bg-${iconColor?has_content?then(iconColor, 'primary')}-lt"><@icon style=boxIcon /></span></#if>
+	<div class="min-w-0">
+		<h3 class="card-title text-truncate">${title}</h3>
+		<#if subtitle!=''><p class="card-subtitle text-truncate">${subtitle}</p></#if>
 	</div>
+	<#if actions>
+	<div class="card-actions btn-actions">
+		<#if headerActions!=''>${headerActions}</#if>
+		<#if url!=''><a href="${url}" class="btn-action" title="#i18n{portal.util.labelShow} ${title}"><i class="ti ti-arrow-up-right" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelShow} ${title}</span></a></#if>
+		<div class="dropdown">
+			<a href="#" class="btn-action" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="#i18n{portal.util.labelActions}"><i class="ti ti-dots-vertical" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelActions}</span></a>
+			<div class="dropdown-menu dropdown-menu-end">
+				<#if actionMenu!=''>${actionMenu}</#if>
+				<@button color='link' class='dropdown-item text-danger' style='card-control remove' buttonTargetId='#${id}_dashboard_card' title='#i18n{portal.util.labelHide}' />
+			</div>
+		</div>
+	</div>
+	</#if>
 </div>
-</@boxHeader>
 </#if>
+<#if flush>
+<div class="card-body p-0 ${bodyClass}" id="${id}_dashboard_card_body">
+<#if !hasHeader><h3 class="card-title px-3 pt-3">${title}</h3></#if>
+<#nested>
+</div>
+<#else>
 <@boxBody class='${bodyClass}' id='${id}_dashboard_card_body'>
 <#if !hasHeader><h3 class="card-title">${title}</h3></#if>
 <@row>
@@ -63,14 +90,8 @@ Snippet:
 </@columns>
 <#if !hasHeader && actionMenu !=''>
 <@columns md=1>
-<div class="dropdown ">
-	<a href="#" class="btn-action" data-bs-toggle="dropdown">
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-		<path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-		<path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-		<path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-	</svg>
-	</a>
+<div class="dropdown">
+	<a href="#" class="btn-action" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="#i18n{portal.util.labelActions}"><i class="ti ti-dots-vertical" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.util.labelActions}</span></a>
 	<div class="dropdown-menu dropdown-menu-end">
 		${actionMenu!}
 	</div>
@@ -79,6 +100,7 @@ Snippet:
 </#if>
 </@row>
 </@boxBody>
+</#if>
 <#if boxContentFooter != ''>
 <@boxFooter>
 ${boxContentFooter!}

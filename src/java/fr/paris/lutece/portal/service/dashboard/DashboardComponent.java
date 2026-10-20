@@ -250,7 +250,8 @@ public abstract class DashboardComponent implements IDashboardComponent
         String strKey;
         Locale locale = ( _locale != null ) ? _locale : LocaleService.getDefault( );
 
-        if ( _plugin == PluginService.getCore( ) )
+        // The core dashboards carry a plugin named after the core, not always the instance of PluginService.getCore( )
+        if ( _plugin == null || PluginService.getCore( ).getName( ).equals( _plugin.getName( ) ) )
         {
             strKey = "portal.dashboard.dashboardComponent." + _strName + ".description";
         }

@@ -1,0 +1,5 @@
+<#-- The figures of the site on the admin home (SiteKpisDashboardComponent): one small box each, so that each one can be moved or hidden -->
+<@smallBox id='site_kpi_pages' color='azure' boxIcon='sitemap' title=pages_count?c text='#i18n{portal.site.dashboard.kpiPages}' url=url urlText='#i18n{portal.site.adminFeature.admin_site.name}' />
+<@smallBox id='site_kpi_portlets' color='green' boxIcon='layout-grid' title=published_portlets_count?c unit='/ ${portlets_count?c}' progress=( portlets_count gt 0 )?then( ( published_portlets_count * 100 / portlets_count )?round?c, '' ) text='#i18n{portal.site.dashboard.kpiPublishedPortlets}' url=url urlText='#i18n{portal.site.adminFeature.admin_site.name}' />
+<@smallBox id='site_kpi_restricted' color='purple' boxIcon='lock' title=restricted_pages_count?c text='#i18n{portal.site.dashboard.kpiRestrictedPages}' url=url urlText='#i18n{portal.site.adminFeature.admin_site.name}' />
+<@smallBox id='site_kpi_recent' color='yellow' boxIcon='clock-edit' title=recent_pages_count?c text=i18n( 'portal.site.dashboard.kpiRecentPages', recent_days?c ) url=url urlText='#i18n{portal.site.adminFeature.admin_site.name}' />

@@ -183,6 +183,73 @@ public class DashboardJspBeanTest extends LuteceTestCase
         }
     }
     @Test
+    public void testDoSaveLayout( ) throws AccessDeniedException
+    {
+        IDashboardComponent other = new TestDashboardComponent( );
+        other.setName( getRandomName( ) );
+        other.setRight( "ALL" );
+        DashboardFactory.registerDashboardComponent( other );
+        int nZone = DashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) + 1;
+
+        try
+        {
+            // both dashboards in a new zone, the second one first
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "dashboard_zone_" + nZone, other.getName( ), _dashboard.getName( ), "unknownDashboard" );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
+
+            _instance.doSaveLayout( request );
+
+            IDashboardComponent stored = DashboardHome.findByPrimaryKey( other.getName( ) );
+            assertNotNull( stored, "a dashboard never placed is created" );
+            assertEquals( nZone, stored.getZone( ) );
+            assertEquals( 1, stored.getOrder( ) );
+            stored = DashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+            assertEquals( nZone, stored.getZone( ) );
+            assertEquals( 2, stored.getOrder( ) );
+            assertNull( DashboardHome.findByPrimaryKey( "unknownDashboard" ), "an unknown name is ignored" );
+
+            // then the first one taken off the homepage
+            request = new MockHttpServletRequest( );
+            request.setParameter( "dashboard_zone_" + nZone, _dashboard.getName( ) );
+            request.setParameter( "dashboard_unset", other.getName( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
+
+            _instance.doSaveLayout( request );
+
+            assertNull( DashboardHome.findByPrimaryKey( other.getName( ) ) );
+            stored = DashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+            assertEquals( nZone, stored.getZone( ) );
+            assertEquals( 1, stored.getOrder( ) );
+        }
+        finally
+        {
+            DashboardHome.remove( other.getName( ) );
+        }
+    }
+    @Test
+    public void testDoSaveLayoutInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "dashboard_zone_1", _dashboard.getName( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) + "b" );
+
+        try
+        {
+            _instance.doSaveLayout( request );
+            fail( "Should have thrown" );
+        }
+        catch( AccessDeniedException e )
+        {
+            IDashboardComponent stored = DashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+            assertEquals( 0, stored.getOrder( ) );
+            assertEquals( _nZone, stored.getZone( ) );
+        }
+    }
+    @Test
     public void testDoReorderColumn( ) throws AccessDeniedException
     {
         IDashboardComponent stored = DashboardHome.findByPrimaryKey( _dashboard.getName( ) );

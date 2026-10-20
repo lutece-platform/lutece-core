@@ -1,113 +1,182 @@
-<#macro dashboardTable items=[] list_available_orders_column=[] order=true>
-<#if items?exists && items?size gt 0>
-  <#list items as dashboard>
-    <@tr>
-      <@td xs=3 sm=3 >${dashboard.name}  (${dashboard.plugin.name})</@td>
-      <@td xs=5 sm=5 >${dashboard.description}</@td>
-      <#-- name -->
-      <@td xs=2 sm=2>
-      <#-- column -->
-      <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' type='inline'>
-        <@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
-        <@input type='hidden' name='token' value='${token}' />
-        <#if !dashboard.order?exists || dashboard.order==0>
-          <#assign dashboard_order=1/>
-        <#else>
-          <#assign dashboard_order=dashboard.order/>
-        </#if>
-        <@input type='hidden' name='dashboard_order' value='${dashboard_order}' />
-        <@formGroup formStyle='inline' rows=2>
-            <@inputGroup>
-                <@select name='dashboard_column' id='dashboard_column-${dashboard.name}' default_value='${dashboard.zone!}' items=list_available_columns />
-                <@button type='submit' buttonIcon='check' title='#i18n{portal.dashboard.table.action.setColumn}' hideTitle=['all'] />
-            </@inputGroup>
-        </@formGroup>
-      </@tform>
-      </@td>
-      <#-- /column -->
-      <#if order>
-        <@td xs=2 sm=2>
-          <#-- order -->
-          <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' type='inline'>
-            <@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
-            <@input type='hidden' name='token' value='${token}' />
-            <#if !dashboard.zone?exists || dashboard.zone==0>
-              <#assign dashboard_column=1 />
-            <#else>
-              <#assign dashboard_column=dashboard.zone />
-            </#if>
-            <@input type='hidden' name='dashboard_column' value='${dashboard_column}' />
-            <@formGroup formStyle='inline' rows=2>
-              <@inputGroup>
-                  <@select name='dashboard_order' id='dashboard_order-${dashboard.name}' default_value='${dashboard.order!}' items=list_available_orders_column sort=true />
-                  <@button type='submit' buttonIcon='arrows-vertical' title='#i18n{portal.dashboard.table.action.move}' hideTitle=['all'] />
-              </@inputGroup>
-            </@formGroup>
-            </@tform>
-        </@td>
-        <#-- /order -->
-      </#if>
-    </@tr>
-  </#list>
-<#else>
-  <#if !order>
-    <@callOut color='warning'>#i18n{portal.dashboard.message.emptyGroup}</@callOut>
-  </#if>    
-</#if>
+<#--
+	The layout of the homepage dashboards, arranged by drag and drop: one card a zone, laid out as on the homepage (zone 1 the strip of
+	figures over the whole width, zones 2 and 3 half the width each, the next ones a third), and a card of the dashboards that are not
+	displayed. Each dashboard carries a hidden field named after its zone: moving it renames the field, and the form posts the whole layout
+	at once. Buttons on each dashboard do the same moves from the keyboard.
+-->
+<#macro layoutItem dashboard field>
+<#local label = dashboard.description?has_content?then( dashboard.description, dashboard.name )>
+<li class="list-group-item dashboard-layout-item" data-name="${dashboard.name}">
+	<input type="hidden" name="${field}" value="${dashboard.name}">
+	<div class="d-flex align-items-center gap-2">
+		<span class="dashboard-layout-handle text-secondary" title="#i18n{portal.dashboard.manage.drag}" aria-hidden="true"><i class="ti ti-grip-vertical"></i></span>
+		<div class="min-w-0 flex-fill">
+			<div class="fw-semibold text-truncate" title="${label}">${label}</div>
+			<div class="text-secondary small text-truncate"><#if dashboard.plugin??>${dashboard.plugin.name} · </#if><code class="dashboard-layout-code">${dashboard.name}</code></div>
+		</div>
+		<div class="btn-actions">
+			<button type="button" class="btn-action" data-move="up" title="#i18n{portal.dashboard.manage.moveUp} ${label}"><i class="ti ti-arrow-up" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.dashboard.manage.moveUp} ${label}</span></button>
+			<button type="button" class="btn-action" data-move="down" title="#i18n{portal.dashboard.manage.moveDown} ${label}"><i class="ti ti-arrow-down" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.dashboard.manage.moveDown} ${label}</span></button>
+			<div class="dropdown">
+				<button type="button" class="btn-action" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-popper-config='{"strategy":"fixed"}' title="#i18n{portal.dashboard.manage.moveTo} ${label}"><i class="ti ti-arrows-move" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.dashboard.manage.moveTo} ${label}</span></button>
+				<div class="dropdown-menu dropdown-menu-end">
+					<span class="dropdown-header">#i18n{portal.dashboard.manage.moveTo}</span>
+					<#list zones as zone>
+					<button type="button" class="dropdown-item" data-move-to="dashboard_zone_${zone}">${i18n( 'portal.dashboard.manage.zone', zone?c )}</button>
+					</#list>
+					<div class="dropdown-divider"></div>
+					<button type="button" class="dropdown-item" data-move-to="dashboard_unset"><i class="ti ti-eye-off me-2" aria-hidden="true"></i>#i18n{portal.dashboard.manage.unset}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</li>
 </#macro>
-<@row>
-  <@columns>
-    <@accordionContainer id='adminHomePage'>
-		<@accordionPanel color='success' collapsed=true childId='adminHomePageManagement'>
-			<@accordionHeader title='#i18n{portal.dashboard.title.manage}' headerIcon='columns' />
-			<@accordionBody>
-        <@p>#i18n{portal.dashboard.featureDescription}</@p>
-				<#-- column lists -->
-        <@table>
-			  <@tr>
-            <#-- header -->
-            <@th>#i18n{portal.dashboard.table.title.name}</@th>
-            <@th>#i18n{portal.dashboard.table.title.description}</@th>
-            <#-- name -->
-            <@th>#i18n{portal.dashboard.table.title.column}</@th>
-            <#-- column -->
-            <@th>#i18n{portal.dashboard.table.title.order}</@th>
-            <#-- order -->
-          </@tr>
-          <@tableHeadBodySeparator />
-				  <#list list_available_columns as column_refItem>
-          <#if column_refItem.code !=''>
-            <#assign column_key=column_refItem.code />
-            <#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
-              <@tform method='post' action='jsp/admin/dashboard/DoReorderColumn.jsp' class='pull-right'>
-                <@input type='hidden' name='column' value='${column_key?html}' />
-                <@input type='hidden' name='token' value='${token}' />
-                <@button type="submit" title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='warning' />
-              </@tform>
-            </#if>
-            <@dashboardTable items=map_dashboards[column_key] list_available_orders_column=map_available_orders[column_key] />
-            <#-- suggest reorder if the column is not well ordered -->
-          </#if>
-				</#list>
-        </@table>
-				<#-- not set list -->
-        <#if (not_set_dashboards?size > 0) >
-				<@h level=3>#i18n{portal.dashboard.title.notSetDashboard}</@h>
-        <@table>
-        <@tr>
-          <#-- header -->
-          <@th>#i18n{portal.dashboard.table.title.name}</@th>
-          <@th>#i18n{portal.dashboard.table.title.description}</@th>
-          <#-- name -->
-          <@th>#i18n{portal.dashboard.table.title.column}</@th>
-          <#-- column -->
-        </@tr>
-        <@tableHeadBodySeparator />
-        <@dashboardTable items=not_set_dashboards order=false/>
-        </@table>
-        </#if>
-      </@accordionBody>    
-		</@accordionPanel>
-    </@accordionContainer>
-	</@columns>
-</@row>
+<#-- The dashboards that are not displayed: those never placed, and those left in a zone below 1 by the former screen -->
+<#assign unsetDashboards = not_set_dashboards![]>
+<#list map_dashboards?keys as zoneKey>
+	<#if zoneKey?number lt 1><#assign unsetDashboards = unsetDashboards + map_dashboards[zoneKey]></#if>
+</#list>
+<#-- A panel of the technical dashboard, with its own entry in its menu (added by view_dashboards.html from data-nav and title) -->
+<@adminDashboardPanel title='#i18n{portal.dashboard.adminFeature.dashboard_management.name}' navTitle='#i18n{portal.dashboard.menuTitle}' childId='adminHomePageManagement' icon='layout-dashboard'>
+	<p class="text-secondary">#i18n{portal.dashboard.featureDescription} #i18n{portal.dashboard.manage.help}</p>
+	<form id="dashboard-layout-form" method="post" action="jsp/admin/dashboard/DoSaveDashboardsLayout.jsp">
+		<input type="hidden" name="token" value="${token}">
+		<div class="dashboard-layout">
+			<#list zones as zone>
+			<#assign zoneDashboards = ( map_dashboards[zone?c]![] )?sort_by( 'order' )>
+			<section class="card dashboard-layout-zone dashboard-layout-zone-${( zone == 1 )?then( 'strip', ( zone lte 3 )?then( 'half', 'third' ) )}<#if zone gt displayed_zone_count> dashboard-layout-zone-hidden</#if>" aria-labelledby="dashboard-zone-title-${zone}">
+				<div class="card-header">
+					<div class="min-w-0">
+						<h3 class="card-title" id="dashboard-zone-title-${zone}">${i18n( 'portal.dashboard.manage.zone', zone?c )}</h3>
+						<p class="card-subtitle text-truncate"><#if zone gt displayed_zone_count>#i18n{portal.dashboard.manage.zone.notDisplayed}<#elseif zone == 1>#i18n{portal.dashboard.manage.zone.strip}<#elseif zone lte 3>#i18n{portal.dashboard.manage.zone.half}<#else>#i18n{portal.dashboard.manage.zone.third}</#if></p>
+					</div>
+					<div class="card-actions"><span class="badge bg-secondary-lt dashboard-layout-count">${zoneDashboards?size}</span></div>
+				</div>
+				<ul class="list-group list-group-flush dashboard-layout-list" data-field="dashboard_zone_${zone}" data-empty="#i18n{portal.dashboard.manage.empty}">
+					<#list zoneDashboards as dashboard><@layoutItem dashboard=dashboard field='dashboard_zone_${zone}' /></#list>
+				</ul>
+			</section>
+			</#list>
+			<section class="card dashboard-layout-zone dashboard-layout-zone-unset" aria-labelledby="dashboard-zone-title-unset">
+				<div class="card-header">
+					<div class="min-w-0">
+						<h3 class="card-title" id="dashboard-zone-title-unset"><i class="ti ti-eye-off me-1" aria-hidden="true"></i>#i18n{portal.dashboard.manage.unset}</h3>
+						<p class="card-subtitle text-truncate">#i18n{portal.dashboard.manage.unset.help}</p>
+					</div>
+					<div class="card-actions"><span class="badge bg-secondary-lt dashboard-layout-count">${unsetDashboards?size}</span></div>
+				</div>
+				<ul class="list-group list-group-flush dashboard-layout-list" data-field="dashboard_unset" data-empty="#i18n{portal.dashboard.manage.empty}">
+					<#list unsetDashboards as dashboard><@layoutItem dashboard=dashboard field='dashboard_unset' /></#list>
+				</ul>
+			</section>
+		</div>
+		<div class="dashboard-layout-actions">
+			<span class="dashboard-layout-status text-secondary small me-auto" role="status" aria-live="polite" data-unsaved="#i18n{portal.dashboard.manage.unsaved}"></span>
+			<a class="btn" href="jsp/admin/AdminTechnicalMenu.jsp">#i18n{portal.dashboard.manage.buttonCancel}</a>
+			<button type="submit" class="btn btn-primary" disabled><i class="ti ti-device-floppy" aria-hidden="true"></i>#i18n{portal.dashboard.manage.buttonSave}</button>
+		</div>
+	</form>
+</@adminDashboardPanel>
+<style>
+.dashboard-layout { display: grid; grid-template-columns: repeat( 6, minmax( 0, 1fr ) ); gap: .75rem; }
+.dashboard-layout-zone { margin: 0; grid-column: span 6; }
+@media ( min-width: 992px ) {
+	.dashboard-layout-zone-half { grid-column: span 3; }
+	.dashboard-layout-zone-third { grid-column: span 2; }
+}
+.dashboard-layout-zone > .card-header { min-height: 0; padding: .5rem .75rem .5rem 1rem; }
+.dashboard-layout-zone .card-title { font-size: .9375rem; font-weight: 600; margin: 0; }
+.dashboard-layout-zone .card-subtitle { font-size: .75rem; margin: 0; }
+.dashboard-layout-zone-hidden, .dashboard-layout-zone-unset { background: var( --tblr-bg-surface-secondary ); border-style: dashed; }
+.dashboard-layout-zone-hidden .card-subtitle { color: var( --tblr-warning ); }
+/* The list keeps a height to drop on when it is empty, and says so */
+.dashboard-layout-list { min-height: 3.25rem; }
+.dashboard-layout-list:not( :has( .dashboard-layout-item ) )::before { content: attr( data-empty ); display: block; padding: 1rem; text-align: center; font-size: .8125rem; color: var( --tblr-secondary ); }
+.dashboard-layout-item { padding: .5rem .75rem; background: var( --tblr-bg-surface ); }
+.dashboard-layout-handle { cursor: grab; font-size: 1.125rem; }
+.dashboard-layout-item .btn-actions { display: flex; align-items: center; gap: .125rem; opacity: .6; transition: opacity .15s; }
+.dashboard-layout-item:hover .btn-actions, .dashboard-layout-item:focus-within .btn-actions { opacity: 1; }
+.dashboard-layout-item .btn-action { width: 1.75rem; height: 1.75rem; display: inline-flex; align-items: center; justify-content: center; border: 0; background: transparent; box-shadow: none; }
+.dashboard-layout-item .btn-action:hover { background: var( --tblr-active-bg ); }
+.dashboard-layout-code { font-size: .75rem; padding: 0; background: none; color: inherit; }
+.dashboard-layout .sortable-ghost { opacity: .4; }
+.dashboard-layout .sortable-chosen { outline: 2px dashed var( --tblr-primary ); outline-offset: -2px; }
+.dashboard-layout-dragging .dashboard-layout-list { outline: 1px dashed var( --tblr-border-color ); outline-offset: -4px; }
+/* The buttons stay in sight at the bottom of the window while the layout is long */
+.dashboard-layout-actions { position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; gap: .5rem; margin-top: .75rem; padding: .75rem 0; background: var( --tblr-bg-surface ); border-top: 1px solid var( --tblr-border-color ); }
+</style>
+<script>
+// Started once the page is read: SortableJS is loaded at the end of it, after this panel
+document.addEventListener( 'DOMContentLoaded', ( ) => {
+	const form = document.getElementById( 'dashboard-layout-form' );
+	if ( !form ) {
+		return;
+	}
+	const layout = form.querySelector( '.dashboard-layout' );
+	const lists = Array.from( form.querySelectorAll( '.dashboard-layout-list' ) );
+	const saveButton = form.querySelector( 'button[type="submit"]' );
+	const status = form.querySelector( '.dashboard-layout-status' );
+	let dirty = false;
+
+	// After a move: each hidden field takes the name of its zone, each count its number, and the form can be saved
+	const refresh = ( ) => {
+		lists.forEach( list => {
+			list.querySelectorAll( 'input[type="hidden"]' ).forEach( input => { input.name = list.dataset.field; } );
+			const count = list.closest( '.dashboard-layout-zone' ).querySelector( '.dashboard-layout-count' );
+			count.textContent = list.children.length;
+		});
+		dirty = true;
+		saveButton.disabled = false;
+		status.textContent = status.dataset.unsaved;
+	};
+
+	// Without SortableJS, the buttons still move the dashboards
+	lists.forEach( list => typeof Sortable !== 'undefined' && new Sortable( list, {
+			group: 'dashboard-layout',
+			draggable: '.dashboard-layout-item',
+			filter: 'button, a, .dropdown-menu',
+			preventOnFilter: false,
+			animation: 150,
+			onStart: ( ) => layout.classList.add( 'dashboard-layout-dragging' ),
+			onEnd: ( ) => layout.classList.remove( 'dashboard-layout-dragging' ),
+			onSort: refresh
+		}) );
+
+	// The same moves from the buttons: up, down, or to another zone (at its end); the focus follows the dashboard
+	form.addEventListener( 'click', event => {
+		const button = event.target.closest( '[data-move], [data-move-to]' );
+		if ( !button ) {
+			return;
+		}
+		const item = button.closest( '.dashboard-layout-item' );
+		const move = button.dataset.move;
+		if ( move === 'up' && item.previousElementSibling ) {
+			item.parentNode.insertBefore( item, item.previousElementSibling );
+		} else if ( move === 'down' && item.nextElementSibling ) {
+			item.parentNode.insertBefore( item.nextElementSibling, item );
+		} else if ( button.dataset.moveTo ) {
+			const target = lists.find( list => list.dataset.field === button.dataset.moveTo );
+			if ( !target || target === item.parentNode ) {
+				return;
+			}
+			target.appendChild( item );
+		} else {
+			return;
+		}
+		refresh( );
+		const focus = item.querySelector( move ? '[data-move="' + move + '"]' : '[data-bs-toggle="dropdown"]' );
+		( focus || item ).focus( );
+		item.scrollIntoView( { block: 'nearest' } );
+	});
+
+	// Leaving the page with a layout not saved asks first; saving it does not
+	form.addEventListener( 'submit', ( ) => { dirty = false; } );
+	window.addEventListener( 'beforeunload', event => {
+		if ( dirty ) {
+			event.preventDefault( );
+			event.returnValue = '';
+		}
+	});
+});
+</script>

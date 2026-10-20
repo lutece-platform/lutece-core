@@ -112,8 +112,9 @@
 	}
 
 	function widgetTitle(el) {
+		// A widget without title (the figures of smallBox) names itself in data-dw-title
 		var titleEl = el.querySelector('.card-title, .card-header .card-title, h3');
-		var text = titleEl ? titleEl.textContent : '';
+		var text = el.getAttribute('data-dw-title') || (titleEl ? titleEl.textContent : '');
 		text = (text || '').replace(/\s+/g, ' ').trim();
 		return text || widgetId(el) || '';
 	}
@@ -239,11 +240,12 @@
 	DashboardWidgets.prototype.enhanceWidgets = function () {
 		var self = this;
 		this.widgets().forEach(function (el) {
+			// Every widget can be hidden, the ones without header too (the figures of smallBox)
+			self.neutralizeHideButton(el);
 			var header = widgetHeader(el);
 			if (!header || header.querySelector('.dw-collapse-toggle')) {
-				return; // no header (e.g. smallBox) or already enhanced
+				return; // no header (e.g. smallBox): nothing to collapse, or already enhanced
 			}
-			self.neutralizeHideButton(el);
 			var btn = document.createElement('button');
 			btn.type = 'button';
 			btn.className = 'btn btn-icon btn-link dw-collapse-toggle';
@@ -360,7 +362,12 @@
 				filter: 'a, button, input, select, textarea, .dropdown-menu, .btn-action',
 				preventOnFilter: false,
 				swapThreshold: 0.65,
+				// While a widget is dragged, the empty zones show as places to drop it (see adminHome.ftl)
+				onStart: function () {
+					self.container.classList.add('lutece-home-dragging');
+				},
 				onEnd: function () {
+					self.container.classList.remove('lutece-home-dragging');
 					self.captureLayout();
 					self.save();
 				}

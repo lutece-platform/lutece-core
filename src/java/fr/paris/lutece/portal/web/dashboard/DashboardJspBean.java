@@ -38,6 +38,12 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
@@ -68,6 +74,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_DASHBOARD_COLUMN = "dashboard_column";
     private static final String PARAMETER_DASHBOARD_ORDER = "dashboard_order";
     private static final String PARAMETER_COLUMN = "column";
+    private static final String PARAMETER_PREFIX_ZONE = "dashboard_zone_";
+    private static final String PARAMETER_UNSET = "dashboard_unset";
 
     // Messages
     private static final String MESSAGE_DASHBOARD_NOT_FOUND = "portal.dashboard.message.dashboardNotFound";
@@ -115,6 +123,44 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         _dashboardService.doReorderColumn( nColumn );
+
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+    }
+
+    /**
+     * Saves the whole layout of the homepage dashboards, as arranged by drag and drop: the parameter <code>dashboard_zone_N</code> gives the
+     * dashboards of the zone N in their order, the parameter <code>dashboard_unset</code> the dashboards taken off the homepage.
+     *
+     * @param request
+     *            the request
+     * @return url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
+    public String doSaveLayout( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        {
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        }
+
+        Map<Integer, List<String>> mapZones = new TreeMap<>( );
+
+        for ( Map.Entry<String, String [ ]> parameter : request.getParameterMap( ).entrySet( ) )
+        {
+            if ( parameter.getKey( ).startsWith( PARAMETER_PREFIX_ZONE ) )
+            {
+                int nZone = StringUtil.getIntValue( parameter.getKey( ).substring( PARAMETER_PREFIX_ZONE.length( ) ), -1 );
+
+                if ( nZone > 0 )
+                {
+                    mapZones.put( nZone, Arrays.asList( parameter.getValue( ) ) );
+                }
+            }
+        }
+
+        String [ ] strUnset = request.getParameterValues( PARAMETER_UNSET );
+        _dashboardService.doSaveLayout( mapZones, ( strUnset != null ) ? Arrays.asList( strUnset ) : Collections.emptyList( ) );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
