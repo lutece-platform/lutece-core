@@ -10,6 +10,8 @@ Parameters:
 - errors_class (string, optional): the CSS class of the alert element for error messages.
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
+- titleLevel (string, optional): the heading element of the alert titles, h2 by default so that they follow the h1 of the page.
+- titleClass (string, optional): the CSS class of the alert titles, h4 by default to keep their size.
 
 Snippet:
 
@@ -22,11 +24,11 @@ Snippet:
     <@messages infos=info_list warnings=warning_list />
 
 -->
-<#macro messages errors=[] infos=[] warnings=[] errors_class='alert alert-danger' infos_class='alert alert-info' warnings_class='alert alert-warning' deprecated...>
+<#macro messages errors=[] infos=[] warnings=[] errors_class='alert alert-danger' infos_class='alert alert-info' warnings_class='alert alert-warning' titleLevel='h2' titleClass='h4' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if errors??>
 	<#if errors?size gt 0 >
-		<@alert color='danger' title='#i18n{portal.util.message.titleError}' iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>
+		<@alert color='danger' title='#i18n{portal.util.message.titleError}' titleLevel=titleLevel titleClass=titleClass iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>
 		<@unstyledList>
 		<#list errors as error ><#if error.message??><@li>${error.message!' #i18n{portal.util.message.titleError} '}</@li></#if></#list>
 		</@unstyledList>
@@ -36,7 +38,7 @@ Snippet:
 <#if warnings??>
 	<#if warnings?size gt 0 >
 	<#assign first = warnings[0] />
-		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
+		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' titleLevel=titleLevel titleClass=titleClass iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
 			<@unstyledList>
 			 <#if !( first?is_hash && first.message?? )>
 				<#list warnings as warning ><@li>${warning!' #i18n{portal.util.message.titleWarning} '}</@li></#list>
@@ -50,7 +52,7 @@ Snippet:
 <#if infos??>
 	<#if infos?size gt 0 >
 	<#assign first = infos[0] />
-		<@alert color='info' title='#i18n{portal.util.message.titleInfo}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
+		<@alert color='info' title='#i18n{portal.util.message.titleInfo}' titleLevel=titleLevel titleClass=titleClass iconTitle='info-circle' dismissible=true id='messages_infos_div'>
 			<@unstyledList>
 			 <#if !( first?is_hash && first.message?? )>
 				<#list infos as info ><@li>${info!' #i18n{portal.util.message.titleInfo} '}</@li></#list>
