@@ -362,6 +362,11 @@ function toAdminUrl( href )
     {
         return null; // another host
     }
+    const contextPath = new URL( BASE_URL ).pathname.replace( /\/$/, '' );
+    if ( contextPath && url.startsWith( contextPath + '/' ) )
+    {
+        url = url.substring( contextPath.length );
+    }
     url = '/' + url.replace( /^\/?(lutece-core\/)?/, '' ).replace( /^\.\.\//, '' );
     url = url.replace( /([?&])token=[^&]*&?/, '$1' ).replace( /[?&]$/, '' ).replace( /#.*$/, '' );
     return url;
