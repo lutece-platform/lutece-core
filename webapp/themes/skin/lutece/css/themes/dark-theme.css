@@ -27,6 +27,7 @@
 	/* Black to White */
 	--lutece-ds-neutral-900: #fff;
 	--lutece-ds-neutral-600: #6D6D6D;
+	--lutece-ds-nav-link-color: var(--lutece-ds-neutral-600);
 
 	--lutece-ds-neutral-500: #071F32;
 	--lutece-ds-neutral-300: #C3C3C3;

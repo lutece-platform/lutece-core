@@ -64,31 +64,30 @@ Snippet:
 <@cBlock class='step-title'>
 	<@cContainer>
 		<#if hasSteps>
-			<@cTitle class='title ${titleClass}' level=titleLevel params={"data-step": ( step ), "title": "${title} - #i18n{portal.theme.labelCurrentStep}", "aria-current": "step", "tabindex": "0"}>
+			<@cTitle class='title ${titleClass}' level=titleLevel params={"data-step": ( step ), "title": "${title} - #i18n{portal.theme.labelCurrentStep}", "aria-current": "step", "tabindex": "-1"}>
 				<#if step?number!=0><@cText type='span' class='step-number'>${step}</@cText></#if>
 				<@cText type='span'>${title?replace('- hidden','')}</@cText>
 			</@cTitle>
 		<#else>
-			<@cTitle level=titleLevel class='title no-step' params={"title": "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", "tabindex": "0"}>
+			<@cTitle level=titleLevel class='title no-step' params={"title": "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", "tabindex": "-1"}>
 				${title} <@cText type='span' class='step-number visually-hidden'>${step}</@cText>
 			</@cTitle>
 		</#if>
 	</@cContainer>
 </@cBlock>
 <#else>
-<@cTitle level=titleLevel class='step-title visually-hidden' params={"title": "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", "tabindex": "0"}>
+<@cTitle level=titleLevel class='step-title visually-hidden' params={"title": "${title?replace('- hidden','')}- #i18n{portal.theme.labelCurrentStep}", "tabindex": "-1"}>
 	${title} <@cText type='span' class='step-number'>${step}</@cText>
 </@cTitle>
 </#if>
 <@cBlock class='step-content'>
 	<@cContainer>
-	<#if hasMandatory><@cText class="mandatory-warning visually-hidden">#i18n{portal.theme.msgMandatory}</@cText></#if>
+	<#if hasMandatory><@cText class="mandatory-warning">#i18n{portal.theme.msgMandatory}</@cText></#if>
 	<#nested>
 	</@cContainer>
 </@cBlock>
 <@cBlock class='step-footer'>
 	<@cContainer>
-		<#if hasMandatory><@cText class='mandatory-warning ms-xs'>#i18n{portal.theme.msgMandatory}</@cText></#if>
 		<@cBlock class='step-current-toolbar d-flex justify-content-center justify-content-sm-end'>
 			<@chList class='list-unstyled d-flex justify-content-end flex-column flex-sm-row align-items-center mt-0 me-xs'>
 			<#if actionPrevStep?has_content && showPrevStep >
@@ -138,22 +137,41 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		currentStepId = document.querySelector('#current_step .step-title .step-number').textContent.trim();
 	}
 	if ( invalidElements.length > 0 ) {
-		const firstInvalidElements = invalidElements[0];
-		const invalidElementStatusMsg = `<p class="visually-hidden" id="step-alert" tabindex="-1">${i18n('portal.theme.statusMsgStepValidationErrors')?js_string?no_esc}</p>`
-		document.querySelector('.step-current .step-content .container').insertAdjacentHTML( 'afterbegin', invalidElementStatusMsg );
-		document.querySelector('#step-alert').focus();	
-		firstInvalidElements.scrollIntoView({ behavior: 'smooth', block: 'center' });
-		switch(firstInvalidElements.tagName.toLowerCase()) {
-			case 'legend':
-				firstInvalidElements.parentElement.querySelector('input').focus();
-				break;
-			case 'div':
-				firstInvalidElements.querySelector('input').focus();
-				break;
-			default:
-				firstInvalidElements.focus();
-				break;
+		const summary = document.createElement( 'div' );
+		summary.id = 'step-error-summary';
+		summary.className = 'alert alert-outline alert-danger';
+		summary.setAttribute( 'tabindex', '-1' );
+		const summaryTitle = document.createElement( 'p' );
+		summaryTitle.className = 'alert-title';
+		summaryTitle.textContent = '${i18n('portal.theme.statusMsgStepValidationErrors')?js_string?no_esc}';
+		summary.appendChild( summaryTitle );
+		const summaryList = document.createElement( 'ul' );
+		document.querySelectorAll( '.step-current .step-content .invalid-feedback[id^="error_"]' ).forEach( function( feedback ) {
+			const fieldId = feedback.id.substring( 'error_'.length );
+			const field = document.getElementById( fieldId );
+			const fieldset = document.getElementById( 'fieldset-' + fieldId ) || ( field ? field.closest( 'fieldset' ) : null );
+			const label = document.querySelector( 'label[for="' + CSS.escape( fieldId ) + '"]' ) || ( fieldset ? fieldset.querySelector( 'legend' ) : null );
+			const item = document.createElement( 'li' );
+			const link = document.createElement( 'a' );
+			link.href = '#' + fieldId;
+			link.textContent = ( label ? label.textContent.replace( '*', '' ).trim( ) + ' : ' : '' ) + feedback.textContent.trim( );
+			link.addEventListener( 'click', function( e ) {
+				const target = field || ( fieldset ? fieldset.querySelector( 'input, select, textarea' ) : null );
+				if ( target ) {
+					e.preventDefault( );
+					target.focus( );
+				}
+			} );
+			item.appendChild( link );
+			summaryList.appendChild( item );
+		} );
+		if ( summaryList.children.length > 0 ) {
+			summary.appendChild( summaryList );
 		}
+		document.querySelector( '.step-current .step-content .container' ).insertAdjacentElement( 'afterbegin', summary );
+		document.title = '${i18n('portal.theme.labelError')?js_string?no_esc} : ' + document.title;
+		summary.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+		summary.focus( );
 	} else if ( !isNaN(parseInt(currentStepId) ) && parseInt( currentStepId ) > 1 ) {
 		const current = document.querySelector('#current_step');
 		// Scroll instantané vers l'étape courante après validation de l'étape précédente.
@@ -171,30 +189,30 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 	<#assign actionStep = ( actionNextStep?has_content )?then( ( actionNextStep!'' )?string, ( actionSaveStep!'' )?string ) />
 	const formValidate = document.getElementById('${(formId!)?js_string?no_esc}')<#if actionStep?? && actionStep?has_content>,formValidateButton = document.getElementById('${(actionStep!)?js_string?no_esc}')</#if>;
-	<#if step?number gt 1 >
 	<#if actionStep?? && actionStep?has_content>
 	formValidateButton && formValidateButton.addEventListener('click', (e) => {
-		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
-		const arrInvalids = Array.prototype.slice.call(invalids);
-		arrInvalids.forEach( function( invalid ){
-			invalid.classList.add('is-invalid')
-			invalid.setAttribute('aria-invalid', 'true');
-			const isRequired = invalid.getAttributeNode('required'); 
-			if( isRequired !='' ){
-				let pInvalid = document.createElement("p");
-				pInvalid.classList.add( 'invalid-feedback' );
-				<#assign invalidLabel = i18n('portal.theme.msgMandatory') />
-				pInvalid.textContent = '${invalidLabel?js_string?no_esc}';
-				if (invalid.closest('.input-group') != null) {
-					invalid.closest('.input-group').after(pInvalid);
-				} else {
-					invalid.after(pInvalid);
-				}
+		const fields = document.querySelectorAll( '.step-current .step-content input, .step-current .step-content select, .step-current .step-content textarea' );
+		fields.forEach( function( field ) {
+			if ( !field.id || field.type === 'hidden' || field.type === 'radio' || field.type === 'checkbox' || field.checkValidity( ) ) {
+				return;
 			}
+			field.classList.add( 'is-invalid' );
+			field.setAttribute( 'aria-invalid', 'true' );
+			const errorId = 'error_' + field.id;
+			let feedback = document.getElementById( errorId );
+			if ( !feedback ) {
+				feedback = document.createElement( 'p' );
+				feedback.className = 'invalid-feedback';
+				feedback.id = errorId;
+				const anchor = field.closest( '.input-group' ) || field;
+				anchor.after( feedback );
+			}
+			feedback.textContent = field.validity.valueMissing ? '${i18n('portal.theme.labelMandatoryField')?js_string?no_esc}' : field.validationMessage;
+			const describedBy = ( field.getAttribute( 'aria-describedby' ) || '' ).split( ' ' ).filter( function( token ) { return token && token !== errorId; } );
+			field.setAttribute( 'aria-describedby', [ errorId ].concat( describedBy ).join( ' ' ) );
 		});
 	})
 	</#if>
-</#if>
 	const saveStep = document.getElementById('save-step-status');
 	if(saveStep){
 		const at = saveStep.querySelector('.alert-title');

@@ -33,14 +33,16 @@
 	padding-inline-start: var(--lutece-ds-sp-xs);
 }
 
-/* Hover and focus recolor the border, not the outline: the outline is drawn outside the
-   border and would add up to a 2px ring, thicker than on plain fields. */
+/* Hover recolors the border; focus also draws a 2px outline around the whole group, as on plain
+   fields (the fields inside the group have no outline of their own). */
 .input-group:hover{
 	border-color: var(--lutece-ds-blue-600);
 }
 
 .input-group:focus-within{
 	border-color: var(--lutece-ds-primary);
+	outline: 2px solid var(--lutece-ds-primary);
+	outline-offset: 2px;
 }
 
 .input-group > .form-control-alternate {

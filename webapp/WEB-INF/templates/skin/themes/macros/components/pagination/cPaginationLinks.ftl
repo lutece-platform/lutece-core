@@ -63,8 +63,8 @@ Snippet:
 <ul class="pagination mb-0<#if class?has_content> ${class}</#if>">
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li class="page-item">
-		<a class="page-link" href="${paginator.firstPageLink}<#if fragment?has_content>#${fragment}</#if>" title="${paginator.labelFirst}">
-			<svg xmlns="http://www.w3.org/2000/svg" width="9.638" height="15.153" viewBox="0 0 9.638 15.153">
+		<a class="page-link" href="${paginator.firstPageLink}<#if fragment?has_content>#${fragment}</#if>" title="${paginator.labelFirst}"><span class="visually-hidden">${paginator.labelFirst}</span>
+			<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="9.638" height="15.153" viewBox="0 0 9.638 15.153">
 				<g transform="translate(8.279 13.676) rotate(180)">
 					<g transform="translate(0 0)">
 						<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>
@@ -101,24 +101,24 @@ Snippet:
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li class="page-item group">
-		<a class="page-link cesure" href="${(paginator.pagesLinks?first).url}<#if fragment?has_content>#${fragment}</#if>" title="#i18n{portal.theme.labelNextGroup}"><strong>...</strong></a>
+		<a class="page-link cesure" href="${(paginator.pagesLinks?first).url}<#if fragment?has_content>#${fragment}</#if>" title="#i18n{portal.theme.labelPrevGroup}"><strong aria-hidden="true">...</strong><span class="visually-hidden">#i18n{portal.theme.labelPrevGroup}</span></a>
 	</li>
 </#if>
 <#list paginator.pagesLinks as link>
 	<#if ( link.index == paginator.pageCurrent )>
 		<li class="page-item active" aria-current="page">
-			<span class="page-link" title="page ${link.name} sur ${paginator.pagesCount}">${link.name}</span>
+			<span class="page-link" title="${i18n( 'portal.theme.labelPageOf', link.name, paginator.pagesCount )}">${link.name}</span>
 		</li>
 	<#else>
 		<li class="page-item">
-			<a class="page-link" title="page ${link.name} sur ${paginator.pagesCount}" href="${link.url}<#if fragment?has_content>#${fragment}</#if>">${link.name}</a>
+			<a class="page-link" title="${i18n( 'portal.theme.labelPageOf', link.name, paginator.pagesCount )}" href="${link.url}<#if fragment?has_content>#${fragment}</#if>">${link.name}</a>
 		</li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount) >
 	<li class="page-item group">
 		<a class="page-link cesure" href="${(paginator.pagesLinks?last).url}<#if fragment?has_content>#${fragment}</#if>" title="#i18n{portal.theme.labelNextGroup}" >
-			<strong>...</strong>
+			<strong aria-hidden="true">...</strong><span class="visually-hidden">#i18n{portal.theme.labelNextGroup}</span>
 		</a>
 	</li>
 </#if>
