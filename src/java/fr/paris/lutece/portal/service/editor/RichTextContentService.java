@@ -38,6 +38,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
+import org.jsoup.safety.Safelist;
 
 import fr.paris.lutece.portal.service.html.XSSSanitizerException;
 import fr.paris.lutece.portal.service.html.XSSSanitizerService;
@@ -53,6 +57,8 @@ import jakarta.enterprise.inject.spi.CDI;
  */
 public class RichTextContentService
 {
+    /** A character no content holds (private use area), marking the line breaks while the tags are removed */
+    private static final String LINE_BREAK = "\uE000";
     private static List<IRichTextContentParser> _parsers = CDI.current( ).select( IRichTextContentParser.class ).stream( ).collect( Collectors.toList( ) );
 
     /**
@@ -101,6 +107,28 @@ public class RichTextContentService
             AppLogService.error( "Rich text content rendered as text: it could not be converted or sanitized", e );
             return HtmlMarkup.of( StringEscapeUtils.escapeHtml4( content ) );
         }
+    }
+
+    /**
+     * Renders a stored rich content as plain text, for the consumers that do not read HTML: a text message, a subject, a
+     * plain text e-mail, a notification status. The content is converted and sanitized as for a page, then its tags are
+     * removed (a paragraph, a list item or a line break gives a new line) and its entities decoded. The result is text:
+     * a consumer writing it into HTML escapes it.
+     *
+     * @param content
+     *            the stored content, may be null
+     * @return the plain text, empty for null
+     * @throws RichTextParsingException
+     *             if the parser of the content fails
+     */
+    public static String getText( String content ) throws RichTextParsingException
+    {
+        Document document = Jsoup.parseBodyFragment( getContent( content ) );
+        document.outputSettings( ).prettyPrint( false );
+        document.select( "br" ).after( LINE_BREAK );
+        document.select( "p, div, li, tr, h1, h2, h3, h4, h5, h6" ).before( LINE_BREAK );
+        String strText = Jsoup.clean( document.body( ).html( ), "", Safelist.none( ), new Document.OutputSettings( ).prettyPrint( false ) );
+        return Parser.unescapeEntities( strText.replace( LINE_BREAK, "\n" ), false ).replaceAll( "\n{3,}", "\n\n" ).strip( );
     }
 
     /**
