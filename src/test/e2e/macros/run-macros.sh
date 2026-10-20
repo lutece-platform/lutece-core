@@ -18,6 +18,10 @@ REF="${1:-develop}"
 REF_MODE="${2:-false}"
 CUR_MODE="${3:-${REF_MODE}}"
 FREEMARKER_JAR="${FREEMARKER_JAR:-${HOME}/.m2/repository/org/freemarker/freemarker/2.3.34/freemarker-2.3.34.jar}"
+# The htmlAttributes function of the core (LUT-33387) is shared when the core is compiled: its classes and the
+# commons-text and commons-lang3 jars of the local Maven repository are added to the class path
+CORE_CLASSES="${PROJECT}/target/classes"
+COMMONS_JARS="$( ls "${HOME}"/.m2/repository/org/apache/commons/commons-text/*/commons-text-*.jar "${HOME}"/.m2/repository/org/apache/commons/commons-lang3/*/commons-lang3-*.jar 2>/dev/null | grep -v sources | sort -V | awk -F/ '{ jar[$(NF-2)] = $0 } END { for ( k in jar ) printf "%s:", jar[k] }' )"
 WORK="${HERE}/../snapshots/macros"
 
 mkdir -p "${WORK}/reference" "${WORK}/classes"
@@ -36,7 +40,7 @@ for side in reference current; do
     fi
     mkdir -p "${WORK}/${side}-${mode}"
     find "${WORK}/${side}-${mode}" -mindepth 1 -delete
-    java -cp "${WORK}/classes:${FREEMARKER_JAR}" MacroHarness "${templates}" "${WORK}/calls.jsonl" "${WORK}/${side}-${mode}" "${mode}"
+    java -cp "${WORK}/classes:${FREEMARKER_JAR}:${CORE_CLASSES}:${COMMONS_JARS}" MacroHarness "${templates}" "${WORK}/calls.jsonl" "${WORK}/${side}-${mode}" "${mode}"
 done
 
 python3 "${HERE}/compare-macros.py" "${WORK}/reference-${REF_MODE}" "${WORK}/current-${CUR_MODE}"
