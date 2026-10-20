@@ -23,7 +23,7 @@
             <@cInput type='hidden' name='page' value='search' class='' />
             <svg class="icon-search" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <@cInput type='search' id='q' name='query' value='${query!}' autocomplete='off' placeholder='#i18n{portal.search.search_results.labelQueryPlaceholder}' />
-            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=' aria-label="#i18n{portal.search.search_results.buttonClearQuery}"'>
+            <@cBtn type='button' noclass=true class='search-box__clear' label='' params={"aria-label": "#i18n{portal.search.search_results.buttonClearQuery}"}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
             </@cBtn>
             <@cBtn type='submit' label='#i18n{portal.search.search_results.buttonSearch}' />
@@ -45,7 +45,7 @@
             <@cInput type='hidden' name='default_operator' value='${default_operator!}' class='' />
             </#assign>
             <#if nbFilters gt 0>
-            <@cBlock type='aside' class='filter-panel' params='aria-label="#i18n{portal.search.search_results.labelFilters}"'>
+            <@cBlock type='aside' class='filter-panel' params={"aria-label": "#i18n{portal.search.search_results.labelFilters}"}>
                 <@cBlock class='filter-panel__head'>
                     <@cInline>#i18n{portal.search.search_results.labelRefine}</@cInline>
                     <@cBtn type='button' noclass=true class='filter-reset' label='#i18n{portal.search.search_results.buttonResetFilters}' />
@@ -127,11 +127,11 @@
             <@cBlock class='toolbar'>
               <#if query?? && query?trim != '' && ( results_list![] )?size gt 0>
               <@cBlock class='toolbar__right ms-auto'>
-                <@cBlock class='view-toggle' params='role="group" aria-label="#i18n{portal.search.search_results.labelView}"'>
-                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="true" aria-label="#i18n{portal.search.search_results.labelViewList}" title="#i18n{portal.search.search_results.labelViewList}" data-view="list"'>
+                <@cBlock class='view-toggle' params={"role": "group", "aria-label": "#i18n{portal.search.search_results.labelView}"}>
+                  <@cBtn type='button' noclass=true class='' label='' params={"aria-pressed": "true", "aria-label": "#i18n{portal.search.search_results.labelViewList}", "title": "#i18n{portal.search.search_results.labelViewList}", "data-view": "list"}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
                   </@cBtn>
-                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="false" aria-label="#i18n{portal.search.search_results.labelViewGrid}" title="#i18n{portal.search.search_results.labelViewGrid}" data-view="grid"'>
+                  <@cBtn type='button' noclass=true class='' label='' params={"aria-pressed": "false", "aria-label": "#i18n{portal.search.search_results.labelViewGrid}", "title": "#i18n{portal.search.search_results.labelViewGrid}", "data-view": "grid"}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
                   </@cBtn>
                 </@cBlock>
@@ -163,7 +163,7 @@
                                     <@cTitle level=2 class='result-card__title'>${resultTitle}</@cTitle>
                                     <@cText class='result-card__desc'>${resultDescription}</@cText>
                                 </@cBlock>
-                                <@cInline class='result-card__arrow' params='aria-hidden="true"'>
+                                <@cInline class='result-card__arrow' params={"aria-hidden": "true"}>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                                 </@cInline>
                             </@cLink>

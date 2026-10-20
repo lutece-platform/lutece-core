@@ -80,7 +80,7 @@ Snippet:
         <@cBlock class='alert-text ${classText!}'><#if title?has_content><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
         <#if dismissible>
         <@cBlock class="alert-dismiss">
-            <@cBtn type='button' label='' class='close py-xs px-xs' params='data-bs-dismiss="alert" aria-label="#i18n{portal.theme.labelClose}"' />
+            <@cBtn type='button' label='' class='close py-xs px-xs' params={"data-bs-dismiss": "alert", "aria-label": "#i18n{portal.theme.labelClose}"} />
         </@cBlock>
         </#if>
     </@cBlock>

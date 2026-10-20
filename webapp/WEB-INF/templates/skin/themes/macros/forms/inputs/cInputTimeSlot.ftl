@@ -46,17 +46,16 @@ Snippet:
 <#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{portal.theme.labelFrom}' labelTo='#i18n{portal.theme.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' attrs={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
-<#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
 <@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg helpPos='after' params=params attrs=attrs >
 	<@cRow>
 		<@cCol cols='6 col-md-4 col-lg-2'>
 			<@cField label='#i18n{portal.theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
-				<@cInput type='time' class=class!'' id='${idLocal}_begin' name='${name}_begin' autocomplete=autocomplete required=required html5Required=html5Required value=beginHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
+				<@cInput type='time' class=class!'' id='${idLocal}_begin' name='${name}_begin' autocomplete=autocomplete required=required html5Required=html5Required value=beginHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number min=(beginHour!) max=(endHour!) />
 			</@cField>	
 		</@cCol>
 		<@cCol cols='6 col-md-4 col-lg-2'>
 			<@cField label='#i18n{portal.theme.labelTo}' id='label_${name}_end!' for='${name}_end!' required=required showLabel=false > 
-				<@cInput type='time' class=class!'' id='${idLocal}_end' name='${name}_end' autocomplete=autocomplete required=required html5Required=html5Required value=endHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
+				<@cInput type='time' class=class!'' id='${idLocal}_end' name='${name}_end' autocomplete=autocomplete required=required html5Required=html5Required value=endHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number min=(beginHour!) max=(endHour!) />
 			</@cField>	
 		</@cCol>
 	</@cRow>

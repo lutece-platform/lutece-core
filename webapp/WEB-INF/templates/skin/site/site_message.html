@@ -25,16 +25,16 @@
 			<@cAlert title='${messageTitle!}${title!}' type=messageClass>${text}</@cAlert>
 			<@cSection class='w-50 d-flex mt-l justify-content-evenly'>
 			<#if url?has_content>
-				<@cForm action='${url!}' attrs={'target': ( target! )}>
+				<@cForm action='${url!}' params={"target": ( target! )}>
 					<#if list_parameters?exists><#assign keys = list_parameters?keys><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
 					<@cBtn label='#i18n{portal.util.labelValidate}' />
 				</@cForm>
 			</#if>
 			<#if back_url?has_content>
-				<@cForm action='${back_url!}' attrs={'target': ( target! )}>
+				<@cForm action='${back_url!}' params={"target": ( target! )}>
 					<#if list_parameters?exists><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
 					<#if cancel_button gte 1 > 
-						<@cBtn label='#i18n{portal.util.labelBack}' class='primary me-2' params='name="cancel"' />
+						<@cBtn label='#i18n{portal.util.labelBack}' class='primary me-2' params={"name": "cancel"} />
 					</#if>
 				</@cForm>
 			<#else>

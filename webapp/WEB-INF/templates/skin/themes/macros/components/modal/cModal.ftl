@@ -62,7 +62,7 @@ Snippet:
             </div>
             <div class="modal-footer">
                 <#if dismissible>
-	                <@cBtn label='${dismissLabel}' class='tertiary m-1' params='data-bs-dismiss="modal"'/>
+	                <@cBtn label='${dismissLabel}' class='tertiary m-1' params={"data-bs-dismiss": "modal"}/>
                 </#if>
                 ${footer!}
             </div>
