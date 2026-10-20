@@ -91,7 +91,8 @@ export default class LuteceBSOffCanvas {
         iframe.style.border = 'none';
         iframe.style.opacity = '0'; // Hide iframe until cleanup is complete
         iframe.src = iframeUrl;
-        iframe.title = offCanvasElement.getAttribute('aria-labelledby') || 'Content';
+        const titleElement = document.getElementById(offCanvasElement.getAttribute('aria-labelledby'));
+        iframe.title = titleElement ? titleElement.textContent : 'Content';
 
         // Listen for cleanup complete message from iframe
         const cleanupCompleteHandler = (event) => {
@@ -158,13 +159,16 @@ export default class LuteceBSOffCanvas {
         
         const title = document.createElement('h4');
         title.className = 'offcanvas-title';
+        title.id = offcanvasDiv.id + 'Label';
         title.textContent = offcanvas.dataset.luteceOffcanvasTitle;
+        offcanvasDiv.setAttribute('aria-labelledby', title.id);
+        offcanvas.setAttribute('aria-controls', offcanvasDiv.id);
         
         const closeButton = document.createElement('button');
         closeButton.type = 'button';
         closeButton.className = 'btn-close';
         closeButton.setAttribute('data-bs-dismiss', 'offcanvas');
-        closeButton.setAttribute('aria-label', 'Close');
+        closeButton.setAttribute('aria-label', offcanvas.dataset.luteceCloseLabel || 'Close');
         
         header.appendChild(title);
         header.appendChild(closeButton);
