@@ -4,7 +4,7 @@
 			<@tform method='post' type='inline'>
 				<@formGroup labelFor='search_portlet_template' labelKey='#i18n{portal.util.labelSearch}' hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
-						<@input type='text' name='search_portlet_template' id='search_portlet_template' placeHolder='#i18n{portal.style.manage_portlet_templates.placeholderSearch}' attrs={'autocomplete': "off", 'addons': true} />
+						<@input type='text' name='search_portlet_template' id='search_portlet_template' placeHolder='#i18n{portal.style.manage_portlet_templates.placeholderSearch}' autoComplete='off' />
 						<@button color='primary' title='#i18n{portal.util.labelSearch}' buttonIcon='search' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>
@@ -13,7 +13,7 @@
 				<@input type='hidden' name='view' value='managePortletTemplates' />
 				<@formGroup labelFor='portlet_type_id' labelKey='#i18n{portal.style.manage_portlet_templates.labelFilterPortletType}' hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
-						<@select name='portlet_type_id' id='portlet_type_id' items=portlet_type_filter_list default_value='${current_portlet_type!}' empty=false title='#i18n{portal.style.manage_portlet_templates.labelFilterPortletType}' attrs={'addons': true} />
+						<@select name='portlet_type_id' id='portlet_type_id' items=portlet_type_filter_list default_value='${current_portlet_type!}' empty=false title='#i18n{portal.style.manage_portlet_templates.labelFilterPortletType}'  />
 						<@button type='submit' color='primary' title='#i18n{portal.util.labelFilter}' buttonIcon='filter' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>

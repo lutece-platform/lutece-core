@@ -7,8 +7,7 @@ Parameters:
 - type (string, required): Type of list: 'u' for unordered (ul) or 'o' for ordered (ol). Default: 'u'.
 - id (string, optional): Unique identifier for the list element. Default: ''.
 - class (string, optional): CSS class(es) applied to the list element. Default: ''.
-- params (string, optional): Additional HTML attributes for the list element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Liste HTML - @chList
@@ -33,9 +32,9 @@ Snippet:
     </@chList>
 
 -->
-<#macro chList type='u' id='' class='' params='' attrs={} deprecated...>
+<#macro chList type='u' id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type}l<@commonAttrs id=id class=class params=params attrs=attrs /> >
+<${type}l<@commonAttrs id=id class=class params=params /> >
     <#nested>
 </${type}l>
 </#macro>

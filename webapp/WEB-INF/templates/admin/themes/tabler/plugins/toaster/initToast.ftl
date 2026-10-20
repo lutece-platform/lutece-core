@@ -10,7 +10,6 @@ Parameters:
 - theme (string, optional): the theme of the notifications (a string corresponding to a Bootstrap color class).
 - duration (integer, optional): the duration in milliseconds that the notifications should be displayed before disappearing.
 - pool (integer, optional): the maximum number of notifications that can be displayed at the same time.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 
 Snippet:
 
@@ -27,10 +26,10 @@ Snippet:
     </@initToast>
 
 -->
-<#macro initToast class='' id='' position='top-0 end-0' showAll=true autohide=false animation=true duration=2000 params='' attrs={} deprecated...>
+<#macro initToast class='' id='' position='top-0 end-0' showAll=true autohide=false animation=true duration=2000 params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <div aria-live="polite" aria-atomic="true" class="position-static z-3">
-	<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=params attrs=attrs />>
+	<div<@commonAttrs id=id classBase='toast-container ' + position + ' p-3' class=class params=params />>
 	<#nested>
 	</div>
 </div>

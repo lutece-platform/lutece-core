@@ -14,8 +14,7 @@ Parameters:
 - role (string, optional): the role of the form element.
 - collapsed (boolean, optional): whether to collapse the form element.
 - enctype (string, optional): the encoding type for the form element.
-- params (string, optional): additional parameters to add to the form element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -45,7 +44,7 @@ Snippet:
     </@tform>
 
 -->
-<#macro tform type='' class='' align='' hide=[] required=false action='' method='post' name='' id='' role='' collapsed=false enctype='' boxed=false boxClass='' params='' attrs={} deprecated...>
+<#macro tform type='' class='' align='' hide=[] required=false action='' method='post' name='' id='' role='' collapsed=false enctype='' boxed=false boxClass='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local classExtra = alignmentSettings( align, '' ) + ' ' + displaySettings( hide, ( type == 'inline' )?then( 'inline-flex', 'block' ) ) />
 <#if collapsed><#local classExtra += ' collapse' /></#if>
@@ -61,7 +60,7 @@ Snippet:
 <#if boxed>
 <div class="card<#if boxClass?has_content> ${boxClass!}</#if>">
 <div class="card-body"></#if>
-<form<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs /><#if action?has_content> action="${action}"</#if><#if method?has_content> method="${method}"</#if><#if name?has_content> name="${name}"</#if><#if role?has_content> role="${role}"</#if><#if method='post' && enctype?has_content> enctype='${enctype}'</#if>>
+<form<@commonAttrs id=id class=class classExtra=classExtra params=params /><#if action?has_content> action="${action}"</#if><#if method?has_content> method="${method}"</#if><#if name?has_content> name="${name}"</#if><#if role?has_content> role="${role}"</#if><#if method='post' && enctype?has_content> enctype='${enctype}'</#if>>
 <#if required><@staticText>#i18n{portal.util.message.titleRequiredFields}</@staticText></#if>
 <#nested>
 </form>

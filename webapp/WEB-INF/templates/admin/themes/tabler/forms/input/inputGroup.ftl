@@ -7,8 +7,7 @@ Parameters:
 - id (string, optional): the ID of the input group div.
 - class (string, optional): the CSS class of the input group div.
 - size (string, optional): the size of the input group div.
-- params (string, optional): additional parameters for the input group div.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -31,9 +30,9 @@ Snippet:
     </@inputGroup>
 
 -->
-<#macro inputGroup id='' class='' size='' params='' attrs={} deprecated...>
+<#macro inputGroup id='' class='' size='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="input-group<#if size?has_content> input-group-${size}</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="input-group<#if size?has_content> input-group-${size}</#if><#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 <#nested>
 </div>
 </#macro>

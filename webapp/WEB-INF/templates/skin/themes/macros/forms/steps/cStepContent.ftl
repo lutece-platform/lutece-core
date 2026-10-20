@@ -12,7 +12,7 @@ Parameters:
 - iteration (number, optional): the current iteration number. Default: 0.
 - labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.portal.theme.labelAdd}'.
 - labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.portal.theme.labelDelete}'.
-- params (string, optional): additional HTML attributes. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -25,4 +25,4 @@ Snippet:
     </@cStepContent>
 
 -->
-<#macro cStepContent title id='' class='' help='' iterable=false iteration=0 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' params=''></#macro>
+<#macro cStepContent title id='' class='' help='' iterable=false iteration=0 labelAddIteration='#i18n{portal.portal.theme.labelAdd}' labelDelIteration='#i18n{portal.portal.theme.labelDelete}' params={}></#macro>

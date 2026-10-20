@@ -15,8 +15,7 @@ Parameters:
 - value (string, optional): the value of the element. Default: ''.
 - errorMsg (string, optional): content of the error message. Default: ''.
 - helpMsg (string, optional): content of the help message. Default: ''.
-- params (string, optional): additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - inline (boolean, optional): sets inline display. Default: false.
 - selectionButton (boolean, optional): adds a selection box around the radio. Default: false.
 - selectionLabel (string, optional): label for the selection box. Default: ''.
@@ -59,10 +58,10 @@ Snippet:
     </@cRadio>
 
 -->
-<#macro cRadio name label type='radio' button=false class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true attrs={} deprecated...>
+<#macro cRadio name label type='radio' button=false class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params={} inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cButton = button || type == 'button' />
 <#local cType><#if type == 'button'>radio<#else>${type}</#if></#local>
 <#assign nestedContent><#nested></#assign>
-<@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params attrs=attrs inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel nestedContent=nestedContent />
+<@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel nestedContent=nestedContent />
 </#macro>

@@ -86,7 +86,7 @@ public class HtmlAttributesMethod implements TemplateMethodModelEx
             "translate", "spellcheck", "draggable", "autocomplete", "autofocus", "autocapitalize", "inputmode", "enterkeyhint", "placeholder", "pattern",
             "required", "readonly", "disabled", "multiple", "min", "max", "step", "minlength", "maxlength", "size", "list", "accept", "accept-charset",
             "enctype", "method", "novalidate", "formnovalidate", "target", "rel", "download", "alt", "width", "height", "loading", "decoding", "colspan",
-            "rowspan", "scope", "headers", "form", "open", "wrap", "rows", "cols", "selected", "checked" );
+            "rowspan", "scope", "headers", "form", "open", "wrap", "rows", "cols", "selected", "checked", "alpha", "colorspace", "datetime", "contenteditable" );
 
     private final boolean _bStrict;
 

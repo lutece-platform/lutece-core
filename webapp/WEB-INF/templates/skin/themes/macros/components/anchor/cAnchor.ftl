@@ -10,8 +10,7 @@ Parameters:
 - listClass (string, optional): CSS class(es) for the list element. Default: ''.
 - listItemClass (string, optional): CSS class(es) for each list item. Default: ''.
 - anchorsClass (string, optional): CSS class(es) for each anchor link. Default: ''.
-- params (string, optional): Additional HTML attributes for the anchor container. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Ancre - @cAnchor
@@ -30,7 +29,7 @@ Snippet:
     ] />
 
 -->
-<#macro cAnchor anchors id='' class='' listClass='' listItemClass='' anchorsClass='' params='' deprecated...>
+<#macro cAnchor anchors id='' class='' listClass='' listItemClass='' anchorsClass='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cBlock id=id! class='anchors ${class}'>
 	<@chList class=listClass >

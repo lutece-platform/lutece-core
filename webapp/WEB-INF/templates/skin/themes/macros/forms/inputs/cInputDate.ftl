@@ -18,7 +18,6 @@ Parameters:
 - helpMsg - string - Default '', Message d'aide pour l'input
 - errorMsg - string - Default '', Message d'erreur pour l'input
 - params - string - Default '', Tous autres paramètres à ajouter à l'input
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - separator - boolean - Default true, Séparateur auto-inséré lors de la saisie en fonction du format de date. Si vrai, le séparateur est inséré automatiquement après le jour et le mois en fonction du format de date. De plus, si la date saisie est invalide ou incomplète, le focus est conservé dans le champ à la sortie, l'attribut aria-invalid est positionné et le message d'erreur (invalid-feedback) est affiché ; la soumission du formulaire est bloquée tant que la date est invalide (y compris avec type='').
 - #nested - string - Default '', Contenu textuel a ajouter après l'input
 
@@ -54,7 +53,7 @@ Snippet:
     </@cRow>
 
 -->
-<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params='' attrs={} deprecated...>
+<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
 <#local typeLocal = ( type='date' )?then( 'date', 'text' ) />
@@ -67,7 +66,7 @@ Snippet:
 <#if helpMsg?has_content><@cFormHelp idLocal helpMsg /></#if>
 <#if errorMsg?has_content && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
-  <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=isRequired html5Required=isHtml5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params attrs=attrs />
+  <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=isRequired html5Required=isHtml5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
   <@cInputGroupAddonText>
     <@cIcon name='calendar' id=idLocal + '-icon' />
@@ -249,12 +248,11 @@ disabled : Array default [false,false]
 readonly : Array default [false,false]           
 helpMsg : default ''
 errorMsg : default ''
-params : default ''
-attrs : hash default {}, additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}
+params : map default {}, additional HTML attributes as name/value pairs, e.g. {'aria-label': label}
 separator : boolean default true, séparateur auto-inséré lors de la saisie (voir cInputDate)
 #nested
 -->
-<#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false]  html5Required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' separator=true params='' attrs={} deprecated...>
+<#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false]  html5Required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' separator=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
 <#local typeLocal = ( type='date' )?then( 'date', 'text' ) />
@@ -266,7 +264,7 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
 <#assign errorClass = (errorMsg !='')?then('is-invalid','') >
 <#if helpMsg?has_content><@cFormHelp idLocal helpMsg /></#if>
 <#if errorMsg?has_content><@cFormError idMsg errorMsg /></#if>
-<@cBlock class='daterange ${class!} ${errorClass!}' id='${idLocal}' params=params attrs=attrs >
+<@cBlock class='daterange ${class!} ${errorClass!}' id='${idLocal}' params=params >
   <@cRow>
     <@cCol>
         <@cLabel label=label[0] for='${idLocal}_range_start' required=isRequired0 class=(showLabel[0]?then('', 'visually-hidden')) />

@@ -4,8 +4,7 @@ Macro: tableHeadBodySeparator
 Parameters:
 - id (string, optional): the ID of the <tbody> element.
 - class (string, optional): the class of the <tbody> element.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -38,8 +37,8 @@ Snippet:
     </@table>
 
 -->
-<#macro tableHeadBodySeparator id='' class='' params='' attrs={} deprecated...>
+<#macro tableHeadBodySeparator id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 </thead>
-<tbody<@commonAttrs id=id class=class params=params attrs=attrs />>
+<tbody<@commonAttrs id=id class=class params=params />>
 </#macro>

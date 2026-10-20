@@ -6,8 +6,7 @@ Description: Generates the tab content container that wraps all tab panes and in
 Parameters:
 - id (string, required): HTML id attribute for the tab content container.
 - class (string, optional): Additional CSS classes. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -23,9 +22,9 @@ Snippet:
     </@cTabContent>
 
 -->
-<#macro cTabContent id class='' params='' attrs={} deprecated...>
+<#macro cTabContent id class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cBlock class='tab-content ${class!}' id=id params=params attrs=attrs>
+<@cBlock class='tab-content ${class!}' id=id params=params>
 <#nested>
 </@cBlock>
 </#macro>

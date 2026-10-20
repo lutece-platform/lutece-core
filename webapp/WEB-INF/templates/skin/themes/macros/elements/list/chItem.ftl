@@ -6,8 +6,7 @@ Description: Generates an HTML list item (li) element for use inside a chList. W
 Parameters:
 - id (string, optional): Unique identifier for the list item element. Default: ''.
 - class (string, optional): CSS class(es) applied to the list item element. Default: ''.
-- params (string, optional): Additional HTML attributes for the list item element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Élément de liste - @chItem
@@ -24,9 +23,9 @@ Snippet:
     </@chList>
 
 -->
-<#macro chItem id='' class='' params='' attrs={} deprecated...>
+<#macro chItem id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li<@commonAttrs id=id class=class params=params attrs=attrs />>
+<li<@commonAttrs id=id class=class params=params />>
 <#nested>
 </li>
 </#macro>

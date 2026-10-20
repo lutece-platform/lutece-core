@@ -6,15 +6,14 @@ Parameters:
 - i18nTitleKey (string, optional): the i18n key of the title of the box header.
 - titleLevel (string, optional): the HTML heading level for the title of the box header.
 - titleClass (string, optional): the CSS class of the box title element.
-- titleParams (string, optional): additional HTML attributes to include in the box title element.
+- titleParams (map, optional): additional HTML attributes of the box title element as name/value pairs, e.g. {'data-x': 'y'}. Default: {}.
 - titleActions (boolean, optional): whether to display title actions in the header.
 - titleAuto (boolean, optional): whether to automatically align title content to the right.
 - hideTitle (list, optional): a list of screen sizes to hide the title of the box header on.
 - showTitle (boolean, optional): whether to show the title of the box header.
 - id (string, optional): the ID of the box header element. If not provided, a default ID will be generated.
 - class (string, optional): the CSS class of the box header element.
-- params (string, optional): additional HTML attributes to include in the box header element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - boxTools (boolean, optional): whether to display box tools in the header.
 - skipHeader (boolean, optional): whether to skip the box header element entirely.
 
@@ -37,10 +36,10 @@ Snippet:
     </@boxHeader>
 
 -->
-<#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h3' titleParams='' titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params='' boxTools=false skipHeader=false attrs={} deprecated...>
+<#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h3' titleParams={} titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params={} boxTools=false skipHeader=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card-header<#if class?has_content> ${class}</#if><#if skipHeader> skip-header</#if>"<@commonAttrs id=id params=params attrs=attrs />>
-	<${titleLevel} class="card-title<#if titleClass?has_content> ${titleClass}</#if><#if showTitle=false> visually-hidden</#if>"<#if titleParams?has_content> ${titleParams?no_esc}</#if>><#if title?has_content>${title}</#if><#if i18nTitleKey?has_content>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
+<div class="card-header<#if class?has_content> ${class}</#if><#if skipHeader> skip-header</#if>"<@commonAttrs id=id params=params />>
+	<${titleLevel} class="card-title<#if titleClass?has_content> ${titleClass}</#if><#if showTitle=false> visually-hidden</#if>"<@commonAttrs params=titleParams />><#if title?has_content>${title}</#if><#if i18nTitleKey?has_content>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
 	<#if titleActions>

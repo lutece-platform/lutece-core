@@ -10,8 +10,7 @@ Parameters:
 - fieldSetLabel (string, optional): The legend text for the filter fieldset. Default: 'Liste de filtres'.
 - showLegend (boolean, optional): If true, the fieldset legend is visible. Default: false.
 - class (string, optional): Additional CSS class(es) for the filter container. Default: ''.
-- params (string, optional): Additional HTML attributes for the filter container. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Filtre - @cFilter
@@ -28,7 +27,7 @@ Snippet:
     ] result='12 results found' />
 
 -->
-<#macro cFilter checkboxes id='' result='' fieldSetLabel='Liste de filtres' showLegend=false class='' params='' attrs={} deprecated...>
+<#macro cFilter checkboxes id='' result='' fieldSetLabel='Liste de filtres' showLegend=false class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cContainer id>
 	<@cRow class='justify-content-between align-items-center'>
@@ -37,7 +36,7 @@ Snippet:
 			<@cIcon name='filter' title='Filter' class='main-info-color me-3' />
 		</@cBtn>
 	</@cRow>
-	<@cRow id='filters-container' class=class! params=params attrs=attrs!>
+	<@cRow id='filters-container' class=class! params=params!>
 		<#local legendClass = ( !showLegend )?then( 'visually-hidden', '' ) />
 		<@cFieldset legend=fieldSetLabel legendClass=legendClass class="d-flex m-0 flex-wrap w-auto">
 			<#list checkboxes as checkbox>

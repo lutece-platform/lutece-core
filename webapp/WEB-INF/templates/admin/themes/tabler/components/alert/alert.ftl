@@ -13,8 +13,7 @@ Parameters:
 - iconClass (string, optional): the CSS class of the icon element.
 - dismissible (boolean, optional): whether the alert should be dismissible.
 - id (string, optional): the ID of the alert element. If not provided, a default ID will be generated.
-- params (string, optional): additional HTML attributes to include in the alert element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -37,9 +36,9 @@ Snippet:
     </@alert>
 
 -->
-<#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' iconClass='' dismissible=false id='' params='' attrs={} deprecated...>
+<#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' iconClass='' dismissible=false id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="alert<#if color?has_content> alert-${color}</#if><#if class?has_content> ${class}</#if><#if dismissible> alert-dismissible</#if>"<@commonAttrs id=id params=params attrs=attrs /> role="alert">
+<div class="alert<#if color?has_content> alert-${color}</#if><#if class?has_content> ${class}</#if><#if dismissible> alert-dismissible</#if>"<@commonAttrs id=id params=params /> role="alert">
 <#if iconTitle?has_content> <div class="alert-icon"><@icon style=iconTitle class=iconClass /></div></#if>
 <#if title?has_content><${titleLevel} class="alert-heading ${titleClass}">${title}</${titleLevel}></#if>
 <#nested>

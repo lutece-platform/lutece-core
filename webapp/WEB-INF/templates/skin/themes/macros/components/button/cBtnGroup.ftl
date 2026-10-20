@@ -9,8 +9,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the button group. Default: ''.
 - id (string, optional): The unique identifier for the button group. Default: ''.
 - type (string, optional): Layout type for the group ('vertical' for stacked). Default: ''.
-- params (string, optional): Additional HTML attributes for the button group. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Groupe de boutons - @cBtnGroup
@@ -36,10 +35,10 @@ Snippet:
     ] />
 
 -->
-<#macro cBtnGroup label buttonList={} class='' id='' type='' params='' attrs={} deprecated...>
+<#macro cBtnGroup label buttonList={} class='' id='' type='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-group<#if type='vertical'> btn-group-vertical</#if><#if class?has_content> ${class}</#if></#local>
-<@cSection type='div' class=btnClass id=id params=params attrs={'role': 'group', 'aria-label': label} + attrs>
+<@cSection type='div' class=btnClass id=id params=params + {'role': 'group', 'aria-label': label}>
 	<#if buttonList?has_content>
 		<#if type == 'vertical'>
 		    <@chList class="list-unstyled d-flex flex-column m-0">

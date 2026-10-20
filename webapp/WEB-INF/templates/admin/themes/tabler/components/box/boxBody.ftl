@@ -6,8 +6,7 @@ Parameters:
 - collapsed (boolean, optional): whether the box body should be initially collapsed.
 - align (string, optional): the horizontal alignment of the box body element.
 - id (string, optional): the ID of the box body element. If not provided, a default ID will be generated.
-- params (string, optional): additional HTML attributes to include in the box body element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -24,10 +23,10 @@ Snippet:
     </@boxBody>
 
 -->
-<#macro boxBody class='' collapsed=false align='' id='' params='' attrs={} deprecated...>
+<#macro boxBody class='' collapsed=false align='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) />
-<div<@commonAttrs id=id classBase='card-body' class=class classExtra=classExtra params=params attrs=attrs />>
+<div<@commonAttrs id=id classBase='card-body' class=class classExtra=classExtra params=params />>
 	<#nested>
 </div>
 </#macro>

@@ -7,8 +7,7 @@ Parameters:
 - type (string, optional): HTML tag to use for the block ('div', 'section', etc.). Default: 'div'.
 - class (string, optional): CSS class(es) applied to the block element. Default: ''.
 - id (string, optional): Unique identifier for the block element. Default: ''.
-- params (string, optional): Additional HTML attributes for the block element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Bloc div - @cBlock
@@ -29,9 +28,9 @@ Snippet:
     </@cBlock>
 
 -->
-<#macro cBlock type='div' class='' id='' params='' attrs={} deprecated...>
+<#macro cBlock type='div' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type}<@commonAttrs id=id class=class params=params attrs=attrs />>
+<${type}<@commonAttrs id=id class=class params=params />>
 <#nested>
 </${type}>
 </#macro>

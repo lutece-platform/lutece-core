@@ -20,8 +20,7 @@ Parameters:
 - noclass (boolean, optional): If true, removes default button classes. Default: false.
 - id (string, optional): The unique identifier for the dropdown. Default: ''.
 - disabled (boolean, optional): If true, disables the dropdown button. Default: false.
-- params (string, optional): Additional HTML attributes for the dropdown. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Menu déroulant - @cDropdown
@@ -48,12 +47,12 @@ Snippet:
     </@cDropdown>
 
 -->
-<#macro cDropdown label items=[] itemType='link' type='' centered=false dropup=false autoclose='' nobutton=false header='' dark=false dropDownMenuType='ul' class='' btnClass='secondary' noclass=false id='' disabled=false params='' attrs={} deprecated...>
+<#macro cDropdown label items=[] itemType='link' type='' centered=false dropup=false autoclose='' nobutton=false header='' dark=false dropDownMenuType='ul' class='' btnClass='secondary' noclass=false id='' disabled=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if centered>
 <div class="btn-group ${direction}">
 </#if>
-<div class="dropdown<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="dropdown<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 <#if !nobutton>
     <#if type !='split'>
     <button class="btn btn-${btnClass!} dropdown-toggle" type="button" data-bs-toggle="dropdown"<#if autoclose?has_content> data-bs-auto-close="${autoclose!}" </#if> aria-expanded="false"<#if disabled> disabled</#if>>
@@ -95,8 +94,7 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the item. Default: ''.
 - nestedPos (string, optional): Position of nested content ('before', 'after'). Default: 'before'.
 - id (string, optional): The unique identifier for the item. Default: ''.
-- params (string, optional): Additional HTML attributes for the item. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -109,11 +107,11 @@ Snippet:
     <@cDropdownItem label='Current page' type='button' action='button' active=true />
 
 -->
-<#macro cDropdownItem label action='' type='link' active=false disabled=false header=false class='' nestedPos='before' id='' params='' attrs={} deprecated...>
+<#macro cDropdownItem label action='' type='link' active=false disabled=false header=false class='' nestedPos='before' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <li>
 <#if type='link'>
-<a class="dropdown-<#if !header>item<#else>header</#if><#if class?has_content> ${class}</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if><@commonAttrs id=id params=params attrs=attrs /> href="${href!}">
+<a class="dropdown-<#if !header>item<#else>header</#if><#if class?has_content> ${class}</#if><#if active> active</#if><#if disabled> disabled</#if>"<#if disabled> aria-disabled="true"</#if><@commonAttrs id=id params=params /> href="${href!}">
 <#if header><h4></#if><#if nestedPos='before'><#nested></#if><#if label?has_content>${label!}</#if><#if nestedPos='after'><#nested></#if><#if header></h4></#if>
 </a>
 <#else>

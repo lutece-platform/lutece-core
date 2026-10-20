@@ -5,8 +5,7 @@ Description: Generates an HTML list item (<li>) with the Bootstrap "list-group-i
 Parameters:
 - id (string, optional): the ID attribute of the list item.
 - class (string, optional): the class attribute of the list item.
-- params (string, optional): additional attributes to add to the list item, in the form of a string of HTML attributes.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -23,9 +22,9 @@ Snippet:
     </@listGroupItem>
 
 -->
-<#macro listGroupItem id='' class='' active=false params='' attrs={} deprecated...>
+<#macro listGroupItem id='' class='' active=false params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<li class="list-group-item list-group-item-action<#if class?has_content> ${class}</#if><#if active> active</#if>"<@commonAttrs id=id params=params attrs=attrs /><#if active> aria-current="true"</#if>>
+<li class="list-group-item list-group-item-action<#if class?has_content> ${class}</#if><#if active> active</#if>"<@commonAttrs id=id params=params /><#if active> aria-current="true"</#if>>
 	<#nested>
 </li>
 </#macro>

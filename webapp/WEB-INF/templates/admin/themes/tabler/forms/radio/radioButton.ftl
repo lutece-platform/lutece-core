@@ -15,8 +15,7 @@ Parameters:
 - disabled (boolean, optional): whether the radio button element is disabled.
 - readonly (boolean, optional): whether the radio button element is readonly.
 - checked (boolean, optional): whether the radio button element is checked.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - mandatory (boolean, optional): whether the radio button element is mandatory.
 - propagateMandatory (boolean, optional): whether to propagate the mandatory flag to the radio button element.
 
@@ -34,13 +33,13 @@ Snippet:
     <@radioButton name='status' id='status_inactive' labelKey='Inactive' value='inactive' orientation='inline' />
 
 -->
-<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false attrs={}  deprecated...>
+<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params={} mandatory=false  deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = mandatory || ( propagateMandatory?? && propagateMandatory ) />
-<#-- params and attrs go on the wrapper when there is one, else on the input -->
-<#if orientation='vertical'><div class="radio"<@commonAttrs params=params attrs=attrs />>	</#if>
+<#-- params goes on the wrapper when there is one, else on the input -->
+<#if orientation='vertical'><div class="radio"<@commonAttrs params=params />>	</#if>
 <label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass?has_content> ${labelClass!}</#if>"<#if labelFor?has_content> for="${labelFor}"</#if>>
-<input class="<#if class?has_content> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if orientation !='vertical'><@commonAttrs params=params attrs=attrs /></#if><#if isRequired> required</#if>>
+<input class="<#if class?has_content> ${class}</#if>" type="radio" id="${id}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if orientation !='vertical'><@commonAttrs params=params /></#if><#if isRequired> required</#if>>
 <#if labelKey?has_content>
 <span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>"><#if labelKey?has_content>${labelKey}<#else><#nested></#if></span>
 </#if>

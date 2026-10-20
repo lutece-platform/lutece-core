@@ -8,8 +8,7 @@ Parameters:
 - selected (string, optional): the code of the option that should be selected by default. If not provided, the 'selected' property of each item will be used.
 - id (boolean, optional): whether to add an ID to each option element. Default is false.
 - class (string, optional): the CSS class of each option element.
-- params (string, optional): additional parameters for each option element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -23,13 +22,13 @@ Snippet:
 
 -->
 
-<#macro options items selected='' id=false class='' params='' attrs={} deprecated...>
+<#macro options items selected='' id=false class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if items??>
 	<#list items as item>
 		<#local idItem><#if id>${item.code}_${item?index}<#else></#if></#local>
 		<#local selectedItem = selected?has_content?then( ( item.code?string == selected )?c, item.selected?c ) />
-		<@option label=item.name value=item.code id=idItem class=class selected=selectedItem?boolean disabled=item.disabled params=params attrs=attrs /> 
+		<@option label=item.name value=item.code id=idItem class=class selected=selectedItem?boolean disabled=item.disabled params=params /> 
 	</#list>
 </#if>
 </#macro>

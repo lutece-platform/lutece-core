@@ -12,8 +12,7 @@ Parameters:
 - showTarget (boolean, optional): If true, displays an icon when target is '_blank'. Default: false.
 - class (string, optional): CSS class(es) applied to the link element. Use 'btn btn-primary' to style as a button. Default: ''.
 - id (string, optional): Unique identifier for the link element. Default: ''.
-- params (string, optional): Additional HTML attributes for the link element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Lien - @cLink
@@ -40,9 +39,9 @@ Snippet:
     </@cLink>
 
 -->
-<#macro cLink href label title='' nestedPos='after' target='' showTarget=false class='' id='' params='' attrs={} deprecated...>
+<#macro cLink href label title='' nestedPos='after' target='' showTarget=false class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<a href="${href!}" <@commonAttrs id=id class=class params=params attrs=attrs /> <#if title?has_content> title="${title!}<#if target='_blank'> #i18n{portal.theme.newWindowLink}</#if>"</#if><#if target?has_content> target="${target}"</#if> > 
+<a href="${href!}" <@commonAttrs id=id class=class params=params /> <#if title?has_content> title="${title!}<#if target='_blank'> #i18n{portal.theme.newWindowLink}</#if>"</#if><#if target?has_content> target="${target}"</#if> > 
 <#if nestedPos!='after'><#nested></#if>
 <#if label?has_content><span class="link-label">${label!}</span></#if> 
 <#if nestedPos='after'> <#nested></#if>

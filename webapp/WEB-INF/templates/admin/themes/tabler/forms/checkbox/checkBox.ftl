@@ -17,8 +17,7 @@ Parameters:
 - disabled (boolean, optional): whether the checkbox element is disabled.
 - readonly (boolean, optional): whether the checkbox element is readonly.
 - checked (boolean, optional): whether the checkbox element is checked.
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 - mandatory (boolean, optional): whether the checkbox element is mandatory.
 
 Snippet:
@@ -36,19 +35,19 @@ Snippet:
     <@checkBox name='darkMode' id='darkMode' labelKey='Enable dark mode' orientation='switch' value='1' />
 
 -->
-<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false attrs={} deprecated...>
+<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params={} mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local checkboxId = id?has_content?then( id, name ) />
 <#if orientation!='switch'>
-	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass?has_content> ${wrapperClass!}</#if>"<@commonAttrs params=params attrs=attrs />></#if>
+	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass?has_content> ${wrapperClass!}</#if>"<@commonAttrs params=params />></#if>
 	<input type="checkbox" class="custom-control-input<#if class?has_content> ${class}</#if>" id="${checkboxId}" name="${name}"<#if value?has_content> value="${value}"</#if><#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
 	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if><#if labelClass?has_content> ${labelClass!}</#if>" for="${checkboxId}" <#if title?has_content> title="${title}"</#if>>
 	<#if labelKey?has_content>${labelKey}<#else><#nested></#if>
 	</label>
 	<#if orientation='vertical'></div></#if>
 <#else>
-	<label class="form-check form-switch<#if wrapperClass?has_content> ${wrapperClass!}</#if>" for="${checkboxId}" <#if title?has_content> title="${title}"</#if><@commonAttrs params=params attrs=attrs />>
-    	<input class="form-check-input<#if class?has_content> ${class}</#if>" type="checkbox"  id="${checkboxId}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params attrs=attrs /><#if mandatory> required</#if>>
+	<label class="form-check form-switch<#if wrapperClass?has_content> ${wrapperClass!}</#if>" for="${checkboxId}" <#if title?has_content> title="${title}"</#if><@commonAttrs params=params />>
+    	<input class="form-check-input<#if class?has_content> ${class}</#if>" type="checkbox"  id="${checkboxId}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params /><#if mandatory> required</#if>>
    		<#assign nestedLabel><#nested></#assign>
 		<#if labelKey?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${nestedLabel}</span></#if>
   </label>

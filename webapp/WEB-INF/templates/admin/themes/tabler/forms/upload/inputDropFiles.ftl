@@ -49,7 +49,7 @@ Snippet:
     </@inputDropFiles>
 
 -->
-<#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId = ( id?has_content )?then( ( id!'' )?string, ( name!'' )?string ) />
 <#local fileCount = nbFiles?number />

@@ -14,7 +14,7 @@ Parameters:
 - labelPrev (string, optional): Label for the previous button. Default: ''.
 - labelNext (string, optional): Label for the next button. Default: ''.
 - class (string, optional): Additional CSS class(es) for the carousel. Default: ''.
-- params (string, optional): Additional HTML attributes for the carousel. Default: ''.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Carrousel - @cCarousel
@@ -34,7 +34,7 @@ Snippet:
     </@cCarousel>
 
 -->
-<#macro cCarousel id='manege' items='' indicatorSize=1 controls=false slideControls=false pagination=false label='Carousel' labelPrev='' labelNext='' class='' params='' deprecated...>
+<#macro cCarousel id='manege' items='' indicatorSize=1 controls=false slideControls=false pagination=false label='Carousel' labelPrev='' labelNext='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local itemSize = indicatorSize />
 <#if items?has_content><#local itemSize = items?size - 1 /></#if>

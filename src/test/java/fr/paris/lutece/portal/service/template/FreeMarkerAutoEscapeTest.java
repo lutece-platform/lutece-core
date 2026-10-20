@@ -68,15 +68,22 @@ public class FreeMarkerAutoEscapeTest
 
     /**
      * A variable assigned a string that holds a value: a literal interpolating it, the value converted by ?string, or a
-     * concatenation (+, +=).
+     * concatenation (+, +=). A map, or a merge of maps ({...} outside an interpolation), is not a string.
      */
     private static final Pattern STRING_INTERPOLATION = Pattern.compile(
-            "<#(?:assign|local|global)\\s+(\\w+)\\s*(?:\\+=|=\\s*(?:[^>]*[\"'][^\"'>]*\\$\\{|[^>]*\\)\\?string\\b|[^>]*\\+))" );
+            "<#(?:assign|local|global)\\s+(\\w+)\\s*(?![^>]*(?<!\\$)\\{)(?:\\+=|=\\s*(?:[^>]*[\"'][^\"'>]*\\$\\{|[^>]*\\)\\?string\\b|[^>]*\\+))" );
 
     /** ?js_string?no_esc, right inside a script only: in HTML text or in an attribute, the value would not be escaped. */
     private static final Pattern JS_NO_ESC = Pattern.compile( "\\?js_string\\?no_esc" );
 
     /** A script element. */
+    /**
+     * An argument named like params (params, titleParams, additionalParameters...) given a string literal. searchParams
+     * of cMainNav is not a set of attributes but the hidden fields of the search form.
+     */
+    private static final Pattern PARAMS_STRING = Pattern.compile( "\\b(?!searchParams\\b)(\\w*[Pp]arams\\w*|additionalParameters)\\s*=\\s*[\"']" );
+    /** A captured block: <#assign name>...</#assign>, or #local, #global. */
+    private static final Pattern CAPTURE = Pattern.compile( "<#(?:assign|local|global)\\s+(\\w+)\\s*>" );
     /** An event handler attribute, written in HTML, in a params string or capture, or as a key of an attrs map. */
     private static final Pattern EVENT_HANDLER = Pattern.compile( "(?i)(?<![\\w.-])on[a-z]+\\s*=\\s*[\"'\\\\]|['\"]on[a-z]+['\"]\\s*:\\s*['\"]" );
     /** A javascript: URL. */
@@ -361,6 +368,40 @@ public class FreeMarkerAutoEscapeTest
         {
             fail( listFailures.size( ) + " event handler(s) or javascript: URL(s), use data-lutece-action instead:\n  "
                     + String.join( "\n  ", listFailures ) );
+        }
+    }
+
+    /**
+     * params is a map (LUT-33387): no argument named like params is given a string literal or a captured block. A
+     * string or a markup given as params fails the rendering in htmlAttributes; this guard finds it before.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     */
+    @Test
+    public void testParamsIsAMap( ) throws IOException
+    {
+        List<String> listFailures = new ArrayList<>( );
+        for ( Path path : templates( ) )
+        {
+            String strSource = Pattern.compile( "(?s)<#--.*?-->" ).matcher( Files.readString( path, StandardCharsets.UTF_8 ) ).replaceAll( "" );
+            Matcher literal = PARAMS_STRING.matcher( strSource );
+            while ( literal.find( ) )
+            {
+                listFailures.add( path + " : " + literal.group( ) );
+            }
+            Matcher capture = CAPTURE.matcher( strSource );
+            while ( capture.find( ) )
+            {
+                if ( Pattern.compile( "\\b(\\w*[Pp]arams\\w*|additionalParameters)\\s*=\\s*\\(?\\s*" + capture.group( 1 ) + "\\b" ).matcher( strSource ).find( ) )
+                {
+                    listFailures.add( path + " : captured " + capture.group( 1 ) + " given as params" );
+                }
+            }
+        }
+        if ( !listFailures.isEmpty( ) )
+        {
+            fail( listFailures.size( ) + " params given as a string or a captured block, write a map:\n  " + String.join( "\n  ", listFailures ) );
         }
     }
 }

@@ -5,8 +5,7 @@ Description: Generates a stack of icons.
 Parameters:
 - class (string, optional): the CSS class for the icon stack.
 - id (string, optional): the ID attribute for the icon stack.
-- params (string, optional): additional parameters to add to the icon stack.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -25,9 +24,9 @@ Snippet:
     </@iconStack>
 
 -->
-<#macro iconStack class='fa-2x' id='' params='' attrs={} deprecated...>
+<#macro iconStack class='fa-2x' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<span class="fa-stack ${class}"<@commonAttrs id=id params=params attrs=attrs />>
+<span class="fa-stack ${class}"<@commonAttrs id=id params=params />>
 <#nested>
 </span>
 </#macro>

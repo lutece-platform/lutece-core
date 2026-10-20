@@ -7,8 +7,7 @@ Parameters:
 - type (string, optional): HTML tag to use for the inline element ('span', 'em', 'strong', etc.). Default: 'span'.
 - class (string, optional): CSS class(es) applied to the inline element. Default: ''.
 - id (string, optional): Unique identifier for the inline element. Default: ''.
-- params (string, optional): Additional HTML attributes for the inline element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Span inline - @cInline
@@ -26,12 +25,12 @@ Snippet:
 
     With custom attributes:
 
-    <@cInline type='em' params='data-toggle="tooltip" title="Additional info"'>Hover for details</@cInline>
+    <@cInline type='em' params={'data-toggle': 'tooltip', 'title': 'Additional info'}>Hover for details</@cInline>
 
 -->
-<#macro cInline type='span' class='' id='' params='' attrs={} deprecated...>
+<#macro cInline type='span' class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<${type}<@commonAttrs id=id class=class params=params attrs=attrs />>
+<${type}<@commonAttrs id=id class=class params=params />>
 <#nested>
 </${type}>
 </#macro>

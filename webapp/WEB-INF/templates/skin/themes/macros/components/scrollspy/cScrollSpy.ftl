@@ -10,15 +10,12 @@ Parameters:
 - anchorListClass (string, optional): CSS class(es) of the ul element. Default: 'list-unstyled'.
 - anchorListItemClass (string, optional): CSS class(es) of the li elements. Default: 'ps-m py-s'.
 - anchorsLinkClass (string, optional): CSS class(es) of the anchor links. Default: ''.
-- anchorsParams (string, optional): additional HTML attributes of the list of anchors. Default: ''.
+- anchorsParams (map, optional): additional HTML attributes of the list of anchors, e.g. {'data-x': 'y'}. Default: {}.
 - anchorColClass (string, optional): column classes of the list of anchors. Default: 'col-12 col-md-3'.
 - contentColClass (string, optional): column classes of the nested content. Default: 'col-12 col-md-9'.
 - id (string, optional): id of the row wrapper. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
 - class (string, optional): CSS class(es) of the row wrapper. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
-- params (string, optional): additional HTML attributes of the row wrapper. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes of the row wrapper, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Showcase:
 - desc: Scrollspy - @cScrollSpy
@@ -34,7 +31,7 @@ Snippet:
         { 'label': 'Démarches', 'href': '#scrollspy-steps' },
         { 'label': 'Contact', 'href': '#scrollspy-contact' }
     ] />
-    <@cScrollSpy anchorId='scrollspy-sample' anchors=anchorsList anchorsParams='style="top:100px;"'>
+    <@cScrollSpy anchorId='scrollspy-sample' anchors=anchorsList>
         <@cSection id='scrollspy-intro'>
             <@cTitle level=2>Présentation</@cTitle>
             <@cText>Le service vous permet de suivre vos demandes en ligne.</@cText>
@@ -50,9 +47,9 @@ Snippet:
     </@cScrollSpy>
 
 -->
-<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' attrs={} deprecated...>
+<#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams={} anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="row<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="row<#if class?has_content> ${class}</#if>"<@commonAttrs id=id params=params />>
 	<div class="${anchorColClass}">
 		<@cAnchor id=anchorId class=anchorClass anchors=anchors listClass=anchorListClass listItemClass=anchorListItemClass anchorsClass=anchorsLinkClass params=anchorsParams />
 	</div>

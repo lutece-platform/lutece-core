@@ -12,12 +12,11 @@ Parameters:
 - progressBar (string, optional): the value for the progress bar (0-100).
 - progressDescription (string, optional): the text to display below the progress bar.
 - id (string, optional): the ID attribute of the info box.
-- params (string, optional): additional parameters to add to the info box.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 -->
-<#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params='' attrs={} deprecated...>
+<#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card m-2 box-widget<#if bgColor?has_content> ${bgColor}</#if>"<@commonAttrs id=id params=params attrs=attrs />>
+<div class="card m-2 box-widget<#if bgColor?has_content> ${bgColor}</#if>"<@commonAttrs id=id params=params />>
 	<div class="card-body">
 		<span class="info-box-icon<#if color?has_content> ${color}</#if>"><@icon style=boxIcon /></span><#if boxText?has_content><span class="info-box-text ml-2">${boxText}</span></#if>
 		<div class="info-box-content">

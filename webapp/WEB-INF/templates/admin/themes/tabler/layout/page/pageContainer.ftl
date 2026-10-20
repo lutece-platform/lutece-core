@@ -9,8 +9,7 @@ Parameters:
 - height (string, optional): set to 'full' to make the container fill the viewport height and hide the footer.
 - class (string, optional): additional CSS classes for the main element.
 - actions (string, optional): HTML string of action buttons to inject into the page header buttons area.
-- params (string, optional): additional HTML attributes for the main element.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -27,10 +26,10 @@ Snippet:
     </@pageContainer>
 
 -->
-<#macro pageContainer id='lutece-main' template='' height='' class='' actions='' params='' attrs={} deprecated...> 
+<#macro pageContainer id='lutece-main' template='' height='' class='' actions='' params={} deprecated...> 
 <@deprecatedWarning args=deprecated />
 <!-- Begin page content -->
-<main role="main" <@commonAttrs id=id params=params attrs=attrs />  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>">
+<main role="main" <@commonAttrs id=id params=params />  class="lutece-page ${template} ${class} d-flex" style="<#if height='full'>height:calc(100%-64px);max-height:calc(100%-64px)</#if>">
 <#nested>
 </main>
 <#if height='full'>

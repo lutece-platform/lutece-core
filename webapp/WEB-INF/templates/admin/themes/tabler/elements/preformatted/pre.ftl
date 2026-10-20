@@ -9,8 +9,7 @@ Parameters:
 - hide (list, optional): a list of display settings to hide the preformatted text element, e.g., ["md", "lg"].
 - collapsed (boolean, optional): whether to collapse the preformatted text element.
 - align (string, optional): the alignment setting for the preformatted text element, e.g., "center" or "right".
-- params (string, optional): additional parameters to add to the HTML code.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -29,10 +28,10 @@ Snippet:
     </@pre>
 
 -->
-<#macro pre id='' class='' hide=[] collapsed=false align='' params='' attrs={} deprecated...>
+<#macro pre id='' class='' hide=[] collapsed=false align='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local classExtra = collapsed?then( 'collapse', '' ) + ' ' + alignmentSettings( align, '' ) + ' ' + displaySettings( hide, 'block' ) />
-<pre<@commonAttrs id=id class=class classExtra=classExtra params=params attrs=attrs />>
+<pre<@commonAttrs id=id class=class classExtra=classExtra params=params />>
 	<#nested>
 </pre>
 </#macro>

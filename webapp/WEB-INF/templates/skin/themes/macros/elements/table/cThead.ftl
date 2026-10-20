@@ -6,8 +6,7 @@ Description: Generates an HTML thead element to define the header section of a t
 Parameters:
 - class (string, optional): CSS class(es) applied to the thead element. Default: ''.
 - id (string, optional): Unique identifier for the thead element. Default: ''.
-- params (string, optional): Additional HTML attributes for the thead element. Default: ''.
-- attrs (hash, optional): additional HTML attributes as name/value pairs, e.g. {'aria-hidden': 'true'}. Prefer it to params: the macro writes the attribute and its value is escaped like any value of the page.
+- params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
 Snippet:
 
@@ -31,9 +30,9 @@ Snippet:
     </@cTable>
 
 -->  
-<#macro cThead class='' id='' params='' attrs={} deprecated...>
+<#macro cThead class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<thead <#if class?has_content>thead-${class!}</#if><@commonAttrs id=id params=params attrs=attrs /> >
+<thead <#if class?has_content>thead-${class!}</#if><@commonAttrs id=id params=params /> >
 <#nested>
 </thead>
 </#macro>
