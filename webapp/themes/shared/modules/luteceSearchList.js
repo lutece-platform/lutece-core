@@ -246,21 +246,43 @@ export default class LuteceSearchList {
   }
 
   /**
-   * Highlights search matches in an element's children.
+   * Highlights search matches in an element's children. The term is matched as text (its RegExp characters are
+   * escaped) in the text nodes only, and wrapped in <mark> elements built with the DOM: no HTML is rewritten.
    * @param {HTMLElement} element - The element to highlight search matches in.
    * @param {string} searchTerm - The search term to highlight.
    */
   addHighlight(element, searchTerm) {
+    if (!searchTerm) {
+      return;
+    }
+    const regex = new RegExp(searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
     this.options.searchableChild.forEach(selector => {
-      const children = element.querySelectorAll(selector);
-      children.forEach(child => {
-        const regex = new RegExp(`(>[^<]*?)(${searchTerm})([^>]*?<)`, "gi");
-        const originalInnerHTML = child.innerHTML;
-        const highlightedInnerHTML = originalInnerHTML.replace(
-          regex,
-          "$1<mark>$2</mark>$3"
-        );
-        child.innerHTML = highlightedInnerHTML;
+      element.querySelectorAll(selector).forEach(child => {
+        const walker = document.createTreeWalker(child, NodeFilter.SHOW_TEXT);
+        const textNodes = [];
+        while (walker.nextNode()) {
+          textNodes.push(walker.currentNode);
+        }
+        textNodes.forEach(node => {
+          const text = node.nodeValue;
+          regex.lastIndex = 0;
+          if (!regex.test(text)) {
+            return;
+          }
+          regex.lastIndex = 0;
+          const fragment = document.createDocumentFragment();
+          let last = 0;
+          let match;
+          while ((match = regex.exec(text)) !== null && match[0].length > 0) {
+            fragment.append(text.slice(last, match.index));
+            const mark = document.createElement('mark');
+            mark.textContent = match[0];
+            fragment.append(mark);
+            last = match.index + match[0].length;
+          }
+          fragment.append(text.slice(last));
+          node.replaceWith(fragment);
+        });
       });
     });
   }
@@ -274,8 +296,8 @@ export default class LuteceSearchList {
     this.options.searchableChild.forEach(selector => {
       const children = element.querySelectorAll(selector);
       children.forEach(child => {
-        const regex = /(<mark>|<\/mark>)/gi;
-        child.innerHTML = child.innerHTML.replace(regex, '');
+        child.querySelectorAll('mark').forEach(mark => mark.replaceWith(mark.textContent));
+        child.normalize();
       });
     });
   }
