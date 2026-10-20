@@ -54,6 +54,15 @@ public class MacroHarness
         TemplateMethodModelEx i18n = a -> "#i18n{" + a.get( 0 ) + "}";
         cfg.setSharedVariable( "dskey", dskey );
         cfg.setSharedVariable( "i18n", i18n );
+        try
+        {
+            Class<?> htmlAttributes = Class.forName( "fr.paris.lutece.portal.service.template.HtmlAttributesMethod" );
+            cfg.setSharedVariable( "htmlAttributes", htmlAttributes.getConstructor( boolean.class ).newInstance( true ) );
+        }
+        catch( ClassNotFoundException e )
+        {
+            System.err.println( "htmlAttributes not shared: compile the core (target/classes) to render the macros that call it" );
+        }
         cfg.setLazyAutoImports( true );
         cfg.setLocalizedLookup( false );
         cfg.setNumberFormat( "0.######" );
