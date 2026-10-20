@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (Object.keys(actions).length > 0) {
           const tdActions = document.createElement('td');
           tdActions.className = 'text-center';
-          tdActions.innerHTML = generateActionButtons(item);
+          tdActions.appendChild(generateActionButtons(item));
           tr.appendChild(tdActions);
         }
         
@@ -301,47 +301,61 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     
+    // Fonction pour créer un bouton d'action : élément construit par le DOM, aucune valeur n'est lue comme du HTML
+    function createActionButton(tagName, config, url) {
+      const button = document.createElement(tagName);
+      button.className = 'btn btn-' + config.btnClass + ' btn-' + config.size;
+      button.title = config.title || '';
+      if (tagName === 'a') {
+        button.href = url;
+      } else {
+        button.type = 'button';
+      }
+      const icon = document.createElement('i');
+      icon.className = 'ti ti-' + config.icon;
+      button.appendChild(icon);
+      return button;
+    }
+
     // Fonction pour générer les boutons d'actions
     function generateActionButtons(item) {
-      let buttons = '<div class="btn-group btn-group-sm" role="group">';
-      
+      const group = document.createElement('div');
+      group.className = 'btn-group btn-group-sm';
+      group.setAttribute('role', 'group');
+
       // Bouton View
       if (actions.view) {
-        const viewUrl = replaceUrlPlaceholders(actions.view.url, item);
-        buttons += '<a href="' + viewUrl + '" class="btn btn-' + actions.view.btnClass + ' btn-' + actions.view.size + '" title="' + actions.view.title + '"><i class="ti ti-' + actions.view.icon + '"></i></a>';
+        group.appendChild(createActionButton('a', actions.view, replaceUrlPlaceholders(actions.view.url, item)));
       }
-      
+
       // Bouton Edit
       if (actions.edit) {
         const editUrl = replaceUrlPlaceholders(actions.edit.url, item);
-        
+
         if (actions.edit.offcanvas) {
           const offcanvasId = 'offcanvas-' + tableId + '-' + item.id;
-          buttons += '<button type="button" class="btn btn-' + actions.edit.btnClass + ' btn-' + actions.edit.size + '" data-bs-toggle="offcanvas" data-bs-target="#' + offcanvasId + '" title="' + actions.edit.title + '"><i class="ti ti-' + actions.edit.icon + '"></i></button>';
-          
+          const button = createActionButton('button', actions.edit, editUrl);
+          button.setAttribute('data-bs-toggle', 'offcanvas');
+          button.setAttribute('data-bs-target', '#' + CSS.escape(offcanvasId));
+          group.appendChild(button);
+
           // Créer l'offcanvas
           setTimeout(() => createOffcanvas(offcanvasId, editUrl, actions.edit, item), 0);
         } else {
-          buttons += '<a href="' + editUrl + '" class="btn btn-' + actions.edit.btnClass + ' btn-' + actions.edit.size + '" title="' + actions.edit.title + '"><i class="ti ti-' + actions.edit.icon + '"></i></a>';
+          group.appendChild(createActionButton('a', actions.edit, editUrl));
         }
       }
-      
-      // Bouton Delete
+
+      // Bouton Delete : la confirmation est faite par lutece-actions.js (data-lutece-confirm)
       if (actions.delete) {
-        const deleteUrl = replaceUrlPlaceholders(actions.delete.url, item);
-        const confirmMsg = actions.delete.confirmMessage || 'Êtes-vous sûr de vouloir supprimer cet élément ?';
-        
-        buttons += '<a href="' + deleteUrl + '" class="btn btn-' + actions.delete.btnClass + ' btn-' + actions.delete.size + '" title="' + actions.delete.title + '"';
-        
+        const button = createActionButton('a', actions.delete, replaceUrlPlaceholders(actions.delete.url, item));
         if (actions.delete.confirm) {
-          buttons += ' onclick="return confirm(\'' + confirmMsg + '\');"';
+          button.setAttribute('data-lutece-confirm', actions.delete.confirmMessage || 'Êtes-vous sûr de vouloir supprimer cet élément ?');
         }
-        
-        buttons += '><i class="ti ti-' + actions.delete.icon + '"></i></a>';
+        group.appendChild(button);
       }
-      
-      buttons += '</div>';
-      return buttons;
+
+      return group;
     }
     
     // Fonction pour remplacer les placeholders

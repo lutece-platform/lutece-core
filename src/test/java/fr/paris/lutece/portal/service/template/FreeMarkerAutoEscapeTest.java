@@ -77,6 +77,12 @@ public class FreeMarkerAutoEscapeTest
     private static final Pattern JS_NO_ESC = Pattern.compile( "\\?js_string\\?no_esc" );
 
     /** A script element. */
+    /** An event handler attribute, written in HTML, in a params string or capture, or as a key of an attrs map. */
+    private static final Pattern EVENT_HANDLER = Pattern.compile( "(?i)(?<![\\w.-])on[a-z]+\\s*=\\s*[\"'\\\\]|['\"]on[a-z]+['\"]\\s*:\\s*['\"]" );
+    /** A javascript: URL. */
+    private static final Pattern JAVASCRIPT_URL = Pattern.compile( "(?i)javascript\\s*:" );
+    /** The comments and the conditions of the FreeMarker directives, which write nothing. */
+    private static final Pattern NOT_WRITTEN = Pattern.compile( "(?s)<#--.*?-->|<#(?:if|elseif)\\b[^>]*>" );
     private static final Pattern SCRIPT = Pattern.compile( "(?is)<script\\b.*?</script>" );
 
     /** Templates written into a script by their caller, where ?js_string?no_esc is right outside a script element. */
@@ -321,6 +327,40 @@ public class FreeMarkerAutoEscapeTest
         if ( !listFailures.isEmpty( ) )
         {
             fail( listFailures.size( ) + " ?js_string?no_esc outside a script element:\n  " + String.join( "\n  ", listFailures ) );
+        }
+    }
+
+    /**
+     * No template writes JavaScript in its HTML (LUT-33153, points 7, 15 and 20 of the review): no event handler
+     * attribute (onclick, onchange, onerror...), whether written in HTML, in params or in attrs, and no javascript: URL.
+     * The behaviours are declared with data-lutece-action, data-lutece-confirm and data-lutece-fallback-src, which
+     * lutece-actions.js runs; so a Content Security Policy can forbid inline handlers.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     */
+    @Test
+    public void testNoEventHandlerNorJavaScriptUrl( ) throws IOException
+    {
+        List<String> listFailures = new ArrayList<>( );
+        for ( Path path : templates( ) )
+        {
+            String strSource = NOT_WRITTEN.matcher( Files.readString( path, StandardCharsets.UTF_8 ) ).replaceAll( "" );
+            for ( Pattern pattern : new Pattern [ ] {
+                    EVENT_HANDLER, JAVASCRIPT_URL
+            } )
+            {
+                Matcher matcher = pattern.matcher( strSource );
+                while ( matcher.find( ) )
+                {
+                    listFailures.add( path + " : " + matcher.group( ) );
+                }
+            }
+        }
+        if ( !listFailures.isEmpty( ) )
+        {
+            fail( listFailures.size( ) + " event handler(s) or javascript: URL(s), use data-lutece-action instead:\n  "
+                    + String.join( "\n  ", listFailures ) );
         }
     }
 }

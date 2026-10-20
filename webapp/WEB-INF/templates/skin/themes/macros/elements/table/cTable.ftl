@@ -75,14 +75,14 @@ Snippet:
 <#macro sortSite jsp_url attribute asc=false desc=true id='' class='' params=''>
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" /></#if>
 <#if asc>
-<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url?js_string}true#sort${(id!)?js_string}_${(attribute!)?js_string}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
+<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
 	<@cIcon name='arrow-up' class='main-color' />
-</button>
+</a>
 </#if>
 <#if desc>
-<button type="button" onclick="window.location.href='${sort_url?js_string}false#sort${(id!)?js_string}_${(attribute!)?js_string}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
+<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>
 	<@cIcon name='arrow-down' class='main-color' />
-</button>
+</a>
 </#if>
 </#macro>
 <#macro cTableResponsive id collapsedClass='' collapsed=true collapsedTitleLevel=3 collapseHeader=true collapseFooter=true >
