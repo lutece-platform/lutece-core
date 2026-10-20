@@ -35,6 +35,9 @@ package fr.paris.lutece.portal.service.message;
 
 import java.util.Locale;
 
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
+import freemarker.core.TemplateHTMLOutputModel;
+
 public class CustomSiteMessage extends SiteMessage
 {
     private static final long serialVersionUID = -3488904968102318674L;
@@ -53,6 +56,19 @@ public class CustomSiteMessage extends SiteMessage
     public String getText( Locale locale )
     {
         return _strText;
+    }
+
+    /**
+     * Returns the text given to the message, sanitized: it is a text the application built and may hold formatting.
+     *
+     * @param locale
+     *            The current locale
+     * @return The text as markup
+     */
+    @Override
+    public TemplateHTMLOutputModel getMarkup( Locale locale )
+    {
+        return HtmlMarkup.ofSanitized( _strText );
     }
 
     @Override

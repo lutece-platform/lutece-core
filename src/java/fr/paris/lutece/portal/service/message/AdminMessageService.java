@@ -468,22 +468,23 @@ public final class AdminMessageService
     }
 
     /**
-     * Format a list of item to include in a message
+     * Format a list of item to include in a message, as an HTML argument of the message: the other arguments are escaped
+     * when the message is written in a page, this one is kept as HTML (its items are escaped by the template).
      * 
      * @param list
      *            The list of item as string
      * @param locale
      *            The current locale
-     * @return The formatted list
+     * @return The formatted list, to pass as an argument of the message
      */
-    public static String getFormattedList( List<String> list, Locale locale )
+    public static MessageHtml getFormattedList( List<String> list, Locale locale )
     {
         Map<String, List<String>> model = new HashMap<>( );
         model.put( MARK_MESSAGES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
 
-        return template.getHtml( );
+        return MessageHtml.of( template.getHtml( ) );
     }
 
     /**
@@ -503,8 +504,8 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        return new String [ ] {
-                template.getHtml( )
+        return new Object [ ] {
+                MessageHtml.of( template.getHtml( ) )
         };
     }
 
@@ -525,8 +526,8 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        return new String [ ] {
-                template.getHtml( )
+        return new Object [ ] {
+                MessageHtml.of( template.getHtml( ) )
         };
     }
 
