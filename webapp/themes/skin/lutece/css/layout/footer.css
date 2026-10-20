@@ -1,6 +1,8 @@
 /*** 										***/
 /*** 	Footer 								***/
 /*** 										***/
+/* Texts are plain white: on the primary blue, translucent white fell to 2.3:1 and 3.8:1 (WCAG 1.4.3);
+   links are at least 24px high (2.5.8) */
 footer {
     background: var(--lutece-ds-primary);
     color: var(--lutece-ds-white);
@@ -37,15 +39,16 @@ footer h4 {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.5);
+    color: #fff;
     font-weight: 700;
     margin-bottom: 16px;
 }
 
 footer a {
-    color: rgba(255, 255, 255, 0.85);
+    color: #fff;
     font-size: 14px;
     display: block;
+    min-height: 24px;
     padding: 0 0 0 15px;
     text-decoration: none;
 }
@@ -59,7 +62,7 @@ footer a:hover {
     padding-top: 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #fff;
     display: flex;
     justify-content: space-between;
 }

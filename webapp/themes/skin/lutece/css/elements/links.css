@@ -2,7 +2,7 @@
 /*** Default link styles					***/
 /***  										***/
 a {
-	color: var(--lutece-ds-primary);
+	color: var(--lutece-ds-link-color, var(--lutece-ds-primary));
 	text-decoration: underline;
 }
 

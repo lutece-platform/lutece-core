@@ -195,7 +195,9 @@ if( storedSidebar === 'folded' || storedSidebar === 'folded-hover' ){
 				<div class="row flex-column flex-md-row flex-fill align-items-center">
 					<div class="col">
 						<!-- BEGIN NAVBAR MENU -->
+						<nav aria-label="#i18n{portal.users.admin_header.labelMenuH}">
 						<@adminHeaderMenu admin_url=admin_url />
+						</nav>
 						<!-- END NAVBAR MENU -->
 					</div>
 					<#if menuHome?number == 1>
