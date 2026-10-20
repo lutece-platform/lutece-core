@@ -39,7 +39,7 @@ Snippet:
 	<div class="col-12<#if class?has_content> ${class}</#if>">
 		<div class="page-pretitle"></div>
 		<#if breadcrumb?exists>${breadcrumb}</#if>
-		<h2 class="page-title ${titleClass}">${title}</h2>
+		<h1 class="page-title ${titleClass}">${title}</h1>
 		<#if description?has_content><p>${description}</p></#if>
 	</div>
 	<!-- Page title actions -->

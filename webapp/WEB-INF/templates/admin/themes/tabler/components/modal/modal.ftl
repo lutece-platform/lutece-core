@@ -44,7 +44,8 @@ Snippet:
 -->
 <#macro modal id params={} bgColor='' size='' fullScreen=false vCentered=true deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal ${bgColor} fade" id="${id}" <@commonAttrs params=params />>
+<#assign currentModalId = id />
+<div class="modal ${bgColor} fade" id="${id}" tabindex="-1" aria-labelledby="${id}-title"<@commonAttrs params=params />>
 	<div class="modal-dialog<#if size?has_content> modal-${size}</#if><#if fullScreen> modal-fullscreen</#if><#if vCentered> modal-dialog-centered</#if>">
 		<div class="modal-content">
 			<#nested>

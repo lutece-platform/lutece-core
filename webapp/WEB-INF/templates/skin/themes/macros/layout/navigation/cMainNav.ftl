@@ -84,8 +84,8 @@ Snippet:
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{portal.theme.showmenu}" aria-controls="navbarMainMenu">
         <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{portal.theme.showmenu}</span></span>
     </button>
-    <nav class="collapse navbar-collapse text-center<#if navOverflow> nav-overflow</#if>" aria-label="#i18n{portal.theme.mainMenu}" role="navigation" id="navbarMainMenu"<#if navOverflow> data-bs-toggle="nav-overflow"</#if>>
-        <ul class="navbar-nav w-100 align-items-center lutece-ds-tw-menu">
+    <nav class="collapse navbar-collapse text-center<#if navOverflow> nav-overflow</#if>" aria-label="#i18n{portal.theme.mainMenu}" id="navbarMainMenu"<#if navOverflow> data-bs-toggle="nav-overflow"</#if>>
+        <ul class="navbar-nav w-100 align-items-center lutece-ds-tw-menu" id="main-site-menu">
             <li class="nav-item<#if navOverflow> nav-overflow-keep</#if><#if pageId = '1'> active</#if>">
                 <a class="nav-link text-capitalize" title="${title}" href="." target="_top" aria-current="<#if pageId = '1'>page<#else>false</#if>">#i18n{portal.site.page_home.label}</a>
             </li>
@@ -134,7 +134,7 @@ Snippet:
                 </@cMainNavItem>
             </#if>
             <#if hasLogin>
-                <li class="nav-item navbar-user<#if loginClass?has_content > ${loginClass!}</#if> ms-md-auto" aria-label="#i18n{portal.theme.labelAccount}">
+                <li class="nav-item navbar-user<#if loginClass?has_content > ${loginClass!}</#if> ms-md-auto">
                     ${pageinclude_userlogin?default("")}
                 </li>
             </#if>
@@ -162,7 +162,7 @@ Snippet:
 <div id="layout-sidebar-wrapper">
     <header class="theme-main-header<#if sidebarMenuClass?has_content> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
         <div id="sidebar-main-menu">
-            <nav class="navbar-main sidebar-nav lutece-ds-topbar" id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
+            <nav class="navbar-main sidebar-nav lutece-ds-topbar" id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}">
                 <#--
                 <a class="navbar-brand sidebar-brand" href="${href!'.'}">
                 <#if logoHeader?has_content><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
