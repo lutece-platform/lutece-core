@@ -3,18 +3,23 @@
 <#case 1>
 <#assign messageClass = 'info' /> 
 <#assign messageTitle='#i18n{portal.util.message.titleQuestion}' />
+<#break>
 <#case 2> 
 <#assign messageClass = 'danger' />
 <#assign messageTitle='#i18n{portal.util.message.titleError} ' />
+<#break>
 <#case 3> 
 <#assign messageClass = 'warning' />
 <#assign messageTitle='#i18n{portal.util.message.titleWarning} ' />
+<#break>
 <#case 4> 
 <#assign messageClass = 'success' />
 <#assign messageTitle='#i18n{portal.util.message.titleConfirmation} ' />
+<#break>
 <#case 5 > 
 <#assign messageClass = 'danger' />
-<#assign messageTitle='#i18n{portal.util.message.titleStop} ' />	
+<#assign messageTitle='#i18n{portal.util.message.titleStop} ' />
+<#break>	
 <#default> 
 <#assign messageClass = 'info' />
 <#assign messageTitle='' />
