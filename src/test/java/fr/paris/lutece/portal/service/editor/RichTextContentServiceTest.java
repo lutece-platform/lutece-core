@@ -40,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.enterprise.inject.spi.CDI;
 import java.io.StringWriter;
 import java.util.Map;
 
@@ -138,5 +139,46 @@ public class RichTextContentServiceTest extends LuteceTestCase
 
         assertEquals( "[<p>x</p><img src=\"x\" />][&lt;p&gt;x&lt;/p&gt;&lt;img src=x onerror=alert(1)&gt;][<b>&lt;p&gt;x&lt;/p&gt;&lt;img src&#61;x onerror&#61;alert(1)&gt;</b>]",
                 out.toString( ) );
+    }
+
+    /**
+     * A content stored as BBCode is converted by the BBCode parser when its prefix is set, then sanitized; the templates
+     * do not change when the editor changes its format.
+     *
+     * @throws RichTextParsingException
+     *             if the rendering fails
+     */
+    @Test
+    public void testBbcodeContentIsConvertedThenSanitized( ) throws RichTextParsingException
+    {
+        BbcodeRichTextContentParser parser = CDI.current( ).select( BbcodeRichTextContentParser.class ).get( );
+        String strPrefix = parser.getPrefix( );
+        parser.setPrefix( "[bbcode]" );
+        try
+        {
+            String strHtml = RichTextContentService.getContent( "[bbcode][b]bold[/b] <script>alert(1)</script>" );
+            assertTrue( strHtml.contains( "<b>bold</b>" ) || strHtml.contains( "<strong>bold</strong>" ), strHtml );
+            assertFalse( strHtml.contains( "<script" ), strHtml );
+            assertEquals( "[b]bold[/b]", RichTextContentService.getContent( "[b]bold[/b]" ), "a content without the prefix is HTML" );
+        }
+        finally
+        {
+            parser.setPrefix( strPrefix );
+        }
+    }
+
+    /**
+     * The plain text of a rich content, for a text message or a plain text e-mail: no tag, the entities decoded, a line
+     * per paragraph, and nothing of a script.
+     *
+     * @throws RichTextParsingException
+     *             if the rendering fails
+     */
+    @Test
+    public void testPlainText( ) throws RichTextParsingException
+    {
+        String strText = RichTextContentService.getText( "<p>Hello <b>A &amp; B</b></p><p>second<br>line</p><script>alert(1)</script>" );
+        assertEquals( "Hello A & B\nsecond\nline", strText );
+        assertEquals( "", RichTextContentService.getText( null ) );
     }
 }
