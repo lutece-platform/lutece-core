@@ -100,9 +100,28 @@
     * Licensed under the Creative Commons Attribution 3.0 Unported License.
     */
 
-    const getStoredTheme = () => localStorage.getItem('theme')
-    const setStoredTheme = theme => localStorage.setItem('theme', theme)
-    const getDefaultTheme = () => document.documentElement.getAttribute('data-bs-theme')
+    // Storage can be blocked (private browsing, site data disabled) and the
+    // stored value tampered with: both fall back to the default theme.
+    const THEMES = ['light', 'dark', 'auto']
+    const getStoredTheme = () => {
+        try {
+            const theme = localStorage.getItem('theme')
+            return THEMES.includes(theme) ? theme : null
+        } catch (e) {
+            return null
+        }
+    }
+    const setStoredTheme = theme => {
+        try {
+            localStorage.setItem('theme', theme)
+        } catch (e) {
+            // storage blocked: the choice lasts for this page only
+        }
+    }
+    // Default theme rendered by the server. A FO theme that applies the mode
+    // before the first paint keeps it in data-bs-theme-default.
+    const defaultThemeAtLoad = document.documentElement.getAttribute('data-bs-theme-default') || document.documentElement.getAttribute('data-bs-theme')
+    const getDefaultTheme = () => defaultThemeAtLoad
 
     const getPreferredTheme = () => {
         const defaultTheme = getDefaultTheme()
@@ -138,6 +157,10 @@
 
         const themeSwitcherText = document.querySelector('#bd-theme-text')
         const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
+
+        if (!btnToActive) {
+            return
+        }
         
         document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
             element.classList.remove('active')

@@ -1,7 +1,6 @@
 package fr.paris.lutece.portal.web.menu;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -257,38 +256,34 @@ public class MenuItem
     public static class MenuTreeBuilder
     {
 
+        /**
+         * Builds a tree from a flat list of menu items: an item whose parent is in the list becomes a child of that parent, any other item (the root
+         * page, whose parent id is 0, or the first level of a menu that does not list the root page) is a root of the tree.
+         *
+         * @param nodes
+         *            the flat list of menu items, in the order of the tree
+         * @return the root items, each one holding its children
+         */
         public static List<MenuItem> buildTree( List<MenuItem> nodes )
         {
             Map<Integer, MenuItem> nodeMap = new HashMap<>( );
             List<MenuItem> roots = new ArrayList<>( );
-            int root = 0;
-            
+
             for ( MenuItem node : nodes )
             {
                 nodeMap.put( node.getPageId( ), node );
             }
-            if ( !nodeMap.isEmpty( ) && !nodeMap.containsKey( root ) )
-            {
-                root = Collections.min( nodeMap.entrySet( ), Map.Entry.comparingByKey( ) ).getKey( );
-            }
 
             for ( MenuItem node : nodes )
             {
-                if ( root == node.getParentId( ) )
+                MenuItem parent = ( node.getParentId( ) != node.getPageId( ) ) ? nodeMap.get( node.getParentId( ) ) : null;
+                if ( parent != null )
                 {
-                    roots.add( node );
+                    parent.getChildren( ).add( node );
                 }
                 else
                 {
-                    MenuItem parent = nodeMap.get( node.getParentId( ) );
-                    if ( parent != null )
-                    {
-                        parent.getChildren( ).add( node );
-                    }
-                    else
-                    {
-                        roots.add( node );
-                    }
+                    roots.add( node );
                 }
             }
             return roots;

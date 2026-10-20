@@ -58,11 +58,11 @@ Snippet:
 <#assign pageId><#if page_id??>${page_id!'1'}<#else>0</#if></#assign>
 <#if isSidebar>
 <#assign isMainSidebarMenu=isSidebar >
-<#if mainSidebarMenuCols?? && mainSidebarMenuCols != ''><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=sidebarCol?number /></#if>
+<#if mainSidebarMenuCols?? && mainSidebarMenuCols != ''><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=(sidebarCol!'3')?number /></#if>
 <#local mainCalcCol=12 - sidebarCol />
 <#local asideCol>col-md-${sidebarCol+1} col-lg-${sidebarCol}</#local>
 <#local mainCol>col-md-${mainCalcCol-1} col-lg-${mainCalcCol}</#local>
-<#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}"</#if><#if mainClass !=''> ${mainClass!}</#if></#assign>
+<#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}</#if><#if mainClass !=''> ${mainClass!}</#if></#assign>
 <#else>
 <header class="sticky-top navigation<#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if>" id="main-banner-${page_id!'theme'}" role="banner">
 </#if>
