@@ -46,7 +46,7 @@ Snippet:
 <@div class='step step-done ${class!}' id=id params=params attrs=attrs>
 	<@div class='step-title'>
         <@div class='d-flex justify-content-between align-items-baseline w-100'>
-            <@h class='title' level=titleLevel attrs={'title': (title)} >
+            <@h class='title' level=titleLevel params={"title": (title)} >
                 <@span class='step-number'>${stepNumber}</@span>
                 <@span>${title?replace('- hidden','')}</@span>
             </@h>
@@ -54,7 +54,7 @@ Snippet:
             <#if actionHref?has_content>
                 <@aButton label=actionLabel! class='btn btn-outline-primary ${actionClass!}' href=actionHref params=( actionParams!'' ) attrs={'aria-label': i18n( actionAriaLabelKey, title )} />
             <#elseif actionName?has_content>
-                <@button class='outline-primary' label=actionLabel! attrs={'name': (actionName), 'value': (idx!), 'aria-label': (i18n(actionAriaLabelKey, title)), 'formnovalidate': true} />
+                <@button class='outline-primary' label=actionLabel! name=(actionName) value=(idx!) params={"aria-label": (i18n(actionAriaLabelKey, title)), "formnovalidate": true} />
             </#if>
             </@span>    
         </@div>    
@@ -67,7 +67,7 @@ Snippet:
         <#if actionHref?has_content>
             <@aButton label=actionLabel! class='btn btn-primary btn-sm-block ${actionClass!}' href=actionHref params=( actionParams!'' ) attrs={'aria-label': i18n( actionAriaLabelKey, title )} />
         <#elseif actionName?has_content>
-            <@button class='primary btn-sm-block' label=actionLabel! attrs={'name': (actionName), 'value': (idx!), 'aria-label': (i18n(actionAriaLabelKey, title)), 'formnovalidate': true} />
+            <@button class='primary btn-sm-block' label=actionLabel! name=(actionName) value=(idx!) params={"aria-label": (i18n(actionAriaLabelKey, title)), "formnovalidate": true} />
         </#if>
         </@div>    
     </@div>

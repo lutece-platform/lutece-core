@@ -16,7 +16,7 @@
 	<@pageHeader title='#i18n{portal.users.create_user.pageTitle}' />
 		<@box color='success'>
 			<@boxBody>
-				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' attrs={'enctype': "multipart/form-data"}>
+				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' enctype="multipart/form-data">
 					<@input type='hidden' name='token' value='${token}' />
 					<@row>
 						<@columns md=4 lg=3>
