@@ -43,12 +43,15 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -100,6 +103,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
+    private static final String JSP_URL_MODIFY_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/ModifyAttributeField.jsp";
     private static final String JSP_ATTRIBUTES_LIST = "jsp/admin/AdminTechnicalMenu.jsp?tab=attributes_management#users_advanced_parameters";
     
     @Inject
@@ -231,14 +235,19 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isEmpty( strCancel ) )
         {
+            UrlItem urlReturn = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_ATTRIBUTE_FIELD );
+            urlReturn.addParameter( PARAMETER_ID_ATTRIBUTE, NumberUtils.toInt( strIdAttribute ) );
+            urlReturn.addParameter( PARAMETER_ID_FIELD, nIdField );
+            String strReturnUrl = urlReturn.getUrl( );
+
             if ( StringUtils.isBlank( strTitle ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
             }
 
             if ( StringUtils.isBlank( strValue ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
             }
 
             if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )

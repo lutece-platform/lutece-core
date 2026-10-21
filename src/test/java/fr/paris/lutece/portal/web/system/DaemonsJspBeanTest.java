@@ -50,6 +50,8 @@ import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.daemon.TestDaemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -500,5 +502,25 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
         bean.init( request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
         assertNotNull( bean.getManageDaemons( request ) );
+    }
+
+    /**
+     * The error message of the update of a daemon interval leads back to the daemons management when there is no page to go back to
+     */
+    @Test
+    public void testDoDaemonActionMissingIntervalReturnsToTheDaemonsManagement( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        bean.init( request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        request.setParameter( "action", "UPDATE_INTERVAL" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+
+        bean.doDaemonAction( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( bean.getHomeUrl( request ), message.getBackUrl( ) );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/system/ManageDaemons.jsp" ), message.getBackUrl( ) );
     }
 }

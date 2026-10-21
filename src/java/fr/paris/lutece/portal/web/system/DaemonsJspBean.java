@@ -153,12 +153,14 @@ public class DaemonsJspBean extends AdminFeaturesPageJspBean
                                     tabFieldInterval [0], String.valueOf( AppDaemonService.MAX_DAEMON_INTERVAL )
                             };
 
-                            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_INTERVAL, tabFieldIntervalRange, AdminMessage.TYPE_STOP );
+                            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_INVALID_INTERVAL, tabFieldIntervalRange,
+                                    AdminMessage.TYPE_STOP, getHomeUrl( request ) );
                         }
 
                 if ( strErrorMessage != null )
                 {
-                    return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP,
+                            getHomeUrl( request ) );
                 }
 
                 assertSecurityToken( request );
@@ -186,7 +188,8 @@ public class DaemonsJspBean extends AdminFeaturesPageJspBean
 
                 if ( strCronErrorMessage != null )
                 {
-                    return AdminMessageService.getMessageUrl( request, strCronErrorMessage, tabFieldCron, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, strCronErrorMessage, tabFieldCron, AdminMessage.TYPE_STOP,
+                            getHomeUrl( request ) );
                 }
 
                 assertSecurityToken( request );

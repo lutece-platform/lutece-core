@@ -90,6 +90,23 @@ public final class AdminUserFieldService
      */
     public static String checkUserFields( HttpServletRequest request, Locale locale )
     {
+        return checkUserFields( request, locale, null );
+    }
+
+    /**
+     * Check if the user fields are correctly filled, the button of the error message going back to the screen of the form
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
+     * @param strReturnUrl
+     *            the URL of the screen of the form, built by the server, opened by the button of the error message when there is no page to go back
+     *            to; null to only go back
+     * @return null if there are no problem
+     */
+    public static String checkUserFields( HttpServletRequest request, Locale locale, String strReturnUrl )
+    {
         // Specific attributes
         List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( locale );
 
@@ -103,7 +120,7 @@ public final class AdminUserFieldService
 
                 if ( attribute.isMandatory( ) && ( strUpdateAttribute != null ) && ( ( fileItem == null ) || ( fileItem.getSize( ) == 0 ) ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
                 }
             }
             else
@@ -112,7 +129,7 @@ public final class AdminUserFieldService
 
                 if ( attribute.isMandatory( ) && ( ( value == null ) || value.equals( CONSTANT_EMPTY_STRING ) ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
                 }
             }
         }

@@ -835,4 +835,19 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
+
+    /**
+     * The error message of the creation of a role leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreateRoleMissingFieldReturnsToTheCreationScreen( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.doCreateRole( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/rbac/CreateRole.jsp" ), message.getBackUrl( ) );
+    }
 }

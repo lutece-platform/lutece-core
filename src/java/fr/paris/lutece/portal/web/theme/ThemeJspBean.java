@@ -142,7 +142,8 @@ public class ThemeJspBean extends MVCAdminJspBean
     {
         if( result.isFailed( ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_BINDING_RESULT_FAILED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_BINDING_RESULT_FAILED, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MANAGE_THEMES ) );
         }
         else {
             if ( !strTheme.isBlank() )
@@ -152,7 +153,8 @@ public class ThemeJspBean extends MVCAdminJspBean
             }
             else
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_OBJECT_NOT_FOUND, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_OBJECT_NOT_FOUND, AdminMessage.TYPE_STOP,
+                        AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MANAGE_THEMES ) );
             }
         }
     }

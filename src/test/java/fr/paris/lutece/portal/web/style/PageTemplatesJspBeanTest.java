@@ -46,7 +46,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
@@ -357,5 +356,22 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         Random rand = new SecureRandom( );
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
+    }
+
+    /**
+     * The refusal to remove a page template used by a page leads back to the page templates management when there is no page to go back to
+     */
+    @Test
+    public void testGetConfirmRemoveUsedPageTemplateReturnsToTheManagement( )
+    {
+        int nUsedTemplateId = PageHome.getPage( PortalService.getRootPageId( ) ).getPageTemplateId( );
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( nUsedTemplateId ) );
+
+        instance.getConfirmRemovePageTemplate( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        assertEquals( instance.getHomeUrl( request ), message.getBackUrl( ) );
     }
 }
