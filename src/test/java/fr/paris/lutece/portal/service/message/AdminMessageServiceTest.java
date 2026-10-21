@@ -103,4 +103,26 @@ public class AdminMessageServiceTest extends LuteceTestCase
         message.getTitle( LocaleService.getDefault( ) );
         message.isCancel( );
     }
+    /**
+     * Test of getMessageUrlReturningTo: the button goes back, the screen the user came from is kept as the back URL of the message
+     */
+    @Test
+    public void testGetMessageUrlReturningTo( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Object [ ] args = {
+                "arg1"
+        };
+
+        AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, args, AdminMessage.TYPE_STOP, "jsp/admin/Screen.jsp?id=1" );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertEquals( "javascript:history.go(-1)", message.getUrl( ) );
+        assertEquals( "jsp/admin/Screen.jsp?id=1", message.getBackUrl( ) );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        assertFalse( message.isCancel( ) );
+
+        AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR, "jsp/admin/Other.jsp" );
+        assertEquals( "jsp/admin/Other.jsp", AdminMessageService.getMessage( request ).getBackUrl( ) );
+    }
 }
