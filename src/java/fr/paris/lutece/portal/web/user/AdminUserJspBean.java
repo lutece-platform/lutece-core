@@ -271,6 +271,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_CREATE_USER = "jsp/admin/user/CreateUser.jsp";
     private static final String JSP_URL_IMPORT_USER = "jsp/admin/user/ImportUser.jsp";
     private static final String JSP_URL_MODIFY_USER = "jsp/admin/user/ModifyUser.jsp";
+    private static final String JSP_URL_MODIFY_USER_PASSWORD = "jsp/admin/user/ModifyUserPassword.jsp";
+    private static final String JSP_URL_IMPORT_USERS_FROM_FILE = "jsp/admin/user/ImportUsersFromFile.jsp";
     private static final String JSP_URL_MANAGE_USER_RIGHTS = "jsp/admin/user/ManageUserRights.jsp";
     private static final String JSP_URL_MANAGE_USER_ROLES = "jsp/admin/user/ManageUserRoles.jsp";
     private static final String JSP_URL_MANAGE_USER_WORKGROUPS = "jsp/admin/user/ManageUserWorkgroups.jsp";
@@ -668,7 +670,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
-        String message = checkParameters( request, JSP_URL_CREATE_USER );
+        String strReturnUrl = AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_USER;
+        String message = checkParameters( request, JSP_URL_CREATE_USER, strReturnUrl );
 
         if ( message != null )
         {
@@ -678,13 +681,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // check again that access code is not in use
         if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP,
+                    strReturnUrl );
         }
 
         // check again that email is not in use
         if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) != -1 )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         // defines the new created user level
@@ -693,7 +697,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // check if the user is still an admin
         if ( !( getUser( ).hasRights( nNewUserLevel ) || getUser( ).isAdmin( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         // creation in no-module mode : we manage the password
@@ -705,15 +709,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             if ( StringUtils.isEmpty( strFirstPassword ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
             }
 
             if ( !strFirstPassword.equals( strSecondPassword ) )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP,
+                        strReturnUrl );
             }
 
-            String strUrl = AdminUserService.checkPassword( request, strFirstPassword, 0 );
+            String strUrl = AdminUserService.checkPassword( request, strFirstPassword, 0, Boolean.FALSE, strReturnUrl );
 
             if ( StringUtils.isNotEmpty( strUrl ) )
             {
@@ -774,7 +779,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         return JSP_MANAGE_USER;
     }
 
-    private String checkParameters( HttpServletRequest request, String strJspUrl ) throws AccessDeniedException
+    private String checkParameters( HttpServletRequest request, String strJspUrl, String strReturnUrl ) throws AccessDeniedException
     {
         String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );
         String strLastName = request.getParameter( PARAMETER_LAST_NAME );
@@ -783,30 +788,30 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isEmpty( strAccessCode ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         if ( StringUtils.isEmpty( strLastName ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         if ( StringUtils.isEmpty( strFirstName ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         if ( StringUtils.isBlank( strEmail ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         if ( !AdminUserService.checkEmail( strEmail ) )
         {
-            return AdminUserService.getEmailErrorMessageUrl( request );
+            return AdminUserService.getEmailErrorMessageUrl( request, strReturnUrl );
         }
 
-        String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
+        String strError = AdminUserFieldService.checkUserFields( request, getLocale( ), strReturnUrl );
 
         if ( strError != null )
         {
@@ -943,7 +948,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        String message = checkParameters( request, JSP_URL_MODIFY_USER );
+        String strReturnUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER + "?" + PARAMETER_USER_ID + "=" + nUserId;
+        String message = checkParameters( request, JSP_URL_MODIFY_USER, strReturnUrl );
 
         if ( message != null )
         {
@@ -964,7 +970,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // check again that access code is not in use
         if ( ( checkCode != -1 ) && ( checkCode != nUserId ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP,
+                    strReturnUrl );
         }
 
         checkCode = AdminUserHome.checkEmailAlreadyInUse( strEmail );
@@ -972,7 +979,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // check again that email is not in use
         if ( ( checkCode != -1 ) && ( checkCode != nUserId ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         // modification in no-module mode : we manage the password
@@ -1022,7 +1029,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setWorkgroupKey( strWorkgroupKey );
             user.setUserLevel( Integer.parseInt( strUserLevel ) );
 
-            String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
+            String strError = AdminUserFieldService.checkUserFields( request, getLocale( ), strReturnUrl );
 
             if ( strError != null )
             {
@@ -1156,23 +1163,25 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
 
+            String strReturnUrl = AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER_PASSWORD + "?" + PARAMETER_USER_ID + "=" + nUserId;
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
             if ( StringUtils.isEmpty( strFirstPassword ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, new String [ ] {
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_MANDATORY_FIELD, new String [ ] {
                         I18nService.getLocalizedString( PROPERTY_LABEL_FIRST_PASSWORD, getLocale( ) )
-                }, AdminMessage.TYPE_STOP );
+                }, AdminMessage.TYPE_STOP, strReturnUrl );
             }
 
             if ( !StringUtils.equals( strFirstPassword, strSecondPassword ) )
             {
                 // First and second password are filled but there are different
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP,
+                        strReturnUrl );
             }
 
-            String strUrl = AdminUserService.checkPassword( request, strFirstPassword, nUserId, Boolean.TRUE );
+            String strUrl = AdminUserService.checkPassword( request, strFirstPassword, nUserId, Boolean.TRUE, strReturnUrl );
 
             if ( StringUtils.isNotEmpty( strUrl ) )
             {
@@ -1261,7 +1270,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 Object [ ] tabRequiredFields = {
                         I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale( ) )
                 };
-                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, AdminMessage.TYPE_STOP ) );
+                result.setRedirect( AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
+                        AdminMessage.TYPE_STOP, AppPathService.getBaseUrl( request ) + JSP_URL_IMPORT_USERS_FROM_FILE ) );
 
                 return result;
             }
@@ -1270,7 +1280,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     && !strMimeType.equals( CONSTANT_MIME_TYPE_TEXT_CSV ) )
                     || !fileItem.getName( ).toLowerCase( Locale.ENGLISH ).endsWith( CONSTANT_EXTENSION_CSV_FILE ) )
             {
-                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT, AdminMessage.TYPE_STOP ) );
+                result.setRedirect( AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ERROR_CSV_FILE_IMPORT, AdminMessage.TYPE_STOP,
+                        AppPathService.getBaseUrl( request ) + JSP_URL_IMPORT_USERS_FROM_FILE ) );
 
                 return result;
             }
@@ -1302,7 +1313,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             Object [ ] tabRequiredFields = {
                     I18nService.getLocalizedString( FIELD_IMPORT_USERS_FILE, getLocale( ) )
             };
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, AdminMessage.TYPE_STOP ) );
+            result.setRedirect( AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields,
+                    AdminMessage.TYPE_STOP, AppPathService.getBaseUrl( request ) + JSP_URL_IMPORT_USERS_FROM_FILE ) );
         }
 
         return result;
@@ -2201,7 +2213,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserService.doModifyEmailPattern( strEmailPattern, strSetManually != null );
             return getAdminDashboardsUrl( request, ANCHOR_MODIFY_EMAIL_PATTERN );
         }
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN, AdminMessage.TYPE_STOP );
+        return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN, AdminMessage.TYPE_STOP,
+                getAdminDashboardsUrl( request, ANCHOR_MODIFY_EMAIL_PATTERN ) );
     }
 
     /**

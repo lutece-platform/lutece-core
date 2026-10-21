@@ -905,4 +905,47 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertFalse( strHtml.contains( "<aside class=\"lutece-site-inspector\"" ) );
         assertFalse( strHtml.contains( "id=\"lutece-site-tab-" ) );
     }
+
+    /**
+     * The error message of the modification of a page leads back to the properties of that page when there is no page to go back to
+     */
+    @Test
+    public void testDoModifyPagePageDataErrorReturnsToThePageProperties( ) throws AccessDeniedException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String [ ] {
+                Integer.toString( _page.getId( ) )
+        } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
+                _page.getDescription( )
+        } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
+                Integer.toString( _page.getPageTemplateId( ) )
+        } );
+        parameters.put( Parameters.META_KEYWORDS, new String [ ] {
+                _page.getMetaKeywords( )
+        } );
+        parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
+                _page.getMetaDescription( )
+        } );
+        parameters.put( "node_status", new String [ ] {
+                Integer.toString( _page.getNodeStatus( ) )
+        } );
+        parameters.put( Parameters.PAGE_NAME, new String [ ] {
+                ""
+        } );
+        parameters.put( Parameters.PARENT_ID, new String [ ] {
+                Integer.toString( _page.getParentPageId( ) )
+        } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+                _securityTokenService.getToken( request, "admin/site/admin_page_block_property.html" )
+        } );
+
+        _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/site/AdminSite.jsp?page_id=" + _page.getId( ) + "&param_block=2" ), message.getBackUrl( ) );
+    }
 }

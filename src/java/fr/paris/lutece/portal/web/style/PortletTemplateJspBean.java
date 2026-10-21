@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portlet.PortletTemplateResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.binding.BindingResult;
@@ -211,7 +212,8 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
     {
         if ( !isCreateAuthorized( ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP,
+                    getManageTemplatesUrl( request ) ) );
         }
 
         if ( model.get( MARK_TEMPLATE ) == null )
@@ -249,7 +251,8 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
     {
         if ( !isCreateAuthorized( ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP,
+                    getManageTemplatesUrl( request ) ) );
         }
 
         PortletTemplate template = new PortletTemplate( );
@@ -265,7 +268,8 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
             return getCreatePortletTemplate( request, model );
         }
 
-        String strErrorUrl = checkTemplateData( request, template, true );
+        String strErrorUrl = checkTemplateData( request, template, true,
+                AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_CREATE_TEMPLATE ) );
 
         if ( strErrorUrl != null )
         {
@@ -348,7 +352,9 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
             return getModifyPortletTemplate( request, model );
         }
 
-        strErrorUrl = checkTemplateData( request, template, false );
+        UrlItem urlModify = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MODIFY_TEMPLATE ) );
+        urlModify.addParameter( PARAMETER_TEMPLATE_ID, template.getId( ) );
+        strErrorUrl = checkTemplateData( request, template, false, urlModify.getUrl( ) );
 
         if ( strErrorUrl != null )
         {
@@ -445,12 +451,14 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
     {
         if ( template == null )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_TEMPLATE_NOT_FOUND, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_TEMPLATE_NOT_FOUND, AdminMessage.TYPE_STOP,
+                    getManageTemplatesUrl( request ) );
         }
 
         if ( !isAuthorized( template, strPermission ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.USER_ACCESS_DENIED, AdminMessage.TYPE_STOP,
+                    getManageTemplatesUrl( request ) );
         }
 
         return null;
@@ -476,7 +484,8 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
 
         if ( PortletTemplateHome.isTemplateUsed( template.getId( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP,
+                    getManageTemplatesUrl( request ) );
         }
 
         return null;
@@ -491,27 +500,29 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
      *            the template
      * @param bCheckTemplateFile
      *            true to check that the template file exists, false when the path is not being changed
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of the error message when there is no page to go back to
      * @return the URL of the error message, null when the data is valid
      */
-    private String checkTemplateData( HttpServletRequest request, PortletTemplate template, boolean bCheckTemplateFile )
+    private String checkTemplateData( HttpServletRequest request, PortletTemplate template, boolean bCheckTemplateFile, String strReturnUrl )
     {
         if ( StringUtils.isAnyBlank( template.getPortletTypeId( ), template.getDescription( ), template.getTemplatePath( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         ReferenceList listPortletTypes = PortletTypeHome.getPortletsTypesList( getLocale( ) );
 
         if ( listPortletTypes.stream( ).noneMatch( item -> item.getCode( ).equals( template.getPortletTypeId( ) ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_PORTLET_TYPE_NOT_FOUND, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_PORTLET_TYPE_NOT_FOUND, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         if ( bCheckTemplateFile && !AppTemplateService.isTemplateExists( template.getTemplatePath( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_TEMPLATE_FILE_NOT_FOUND, new Object [ ] {
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_TEMPLATE_FILE_NOT_FOUND, new Object [ ] {
                     template.getTemplatePath( )
-            }, AdminMessage.TYPE_STOP );
+            }, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         return null;
@@ -571,5 +582,17 @@ public class PortletTemplateJspBean extends MVCAdminJspBean
     private boolean isAuthorized( PortletTemplate template, String strPermission )
     {
         return RBACService.isAuthorized( template, strPermission, getUser( ) );
+    }
+
+    /**
+     * Returns the URL of the templates management screen
+     *
+     * @param request
+     *            the HTTP request
+     * @return the URL of the templates management screen
+     */
+    private String getManageTemplatesUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MANAGE_TEMPLATES );
     }
 }

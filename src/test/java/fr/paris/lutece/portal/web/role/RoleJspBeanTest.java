@@ -297,4 +297,19 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         }
     }
+
+    /**
+     * The error message of the creation of a role leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreatePageRoleMissingFieldReturnsToTheCreationScreen( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.doCreatePageRole( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/role/CreatePageRole.jsp" ), message.getBackUrl( ) );
+    }
 }

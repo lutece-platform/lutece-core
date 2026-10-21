@@ -137,6 +137,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
     // JSP
     private static final String JSP_MANAGE_WORKGROUPS = "ManageWorkgroups.jsp";
+    private static final String JSP_CREATE_WORKGROUP = "CreateWorkgroup.jsp";
     private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS = "AssignUsersWorkgroup.jsp";
     private static final String JSP_URL_REMOVE_WORKGROUP = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
     private static final String JSP_URL_ASSIGN_USERS_TO_WORKGROUPS = "jsp/admin/workgroup/AssignUsersWorkgroup.jsp";
@@ -276,24 +277,28 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strKey == null ) || ( strKey.equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_CREATE_WORKGROUP );
         }
 
         if ( ( strDescription == null ) || ( strDescription.equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_CREATE_WORKGROUP );
         }
 
         // Check if workgroup already exist
         if ( Boolean.TRUE.equals( AdminWorkgroupHome.checkExistWorkgroup( strKey ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_CREATE_WORKGROUP );
         }
 
         // Check if strKey contains accentuated caracters
         if ( !StringUtil.checkCodeKey( strKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_CREATE_WORKGROUP );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
         {
@@ -414,7 +419,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isEmpty( strDescription ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_MANAGE_WORKGROUPS );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_WORKGROUP ) )
         {

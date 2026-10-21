@@ -644,4 +644,19 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         bean.getResetPassword( request );
         assertTrue( "The template failed", true );
     }
+
+    /**
+     * The error message of the forgotten password form leads back to that form when there is no page to go back to
+     */
+    @Test
+    public void testDoForgotPasswordMissingAccessCodeReturnsToTheForm( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.doForgotPassword( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/AdminForgotPassword.jsp" ), message.getBackUrl( ) );
+    }
 }

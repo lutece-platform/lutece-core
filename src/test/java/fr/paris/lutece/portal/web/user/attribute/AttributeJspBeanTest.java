@@ -620,4 +620,24 @@ public class AttributeJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
+
+    /**
+     * The error message of an attribute leads back to its modification form when there is no page to go back to
+     */
+    @Test
+    public void testDoModifyAttributeMissingTitleReturnsToTheModificationScreen( ) throws AccessDeniedException
+    {
+        IAttribute attribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        instance.doModifyAttribute( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=" + attribute.getIdAttribute( ) ),
+                message.getBackUrl( ) );
+    }
 }

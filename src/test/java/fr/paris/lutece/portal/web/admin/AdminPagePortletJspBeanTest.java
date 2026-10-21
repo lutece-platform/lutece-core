@@ -1317,4 +1317,18 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     }
 
+    /**
+     * The error message of the removal of an unknown portlet leads back to the site management when there is no page to go back to
+     */
+    @Test
+    public void testGetRemovePortletNoParamReturnsToTheSiteManagement( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.getRemovePortlet( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/site/AdminSite.jsp" ), message.getBackUrl( ) );
+    }
 }

@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
@@ -49,6 +50,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -82,6 +84,8 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
 
     private static final String ANCHOR_RIGHT_LEVELS = "right_levels";
+    private static final String JSP_CREATE_LEVEL = "jsp/admin/features/CreateLevel.jsp";
+    private static final String JSP_MODIFY_LEVEL = "jsp/admin/features/ModifyLevel.jsp";
 
     /**
      * Returns the level form of creation
@@ -119,11 +123,13 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         // Mandatory fields
         if ( strId.equals( "" ) || strName.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_CREATE_LEVEL );
         }
         if ( !StringUtils.isNumeric( strId ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_CREATE_LEVEL );
         }
         if ( LevelHome.findByPrimaryKey( Integer.parseInt( strId ) ) != null )
         {
@@ -188,7 +194,8 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         // Mandatory fields
         if ( strName.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_MODIFY_LEVEL + "?" + Parameters.LEVEL_ID + "=" + NumberUtils.toInt( strId ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_LEVEL ) )
         {

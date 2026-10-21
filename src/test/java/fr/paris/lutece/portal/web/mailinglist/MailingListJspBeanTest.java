@@ -462,4 +462,21 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
         }
     }
+
+    /**
+     * The error message of the modification of a mailing list leads back to its modification form when there is no page to go back to
+     */
+    @Test
+    public void testDoModifyMailingListMissingFieldReturnsToTheModificationScreen( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+
+        bean.doModifyMailingList( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=" + mailingList.getId( ) ),
+                message.getBackUrl( ) );
+    }
 }

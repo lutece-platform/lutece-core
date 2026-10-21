@@ -2745,4 +2745,47 @@ public class AdminUserJspBeanTest extends LuteceTestCase
 
         AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
     }
+
+    /**
+     * The error message of the creation of a user leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreateAdminUserMissingFieldReturnsToTheCreationScreen( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
+
+        bean.doCreateAdminUser( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/user/CreateUser.jsp" ), message.getBackUrl( ) );
+    }
+
+    /**
+     * The error message of the modification of a user leads back to the modification form of that user when there is no page to go back to
+     */
+    @Test
+    public void testDoModifyAdminUserMissingFieldReturnsToTheModificationScreen( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUser userToModify = getUserToModify( );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+            request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
+
+            bean.doModifyAdminUser( request );
+
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/user/ModifyUser.jsp?id_user=" + userToModify.getUserId( ) ), message.getBackUrl( ) );
+        }
+        finally
+        {
+            disposeOfUser( userToModify );
+        }
+    }
 }

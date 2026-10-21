@@ -287,4 +287,20 @@ public class PortletTemplateJspBeanTest extends LuteceTestCase
         assertTrue( strMessage.contains( "n'existe" ), strMessage );
         assertTrue( strMessage.contains( "n'a pas" ), strMessage );
     }
+
+    /**
+     * The error message of the creation of a portlet template leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreatePortletTemplateFileNotFoundReturnsToTheCreationScreen( )
+    {
+        String strDescription = DESCRIPTION + " missing file return";
+        String strMissingPath = "skin/plugins/test/does_not_exist_" + System.nanoTime( ) + ".html";
+
+        _bean.doCreatePortletTemplate( _request, new ModelsImpl( ), EXISTING_PORTLET_TYPE, strDescription, strMissingPath, new BindingResultImpl( ) );
+
+        AdminMessage message = AdminMessageService.getMessage( _request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/style/ManagePortletTemplates.jsp?view=createPortletTemplate" ), message.getBackUrl( ) );
+    }
 }

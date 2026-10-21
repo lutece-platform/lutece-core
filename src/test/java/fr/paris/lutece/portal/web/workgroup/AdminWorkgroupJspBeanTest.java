@@ -392,4 +392,19 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
+
+    /**
+     * The error message of the creation of a workgroup leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreateWorkgroupMissingFieldReturnsToTheCreationScreen( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.doCreateWorkgroup( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/workgroup/CreateWorkgroup.jsp" ), message.getBackUrl( ) );
+    }
 }

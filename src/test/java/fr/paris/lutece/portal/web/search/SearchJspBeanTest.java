@@ -326,4 +326,29 @@ public class SearchJspBeanTest extends LuteceTestCase
         return "junit" + bigInt.toString( 36 );
     }
 
+    /**
+     * The error message of the search parameters leads back to the search dashboard when there is no page to go back to
+     */
+    @Test
+    public void testDoModifyAdvancedParametersMissingFieldReturnsToTheSearchDashboard( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        Map<String, RBACRole> roles = new HashMap<>( );
+        for ( RBACRole role : RBACRoleHome.findAll( ) )
+        {
+            roles.put( role.getKey( ), role );
+        }
+        user.addRoles( roles );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
+        _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+
+        _bean.doModifyAdvancedParameters( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/AdminTechnicalMenu.jsp?#search" ), message.getBackUrl( ) );
+    }
 }

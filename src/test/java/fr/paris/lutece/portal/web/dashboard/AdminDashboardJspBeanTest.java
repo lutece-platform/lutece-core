@@ -49,6 +49,8 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.AdminUserUtils;
@@ -284,5 +286,20 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             assertEquals( -1, stored.getOrder( ) );
             assertEquals( nZone, stored.getZone( ) );
         }
+    }
+
+    /**
+     * The error message of the reordering of the columns leads back to the dashboards management when there is no page to go back to
+     */
+    @Test
+    public void testDoReorderColumnMissingColumnReturnsToTheDashboardsManagement( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        instance.doReorderColumn( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/admindashboard/ManageAdminDashboards.jsp" ), message.getBackUrl( ) );
     }
 }

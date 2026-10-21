@@ -177,7 +177,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( !bIsUsed )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP,
+                    getHomeUrl( request ) );
         }
 
         Map<String, Object> parameters = new HashMap<>( );

@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
@@ -101,6 +102,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
     // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
+    private static final String JSP_URL_MANAGE_DASHBOARDS = "jsp/admin/admindashboard/" + JSP_MANAGE_DASHBOARDS;
     private static final String EMPTY_STRING = "";
     @Inject
     private AdminDashboardService _adminDashboardService;
@@ -175,7 +177,8 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strColumnName ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageDashboardsUrl( request ) );
         }
 
         int nColumn = 0;
@@ -188,7 +191,8 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             AppLogService.error( "AdminDashboardJspBean.doReorderColumn : {}", nfe.getMessage( ), nfe );
 
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageDashboardsUrl( request ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -214,7 +218,8 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strDashboardName ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP,
+                    getManageDashboardsUrl( request ) );
         }
 
         // retrieve dashboard from database. If not found, will use CDI.
@@ -233,7 +238,8 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
             if ( dashboard == null )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP,
+                        getManageDashboardsUrl( request ) );
             }
         }
         else
@@ -324,4 +330,15 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         return refList;
     }
 
+    /**
+     * Returns the URL of the dashboards management screen
+     * 
+     * @param request
+     *            the request
+     * @return the URL of the dashboards management screen
+     */
+    private String getManageDashboardsUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_DASHBOARDS;
+    }
 }

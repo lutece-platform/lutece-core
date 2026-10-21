@@ -578,4 +578,22 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertEquals( 100, stored.getOrder( ) );
         }
     }
+
+    /**
+     * The error message of the creation of a group leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreateGroupMissingFieldReturnsToTheCreationScreen( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, "" );
+        request.addParameter( "group_name", "" );
+        request.addParameter( "group_description", "" );
+
+        instance.doCreateGroup( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/features/CreateGroup.jsp" ), message.getBackUrl( ) );
+    }
 }

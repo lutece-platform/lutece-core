@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.message.MessageHtml;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
@@ -106,6 +107,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     // Jsp
     private static final String PATH_JSP = "jsp/admin/role/";
     private static final String JSP_REMOVE_ROLE = "DoRemovePageRole.jsp";
+    private static final String JSP_CREATE_ROLE = "CreatePageRole.jsp";
 
     // Properties
     private static final String PROPERTY_PAGE_TITLE_CREATE_ROLE = "portal.role.create_role.pageTitle";
@@ -195,19 +197,22 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtil.isAnyEmpty( strPageRole, strPageRoleDescription ) || ( strPageWorkgroup == null ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + PATH_JSP + JSP_CREATE_ROLE );
         }
 
         // Check if code is valid
         if ( !StringUtil.checkCodeKey( strPageRole ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_FORMAT, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ROLE_FORMAT, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + PATH_JSP + JSP_CREATE_ROLE );
         }
 
         // Check if role exist
         if ( RoleHome.findExistRole( strPageRole ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + PATH_JSP + JSP_CREATE_ROLE );
         }
 
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_PAGE_ROLE ) )
@@ -271,7 +276,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         // Mandatory field
         if ( ( strPageRoleDescription == null ) || strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, getHomeUrl( request ) );
         }
 
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_PAGE_ROLE_MODIFY ) )
@@ -300,16 +305,16 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         if ( StringUtils.isBlank( strPageRole ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     PARAMETER_PAGE_ROLE
-            }, AdminMessage.TYPE_STOP );
+            }, AdminMessage.TYPE_STOP, getHomeUrl( request ) );
         }
         Role role = RoleHome.findByPrimaryKey( strPageRole );
         if ( role == null || !strPageRole.equals( role.getRole( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     strPageRole
-            }, AdminMessage.TYPE_STOP );
+            }, AdminMessage.TYPE_STOP, getHomeUrl( request ) );
         }
         String strURL = PATH_JSP + JSP_REMOVE_ROLE;
         Map<String, Object> parameters = new HashMap<>( );
@@ -342,7 +347,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
                     strPageRole, cause
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP,
+                    getHomeUrl( request ) );
         }
         if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_ROLE ) )
         {

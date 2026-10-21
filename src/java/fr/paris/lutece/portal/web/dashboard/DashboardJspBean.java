@@ -103,7 +103,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strColumnName ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
         }
 
         int nColumn;
@@ -116,7 +117,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             AppLogService.error( "DashboardJspBean.doReorderColumn : {}", nfe.getMessage( ), nfe );
 
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -180,7 +182,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strDashboardName ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP,
+                    getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
         }
 
         // retrieve dashboard from database. If not found, will use CDI.
@@ -199,7 +202,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
             if ( dashboard == null )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP,
+                        getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
             }
         }
         else

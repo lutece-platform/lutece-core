@@ -129,6 +129,9 @@ public class AdminLoginJspBean implements Serializable
     private static final String JSP_URL_FORM_CONTACT = "AdminFormContact.jsp";
     private static final String JSP_URL_DO_ADMIN_LOGIN = "jsp/admin/DoAdminLogin.jsp";
     private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
+    private static final String JSP_PATH_ADMIN = "jsp/admin/";
+    private static final String JSP_URL_ADMIN_FORGOT_PASSWORD = JSP_PATH_ADMIN + "AdminForgotPassword.jsp";
+    private static final String JSP_URL_ADMIN_FORGOT_LOGIN = JSP_PATH_ADMIN + "AdminForgotLogin.jsp";
 
     // Templates
     private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.html";
@@ -501,7 +504,8 @@ public class AdminLoginJspBean implements Serializable
 
         if ( StringUtils.isEmpty( strAccessCode ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_FORGOT_PASSWORD );
         }
 
         if ( locale == null )
@@ -642,12 +646,14 @@ public class AdminLoginJspBean implements Serializable
 
         if ( ( strEmail == null ) || strEmail.equals( CONSTANT_EMPTY_STRING ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_FORGOT_LOGIN );
         }
 
         if ( !AdminUserService.checkEmail( strEmail ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_EMAIL_FORMAT, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_WRONG_EMAIL_FORMAT, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_FORGOT_LOGIN );
         }
 
         if ( locale == null )
@@ -678,7 +684,8 @@ public class AdminLoginJspBean implements Serializable
 
         _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTLOGIN, null, strAccessCode, CONSTANT_BO );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
+        return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO,
+                AppPathService.getBaseUrl( request ) + JSP_URL_ADMIN_LOGIN );
     }
 
     /**
@@ -695,7 +702,8 @@ public class AdminLoginJspBean implements Serializable
 
         if ( ( strMessage == null ) || strMessage.equals( CONSTANT_EMPTY_STRING ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH_ADMIN + JSP_URL_FORM_CONTACT );
         }
 
         Locale locale = AdminUserService.getLocale( request );

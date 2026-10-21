@@ -118,7 +118,8 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             if ( StringUtils.isBlank( strTypeFilter ) || StringUtils.isBlank( strDefaultOperator ) || StringUtils.isBlank( strDateFilter )
                     || StringUtils.isBlank( strTagFilter ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                        getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
             }
 
             ReferenceItem param = new ReferenceItem( );

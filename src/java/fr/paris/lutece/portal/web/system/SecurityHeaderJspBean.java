@@ -52,6 +52,7 @@ import fr.paris.lutece.portal.service.securityheader.SecurityHeaderConfigService
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -236,7 +237,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         
         if ( strErrors != null )
         {
-        	return redirect( request, AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP ) );
+        	return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                 AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_CREATE_SECURITYHEADER ) ) );
         }
         
         _securityHeaderService.create( securityHeader );
@@ -474,7 +476,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     @View( value = VIEW_MESSAGE_NOT_EDITABLE_SECURITYHEADER )
     public String getMessageNotEditableSecurityHeader( HttpServletRequest request )
     {  	 
-    	String strMessageUrl =  AdminMessageService.getMessageUrl( request, MESSAGE_ACTIVE_HEADER_NOT_EDITABLE, AdminMessage.TYPE_INFO );
+    	String strMessageUrl =  AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ACTIVE_HEADER_NOT_EDITABLE, AdminMessage.TYPE_INFO,
+             AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MANAGE_SECURITYHEADERS ) );
     	return redirect( request, strMessageUrl );   	
     }
       
@@ -526,7 +529,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
 
 	    if ( strErrors != null )
 	    {
-	        String strMessageUrl = AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+	        String strMessageUrl = AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                 getModifySecurityHeaderUrl( request, nId ) );
 	        return redirect( request, strMessageUrl );
 	    }
 
@@ -672,5 +676,22 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         _securityHeaderService.disable( Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) ) );
 
         return redirectView( request, VIEW_MANAGE_SECURITYHEADERS );
+    }
+
+    /**
+     * Returns the URL of the modification form of a security header
+     * 
+     * @param request
+     *            the HTTP request
+     * @param nId
+     *            the identifier of the security header
+     * @return the URL of the modification form
+     */
+    private String getModifySecurityHeaderUrl( HttpServletRequest request, int nId )
+    {
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MODIFY_SECURITYHEADER ) );
+        url.addParameter( PARAMETER_SECURITY_HEADER_ID, nId );
+
+        return url.getUrl( );
     }
 }

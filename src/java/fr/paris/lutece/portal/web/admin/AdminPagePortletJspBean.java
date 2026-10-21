@@ -59,6 +59,7 @@ import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -163,7 +164,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         if ( !StringUtils.isNumeric( strPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR,
+                    getAdminSiteUrl( request ) );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
@@ -177,9 +179,9 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nPortletId
-            }, AdminMessage.TYPE_ERROR );
+            }, AdminMessage.TYPE_ERROR, getAdminSiteUrl( request ) );
         }
         User user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
@@ -284,7 +286,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PORTLET_STATUS );
         if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strStatus ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR,
+                    getAdminSiteUrl( request ) );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
@@ -298,16 +301,16 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nPortletId
-            }, AdminMessage.TYPE_ERROR );
+            }, AdminMessage.TYPE_ERROR, getAdminSiteUrl( request ) );
         }
         int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nStatus
-            }, AdminMessage.TYPE_ERROR );
+            }, AdminMessage.TYPE_ERROR, getAdminSiteUrl( request ) + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( ) );
         }
         User user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
@@ -479,5 +482,17 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private String getMessageErrorAuthorization( User user, String permission, int nPortletId )
     {
         return "User " + user + " is not authorized to permission " + permission + " on portlet " + nPortletId;
+    }
+
+    /**
+     * Returns the URL of the site management screen
+     * 
+     * @param request
+     *            The HTTP request
+     * @return the URL of the site management screen
+     */
+    private String getAdminSiteUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_ADMIN_SITE;
     }
 }

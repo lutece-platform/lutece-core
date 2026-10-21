@@ -187,6 +187,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
     private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "jsp/admin/rbac/AssignUsersRole.jsp";
     private static final String JSP_PATH = "jsp/admin/rbac/";
+    private static final String JSP_URL_CREATE_ROLE = "CreateRole.jsp";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -295,15 +296,18 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_URL_CREATE_ROLE );
         }
         if ( RBACRoleHome.checkExistRole( strRoleKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_URL_CREATE_ROLE );
         }
         if ( !StringUtil.checkCodeKey( strRoleKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_URL_CREATE_ROLE );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_ROLE ) )
         {
@@ -349,7 +353,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // check that new role key is valid
         if ( StringUtils.isBlank( strNewRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageRolesUrl( request ) );
         }
 
         if ( strOldRoleKey.equals( strNewRoleKey ) ) // if the key doesn't change, update the description
@@ -380,7 +385,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             if ( RBACRoleHome.checkExistRole( strNewRoleKey ) )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP,
+                        getManageRolesUrl( request ) );
             }
             if ( !getSecurityTokenService( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
@@ -447,7 +453,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // check that no user has this role
         if ( AdminUserHome.checkRoleAttributed( strRoleKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP,
+                    getManageRolesUrl( request ) );
         }
         if ( !_removalListenerService.checkForRemoval( strRoleKey, listErrors, getLocale( ) ) )
         {
@@ -456,7 +463,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     cause
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP,
+                    getManageRolesUrl( request ) );
         }
         else
         {
@@ -704,14 +712,16 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // if method is "choose", check that we have at least one id checked
         if ( strSelectionMethod == null )
         {
-            strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+            strUrl = AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP,
+                    getManageRolesUrl( request ) );
         }
         else
             if ( strSelectionMethod.equals( PARAMETER_METHOD_SELECTION_CHOOSE ) )
             {
                 if ( ( strArrayResourceIds == null ) || ( strArrayResourceIds.length == 0 ) )
                 {
-                    strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ID_LIST_EMPTY, AdminMessage.TYPE_STOP );
+                    strUrl = AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_ID_LIST_EMPTY, AdminMessage.TYPE_STOP,
+                            getManageRolesUrl( request ) );
                 }
                 else
                 {
@@ -760,7 +770,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+                    strUrl = AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP,
+                            getManageRolesUrl( request ) );
                 }
 
         return strUrl;
@@ -855,7 +866,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // if method is "choose", check that we have at least one id checked
         if ( strPermissionsSelectionMethod == null )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP,
+                    getManageRolesUrl( request ) );
         }
         else
             if ( strPermissionsSelectionMethod.equals( PARAMETER_METHOD_SELECTION_CHOOSE ) )
@@ -864,7 +876,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
                 if ( ( strArrayPermissionKeys == null ) || ( strArrayPermissionKeys.length == 0 ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY, AdminMessage.TYPE_STOP,
+                            getManageRolesUrl( request ) );
                 }
             }
             else
@@ -875,7 +888,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD,
+                            AdminMessage.TYPE_STOP, getManageRolesUrl( request ) );
                 }
 
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
@@ -1113,5 +1127,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private void reinitItemNavigator( )
     {
         _itemNavigator = null;
+    }
+
+    /**
+     * Returns the URL of the roles management screen
+     * 
+     * @param request
+     *            the http request
+     * @return the URL of the roles management screen
+     */
+    private String getManageRolesUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_URL_ROLES_MANAGEMENT;
     }
 }

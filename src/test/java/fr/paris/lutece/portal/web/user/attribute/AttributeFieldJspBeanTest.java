@@ -650,4 +650,24 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             assertEquals( nOrigPosition, field.getPosition( ) );
         }
     }
+
+    /**
+     * The error message of the modification of an attribute field leads back to its modification form when there is no page to go back to
+     */
+    @Test
+    public void testDoModifyAttributeFieldMissingTitleReturnsToTheModificationScreen( ) throws AccessDeniedException
+    {
+        IAttribute attribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field", "12" );
+
+        instance.doModifyAttributeField( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith(
+                "jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=" + attribute.getIdAttribute( ) + "&id_field=12" ),
+                message.getBackUrl( ) );
+    }
 }

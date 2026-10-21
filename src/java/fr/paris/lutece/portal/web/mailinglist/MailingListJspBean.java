@@ -129,6 +129,9 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_MODIFY_MAILINGLIST = "ModifyMailingList.jsp";
     private static final String JSP_URL_REMOVE_MAILINGLIST = "jsp/admin/mailinglist/DoRemoveMailingList.jsp";
     private static final String JSP_URL_MANAGE_MAILINGLISTS = "jsp/admin/mailinglist/ManageMailingLists.jsp";
+    private static final String JSP_URL_CREATE_MAILINGLIST = "jsp/admin/mailinglist/CreateMailingList.jsp";
+    private static final String JSP_URL_MODIFY_MAILINGLIST = "jsp/admin/mailinglist/ModifyMailingList.jsp";
+    private static final String JSP_URL_ADD_USERS = "jsp/admin/mailinglist/AddUsers.jsp";
     private MailingListFilter _mailingListFilter;
     private int _nItemsPerPage;
     private String _strCurrentPageIndex;
@@ -241,7 +244,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_MAILINGLIST );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
         {
@@ -318,7 +322,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_MAILINGLIST + "?" + PARAMETER_MAILINGLIST_ID + "=" + nId );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
@@ -486,7 +491,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             return urlModify.getUrl( );
         }
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+        return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP,
+                AppPathService.getBaseUrl( request ) + JSP_URL_ADD_USERS + "?" + PARAMETER_MAILINGLIST_ID + "=" + nId );
     }
 
     /**

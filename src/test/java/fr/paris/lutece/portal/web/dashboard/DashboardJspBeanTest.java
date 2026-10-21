@@ -52,6 +52,8 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.AdminUserUtils;
@@ -336,5 +338,20 @@ public class DashboardJspBeanTest extends LuteceTestCase
             assertEquals( -1, stored.getOrder( ) );
             assertEquals( nZone, stored.getZone( ) );
         }
+    }
+
+    /**
+     * The error message of the reordering of the columns leads back to the dashboards of the technical menu when there is no page to go back to
+     */
+    @Test
+    public void testDoReorderColumnMissingColumnReturnsToTheDashboards( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        _instance.doReorderColumn( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/AdminTechnicalMenu.jsp?#adminHomePageManagement" ), message.getBackUrl( ) );
     }
 }
