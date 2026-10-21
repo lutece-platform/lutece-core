@@ -4,7 +4,8 @@
  * JavaScript in its HTML and a Content Security Policy can forbid inline handlers.
  *
  *   data-lutece-action="back"         on a link: goes back in the history when the previous page is a page of this
- *                                     site, else follows the href of the link (the fallback page)
+ *                                     site, else follows the href of the link (the fallback page). The referrer
+ *                                     cannot tell it: Lutece sends Referrer-Policy: no-referrer
  *   data-lutece-action="close"        on a link or a button: closes the window (a popup)
  *   data-lutece-action="hide-parent"  on a button: hides its parent element (a dismissible badge)
  *   data-lutece-action="submit"       on a field: submits its form when its value changes
@@ -19,20 +20,25 @@
 ( function( ) {
     'use strict';
 
+    // A page may load this file twice (a page macro and the common footer): register the listeners once, else a back
+    // link would go back two pages
+    if ( window.luteceActionsLoaded ) {
+        return;
+    }
+    window.luteceActionsLoaded = true;
+
     /**
-     * Tells whether the previous page of the history is a page of this site.
+     * Tells whether the previous page of the history is a page of this site. The Navigation API only lists the entries
+     * of this origin, so it answers exactly. A browser without it goes back whenever there is a previous page, as the
+     * history.go(-1) of the former templates did.
      *
      * @return {boolean} true when going back stays on this site
      */
     function hasPreviousPageOnSite( ) {
-        if ( window.history.length < 2 || !document.referrer ) {
-            return false;
+        if ( window.navigation && typeof window.navigation.canGoBack === 'boolean' ) {
+            return window.navigation.canGoBack;
         }
-        try {
-            return new URL( document.referrer ).origin === window.location.origin;
-        } catch ( e ) {
-            return false;
-        }
+        return window.history.length > 1;
     }
 
     /**
