@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.mailinglist.view_users.boxTitle}'>
-			<@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='times' title='#i18n{portal.util.labelBack}' class='card-header-icon' size='' />
+			<@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='times' title='#i18n{portal.util.labelBack}' class='card-header-icon' size='' params={'data-lutece-action': 'back'} />
 		</@pageHeader>
 		<#if recipients_list?size gt 0>
 		<@table id='mailinglist-users-table'>
