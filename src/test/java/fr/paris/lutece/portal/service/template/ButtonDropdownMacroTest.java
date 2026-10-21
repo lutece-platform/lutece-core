@@ -43,6 +43,7 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
+import freemarker.core.HTMLOutputFormat;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.StringTemplateLoader;
@@ -63,7 +64,7 @@ public class ButtonDropdownMacroTest
     private static final String SNIPPET_LINKS = "<@button title='Actions' id='actions' dropdownMenu=true><a class=\"dropdown-item\" href=\"a.jsp\">A</a></@button>";
 
     /**
-     * Renders a snippet with the back office macros auto-included, with the default configuration of the core (no output format).
+     * Renders a snippet with the back office macros auto-included, with the HTML auto-escaping the core runs with.
      *
      * @param strSnippet
      *            the snippet
@@ -84,6 +85,9 @@ public class ButtonDropdownMacroTest
         cfg.setLocalizedLookup( false );
         cfg.setLazyAutoImports( true );
         cfg.addAutoInclude( BACK_OFFICE_COMMONS );
+        cfg.setOutputFormat( HTMLOutputFormat.INSTANCE );
+        cfg.setAutoEscapingPolicy( Configuration.ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY );
+        cfg.setSharedVariable( "htmlAttributes", new HtmlAttributesMethod( true ) );
         StringWriter out = new StringWriter( );
         cfg.getTemplate( "snippet.ftl" ).process( new HashMap<String, Object>( ), out );
         return out.toString( );
