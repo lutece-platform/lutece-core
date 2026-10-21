@@ -106,13 +106,14 @@ public class ButtonDropdownMacroTest
     {
         String strHtml = render( SNIPPET_LIST_ITEMS );
 
-        assertTrue( strHtml.contains( "<ul class=\"dropdown-menu dropdown-menu-end\" id=\"actions-content\"" ), strHtml );
+        assertTrue( strHtml.contains( "<ul class=\"dropdown-menu dropdown-menu-end\" id=\"actions-content\" aria-labelledby=\"actions\">" ), strHtml );
         assertTrue( strHtml.contains( "<li><a class=\"dropdown-item\" href=\"a.jsp\">A</a></li>" ), strHtml );
         assertFalse( strHtml.contains( "<div class=\"dropdown-menu" ), strHtml );
     }
 
     /**
-     * Menu items given as plain links are written in a div.
+     * Menu items given as plain links are written in a div, which carries no aria-labelledby: a div has no role a name
+     * can be given to.
      *
      * @throws IOException
      *             if a template cannot be read
@@ -124,7 +125,23 @@ public class ButtonDropdownMacroTest
     {
         String strHtml = render( SNIPPET_LINKS );
 
-        assertTrue( strHtml.contains( "<div class=\"dropdown-menu dropdown-menu-end\" id=\"actions-content\"" ), strHtml );
+        assertTrue( strHtml.contains( "<div class=\"dropdown-menu dropdown-menu-end\" id=\"actions-content\">" ), strHtml );
         assertFalse( strHtml.contains( "<ul class=\"dropdown-menu" ), strHtml );
+    }
+
+    /**
+     * The dropdown menu of the link button is a div, which carries no aria-labelledby.
+     *
+     * @throws IOException
+     *             if a template cannot be read
+     * @throws TemplateException
+     *             if the rendering fails
+     */
+    @Test
+    public void testLinkButtonMenuIsAnUnnamedDiv( ) throws IOException, TemplateException
+    {
+        String strHtml = render( "<@aButton href='#' title='Export' id='export' dropdownMenu=true><a class=\"dropdown-item\" href=\"a.jsp\">A</a></@aButton>" );
+
+        assertTrue( strHtml.contains( "<div class=\"dropdown-menu\" id=\"export-content\">" ), strHtml );
     }
 }

@@ -123,11 +123,11 @@ Snippet:
 		</#if>
 	</button>
 	<#if dropdownMenu>
-		<#-- items given as list items stay in a list; plain links sit in a div, where a li would close the enclosing one -->
+		<#-- items given as list items stay in a list; plain links sit in a div, where a li would close the enclosing one. Only the list is named by the button: a div has no role a name can be given to -->
 		<#local menuItems><#nested></#local>
 		<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
 		<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
-		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id?has_content> id="${id}-content" aria-labelledby="${id}"</#if>>
+		<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id?has_content> id="${id}-content"<#if menuTag == 'ul'> aria-labelledby="${id}"</#if></#if>>
 			${menuItems}
 		</${menuTag}>
 	</div>

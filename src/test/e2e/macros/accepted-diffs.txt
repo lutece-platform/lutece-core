@@ -38,3 +38,4 @@ empty        LUT-33387 no style in params: the icon size is the class lutece-fs-
 cAccordion   LUT-33387 a stray quote followed data-bs-target when the accordion is not collapsible
 cTableResponsive LUT-33153 the text of a cell, of a header and the cell class are escaped before the accordion HTML is built from them
 cTable       renders cTableResponsive, same fix
+button       a dropdown menu of plain links is a div, which has no role a name can be given to: its aria-labelledby is dropped (a menu of li items is a ul again, named by the button)
