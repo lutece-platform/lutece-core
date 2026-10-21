@@ -126,6 +126,49 @@ public final class AdminMessageService
     }
 
     /**
+     * Returns the Url that display the given message, whose button goes back to the screen the user came from. In the same tab, the browser goes
+     * back in its history, so what the user typed in a form is kept; with no previous page of the site (a new tab), the button opens the given
+     * URL of that screen.
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param nMessageType
+     *            The message type
+     * @param strReturnUrl
+     *            The URL of the screen the user came from, relative to the base URL of the site or absolute
+     * @return The Url of the JSP that display the message
+     */
+    public static String getMessageUrlReturningTo( HttpServletRequest request, String strMessageKey, int nMessageType, String strReturnUrl )
+    {
+        return getMessageUrlReturningTo( request, strMessageKey, null, nMessageType, strReturnUrl );
+    }
+
+    /**
+     * Returns the Url that display the given message, whose button goes back to the screen the user came from. In the same tab, the browser goes
+     * back in its history, so what the user typed in a form is kept; with no previous page of the site (a new tab), the button opens the given
+     * URL of that screen.
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param messageArgs
+     *            Message arguments
+     * @param nMessageType
+     *            The message type
+     * @param strReturnUrl
+     *            The URL of the screen the user came from, relative to the base URL of the site or absolute
+     * @return The Url of the JSP that display the message
+     */
+    public static String getMessageUrlReturningTo( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType,
+            String strReturnUrl )
+    {
+        return getMessageUrl( request, strMessageKey, messageArgs, null, JSP_BACK, TARGET_SELF, nMessageType, null, strReturnUrl );
+    }
+
+    /**
      * Returns the Url that display the given message
      * 
      * @return The Url of the JSP that display the message
