@@ -137,7 +137,8 @@ public final class AdminMessageService
      * @param nMessageType
      *            The message type
      * @param strReturnUrl
-     *            The URL of the screen the user came from, relative to the base URL of the site or absolute
+     *            The URL of the screen the user came from, relative to the base URL of the site or absolute. It must be built by the server (base
+     *            URL, JSP, ids), never read from the request: the link accepts any http(s) URL, a URL from the request would be an open redirect
      * @return The Url of the JSP that display the message
      */
     public static String getMessageUrlReturningTo( HttpServletRequest request, String strMessageKey, int nMessageType, String strReturnUrl )
@@ -159,7 +160,8 @@ public final class AdminMessageService
      * @param nMessageType
      *            The message type
      * @param strReturnUrl
-     *            The URL of the screen the user came from, relative to the base URL of the site or absolute
+     *            The URL of the screen the user came from, relative to the base URL of the site or absolute. It must be built by the server (base
+     *            URL, JSP, ids), never read from the request: the link accepts any http(s) URL, a URL from the request would be an open redirect
      * @return The Url of the JSP that display the message
      */
     public static String getMessageUrlReturningTo( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType,
