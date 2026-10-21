@@ -66,7 +66,7 @@ Snippet:
 	</#if>
 </a>
 <#if dropdownMenu>
-<div class="dropdown-menu"<#if id?has_content> id="${id}-menu" aria-labelledby="${id}"</#if>>
+<div class="dropdown-menu"<#if id?has_content> id="${id}-menu"</#if>>
 <#nested>
 </div>
 </div>
