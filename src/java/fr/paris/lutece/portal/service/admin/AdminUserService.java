@@ -534,6 +534,21 @@ public final class AdminUserService
      */
     public static String getEmailErrorMessageUrl( HttpServletRequest request )
     {
+        return getEmailErrorMessageUrl( request, null );
+    }
+
+    /**
+     * Get the email error message url, whose button goes back to the screen of the form.
+     *
+     * @param request
+     *            the request
+     * @param strReturnUrl
+     *            the URL of the screen of the form, built by the server, opened by the button of the error message when there is no page to go back
+     *            to; null to only go back
+     * @return the error message
+     */
+    public static String getEmailErrorMessageUrl( HttpServletRequest request, String strReturnUrl )
+    {
         String strMessage;
 
         if ( isEmailPatternSetManually( ) )
@@ -584,7 +599,7 @@ public final class AdminUserService
                 strMessage, strBannedDomainNames
         };
 
-        return AdminMessageService.getMessageUrl( request, strMessageProperty, param, AdminMessage.TYPE_STOP );
+        return AdminMessageService.getMessageUrlReturningTo( request, strMessageProperty, param, AdminMessage.TYPE_STOP, strReturnUrl );
     }
 
     /**
@@ -925,6 +940,27 @@ public final class AdminUserService
      */
     public static String checkPassword( HttpServletRequest request, String strPassword, int nUserId, boolean bSkipHistoryCheck )
     {
+        return checkPassword( request, strPassword, nUserId, bSkipHistoryCheck, null );
+    }
+
+    /**
+     * Check that the password respect user parameters, the button of the error message going back to the screen of the form
+     * 
+     * @param request
+     *            The request
+     * @param strPassword
+     *            The password to check
+     * @param nUserId
+     *            The id of the modified user
+     * @param bSkipHistoryCheck
+     *            Indicates if the password history should be checked or not.
+     * @param strReturnUrl
+     *            the URL of the screen of the form, built by the server, opened by the button of the error message when there is no page to go back
+     *            to; null to only go back
+     * @return Null if the password is correct, or the url of an admin message describing the error
+     */
+    public static String checkPassword( HttpServletRequest request, String strPassword, int nUserId, boolean bSkipHistoryCheck, String strReturnUrl )
+    {
         // Minimum password length
         int nMinimumLength = AdminUserService.getIntegerSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH );
 
@@ -934,11 +970,12 @@ public final class AdminUserService
                     nMinimumLength
             };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH, param, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH, param, AdminMessage.TYPE_STOP,
+                    strReturnUrl );
         }
 
         // Password format
-        String message = checkPasswordFormat( request, strPassword );
+        String message = checkPasswordFormat( request, strPassword, strReturnUrl );
         if ( message != null )
         {
             return message;
@@ -949,10 +986,10 @@ public final class AdminUserService
         {
             return null;
         }
-        return checkPasswordHistory( request, strPassword, nUserId );
+        return checkPasswordHistory( request, strPassword, nUserId, strReturnUrl );
     }
 
-    private static String checkPasswordHistory( HttpServletRequest request, String strPassword, int nUserId )
+    private static String checkPasswordHistory( HttpServletRequest request, String strPassword, int nUserId, String strReturnUrl )
     {
         int nPasswordHistorySize = AdminUserService.getIntegerSecurityParameter( DSKEY_PASSWORD_HISTORY_SIZE );
 
@@ -969,7 +1006,8 @@ public final class AdminUserService
             {
                 if ( password.check( strPassword ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED, AdminMessage.TYPE_STOP,
+                            strReturnUrl );
                 }
             }
         }
@@ -992,14 +1030,15 @@ public final class AdminUserService
 
             if ( AdminUserHome.countUserPasswordHistoryFromDate( minDate, nUserId ) >= nMaximumNumberPasswordChange )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE, AdminMessage.TYPE_STOP,
+                        strReturnUrl );
             }
         }
 
         return null;
     }
 
-    private static String checkPasswordFormat( HttpServletRequest request, String strPassword )
+    private static String checkPasswordFormat( HttpServletRequest request, String strPassword, String strReturnUrl )
     {
         boolean bUserPasswordFormatUpperLowerCase = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE );
         boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
@@ -1034,7 +1073,8 @@ public final class AdminUserService
                     strParam
             };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param, AdminMessage.TYPE_STOP,
+                    strReturnUrl );
         }
         return null;
     }

@@ -46,6 +46,8 @@ import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.AdminUserUtils;
@@ -281,5 +283,21 @@ public class LevelsJspBeanTest extends LuteceTestCase
         {
             LevelHome.remove( level.getId( ) );
         }
+    }
+
+    /**
+     * The error message of the creation of a level leads back to the creation form when there is no page to go back to
+     */
+    @Test
+    public void testDoCreateLevelMissingFieldReturnsToTheCreationScreen( ) throws AccessDeniedException
+    {
+        request.addParameter( Parameters.LEVEL_ID, "" );
+        request.addParameter( Parameters.LEVEL_NAME, "" );
+
+        instance.doCreateLevel( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/features/CreateLevel.jsp" ), message.getBackUrl( ) );
     }
 }

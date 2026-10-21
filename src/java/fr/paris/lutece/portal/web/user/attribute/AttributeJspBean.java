@@ -55,9 +55,11 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  *
@@ -95,6 +97,8 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "attributes_management";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
+    private static final String JSP_URL_CREATE_ATTRIBUTE = "jsp/admin/user/attribute/CreateAttribute.jsp";
+    private static final String JSP_URL_MODIFY_ATTRIBUTE = "jsp/admin/user/attribute/" + JSP_MODIFY_ATTRIBUTE;
 
     @Inject
     private AttributeService _attributeService;
@@ -191,6 +195,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( StringUtils.isNotBlank( strError ) )
                 {
+                    UrlItem urlReturn = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_ATTRIBUTE );
+                    urlReturn.addParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME, attribute.getClass( ).getName( ) );
+                    setMessageReturnUrl( request, urlReturn.getUrl( ) );
+
                     return strError;
                 }
                 if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
@@ -270,6 +278,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( strError != null )
                 {
+                    UrlItem urlReturn = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_ATTRIBUTE );
+                    urlReturn.addParameter( PARAMETER_ID_ATTRIBUTE, nIdAttribute );
+                    setMessageReturnUrl( request, urlReturn.getUrl( ) );
+
                     return strError;
                 }
                 if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
@@ -426,5 +438,24 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+    }
+
+    /**
+     * Gives the error message of an attribute, created by the attribute itself, the screen of its form: the button of the message opens it when there
+     * is no page to go back to
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param strReturnUrl
+     *            the URL of the screen of the form, built by the server
+     */
+    private static void setMessageReturnUrl( HttpServletRequest request, String strReturnUrl )
+    {
+        AdminMessage message = AdminMessageService.getMessage( request );
+
+        if ( message != null )
+        {
+            message.setBackUrl( strReturnUrl );
+        }
     }
 }

@@ -154,7 +154,8 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
         
         if ( strErrors != null )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                    getCreateSecurityHeaderConfigItemUrl( request ) ) );
         }
         
         _securityHeaderConfigService.create( securityHeaderConfigItem );
@@ -176,6 +177,38 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
         
         return url.getUrl( );
 
+    }
+
+    /**
+     * Returns the URL of the creation form of a security header config item
+     * 
+     * @param request
+     *            the HTTP request
+     * @return the URL of the creation form
+     */
+    private String getCreateSecurityHeaderConfigItemUrl( HttpServletRequest request )
+    {
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_CREATE_SECURITYHEADER_CONFIG_ITEM ) );
+        url.addParameter( PARAMETER_SECURITY_HEADER_ID, Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) ) );
+
+        return url.getUrl( );
+    }
+
+    /**
+     * Returns the URL of the modification form of a security header config item
+     * 
+     * @param request
+     *            the HTTP request
+     * @param nId
+     *            the identifier of the security header config item
+     * @return the URL of the modification form
+     */
+    private String getModifySecurityHeaderConfigItemUrl( HttpServletRequest request, int nId )
+    {
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MODIFY_SECURITYHEADER_CONFIG_ITEM ) );
+        url.addParameter( PARAMETER_SECURITY_HEADER_CONFIG_ITEM_ID, nId );
+
+        return url.getUrl( );
     }
     
 	/**
@@ -329,7 +362,8 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
 
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                    getModifySecurityHeaderConfigItemUrl( request, nId ) );
         }
 
         _securityHeaderConfigService.update( securityHeaderConfigItem );

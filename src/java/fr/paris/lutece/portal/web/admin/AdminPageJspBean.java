@@ -79,6 +79,7 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -259,28 +260,23 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         checkManagePage( nPageId );
 
         Page page = PageHome.getPage( nPageId );
-        int nOldParentPageId = page.getParentPageId( );
+        String strReturnUrl = getAdminPageBlockUrl( request, nPageId, BLOCK_PROPERTY );
 
-        String strErrorUrl = getPageData( mRequest, page );
-
-        if ( strErrorUrl != null )
-        {
-            return strErrorUrl;
-        }
-
-        strErrorUrl = setParentPageId( mRequest, page );
+        String strErrorUrl = getPageData( mRequest, page, strReturnUrl );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
         }
 
-        if ( page.getParentPageId( ) != nOldParentPageId )
+        strErrorUrl = setParentPageId( mRequest, page, strReturnUrl );
+
+        if ( strErrorUrl != null )
         {
-            checkManagePage( page.getParentPageId( ) );
+            return strErrorUrl;
         }
 
-        strErrorUrl = updatePicture( mRequest, page );
+        strErrorUrl = updatePicture( mRequest, page, strReturnUrl );
 
         if ( strErrorUrl != null )
         {
@@ -324,9 +320,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *            the request
      * @param page
      *            the page
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return an error URL, or <code>null</code>
      */
-    private String updatePicture( MultipartHttpServletRequest mRequest, Page page )
+    private String updatePicture( MultipartHttpServletRequest mRequest, Page page, String strReturnUrl )
     {
         String strUpdatePicture = mRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
         if ( strUpdatePicture == null )
@@ -339,7 +337,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         if ( strPictureName.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( mRequest, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( mRequest, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP, strReturnUrl );
         }
         byte [ ] bytes = item.get( );
         String strMimeType = item.getContentType( );
@@ -380,15 +378,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *            the requset
      * @param page
      *            the page
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return an error URL, or <code>null</code>
      */
-    private String setParentPageId( MultipartHttpServletRequest mRequest, Page page )
+    private String setParentPageId( MultipartHttpServletRequest mRequest, Page page, String strReturnUrl )
     {
         int nParentPageId = Integer.parseInt( mRequest.getParameter( Parameters.PARENT_ID ) );
 
         if ( nParentPageId != page.getParentPageId( ) )
         {
-            String strErrorUrl = getNewParentPageId( mRequest, page, nParentPageId );
+            String strErrorUrl = getNewParentPageId( mRequest, page, nParentPageId, strReturnUrl );
 
             if ( strErrorUrl != null )
             {
@@ -579,7 +579,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         Page page = new Page( );
         page.setParentPageId( nParentPageId );
 
-        String strErrorUrl = getPageData( mRequest, page );
+        String strErrorUrl = getPageData( mRequest, page, getAdminPageBlockUrl( request, nParentPageId, BLOCK_CHILDPAGE ) );
 
         if ( strErrorUrl != null )
         {
@@ -861,9 +861,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *            The HttpServletRequest
      * @param page
      *            the Page Object
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return strErrorUrl
      */
-    private String getPageData( HttpServletRequest request, Page page )
+    private String getPageData( HttpServletRequest request, Page page, String strReturnUrl )
     {
         String strErrorUrl = null;
 
@@ -900,44 +902,49 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             }
             else
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_MISSING_MANUAL_UPDATE_DATE, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_MISSING_MANUAL_UPDATE_DATE, AdminMessage.TYPE_STOP,
+                        strReturnUrl );
             }
         }
 
         // Checks the description length (150 car. maximum)
         if ( strDescription.length( ) > 150 )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_LENGTH_DESCRIPTION, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_LENGTH_DESCRIPTION, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         // Checks if the mandatory field page name is found in the request
         if ( strName.trim( ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
         else if ( strName.trim( ).length( ) > MAX_TITLE_LENGTH )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_LENGTH_TITLE, new Object [ ] { MAX_TITLE_LENGTH }, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_LENGTH_TITLE, new Object [ ] { MAX_TITLE_LENGTH },
+                    AdminMessage.TYPE_STOP, strReturnUrl );
         }
         // Checks if the page name contains HTML special characters
         else
             if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP,
+                        strReturnUrl );
             }
 
             // Checks if the page description contains HTML special characters
             else
                 if ( StringUtil.containsHtmlSpecialCharacters( strDescription ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP,
+                            strReturnUrl );
                 }
 
                 // Checks if the META name of the page contains HTML special characters
                 else
                     if ( StringUtil.containsHtmlSpecialCharacters( strMetaKeywords ) )
                     {
-                        return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                        return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP,
+                                strReturnUrl );
                     }
 
                     // Checks if the META description of the page description contains HTML special
@@ -945,7 +952,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                     else
                         if ( StringUtil.containsHtmlSpecialCharacters( strMetaDescription ) )
                         {
-                            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
+                                    AdminMessage.TYPE_STOP, strReturnUrl );
                         }
                         else
                         {
@@ -1043,6 +1051,26 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
+     * Returns the URL of a block of the page management screen
+     * 
+     * @param request
+     *            The HTTP request
+     * @param nPageId
+     *            The page identifier
+     * @param nBlock
+     *            The block identifier
+     * @return the URL of the block
+     */
+    private String getAdminPageBlockUrl( HttpServletRequest request, int nPageId, int nBlock )
+    {
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_PATH + JSP_ADMIN_SITE );
+        url.addParameter( Parameters.PAGE_ID, nPageId );
+        url.addParameter( PARAMETER_BLOCK, nBlock );
+
+        return url.getUrl( );
+    }
+
+    /**
      *
      * @param request
      *            The HttpServletRequest
@@ -1050,15 +1078,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *            The Page
      * @param nParentPageId
      *            The page parent Id
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return strParentPageId the new parent id
      */
-    private String getNewParentPageId( HttpServletRequest request, Page page, int nParentPageId )
+    private String getNewParentPageId( HttpServletRequest request, Page page, int nParentPageId, String strReturnUrl )
     {
         String strErrorUrl = null;
 
         if ( nParentPageId == 0 )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         int nChildPagePageId = nParentPageId;
@@ -1066,7 +1096,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         if ( !bPageExist )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         if ( nChildPagePageId >= PortalService.getRootPageId( ) )
@@ -1084,7 +1114,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_ID_CHILDPAGE, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_PAGE_ID_CHILDPAGE, AdminMessage.TYPE_STOP, strReturnUrl );
                 }
             }
 
@@ -1095,12 +1125,12 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             }
             else
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_SAME_PAGE_ID, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_SAME_PAGE_ID, AdminMessage.TYPE_STOP, strReturnUrl );
             }
         }
         else
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROOT_PAGE_FORBIDDEN, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ROOT_PAGE_FORBIDDEN, AdminMessage.TYPE_STOP, strReturnUrl );
         }
         return strErrorUrl;
     }

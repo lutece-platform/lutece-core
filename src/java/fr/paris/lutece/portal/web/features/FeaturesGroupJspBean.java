@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -79,6 +80,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ORDER_ID = "order_id";
     private static final String PARAMETER_RIGHT_ID = "right_id";
     private static final String JSP_REMOVE_GROUPS = "jsp/admin/features/DoRemoveGroup.jsp";
+    private static final String JSP_CREATE_GROUP = "jsp/admin/features/CreateGroup.jsp";
     private static final String MESSAGE_CONFIRM_DELETE = "portal.features.message.confirmDeleteGroup";
     private static final String MESSAGE_RIGHT_ALREADY_ASSIGN = "portal.features.message.rightAlreadyAssign";
     private static final String MARK_ORDER_LIST = "order_list";
@@ -252,7 +254,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         // Mandatory fields
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_CREATE_GROUP );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -292,7 +295,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         // Mandatory fields
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getDashboardUrl( request ) );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -370,7 +374,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         if ( CollectionUtils.isNotEmpty( RightHome.getRightsList( strGroupId ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP,
+                    getDashboardUrl( request ) );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
