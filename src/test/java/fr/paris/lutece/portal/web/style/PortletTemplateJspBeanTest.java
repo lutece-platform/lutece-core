@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portlet.PortletTemplateResourceIdService;
@@ -271,5 +272,19 @@ public class PortletTemplateJspBeanTest extends LuteceTestCase
 
         assertNotNull( strHtml );
         assertEquals( _template.getId( ), ( (PortletTemplate) model.get( "template" ) ).getId( ), "the template should be in the model" );
+    }
+
+    /**
+     * The French message of a missing template file shows the path and keeps its apostrophes: it is a MessageFormat pattern
+     */
+    @Test
+    public void testTemplateFileNotFoundMessageFormatted( )
+    {
+        String strMessage = I18nService.getLocalizedString( "portal.style.message.portletTemplateFileNotFound", new Object [ ] {
+                "skin/portlet/missing.html"
+        }, Locale.FRENCH );
+        assertTrue( strMessage.contains( "skin/portlet/missing.html" ), strMessage );
+        assertTrue( strMessage.contains( "n'existe" ), strMessage );
+        assertTrue( strMessage.contains( "n'a pas" ), strMessage );
     }
 }
