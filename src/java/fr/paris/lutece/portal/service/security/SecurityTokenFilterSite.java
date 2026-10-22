@@ -44,6 +44,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Filter to manage the CSRF token validation for MVCApplication requests.
@@ -61,6 +62,14 @@ public class SecurityTokenFilterSite implements Filter
     {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         _securityTokenHandler.handle( httpServletRequest );
+
+        if ( _securityTokenHandler.isRefusedMvcActionWithoutPost( httpServletRequest ) )
+        {
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            httpServletResponse.setHeader( SecurityTokenHandler.HEADER_ALLOW, SecurityTokenHandler.METHOD_POST );
+            httpServletResponse.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED );
+            return;
+        }
 
         if ( _securityTokenHandler.shouldNotFilter( httpServletRequest ) )
         {

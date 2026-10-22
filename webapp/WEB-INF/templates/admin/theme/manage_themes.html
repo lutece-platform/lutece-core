@@ -39,7 +39,12 @@
 							<@li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</@li>
 						</@ul>
 						<@p class='text-center mt-4'>
-                     	 	<@aButton href='jsp/admin/theme/ManageThemes.jsp?action=modifyGlobalTheme&theme=${theme.codeTheme}&theme_version=${theme.themeVersion}' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />
+                     	 	<@tform action='jsp/admin/theme/ManageThemes.jsp' method='post' class='d-inline'>
+                     	 		<@input type='hidden' name='action' value='modifyGlobalTheme' />
+                     	 		<@input type='hidden' name='theme' value='${theme.codeTheme}' />
+                     	 		<@input type='hidden' name='theme_version' value='${theme.themeVersion}' />
+                     	 		<@button type='submit' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />
+                     	 	</@tform>
                     	</@p>
 					</@boxBody>
 					<@div class='p-3 bg-light'>

@@ -66,6 +66,7 @@ import java.util.HashMap;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -98,6 +99,11 @@ public class PortalJspBean
     private static final String MARK_ERROR_CAUSE = "error_cause";
     private static final String MARK_THEME = "theme";
     private static final String PROPERTY_PAGE_TITLE_ERROR404 = "portal.util.error404.title";
+    private static final String PROPERTY_PAGE_TITLE_ERROR405 = "portal.util.error405.title";
+    private static final String TEMPLATE_PAGE_ERROR405 = "skin/site/page_error405.html";
+    private static final String MARK_BACK_URL = "back_url";
+    private static final String HEADER_REFERER = "Referer";
+    private static final String PATH_ADMIN = "/jsp/admin/";
     private static final String PROPERTY_PAGE_TITLE_CREDITS = "portal.site.popup_credits.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_LEGAL_INFO = "portal.site.popup_legal_info.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_STARTUP_FAILURE = "portal.util.startup.failure.title";
@@ -306,6 +312,49 @@ public class PortalJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR404, request.getLocale( ), model );
 
         return template.getHtml( );
+    }
+
+    /**
+     * Returns the 405 Error page, displayed when an operation is requested by a link (GET) instead of a button (POST).
+     *
+     * @param request
+     *            The HTTP request
+     * @return The page
+     */
+    public String getError405Page( HttpServletRequest request )
+    {
+        HashMap<String, Object> model = new HashMap<>( );
+        fillPageModel( request, model );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR405, request.getLocale( ) ) );
+        model.put( MARK_BACK_URL, getError405BackUrl( request ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR405, request.getLocale( ), model );
+
+        return template.getHtml( );
+    }
+
+    /**
+     * Gets the back link of the 405 Error page: the referring page when it belongs to the site, the back office home for a back office request, the
+     * site home otherwise.
+     *
+     * @param request
+     *            The HTTP request
+     * @return The back url
+     */
+    private String getError405BackUrl( HttpServletRequest request )
+    {
+        String strBaseUrl = AppPathService.getBaseUrl( request );
+        String strReferer = request.getHeader( HEADER_REFERER );
+        if ( strReferer != null && strBaseUrl != null && strReferer.startsWith( strBaseUrl ) )
+        {
+            return strReferer;
+        }
+        Object requestUri = request.getAttribute( RequestDispatcher.ERROR_REQUEST_URI );
+        if ( requestUri != null && requestUri.toString( ).contains( PATH_ADMIN ) )
+        {
+            return AppPathService.getAdminMenuUrl( );
+        }
+        return strBaseUrl;
     }
 
     /**

@@ -35,9 +35,11 @@ package fr.paris.lutece.portal.service.security;
 
 import java.util.HashMap;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler.GetActionPolicy;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
@@ -54,6 +56,9 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     private static final String ACTION_WITH_TOKEN = "removeSecurityHeader";
     private static final String ACTION_WITHOUT_TOKEN = "enableSecurityHeader";
     private static final String VIEW_DEFAULT = "defaultView";
+    private static final String VIEW_CREATE = "createSecurityHeader";
+    private static final String NO_TOKEN_CONTROLLER = "/jsp/admin/test/ManageNoToken.jsp";
+    private static final String NO_TOKEN_CONTROLLER_NAME = "jsp/admin/test/ManageNoToken.jsp";
     private static final String SHARED_CONTROLLER = "/jsp/admin/test/ManageSharedToken.jsp";
     // Name registered by a @Controller: controllerPath + controllerJsp, without leading slash
     private static final String SHARED_CONTROLLER_NAME = "jsp/admin/test/ManageSharedToken.jsp";
@@ -67,6 +72,8 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
 
     @Inject
     private SecurityTokenHandler _handler;
+    @Inject
+    private SecurityTokenService _tokenService;
 
     /**
      * Registers the back office controllers as the application startup does.
@@ -75,6 +82,136 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     protected void registerControllers( )
     {
         _handler.registerAdminControllers( null );
+    }
+
+    /**
+     * Restores the default policy of the actions requested with another method than POST.
+     */
+    @AfterEach
+    protected void restorePolicy( )
+    {
+        _handler.setGetActionPolicy( GetActionPolicy.LOG );
+    }
+
+    /**
+     * Builds a request to the given servlet path with the given method and action.
+     *
+     * @param strMethod
+     *            The HTTP method
+     * @param strServletPath
+     *            The servlet path
+     * @param strAction
+     *            The MVC action
+     * @return The request
+     */
+    private MockHttpServletRequest request( String strMethod, String strServletPath, String strAction )
+    {
+        MockHttpServletRequest request = post( strServletPath, strAction );
+        request.setMethod( strMethod );
+        return request;
+    }
+
+    /**
+     * The default policy is log: an action requested by GET is found, written in the log, not refused, and its token is still checked.
+     */
+    @Test
+    public void testGetActionLoggedByDefault( )
+    {
+        assertEquals( GetActionPolicy.LOG, _handler.getGetActionPolicy( ) );
+        MockHttpServletRequest request = request( "GET", ADMIN_CONTROLLER, ACTION_WITH_TOKEN );
+        assertTrue( _handler.isMvcActionWithoutPost( request ) );
+        assertFalse( _handler.isRefusedMvcActionWithoutPost( request ) );
+        assertFalse( _handler.shouldNotFilter( request ) );
+    }
+
+    /**
+     * With the refuse policy, an action requested by GET or HEAD is refused, whether its token is checked or not; a POST passes.
+     */
+    @Test
+    public void testGetActionRefused( )
+    {
+        _handler.setGetActionPolicy( GetActionPolicy.REFUSE );
+        for ( String strMethod : new String [ ] {
+                "GET", "HEAD"
+        } )
+        {
+            assertTrue( _handler.isRefusedMvcActionWithoutPost( request( strMethod, ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
+            assertTrue( _handler.isRefusedMvcActionWithoutPost( request( strMethod, ADMIN_CONTROLLER, ACTION_WITHOUT_TOKEN ) ) );
+        }
+        assertFalse( _handler.isRefusedMvcActionWithoutPost( post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
+        assertFalse( _handler.isRefusedActionWithoutPost( post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
+    }
+
+    /**
+     * A view requested with an action parameter is displayed: the view takes precedence over the action in the dispatch.
+     */
+    @Test
+    public void testViewWithActionParameterNotRefused( )
+    {
+        _handler.setGetActionPolicy( GetActionPolicy.REFUSE );
+        MockHttpServletRequest request = request( "GET", ADMIN_CONTROLLER, ACTION_WITH_TOKEN );
+        request.setParameter( "view", VIEW_CREATE );
+        assertFalse( _handler.isMvcActionWithoutPost( request ) );
+        assertFalse( _handler.isRefusedMvcActionWithoutPost( request ) );
+    }
+
+    /**
+     * A page that does not use the MVC model reads its own action parameter: it is never refused (front office login, links of e-mails).
+     */
+    @Test
+    public void testNonMvcPageNotRefused( )
+    {
+        _handler.setGetActionPolicy( GetActionPolicy.REFUSE );
+        MockHttpServletRequest request = request( "GET", "/jsp/site/Portal.jsp", "login" );
+        request.setParameter( "page", "mylutece" );
+        assertFalse( _handler.isRefusedMvcActionWithoutPost( request ) );
+
+        assertFalse( _handler.isRefusedMvcActionWithoutPost( request( "GET", "/jsp/admin/system/ManageDaemons.jsp", "START" ) ) );
+    }
+
+    /**
+     * An action of an MVC controller registered without security token is refused too, when requested by GET with the refuse policy.
+     */
+    @Test
+    public void testGetActionOfControllerWithoutTokenRefused( )
+    {
+        _handler.registerMvcController( NO_TOKEN_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
+        _handler.setGetActionPolicy( GetActionPolicy.REFUSE );
+        assertTrue( _handler.isRefusedMvcActionWithoutPost( request( "GET", NO_TOKEN_CONTROLLER, ACTION_OWN_TOKEN ) ) );
+        assertTrue( _handler.shouldNotFilter( request( "POST", NO_TOKEN_CONTROLLER, ACTION_OWN_TOKEN ) ) );
+    }
+
+    /**
+     * A form posting an action of a list carries the token of the page, added to every form, and the token of the action: the action is accepted
+     * with the token of the action, once, and refused with the token of the page alone.
+     */
+    @Test
+    public void testFormCarryingPageAndActionTokens( )
+    {
+        MockHttpServletRequest request = post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN );
+        String strPageToken = _tokenService.getToken( request, VIEW_CREATE );
+        String strActionToken = _tokenService.getToken( request, ACTION_WITH_TOKEN );
+
+        request.setParameter( SecurityTokenHandler.MARK_CSRF_TOKEN, strPageToken );
+        assertFalse( _handler.validate( request, ACTION_WITH_TOKEN ) );
+
+        request.setParameter( SecurityTokenHandler.MARK_CSRF_TOKEN, strPageToken, strActionToken );
+        assertTrue( _handler.validate( request, ACTION_WITH_TOKEN ) );
+        assertFalse( _handler.validate( request, ACTION_WITH_TOKEN ) );
+        assertTrue( _handler.validate( request, VIEW_CREATE ) );
+    }
+
+    /**
+     * With the allow policy, an action requested by GET runs without token check, as before LUT-33977; a POST is still checked.
+     */
+    @Test
+    public void testGetActionAllowedWithoutToken( )
+    {
+        _handler.setGetActionPolicy( GetActionPolicy.ALLOW );
+        MockHttpServletRequest request = request( "GET", ADMIN_CONTROLLER, ACTION_WITH_TOKEN );
+        assertFalse( _handler.isRefusedMvcActionWithoutPost( request ) );
+        assertTrue( _handler.shouldNotFilter( request ) );
+        assertFalse( _handler.shouldNotFilter( post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
     }
 
     /**

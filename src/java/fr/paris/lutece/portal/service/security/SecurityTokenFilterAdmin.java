@@ -92,6 +92,13 @@ public class SecurityTokenFilterAdmin implements Filter
         try {
         _securityTokenHandler.handle( httpServletRequest );
 
+        if ( _securityTokenHandler.isRefusedMvcActionWithoutPost( httpServletRequest ) )
+        {
+            httpServletResponse.setHeader( SecurityTokenHandler.HEADER_ALLOW, SecurityTokenHandler.METHOD_POST );
+            httpServletResponse.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED );
+            return;
+        }
+
         if ( _securityTokenHandler.shouldNotFilter( httpServletRequest )
                 || isResourceExcluded( httpServletRequest ) )
         {

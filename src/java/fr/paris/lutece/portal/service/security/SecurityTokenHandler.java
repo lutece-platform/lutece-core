@@ -38,14 +38,20 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -56,6 +62,7 @@ import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.BeforeControllerEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
@@ -86,21 +93,103 @@ public class SecurityTokenHandler
     private static final String PATH_ADMIN = "/jsp/admin";
     private static final String ACTION_METHOD_PREFIX = "do";
     private static final String PROPERTY_CHECK_SAFE_METHODS = "lutece.security.token.checkGetActions";
+    private static final String PROPERTY_GET_ACTION_POLICY = "lutece.mvc.action.getPolicy";
+    private static final String PROPERTY_GET_ACTION_ALLOWED = "lutece.mvc.action.getPolicy.allowed";
+    public static final String METHOD_POST = "POST";
+    public static final String HEADER_ALLOW = "Allow";
+    private static final String HEADER_REFERER = "Referer";
+    private static final String SEPARATOR_ALLOWED = ":";
+    private static final Logger _logger = LogManager.getLogger( "lutece.security" );
+    private static final String ATTRIBUTE_GET_ACTION_REFUSED = SecurityTokenHandler.class.getName( ) + "_GET_ACTION_REFUSED";
+    private static final String MESSAGE_GET_ACTION = "{} on @Action '{}' of {} (referer {}) : should be POST, policy {}";
+
+    /**
+     * What happens when an MVC {@code @Action} is requested with another method than POST (a link, a GET fetch, a HEAD request).
+     */
+    public enum GetActionPolicy
+    {
+        /** The action runs without security token check (behaviour before LUT-33977). */
+        ALLOW,
+        /** The action runs when its security token is valid. */
+        TOKEN,
+        /** Same as TOKEN, and a warning names the controller, the action and the referer, to find the plugins to migrate. */
+        LOG,
+        /** The request is answered by a 405 Method Not Allowed, with the header Allow: POST, and the same warning. */
+        REFUSE
+    }
 
     private Set<String> _actionMethods = ConcurrentHashMap.newKeySet( );
     private Map<String, Set<String>> _mapDisabledActionMethods = new ConcurrentHashMap<>( );
     private Set<String> _handledControllers = ConcurrentHashMap.newKeySet( );
     private Map<String, Map<String, String>> _mapActionTokenKeys = new ConcurrentHashMap<>( );
+    private Map<String, Set<String>> _mapMvcActions = new ConcurrentHashMap<>( );
+    private Map<String, Set<String>> _mapMvcViews = new ConcurrentHashMap<>( );
+    private volatile GetActionPolicy _getActionPolicy = GetActionPolicy.LOG;
     @Inject 
     private HttpServletRequest request;
     @Inject
     private SecurityTokenService _securityTokenService;
     @Inject
     private BeanManager _beanManager;
-    // An @Action runs whatever the HTTP method: a GET (or HEAD) link calling an action is checked too, unless this property is false
     @Inject
-    @ConfigProperty( name = PROPERTY_CHECK_SAFE_METHODS, defaultValue = "true" )
-    private boolean _bCheckSafeMethods;
+    @ConfigProperty( name = PROPERTY_CHECK_SAFE_METHODS )
+    private Optional<Boolean> _checkSafeMethods;
+    @Inject
+    @ConfigProperty( name = PROPERTY_GET_ACTION_POLICY )
+    private Optional<String> _strGetActionPolicy;
+    @Inject
+    @ConfigProperty( name = PROPERTY_GET_ACTION_ALLOWED )
+    private Optional<List<String>> _listGetActionAllowed;
+
+    /**
+     * Reads the policy applied to the MVC actions requested with another method than POST: lutece.mvc.action.getPolicy (allow, token, log or refuse,
+     * log by default), or the former lutece.security.token.checkGetActions when only this one is set (false is allow, true is token).
+     */
+    @PostConstruct
+    void initGetActionPolicy( )
+    {
+        if ( _strGetActionPolicy != null && _strGetActionPolicy.isPresent( ) )
+        {
+            try
+            {
+                _getActionPolicy = GetActionPolicy.valueOf( _strGetActionPolicy.get( ).trim( ).toUpperCase( Locale.ROOT ) );
+            }
+            catch( IllegalArgumentException e )
+            {
+                AppLogService.error( "Invalid value '{}' for {} : allow, token, log or refuse expected, log used", _strGetActionPolicy.get( ),
+                        PROPERTY_GET_ACTION_POLICY );
+                _getActionPolicy = GetActionPolicy.LOG;
+            }
+        }
+        else
+            if ( _checkSafeMethods != null && _checkSafeMethods.isPresent( ) )
+            {
+                _getActionPolicy = _checkSafeMethods.get( ) ? GetActionPolicy.TOKEN : GetActionPolicy.ALLOW;
+                AppLogService.info( "{} is deprecated, replaced by {}={}", PROPERTY_CHECK_SAFE_METHODS, PROPERTY_GET_ACTION_POLICY,
+                        _getActionPolicy.name( ).toLowerCase( Locale.ROOT ) );
+            }
+    }
+
+    /**
+     * Gets the policy applied to the MVC actions requested with another method than POST.
+     *
+     * @return The policy
+     */
+    public GetActionPolicy getGetActionPolicy( )
+    {
+        return _getActionPolicy;
+    }
+
+    /**
+     * Sets the policy applied to the MVC actions requested with another method than POST.
+     *
+     * @param policy
+     *            The policy
+     */
+    public void setGetActionPolicy( GetActionPolicy policy )
+    {
+        _getActionPolicy = policy;
+    }
 
     /**
      * Registers the actions of every back office MVC controller with the security token enabled, at application startup, so that the token is checked
@@ -115,11 +204,147 @@ public class SecurityTokenHandler
         {
             Class<?> clazz = bean.getBeanClass( );
             Controller controller = clazz.getAnnotation( Controller.class );
-            if ( null != controller && controller.securityTokenEnabled( ) )
+            if ( null != controller )
             {
-                registerActions( controller.controllerPath( ) + controller.controllerJsp( ), ReflectionUtils.getAllDeclaredMethods( clazz ) );
+                String strName = controller.controllerPath( ) + controller.controllerJsp( );
+                Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( clazz );
+                registerMvcController( strName, methods );
+                if ( controller.securityTokenEnabled( ) )
+                {
+                    registerActions( strName, methods );
+                }
             }
         }
+    }
+
+    /**
+     * Registers the views and the actions of an MVC controller (XPage or MVCAdminJspBean), whether its security token is enabled or not, so that the
+     * actions requested with another method than POST are found.
+     *
+     * @param strName
+     *            The controller name: the XPage name in front office, the controller path and JSP in back office
+     * @param methods
+     *            The methods of the controller
+     */
+    public void registerMvcController( String strName, Method [ ] methods )
+    {
+        _mapMvcActions.computeIfAbsent( strName, name -> {
+            Set<String> views = new HashSet<>( );
+            Set<String> actions = new HashSet<>( );
+            for ( Method m : methods )
+            {
+                if ( m.isAnnotationPresent( Action.class ) )
+                {
+                    actions.add( m.getAnnotation( Action.class ).value( ) );
+                }
+                else
+                    if ( m.isAnnotationPresent( View.class ) )
+                    {
+                        views.add( m.getAnnotation( View.class ).value( ) );
+                    }
+            }
+            _mapMvcViews.put( name, views );
+            return actions;
+        } );
+    }
+
+    /**
+     * Checks whether the request calls an MVC {@code @Action} with another method than POST: the action parameter names an action of the registered
+     * controller of the request, and no view of this controller is requested (a view takes precedence over an action in the dispatch). The requests
+     * of the controllers that do not use the MVC model (a page reading its own action parameter) are never concerned.
+     *
+     * @param request
+     *            The request
+     * @return true if an MVC action is requested with another method than POST
+     */
+    public boolean isMvcActionWithoutPost( HttpServletRequest request )
+    {
+        if ( METHOD_POST.equals( request.getMethod( ) ) )
+        {
+            return false;
+        }
+        String strAction = MVCUtils.getAction( request );
+        if ( null == strAction )
+        {
+            return false;
+        }
+        String strController = getControllerName( request );
+        Set<String> actions = _mapMvcActions.get( strController );
+        if ( null == actions || !actions.contains( strAction ) )
+        {
+            return false;
+        }
+        String strView = MVCUtils.getView( request );
+        Set<String> views = _mapMvcViews.get( strController );
+        return null == strView || null == views || !views.contains( strView );
+    }
+
+    /**
+     * Gets the policy applied to the action of the request: allow when the controller and the action are listed in lutece.mvc.action.getPolicy.allowed
+     * (entries controller:action, the controller being the XPage name or the back office path such as jsp/admin/plugins/x/ManageX.jsp), the
+     * configured policy otherwise.
+     *
+     * @param request
+     *            The request
+     * @return The policy
+     */
+    public GetActionPolicy getGetActionPolicy( HttpServletRequest request )
+    {
+        if ( _listGetActionAllowed != null && _listGetActionAllowed.isPresent( ) )
+        {
+            String strEntry = getControllerName( request ) + SEPARATOR_ALLOWED + MVCUtils.getAction( request );
+            for ( String strAllowed : _listGetActionAllowed.get( ) )
+            {
+                if ( strEntry.equals( strAllowed.trim( ) ) )
+                {
+                    return GetActionPolicy.ALLOW;
+                }
+            }
+        }
+        return _getActionPolicy;
+    }
+
+    /**
+     * Applies the policy to a request reaching the security token filter: when it calls a registered MVC action with another method than POST, writes
+     * the warning of the log and refuse policies.
+     *
+     * @param request
+     *            The request
+     * @return true if the request must be refused with a 405 Method Not Allowed
+     */
+    public boolean isRefusedMvcActionWithoutPost( HttpServletRequest request )
+    {
+        return isMvcActionWithoutPost( request ) && isRefusedActionWithoutPost( request );
+    }
+
+    /**
+     * Applies the policy to a request whose dispatch has selected an MVC action: when it is requested with another method than POST, writes the
+     * warning of the log and refuse policies. The result is kept in the request, so that the filter and the dispatch write a single warning.
+     *
+     * @param request
+     *            The request
+     * @return true if the request must be refused with a 405 Method Not Allowed
+     */
+    public boolean isRefusedActionWithoutPost( HttpServletRequest request )
+    {
+        if ( METHOD_POST.equals( request.getMethod( ) ) )
+        {
+            return false;
+        }
+        Object checked = request.getAttribute( ATTRIBUTE_GET_ACTION_REFUSED );
+        if ( null != checked )
+        {
+            return Boolean.TRUE.equals( checked );
+        }
+        GetActionPolicy policy = getGetActionPolicy( request );
+        if ( GetActionPolicy.LOG.equals( policy ) || GetActionPolicy.REFUSE.equals( policy ) )
+        {
+            _logger.warn( MESSAGE_GET_ACTION, request.getMethod( ), MVCUtils.getAction( request ), getControllerName( request ),
+                    request.getHeader( HEADER_REFERER ), policy.name( ).toLowerCase( Locale.ROOT ) );
+        }
+        boolean bRefused = GetActionPolicy.REFUSE.equals( policy );
+        request.setAttribute( ATTRIBUTE_GET_ACTION_REFUSED, bRefused );
+        return bRefused;
     }
 
     /**
@@ -220,7 +445,7 @@ public class SecurityTokenHandler
         String strAction = MVCUtils.getAction( request );
 
         if ( null == strAction
-                || ( !_bCheckSafeMethods && ALLOWED_METHODS.contains( request.getMethod( ) ) ) )
+                || ( ALLOWED_METHODS.contains( request.getMethod( ) ) && GetActionPolicy.ALLOW.equals( getGetActionPolicy( request ) ) ) )
         {
             return true;
         }
@@ -371,8 +596,10 @@ public class SecurityTokenHandler
     }
 
     /**
-     * Validates the token for the given request.
-     * 
+     * Validates the token for the given request. A form may carry several tokens: the token of the page, added to every form, and the token of the
+     * action it posts when this action is not the one of the page (a button of a list posting an action); the action is accepted when one of them is
+     * valid for it, and only this one is consumed.
+     *
      * @param request
      *            The request
      * @param strAction
@@ -382,8 +609,19 @@ public class SecurityTokenHandler
      */
     public boolean validate( HttpServletRequest request, String strAction )
     {
-        // Same token store as SecurityTokenService (session attribute "tokens"), changed under its lock
-        return _securityTokenService.consumeToken( request, strAction, request.getParameter( MARK_CSRF_TOKEN ) );
+        String [ ] tokens = request.getParameterValues( MARK_CSRF_TOKEN );
+        if ( null == tokens )
+        {
+            return false;
+        }
+        for ( String strToken : tokens )
+        {
+            if ( _securityTokenService.consumeToken( request, strAction, strToken ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

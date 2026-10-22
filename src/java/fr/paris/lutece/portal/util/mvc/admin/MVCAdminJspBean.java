@@ -139,6 +139,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
 
+        getSecurityTokenHandler( ).registerMvcController( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
         if ( _controller.securityTokenEnabled( ) )
         {
             getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
@@ -152,6 +153,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             if ( m != null )
             {
             	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.VIEW, _controller.securityTokenEnabled( )); 
+                if ( m.isAnnotationPresent( ResponseBody.class ) )
+                {
+                    processResponseBody( m, request );
+                    return null;
+                }
             	return (String) processView(m, request);
             }
 
@@ -160,6 +166,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
+                if ( getSecurityTokenHandler( ).isRefusedActionWithoutPost( request ) )
+                {
+                    refuseMethod( response );
+                    return null;
+                }
             	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION, _controller.securityTokenEnabled( ));
             	// Check for @ResponseBody annotation
                 if (m.isAnnotationPresent(ResponseBody.class)) {
@@ -251,6 +262,25 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 		return (String) m.invoke( this, args ); 
     }
     
+    /**
+     * Answers a 405 Method Not Allowed with the header Allow: POST, for an action requested with another method than POST when the policy refuses it.
+     *
+     * @param response
+     *            The response
+     */
+    private void refuseMethod( HttpServletResponse response )
+    {
+        try
+        {
+            response.setHeader( SecurityTokenHandler.HEADER_ALLOW, SecurityTokenHandler.METHOD_POST );
+            response.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED );
+        }
+        catch( IOException e )
+        {
+            throw new AppException( "Error sending the 405 response", e );
+        }
+    }
+
     /**
      * Processes the response body of a controller method annotated with @ResponseBody.
      * <p>

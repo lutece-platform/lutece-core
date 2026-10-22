@@ -272,6 +272,11 @@
         <location>/jsp/site/Error404.jsp</location>
     </error-page>
 
+    <error-page>
+        <error-code>405</error-code>
+        <location>/jsp/site/Error405.jsp</location>
+    </error-page>
+
 	<error-page>
     	<exception-type>fr.paris.lutece.portal.service.admin.AdminTokenAccessDeniedException</exception-type>
         <location>/jsp/admin/ErrorPage.jsp</location>

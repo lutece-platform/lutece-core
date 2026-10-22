@@ -111,23 +111,13 @@ public class XPageAppService extends ContentService
                 }
                 
                 Class clazz = CDI.current( ).getBeanManager( ).getBeans( applicationBeanName ).iterator( ).next( ).getBeanClass( );
-                Controller controller = (Controller) clazz.getAnnotation( Controller.class );
-                if ( null != controller && controller.securityTokenEnabled( ) )
-                {
-                    SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
-                    securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( clazz ) );
-                }
+                registerMvcController( entry.getId( ), clazz );
             }
             else
             {
                 // check that the class can be found
                 Object instance = Class.forName( entry.getClassName( ) ).getDeclaredConstructor().newInstance( );
-                Controller controller = (Controller) instance.getClass( ).getAnnotation( Controller.class );
-                if ( null != controller && controller.securityTokenEnabled( ) )
-                {
-                    SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
-                    securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
-                }
+                registerMvcController( entry.getId( ), instance.getClass( ) );
             }
 
             _mapApplications.put( entry.getId( ), entry );
@@ -136,6 +126,29 @@ public class XPageAppService extends ContentService
         catch( ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e  )
         {
             throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - " + e.getCause( ), e );
+        }
+    }
+
+    /**
+     * Registers an MVC XPage to the security token handler: its views and actions, so that an action requested with another method than POST is found,
+     * and the actions whose token is checked when the security token of the controller is enabled.
+     *
+     * @param strXPageName
+     *            The XPage name
+     * @param clazz
+     *            The XPage class
+     */
+    private static void registerMvcController( String strXPageName, Class<?> clazz )
+    {
+        Controller controller = clazz.getAnnotation( Controller.class );
+        if ( null != controller )
+        {
+            SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
+            securityTokenHandler.registerMvcController( strXPageName, ReflectionUtils.getAllDeclaredMethods( clazz ) );
+            if ( controller.securityTokenEnabled( ) )
+            {
+                securityTokenHandler.registerActions( strXPageName, ReflectionUtils.getDeclaredMethods( clazz ) );
+            }
         }
     }
 

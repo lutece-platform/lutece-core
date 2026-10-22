@@ -191,6 +191,11 @@ public abstract class MVCApplication implements XPageApplication
             if ( m != null )
             {
             	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.VIEW, _controller.securityTokenEnabled( ) );
+                if ( m.isAnnotationPresent( ResponseBody.class ) )
+                {
+                    processResponseBody( m, request );
+                    return getStandaloneXPage( );
+                }
             	return processView(  m,  request  );
             }
 
@@ -198,13 +203,16 @@ public abstract class MVCApplication implements XPageApplication
             m = MVCUtils.findActionAnnotedMethod( request, methods );
             if ( m != null )
             {
+                if ( getSecurityTokenHandler( ).isRefusedActionWithoutPost( request ) )
+                {
+                    refuseMethod( );
+                    return getStandaloneXPage( );
+                }
             	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.ACTION, _controller.securityTokenEnabled( ) );
             	// Check for @ResponseBody annotation
                 if (m.isAnnotationPresent(ResponseBody.class)) {
                     processResponseBody(m, request);
-                    XPage xPage = new XPage( );
-                    xPage.setStandalone( true );
-                    return xPage;
+                    return getStandaloneXPage( );
                 }
             	return processAction( m, request );
             }
@@ -299,6 +307,35 @@ public abstract class MVCApplication implements XPageApplication
     	getValidationService( ).validateParameters(this, m, args);
 		return (XPage) m.invoke( this, args ); 
     }
+    /**
+     * Builds the standalone XPage returned when the controller has written the response itself.
+     *
+     * @return The standalone XPage
+     */
+    private XPage getStandaloneXPage( )
+    {
+        XPage xPage = new XPage( );
+        xPage.setStandalone( true );
+        return xPage;
+    }
+
+    /**
+     * Answers a 405 Method Not Allowed with the header Allow: POST, for an action requested with another method than POST when the policy refuses it.
+     */
+    private void refuseMethod( )
+    {
+        HttpServletResponse response = LocalVariables.getResponse( );
+        try
+        {
+            response.setHeader( SecurityTokenHandler.HEADER_ALLOW, SecurityTokenHandler.METHOD_POST );
+            response.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED );
+        }
+        catch( IOException e )
+        {
+            throw new AppException( "Error sending the 405 response", e );
+        }
+    }
+
     /**
     * Processes the response body of a controller method annotated with @ResponseBody.
     * <p>
