@@ -112,6 +112,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
     // Templates
     private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
+    private static final String TEMPLATE_PORTLET_TYPE_NOT_FOUND = "admin/portlet/portlet_type_not_found.html";
     private static final String TEMPLATE_MODIFY_PORTLET = "admin/portlet/modify_portlet.html";
 
     // Properties
@@ -362,6 +363,12 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     {
         PortletType portletType = PortletTypeHome.findByPrimaryKey( strPortletTypeId );
         Locale locale = getLocale( );
+
+        if ( portletType.getId( ) == null )
+        {
+            return AppTemplateService.getTemplate( TEMPLATE_PORTLET_TYPE_NOT_FOUND, locale );
+        }
+
         portletType.setLocale( locale );
 
         model.put( MARK_PORTLET_TYPE, portletType );
