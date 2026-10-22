@@ -353,6 +353,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_MAILINGLIST_ID, strId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_MAILINGLIST ) );
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_URL_MANAGE_MAILINGLISTS );
 
     }

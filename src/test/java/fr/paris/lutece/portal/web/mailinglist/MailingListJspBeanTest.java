@@ -409,6 +409,10 @@ public class MailingListJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( "id_mailinglist" ) );
         assertEquals( Integer.toString( mailingList.getId( ) ), message.getRequestParameters( ).get( "id_mailinglist" ) );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ),
+                "The confirmation must post the token checked by the removal" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, (String) message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
+        assertTrue( _securityTokenService.validate( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) );
     }
     @Test
     public void testDoRemoveMailingList( ) throws AccessDeniedException
