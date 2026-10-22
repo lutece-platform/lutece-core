@@ -38,7 +38,7 @@ Snippet:
 	<#assign first = warnings[0] />
 		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
 			<@unstyledList>
-			 <#if first?is_string>
+			 <#if !( first?is_hash && first.message?? )>
 				<#list warnings as warning ><@li>${warning!' #i18n{portal.util.message.titleWarning} '}</@li></#list>
 	        <#else >
 	        	<#list warnings as warning ><#if warning.message??><@li>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
@@ -52,7 +52,7 @@ Snippet:
 	<#assign first = infos[0] />
 		<@alert color='info' title='#i18n{portal.util.message.titleInfo}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
 			<@unstyledList>
-			 <#if first?is_string>
+			 <#if !( first?is_hash && first.message?? )>
 				<#list infos as info ><@li>${info!' #i18n{portal.util.message.titleInfo} '}</@li></#list>
 	        <#else>
 				<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.message.titleInfo} '}</@li></#if></#list>
