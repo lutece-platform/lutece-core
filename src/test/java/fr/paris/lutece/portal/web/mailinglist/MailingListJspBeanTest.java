@@ -411,6 +411,27 @@ public class MailingListJspBeanTest extends LuteceTestCase
         assertEquals( Integer.toString( mailingList.getId( ) ), message.getRequestParameters( ).get( "id_mailinglist" ) );
     }
     @Test
+    public void testGetConfirmRemoveMailingListWithoutId( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        bean.getConfirmRemoveMailingList( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+    }
+
+    @Test
+    public void testGetConfirmRemoveMailingListUnknownId( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) + 1000 ) );
+        bean.getConfirmRemoveMailingList( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
+    }
+
+    @Test
     public void testDoRemoveMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

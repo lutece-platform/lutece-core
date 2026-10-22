@@ -340,6 +340,13 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
+        if ( StringUtils.isBlank( strId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                    PARAMETER_MAILINGLIST_ID
+            }, JSP_URL_MANAGE_MAILINGLISTS, AdminMessage.TYPE_STOP );
+        }
+
         ArrayList<String> listErrors = new ArrayList<>( );
 
         if ( !_removalListenerService.checkForRemoval( strId, listErrors, getLocale( ) ) )
