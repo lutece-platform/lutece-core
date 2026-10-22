@@ -68,6 +68,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
     private static final long serialVersionUID = 2871979154306491511L;
+    private static final int NO_PARENT = 0;
 
     // Markers
     private static final String MARKER_MAP_SITE = "map_site";
@@ -170,14 +171,16 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         if ( root != null )
         {
-            buildMenu( user, mapItems, root, 0, nCurrentPageId, mapPages, mapChildren, new HashSet<>( ) );
+            buildMenu( user, mapItems, root, NO_PARENT, 0, nCurrentPageId, mapPages, mapChildren, new HashSet<>( ) );
         }
 
         return mapItems;
     }
 
     /**
-     * Adds a page, if the user may view it, then its child pages, depth first; a loop in the tree stops at the page seen again
+     * Adds a page, if the user may view it, then its child pages, depth first; a loop in the tree stops at the page seen again. The parent of
+     * an item is the page through which it was reached, so that the root of the map stays a root even when its stored parent is one of its
+     * descendants; the child pages of a page the user may not view keep that page as parent, which is not listed, so they are roots of the map
      *
      * @param user
      *            the user
@@ -185,6 +188,8 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
      *            the pages listed
      * @param page
      *            the page
+     * @param nParentId
+     *            the page through which this page was reached, NO_PARENT for the root
      * @param nLevel
      *            its depth, 0 for the root
      * @param nCurrentPageId
@@ -196,7 +201,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
      * @param setVisited
      *            the pages already seen
      */
-    private static void buildMenu( User user, List<MenuItem> flatMenu, Page page, int nLevel, Integer nCurrentPageId, Map<Integer, Page> mapPages,
+    private static void buildMenu( User user, List<MenuItem> flatMenu, Page page, int nParentId, int nLevel, Integer nCurrentPageId, Map<Integer, Page> mapPages,
             Map<Integer, List<Page>> mapChildren, Set<Integer> setVisited )
     {
         if ( !setVisited.add( page.getId( ) ) )
@@ -210,7 +215,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         if ( bAuthorizationPage )
         {
             // Add page
-            MenuItem menuItem = MenuItem.builder( ).pageId( page.getId( ) ).parentId( page.getParentPageId( ) )
+            MenuItem menuItem = MenuItem.builder( ).pageId( page.getId( ) ).parentId( nParentId )
                     .name( page.getName( ) ).description( page.getDescription( ) )
                     .currentPageId( nCurrentPageId ).level( nLevel ).role( page.getRole( ) )
                     .build( );
@@ -219,7 +224,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         for ( Page pageChild : mapChildren.getOrDefault( page.getId( ), Collections.emptyList( ) ) )
         {
-            buildMenu( user, flatMenu, pageChild, nLevel + 1, nCurrentPageId, mapPages, mapChildren, setVisited );
+            buildMenu( user, flatMenu, pageChild, page.getId( ), nLevel + 1, nCurrentPageId, mapPages, mapChildren, setVisited );
         }
     }
 

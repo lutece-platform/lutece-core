@@ -75,6 +75,7 @@ public class SiteMapApp implements XPageApplication
      * Serial version UID
      */
     private static final long serialVersionUID = 1799476496018552101L;
+    private static final int NO_PARENT = 0;
     private static final int MODE_ADMIN = 1;
     private static final String PROPERTY_SERVICE_NAME = "portal.site.serviceName.siteMapService";
     private static final String PROPERTY_PATH_LABEL = "portal.site.site_map.pathLabel";
@@ -198,7 +199,7 @@ public class SiteMapApp implements XPageApplication
         int nLevel = 0;
 
         List<MenuItem> mapItems = new ArrayList<MenuItem>( );
-        buildMenu( request, mapItems, PortalService.getRootPageId( ), nLevel, new HashSet<>( ) );
+        buildMenu( request, mapItems, PortalService.getRootPageId( ), NO_PARENT, nLevel, new HashSet<>( ) );
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MAP_ITEMS, MenuTreeBuilder.buildTree( mapItems ) );
@@ -209,7 +210,24 @@ public class SiteMapApp implements XPageApplication
         return t.getHtml();
     }
 
-    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nLevel, Set<Integer> seenPages )
+    /**
+     * Adds a page, if it is visible, then its child pages, depth first; a loop in the pages stops at the page seen again. The parent of an item is
+     * the page through which it was reached, so that the root of the site map stays a root even when its stored parent is one of its descendants.
+     *
+     * @param request
+     *            the request
+     * @param flatMenu
+     *            the pages listed
+     * @param nPageId
+     *            the page
+     * @param nParentId
+     *            the page through which this page was reached, NO_PARENT for the root
+     * @param nLevel
+     *            its depth, 0 for the root
+     * @param seenPages
+     *            the pages already seen
+     */
+    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nParentId, int nLevel, Set<Integer> seenPages )
     {
         if ( !seenPages.add( nPageId ) )
         {
@@ -220,7 +238,7 @@ public class SiteMapApp implements XPageApplication
 
         if ( page.isVisible( request ) )
         {
-            MenuItem menuItem = MenuItem.builder( ).pageId( page.getId( ) ).parentId( page.getParentPageId( ) )
+            MenuItem menuItem = MenuItem.builder( ).pageId( page.getId( ) ).parentId( nParentId )
                     .name( page.getName( ) ).description( page.getDescription( ) )
                     .level( nLevel ).role( page.getRole( ) )
                     .build( );
@@ -228,7 +246,7 @@ public class SiteMapApp implements XPageApplication
 
             for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
-                buildMenu( request, flatMenu, pageChild.getId( ), nLevel + 1, seenPages );
+                buildMenu( request, flatMenu, pageChild.getId( ), page.getId( ), nLevel + 1, seenPages );
             }
         }
     }
