@@ -124,9 +124,13 @@ Snippet:
 	</#if>
 </button>
 <#if dropdownMenu>
-	<div class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
-		<#nested>
-	</div>
+	<#-- items given as list items stay in a list; plain links sit in a div, where a li would close the enclosing one -->
+	<#local menuItems><#nested></#local>
+	<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
+	<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
+	<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+		${menuItems}
+	</${menuTag}>
 </div>
 </#if>
 </#macro>
