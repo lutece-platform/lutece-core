@@ -80,7 +80,7 @@
 												<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' hideTitle=['all'] />
 											</@tform>
 										</#if>
-										<@offcanvas targetUrl="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" targetElement="#modify-attr-field" redirectForm=false id="modify-attr-${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnTitle="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnIcon="edit" position="end" hideTitle=['all'] />
+										<@offcanvas targetUrl="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&id_field=${attribute_field.idField}" targetElement="#modify-attr-field" redirectForm=false id="modify-attr-${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnTitle="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnIcon="edit" position="end" hideTitle=['all'] />
 										<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' color='danger' hideTitle=['all'] />
 									</@manageFeatureItemColumn>
 								</@manageFeatureItem>
