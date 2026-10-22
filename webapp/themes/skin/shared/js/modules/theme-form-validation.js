@@ -249,12 +249,12 @@ const FormValidation = (function() {
     }
 
     /**
-     * Get validation state for an input
+     * Get validation state for an input. A field inside a conditional block of forms (data-display-control, or the former displaycontrol) that is hidden is valid
      * @param {HTMLElement} input 
      * @returns {Object} { isValid: boolean, message: string }
      */
     function getValidationState(input) {
-        const dsControl = input.closest('[displaycontrol]');
+        const dsControl = input.closest('[data-display-control],[displaycontrol]');
         if( dsControl && dsControl.style.display === 'none' ) {
             return { isValid: true, message: '' };
         }
