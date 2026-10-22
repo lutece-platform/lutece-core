@@ -41,7 +41,9 @@ import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.menu.MenuItem;
 import fr.paris.lutece.portal.web.menu.MenuItem.MenuTreeBuilder;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -96,6 +98,8 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE, page );
         model.put( MARKER_MAP_SITE, map );
+        // The map is a fragment without any <base>: the module of the tree is imported from the base url, not from the url of the jsp
+        model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
 

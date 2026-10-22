@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -64,5 +65,21 @@ public class AdminMapJspBeanTest extends LuteceTestCase
         AdminMapJspBean instance = new AdminMapJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         assertTrue( StringUtils.isNotEmpty( instance.getMap( request ) ) );
+    }
+
+    /**
+     * The map is a fragment without any base: the module of the tree is imported from the base url of the site, not from the url of the jsp
+     */
+    @Test
+    public void testGetMapImportsTheTreeFromTheBaseUrl( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, TEST_PAGE_ID );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+
+        AdminMapJspBean instance = new AdminMapJspBean( );
+        instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        String strMap = instance.getMap( request );
+        assertTrue( strMap, strMap.contains( "from '" + AppPathService.getBaseUrl( request ) + "themes/shared/modules/luteceTree.js'" ) );
     }
 }
