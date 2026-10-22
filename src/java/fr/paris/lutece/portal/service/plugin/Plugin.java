@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -65,6 +66,7 @@ import fr.paris.lutece.portal.service.servlet.ServletService;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
@@ -79,6 +81,8 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 /**
  * This class is the general plugin element
@@ -141,8 +145,7 @@ public abstract class Plugin implements Comparable<Plugin>, Serializable
             _strProvider = pluginFile.getProvider( );
             _strProviderUrl = pluginFile.getProviderUrl( );
 
-            String strDefaultIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_ICON_URL );
-            _strIconUrl = pluginFile.getIconUrl( ).equals( "" ) ? strDefaultIconUrl : pluginFile.getIconUrl( );
+            _strIconUrl = resolveIconUrl( pluginFile.getIconUrl( ) );
             _strDocumentationUrl = pluginFile.getDocumentationUrl( );
             _strCopyright = pluginFile.getCopyright( );
             _strPluginClass = pluginFile.getPluginClass( );
@@ -183,6 +186,44 @@ public abstract class Plugin implements Comparable<Plugin>, Serializable
         catch( Exception e )
         {
             throw new LuteceInitException( "Error loading plugin : " + e.getMessage( ), e );
+        }
+    }
+
+    /**
+     * Returns the icon URL to display for the plugin: the declared one, or the default icon when none is declared or when the declared one is a webapp
+     * path that does not exist or cannot be read.
+     *
+     * @param strIconUrl
+     *            the icon URL declared by the plugin
+     * @return the icon URL
+     */
+    static String resolveIconUrl( String strIconUrl )
+    {
+        String strDefaultIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_ICON_URL );
+
+        if ( StringUtils.isBlank( strIconUrl ) )
+        {
+            return strDefaultIconUrl;
+        }
+
+        if ( strIconUrl.contains( "://" ) || strIconUrl.startsWith( "/" ) || Strings.CI.startsWith( strIconUrl, "data:" ) )
+        {
+            return strIconUrl;
+        }
+
+        String strPath = StringUtils.substringBefore( StringUtils.substringBefore( strIconUrl, "?" ), "#" );
+
+        try
+        {
+            AppPathService.getLuteceResource( strPath );
+
+            return strIconUrl;
+        }
+        catch( ResourceNotFoundException | RuntimeException e )
+        {
+            AppLogService.debug( "Icon not found for a plugin : {}", strIconUrl, e );
+
+            return strDefaultIconUrl;
         }
     }
 
