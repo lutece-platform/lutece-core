@@ -50,6 +50,10 @@ public class LocalizedDataGroup
     private static final String SUFFIX_HELP = ".help";
     private static final String SUFFIX_ORDER = ".order";
     private static final String SUFFIX_GROUP = ".group";
+    private static final String SEPARATOR = ".";
+    private static final String [ ] TYPE_SUFFIXES = {
+            ".textblock", ".htmlblock", ".checkbox", ".select", ".radio"
+    };
 
     // Variables declarations
     private String _strName;
@@ -87,7 +91,8 @@ public class LocalizedDataGroup
             }
             else
             {
-                property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
+                String strLabel = I18nService.getLocalizedString( item.getCode( ), locale );
+                property.setLabel( strLabel.isEmpty( ) ? getDefaultLabel( item.getCode( ), group.getDatastoreKeysPrefix( ) ) : strLabel );
                 property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
                 property.setGroup( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_GROUP, locale ) );
                 property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ) );
@@ -95,6 +100,34 @@ public class LocalizedDataGroup
             _listLocalizedData.add( property );
         }
         Collections.sort( _listLocalizedData );
+    }
+
+    /**
+     * Gets the label displayed for a property that has no i18n resource, such as the labels created dynamically by plugin-sitelabels: the key without the
+     * prefix of its group nor the suffix that only selects the input type (.textblock, .htmlblock, .checkbox, .select, .radio)
+     *
+     * @param strKey
+     *            The datastore key
+     * @param strPrefix
+     *            The datastore keys prefix of the group
+     * @return the default label
+     */
+    static String getDefaultLabel( String strKey, String strPrefix )
+    {
+        String strLabel = ( strPrefix != null && strKey.startsWith( strPrefix ) ) ? strKey.substring( strPrefix.length( ) ) : strKey;
+        if ( strLabel.startsWith( SEPARATOR ) )
+        {
+            strLabel = strLabel.substring( SEPARATOR.length( ) );
+        }
+        for ( String strSuffix : TYPE_SUFFIXES )
+        {
+            if ( strLabel.endsWith( strSuffix ) )
+            {
+                strLabel = strLabel.substring( 0, strLabel.length( ) - strSuffix.length( ) );
+                break;
+            }
+        }
+        return strLabel.isEmpty( ) ? strKey : strLabel;
     }
 
     /**
