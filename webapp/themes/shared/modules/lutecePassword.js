@@ -126,6 +126,9 @@ export class LutecePassword {
       const _passDefaultTogglerIcon = "ti-eye";
       const btnToggler = document.querySelector( this.passTogglerBtn )
       const inputToggler = document.querySelectorAll( this.passwordInput )
+      if ( btnToggler === null || btnToggler.firstElementChild === null || inputToggler.length === 0 ) {
+        return;
+      }
       btnToggler.firstElementChild.classList.remove( _passDefaultTogglerIcon );
       btnToggler.firstElementChild.classList.add( this.passTogglerIconOn );
       btnToggler.setAttribute('aria-pressed', 'false');
