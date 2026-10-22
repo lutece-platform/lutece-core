@@ -55,6 +55,8 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -148,6 +150,12 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
 
         Right externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
+
+        if ( externalFeature == null || !externalFeature.isExternalFeature( ) )
+        {
+            return getInvalidExternalFeatureUrl( request );
+        }
+
         externalFeature.setLocale( getUser( ).getLocale( ) );
 
         Object [ ] messageArgs = {
@@ -169,19 +177,33 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
+
+        if ( !isExternalFeature( strExternalFeatureId ) )
+        {
+            return getInvalidExternalFeatureUrl( request );
+        }
+
         RightHome.remove( strExternalFeatureId );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
-    public String getModifyExternalFeature( HttpServletRequest request )
+    public DefaultPluginActionResult getModifyExternalFeature( HttpServletRequest request )
     {
-
-        setPageTitleProperty( PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE );
-        Map<String, Object> model = new HashMap<>( );
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
 
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
         Right externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
+
+        if ( externalFeature == null || !externalFeature.isExternalFeature( ) )
+        {
+            result.setRedirect( getInvalidExternalFeatureUrl( request ) );
+
+            return result;
+        }
+
+        setPageTitleProperty( PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_EXTERNAL_FEATURE, externalFeature );
 
         Collection<FeatureGroup> featureGroups = FeatureGroupHome.getFeatureGroupsList( );
@@ -203,8 +225,9 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_EXTERNAL_FEATURE, getLocale( ), model );
+        result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
-        return getAdminPage( template.getHtml( ) );
+        return result;
     }
 
     public String doModifyExternalFeature( HttpServletRequest request ) throws AccessDeniedException
@@ -213,8 +236,14 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        int nIdOrder = Integer.parseInt( request.getParameter( PARAMETER_ORDER_EXTERNAL_FEATURE ) );
         String strIdExternalFeature = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
+
+        if ( !isExternalFeature( strIdExternalFeature ) )
+        {
+            return getInvalidExternalFeatureUrl( request );
+        }
+
+        int nIdOrder = Integer.parseInt( request.getParameter( PARAMETER_ORDER_EXTERNAL_FEATURE ) );
 
         Right externalFeature = new Right( );
         populate( externalFeature, request );
@@ -235,5 +264,33 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         }
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+    }
+
+    /**
+     * Returns the URL of the message telling that the requested external feature does not exist
+     *
+     * @param request
+     *            The HTTP request
+     * @return the URL of the message
+     */
+    private String getInvalidExternalFeatureUrl( HttpServletRequest request )
+    {
+        return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                PARAMETER_ID_EXTERNAL_FEATURE
+        }, AdminMessage.TYPE_STOP );
+    }
+
+    /**
+     * Tells whether an identifier designates an existing external feature
+     *
+     * @param strExternalFeatureId
+     *            The identifier of the right
+     * @return true if the right exists and is an external feature
+     */
+    private boolean isExternalFeature( String strExternalFeatureId )
+    {
+        Right right = RightHome.findByPrimaryKey( strExternalFeatureId );
+
+        return right != null && right.isExternalFeature( );
     }
 }

@@ -53,6 +53,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -63,6 +64,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
     private static final String PARAMETER_ID_EXTERNAL_FEATURE = "external_feature_id";
     private static final String TEST_EXTERNAL_FEATURE_ID = "CORE_TEST";
+    private static final String CORE_RIGHT_ID = "CORE_USERS_MANAGEMENT";
 
     // To insert moke external feature
     private static final String RIGHT_ID = "CORE_TEST";
@@ -134,7 +136,40 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getModifyExternalFeature( request ) );
+        assertNotNull( instance.getModifyExternalFeature( request ).getHtmlContent( ) );
+    }
+
+    /**
+     * Test of getModifyExternalFeature method, of class ExternalFeaturesJspBean, without a known external feature.
+     */
+    @Test
+    public void testGetModifyExternalFeatureUnknown( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        DefaultPluginActionResult result = instance.getModifyExternalFeature( request );
+        assertNull( result.getHtmlContent( ) );
+        assertNotNull( result.getRedirect( ) );
+        assertEquals( AdminMessage.TYPE_STOP, AdminMessageService.getMessage( request ).getType( ) );
+    }
+
+    /**
+     * Test of getRemoveExternalFeature method, of class ExternalFeaturesJspBean, without a known external feature.
+     */
+    @Test
+    public void testGetRemoveExternalFeatureUnknown( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        assertNotNull( instance.getRemoveExternalFeature( request ) );
+        assertEquals( AdminMessage.TYPE_STOP, AdminMessageService.getMessage( request ).getType( ) );
     }
 
     /**
@@ -445,6 +480,52 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
         assertNull( right );
+    }
+
+    @Test
+    public void testDoRemoveExternalFeatureCoreRight( ) throws AccessDeniedException
+    {
+        assertNotNull( RightHome.findByPrimaryKey( CORE_RIGHT_ID ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, CORE_RIGHT_ID );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
+        instance.doRemoveExternalFeature( request );
+
+        assertEquals( AdminMessage.TYPE_STOP, AdminMessageService.getMessage( request ).getType( ) );
+        assertNotNull( RightHome.findByPrimaryKey( CORE_RIGHT_ID ) );
+    }
+
+    @Test
+    public void testDoModifyExternalFeatureCoreRight( ) throws AccessDeniedException
+    {
+        Right coreRight = RightHome.findByPrimaryKey( CORE_RIGHT_ID );
+        assertNotNull( coreRight );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, CORE_RIGHT_ID );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        String strRandom = getRandomName( );
+        request.setParameter( "nameKey", strRandom );
+        request.setParameter( "url", strRandom );
+        request.setParameter( "level_id", "0" );
+        request.setParameter( "feature_group_id", FeatureGroupHome.getFeatureGroupsList( ).get( 0 ).getId( ) );
+        request.setParameter( "external_feature_order", "100" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) );
+        instance.doModifyExternalFeature( request );
+
+        assertEquals( AdminMessage.TYPE_STOP, AdminMessageService.getMessage( request ).getType( ) );
+        Right stored = RightHome.findByPrimaryKey( CORE_RIGHT_ID );
+        assertEquals( coreRight.getNameKey( ), stored.getNameKey( ) );
+        assertEquals( coreRight.getUrl( ), stored.getUrl( ) );
+        assertFalse( stored.isExternalFeature( ) );
     }
 
     @Test
