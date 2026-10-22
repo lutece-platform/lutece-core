@@ -40,8 +40,7 @@
                         <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
                         <#if groupList?size gt 0>
                         <@row class='g-3' params=masonryRowParams>
-                        <#list groupList?sort as groupCol>
-                        <#if groupCol?trim !=''>
+                        <#list groupList?sort?filter( g -> g?trim != '' ) + groupList?filter( g -> g?trim == '' ) as groupCol>
                         <@columns xs=12 sm=6 md=4 class='mb-3' params='data-prop="${groupCol}"'>
                            <@box class='properties-group'>
                               <@boxBody>
@@ -51,8 +50,10 @@
                                         <#assign prefix=groupItem.key?keep_before(".site_property")  >
                                         <#if groupCol?trim !=''>
                                         <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
-                                        <#if groupName?trim !=''><@h level=3>${groupName!}</@h></#if>
+                                        <#else>
+                                        <#assign groupName>#i18n{portal.system.modify_properties.otherGroupTitle}</#assign>
                                         </#if>
+                                        <#if groupName?trim !=''><@h level=3>${groupName!}</@h></#if>
                                     </#if>
                                     <#if groupItem.key?ends_with( ".select.options" ) || groupItem.key?ends_with( ".radio.options" )>
                                         <@input type='hidden' class='hidden-options' name=groupItem.key value=groupItem.value?html />
@@ -116,7 +117,6 @@
                                 </@boxBody>
                             </@box>
                         </@columns>
-                        </#if>
                         </#list>
                         </@row>
                         </#if>
