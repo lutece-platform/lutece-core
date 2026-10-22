@@ -43,6 +43,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -59,11 +61,15 @@ public class AutoIncludeAdminDashboardComponent extends AdminDashboardComponent
     private static final String MARK_CURRENT_COMMONS = "current_commons";
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} Only the administrators allowed to manage the auto includes see the configuration
      */
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
+        if ( !user.checkRight( AutoIncludeJspBean.RIGHT_MANAGEAUTOINCLUDES ) )
+        {
+            return StringUtils.EMPTY;
+        }
         Map<String, Object> model = new HashMap<>( );
         FreeMarkerTemplateService fmtService = FreeMarkerTemplateService.getInstance( );
         model.put( MARK_AUTOINCLUDE_LIST, fmtService.getAutoIncludesList( ) );
