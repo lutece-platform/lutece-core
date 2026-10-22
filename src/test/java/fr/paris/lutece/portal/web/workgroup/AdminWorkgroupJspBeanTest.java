@@ -278,6 +278,29 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         assertEquals( adminWorkgroup.getKey( ), message.getRequestParameters( ).get( "workgroup_key" ) );
     }
     @Test
+    public void testGetConfirmRemoveWorkgroupWithoutKey( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.getConfirmRemoveWorkgroup( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+    }
+    @Test
+    public void testGetConfirmRemoveWorkgroupUnknownKey( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) + "_UNKNOWN" );
+
+        bean.getConfirmRemoveWorkgroup( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
+    }
+    @Test
     public void testDoRemoveWorkgroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

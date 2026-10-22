@@ -323,6 +323,14 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     public String getConfirmRemoveWorkgroup( HttpServletRequest request )
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+
+        if ( StringUtils.isBlank( strWorkgroupKey ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                    PARAMETER_WORKGROUP_KEY
+            }, JSP_PATH + JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
+        }
+
         String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
