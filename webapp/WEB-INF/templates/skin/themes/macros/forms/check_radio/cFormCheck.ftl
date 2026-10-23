@@ -6,11 +6,12 @@ Description: Generates a form check element (checkbox, radio, or toggle button) 
 Parameters:
 - name (string, required): the name of the element.
 - label (string, required): the label associated to the input.
-- type (string, required): the type of check, can be 'checkbox', 'radio' or 'button'.
+- type (string, required): the type of check, can be 'checkbox' or 'radio'.
+- button (boolean, optional): renders the check as a toggle button. Default: false.
 - class (string, optional): the CSS class of the element. Default: 'form-check'.
 - id (string, optional): the ID of the element. Default: ''.
 - value (string, optional): the value of the element. Default: ''.
-- btnClass (string, optional): CSS class for the button label, only used if type is 'button'. Default: ''.
+- btnClass (string, optional): CSS class for the button label, only used if button is true. Default: ''.
 - labelClass (string, optional): the CSS class of the label. Default: ''.
 - inputClass (string, optional): the CSS class of the input element. Default: ''.
 - selectionButton (boolean, optional): adds a selection box around the checkbox. Default: false.
