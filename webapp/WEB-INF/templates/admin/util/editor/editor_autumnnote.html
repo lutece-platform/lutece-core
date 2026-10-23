@@ -12,21 +12,21 @@
 <script>
 document.addEventListener( 'DOMContentLoaded', function () {
 	LuteceAutumnNote.init( {
-		selector: '${selector?js_string}',
-		insert: [${insert}],
-		config: {<#list config as opt, val>'${opt?js_string}': <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val?js_string}'<#else>null</#if><#sep>, </#sep></#list>},
+		selector: '${selector?js_string?no_esc}',
+		insert: [${insert?no_esc}],
+		config: {<#list config as opt, val>'${opt?js_string?no_esc}': <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val?js_string?no_esc}'<#else>null</#if><#sep>, </#sep></#list>},
 		<#-- The config of the editor profile, chosen by editor.html. A plugin that includes this template directly, as the blog does, has none. -->
-		profileConfig: ${( ( textEditorProfile.config )!'{}' )?replace( '<', '\\u003c' )},
+		profileConfig: ${( ( textEditorProfile.config )!'{}' )?replace( '<', '\\u003c' )?no_esc},
 		lang: '${editorLang}',
 		library: {
-			imageType: '<@editorDatastoreValue key='library.insert_service_media_type_image' />',
-			imageSpace: '<@editorDatastoreValue key='library.insert_service_media_type_image_space' />',
-			pdfType: '<@editorDatastoreValue key='library.insert_service_media_type_pdf' />',
-			pdfSpace: '<@editorDatastoreValue key='library.insert_service_media_type_pdf_space' />'
+			imageType: '${editorDatastoreValue( 'library.insert_service_media_type_image' )?js_string?no_esc}',
+			imageSpace: '${editorDatastoreValue( 'library.insert_service_media_type_image_space' )?js_string?no_esc}',
+			pdfType: '${editorDatastoreValue( 'library.insert_service_media_type_pdf' )?js_string?no_esc}',
+			pdfSpace: '${editorDatastoreValue( 'library.insert_service_media_type_pdf_space' )?js_string?no_esc}'
 		}
 	} );
 } );
 </script>
 </#macro>
 <#-- A datastore value, empty when the key does not exist (the library plugin is not installed) -->
-<#macro editorDatastoreValue key><#local value = dskey( key )!'' /><#if !value?starts_with( 'DS Value' )>${value?js_string}</#if></#macro>
+<#function editorDatastoreValue key><#local value = dskey( key )!'' /><#return value?starts_with( 'DS Value' )?then( '', value ) /></#function>

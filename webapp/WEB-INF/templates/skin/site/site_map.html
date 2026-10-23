@@ -2,7 +2,7 @@
 <#macro renderPageInfo item>
 <#if "none" != item.role>
     <@cBadge class='text-bg-warning ms-2' hasp=false>
-        <@cIcon name='lock' class='me-1' params='aria-hidden="true"' />#i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
+        <@cIcon name='lock' class='me-1' params={"aria-hidden": "true"} />#i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
     </@cBadge>
 </#if>
 <#if (item.pageDescription!'')?has_content && item.pageDescription != item.pageName>
@@ -28,11 +28,11 @@
     <@cRow>
         <@cCol>
             <@cTitle level=1 class='mb-4'>#i18n{portal.site.site_map.pageTitle}</@cTitle>
-            <@cSection type='nav' params='aria-label="#i18n{portal.site.site_map.pageTitle}"'>
+            <@cSection type='nav' params={"aria-label": "#i18n{portal.site.site_map.pageTitle}"}>
                 <#list mapItems as home>
                     <@cBlock class='lead mb-4'>
                         <@cLink href='${site_path}?page_id=${home.pageId}' label=home.pageName nestedPos='before'>
-                            <@cIcon name='home' class='me-1' params='aria-hidden="true"' />
+                            <@cIcon name='home' class='me-1' params={"aria-hidden": "true"} />
                         </@cLink>
                         <@renderPageInfo item=home />
                     </@cBlock>

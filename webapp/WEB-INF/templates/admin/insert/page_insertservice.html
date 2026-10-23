@@ -12,7 +12,7 @@
 <#macro insertServicePluginName group>${group.plugin_display_name!group.plugin_name}</#macro>
 <#-- The icon of the plugin, or a generic icon when the plugin has none or its file is missing -->
 <#macro insertServicePluginIcon group>
-<#if group.plugin?? && group.plugin.iconUrl?has_content><img src="${group.plugin.iconUrl}" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><i class="ti ti-apps" aria-hidden="true" hidden></i><#else><i class="ti ti-apps" aria-hidden="true"></i></#if>
+<#if group.plugin?? && group.plugin.iconUrl?has_content><img src="${group.plugin.iconUrl}" alt="" data-lutece-insert-icon><i class="ti ti-apps" aria-hidden="true" hidden></i><#else><i class="ti ti-apps" aria-hidden="true"></i></#if>
 </#macro>
 <div class="lutece-insert">
 	<@h level=2 class='visually-hidden'>#i18n{portal.insert.page_insertservice.labelInsert}</@h>

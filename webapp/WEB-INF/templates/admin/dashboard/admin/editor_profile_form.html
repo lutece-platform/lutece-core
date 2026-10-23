@@ -62,7 +62,7 @@ Parameters:
 			</@formGroup>
 			</#if>
 			<@formGroup labelFor='profile_config' labelKey='#i18n{portal.admindashboard.editorProfile.labelConfig}' helpKey='#i18n{portal.admindashboard.editorProfile.helpConfig}' rows=2>
-				<@input type='textarea' name='profile_config' id='profile_config' class='font-monospace' rows=12>${(profile.config!'{}')?html}</@input>
+				<@input type='textarea' name='profile_config' id='profile_config' class='font-monospace' rows=12>${(profile.config!'{}')}</@input>
 			</@formGroup>
 			<@formGroup rows=2>
 				<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' color='primary' />
