@@ -17,6 +17,7 @@ Parameters:
 - hashtag - string - optional - Identifiant pour modal de gestion du consentement (par défaut: 'cookiepolicycitelibre')
 - cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'cookiecitelibre')
 - nocredit - boolean - optional - Option permettant d'afficher les crédit du projet TarteAuCitron (par défaut: false)
+- alwaysNeedConsent - boolean - optional - Si true, le consentement est demandé pour tous les services, y compris ceux exemptés, et la bannière s'ouvre à la première visite. Si false, seuls les services soumis à consentement ouvrent la bannière ; le bouton "Gestion des cookies" permet toujours de refuser la mesure d'audience (par défaut: propriété de site portal.theme.site_property.consent.alwaysNeedConsent.checkbox, true si non définie)
  
 Showcase:
 - desc: Consentement avec la librairie TarteAuCitron - @cConsentTac
@@ -25,7 +26,7 @@ Showcase:
 Snippet: 
 
 -->
-<#macro cConsentTac title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false deprecated...>
+<#macro cConsentTac title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false alwaysNeedConsent=(dskey('portal.theme.site_property.consent.alwaysNeedConsent.checkbox') != '0') deprecated...>
 <@deprecatedWarning args=deprecated />
 <link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/tarteaucitron/css/theme-tac.min.css" >
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/tarteaucitron/tarteaucitron.min.js"></script>
@@ -73,7 +74,7 @@ tarteaucitron.init({
     "AcceptAllCta" : true,          /* Show the accept all button when highPrivacy on */
     "DenyAllCta" : true,            /* Show the Deny all button when highPrivacy on */
     "highPrivacy": true,            /* Disable auto consent */
-    "alwaysNeedConsent": true,      /* Ask the consent for "Privacy by design" services */
+    "alwaysNeedConsent": ${alwaysNeedConsent?c}, /* Ask the consent for "Privacy by design" services */
     "handleBrowserDNTRequest": true,/* If Do Not Track == 1, disallow all */
     "removeCredit": ${nocredit?c},  /* Remove credit link */
     "moreInfoLink": true,           /* Show more info link */
