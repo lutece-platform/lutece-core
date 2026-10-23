@@ -85,9 +85,9 @@ Snippet:
 	<@cBlock class="tile-body">
 		<#if badge !=''><@cBlock class="tile-badge"><@cBadge label=badge class=badgeClass /></@cBlock ></#if>
 		<@cLink href=url! class=tileLinkClass label='' target=tileTarget params=tileDownload>
-			<@cTitle level=tileLevel class='tile-title truncate'>${title}</@cTitle>
+			<@cTitle level=tileLevel class='tile-title'>${title}</@cTitle>
 		</@cLink>
-		<#if detail !=''><@cText class="tile-detail truncate">${detail}</@cText></#if>
+		<#if detail !=''><@cText class="tile-detail">${detail}</@cText></#if>
 		<#nested>
 	</@cBlock>
 </@cBlock>
