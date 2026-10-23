@@ -61,7 +61,7 @@ Snippet:
 <div class="group-files ${type} <#if image> image-file</#if><#if !multiple> one-file</#if><#if nbUplodadedFiles?number=nbFiles?number> no-file</#if><#if errorMsg!=''> is-invalid</#if>">
 	<div class="col">
         <#if labelPos == 1>
-        <label id="lb${cId!}" class="form-label<#if showLabel=0> visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> is-invalid</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if></label>
+        <label id="lb${cId!}" class="form-label<#if showLabel=0> visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> is-invalid</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" title="#i18n{portal.theme.labelMandatory}">*</span></#if></label>
         </#if>
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
