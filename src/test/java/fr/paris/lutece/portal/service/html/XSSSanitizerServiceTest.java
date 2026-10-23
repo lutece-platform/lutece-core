@@ -56,6 +56,24 @@ public class XSSSanitizerServiceTest extends LuteceTestCase
     }
 
     /**
+     * The id of a rich text content is kept with the prefix user-content-, and a link to an anchor of the content follows
+     * it, so that the anchors written by the authors keep working while an id of the content can never take the name of
+     * an element or a global of the page (LUT-34350). An id that is not a plain identifier is removed.
+     */
+    public void testIdAttribute( )
+    {
+        testClean( "<h2 id=\"intro\">Intro</h2><p><a href=\"#intro\">Back</a></p>",
+                "<h2 id=\"user-content-intro\">Intro</h2><p><a href=\"#user-content-intro\" rel=\"nofollow noopener noreferrer\">Back</a></p>" );
+        // a content sanitized twice keeps a single prefix
+        testClean( "<p id=\"user-content-intro\">x</p>", "<p id=\"user-content-intro\">x</p>" );
+        // ids of the page cannot be shadowed
+        testClean( "<form id=\"token\"></form><p id=\"token\">x</p>", "<p id=\"user-content-token\">x</p>" );
+        testClean( "<p id=\"bad id\">x</p><p id=\"1st\">y</p>", "<p>x</p><p>y</p>" );
+        // other links are left to the URL policy
+        testClean( "<a href=\"https://www.paris.fr/#top\">Paris</a>", "<a href=\"https://www.paris.fr/#top\" rel=\"nofollow noopener noreferrer\">Paris</a>" );
+    }
+
+    /**
      * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
      * 
      * @param strSource
@@ -73,7 +91,7 @@ public class XSSSanitizerServiceTest extends LuteceTestCase
 	{
 	    result = XSSSanitizerService.sanitize( strSource );
 	    assertNotNull( result );
-	    assertTrue( result.equals( strExpectedResult ) );
+	    assertEquals( strExpectedResult, result );
 	} 
 	catch ( XSSSanitizerException e )
 	{

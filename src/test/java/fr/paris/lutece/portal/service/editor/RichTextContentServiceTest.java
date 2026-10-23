@@ -204,13 +204,13 @@ public class RichTextContentServiceTest extends LuteceTestCase
         for ( String strKept : new String [ ] {
                 "class=\"lead text-center\"", "role=\"note\"", "aria-label=\"x\"", "target=\"_blank\"", "noopener", "href=\"tel:0123456789\"",
                 "colspan=\"2\"", "scope=\"col\"", "start=\"3\"", "<pre>", "<hr", "<dl>", "<figure>", "<section>", "<article>", "<details",
-                "<summary>", "src=\"https://www.youtube-nocookie.com/embed/x\""
+                "<summary>", "src=\"https://www.youtube-nocookie.com/embed/x\"", "id=\"user-content-intro\""
         } )
         {
             assertTrue( strHtml.contains( strKept ), strKept + " -> " + strHtml );
         }
         for ( String strRemoved : new String [ ] {
-                "id=", "data-bs-toggle", "evil.example", "http://www.youtube.com"
+                "id=\"intro\"", "data-bs-toggle", "evil.example", "http://www.youtube.com"
         } )
         {
             assertFalse( strHtml.contains( strRemoved ), strRemoved + " -> " + strHtml );
