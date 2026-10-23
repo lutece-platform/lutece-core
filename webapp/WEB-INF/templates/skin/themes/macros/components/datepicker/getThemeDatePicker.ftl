@@ -29,10 +29,10 @@
 <#global isDatePickerLoaded = true />
 <@initThemeDatePicker />
 </#if>
-<#local dtThemeOptions>${dskey('portal.site.site_property.config.datepicker.textblock')!}</#local>
+<#local dtThemeOptions>${dskey('portal.theme.site_property.config.datepicker.textblock')!}</#local>
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {
-  const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'</#if>,</#list></#if> };
+  const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'<#elseif val?is_sequence>[<#list val as item><#if item?is_boolean || item?is_number>${item?c}<#elseif item?is_string>'${item}'</#if><#sep>,</#list>]</#if>,</#list></#if> };
   const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions}</#if>};
   const dtLocale = navigator.language.split('-')[0] == 'en' ? 'en' : navigator.language.split('-')[0];
   
