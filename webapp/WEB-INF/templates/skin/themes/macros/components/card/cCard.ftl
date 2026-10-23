@@ -25,6 +25,7 @@ Parameters:
 - headerImg (string, optional): Background image URL for the header. Default: ''.
 - subHeader (string, optional): Sub-header text for the card. Default: ''.
 - subHeaderClass (string, optional): CSS class(es) for the sub-header. Default: ''.
+- bodyClass (string, optional): CSS class(es) added to the card body. Default: ''.
 - footer (string, optional): Footer text for the card. Default: ''.
 - footerClass (string, optional): CSS class(es) for the footer. Default: ''.
 - orientation (string, optional): Card layout orientation ('v' for vertical, other for horizontal). Default: 'v'.
@@ -55,7 +56,7 @@ Snippet:
     </@cCard>
 
 -->
-<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
+<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' bodyClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if orientation='v'>
 <div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
@@ -75,7 +76,7 @@ Snippet:
     </#if>
     </figure>
     </#if>
-    <@cBlock class='card-body'>
+    <@cBlock class='card-body ${bodyClass}'>
         <#if title!=''><@cTitle level=titleLevel class='card-title ${titleClass}'><#if titleUrl!=''><a href="${titleUrl}" class="card-title-link"<#if titleUrlTitle!=''> title="${titleUrlTitle!}"</#if>></#if>${title}<#if titleUrl!=''></a></#if></@cTitle></#if>
         <#if subtitle!=''><@cTitle level=subtitleLevel class='card-subtitle mb-2 text-muted ${subtitleClass}'>${subtitle}</@cTitle></#if>
         <#nested>
@@ -97,7 +98,7 @@ Snippet:
 			</div>
 		</#if>
 		<div class="<#if img!=''><#if vcolsInit gt 0>col-${vcolsInit} col-md-${vcols[1]}<#else>col-${vcols[1]}</#if><#else>col</#if> p-0">
-			<@cBlock  class='card-body'>
+			<@cBlock  class='card-body ${bodyClass}'>
 				<#if title!=''>
                     <@cTitle level=titleLevel class='card-title'>
                         <#if titleUrl!=''><a href="${titleUrl}" class="card-title-link"<#if titleUrlTitle!=''> title="${titleUrlTitle!}"</#if>></#if>${title}<#if titleUrl!=''></a></#if>
