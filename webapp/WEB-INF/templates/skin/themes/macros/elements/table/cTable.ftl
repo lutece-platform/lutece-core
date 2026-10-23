@@ -69,12 +69,12 @@ Snippet:
 <#macro sortSite jsp_url attribute asc=false desc=true id="" >
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
 <#if asc>
-<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn-sort text-decoration-none">
+<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn btn-link btn-sort p-0 text-decoration-none">
 	<@cIcon name='arrow-up' class='main-color' />
 </button>
 </#if>
 <#if desc>
-<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn-sort text-decoration-none">
+<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn btn-link btn-sort p-0 text-decoration-none">
 	<@cIcon name='arrow-down' class='main-color' />
 </button>
 </#if>
