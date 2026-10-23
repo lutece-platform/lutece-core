@@ -67,7 +67,7 @@ Snippet:
                         <#if buttonPrev != ''>
                             <#assign prevBtnClass = buttonClass + ' disabled prev-slide'>
                             <#assign prevBtnParams>tabindex="0" aria-controls="${sliderInnerId}" aria-label="${buttonPrev!} ${slideLabel}"</#assign>
-                            <@cBtn label='' class=prevBtnClass type='button' disabled=true params=prevBtnParams>
+                            <@cBtn label='' class=prevBtnClass type='button' params=prevBtnParams>
                                 <@cIcon name='arrow-left' />
                             </@cBtn>
                         </#if>
@@ -86,77 +86,87 @@ Snippet:
 </@cSection>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const slider = document.querySelector('#${id} .theme-slider');
-    const btnPrev = document.querySelector('#${id} .slider-buttons .prev-slide');
-    const btnNext = document.querySelector('#${id} .slider-buttons .next-slide');
+    const wrapper = document.getElementById('${id}');
+    if (!wrapper) return;
+
+    const slider = wrapper.querySelector('.theme-slider');
+    const btnPrev = wrapper.querySelector('.slider-buttons .prev-slide');
+    const btnNext = wrapper.querySelector('.slider-buttons .next-slide');
     if (!slider) return;
-    slider.focus();
 
-    const STEP = 305;
-    const slides = slider.querySelectorAll(':scope > .slide');
-    let totalWidth = 0;
-    slides.forEach(function (slide) {
-        totalWidth += slide.offsetWidth;
-    });
-    let scrollWidth = totalWidth;
-    const nbSlides = slides.length;
+    const nbSlides = slider.querySelectorAll(':scope > .slide').length;
+    if (nbSlides <= 1) {
+        // Single slide: hide the navigation buttons block
+        const sliderButtons = wrapper.querySelector('.slider-buttons');
+        if (sliderButtons) sliderButtons.remove();
+        return;
+    }
+    if (!btnPrev || !btnNext) return;
 
-    function setDisabled(btn, value) {
-        if (!btn) return;
-        if (value) {
-            btn.classList.add('disabled');
-            btn.setAttribute('disabled', 'disabled');
-        } else {
-            btn.classList.remove('disabled');
-            btn.removeAttribute('disabled');
-        }
+    // Scroll by the width of one slide plus the gap
+    function getScrollAmount() {
+        const firstSlide = slider.querySelector(':scope > .slide');
+        return firstSlide ? firstSlide.offsetWidth + 16 : 305;
     }
 
-    function bindKeySpace(btn) {
-        if (!btn) return;
+    // The buttons stay focusable: their state is only given by the disabled class
+    function updateButtons() {
+        const atStart = slider.scrollLeft <= 1;
+        const hasOverflow = slider.scrollWidth > slider.clientWidth + 1;
+        const atEnd = !hasOverflow || ( slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 1 );
+        btnPrev.classList.toggle('disabled', atStart);
+        btnNext.classList.toggle('disabled', atEnd);
+    }
+
+    function scrollSlider(direction) {
+        slider.scrollTo({ left: slider.scrollLeft + ( direction * getScrollAmount() ), behavior: 'smooth' });
+    }
+
+    btnPrev.classList.add('disabled');
+    btnNext.classList.remove('disabled');
+    // Wait for the layout before measuring the overflow
+    requestAnimationFrame(function () {
+        requestAnimationFrame(updateButtons);
+    });
+
+    btnPrev.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!this.classList.contains('disabled')) {
+            scrollSlider(-1);
+        }
+    });
+
+    btnNext.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!this.classList.contains('disabled')) {
+            scrollSlider(1);
+        }
+    });
+
+    slider.addEventListener('scroll', function () {
+        clearTimeout(slider._scrollTimeout);
+        slider._scrollTimeout = setTimeout(updateButtons, 50);
+    });
+
+    // Keyboard accessibility (space and enter)
+    [btnPrev, btnNext].forEach(function (btn) {
         btn.setAttribute('tabindex', '0');
         btn.setAttribute('role', 'button');
+        btn.removeAttribute('disabled');
         btn.addEventListener('keydown', function (event) {
-            if (event.key === ' ') {
-                btn.click();
+            if (event.key === ' ' || event.key === 'Enter') {
                 event.preventDefault();
+                btn.click();
             }
         });
-    }
+    });
 
-    if (nbSlides > 1) {
-        setDisabled(btnPrev, true);
-        bindKeySpace(btnPrev);
-        bindKeySpace(btnNext);
-
-        if (btnPrev) {
-            btnPrev.addEventListener('click', function () {
-                slider.scrollBy({ left: -STEP, behavior: 'smooth' });
-                if (scrollWidth + STEP >= totalWidth) {
-                    setDisabled(btnPrev, true);
-                } else {
-                    scrollWidth += STEP;
-                    setDisabled(btnNext, false);
-                }
-            });
+    // Images change the scroll width once loaded
+    slider.querySelectorAll('img').forEach(function (img) {
+        if (!img.complete) {
+            img.addEventListener('load', updateButtons);
         }
-
-        if (btnNext) {
-            btnNext.addEventListener('click', function () {
-                slider.scrollBy({ left: STEP, behavior: 'smooth' });
-                if (scrollWidth <= STEP) {
-                    setDisabled(btnNext, true);
-                } else {
-                    scrollWidth -= STEP;
-                    setDisabled(btnPrev, false);
-                }
-            });
-        }
-    } else {
-        // Single slide: hide the navigation buttons block
-        const sliderButtons = document.querySelector('#${id} .slider-buttons');
-        if (sliderButtons) sliderButtons.remove();
-    }
+    });
 });
 </script>
 </#macro>
