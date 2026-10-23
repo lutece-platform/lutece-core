@@ -15,10 +15,10 @@
 <#assign canManagePortlets = can_manage_portlets!false />
 <#assign canAddPortlet = ( portlet_types_list![] )?filter( type -> type.name != '' )?has_content />
 <#-- The extensions tab when plugin extend gives the page actions (ExtendableResourcePluginActionManager, extendable_resource_actions_list.html) -->
-<#assign extendActions = ( extendableResourceActionsHtml!'' )?trim />
-<#assign hasExtend = extendActions?has_content />
+<#assign extendActions = extendableResourceActionsHtml!'' />
+<#assign hasExtend = ( extendActions?is_markup_output?then( extendActions?markup_string, extendActions ) )?trim?has_content />
 <#assign hasInspector = canManagePage || canManagePortlets || canAddPortlet || hasExtend />
-<#assign activeTab><#if canManagePage><#switch param_block!0><#case 2>properties<#break><#case 5>childpage<#break><#default></#switch></#if></#assign>
+<#assign activeTab = ( canManagePage && ( param_block!0 ) == 2 )?then( 'properties', ( canManagePage && ( param_block!0 ) == 5 )?then( 'childpage', '' ) ) />
 <@pageContainer class='lutece-admin-site'>
 	<@pageColumn>
 		<div id="lutece-admin-site-preview-box" class="lutece-site-ws">
@@ -145,13 +145,13 @@
 					<h3 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} ${column}</h3>
 					<ul class="lutece-site-portlets" data-portlet-column="${column}">
 						<#list page_portlets?filter( p -> p.column == column )?sort_by( 'order' ) as portlet>
-						<li draggable="true" data-portlet-id="${portlet.id?c}" data-portlet-name="${portlet.name?html}">
+						<li draggable="true" data-portlet-id="${portlet.id?c}" data-portlet-name="${portlet.name}">
 							<span class="lutece-site-portlet-grip" aria-hidden="true"><i class="ti ti-grip-vertical"></i></span>
 							<i class="ti ti-${portletTypeIcons[ portlet.portletTypeId ]!'puzzle'}" aria-hidden="true"></i>
 							<span class="lutece-site-portlet-name">${portlet.name}</span>
 							<span class="btn-group" role="group">
-								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="up" title="${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}"><i class="ti ti-arrow-up" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}</span></button>
-								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="down" title="${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}"><i class="ti ti-arrow-down" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}</span></button>
+								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="up" title="${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )}"><i class="ti ti-arrow-up" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )}</span></button>
+								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="down" title="${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )}"><i class="ti ti-arrow-down" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )}</span></button>
 							</span>
 							<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params={"target": "preview"}>
 								<@input type='hidden' name='portlet_id' value=portlet.id />
@@ -654,7 +654,7 @@ document.getElementById( 'lutece-site-panel-extend' )?.addEventListener( 'submit
 let returnTab = null;
 try { returnTab = sessionStorage.getItem( RETURN_TAB_KEY ); sessionStorage.removeItem( RETURN_TAB_KEY ); } catch ( e ) { returnTab = null; }
 // The tab asked by the URL (param_block, or #extender, the anchor of the former extensions offcanvas), else the one to come back to, else adding a portlet
-select( '${activeTab}' || ( window.location.hash === '#extender' ? 'extend' : '' ) || returnTab || 'add' );
+select( '${activeTab?js_string?no_esc}' || ( window.location.hash === '#extender' ? 'extend' : '' ) || returnTab || 'add' );
 
 // Branches of the tree: a twisty folds the pages below its page, the choices are remembered in the browser
 const BRANCHES_KEY = 'lutece.adminSite.treeBranches';

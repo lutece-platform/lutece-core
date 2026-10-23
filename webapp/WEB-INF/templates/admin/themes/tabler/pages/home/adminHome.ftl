@@ -40,7 +40,7 @@ Snippet:
 			<div class="col">
 				<#-- The day, in the language of the user -->
 				<div class="page-pretitle">${.now?string[ 'EEEE d MMMM yyyy' ]?cap_first}</div>
-				<h2 class="page-title"><#if user?? && user.firstName?has_content>${i18n( 'portal.admin.admin_home.welcomeUser', user.firstName )?html}<#else>#i18n{portal.admin.admin_home.welcome}</#if></h2>
+				<h2 class="page-title"><#if user?? && user.firstName?has_content>${i18n( 'portal.admin.admin_home.welcomeUser', user.firstName )}<#else>#i18n{portal.admin.admin_home.welcome}</#if></h2>
 				<div class="text-secondary" id="feature-title">${favourite!}</div>
 			</div>
 			<div class="page-header-buttons col-auto ms-auto d-print-none">
@@ -94,7 +94,7 @@ Snippet:
 	menu of the user to pick from. The order goes as hidden fields 'shortcut', written from the list when the form is sent; each button
 	of the footer carries its action (save, reset, default).
 -->
-<@modal id='home-shortcuts-dialog' size='lg' params='tabindex="-1" aria-labelledby="home-shortcuts-title"'>
+<@modal id='home-shortcuts-dialog' size='lg' params={"tabindex": "-1", "aria-labelledby": "home-shortcuts-title"}>
 <form id="home-shortcuts-form" method="post" action="jsp/admin/DoModifyHomeShortcuts.jsp" style="display: contents" data-max="${home_shortcuts_max}">
 	<input type="hidden" name="token" value="${token}">
 	<div class="modal-header">

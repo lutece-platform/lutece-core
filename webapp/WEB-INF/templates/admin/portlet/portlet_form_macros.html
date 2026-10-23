@@ -7,7 +7,7 @@
 <#macro placeOptions others selected=0>
 	<option value="1"<#if selected == 1> selected</#if>>#i18n{portal.site.modify_portlet.placeTop}</option>
 	<#list others as other>
-	<option value="${other?index + 2}"<#if selected == other?index + 2> selected</#if>>${i18n( 'portal.site.modify_portlet.placeAfter', other.name )?html}</option>
+	<option value="${other?index + 2}"<#if selected == other?index + 2> selected</#if>>${i18n( 'portal.site.modify_portlet.placeAfter', other.name )}</option>
 	</#list>
 </#macro>
 

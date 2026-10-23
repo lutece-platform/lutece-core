@@ -48,7 +48,7 @@
 			<@checkBox orientation='switch' value='1' name='enable_manual_update_date' id='${p}enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate />
 			<@inputGroup>
 				<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
-				<@input type='date' id='${p}manual_update_date' name='manual_update_date' value='${page_update_date!}' disabled=!page.isManualDateUpdate params='aria-label="#i18n{portal.site.admin_page.labelEnableManualUpdateDate}"' />
+				<@input type='date' id='${p}manual_update_date' name='manual_update_date' value='${page_update_date!}' disabled=!page.isManualDateUpdate params={"aria-label": "#i18n{portal.site.admin_page.labelEnableManualUpdateDate}"} />
 			</@inputGroup>
 		</div>
 	</@fieldSet>

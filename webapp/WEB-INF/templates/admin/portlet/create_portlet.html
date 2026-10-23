@@ -46,7 +46,7 @@
 		<@row class='g-2'>
 			<@columns xs=12 sm=fieldCols>
 				<@formGroup labelKey='#i18n{portal.site.modify_portlet.labelPortletPage}' rows=2>
-					<p class="form-control-plaintext mb-0"><#if portlet_page_name?has_content>${portlet_page_name?html} </#if>(${portlet_page_id?html})</p>
+					<p class="form-control-plaintext mb-0"><#if portlet_page_name?has_content>${portlet_page_name} </#if>(${portlet_page_id})</p>
 				</@formGroup>
 			</@columns>
 			<@columns xs=12 sm=fieldCols>
