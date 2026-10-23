@@ -49,9 +49,9 @@ Snippet:
 <@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>
-        <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' params='aria-label="${labelDecrease}" data-direction="-1" ${paramsDecrease}' />
+        <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' type='button' params='aria-label="${labelDecrease}" data-direction="-1" ${paramsDecrease}' />
         <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=params />
-        <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1" ${paramsIncrease}' />
+        <@cBtn label='&#43;' class='light quantity-btn increment-quantity' type='button' params='aria-label="${labelIncrease}" data-direction="1" ${paramsIncrease}' />
     </@cInputGroup>
 </@cBlock>
 <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
