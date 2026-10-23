@@ -6,11 +6,12 @@ Description: Generates a checkbox input element. Wraps cFormCheck with type 'che
 Parameters:
 - name (string, required): the name of the element.
 - label (string, required): the label associated to the input.
-- type (string, optional): the type, 'checkbox' or 'button'. Default: 'checkbox'.
+- type (string, optional): the type of the input. Default: 'checkbox'.
+- button (boolean, optional): renders the checkbox as a toggle button. Default: false.
 - class (string, optional): the CSS class of the element. Default: 'form-check'.
 - id (string, optional): the ID of the element. Default: ''.
 - value (string, optional): the value of the element. Default: ''.
-- btnClass (string, optional): CSS class for button label, only used if type is 'button'. Default: ''.
+- btnClass (string, optional): CSS class for button label, only used if button is true. Default: ''.
 - labelClass (string, optional): the CSS class of the label. Default: ''.
 - selectionButton (boolean, optional): adds a selection box around the checkbox. Default: false.
 - selectionLabel (string, optional): label for the selection box. Default: ''.
@@ -48,12 +49,14 @@ Snippet:
 
     Toggle button style:
 
-    <@cCheckbox name='subscribe' label='Subscribe' type='button' btnClass='btn btn-outline-primary' />
+    <@cCheckbox name='subscribe' label='Subscribe' button=true btnClass='btn btn-outline-primary' />
 
 -->
-<#macro cCheckbox name label type='checkbox' class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
+<#macro cCheckbox name label type='checkbox' button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel />
+<#local cButton = button || type == 'button' />
+<#local cType><#if type == 'button'>checkbox<#else>${type}</#if></#local>
+<@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel />
 </#macro>
 <#--
 Macro: cCheckboxList
@@ -63,11 +66,12 @@ Description: Generates a checkbox element that supports nested content, wrapping
 Parameters:
 - name (string, required): the name of the element.
 - label (string, required): the label associated to the input.
-- type (string, optional): the type, 'checkbox' or 'button'. Default: 'checkbox'.
+- type (string, optional): the type of the input. Default: 'checkbox'.
+- button (boolean, optional): renders the checkbox as a toggle button. Default: false.
 - class (string, optional): the CSS class of the element. Default: 'form-check'.
 - id (string, optional): the ID of the element. Default: ''.
 - value (string, optional): the value of the element. Default: ''.
-- btnClass (string, optional): CSS class for button label, only used if type is 'button'. Default: ''.
+- btnClass (string, optional): CSS class for button label, only used if button is true. Default: ''.
 - labelClass (string, optional): the CSS class of the label. Default: ''.
 - selectionButton (boolean, optional): adds a selection box around the checkbox. Default: false.
 - selectionLabel (string, optional): label for the selection box. Default: ''.
@@ -91,9 +95,11 @@ Snippet:
     </@cCheckboxList>
 
 -->
-<#macro cCheckboxList name label  type='checkbox' class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true params='' deprecated...>
+<#macro cCheckboxList name label  type='checkbox' button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel>
+<#local cButton = button || type == 'button' />
+<#local cType><#if type == 'button'>checkbox<#else>${type}</#if></#local>
+<@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel>
 <#nested>
 </@cFormCheck>
 </#macro>

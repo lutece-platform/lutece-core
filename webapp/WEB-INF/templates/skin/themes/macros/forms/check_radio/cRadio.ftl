@@ -6,10 +6,11 @@ Description: Generates a radio button input element. Wraps cFormCheck with type 
 Parameters:
 - name (string, required): the name of the element.
 - label (string, required): the label associated to the input.
-- type (string, optional): the type, 'radio' or 'button'. Default: 'radio'.
+- type (string, optional): the type of the input. Default: 'radio'.
+- button (boolean, optional): renders the radio as a toggle button. Default: false.
 - class (string, optional): the CSS class of the element. Default: 'form-check'.
 - labelClass (string, optional): the CSS class of the label, can be 'visually-hidden' to hide it. Default: ''.
-- btnClass (string, optional): CSS class for button label, only used if type is 'button'. Default: ''.
+- btnClass (string, optional): CSS class for button label, only used if button is true. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
 - value (string, optional): the value of the element. Default: ''.
 - errorMsg (string, optional): content of the error message. Default: ''.
@@ -47,8 +48,8 @@ Snippet:
 
     Toggle button style:
 
-    <@cRadio name='plan' label='Monthly' value='monthly' type='button' btnClass='btn btn-outline-primary' />
-    <@cRadio name='plan' label='Yearly' value='yearly' type='button' btnClass='btn btn-outline-primary' />
+    <@cRadio name='plan' label='Monthly' value='monthly' button=true btnClass='btn btn-outline-primary' />
+    <@cRadio name='plan' label='Yearly' value='yearly' button=true btnClass='btn btn-outline-primary' />
 
     With selection box:
 
@@ -57,8 +58,10 @@ Snippet:
     </@cRadio>
 
 -->
-<#macro cRadio name label type='radio' class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true deprecated...>
+<#macro cRadio name label type='radio' button=false class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params='' inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local cButton = button || type == 'button' />
+<#local cType><#if type == 'button'>radio<#else>${type}</#if></#local>
 <#assign nestedContent><#nested></#assign>
-<@cFormCheck name=name label=label type=type class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel nestedContent=nestedContent />
+<@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel nestedContent=nestedContent />
 </#macro>
