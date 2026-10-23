@@ -11,6 +11,7 @@
  * - data-lutece-insert-search on an input: filters the li of data-target on their data-search, shows data-nomatch when none matches, writes
  *   the count in data-count from data-text-one and data-text-many (%n the number).
  * - data-lutece-insert-tabs on a tablist: its [role="tab"] buttons show the panel of their aria-controls; arrow keys, Home and End move.
+ * - data-lutece-insert-icon on an img: when the image cannot be loaded, it is hidden and the element that follows it is shown instead.
  *
  * @author Lutece - Mairie de Paris
  */
@@ -181,12 +182,27 @@ window.LuteceInsert = window.LuteceInsert || ( function () {
 		select( tabs.find( tab => tab.getAttribute( 'aria-selected' ) === 'true' ) || tabs[ 0 ] );
 	}
 
+	function initIcon( img ) {
+		const fallback = ( ) => {
+			img.hidden = true;
+			if ( img.nextElementSibling ) {
+				img.nextElementSibling.hidden = false;
+			}
+		};
+		if ( img.complete && img.naturalWidth === 0 ) {
+			fallback( );
+		} else {
+			img.addEventListener( 'error', fallback, { once: true } );
+		}
+	}
+
 	function init( root ) {
 		const scope = root || document;
 		scope.querySelectorAll( '[data-lutece-insert-views]' ).forEach( initViews );
 		scope.querySelectorAll( 'form[data-lutece-insert-select]' ).forEach( initSelect );
 		scope.querySelectorAll( '[data-lutece-insert-search]' ).forEach( initSearch );
 		scope.querySelectorAll( '[data-lutece-insert-tabs]' ).forEach( initTabs );
+		scope.querySelectorAll( 'img[data-lutece-insert-icon]' ).forEach( initIcon );
 	}
 
 	if ( document.readyState === 'loading' ) {
