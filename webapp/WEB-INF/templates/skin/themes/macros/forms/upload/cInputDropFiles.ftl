@@ -23,6 +23,7 @@ Parameters:
 - hasFiles (boolean, optional): shows the file list area. Default: false.
 - helpMsg (string, optional): help message for the upload field. Default: ''.
 - errorMsg (string, optional): error message on validation failure. Default: ''.
+- ariaDescribedby (string, optional): id(s) set as aria-describedby on the file input, only when there is no helpMsg and no errorMsg. Default: ''.
 - class (string, optional): CSS class for the input. Default: ''.
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
@@ -49,7 +50,7 @@ Snippet:
     </@cInputDropFiles>
 
 -->
-<#macro cInputDropFiles name handler={} type='dropzone' icon='upload' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro cInputDropFiles name handler={} type='dropzone' icon='upload' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' ariaDescribedby='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
 <#local nbFiles = nbFiles?number >
@@ -65,13 +66,13 @@ Snippet:
         </#if>
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
-                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if><#if params!=''> ${params}</#if>>
+                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg=='' && errorMsg=='' && ariaDescribedby!=''> aria-describedby="${ariaDescribedby}"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if><#if params!=''> ${params}</#if>>
                  <@cIcon name=icon params='aria-hidden="true"' />
                 <p class="flex-1 text-start ms-xs my-0">#i18n{portal.theme.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>
         <#elseif type="button">
             <div id="group-${cId!}"<#if errorMsg !=''> class="is-invalid"</#if>>
-                <input type="file" <#if required>aria-required="true"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> name="${name}" id="${cId}" class="form-control<#if isDisabled?boolean> disabled</#if><#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if multiple> multiple</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if>>
+                <input type="file" <#if required>aria-required="true"</#if><#if helpMsg=='' && errorMsg=='' && ariaDescribedby!=''> aria-describedby="${ariaDescribedby}"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> name="${name}" id="${cId}" class="form-control<#if isDisabled?boolean> disabled</#if><#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if multiple> multiple</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if>>
                 <button hidden class="btn btn-link-primary" name="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" id="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" value="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" type="submit" >
                     <span class="file-input-text-noscript">#i18n{asynchronousupload.action.send.name}</span>
                     <span class="file-input-text-js" style="display:none;">#i18n{asynchronousupload.action.browse.name}</span>
