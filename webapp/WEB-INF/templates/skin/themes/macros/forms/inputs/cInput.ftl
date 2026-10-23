@@ -1,7 +1,7 @@
 <#--
 Macro: cInput
 
-Description: Generates a form input field with support for various types, validation, help/error messages, datalist, and phone number formatting.
+Description: Generates a form input field with support for various types, validation, help/error messages and datalist.
 
 Parameters:
  - id - string - optional - l'ID du champs de formulaire
@@ -11,7 +11,7 @@ Parameters:
  - size - string - optional - permet d'ajouter un suffixe à la classe CSS 'form-control', valeur possible 'lg' ou 'sm'
  - value - string - optional - permet de définir la valeur par défaut du champs du formulaire
  - placeholder - string - optional - permet de définir la valeur de l'attribut 'placeholder' du champs du formulaire
- - phoneCountry - string - optional - En complément de l'attribut type à la valeur 'tel', permet de formatter le numéro de téléphone entré au format du pays. Actuellement, seul le format français est pris en charge (+33 X XX XX XX XX). (par défaut: 'FR')
+ - phoneCountry - string - optional - En complément de l'attribut type à la valeur 'tel', ajoute la classe CSS 'fr-number' au champs pour la valeur 'FR'. Le numéro saisi n'est plus reformaté. (par défaut: 'FR')
  - required - boolean - optional - permet d'indiquer si le champs est obligatoire (par défaut: false)
  - html5Required - boolean - optional - permet d'indiquer si le champs doit utliser l'attribut html5 required (par défaut: true)
  - disabled - boolean - optional - permet d'indiquer si le champs est desactivé (par défaut: false)
@@ -48,7 +48,7 @@ Snippet:
 
     <@cInput name='email' type='email' required=true helpMsg='We will never share your email.' errorMsg='Please enter a valid email address.' />
 
-    Phone number input with French formatting:
+    Phone number input:
 
     <@cInput name='phone' type='tel' phoneCountry='FR' placeholder='06 12 34 56 78' />
 
@@ -71,23 +71,6 @@ Snippet:
 <datalist id="${datalistId}">
 <#if datalist !=''><#list datalist as dl><option value="${dl.id}">${dl.label}</option></#list></#if>
 </datalist>
-</#if>
-<#if type == 'tel' && phoneCountry == 'FR'>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.fr-number').forEach(function(element) {
-    element.addEventListener('blur', function() {
-      var num = element.value;
-      var numFormatte = num
-        .replace(/^0(\d)(\s?)(\d{2})(\s?)(\d{2})(\s?)(\d{2})(\s?)(\d{2})$/, '+33 $1 $3 $5 $7 $9')
-        .replace(/^\+33(\d{9})$/, function(match, p1) {
-          return '+33 ' + p1.replace(/(\d)(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5');
-        });
-      element.value = numFormatte;
-    });
-  });
-});
-</script>
 </#if>
 <#if type == 'number' && ( min gt 0 || max gt 0 )>
 <script>
