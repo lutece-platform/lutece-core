@@ -370,6 +370,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.log
 
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select.options', 'tarte_au_citron|orejime');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.alwaysNeedConsent.checkbox', '1');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
