@@ -11,6 +11,7 @@ Parameters:
 - themed (boolean, optional): apply the theme's `ctable` class. If false, Bootstrap 5 default table styling is used. Default: true.
 - collapsible (boolean, optional): on small screens, hide all cells except the first column. Requires `themed=true`. Default: true.
 - collapsed (boolean, optional): when the accordion variant is shown on mobile, whether the panels are initially collapsed. Default: false.
+- collapsedTitleLevel (number, optional): heading level of the accordion titles in the mobile variant. Default: 3.
 - collapseHeader (boolean, optional): show the accordion header in the mobile variant. Default: true.
 - collapseFooter (boolean, optional): show the accordion footer in the mobile variant. Default: true.
 - collapsedClass (string, optional): CSS class applied to the mobile accordion body. Default: ''.
@@ -57,14 +58,14 @@ Snippet:
 -->
 <#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if id='changeme'><!-- ATTENTION : Risque de duplication d'id ! --></#if>
+<#if id='changeme'><!-- #i18n{portal.theme.msgInfoTableUpdateId} --></#if>
 <div class="<#if id!=''>d-none d-md-block </#if>table-responsive<#if breakpoint!=''>${breakpoint}</#if>">
 <table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if> >
 <#if caption !=''> <caption class="visually-hidden">${caption!}</caption></#if>
 <#nested>
 </table>
 </div>
-<#if id !=''><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
+<#if id !=''><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
 <#macro sortSite jsp_url attribute asc=false desc=true id="" >
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
@@ -79,18 +80,18 @@ Snippet:
 </button>
 </#if>
 </#macro>
-<#macro cTableResponsive id collapsedClass='' collapsed=true collapseHeader=true collapseFooter=true >
+<#macro cTableResponsive id collapsedClass='' collapsed=true collapsedTitleLevel=3 collapseHeader=true collapseFooter=true >
 <div class="d-md-none" id="accordion-table-${id!}"></div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    <#if id='changeme'>console.warn( "macro cTable : ATTENTION : Risque de duplication. Modifier l'id de la macro cTable !" )</#if>
+    <#if id='changeme'>console.warn( "#i18n{portal.theme.msgInfoTableUpdateId}" )</#if>
     const rows = document.querySelectorAll('table#${id} tbody tr');
     rows.forEach(function(row, index) {
         const cells = row.querySelectorAll('td');
         let accordionContent = '';
         cells.forEach(function(cell, i) {
             const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')')
-            const headerText = headerSelector.querySelector('a:not(.btn-sort), button') ? headerSelector.innerHTML : headerSelector.textContent;
+            const headerText = headerSelector.querySelector('button:not(.btn-sort)') ? headerSelector.innerHTML : headerSelector.textContent;
             const cellText = cell.getHTML();
             const cellClass = cell.className;
             <#noparse>accordionContent += `<p class="fw-bold">${headerText}</p><p class='mb-4 ${cellClass}'>${cellText}</p>`;</#noparse>
