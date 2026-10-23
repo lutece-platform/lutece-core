@@ -9,8 +9,8 @@
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}lib/datepicker/theme-datepicker-a11y.min.js" charset="utf-8"></script>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}lib/datepicker/theme-daterangepicker-a11y.min.js" charset="utf-8"></script>
 <!-- DatePicker locales (must load after theme-datepicker-a11y.js which exposes Datepicker.locales) -->
-<#if !dskey('theme.site_property.config.locales')?starts_with('DS')>
-<#local localesList=dskey('theme.site_property.config.locales') />
+<#if !dskey('portal.theme.site_property.config.locales')?starts_with('DS')>
+<#local localesList=dskey('portal.theme.site_property.config.locales') />
 <#list localesList?split(",") as loc>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}lib/datepicker/locales/${loc}.js" charset="utf-8"></script>
 </#list>
