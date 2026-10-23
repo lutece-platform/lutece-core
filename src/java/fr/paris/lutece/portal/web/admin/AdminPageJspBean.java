@@ -454,7 +454,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             Page check = new Page( );
             check.setId( page.getId( ) );
             check.setParentPageId( page.getParentPageId( ) );
-            String strErrorUrl = getNewParentPageId( request, check, nParentPageId );
+            String strErrorUrl = getNewParentPageId( request, check, nParentPageId, getAdminPageBlockUrl( request, nPageId, BLOCK_PROPERTY ) );
 
             if ( strErrorUrl != null )
             {
