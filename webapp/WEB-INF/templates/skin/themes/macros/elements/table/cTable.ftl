@@ -59,7 +59,7 @@ Snippet:
 <#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- #i18n{portal.theme.msgInfoTableUpdateId} --></#if>
-<div class="<#if id!=''>d-none d-md-block </#if>table-responsive<#if breakpoint!=''>${breakpoint}</#if>">
+<div class="table-responsive<#if breakpoint!=''>${breakpoint}</#if>"<#if id!=''> id="table-wrapper-${id}"</#if>>
 <table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if> >
 <#if caption !=''> <caption class="visually-hidden">${caption!}</caption></#if>
 <#nested>
@@ -81,29 +81,55 @@ Snippet:
 </#if>
 </#macro>
 <#macro cTableResponsive id collapsedClass='' collapsed=true collapsedTitleLevel=3 collapseHeader=true collapseFooter=true >
-<div class="d-md-none" id="accordion-table-${id!}"></div>
+<#-- The accordion is hidden with the HTML "hidden" attribute rather than a CSS class, so that only one
+     structure is exposed when CSS is off. The script switches between the table and the accordion
+     at the md breakpoint (matchMedia), whatever the styles. -->
+<div id="accordion-table-${id!}" hidden></div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     <#if id='changeme'>console.warn( "#i18n{portal.theme.msgInfoTableUpdateId}" )</#if>
-    const rows = document.querySelectorAll('table#${id} tbody tr');
-    rows.forEach(function(row, index) {
-        const cells = row.querySelectorAll('td');
-        let accordionContent = '';
-        cells.forEach(function(cell, i) {
-            const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')')
-            const headerText = headerSelector.querySelector('button:not(.btn-sort)') ? headerSelector.innerHTML : headerSelector.textContent;
-            const cellText = cell.getHTML();
-            const cellClass = cell.className;
-            <#noparse>accordionContent += `<p class="fw-bold">${headerText}</p><p class='mb-4 ${cellClass}'>${cellText}</p>`;</#noparse>
-        });
-        
-        const accordionItem = `
-            <@cAccordion id='heading${id}` + index + `' title='` + cells[0].textContent + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
-                ` + accordionContent + `
-            </@cAccordion>`;
+    const tableWrapper = document.getElementById('table-wrapper-${id}');
+    const accordion = document.getElementById('accordion-table-${id}');
+    const mql = window.matchMedia('(min-width: 768px)');
+    let built = false;
 
-        document.getElementById('accordion-table-${id}').insertAdjacentHTML('beforeend', accordionItem);
-    });
+    function buildAccordion() {
+        const rows = document.querySelectorAll('table#${id} tbody tr');
+        rows.forEach(function(row, index) {
+            const cells = row.querySelectorAll('td');
+            let accordionContent = '';
+            cells.forEach(function(cell, i) {
+                const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')')
+                const headerText = headerSelector.querySelector('button:not(.btn-sort)') ? headerSelector.innerHTML : headerSelector.textContent;
+                const cellText = cell.getHTML();
+                const cellClass = cell.className;
+                <#noparse>accordionContent += `<p class="fw-bold">${headerText}</p><p class='mb-4 ${cellClass}'>${cellText}</p>`;</#noparse>
+            });
+
+            const accordionItem = `
+                <@cAccordion id='heading${id}` + index + `' title='` + cells[0].textContent + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
+                    ` + accordionContent + `
+                </@cAccordion>`;
+
+            accordion.insertAdjacentHTML('beforeend', accordionItem);
+        });
+        built = true;
+    }
+
+    function update(isDesktop) {
+        if (isDesktop) {
+            if (tableWrapper) tableWrapper.hidden = false;
+            accordion.hidden = true;
+        } else {
+            // The accordion is built once, the first time the small screen layout is needed
+            if (!built) buildAccordion();
+            if (tableWrapper) tableWrapper.hidden = true;
+            accordion.hidden = false;
+        }
+    }
+
+    update(mql.matches);
+    mql.addEventListener('change', function(e) { update(e.matches); });
 });
 </script>
 </#macro>
