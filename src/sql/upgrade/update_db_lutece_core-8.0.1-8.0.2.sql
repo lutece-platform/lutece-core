@@ -203,7 +203,22 @@ DELETE FROM core_datastore WHERE entity_key LIKE 'core.cache.status.%.diskPersis
     OR entity_key LIKE 'core.cache.status.%.diskSpoolBufferSizeMB'
     OR entity_key LIKE 'core.cache.status.%.memoryStoreEvictionPolicy';
 
--- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev17.sql
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev33.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The profiles of the back office rich text editor, managed in the "Text editor" tab of the technical settings
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile'
+CREATE TABLE IF NOT EXISTS core_editor_profile (
+	id_profile int AUTO_INCREMENT NOT NULL,
+	name varchar(100) NOT NULL,
+	description varchar(255) default NULL,
+	editor_name varchar(255) default NULL,
+	config LONG VARCHAR,
+	priority int default 0 NOT NULL,
+	is_default SMALLINT default 0 NOT NULL,
+	PRIMARY KEY (id_profile)
+);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev34.sql
 -- preconditions onFail:MARK_RAN onError:WARN
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile_target'
 CREATE TABLE IF NOT EXISTS core_editor_profile_target (
@@ -295,17 +310,3 @@ INSERT INTO core_datastore VALUES ('core.home.shortcuts.default', 'CORE_ADMIN_SI
 -- comment The site property that lets the users choose their own shortcuts of the homepage header (on by default)
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.bo.shortcuts.checkbox'
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.checkbox', '1');
--- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev16.sql
--- preconditions onFail:MARK_RAN onError:WARN
--- comment The profiles of the back office rich text editor, managed in the "Text editor" tab of the technical settings
--- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = database() AND table_name = 'core_editor_profile'
-CREATE TABLE IF NOT EXISTS core_editor_profile (
-	id_profile int AUTO_INCREMENT NOT NULL,
-	name varchar(100) NOT NULL,
-	description varchar(255) default NULL,
-	editor_name varchar(255) default NULL,
-	config LONG VARCHAR,
-	priority int default 0 NOT NULL,
-	is_default SMALLINT default 0 NOT NULL,
-	PRIMARY KEY (id_profile)
-);
