@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.owasp.html.AttributePolicy;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
 
@@ -48,7 +49,12 @@ import jakarta.enterprise.context.ApplicationScoped;
  * images, styles and tables of the OWASP predefined policies, plus what rich text contents need (LUT-33153): the class,
  * role and aria-* attributes, the target of links (with rel="noopener noreferrer"), tel: links, the spans and scope of
  * table cells, the start of ordered lists, the elements pre, hr, dl, figure, section, article and details, and the
- * iframes of an allowed video host. Scripts, event handlers, the id and data-* attributes are never kept.
+ * iframes of an allowed video host. Scripts, event handlers and data-* attributes are never kept.
+ * <p>
+ * The id attribute is kept with the prefix user-content- (LUT-34350), and the links to an anchor of the content
+ * (href="#name") get the same prefix: the anchors written by the authors keep working, and an id of a content can never
+ * take the name of an element or a global the page and its scripts use. An id that is not a letter followed by at most
+ * 63 letters, digits, - or _ is removed.
  */
 @ApplicationScoped
 public class OwaspXSSSanitizer implements IXSSSanitizer
@@ -56,6 +62,8 @@ public class OwaspXSSSanitizer implements IXSSSanitizer
     private static final String PROPERTY_IFRAME_HOSTS = "portal.sanitizer.iframe.allowedHosts";
     private static final String DEFAULT_IFRAME_HOSTS = "www.youtube-nocookie.com,www.youtube.com,www.dailymotion.com,player.vimeo.com";
     private static final Pattern CLASS_NAMES = Pattern.compile( "[A-Za-z0-9_\\- ]*" );
+    private static final Pattern ID = Pattern.compile( "[A-Za-z][A-Za-z0-9_\\-]{0,63}" );
+    private static final String ID_PREFIX = "user-content-";
     private static final Pattern ROLE = Pattern.compile( "[a-z]+" );
     private static final Pattern NUMBER = Pattern.compile( "[0-9]{1,4}" );
     private static final Pattern SCOPE = Pattern.compile( "row|col|rowgroup|colgroup" );
@@ -63,6 +71,18 @@ public class OwaspXSSSanitizer implements IXSSSanitizer
     private static final String [ ] ARIA_ATTRIBUTES = {
             "aria-label", "aria-labelledby", "aria-describedby", "aria-hidden", "aria-expanded", "aria-controls", "aria-current", "aria-live",
             "aria-level", "aria-haspopup", "aria-pressed", "aria-selected", "aria-roledescription"
+    };
+
+    // The id of a content gets the prefix, a value already prefixed is kept as is (a content sanitized twice)
+    private static final AttributePolicy PREFIXED_ID = ( strElementName, strAttributeName, strValue ) -> prefixedId( strValue );
+    // A link to an anchor of the content follows the prefixed id; any other link is left to the URL policy
+    private static final AttributePolicy PREFIXED_ANCHOR = ( strElementName, strAttributeName, strValue ) -> {
+        if ( !strValue.startsWith( "#" ) || strValue.length( ) == 1 )
+        {
+            return strValue;
+        }
+        String strId = prefixedId( strValue.substring( 1 ) );
+        return ( strId == null ) ? null : "#" + strId;
     };
 
     private static PolicyFactory _policy;
@@ -88,6 +108,7 @@ public class OwaspXSSSanitizer implements IXSSSanitizer
     {
         _policy = new HtmlPolicyBuilder( ).allowCommonInlineFormattingElements( ).allowCommonBlockElements( ).allowStyling( )
                 .allowElements( "a" ).allowAttributes( "href" ).onElements( "a" ).allowUrlProtocols( "https", "http", "mailto", "tel" )
+                .allowAttributes( "href" ).matching( PREFIXED_ANCHOR ).onElements( "a" )
                 .requireRelNofollowOnLinks( ).allowAttributes( "target" ).matching( TARGET ).onElements( "a" ).requireRelsOnLinks( "noopener", "noreferrer" )
                 .allowElements( "img" ).allowAttributes( "alt", "src" ).onElements( "img" ).allowAttributes( "border", "height", "width" ).matching( NUMBER )
                 .onElements( "img" )
@@ -96,10 +117,24 @@ public class OwaspXSSSanitizer implements IXSSSanitizer
                 .allowAttributes( "scope" ).matching( SCOPE ).onElements( "th" ).allowAttributes( "start" ).matching( NUMBER ).onElements( "ol" )
                 .allowElements( "pre", "hr", "dl", "dt", "dd", "figure", "figcaption", "section", "article", "details", "summary" )
                 .allowAttributes( "open" ).onElements( "details" ).allowAttributes( "class" ).matching( CLASS_NAMES ).globally( )
+                .allowAttributes( "id" ).matching( PREFIXED_ID ).globally( )
                 .allowAttributes( "role" ).matching( ROLE ).globally( ).allowAttributes( ARIA_ATTRIBUTES ).globally( )
                 .allowElements( ( strElementName, listAttributes ) -> listAttributes.contains( "src" ) ? strElementName : null, "iframe" )
                 .allowAttributes( "src" ).matching( iframeSource( ) ).onElements( "iframe" )
                 .allowAttributes( "title", "width", "height", "allowfullscreen", "loading" ).onElements( "iframe" ).toFactory( );
+    }
+
+    /**
+     * Gives the id of a content with the prefix user-content-.
+     *
+     * @param strValue
+     *            the id written in the content
+     * @return the prefixed id, or null when the id is not a letter followed by at most 63 letters, digits, - or _
+     */
+    private static String prefixedId( String strValue )
+    {
+        String strId = strValue.startsWith( ID_PREFIX ) ? strValue.substring( ID_PREFIX.length( ) ) : strValue;
+        return ID.matcher( strId ).matches( ) ? ID_PREFIX + strId : null;
     }
 
     /**
