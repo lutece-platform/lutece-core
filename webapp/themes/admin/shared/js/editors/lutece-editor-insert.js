@@ -155,7 +155,7 @@ window.LuteceEditorInsert = window.LuteceEditorInsert || ( function () {
 			case 'lutecePageLink':
 				return `jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=PAGE_INSERT_SERVICE&plugin_name=pagelinkservice&input=${input}&selected_text=${selected}`;
 			case 'luteceNewsletterBlog':
-				return `jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=blog_selection_is&plugin_name=newsletter-blog&input=${input}&mode=0&selected_text=${selected}`;
+				return `jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=document_selection_hs&plugin_name=newsletter-blog&input=${input}&mode=0&selected_text=${selected}`;
 			default:
 				return null;
 		}
