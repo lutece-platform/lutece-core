@@ -93,21 +93,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const mql = window.matchMedia('(min-width: 768px)');
     let built = false;
 
+    // textContent decodes the entities: escape it again before it goes back into HTML
+    function escapeHtml(text) {
+        return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
     function buildAccordion() {
         const rows = document.querySelectorAll('table#${id} tbody tr');
         rows.forEach(function(row, index) {
             const cells = row.querySelectorAll('td');
             let accordionContent = '';
             cells.forEach(function(cell, i) {
-                const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')')
-                const headerText = headerSelector.querySelector('button:not(.btn-sort)') ? headerSelector.innerHTML : headerSelector.textContent;
+                const headerSelector = document.querySelector('table#${id} thead th:nth-child(' + (i + 1) + ')');
+                // No header for this cell (no thead, colspan, fewer th than td): the cell is shown without a label
+                const headerText = !headerSelector ? '' : headerSelector.querySelector('a:not(.btn-sort), button:not(.btn-sort)') ? headerSelector.innerHTML : escapeHtml(headerSelector.textContent);
                 const cellText = cell.getHTML();
-                const cellClass = cell.className;
+                const cellClass = escapeHtml(cell.className);
                 <#noparse>accordionContent += `<p class="fw-bold">${headerText}</p><p class='mb-4 ${cellClass}'>${cellText}</p>`;</#noparse>
             });
 
             const accordionItem = `
-                <@cAccordion id='heading${id}` + index + `' title='` + cells[0].textContent + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
+                <@cAccordion id='heading${id}` + index + `' title='` + escapeHtml(cells[0].textContent) + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
                     ` + accordionContent + `
                 </@cAccordion>`;
 

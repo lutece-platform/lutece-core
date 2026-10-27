@@ -73,7 +73,7 @@ Snippet:
 <#local tileClass>tile<#if class !=''> ${class!}</#if><#if horizontal> horizontal</#if><#if download> download</#if><#if disabled> disabled</#if></#local>
 <#local tileDownload><#if download> download</#if></#local>
 <#local tileTarget><#if download><#else>${target!}</#if></#local>
-<#local tileparams><#if params !=''>${params}</#if><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?js_string} - ${detail?js_string}"}</#if></#local>
+<#local tileparams><#if params !=''>${params}</#if><#if tooltip> data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="${tooltipPos}" data-bs-title="${title?html} - ${detail?html}"</#if></#local>
 <@cBlock class=tileClass id=id params=tileparams>
 	<#if imgName!=''>
 	<@cBlock class='tile-header'>
