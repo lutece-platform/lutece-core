@@ -66,7 +66,7 @@ public final class DatastoreService
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
     static final String VALUE_MISSING = "DS Value Missing";
     private static final String TEMPLATE_KEY_PART = ".site_property.";
-    private static final List<String> TEMPLATE_KEY_PREFIXES = Arrays.asList( "theme.globalTheme", "mylutece.security.public_url." );
+    private static final List<String> TEMPLATE_KEY_PREFIXES = Arrays.asList( "theme.globalTheme", "mylutece.security.public_url.", "library.insert_service_" );
     private static final String PROPERTY_TEMPLATE_KEY_PREFIXES = "datastore.template.allowedKeyPrefixes";
     private static final int LOGGED_KEY_MAX_LENGTH = 100;
     private static final DataEntity ENTITY_MISSING = new DataEntity( null, null );
