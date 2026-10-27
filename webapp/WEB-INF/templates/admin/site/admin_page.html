@@ -111,7 +111,7 @@
 					<#if canAddPortlet><button type="button" role="tab" id="lutece-site-tab-add" aria-controls="lutece-site-panel-add" data-tab="add"><i class="ti ti-square-plus" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.tabAdd}</span></button></#if>
 					<#if canManagePage><button type="button" role="tab" id="lutece-site-tab-properties" aria-controls="lutece-site-panel-properties" data-tab="properties"><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.labelPageProperty}</span></button></#if>
 					<#if hasExtend><button type="button" role="tab" id="lutece-site-tab-extend" aria-controls="lutece-site-panel-extend" data-tab="extend"><i class="ti ti-puzzle" aria-hidden="true"></i><span>#i18n{portal.admin.resource.extend}</span></button></#if>
-					<#if canManagePortlets><button type="button" role="tab" id="lutece-site-tab-portlets" aria-controls="lutece-site-panel-portlets" data-tab="portlets"><i class="ti ti-layout-grid" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.tabPortlets} <span class="lutece-site-count">${( page_portlets![] )?size}</span></span></button></#if>
+					<#if canManagePortlets><button type="button" role="tab" id="lutece-site-tab-portlets" aria-controls="lutece-site-panel-portlets" data-tab="portlets"><i class="ti ti-layout-grid" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.tabPortlets}</span></button></#if>
 					<#if canManagePage><button type="button" role="tab" id="lutece-site-tab-childpage" aria-controls="lutece-site-panel-childpage" data-tab="childpage"><i class="ti ti-file-plus" aria-hidden="true"></i><span>#i18n{portal.site.admin_page.labelChildPagePage}</span></button></#if>
 				</div>
 				<#if canManagePage>
@@ -137,12 +137,13 @@
 					<#list page_portlets?sort_by( 'column' ) as portlet><#if !portletColumns?seq_contains( portlet.column )><#assign portletColumns = portletColumns + [ portlet.column ] /></#if></#list>
 					<#assign portletTypeIcons = {} />
 					<#list portlet_types_list as portlet_type><#assign portletTypeIcons = portletTypeIcons + { portlet_type.id: portlet_type.iconName!'puzzle' } /></#list>
+					<h3>#i18n{portal.site.admin_page.labelPortlets} <span class="lutece-site-count badge text-bg-secondary ms-2">${( page_portlets![] )?size}</span></h3>
 					<p class="lutece-site-hint">#i18n{portal.site.admin_page.labelReorderPortlets}</p>
 					<#-- The columns, each one a list a portlet can be dragged to; luteceSitePortlets in the script below saves the moves -->
 					<div id="lutece-site-columns" data-moved-message="#i18n{portal.site.admin_page.labelPortletMoved}" data-position-token="${position_token!}">
 					<#list portletColumns as column>
 					<div class="lutece-site-column" data-portlet-column="${column}">
-					<h3 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} ${column}</h3>
+					<h4 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} ${column}</h4>
 					<ul class="lutece-site-portlets" data-portlet-column="${column}">
 						<#list page_portlets?filter( p -> p.column == column )?sort_by( 'order' ) as portlet>
 						<li draggable="true" data-portlet-id="${portlet.id?c}" data-portlet-name="${portlet.name?html}">
@@ -165,7 +166,7 @@
 					</#list>
 					</div>
 					<#-- A column the preview shows a portlet in, when the sidebar does not list it yet -->
-					<template id="lutece-site-column-template"><div class="lutece-site-column"><h3 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} <span></span></h3><ul class="lutece-site-portlets"></ul></div></template>
+					<template id="lutece-site-column-template"><div class="lutece-site-column"><h4 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} <span></span></h4><ul class="lutece-site-portlets"></ul></div></template>
 					<p class="visually-hidden" id="lutece-site-portlets-status" role="status"></p>
 					<#else>
 					<p class="lutece-site-empty">#i18n{portal.site.admin_page.labelNoPortlet}</p>
@@ -264,7 +265,6 @@
 	.lutece-site-tabs button[aria-selected="true"] { color: var( --tblr-body-color ); font-weight: 600; border-bottom-color: var( --tblr-primary ); }
 	.lutece-site-tabs button[aria-selected="true"] > .ti { color: var( --tblr-primary ); }
 	.lutece-site-count { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
-	.lutece-site-tabs .lutece-site-count { display: inline-block; min-width: 1.25em; padding: 0 .3em; border-radius: 1em; background: var( --tblr-bg-surface-secondary, #f1f3f5 ); font-weight: 400; }
 	.lutece-site-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; overflow-y: auto; max-height: calc( 100vh - 8rem ); }
 	.lutece-site-panel-body .page-header, .lutece-site-panel-body .page-body { margin: 0; padding: 0; }
 	.lutece-site-panel-body .container, .lutece-site-panel-body .container-xl, .lutece-site-panel-body .container-fluid { padding: 0; max-width: none; }
@@ -1007,7 +1007,7 @@ if ( columnsBox ) {
 				section = columnTemplate.content.firstElementChild.cloneNode( true );
 				section.dataset.portletColumn = column;
 				section.querySelector( 'ul' ).dataset.portletColumn = column;
-				section.querySelector( 'h3 span' ).textContent = column;
+				section.querySelector( '.lutece-site-label span' ).textContent = column;
 				const after = [ ...columnsBox.children ].find( ( other ) => parseInt( other.dataset.portletColumn, 10 ) > parseInt( column, 10 ) );
 				columnsBox.insertBefore( section, after || null );
 			}
