@@ -213,6 +213,8 @@ public class DatastoreServiceTest extends LuteceTestCase
         assertTrue( DatastoreService.isTemplateKey( "sitelabels.site_property.mylabel" ) );
         assertTrue( DatastoreService.isTemplateKey( "theme.globalThemeCode" ) );
         assertTrue( DatastoreService.isTemplateKey( "mylutece.security.public_url.mylutece.url" ) );
+        assertTrue( DatastoreService.isTemplateKey( "library.insert_service_media_type_image" ) );
+        assertFalse( DatastoreService.isTemplateKey( "library.any" ) );
         assertFalse( DatastoreService.isTemplateKey( "core.advanced_parameters.any" ) );
         assertFalse( DatastoreService.isTemplateKey( "site_property" ) );
         assertFalse( DatastoreService.isTemplateKey( null ) );
