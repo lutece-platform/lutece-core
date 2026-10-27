@@ -171,12 +171,16 @@ window.LuteceEditorInsert = window.LuteceEditorInsert || ( function () {
 		}
 		const element = document.createElement( 'dialog' );
 		element.className = 'lutece-editor-dialog p-0 border-0 rounded shadow-lg';
-		element.style.cssText = 'width:min(1140px,95vw);max-width:95vw;max-height:90vh;overflow:hidden';
-		element.innerHTML = `<div class="d-flex align-items-center justify-content-between gap-2 border-bottom px-3 py-2">
+		// The dialog takes the whole window, less a margin showing the backdrop; the frame takes the height left under the header. The flex
+		// column is on an inner box: on the dialog itself, an inline display would show it while closed
+		element.style.cssText = 'width:calc(100vw - 2rem);height:calc(100dvh - 2rem);max-width:none;max-height:none;overflow:hidden';
+		element.innerHTML = `<div class="d-flex flex-column h-100">
+<div class="d-flex align-items-center justify-content-between gap-2 border-bottom px-3 py-2">
 	<h2 class="h3 m-0"></h2>
 	<button type="button" class="btn-close" aria-label="${closeLabel}"></button>
 </div>
-<iframe class="d-block w-100 border-0" style="height:75vh" title=""></iframe>`;
+<iframe class="d-block w-100 border-0 flex-grow-1" style="min-height:0" title=""></iframe>
+</div>`;
 		document.body.appendChild( element );
 		const iframe = element.querySelector( 'iframe' );
 		element.querySelector( '.btn-close' ).addEventListener( 'click', ( ) => element.close( ) );

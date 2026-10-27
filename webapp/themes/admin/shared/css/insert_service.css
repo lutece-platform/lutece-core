@@ -7,11 +7,15 @@
  *   .lutece-insert-head                its title and its actions; .lutece-insert-crumbs the way back
  *   .lutece-insert-tabs                tabs between the types of a service (links, aria-current="page" on the current one)
  *   .lutece-insert-badge               a tinted square holding an icon; .lutece-insert-tint-0 to -5 the colours, by plugin or type
- *   .lutece-insert-browser             a column on the left (.lutece-insert-aside: tree, filters) and the content on the right
+ *   .lutece-insert-browser             a column on the left (.lutece-insert-aside: tree, filters) and the content on the right;
+ *                                      -tray adds a third column on the right (.lutece-insert-tray: the selection being built and its action)
+ *   .lutece-insert-fill                the page fills its frame: the browser takes the height left, each column scrolls on its own
  *   .lutece-insert-tools               search (.lutece-insert-search), count (.lutece-insert-count), grid or list (.lutece-insert-views)
  *   .lutece-insert-items               the items to choose, data-view="grid" or "list"; each .lutece-insert-item holds .lutece-insert-thumb and
  *                                      .lutece-insert-text (.lutece-insert-title, .lutece-insert-summary, .lutece-insert-date)
+ *   .lutece-insert-flag                a pill on the thumbnail of an item already in the selection, with its position
  *   .lutece-insert-rows                a list of links (.lutece-insert-row), each going to the next step
+ *   .lutece-insert-action              a square icon button of a row (-danger: a removal); with aria-hidden="true", an empty slot keeping the column
  *   .lutece-insert-tiles, -panes       the two views of the list of the insert services
  *   .lutece-insert-form                the options of the link to insert, with .lutece-insert-preview
  *   .lutece-insert-footer              the selection (.lutece-insert-selection) and the action that goes on
@@ -79,7 +83,8 @@
 .lutece-insert-item { display: block; width: 100%; padding: 0; border: 1px solid var( --lutece-insert-line ); background: var( --lutece-insert-bg ); color: inherit; text-align: start; cursor: pointer; }
 .lutece-insert-item:hover { border-color: var( --lutece-insert-accent ); }
 .lutece-insert-item[aria-pressed="true"] { border-color: var( --lutece-insert-accent ); box-shadow: 0 0 0 2px var( --lutece-insert-accent ); }
-.lutece-insert-thumb { display: grid; place-items: center; overflow: hidden; background: var( --lutece-insert-soft ); }
+.lutece-insert-flag { position: absolute; top: .375rem; inset-inline-start: .375rem; display: inline-flex; align-items: center; gap: .25rem; padding: .0625rem .5rem; border-radius: 1rem; background: var( --lutece-insert-accent ); color: #fff; font-size: .75rem; font-weight: 600; }
+.lutece-insert-thumb { position: relative; display: grid; place-items: center; overflow: hidden; background: var( --lutece-insert-soft ); }
 .lutece-insert-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .lutece-insert-text { display: grid; gap: .0625rem; min-width: 0; }
 .lutece-insert-title { font-weight: 600; overflow-wrap: anywhere; }
@@ -154,6 +159,11 @@ ol.lutece-insert-rows { list-style: none; margin: 0; padding: 0; }
 .lutece-insert-position { flex: none; min-width: 1.5rem; color: var( --lutece-insert-muted ); font-variant-numeric: tabular-nums; text-align: end; }
 .lutece-insert-row-thumb { flex: none; width: 3.5rem; height: 2.625rem; border-radius: .25rem; }
 .lutece-insert-row-actions { display: flex; flex: none; gap: .25rem; }
+.lutece-insert-action { display: inline-grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border: 1px solid transparent; border-radius: .375rem; background: transparent; color: var( --lutece-insert-muted ); }
+.lutece-insert-action:hover { background: var( --lutece-insert-hover ); color: var( --lutece-insert-accent ); }
+.lutece-insert-action-danger:hover { background: rgba( 220, 53, 69, .08 ); color: var( --bs-danger, #dc3545 ); }
+.lutece-insert-action .ti { margin: 0; font-size: 1.125rem; }
+.lutece-insert-action[aria-hidden="true"] { visibility: hidden; }
 .lutece-insert-head .lutece-insert-count { font-weight: 400; }
 .lutece-insert-status { display: flex; align-items: center; gap: .75rem; padding: 1rem; color: var( --lutece-insert-muted ); }
 .lutece-insert-form-group + .lutece-insert-form-group { padding-top: .75rem; border-top: 1px solid var( --lutece-insert-line ); }
@@ -169,8 +179,27 @@ ol.lutece-insert-rows { list-style: none; margin: 0; padding: 0; }
 /* A group of rows under a row (the resources of a blog) */
 .lutece-insert-rows li > ul { padding-inline-start: 3rem; }
 .lutece-insert-rows li > ul > li { border-top: 1px solid var( --lutece-insert-line ); }
+/* A page filling its frame, and the selection being built in a third column */
+.lutece-insert-fill { display: flex; flex-direction: column; height: 100dvh; }
+.lutece-insert-fill > .lutece-insert-browser { flex: 1 1 auto; min-height: 0; align-items: stretch; }
+.lutece-insert-fill > .lutece-insert-browser > * { min-height: 0; overflow-y: auto; }
+.lutece-insert-browser-tray { grid-template-columns: minmax( 12rem, 16rem ) minmax( 0, 1fr ) minmax( 17rem, 21rem ); }
+.lutece-insert-tray { display: flex; flex-direction: column; gap: .75rem; padding-inline-start: 1rem; border-inline-start: 1px solid var( --lutece-insert-line ); }
+.lutece-insert-fill > .lutece-insert-browser > .lutece-insert-tray { overflow: hidden; }
+.lutece-insert-tray h3 { display: flex; align-items: center; gap: .5rem; margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-insert-muted ); }
+.lutece-insert-tray > .lutece-insert-rows { flex: 0 1 auto; min-height: 0; overflow-y: auto; }
+.lutece-insert-tray .lutece-insert-row { gap: .5rem; padding: .5rem; }
+.lutece-insert-tray .lutece-insert-row-thumb { width: 3rem; height: 2.25rem; }
+.lutece-insert-tray .lutece-insert-row .lutece-insert-text { min-width: 0; }
+.lutece-insert-tray :is( .lutece-insert-title, .lutece-insert-summary ) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lutece-insert-tray-empty { display: grid; justify-items: center; gap: .5rem; margin: 0; padding: 2rem 1rem; border: 1px dashed var( --lutece-insert-line ); border-radius: .375rem; color: var( --lutece-insert-muted ); text-align: center; }
+.lutece-insert-tray-empty > .ti { font-size: 2rem; }
+.lutece-insert-tray-footer { display: grid; margin-top: auto; padding-top: .75rem; border-top: 1px solid var( --lutece-insert-line ); }
 
 @media ( max-width: 48rem ) {
+	.lutece-insert-fill { height: auto; }
+	.lutece-insert-fill > .lutece-insert-browser > *, .lutece-insert-fill > .lutece-insert-browser > .lutece-insert-tray { overflow: visible; }
+	.lutece-insert-tray { padding: .75rem 0 0; border-inline-start: 0; border-top: 1px solid var( --lutece-insert-line ); }
 	.lutece-insert-browser, .lutece-insert-form, .lutece-insert-panes { grid-template-columns: minmax( 0, 1fr ); }
 	.lutece-insert-aside { padding: 0 0 .75rem; border-inline-end: 0; border-bottom: 1px solid var( --lutece-insert-line ); }
 	.lutece-insert-browser > .lutece-insert-pagination { grid-column: 1; }
