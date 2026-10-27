@@ -85,6 +85,7 @@ Parameters:
 - required (boolean, optional): sets element as required. Default: false.
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
 - params (string, optional): additional HTML attributes. Default: ''.
+- showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the checkbox label (false). Default: true.
 
 Snippet:
 
@@ -95,7 +96,7 @@ Snippet:
     </@cCheckboxList>
 
 -->
-<#macro cCheckboxList name label  type='checkbox' button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true params='' deprecated...>
+<#macro cCheckboxList name label  type='checkbox' button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cButton = button || type == 'button' />
 <#local cType><#if type == 'button'>checkbox<#else>${type}</#if></#local>
