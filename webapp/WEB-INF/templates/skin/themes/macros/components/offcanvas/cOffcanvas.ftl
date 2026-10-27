@@ -68,7 +68,7 @@ Snippet:
 </#if>
 <div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if><#if class!=''> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> data-lutece-reload-on-close=<#if reloadOnClose>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
     <div class="offcanvas-header border-bottom d-flex justify-content-between align-items-center">
-        <#if title!=''><h2 class="h4 offcanvas-title p-0 mt-0 ms-s" id="${id}Label">${title}</h2></#if>
+        <#if title!=''><h2 class="h4 offcanvas-title p-0 mt-0 ms-sm" id="${id}Label">${title}</h2></#if>
         <button type="button" class="btn btn-light btn-rounded btn-icon end-0 mx-sm p-0" data-bs-dismiss="offcanvas" aria-label="Fermer">
             <@cIcon name='close' />
         </button>
