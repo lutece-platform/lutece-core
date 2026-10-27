@@ -101,7 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (sliderButtons) sliderButtons.remove();
         return;
     }
-    if (!btnPrev || !btnNext) return;
+    // Either button can be left out (buttonPrev or buttonNext set to ''): the other one still works
+    const buttons = [btnPrev, btnNext].filter(Boolean);
+    if (buttons.length === 0) return;
 
     // Scroll by the width of one slide plus the gap
     function getScrollAmount() {
@@ -109,38 +111,40 @@ document.addEventListener('DOMContentLoaded', function () {
         return firstSlide ? firstSlide.offsetWidth + 16 : 305;
     }
 
-    // The buttons stay focusable: their state is only given by the disabled class
+    // The buttons stay focusable: their state is given by the disabled class and aria-disabled for assistive technology
+    function setDisabled(btn, disabled) {
+        if (!btn) return;
+        btn.classList.toggle('disabled', disabled);
+        btn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+    }
+
     function updateButtons() {
         const atStart = slider.scrollLeft <= 1;
         const hasOverflow = slider.scrollWidth > slider.clientWidth + 1;
         const atEnd = !hasOverflow || ( slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 1 );
-        btnPrev.classList.toggle('disabled', atStart);
-        btnNext.classList.toggle('disabled', atEnd);
+        setDisabled(btnPrev, atStart);
+        setDisabled(btnNext, atEnd);
     }
 
     function scrollSlider(direction) {
         slider.scrollTo({ left: slider.scrollLeft + ( direction * getScrollAmount() ), behavior: 'smooth' });
     }
 
-    btnPrev.classList.add('disabled');
-    btnNext.classList.remove('disabled');
+    setDisabled(btnPrev, true);
+    setDisabled(btnNext, false);
     // Wait for the layout before measuring the overflow
     requestAnimationFrame(function () {
         requestAnimationFrame(updateButtons);
     });
 
-    btnPrev.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (!this.classList.contains('disabled')) {
-            scrollSlider(-1);
-        }
-    });
-
-    btnNext.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (!this.classList.contains('disabled')) {
-            scrollSlider(1);
-        }
+    buttons.forEach(function (btn) {
+        const direction = btn === btnPrev ? -1 : 1;
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (!this.classList.contains('disabled')) {
+                scrollSlider(direction);
+            }
+        });
     });
 
     slider.addEventListener('scroll', function () {
@@ -149,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Keyboard accessibility (space and enter)
-    [btnPrev, btnNext].forEach(function (btn) {
+    buttons.forEach(function (btn) {
         btn.setAttribute('tabindex', '0');
         btn.setAttribute('role', 'button');
         btn.removeAttribute('disabled');
