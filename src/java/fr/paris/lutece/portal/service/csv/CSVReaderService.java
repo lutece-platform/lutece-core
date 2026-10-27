@@ -298,21 +298,18 @@ public abstract class CSVReaderService
 
         if ( ( importedPhysicalFile != null ) && ( importedPhysicalFile.getValue( ) == null ) )
         {
-            if ( importedPhysicalFile.getValue( ) == null )
-            {
-                importedPhysicalFile = PhysicalFileHome.findByPrimaryKey( importedPhysicalFile.getIdPhysicalFile( ) );
-            }
+            importedPhysicalFile = PhysicalFileHome.findByPrimaryKey( importedPhysicalFile.getIdPhysicalFile( ) );
+        }
 
-            if ( ( importedPhysicalFile != null ) && ( importedPhysicalFile.getValue( ) == null ) )
-            {
-                InputStream inputStream = new ByteArrayInputStream( importedPhysicalFile.getValue( ) );
-                InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
-                CSVReader csvReader = new CSVReaderBuilder( inputStreamReader )
-                        .withCSVParser( new CSVParserBuilder( ).withSeparator( getCSVSeparator( ) ).withQuoteChar( getCSVEscapeCharacter( ) ).build( ) )
-                        .build( );
+        if ( ( importedPhysicalFile != null ) && ( importedPhysicalFile.getValue( ) != null ) )
+        {
+            InputStream inputStream = new ByteArrayInputStream( importedPhysicalFile.getValue( ) );
+            InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
+            CSVReader csvReader = new CSVReaderBuilder( inputStreamReader )
+                    .withCSVParser( new CSVParserBuilder( ).withSeparator( getCSVSeparator( ) ).withQuoteChar( getCSVEscapeCharacter( ) ).build( ) )
+                    .build( );
 
-                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
-            }
+            return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
         }
 
         List<CSVMessageDescriptor> listErrors = new ArrayList<>( );
