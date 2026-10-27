@@ -32,13 +32,13 @@
 <#local dtThemeOptions>${dskey('portal.theme.site_property.config.datepicker.textblock')!}</#local>
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {
-  const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'<#elseif val?is_sequence>[<#list val as item><#if item?is_boolean || item?is_number>${item?c}<#elseif item?is_string>'${item}'</#if><#sep>,</#list>]</#if>,</#list></#if> };
+  const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val?js_string}'<#elseif val?is_sequence>[<#list val as item><#if item?is_boolean || item?is_number>${item?c}<#elseif item?is_string>'${item?js_string}'</#if><#sep>,</#list>]</#if>,</#list></#if> };
   const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions}</#if>};
   const dtLocale = navigator.language.split('-')[0] == 'en' ? 'en' : navigator.language.split('-')[0];
   
-  let showFormat=<#if showFormat == ''>getDatePickerDateFormat( dtLocale )<#else>'${showFormat}'</#if>;
+  let showFormat=<#if showFormat == ''>getDatePickerDateFormat( dtLocale )<#else>'${showFormat?js_string}'</#if>;
   <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
-  let dataFormat=<#if format == ''>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format}'</#if>;
+  let dataFormat=<#if format == ''>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format?js_string}'</#if>;
   const defaultOptions = {
       autohide: true,
       buttonClass: 'btn',
@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
       minDate: null,     
       maxDate: null,     
       maxNumberOfDate: 1,
-      nextArrow: '${customArrows[1]}',
+      nextArrow: '${customArrows[1]?js_string}',
       orientation: 'auto',
-      prevArrow: '${customArrows[0]}',
+      prevArrow: '${customArrows[0]?js_string}',
       pickLevel: 0, // 0 - Days 1 - Month, 2 - Year, 3 - Decade
       showDaysOfWeek: true,
       showOnClick: true,
@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     dataFormat: dataFormat,
     daysOfWeekDisabled: [],
     buttonClass: 'btn',
-    nextArrow: '${customArrows[1]}',
-    prevArrow: '${customArrows[0]}',
+    nextArrow: '${customArrows[1]?js_string}',
+    prevArrow: '${customArrows[0]?js_string}',
     defaultViewDate: 'today',
     todayButton: false,
     clearButton: true,
