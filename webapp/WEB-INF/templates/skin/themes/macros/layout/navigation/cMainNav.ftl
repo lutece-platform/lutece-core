@@ -69,7 +69,7 @@ Snippet:
 <#local logoAltDS=dskey('portal.theme.site_property.menu.logo.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /></#if>
 <div class="container-md main-header<#if class !=''> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role !=''> role='${role!}'</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if>>
-<nav class="navbar navbar-expand-lg navbar-light topnav lutece-ds-topbar" aria-labelledby="main-nav-title">
+<div class="navbar navbar-expand-lg navbar-light topnav lutece-ds-topbar">
     <a class="navbar-brand topnav__brand" href="${href!'.'}">
        <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
         <span class="main-service-title visually-hidden">${title}</span>
@@ -77,8 +77,8 @@ Snippet:
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{portal.theme.showmenu}" aria-controls="navbarMainMenu">
         <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{portal.theme.showmenu}</span></span>
     </button>
-    <div class="collapse navbar-collapse text-center" aria-label="#i18n{portal.theme.mainMenu} #i18n{portal.theme.showmenu}" role="navigation" id="navbarMainMenu">
-        <ul class="navbar-nav w-100 align-items-center lutece-ds-tw-menu" aria-label="#i18n{portal.theme.mainMenu}">
+    <nav class="collapse navbar-collapse text-center" aria-label="#i18n{portal.theme.mainMenu}" role="navigation" id="navbarMainMenu">
+        <ul class="navbar-nav w-100 align-items-center lutece-ds-tw-menu">
             <li class="nav-item<#if pageId = '1'> active</#if>">
                 <a class="nav-link text-capitalize" title="${title}" href="." target="_top" aria-current="<#if pageId = '1'>page<#else>false</#if>">#i18n{portal.site.page_home.label}</a>
             </li>
@@ -126,12 +126,12 @@ Snippet:
             </#if>
             <@translationMenu />
         </ul>
-    </div>
-</nav>
+    </nav>
+</div>
 </div>
 <#if isSidebar>
 <#assign menu=page_main_menu!>
-<nav id="sidebar-brand">
+<div id="sidebar-brand">
     <a class="navbar-brand navbar-brand-sidebar" href="${href!'.'}">
         <#if logoHeader !=''><img src="${logoHeader!}" class="img-fluid" width="120" alt="${logoAlt!}" aria-hidden="true"></#if>
         <span class="main-service-title visually-hidden">${title}</span>
@@ -141,7 +141,7 @@ Snippet:
         <@cIcon name='layout-sidebar-left-collapse' class='fs-ml' />
     </button>
     </#if>
-</nav>
+</div>
 <div id="layout-sidebar-wrapper">
     <header class="theme-main-header<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
         <div id="sidebar-main-menu">
@@ -152,7 +152,7 @@ Snippet:
                     <span class="main-service-title visually-hidden">${title}</span>
                 </a>
                 -->
-                <ul class="navbar-nav navbar-main flex-column me-auto  lutece-ds-tw-menu" aria-label="#i18n{portal.theme.mainMenu}">
+                <ul class="navbar-nav navbar-main flex-column me-auto  lutece-ds-tw-menu">
                     <#if hasMenu>
                         <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
                         <#if customMenuSideBar??>${customMenuSideBar!}</#if>
