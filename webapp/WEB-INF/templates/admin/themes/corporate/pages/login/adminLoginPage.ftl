@@ -64,12 +64,12 @@ Parameters:
 	</@pageColumn>
 	<#if loginLayoutImg?trim != ''>
 		<@pageColumn id="lutece-advert" class="p-0 d-none d-xxl-block bg-login-adv">
-			<@div class="d-flex align-items-center justify-content-evenly vh-100 fw-bold text-white">
-				<@div class="fadeInTop border-0 border-none bg-transparent">
+			<@div class="d-flex align-items-center justify-content-evenly vh-100 fw-bold text-body">
+				<@div class="fadeInTop border-0 border-none bg-transparent w-100 px-5">
 					<h1 class="fs-1 text-center">#i18n{portal.admin.admin_login.title}</h1>
 					<p class="text-center">#i18n{portal.admin.admin_login.description}</p>
 					<figure class="d-flex justify-content-center">
-						<@img url=loginLayoutImg params='aria-hidden="true" style="max-width:1000px;"'/>
+						<@img url=loginLayoutImg params='aria-hidden="true" style="max-width:min(100%, 1000px);"'/>
 					</figure>
 				</@div>
 			</@div>
