@@ -21,16 +21,31 @@ Showcase:
 
 Snippet:
 
-    Basic stepper:
+    Basic stepper (mySteps is a list of steps of the model, written here by hand):
 
+    <#assign mySteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
     <@cStepper steps=mySteps />
 
     Stepper with titles and expandable content:
 
+    <#assign mySteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
     <@cStepper steps=mySteps title=true showMore=true hasidx=true />
 
     Stepper with pictograms:
 
+    <#assign mySteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
     <@cStepper steps=mySteps haspicto=true title=true />
 
 -->

@@ -18,46 +18,16 @@ Parameters:
 
 Snippet:
 
-    Basic usage (deprecated, prefer cInfoStep):
+    Basic usage (deprecated, prefer cInfoStep; mySteps is a list of steps of the model, written here by hand):
 
+    <#assign mySteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
     <@cInfoStepOld steps=mySteps haspicto=true title=true />
 
 -->
-<#--
-Macro: cInfoStep
-
-Description: Generates a responsive info stepper displaying numbered procedural steps with optional pictograms, supporting both horizontal and vertical layouts.
-
-Parameters:
-- steps (object, required): Collection of step objects with properties: url, title, content.
-- haspicto (boolean, optional): Whether to display step pictogram images. Default: false.
-- verticalStepper (boolean, optional): Whether to display the stepper vertically. Default: false.
-- title (boolean, optional): Whether to display step titles with heading style. Default: false.
-- class (string, optional): Additional CSS classes. Default: ''.
-- id (string, optional): HTML id attribute. Default: ''.
-- imgClass (string, optional): CSS class for pictogram images. Default: ''.
-- params (string, optional): Additional HTML attributes. Default: ''.
-
-Showcase:
-- desc: Info étape - @cInfoStep
-- newFeature: false
-
-Snippet:
-
-    Basic horizontal stepper:
-
-    <@cInfoStep steps=procedureSteps />
-
-    Stepper with pictograms and titles:
-
-    <@cInfoStep steps=procedureSteps haspicto=true title=true />
-
-    Vertical stepper:
-
-    <@cInfoStep steps=procedureSteps verticalStepper=true title=true />
-
--->
-
 <#macro cInfoStepOld steps haspicto=false hasidx=false title=false showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' imgClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="info-step">
@@ -115,6 +85,55 @@ Snippet:
     </ol>
 </div>
 </#macro>
+<#--
+Macro: cInfoStep
+
+Description: Generates a responsive info stepper displaying numbered procedural steps with optional pictograms, supporting both horizontal and vertical layouts.
+
+Parameters:
+- steps (object, required): Collection of step objects with properties: url, title, content.
+- haspicto (boolean, optional): Whether to display step pictogram images. Default: false.
+- verticalStepper (boolean, optional): Whether to display the stepper vertically. Default: false.
+- title (boolean, optional): Whether to display step titles with heading style. Default: false.
+- class (string, optional): Additional CSS classes. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- imgClass (string, optional): CSS class for pictogram images. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: Info étape - @cInfoStep
+- newFeature: false
+
+Snippet:
+
+    Basic horizontal stepper (procedureSteps is a list of steps of the model, written here by hand):
+
+    <#assign procedureSteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
+    <@cInfoStep steps=procedureSteps />
+
+    Stepper with pictograms and titles:
+
+    <#assign procedureSteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
+    <@cInfoStep steps=procedureSteps haspicto=true title=true />
+
+    Vertical stepper:
+
+    <#assign procedureSteps = [
+        { 'title': 'Je prépare mon dossier', 'content': 'Rassemblez les pièces justificatives demandées.', 'status': 'done', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je dépose ma demande', 'content': 'Remplissez le formulaire en ligne et joignez vos pièces.', 'status': 'in-progress', 'url': 'themes/skin/shared/images/none.svg' },
+        { 'title': 'Je reçois la réponse', 'content': 'La réponse vous est envoyée par courriel.', 'status': '', 'url': 'themes/skin/shared/images/none.svg' }
+    ] />
+    <@cInfoStep steps=procedureSteps verticalStepper=true title=true />
+
+-->
 <#macro cInfoStep steps haspicto=false verticalStepper=false hasidx=false title=false titleLevel=3 showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' imgClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="c-info-step-wrapper<#if verticalStepper> stepper-vertical<#else> stepper-horizontal c-info-step-default</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >

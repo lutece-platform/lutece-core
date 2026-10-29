@@ -18,12 +18,38 @@ Showcase:
 
 Snippet:
 
-    Basic pagination:
+    Basic pagination (paginator is the Paginator object put in the model by the Java code; written here as a hash with the same properties):
 
+    <#assign paginator = {
+        'pageCurrent': 2, 'pagesCount': 3,
+        'labelFirst': 'Première page', 'labelLast': 'Dernière page',
+        'firstPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'previousPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'nextPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'lastPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'pagesLinks': [
+            { 'index': 1, 'name': '1', 'url': 'jsp/site/Portal.jsp?page=search&page_index=1' },
+            { 'index': 2, 'name': '2', 'url': 'jsp/site/Portal.jsp?page=search&page_index=2' },
+            { 'index': 3, 'name': '3', 'url': 'jsp/site/Portal.jsp?page=search&page_index=3' }
+        ]
+    } />
     <@cPagination paginator=paginator />
 
     Pagination with anchor fragment:
 
+    <#assign paginator = {
+        'pageCurrent': 2, 'pagesCount': 3,
+        'labelFirst': 'Première page', 'labelLast': 'Dernière page',
+        'firstPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'previousPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'nextPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'lastPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'pagesLinks': [
+            { 'index': 1, 'name': '1', 'url': 'jsp/site/Portal.jsp?page=search&page_index=1' },
+            { 'index': 2, 'name': '2', 'url': 'jsp/site/Portal.jsp?page=search&page_index=2' },
+            { 'index': 3, 'name': '3', 'url': 'jsp/site/Portal.jsp?page=search&page_index=3' }
+        ]
+    } />
     <@cPagination paginator=paginator fragment='results' label='Search results pagination' />
 
 -->

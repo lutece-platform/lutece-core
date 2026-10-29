@@ -14,12 +14,38 @@ Showcase:
 
 Snippet:
 
-    Basic usage (typically called internally by cPagination):
+    Basic usage (typically called internally by cPagination; paginator is the Paginator object of the model, written here as a hash):
 
+    <#assign paginator = {
+        'pageCurrent': 2, 'pagesCount': 3,
+        'labelFirst': 'Première page', 'labelLast': 'Dernière page',
+        'firstPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'previousPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'nextPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'lastPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'pagesLinks': [
+            { 'index': 1, 'name': '1', 'url': 'jsp/site/Portal.jsp?page=search&page_index=1' },
+            { 'index': 2, 'name': '2', 'url': 'jsp/site/Portal.jsp?page=search&page_index=2' },
+            { 'index': 3, 'name': '3', 'url': 'jsp/site/Portal.jsp?page=search&page_index=3' }
+        ]
+    } />
     <@cPaginationLinks paginator=paginator />
 
     With fragment and custom class:
 
+    <#assign paginator = {
+        'pageCurrent': 2, 'pagesCount': 3,
+        'labelFirst': 'Première page', 'labelLast': 'Dernière page',
+        'firstPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'previousPageLink': 'jsp/site/Portal.jsp?page=search&page_index=1',
+        'nextPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'lastPageLink': 'jsp/site/Portal.jsp?page=search&page_index=3',
+        'pagesLinks': [
+            { 'index': 1, 'name': '1', 'url': 'jsp/site/Portal.jsp?page=search&page_index=1' },
+            { 'index': 2, 'name': '2', 'url': 'jsp/site/Portal.jsp?page=search&page_index=2' },
+            { 'index': 3, 'name': '3', 'url': 'jsp/site/Portal.jsp?page=search&page_index=3' }
+        ]
+    } />
     <@cPaginationLinks paginator=paginator fragment='listing' class='justify-content-center' />
 
 -->

@@ -1,31 +1,51 @@
 <#--
 Macro: cScrollSpy
 
-Description: Permet de créer une liste d'ancres sur une page.
+Description: Generates a two-column layout with a list of anchors on one side and the nested content on the other, the anchor of the section in view being highlighted while scrolling (Bootstrap scrollspy).
 
 Parameters:
-- anchorId  - required - l'ID de la liste d'ancres.
-- anchors - required - Liste de sancres dan su ntableau avec des items en JSON. par exemple <#assign anchors = [{"label":"Item 1", "href":"jsp/site/Portal.jsp?page_id=6#anchor-list-item-xxs"},...]>
-- anchorClass : - string - optional - ajoute une classe CSS au à la liste des acnres - par défaut "position-sticky"
-- anchorListClass - string - optional - ajoute une classe CSS au à la liste
-- anchorListItemClass - string - optional - ajoute une classe CSS au éléments de la liste
-- anchorsLinkClass - string - optional - ajoute une classe CSS aux ancres
-- anchorsParams - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
-- anchorColClass - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
-- contentColClass - string - optional - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
-- id - string - optional - l'Id du wrapper - .row- des colonnes
-- class - string - optional - ajoute une classe CSS au wrapper
-- params - string - optional - permet d'ajouter des parametres HTML au wrapper.
+- anchorId (string, required): id of the list of anchors, target of the scrollspy.
+- anchors (list, required): anchors of the list, each item with a 'label' and an 'href' (the id of a section of the nested content, prefixed with #).
+- anchorClass (string, optional): CSS class(es) of the list of anchors. Default: 'position-sticky'.
+- anchorListClass (string, optional): CSS class(es) of the ul element. Default: 'list-unstyled'.
+- anchorListItemClass (string, optional): CSS class(es) of the li elements. Default: 'ps-m py-s'.
+- anchorsLinkClass (string, optional): CSS class(es) of the anchor links. Default: ''.
+- anchorsParams (string, optional): additional HTML attributes of the list of anchors. Default: ''.
+- anchorColClass (string, optional): column classes of the list of anchors. Default: 'col-12 col-md-3'.
+- contentColClass (string, optional): column classes of the nested content. Default: 'col-12 col-md-9'.
+- id (string, optional): id of the row wrapper. Default: ''.
+- class (string, optional): CSS class(es) of the row wrapper. Default: ''.
+- params (string, optional): additional HTML attributes of the row wrapper. Default: ''.
+
+Showcase:
+- desc: Scrollspy - @cScrollSpy
+- bs: components/scrollspy
+- newFeature: false
 
 Snippet:
-	<#assign anchorsList = [
-		{"label":"Item 1", "href":"#anchor-scroll-item-1"},
-		{"label":"Item 2", "href":"#anchor-scroll-item-2"},
-		{"label":"Item 3", "href":"#anchor-scroll-item-3"},
-		{"label":"Item 4", "href":"#anchor-scroll-item-4"},
-		{"label":"Item 5", "href":"#anchor-scroll-item-5"}
-	]>
-	<@cScrollSpy anchorId='scrollspy-sample' anchors= anchorsLinkClass='btn btn-primary' anchorsParams='style="top:100px;"' />
+
+    Page sections with a list of anchors (anchorsList usually comes from the model, written here by hand):
+
+    <#assign anchorsList = [
+        { 'label': 'Présentation', 'href': '#scrollspy-intro' },
+        { 'label': 'Démarches', 'href': '#scrollspy-steps' },
+        { 'label': 'Contact', 'href': '#scrollspy-contact' }
+    ] />
+    <@cScrollSpy anchorId='scrollspy-sample' anchors=anchorsList anchorsParams='style="top:100px;"'>
+        <@cSection id='scrollspy-intro'>
+            <@cTitle level=2>Présentation</@cTitle>
+            <@cText>Le service vous permet de suivre vos demandes en ligne.</@cText>
+        </@cSection>
+        <@cSection id='scrollspy-steps'>
+            <@cTitle level=2>Démarches</@cTitle>
+            <@cText>Préparez vos pièces justificatives puis déposez votre demande.</@cText>
+        </@cSection>
+        <@cSection id='scrollspy-contact'>
+            <@cTitle level=2>Contact</@cTitle>
+            <@cText>Une question ? Écrivez-nous depuis le formulaire de contact.</@cText>
+        </@cSection>
+    </@cScrollSpy>
+
 -->
 <#macro cScrollSpy anchorId anchors anchorClass='position-sticky' anchorListClass='list-unstyled' anchorListItemClass='ps-m py-s' anchorsLinkClass='' anchorsParams='' anchorColClass='col-12 col-md-3' contentColClass='col-12 col-md-9' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
