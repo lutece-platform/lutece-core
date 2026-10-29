@@ -21,8 +21,12 @@ Parameters:
 
 Snippet:
 
-    Basic themed table with caption:
+    Basic themed table with caption (users is a list of the model, written here by hand):
 
+    <#assign users = [
+        { 'name': 'Camille Martin', 'email': 'camille.martin@example.org', 'role': 'Rédactrice' },
+        { 'name': 'Louis Bernard', 'email': 'louis.bernard@example.org', 'role': 'Administrateur' }
+    ] />
     <@cTable id='users-table' caption='Liste des utilisateurs' themed=true>
         <@cThead>
             <@cTr>

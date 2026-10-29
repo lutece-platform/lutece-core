@@ -6,20 +6,20 @@ Description: Generates a collapsible accordion panel that reveals or hides assoc
 Parameters:
 - id (string, required): The unique identifier for the accordion.
 - title (string, required): The title text displayed in the accordion header.
-- btnTitle (string, optional): The label for the accordion toggle button. Default: ‘’.
-- class (string, optional): Additional CSS class(es) for the accordion container. Default: ‘’.
-- titleClass (string, optional): CSS class(es) applied to the accordion title. Default: ‘’.
+- btnTitle (string, optional): The label for the accordion toggle button. Default: ''.
+- class (string, optional): Additional CSS class(es) for the accordion container. Default: ''.
+- titleClass (string, optional): CSS class(es) applied to the accordion title. Default: ''.
 - titleLevel (number, optional): The heading level for the accordion title. Default: 3.
-- subTitle (string, optional): Subtitle text displayed below the title. Default: ‘’.
-- subTitleClass (string, optional): CSS class(es) for the subtitle. Default: ‘’.
-- btnClass (string, optional): CSS class(es) for the collapse toggle icon. Default: ‘’.
-- btnShowLabel (string, optional): Text for the data-show-label attribute. Default: ‘#i18n{portal.theme.labelShowDetail}’.
-- btnHideLabel (string, optional): Text for the data-hide-label attribute. Default: ‘#i18n{portal.theme.labelHideDetail}’.
-- header (string, optional): HTML content added alongside the title. Default: ‘’.
+- subTitle (string, optional): Subtitle text displayed below the title. Default: ''.
+- subTitleClass (string, optional): CSS class(es) for the subtitle. Default: ''.
+- btnClass (string, optional): CSS class(es) for the collapse toggle icon. Default: ''.
+- btnShowLabel (string, optional): Text for the data-show-label attribute. Default: '#i18n{portal.theme.labelShowDetail}'.
+- btnHideLabel (string, optional): Text for the data-hide-label attribute. Default: '#i18n{portal.theme.labelHideDetail}'.
+- header (string, optional): HTML content added alongside the title. Default: ''.
 - border (boolean, optional): If true, a border is added to the accordion. Default: false.
 - state (boolean, optional): If true, the accordion is expanded by default. Default: true.
 - hasCollapse (boolean, optional): If true, shows the collapse toggle icon. Default: true.
-- params (string, optional): Additional HTML attributes for the accordion. Default: ‘’.
+- params (string, optional): Additional HTML attributes for the accordion. Default: ''.
 
 Showcase:
 - desc: Accordéon - @cAccordion
@@ -64,13 +64,13 @@ Snippet:
 
     Basic usage:
 
-    <@cAccordion id=’faq-1’ title=’How to create an account?’>
+    <@cAccordion id='faq-1' title='How to create an account?'>
         <p>Follow the registration steps on the portal homepage.</p>
     </@cAccordion>
 
     Collapsed by default with border:
 
-    <@cAccordion id=’faq-2’ title=’Terms of service’ state=false border=true>
+    <@cAccordion id='faq-2' title='Terms of service' state=false border=true>
         <p>Please read the terms carefully before proceeding.</p>
     </@cAccordion>
 
