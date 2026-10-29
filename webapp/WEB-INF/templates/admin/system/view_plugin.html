@@ -1,6 +1,8 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${name}'/>
+        <@pageHeader title='#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${name}'>
+            <@aButton href='jsp/admin/system/ManagePlugins.jsp#plugin_${name}_${version}' title='#i18n{portal.util.labelBack}' buttonIcon='arrow-left' color='secondary' />
+        </@pageHeader>
 		<@div id="plugin-content">
    		<@box>
 		   <@boxHeader title='#i18n{portal.system.view_plugin.boxTitlePluginDetail}' />
