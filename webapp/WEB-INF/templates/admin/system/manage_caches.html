@@ -21,42 +21,41 @@
 	<@manageFeature>
 	<#assign id=0>
 		<#list services_list as service>
-		<@manageFeatureItem liClass='item-labels'>
-			<@manageFeatureItemColumn auto=true class='searchable'>
+		<@manageFeatureItem liClass='item-labels' id='cache_${id}'>
+			<@manageFeatureItemColumn auto=true>
 			<#if service.cacheEnable>
 				<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'><@icon style='check' /></@tag>
 			<#else>
 				<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'><@icon style='times' /></@tag>
 			</#if>
 			</@manageFeatureItemColumn>
-			<@manageFeatureItemColumn cols='12 col-md-3' class='searchable'><strong>${service.name}</strong></@manageFeatureItemColumn>
-			<@manageFeatureItemColumn cols='12 col-md-3' class='searchable'>
-			<@p>#i18n{portal.system.manage_caches.columnTitleCacheSize} : ${service.cacheSize!}</@p>
+			<@manageFeatureItemColumn class='searchable' flex=false>
+				<strong>${service.name}</strong>
+				<@p class='text-secondary small mb-0'>#i18n{portal.system.manage_caches.columnTitleCacheSize} : ${service.cacheSize!}</@p>
 			</@manageFeatureItemColumn>
-			<@manageFeatureItemColumn cols='12 col-md-5' class='ms-auto' >
-				<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye me-2" btnTitle="#i18n{portal.util.labelMore}" hideTitle=['all']  btnColor="outline-secondary w-50" position="end" />
-				<#-- a required cache is never disabled, a cache whose reset is prevented is never cleared -->
+			<@manageFeatureItemColumn auto=true align='end'>
+				<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' title='#i18n{portal.util.labelMore}' buttonIcon='eye' color='default' class='btn-icon me-1' hideTitle=['all'] />
+				<#-- a required cache is never disabled, a cache whose reset is prevented is never cleared: a disabled button keeps the place of the action -->
 				<#if (service.required)!false>
-					<@tag color='info' title='#i18n{portal.system.manage_caches.labelRequired}'><@icon style='lock' /></@tag>
+					<@span class='d-inline-block me-1' params='title="#i18n{portal.system.manage_caches.labelRequired}"'><@button class='btn-icon' buttonIcon='lock' color='default' title='#i18n{portal.system.manage_caches.labelRequired}' hideTitle=['all'] disabled=true /></@span>
 				<#else>
-				<@tform method='post' type='inline' align="middle"
-					action='jsp/admin/system/ConfirmToggleCache.jsp'>
+				<@tform method='post' type='inline' class='me-1' action='jsp/admin/system/ConfirmToggleCache.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<#if service.cacheEnable>
-						<@button type='submit' buttonIcon='player-stop me-1' title='#i18n{portal.system.manage_caches.actionDisable}' color='danger' />
+						<@button type='submit' class='btn-icon' buttonIcon='player-stop' title='#i18n{portal.system.manage_caches.actionDisable}' color='danger' hideTitle=['all'] />
 					<#else>
-						<@button type='submit' buttonIcon='player-play me-1' title='#i18n{portal.system.manage_caches.actionEnable}' color='success' />
+						<@button type='submit' class='btn-icon' buttonIcon='player-play' title='#i18n{portal.system.manage_caches.actionEnable}' color='success' hideTitle=['all'] />
 					</#if>
 				</@tform>
 				</#if>
 				<#if (service.preventReset)!false>
-					<@tag color='info' title='#i18n{portal.system.manage_caches.labelPreventReset}'><@icon style='trash-off' /></@tag>
+					<@span class='d-inline-block' params='title="#i18n{portal.system.manage_caches.labelPreventReset}"'><@button class='btn-icon' buttonIcon='trash-off' color='default' title='#i18n{portal.system.manage_caches.labelPreventReset}' hideTitle=['all'] disabled=true /></@span>
 				<#else>
-				<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
+				<@tform method='post' type='inline' action='jsp/admin/system/DoResetCaches.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
 					<@input type='hidden' name='token' value='${token}' />
-					<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' color='danger' />
+					<@button type='submit' class='btn-icon' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' color='danger' hideTitle=['all'] />
 				</@tform>
 				</#if>
 			</@manageFeatureItemColumn>
