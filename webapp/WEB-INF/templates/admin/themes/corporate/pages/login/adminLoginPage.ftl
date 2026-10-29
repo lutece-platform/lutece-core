@@ -26,7 +26,7 @@ Parameters:
 							</@link>
 						</@div>
 						<@div class='d-flex flex-column align-items-center'>
-							<h2 class="h1 mb-4 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h2>
+							<h2 class="h1 mb-4 text-center">${i18n("portal.admin.admin_login.welcome", site_name!)}</h2>
 							<i class="ti ti-device-mobile-off" style="font-size:120px !important"></i>
 						</@div>
 					</@div>
@@ -48,7 +48,7 @@ Parameters:
 								<@img url="${logoUrl}" alt="${site_name!}" params='height="35" aria-hidden="true"' />
 							</@link>
 						</@div>
-						<h1 class="mb-5 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
+						<h1 class="mb-5 text-center">${i18n("portal.admin.admin_login.welcome", site_name!)}</h1>
 						<#nested>
 					</@div>
 				</@div>
