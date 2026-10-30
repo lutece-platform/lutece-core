@@ -95,11 +95,18 @@
 					<@p class='text-center' params='hidden'><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' params='style="height: 2rem;margin-top: 1rem "' /></@p>
 					<!-- HTML iframe to show FO  -->
 					<@div id='lutece-admin-site-preview-wrapper' class='d-flex justify-content-center w-100'>
-						<@div id='lutece-admin-site-preview-frame' class='desktop'>
-							<iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
-							<#-- Over the preview while it reloads: see luteceSitePreviewBusy -->
-							<div id="lutece-admin-site-preview-busy" class="lutece-site-preview-busy" role="status" hidden><span class="lutece-site-preview-spinner spinner-border text-primary" aria-hidden="true"></span><span class="visually-hidden">#i18n{portal.site.admin_page.labelLoading}</span></div>
-						</@div>
+						<#-- The preview in a browser window (Tabler mockup browser), its address bar giving the public address of the page -->
+						<div id="lutece-admin-site-preview-frame" class="mockup-browser" data-device="desktop">
+							<div class="mockup-browser-toolbar">
+								<span class="mockup-browser-controls"></span>
+								<div class="mockup-browser-url"><i class="ti ti-world" aria-hidden="true"></i><span id="lutece-admin-site-preview-url">jsp/site/Portal.jsp?page_id=${page.id}</span></div>
+							</div>
+							<div class="mockup-browser-body">
+								<iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
+								<#-- Over the preview while it reloads: see luteceSitePreviewBusy -->
+								<div id="lutece-admin-site-preview-busy" class="lutece-site-preview-busy" role="status" hidden><span class="lutece-site-preview-spinner spinner-border text-primary" aria-hidden="true"></span><span class="visually-hidden">#i18n{portal.site.admin_page.labelLoading}</span></div>
+							</div>
+						</div>
 					</@div>
 				</@div>
 			</section>
@@ -247,7 +254,8 @@
 	.lutece-site-page-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 	.lutece-site-page-id { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
 	.lutece-site-nomatch, .lutece-site-empty { margin: 0; color: var( --lutece-site-muted ); }
-	.lutece-site-center { display: grid; grid-template-rows: auto 1fr; }
+	/* One column no wider than the room: a preview wider than it (laptop width) is cut down instead of pushing the inspector away */
+	.lutece-site-center { display: grid; grid-template-columns: minmax( 0, 1fr ); grid-template-rows: auto 1fr; }
 	.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .75rem 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
 	.lutece-site-title { display: grid; gap: .125rem; flex: 1; min-width: 12rem; }
 	.lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
@@ -331,6 +339,8 @@
 	/* The state, Settings and Remove each in their column, so that the rows line up whether an extension has settings or not */
 	.lutece-extend-actions .extend-action-buttons { display: grid; grid-template-columns: auto 2.25rem 2.25rem; align-items: center; justify-items: end; gap: .25rem; flex: none; }
 	.lutece-extend-actions .extend-action-buttons > button[value="remove"] { grid-column: 3; }
+	/* Settings and Remove are icon buttons as wide as their column: a btn-sm with its padding is wider and would spill over the state */
+	.lutece-extend-actions .extend-action-buttons > button:is( [value="configure"], [value="remove"] ) { width: 2.25rem; padding-inline: 0; justify-content: center; }
 	.lutece-extend-actions .extend-action-buttons > button[value="add"] { grid-column: 1 / -1; }
 	.lutece-site-type-icon { display: grid; place-items: center; flex: none; width: 1.75rem; height: 1.75rem; border-radius: .375rem; }
 	.lutece-site-tint-0 { background: #fdf0e6; color: #a8520e; } .lutece-site-tint-1 { background: #e9f3ee; color: #26734a; } .lutece-site-tint-2 { background: #efeafb; color: #5b3fb0; }
@@ -361,6 +371,18 @@
 		.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: space-between; }
 		.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 	}
+	/* The preview in a browser window: it fills the height left under the head (set by the script), at the width of the chosen device */
+	#lutece-admin-site-preview-wrapper { padding: .25rem; }
+	#lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; }
+	/* On a narrow device the address starts after the window dots instead of being centered under them */
+	#lutece-admin-site-preview-frame[data-device="phone"] .mockup-browser-toolbar { padding-inline: 5rem 1rem; }
+	#lutece-admin-site-preview-frame .mockup-browser-body { position: relative; display: flex; }
+	#lutece-admin-site-preview-frame .mockup-browser-body > iframe { width: 100%; height: 100%; }
+	/* Fullscreen: the minimize button, then the window in the height left */
+	#lutece-admin-page-preview:fullscreen { justify-content: flex-start; height: 100vh; background: var( --tblr-bg-surface, #fff ); }
+	#lutece-admin-site-preview-wrapper.lutece-admin-maximize { flex: 1; height: auto !important; min-height: 0 !important; padding: 0 .25rem .25rem; }
+	#lutece-admin-site-preview-frame.mockup-browser.lutece-admin-maximize { height: auto !important; min-height: 0 !important; max-height: none !important; align-self: stretch; }
+	#lutece-admin-site-preview.lutece-admin-maximize { height: 100% !important; min-height: 0 !important; }
 	/* The preview while it reloads: a veil over its last state, then a cover until the new page has loaded with its styles */
 	.lutece-site-preview-busy { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; line-height: normal; text-shadow: none; cursor: progress; background: color-mix( in srgb, var( --tblr-bg-surface, #fff ) 55%, transparent ); transition: background-color .15s ease-out; }
 	.lutece-site-preview-busy[hidden] { display: none; }
@@ -396,31 +418,31 @@ document.addEventListener("DOMContentLoaded", function() {
         previewBusy.hidden = true;
     } );
     const btnPreview = document.querySelectorAll( '.btn-preview' );
-    const defaultIframeWidth = ( previewBox.innerWidth - 50 ) + "px";
-        
+
+    // The address bar of the browser window gives the public address of the page
+    const previewUrl = document.getElementById( 'lutece-admin-site-preview-url' );
+    const pageUrl = new URL( previewUrl.textContent, document.baseURI );
+    previewUrl.textContent = pageUrl.host + pageUrl.pathname + pageUrl.search;
+
+    // The window fills the height left under the head of the page, the screen whole in fullscreen
     function _resizePreview( ) {
-        previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
-        previewFrame.style.width = "100%";
-        previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
-        previewIframe.style.width = "100%";
-        previewIframe.style.paddingInlineEnd = "15px";
+        if ( previewFrame.classList.contains( 'lutece-admin-maximize' ) ) {
+            previewFrame.style.height = '';
+            return;
+        }
+        const top = previewFrame.getBoundingClientRect( ).top + window.scrollY;
+        previewFrame.style.height = Math.max( window.innerHeight - top - 4, 320 ) + 'px';
     }
 
+    // The width of the chosen device, never wider than the room there is
     function _setBtnPreview( el, w ) {
         btnPreview.forEach( btn => { btn.classList.remove('active') } );
         previewFrame.style.width = w;
-        previewIframe.style.width = w - 45;
         el.classList.add('active');
-        if ( w != defaultIframeWidth ) {
-            previewFrame.classList.add( 'responsive-admin-preview' );
-        } else {
-            previewFrame.classList.remove( 'responsive-admin-preview' );
-        }
     }
 
     function _setPreviewClass( el, c ) {
-        previewFrame.classList.remove( ...previewFrame.classList ) 
-        previewFrame.classList.add( c );
+        previewFrame.dataset.device = c;
     }
 
     function reader(file, callback) {
@@ -521,6 +543,8 @@ document.addEventListener("DOMContentLoaded", function() {
     _resizePreview();
     
     window.addEventListener( "resize", _resizePreview);
+    // The page is laid out only once loaded (body.loading until then): the place of the preview is known there
+    window.addEventListener( "load", _resizePreview );
 
     document.querySelector("#display-desktop").addEventListener( "click", e => {
         e.preventDefault();
@@ -557,6 +581,7 @@ document.addEventListener("DOMContentLoaded", function() {
             previewWrapper.classList.toggle('lutece-admin-maximize')
             previewFrame.classList.toggle('lutece-admin-maximize')
             previewIframe.classList.toggle('lutece-admin-maximize')
+            _resizePreview();
         });
         btnMinimize.addEventListener('click', ( e ) => {
             document.exitFullscreen();
@@ -564,7 +589,7 @@ document.addEventListener("DOMContentLoaded", function() {
             previewWrapper.classList.toggle('lutece-admin-maximize')
             previewFrame.classList.toggle('lutece-admin-maximize')
             previewIframe.classList.toggle('lutece-admin-maximize')
-
+            _resizePreview();
         });
     } else {
         btnMaximize.remove();
