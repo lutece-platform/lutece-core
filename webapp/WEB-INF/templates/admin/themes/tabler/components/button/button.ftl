@@ -63,6 +63,8 @@ Snippet:
 </#if>
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
+<#-- A title hidden at every size stays readable by screen readers -->
+<#if hideTitle?seq_contains('all')><#local displayTitleClass = 'visually-hidden' /></#if>
 <#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
 <#local showTitleClass = '' />
 <#if style != ''>
@@ -100,7 +102,7 @@ Snippet:
 	<#local buttonSize = size />
 </#if>	
 <#if dropdownMenu><div class="dropdown"></#if>
-<button class="<#if style!='close'>btn</#if><#if dropdownMenu>-link</#if><#if buttonSize!=''> btn-${buttonSize}</#if><#if buttonColor!='' && !dropdownMenu> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> btn-action</#if><#if class!=''> ${class}</#if>" type="${type}"<#if tooltip!=''>title="${tooltip}"<#else><#if title!=''> title="${title}"</#if></#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+<button class="<#if style!='close'>btn</#if><#if dropdownMenu>-link</#if><#if buttonSize!=''> btn-${buttonSize}</#if><#if buttonColor!='' && !dropdownMenu> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> btn-action</#if><#if class!=''> ${class}</#if>" type="${type}"<#if tooltip!=''> title="${tooltip}"<#else><#if title!=''> title="${title}"</#if></#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 	<#if buttonIcon!='' && iconPosition='left'>
 		<#local buttonIcon = buttonIcon />
 		<#if buttonIcon?starts_with('<svg')>
@@ -128,7 +130,7 @@ Snippet:
 	<#local menuItems><#nested></#local>
 	<#local menuSource = menuItems?is_markup_output?then( menuItems?markup_string, menuItems ) />
 	<#local menuTag = menuSource?contains( '<li' )?then( 'ul', 'div' ) />
-	<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+	<${menuTag} class="dropdown-menu dropdown-menu-end"<#if id!=''> id="${id}-content" aria-labelledby="${id}"</#if>>
 		${menuItems}
 	</${menuTag}>
 </div>
