@@ -22,6 +22,7 @@ Parameters:
 - searchSolr (boolean, optional): If true, searches via Solr instead of the default engine. Default: false.
 - searchParams (string, optional): Additional hidden fields for the search form. Default: ''.
 - isFixed (boolean, optional): If true, the navbar is fixed at the top of the page. Default: isFixedMenu?boolean.
+- hasNavOverflow (boolean, optional): If true, the top menu stays on one line: the items that do not fit move into a More menu at its end and come back when there is room again (Priority+, after the Tabler nav overflow). Home, search, login and languages always stay visible. Without effect on the sidebar and on the collapsed menu. Default: hasMainNavOverflow?boolean.
 - hasLogin (boolean, optional): If true, displays a login button. Default: false.
 - loginClass (string, optional): CSS class for the login button. Default: ''.
 - mainClass (string, optional): CSS class for the main element. Default: ''.
@@ -48,13 +49,19 @@ Snippet:
         <@cMainNavItem title='Contact' url='jsp/site/Portal.jsp?page=contact' />
     </@cMainNav>
 
+    Navigation kept on one line, the items that do not fit in a More menu:
+
+    <@cMainNav title='City Services' hasNavOverflow=true />
+
     Fixed sidebar navigation:
 
     <@cMainNav title='Admin Portal' isSidebar=true isSibebarCollapsible=true isFixed=true hasSearchMenu=true />
 
 -->
-<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' deprecated...>
+<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasNavOverflow=(hasMainNavOverflow!'false')?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#-- The More menu of the top menu only: the sidebar is vertical, every item has its room -->
+<#local navOverflow = hasNavOverflow && !isSidebar />
 <#assign pageId><#if page_id??>${page_id!'1'}<#else>0</#if></#assign>
 <#if isSidebar>
 <#assign isMainSidebarMenu=isSidebar >
@@ -77,9 +84,9 @@ Snippet:
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{portal.theme.showmenu}" aria-controls="navbarMainMenu">
         <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{portal.theme.showmenu}</span></span>
     </button>
-    <nav class="collapse navbar-collapse text-center" aria-label="#i18n{portal.theme.mainMenu}" role="navigation" id="navbarMainMenu">
+    <nav class="collapse navbar-collapse text-center<#if navOverflow> nav-overflow</#if>" aria-label="#i18n{portal.theme.mainMenu}" role="navigation" id="navbarMainMenu"<#if navOverflow> data-bs-toggle="nav-overflow"</#if>>
         <ul class="navbar-nav w-100 align-items-center lutece-ds-tw-menu">
-            <li class="nav-item<#if pageId = '1'> active</#if>">
+            <li class="nav-item<#if navOverflow> nav-overflow-keep</#if><#if pageId = '1'> active</#if>">
                 <a class="nav-link text-capitalize" title="${title}" href="." target="_top" aria-current="<#if pageId = '1'>page<#else>false</#if>">#i18n{portal.site.page_home.label}</a>
             </li>
             <#if hasMenu>
@@ -90,6 +97,13 @@ Snippet:
             </#if>
             <#if hasNestedMenu>
             <#nested>
+            </#if>
+            <#if navOverflow>
+            <#-- The More menu: the items before it that do not fit move into it (theme-nav-overflow.js), the items after it always stay -->
+            <li class="nav-item dropdown nav-overflow-item d-none">
+                <button type="button" class="nav-link dropdown-toggle nav-overflow-toggle" data-bs-toggle="dropdown" aria-expanded="false">#i18n{portal.theme.labelMore}</button>
+                <ul class="dropdown-menu dropdown-menu-end nav-overflow-menu overflow-auto" style="max-height:70vh"></ul>
+            </li>
             </#if>
             <#if hasMenu && hasSearchMenu && typeSearch='icon'>
                 <@cMainNavItem title='' class='ms-md-auto ' url=searchUrl >
@@ -129,6 +143,9 @@ Snippet:
     </nav>
 </div>
 </div>
+<#if navOverflow>
+<script src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-nav-overflow.min.js"></script>
+</#if>
 <#if isSidebar>
 <#assign menu=page_main_menu!>
 <div id="sidebar-brand">

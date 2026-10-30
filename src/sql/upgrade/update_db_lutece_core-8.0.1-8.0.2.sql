@@ -316,3 +316,9 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.shortcuts.check
 -- comment LUT-33316 : The site property that asks the consent for every service, exempted ones included (on by default)
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.consent.alwaysNeedConsent.checkbox'
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.alwaysNeedConsent.checkbox', '1');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev35.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The site property that keeps the main menu on one line, the items that do not fit moving into a More menu (off by default)
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.navOverflow.checkbox'
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.navOverflow.checkbox', '0');

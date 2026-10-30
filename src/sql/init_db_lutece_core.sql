@@ -312,6 +312,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoRe
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.link.showTargetIcon.checkbox', '1');
 
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.fixedMenu.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.navOverflow.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.gototop.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.hasDefaultMenu.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.sidebarMenu.checkbox', '0');
