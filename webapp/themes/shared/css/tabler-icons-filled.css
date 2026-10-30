@@ -1,12 +1,12 @@
 /*!
- * Tabler Icons 3.49.0 by tabler - https://tabler.io
+ * Tabler Icons 3.50.0 by tabler - https://tabler.io
  * License - https://github.com/tabler/tabler-icons/blob/main/LICENSE
  */
 @font-face {
   font-family: "tabler-icons-filled";
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/tabler-icons-filled.woff2?v3.49.0") format("woff2"), url("./fonts/tabler-icons-filled.woff?") format("woff"), url("./fonts/tabler-icons-filled.ttf?v3.49.0") format("truetype");
+  src: url("./fonts/tabler-icons-filled.woff2?v3.50.0") format("woff2"), url("./fonts/tabler-icons-filled.woff?") format("woff"), url("./fonts/tabler-icons-filled.ttf?v3.50.0") format("truetype");
 }
 .ti {
   font-family: "tabler-icons-filled" !important;

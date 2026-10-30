@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*!
- * Tabler Icons 3.49.0 by tabler - https://tabler.io
+ * Tabler Icons 3.50.0 by tabler - https://tabler.io
  * License - https://github.com/tabler/tabler-icons/blob/main/LICENSE
  */
 @use "sass:string";
@@ -9,15 +9,37 @@ $ti-font-family: 'tabler-icons-filled' !default;
 $ti-font-path: './fonts' !default;
 $ti-font-display: null !default;
 $ti-prefix: 'ti' !default;
+// Load the font in chunks (popular icons + one per category) that the browser
+// downloads only for the icons shown on the page. Set to false to load a single file.
+$ti-font-split: false !default;
 
-@font-face {
-  font-family: $ti-font-family;
-  font-style: normal;
-  font-weight: 400;
-  font-display: $ti-font-display;
-  src: url('#{$ti-font-path}/tabler-icons-filled.woff2?v3.49.0') format('woff2'),
-    url('#{$ti-font-path}/tabler-icons-filled.woff?') format('woff'),
-    url('#{$ti-font-path}/tabler-icons-filled.ttf?v3.49.0') format('truetype');
+@if $ti-font-split {
+  @font-face {
+    font-family: $ti-font-family;
+    font-style: normal;
+    font-weight: 400;
+    font-display: $ti-font-display;
+    src: url('#{$ti-font-path}/tabler-icons-filled.core.woff2?h032f3223') format('woff2');
+    unicode-range: U+EE80, U+F357, U+F669-F66A, U+F671, U+F673, U+F679-F67A, U+F67C, U+F680, U+F684, U+F689, U+F68D, U+F690-F691, U+F695, U+F698-F699, U+F69E-F69F, U+F6A6, U+F6A9, U+F6AB, U+F6AF, U+F6D8-F6D9, U+F6DF, U+F6EC-F6EE, U+F6F0-F6F1, U+F704, U+F71A, U+F71C, U+F725, U+F739-F73A, U+F73D, U+F746-F747, U+F749, U+F761, U+F763, U+F76D, U+F782-F784, U+F787, U+F7DA, U+F7E0, U+F7E6-F7E7, U+F7EA, U+F7F8, U+FA36-FA37, U+FA39, U+FA3C-FA3D, U+FA47-FA4B, U+FA82, U+FA87-FA88, U+FB26-FB27, U+FB2A, U+FB2E, U+FB30, U+FC21-FC22, U+FC27, U+FC3B-FC3C, U+FC3F-FC40, U+FD00, U+FD08, U+FD10-FD11, U+FD14, U+FD19-FD1A, U+FD74, U+FDC9, U+FDD3, U+FE0F, U+FE15, U+FE18, U+FE1C, U+FE1F, U+FE28, U+FE5F-FE60, U+FE80, U+FE84, U+FE8F, U+FECD, U+FECF-FED0, U+FEF9, U+FF02, U+FF06, U+FF62, U+10006, U+10019, U+10021, U+1004A, U+1004C, U+1006B, U+10085, U+10092, U+10094, U+1009B-1009D, U+1009F, U+100B7-100B9, U+100C6, U+100CE, U+100E9-100EA, U+100F3, U+10108, U+10114, U+1011B, U+1011E, U+10125, U+1012A, U+1012E, U+10190, U+10192, U+101B2-101B3, U+101B5-101B6, U+101C0, U+101C2-101C4, U+101C6-101E7, U+102B3;
+  }
+  @font-face {
+    font-family: $ti-font-family;
+    font-style: normal;
+    font-weight: 400;
+    font-display: $ti-font-display;
+    src: url('#{$ti-font-path}/tabler-icons-filled.rest.woff2?hb71d595a') format('woff2');
+    unicode-range: U+F667-F668, U+F66B-F670, U+F672, U+F674-F676, U+F678, U+F67B, U+F67D-F67F, U+F681, U+F683, U+F685-F688, U+F68A-F68C, U+F68E-F68F, U+F692-F694, U+F696-F697, U+F69A-F69D, U+F6A0-F6A5, U+F6A7-F6A8, U+F6AA, U+F6AC-F6AE, U+F6B0-F6B2, U+F6C5-F6D1, U+F6DA-F6DE, U+F6E0-F6EB, U+F6EF, U+F6F2, U+F6F4-F6F5, U+F6F7, U+F6FA, U+F6FC, U+F6FE-F6FF, U+F701, U+F705-F719, U+F71B, U+F71D-F724, U+F726-F738, U+F73B-F73C, U+F73E-F745, U+F748, U+F74A-F760, U+F762, U+F764-F76C, U+F76E-F781, U+F785-F786, U+F788-F78A, U+F7D3-F7D9, U+F7DB-F7DF, U+F7E1-F7E2, U+F7E4-F7E5, U+F7E9, U+F7EB, U+F7F2-F7F7, U+F7F9-F7FA, U+FA34-FA35, U+FA38, U+FA3A-FA3B, U+FA3E-FA46, U+FA83-FA86, U+FA89-FA93, U+FB1F-FB25, U+FB28-FB29, U+FB2B-FB2D, U+FB2F, U+FB31-FB42, U+FB6C, U+FC23-FC26, U+FC28-FC3A, U+FC3D-FC3E, U+FCFF, U+FD01-FD07, U+FD09-FD0C, U+FD0E-FD0F, U+FD12-FD13, U+FD15, U+FD18, U+FDBF-FDC8, U+FDCA-FDD2, U+FDD4-FE0E, U+FE10-FE14, U+FE16-FE17, U+FE19-FE1B, U+FE1D-FE1E, U+FE20-FE27, U+FE29-FE2A, U+FE2C-FE5E, U+FE61-FE7F, U+FE81-FE83, U+FE85-FE8E, U+FE90-FE9F, U+FEB1, U+FEBF-FEC3, U+FEC7-FECC, U+FECE, U+FED1-FED5, U+FF01, U+FF03-FF05, U+FF07-FF0B, U+FF41, U+FF53-FF61, U+FF63-FF65, U+10007-10018, U+1001A-10020, U+10022-10049, U+1004B, U+1004D, U+1006C-10071, U+10075-10084, U+10086-10091, U+10093, U+10095, U+1009A, U+1009E, U+100A0-100A7, U+100BE-100C5, U+100C7-100CD, U+100CF-100DD, U+100E8, U+100EB-100EF, U+100F4-10107, U+10109-10113, U+10115-1011A, U+1011C-1011D, U+1011F-10124, U+10126-10129, U+1012B-1012D, U+1012F-10137, U+10165-10189, U+1018B-1018F, U+10191, U+10193-1019C, U+101B4, U+101B7-101BF, U+101C1, U+101C5, U+1027B;
+  }
+} @else {
+  @font-face {
+    font-family: $ti-font-family;
+    font-style: normal;
+    font-weight: 400;
+    font-display: $ti-font-display;
+    src: url('#{$ti-font-path}/tabler-icons-filled.woff2?v3.50.0') format('woff2'),
+      url('#{$ti-font-path}/tabler-icons-filled.woff?') format('woff'),
+      url('#{$ti-font-path}/tabler-icons-filled.ttf?v3.50.0') format('truetype');
+  }
 }
 
 .#{$ti-prefix} {

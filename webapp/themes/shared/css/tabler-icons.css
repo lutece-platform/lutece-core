@@ -1,12 +1,12 @@
 /*!
- * Tabler Icons 3.49.0 by tabler - https://tabler.io
+ * Tabler Icons 3.50.0 by tabler - https://tabler.io
  * License - https://github.com/tabler/tabler-icons/blob/main/LICENSE
  */
 @font-face {
   font-family: "tabler-icons";
   font-style: normal;
   font-weight: 400;
-  src: url("./fonts/tabler-icons.woff2?v3.49.0") format("woff2"), url("./fonts/tabler-icons.woff?") format("woff"), url("./fonts/tabler-icons.ttf?v3.49.0") format("truetype");
+  src: url("./fonts/tabler-icons.woff2?v3.50.0") format("woff2"), url("./fonts/tabler-icons.woff?") format("woff"), url("./fonts/tabler-icons.ttf?v3.50.0") format("truetype");
 }
 .ti {
   font-family: "tabler-icons" !important;
@@ -635,6 +635,10 @@
 
 .ti-archive-off:before {
   content: "\f0ad";
+}
+
+.ti-archive-restore:before {
+  content: "\102d8";
 }
 
 .ti-armchair:before {
@@ -1937,6 +1941,10 @@
   content: "\ef3d";
 }
 
+.ti-beach-bag:before {
+  content: "\102d7";
+}
+
 .ti-beach-off:before {
   content: "\f0b7";
 }
@@ -2227,6 +2235,10 @@
 
 .ti-book-2:before {
   content: "\efc5";
+}
+
+.ti-book-clone:before {
+  content: "\102d6";
 }
 
 .ti-book-download:before {
@@ -3373,6 +3385,10 @@
   content: "\f602";
 }
 
+.ti-brand-misskey:before {
+  content: "\102d5";
+}
+
 .ti-brand-mixpanel:before {
   content: "\f397";
 }
@@ -3903,6 +3919,10 @@
 
 .ti-brand-vercel:before {
   content: "\ef24";
+}
+
+.ti-brand-viber:before {
+  content: "\102d4";
 }
 
 .ti-brand-vimeo:before {
@@ -7397,6 +7417,10 @@
   content: "\101ac";
 }
 
+.ti-decagram:before {
+  content: "\102d3";
+}
+
 .ti-decimal:before {
   content: "\fa26";
 }
@@ -10293,6 +10317,10 @@
   content: "\eab5";
 }
 
+.ti-git-merge-ai:before {
+  content: "\102d2";
+}
+
 .ti-git-merge-queue:before {
   content: "\102ad";
 }
@@ -10305,6 +10333,10 @@
   content: "\ef7f";
 }
 
+.ti-git-pull-request-closed-ai:before {
+  content: "\102d1";
+}
+
 .ti-git-pull-request-conflict:before {
   content: "\10264";
 }
@@ -10313,8 +10345,16 @@
   content: "\efb7";
 }
 
+.ti-git-pull-request-draft-ai:before {
+  content: "\102d0";
+}
+
 .ti-git-pull-request-locked:before {
   content: "\102ac";
+}
+
+.ti-git-pull-request-locked-ai:before {
+  content: "\102cf";
 }
 
 .ti-git-pull-request-unlisted:before {
@@ -12609,6 +12649,10 @@
   content: "\f157";
 }
 
+.ti-loop:before {
+  content: "\102ce";
+}
+
 .ti-luggage:before {
   content: "\efad";
 }
@@ -12937,6 +12981,10 @@
   content: "\ed5e";
 }
 
+.ti-map-pins-off:before {
+  content: "\102cd";
+}
+
 .ti-map-plus:before {
   content: "\fbcf";
 }
@@ -13191,6 +13239,10 @@
 
 .ti-maximize-off:before {
   content: "\f15f";
+}
+
+.ti-mcp:before {
+  content: "\102cc";
 }
 
 .ti-meat:before {
@@ -14861,6 +14913,10 @@
   content: "\eb97";
 }
 
+.ti-opacity:before {
+  content: "\102cb";
+}
+
 .ti-option:before {
   content: "\1019f";
 }
@@ -15107,6 +15163,10 @@
 
 .ti-pencil-question:before {
   content: "\fc09";
+}
+
+.ti-pencil-ruler:before {
+  content: "\102ca";
 }
 
 .ti-pencil-search:before {
@@ -17671,6 +17731,10 @@
 
 .ti-smoking-no:before {
   content: "\ecc3";
+}
+
+.ti-snail:before {
+  content: "\102c9";
 }
 
 .ti-snowboarding:before {
@@ -20329,6 +20393,10 @@
   content: "\ecd5";
 }
 
+.ti-waveform:before {
+  content: "\102c6";
+}
+
 .ti-waves-electricity:before {
   content: "\fcc5";
 }
@@ -20503,6 +20571,10 @@
 
 .ti-world-map:before {
   content: "\101e9";
+}
+
+.ti-world-map-off:before {
+  content: "\102c8";
 }
 
 .ti-world-minus:before {
@@ -20747,6 +20819,10 @@
 
 .ti-zoom-scan:before {
   content: "\fcb0";
+}
+
+.ti-zsh:before {
+  content: "\102c7";
 }
 
 .ti-zzz:before {
