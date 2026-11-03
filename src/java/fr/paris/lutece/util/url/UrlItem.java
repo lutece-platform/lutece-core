@@ -57,14 +57,24 @@ public class UrlItem implements Serializable
     private String _strAnchor;
 
     /**
-     * Constructs an url with no parameters.
+     * Constructs an url with no parameters. If the root contains an anchor, the part after the first anchor delimiter becomes the anchor of the url.
      * 
      * @param strRoot
      *            The url's root.
      */
     public UrlItem( String strRoot )
     {
-        _strRoot = strRoot;
+        int nAnchorIndex = ( strRoot != null ) ? strRoot.indexOf( ANCHOR_DELIMITER ) : -1;
+
+        if ( nAnchorIndex == -1 )
+        {
+            _strRoot = strRoot;
+        }
+        else
+        {
+            _strRoot = strRoot.substring( 0, nAnchorIndex );
+            _strAnchor = strRoot.substring( nAnchorIndex + ANCHOR_DELIMITER.length( ) );
+        }
     }
 
     /**
