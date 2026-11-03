@@ -94,4 +94,35 @@ public class UrlItemTest extends LuteceTestCase
         url.setAnchor( "bar" );
         assertEquals( "http://myhost/mypage.jsp?param=value#bar", url.getUrl( ) );
     }
+
+    /**
+     * Test of addParameter method on a root that already contains an anchor, of class fr.paris.lutece.util.url.UrlItem.
+     */
+	@Test
+    public void testAnchorInRoot( )
+    {
+        String strName = "p";
+        String strValue = "v";
+
+        UrlItem url = new UrlItem( "page.jsp?#a" );
+        url.addParameter( strName, strValue );
+        assertEquals( "page.jsp?&p=v#a", url.getUrl( ) );
+
+        url = new UrlItem( "page.jsp?x=1#a" );
+        url.addParameter( strName, strValue );
+        assertEquals( "page.jsp?x=1&p=v#a", url.getUrl( ) );
+
+        url = new UrlItem( "page.jsp#a" );
+        url.addParameter( strName, strValue );
+        assertEquals( "page.jsp?p=v#a", url.getUrl( ) );
+
+        url = new UrlItem( "page.jsp?#a" );
+        assertEquals( "page.jsp?#a", url.getUrl( ) );
+        assertEquals( "a", url.getAnchor( ) );
+
+        url = new UrlItem( "page.jsp?x=1#a" );
+        url.addParameter( strName, strValue );
+        url.addParameter( "q", "w" );
+        assertEquals( "page.jsp?x=1&#38;p=v&#38;q=w#a", url.getUrlWithEntity( ) );
+    }
 }
