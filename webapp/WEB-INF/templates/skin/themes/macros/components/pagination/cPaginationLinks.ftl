@@ -76,25 +76,27 @@ Snippet:
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<li class="page-item">
-		<a class="page-link" href="${paginator.previousPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{portal.theme.labelPrev}">
-			<svg xmlns="http://www.w3.org/2000/svg" width="9.638" height="15.153" viewBox="0 0 9.638 15.153">
+		<a class="page-link" href="${paginator.previousPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>">
+			<svg xmlns="http://www.w3.org/2000/svg" width="9.638" height="15.153" viewBox="0 0 9.638 15.153" aria-hidden="true" focusable="false">
 				<g transform="translate(8.279 13.676) rotate(180)">
 					<g transform="translate(0 0)">
 						<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>
 					</g>
 				</g>
 			</svg>
+			<span class="visually-hidden">#i18n{portal.theme.labelPreviousPage}</span>
 		</a>
 	</li>
 <#else>
 	<li class="page-item disabled">
-		<a class="page-link" href="${paginator.firstPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="${paginator.labelFirst}" tabindex="-1" aria-disabled="true">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153">
+		<span class="page-link">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153" aria-hidden="true" focusable="false">
 				<g transform="translate(8.279 13.676) rotate(180)">
 					<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>
 				</g>
 			</svg>
-		</a>
+			<span class="visually-hidden">#i18n{portal.theme.labelPreviousPage}, #i18n{portal.theme.labelPageUnavailable}</span>
+		</span>
 	</li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
@@ -104,7 +106,7 @@ Snippet:
 </#if>
 <#list paginator.pagesLinks as link>
 	<#if ( link.index == paginator.pageCurrent )>
-		<li class="page-item active" disabled aria-current="page" >
+		<li class="page-item active" aria-current="page">
 			<span class="page-link" title="page ${link.name} sur ${paginator.pagesCount}">${link.name}</span>
 		</li>
 	<#else>
@@ -122,12 +124,13 @@ Snippet:
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<li class="page-item">
-		<a class="page-link" href="${paginator.nextPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{portal.theme.labelNext}">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153">
+		<a class="page-link" href="${paginator.nextPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153" aria-hidden="true" focusable="false">
 				<g transform="translate(1.359 1.477)">
 					<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>
 				</g>
 			</svg>
+			<span class="visually-hidden">#i18n{portal.theme.labelNextPage}</span>
 		</a>
 	</li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount) >
@@ -139,14 +142,14 @@ Snippet:
 	</#if>
 <#else>
 	<li class="page-item disabled">
-		<a class="page-link" href="${paginator.lastPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="${paginator.labelLast}" tabindex="-1" aria-disabled="true">
-			${paginator.labelLast}
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153">
+		<span class="page-link">
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153" aria-hidden="true" focusable="false">
 				<g transform="translate(1.359 1.477)">
 					<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>
 				</g>
 			</svg>
-		</a>
+			<span class="visually-hidden">#i18n{portal.theme.labelNextPage}, #i18n{portal.theme.labelPageUnavailable}</span>
+		</span>
 	</li>
 </#if>
 </ul>
