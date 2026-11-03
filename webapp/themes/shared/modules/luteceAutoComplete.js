@@ -278,7 +278,8 @@ class LuteceAutoComplete extends EventTarget {
       this.dropdown.style.display = 'block';
       this.dropdown.classList.remove('d-none');
     } else {
-      this.ariaLive.textContent = `${this.resultList.childElementCount} résultats disponibles`;
+      const count = this.resultList.childElementCount;
+      this.ariaLive.textContent = count === 1 ? '1 résultat disponible' : `${count} résultats disponibles`;
       this.showDropdown();
     }
   }
