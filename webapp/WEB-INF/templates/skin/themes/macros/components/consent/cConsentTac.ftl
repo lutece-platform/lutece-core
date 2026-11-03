@@ -148,12 +148,67 @@ function cleanTarteaucitronRoot() {
   }
 </#if>
 
+// Consent panel accessibility: category titles are headings followed by their description, always displayed
+// (instead of a button opening a tooltip), services are headings under their category, empty line breaks are removed
+function tacTitleToHeading(title) {
+  const heading = document.createElement('h3');
+  heading.className = 'tarteaucitronH3';
+  heading.textContent = title.textContent.trim();
+  title.removeAttribute('role');
+  title.removeAttribute('aria-level');
+  title.replaceChildren(heading);
+}
+
+function tacToParagraph(element) {
+  const paragraph = document.createElement('p');
+  paragraph.innerHTML = element.innerHTML.trim();
+  element.replaceWith(paragraph);
+}
+
+function tacRemoveEmptyBr(root) {
+  root.querySelectorAll('br').forEach(function(br) {
+    let prev = br.previousSibling;
+    while (prev && prev.nodeType === Node.TEXT_NODE && prev.textContent.trim() === '') {
+      prev = prev.previousSibling;
+    }
+    let next = br.nextSibling;
+    while (next && next.nodeType === Node.TEXT_NODE && next.textContent.trim() === '') {
+      next = next.nextSibling;
+    }
+    if (!prev || !next || prev.nodeName === 'BR' || (prev.nodeType === Node.ELEMENT_NODE && prev.textContent.trim() === '')) {
+      br.remove();
+    }
+  });
+}
+
+function tacUpdatePanel() {
+  const services = document.getElementById('tarteaucitronServices');
+  if (!services) {
+    return;
+  }
+  services.querySelectorAll("[id^='tarteaucitronServicesTitle_'] > .tarteaucitronTitle").forEach(function(title) {
+    if (!title.querySelector('h3')) {
+      tacTitleToHeading(title);
+    }
+  });
+  services.querySelectorAll("[id^='tarteaucitronServicesTitle_'] > .tarteaucitronDetails").forEach(tacToParagraph);
+  services.querySelectorAll("#tarteaucitronServices_mandatory .tarteaucitronName > [role='heading']").forEach(tacToParagraph);
+  services.querySelectorAll(".tarteaucitronLine [role='heading'][aria-level='3']").forEach(function(heading) {
+    heading.setAttribute('aria-level', '4');
+  });
+  tacRemoveEmptyBr(document.getElementById('tarteaucitron') || services);
+}
+
+window.addEventListener('tac.root_available', tacUpdatePanel);
+window.addEventListener('tac.open_panel', tacUpdatePanel);
+
 document.addEventListener('DOMContentLoaded', function() {
   // Wait for tarteaucitron to be loaded
   function waitForTarteaucitron() {
     if (typeof tarteaucitron !== 'undefined') {
         <#if alertConfidentialityLink !=''>addPrivacyLink();</#if>
         cleanTarteaucitronRoot();
+        tacUpdatePanel();
     } else {
       setTimeout( waitForTarteaucitron, 50);
     }
