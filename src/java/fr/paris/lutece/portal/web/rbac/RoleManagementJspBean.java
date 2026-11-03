@@ -918,6 +918,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         RBACRole role = RBACRoleHome.findByPrimaryKey( strRoleKey );
 
+        if ( role == null )
+        {
+            return getManageRoles( request );
+        }
+
         // ASSIGNED USERS
         List<AdminUser> listAssignedUsers = AdminUserHome.findByRole( strRoleKey ).stream( ).filter( this::isUserHigherThanConnectedUser )
                 .collect( Collectors.toList( ) );
