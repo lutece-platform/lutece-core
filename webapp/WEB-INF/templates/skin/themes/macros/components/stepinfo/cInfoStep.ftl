@@ -95,6 +95,7 @@ Parameters:
 - haspicto (boolean, optional): Whether to display step pictogram images. Default: false.
 - verticalStepper (boolean, optional): Whether to display the stepper vertically. Default: false.
 - title (boolean, optional): Whether to display step titles with heading style. Default: false.
+- titleLevel (number, optional): Heading level of the step titles. 0 renders the title as a paragraph and not a heading. Default: 3. The <p> and <strong> tags of the title value are removed to avoid nested paragraphs.
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - imgClass (string, optional): CSS class for pictogram images. Default: ''.
@@ -168,10 +169,11 @@ Snippet:
                         </#if>
                     </#if>
                     <#if title>
+                        <#local stepTitle=step.title!?replace(r'</?(p|strong)(\s[^>]*)?>', '', 'r')?trim />
                         <#if titleLevel gt 0>
-                            <@cTitle level=titleLevel class='c-info-step__title'>${step.title!}</@cTitle>
+                            <@cTitle level=titleLevel class='c-info-step__title'>${stepTitle}</@cTitle>
                         <#else>
-                            <@cText class='c-info-step__title'>${step.title!}</@cText>
+                            <@cText class='c-info-step__title'>${stepTitle}</@cText>
                         </#if>    
                         <#if step.content??>
                             <@cText class="c-info-step__desc mb-0 infostep-more">${content!}</@cText>
