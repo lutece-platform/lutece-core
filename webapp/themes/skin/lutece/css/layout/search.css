@@ -486,3 +486,15 @@
 	width: 48px;
 	height: 48px;
 }
+
+/* ============ NO RESULT ============ */
+.search-empty .search-empty__filters {
+	margin-block: var(--lutece-ds-sp-sm, 16px);
+}
+
+.search-empty .search-empty__tips {
+	display: inline-block;
+	text-align: start;
+	margin-block: var(--lutece-ds-sp-sm, 16px) 0;
+	padding-inline-start: 1.25em;
+}
