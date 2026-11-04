@@ -40,6 +40,7 @@ import org.apache.lucene.document.Document;
 import java.io.IOException;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Interface of pluggable indexer. An Indexer can add documents to the main Lucene index.
@@ -108,6 +109,25 @@ public interface SearchIndexer
      * @return The list
      */
     List<String> getListType( );
+
+    /**
+     * Returns the label shown to the user for one of the {@link #getListType() types} of this indexer (search filter, badge of the results). The type
+     * itself stays the value stored in the index and used to filter.
+     * <p>
+     * By default the label is read from the key <code>portal.search.type.&lt;type&gt;</code> (see {@link SearchService#getDefaultTypeLabel(String, Locale)}),
+     * which a site can define in its i18n override files; an indexer can override this method to use the keys of its own plugin.
+     * </p>
+     * 
+     * @param strType
+     *            the type, one of {@link #getListType()}
+     * @param locale
+     *            the locale of the label
+     * @return the label of the type, never null
+     */
+    default String getTypeLabel( String strType, Locale locale )
+    {
+        return SearchService.getDefaultTypeLabel( strType, locale );
+    }
 
     /**
      * Returns the search app dedicated to the documents indexed by the service
