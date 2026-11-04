@@ -35,12 +35,18 @@ package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang3.StringUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -55,6 +61,11 @@ public final class SearchService
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_TYPE = "type";
     private static final String MARK_LINK = "link";
+    private static final String MARK_LABEL = "label";
+    private static final String PREFIX_TYPE_LABEL_KEY = "portal.search.type.";
+
+    // Labels of the types already resolved, by locale and type: a key no bundle answers is logged as a warning on each lookup
+    private static final Map<String, String> _mapTypeLabels = new ConcurrentHashMap<>( );
 
     /**
      * Instantiates a new search service.
@@ -89,6 +100,18 @@ public final class SearchService
      */
     public static List<Map<String, Object>> getSearchTypesAndLinks( )
     {
+        return getSearchTypesAndLinks( I18nService.getDefaultLocale( ) );
+    }
+
+    /**
+     * Find types managed by each registered indexer, their label and the link to their specific search page
+     * 
+     * @param locale
+     *            the locale of the labels
+     * @return the model for this list of types, labels and links
+     */
+    public static List<Map<String, Object>> getSearchTypesAndLinks( Locale locale )
+    {
         List<Map<String, Object>> listTypesAndLinks = new ArrayList<>( );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPE, TYPE_FILTER_NONE );
@@ -105,11 +128,70 @@ public final class SearchService
             {
                 model = new HashMap<>( );
                 model.put( MARK_TYPE, strType );
+                model.put( MARK_LABEL, indexer.getTypeLabel( strType, locale ) );
                 model.put( MARK_LINK, strLink );
                 listTypesAndLinks.add( model );
             }
         }
 
         return listTypesAndLinks;
+    }
+
+    /**
+     * Labels of the types of every registered indexer, to show the type of a search result
+     * 
+     * @param locale
+     *            the locale of the labels
+     * @return the labels by type, in the order of the indexers
+     */
+    public static Map<String, String> getSearchTypeLabels( Locale locale )
+    {
+        Map<String, String> mapLabels = new LinkedHashMap<>( );
+
+        for ( SearchIndexer indexer : IndexationService.getIndexers( ) )
+        {
+            for ( String strType : indexer.getListType( ) )
+            {
+                mapLabels.putIfAbsent( strType, indexer.getTypeLabel( strType, locale ) );
+            }
+        }
+
+        return mapLabels;
+    }
+
+    /**
+     * Default label of a search type: the key <code>portal.search.type.&lt;type&gt;</code>, the type lower-cased and every character other than a
+     * letter or a digit replaced by an underscore (e.g. <code>portal.search.type.page</code>). When no bundle answers, the type itself with its first
+     * letter capitalized.
+     * 
+     * @param strType
+     *            the type
+     * @param locale
+     *            the locale of the label
+     * @return the label of the type, never null
+     */
+    public static String getDefaultTypeLabel( String strType, Locale locale )
+    {
+        if ( StringUtils.isBlank( strType ) )
+        {
+            return StringUtils.defaultString( strType );
+        }
+
+        Locale theLocale = ( locale != null ) ? locale : I18nService.getDefaultLocale( );
+
+        return _mapTypeLabels.computeIfAbsent( theLocale + "|" + strType, k -> {
+            String strKey = PREFIX_TYPE_LABEL_KEY + strType.toLowerCase( Locale.ROOT ).replaceAll( "[^a-z0-9]+", "_" );
+            String strLabel = I18nService.getLocalizedString( strKey, theLocale );
+
+            return StringUtils.isNotBlank( strLabel ) ? strLabel : StringUtils.capitalize( strType );
+        } );
+    }
+
+    /**
+     * Forget the labels of the types already resolved, e.g. after a change of the i18n bundles
+     */
+    public static void resetTypeLabels( )
+    {
+        _mapTypeLabels.clear( );
     }
 }

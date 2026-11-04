@@ -127,6 +127,7 @@ public class SearchApp implements XPageApplication
     private static final String MARK_DATE_AFTER_VALUE = "date_after_value";
     private static final String MARK_DATE_BEFORE_VALUE = "date_before_value";
     private static final String MARK_SELECTED_TAG = "selected_tag";
+    private static final String MARK_TYPE_LABELS = "type_labels";
     private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
     private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
@@ -273,7 +274,8 @@ public class SearchApp implements XPageApplication
             model.put( MARK_SPONSOREDLINKS_SET, _sponsoredLinksService.get( ).getHtmlCode( strQuery, locale ) );
         }
 
-        model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( ) );
+        model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( locale ) );
+        model.put( MARK_TYPE_LABELS, SearchService.getSearchTypeLabels( locale ) );
         model.put( MARK_DATE_PICKER_FORMAT, getDatePickerFormat( locale ) );
 
         // Re-expose the submitted filters so the form reflects the current selection after a search

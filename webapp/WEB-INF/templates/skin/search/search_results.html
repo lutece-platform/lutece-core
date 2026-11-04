@@ -58,14 +58,14 @@
                     <#if type_filter == "option">
                         <@cSelect id='type_filter' name='type_filter'>
                             <#list list_type_and_link as map>
-                                <#assign optLabel><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                                <#assign optLabel><#if map_index != 0>${map.label!map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
                                 <@cOption value=map.type! label=optLabel selected=(selected_types![])?seq_contains(map.type) />
                             </#list>
                         </@cSelect>
                     <#else>
                         <#list list_type_and_link as map>
                             <#if type_filter != "checkbox" || map_index != 0>
-                            <#assign tfLabel><#if map_index != 0>${map.type?lower_case?capitalize}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                            <#assign tfLabel><#if map_index != 0>${map.label!map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
                             <@cFormCheck type=type_filter! name='type_filter' value=map.type! labelClass='filter-check' checked=(selected_types![])?seq_contains(map.type) label=tfLabel />
                             </#if>
                         </#list>
@@ -157,7 +157,7 @@
                                 </@cBlock>
                                 <@cBlock>
                                     <@cBlock class='result-card__meta'>
-                                        <@cInline class='badge'>${result.type!}</@cInline>
+                                        <@cInline class='badge'>${( type_labels[ result.type! ] )!result.type!}</@cInline>
                                         <@cInline type='small' class='mx-3'>${(result.date?date?string.short)!}</@cInline>
                                     </@cBlock>
                                     <@cTitle level=2 class='result-card__title'>${resultTitle}</@cTitle>
