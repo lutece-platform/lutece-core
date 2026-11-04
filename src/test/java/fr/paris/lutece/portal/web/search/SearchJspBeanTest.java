@@ -138,6 +138,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_HELP_MESSAGE, strHelpMessage );
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
+        String strTagList = getRandomName( ) + " " + getRandomName( );
+        request.addParameter( PARAMETER_TAGLIST, "  " + strTagList.replace( " ", "   " ) + " " );
         AdminUser user = new AdminUser( );
         Map<String, RBACRole> roles = new HashMap<>( );
         for ( RBACRole role : RBACRoleHome.findAll( ) )
@@ -167,6 +169,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         assertEquals( strHelpMessage, SearchParameterHome.findByKey( PARAMETER_HELP_MESSAGE ).getName( ) );
         assertEquals( strDateFilter, SearchParameterHome.findByKey( PARAMETER_DATE_FILTER ).getName( ) );
         assertEquals( strTagFilter, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
+        // the tag list is saved with its spaces normalized
+        assertEquals( strTagList, SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) );
     }
     @Test
     public void testDoModifyAdvancedParametersInvalidToken( ) throws AccessDeniedException

@@ -43,6 +43,10 @@
                 </@formGroup> 
             </@columns>
         </@row>
+        <!-- TAG LIST: the tags offered by the tag cloud of the search page -->
+        <@formGroup labelFor='taglist' labelKey='${i18n("portal.search.advanced_parameters.taglist.label")}' helpKey='${i18n("portal.search.advanced_parameters.taglist.help")}'>
+            <@input type='text' name='taglist' id='taglist' value=taglist!'' />
+        </@formGroup>
         <!-- HELP MESSAGE -->
         <@formGroup labelFor='help_message' labelKey='${i18n("portal.search.advanced_parameters.helpMessage.label")}'>
             <@input type='textarea' name='help_message' id='help_message' value=help_message!'' />

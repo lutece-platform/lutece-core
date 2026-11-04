@@ -133,6 +133,11 @@
 	align-items: start;
 }
 
+/* No filter enabled in the back office: no filter panel, the results take the whole width */
+.layout:not(:has(> .filter-panel)) {
+	grid-template-columns: 1fr;
+}
+
 /* Filters */
 .filter-panel {
 	background: var(--lutece-ds-surface);

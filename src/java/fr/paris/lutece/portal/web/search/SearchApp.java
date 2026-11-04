@@ -126,6 +126,7 @@ public class SearchApp implements XPageApplication
     private static final String MARK_SELECTED_DATE_PRESET = "selected_datefilter";
     private static final String MARK_DATE_AFTER_VALUE = "date_after_value";
     private static final String MARK_DATE_BEFORE_VALUE = "date_before_value";
+    private static final String MARK_SELECTED_TAG = "selected_tag";
     private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
     private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
@@ -280,6 +281,10 @@ public class SearchApp implements XPageApplication
         model.put( MARK_SELECTED_DATE_PRESET, StringUtils.defaultString( request.getParameter( PARAMETER_DATE_FILTER_PRESET ) ) );
         model.put( MARK_DATE_AFTER_VALUE, toDatePickerInitValue( request.getParameter( PARAMETER_DATE_AFTER ), locale ) );
         model.put( MARK_DATE_BEFORE_VALUE, toDatePickerInitValue( request.getParameter( PARAMETER_DATE_BEFORE ), locale ) );
+        // The tag searched from the tag cloud: the query is emptied above, and tag_filter holds the back office setting.
+        // Printed by the template: same XSS check as the query
+        boolean bValidTag = ( strTagFilter != null ) && !SecurityUtil.containsXssCharacters( request, strTagFilter );
+        model.put( MARK_SELECTED_TAG, bValidTag ? strTagFilter : "" );
 
         model.putAll( SearchParameterHome.findAll( ) );
 
