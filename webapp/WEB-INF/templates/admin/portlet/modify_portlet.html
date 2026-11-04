@@ -13,7 +13,7 @@
 <#if large_checked?has_content><input type="hidden" name="display_on_large_device" value="1"></#if>
 <#if xlarge_checked?has_content><input type="hidden" name="display_on_xlarge_device" value="1"></#if>
 <@box class='manage-portlet'>
-	<@boxHeader title='${portletType.name}' titleAuto=false>
+	<@boxHeader title='${portletType.name}' class='py-1' titleAuto=false>
 	<#-- The status is saved at once by the switch, apart from the form: the switch has no name, the form does not send it -->
 	<#assign portletPublished = ( portlet.status == portlet_status_published ) />
 	<div id="portlet-status" class="portlet-status d-flex align-items-center gap-2 ms-3" data-portlet-id="${portlet.id}" data-status-published="${portlet_status_published}" data-status-unpublished="${portlet_status_unpublished}" data-token="${status_token!}" data-label-published="#i18n{portal.site.modify_portlet.statusPublished}" data-label-unpublished="#i18n{portal.site.modify_portlet.statusUnpublished}" data-error-message="#i18n{portal.site.modify_portlet.messageStatusError}">
