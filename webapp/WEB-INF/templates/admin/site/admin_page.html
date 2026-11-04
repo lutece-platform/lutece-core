@@ -149,27 +149,27 @@
 					<#-- The columns, each one a list a portlet can be dragged to; luteceSitePortlets in the script below saves the moves -->
 					<div id="lutece-site-columns" data-moved-message="#i18n{portal.site.admin_page.labelPortletMoved}" data-position-token="${position_token!}">
 					<#list portletColumns as column>
-					<div class="lutece-site-column" data-portlet-column="${column}">
-					<h4 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} ${column}</h4>
-					<ul class="lutece-site-portlets" data-portlet-column="${column}">
-						<#list page_portlets?filter( p -> p.column == column )?sort_by( 'order' ) as portlet>
-						<li draggable="true" data-portlet-id="${portlet.id?c}" data-portlet-name="${portlet.name?html}">
-							<span class="lutece-site-portlet-grip" aria-hidden="true"><i class="ti ti-grip-vertical"></i></span>
-							<i class="ti ti-${portletTypeIcons[ portlet.portletTypeId ]!'puzzle'}" aria-hidden="true"></i>
-							<span class="lutece-site-portlet-name">${portlet.name}</span>
-							<span class="btn-group" role="group">
-								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="up" title="${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}"><i class="ti ti-arrow-up" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}</span></button>
-								<button type="button" class="btn btn-sm btn-light btn-icon" data-move="down" title="${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}"><i class="ti ti-arrow-down" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}</span></button>
-							</span>
-							<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params='target="preview"'>
-								<@input type='hidden' name='portlet_id' value=portlet.id />
-								<@button type='submit' color='light' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify} ${portlet.name}' hideTitle=['all'] />
-							</@tform>
-							<@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='light' buttonIcon='trash' size='sm' title='#i18n{portal.util.labelDelete} ${portlet.name}' hideTitle=['all'] />
-						</li>
-						</#list>
-					</ul>
-					</div>
+						<div class="lutece-site-column" data-portlet-column="${column}">
+							<h4 class="lutece-site-label">#i18n{portal.site.admin_page.labelPortletColumn} ${column}</h4>
+							<ul class="lutece-site-portlets" data-portlet-column="${column}">
+								<#list page_portlets?filter( p -> p.column == column )?sort_by( 'order' ) as portlet>
+								<li draggable="true" data-portlet-id="${portlet.id?c}" data-portlet-name="${portlet.name?html}">
+									<span class="lutece-site-portlet-grip" aria-hidden="true"><i class="ti ti-grip-vertical"></i></span>
+									<i class="ti ti-${portletTypeIcons[ portlet.portletTypeId ]!'puzzle'}" aria-hidden="true"></i>
+									<span class="lutece-site-portlet-name">${portlet.name}</span>
+									<span class="btn-group" role="group">
+										<button type="button" class="btn btn-sm btn-light btn-icon" data-move="up" title="${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}"><i class="ti ti-arrow-up" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveUp', portlet.name )?html}</span></button>
+										<button type="button" class="btn btn-sm btn-light btn-icon" data-move="down" title="${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}"><i class="ti ti-arrow-down" aria-hidden="true"></i><span class="visually-hidden">${i18n( 'portal.site.admin_page.buttonMoveDown', portlet.name )?html}</span></button>
+									</span>
+									<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params='target="preview"'>
+										<@input type='hidden' name='portlet_id' value=portlet.id />
+										<@button type='submit' color='light' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify} ${portlet.name}' hideTitle=['all'] />
+									</@tform>
+									<@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='light' buttonIcon='trash' size='sm' title='#i18n{portal.util.labelDelete} ${portlet.name}' hideTitle=['all'] />
+								</li>
+								</#list>
+							</ul>
+						</div>
 					</#list>
 					</div>
 					<#-- A column the preview shows a portlet in, when the sidebar does not list it yet -->
@@ -215,181 +215,181 @@
 </@initToast>
 </#if>
 <style>
-	.lutece-site-ws { --lutece-site-line: var( --tblr-border-color, #dce1e7 ); --lutece-site-muted: var( --tblr-secondary, #6c757d ); display: grid; width: 100%; grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ) minmax( 18rem, 22rem ); gap: 0; min-height: calc( 100vh - 4rem ); background: var( --tblr-bg-surface, #fff ); }
-	.lutece-site-ws > aside, .lutece-site-center { min-width: 0; }
-	.lutece-site-tree { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; padding: 1rem; border-inline-end: 1px solid var( --lutece-site-line ); }
-	.lutece-site-tree > * { min-width: 0; }
-	.lutece-site-tree-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
-	.lutece-site-tree-toggle { flex: none; }
-	.lutece-site-tree-body { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; }
-	.lutece-site-tree-body > * { min-width: 0; }
-	.lutece-site-tree-body > .btn { justify-self: start; }
-	.lutece-site-tree-body > .btn.lutece-site-add-child { justify-self: stretch; }
-	/* A page dragged in the tree, and where it would go: before a page, after it, or inside it as its last child page */
-	.lutece-site-pages li[draggable] > a { cursor: grab; }
-	.lutece-site-pages li.lutece-site-dragging { opacity: .45; }
-	.lutece-site-pages li.lutece-site-drop-before > a { box-shadow: inset 0 2px 0 var( --tblr-primary ); }
-	.lutece-site-pages li.lutece-site-drop-after > a { box-shadow: inset 0 -2px 0 var( --tblr-primary ); }
-	.lutece-site-pages li.lutece-site-drop-inside > a { background: var( --tblr-primary-lt, #e7f0fc ); outline: 1px dashed var( --tblr-primary ); outline-offset: -1px; }
-	.lutece-site-tree-collapsed .lutece-site-tree { padding-inline: .5rem; }
-	.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: center; }
-	.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset( 50% ); white-space: nowrap; }
-	.lutece-site-inspector { display: grid; grid-template-rows: auto 1fr; align-content: start; border-inline-start: 1px solid var( --lutece-site-line ); }
-	.lutece-site-label { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-site-muted ); }
-	.lutece-site-search { display: flex; align-items: center; gap: .5rem; margin: 0; padding: .375rem .625rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: var( --lutece-site-muted ); }
-	.lutece-site-search:focus-within { border-color: var( --tblr-primary ); }
-	.lutece-site-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: inherit; }
-	.lutece-site-pages, .lutece-site-portlets, .lutece-site-types { list-style: none; margin: 0; padding: 0; }
-	.lutece-site-pages li { display: flex; align-items: center; gap: .125rem; padding-inline-start: calc( var( --lutece-site-level, 0 ) * 1rem ); }
-	.lutece-site-pages li[hidden], .lutece-site-pages li.lutece-site-folded { display: none; }
-	.lutece-site-pages.lutece-site-searching li.lutece-site-folded:not([hidden]) { display: flex; }
-	.lutece-site-pages.lutece-site-searching .lutece-site-twisty { visibility: hidden; }
-	.lutece-site-twisty { display: grid; place-items: center; flex: none; width: 1.25rem; height: 1.25rem; padding: 0; border: 0; border-radius: var( --tblr-border-radius, .25rem ); background: none; color: var( --lutece-site-muted ); }
-	button.lutece-site-twisty:hover { background: var( --tblr-bg-surface-secondary, #f1f3f6 ); color: var( --tblr-body-color ); }
-	button.lutece-site-twisty .ti { transition: transform .15s; }
-	button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg ); }
-	.lutece-site-pages a { flex: 1; min-width: 0; display: flex; align-items: center; gap: .5rem; padding: .25rem .5rem; border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .875rem; }
-	.lutece-site-pages a:hover { background: var( --tblr-bg-surface-secondary, #f1f3f6 ); }
-	.lutece-site-pages a[aria-current="page"] { background: var( --tblr-primary-lt, #e7f0fc ); font-weight: 600; }
-	.lutece-site-page-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.lutece-site-page-id { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
-	.lutece-site-nomatch, .lutece-site-empty { margin: 0; color: var( --lutece-site-muted ); }
-	/* One column no wider than the room: a preview wider than it (laptop width) is cut down instead of pushing the inspector away */
-	.lutece-site-center { display: grid; grid-template-columns: minmax( 0, 1fr ); grid-template-rows: auto 1fr; }
-	.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .75rem 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
+.lutece-site-ws { --lutece-site-line: var( --tblr-border-color, #dce1e7 ); --lutece-site-muted: var( --tblr-secondary, #6c757d ); display: grid; width: 100%; grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ) minmax( 18rem, 22rem ); gap: 0; min-height: calc( 100vh - 4rem ); background: var( --tblr-bg-surface, #fff ); }
+.lutece-site-ws > aside, .lutece-site-center { min-width: 0; }
+.lutece-site-tree { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; padding: 1rem; border-inline-end: 1px solid var( --lutece-site-line ); }
+.lutece-site-tree > * { min-width: 0; }
+.lutece-site-tree-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.lutece-site-tree-toggle { flex: none; }
+.lutece-site-tree-body { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; }
+.lutece-site-tree-body > * { min-width: 0; }
+.lutece-site-tree-body > .btn { justify-self: start; }
+.lutece-site-tree-body > .btn.lutece-site-add-child { justify-self: stretch; }
+/* A page dragged in the tree, and where it would go: before a page, after it, or inside it as its last child page */
+.lutece-site-pages li[draggable] > a { cursor: grab; }
+.lutece-site-pages li.lutece-site-dragging { opacity: .45; }
+.lutece-site-pages li.lutece-site-drop-before > a { box-shadow: inset 0 2px 0 var( --tblr-primary ); }
+.lutece-site-pages li.lutece-site-drop-after > a { box-shadow: inset 0 -2px 0 var( --tblr-primary ); }
+.lutece-site-pages li.lutece-site-drop-inside > a { background: var( --tblr-primary-lt, #e7f0fc ); outline: 1px dashed var( --tblr-primary ); outline-offset: -1px; }
+.lutece-site-tree-collapsed .lutece-site-tree { padding-inline: .5rem; }
+.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: center; }
+.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset( 50% ); white-space: nowrap; }
+.lutece-site-inspector { display: grid; grid-template-rows: auto 1fr; align-content: start; border-inline-start: 1px solid var( --lutece-site-line ); }
+.lutece-site-label { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-site-muted ); }
+.lutece-site-search { display: flex; align-items: center; gap: .5rem; margin: 0; padding: .375rem .625rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: var( --lutece-site-muted ); }
+.lutece-site-search:focus-within { border-color: var( --tblr-primary ); }
+.lutece-site-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: inherit; }
+.lutece-site-pages, .lutece-site-portlets, .lutece-site-types { list-style: none; margin: 0; padding: 0; }
+.lutece-site-pages li { display: flex; align-items: center; gap: .125rem; padding-inline-start: calc( var( --lutece-site-level, 0 ) * 1rem ); }
+.lutece-site-pages li[hidden], .lutece-site-pages li.lutece-site-folded { display: none; }
+.lutece-site-pages.lutece-site-searching li.lutece-site-folded:not([hidden]) { display: flex; }
+.lutece-site-pages.lutece-site-searching .lutece-site-twisty { visibility: hidden; }
+.lutece-site-twisty { display: grid; place-items: center; flex: none; width: 1.25rem; height: 1.25rem; padding: 0; border: 0; border-radius: var( --tblr-border-radius, .25rem ); background: none; color: var( --lutece-site-muted ); }
+button.lutece-site-twisty:hover { background: var( --tblr-bg-surface-secondary, #f1f3f6 ); color: var( --tblr-body-color ); }
+button.lutece-site-twisty .ti { transition: transform .15s; }
+button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg ); }
+.lutece-site-pages a { flex: 1; min-width: 0; display: flex; align-items: center; gap: .5rem; padding: .25rem .5rem; border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .875rem; }
+.lutece-site-pages a:hover { background: var( --tblr-bg-surface-secondary, #f1f3f6 ); }
+.lutece-site-pages a[aria-current="page"] { background: var( --tblr-primary-lt, #e7f0fc ); font-weight: 600; }
+.lutece-site-page-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lutece-site-page-id { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.lutece-site-nomatch, .lutece-site-empty { margin: 0; color: var( --lutece-site-muted ); }
+/* One column no wider than the room: a preview wider than it (laptop width) is cut down instead of pushing the inspector away */
+.lutece-site-center { display: grid; grid-template-columns: minmax( 0, 1fr ); grid-template-rows: auto 1fr; }
+.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .75rem 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
 	.lutece-site-title { display: grid; gap: .125rem; flex: 1; min-width: 12rem; }
-	.lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
-	.lutece-site-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; font-size: .8rem; color: var( --lutece-site-muted ); }
-	.lutece-site-crumbs a { color: inherit; }
-	.lutece-site-meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
-	.lutece-site-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
-	.lutece-site-actions .btn-preview.active { background: var( --tblr-primary-lt, #e7f0fc ); color: var( --tblr-primary ); }
-	/* The tabs share the width of the sidebar, whatever their number (up to five: add, properties, extensions, portlets, child page):
-	   an icon above a short label, which may wrap rather than push a tab out of sight */
-	.lutece-site-tabs { display: grid; grid-auto-columns: minmax( 0, 1fr ); grid-auto-flow: column; border-bottom: 1px solid var( --lutece-site-line ); padding: 0 .25rem; }
-	.lutece-site-tabs button { display: flex; flex-direction: column; align-items: center; gap: .25rem; min-width: 0; border: 0; background: none; padding: .625rem .125rem .5rem; margin-bottom: -1px; color: var( --lutece-site-muted ); border-bottom: 2px solid transparent; font-size: .75rem; line-height: 1.2; text-align: center; overflow-wrap: break-word; hyphens: auto; }
-	.lutece-site-tabs button > .ti { font-size: 1.25rem; }
-	.lutece-site-tabs button:hover { color: var( --tblr-body-color ); }
-	.lutece-site-tabs button[aria-selected="true"] { color: var( --tblr-body-color ); font-weight: 600; border-bottom-color: var( --tblr-primary ); }
-	.lutece-site-tabs button[aria-selected="true"] > .ti { color: var( --tblr-primary ); }
-	.lutece-site-count { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
-	.lutece-site-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; overflow-y: auto; max-height: calc( 100vh - 8rem ); }
-	.lutece-site-panel-body .page-header, .lutece-site-panel-body .page-body { margin: 0; padding: 0; }
-	.lutece-site-panel-body .container, .lutece-site-panel-body .container-xl, .lutece-site-panel-body .container-fluid { padding: 0; max-width: none; }
-	.lutece-site-panel-body .row > [class*="col"] { flex: 0 0 100%; max-width: 100%; }
-	/* The page forms of the properties and the child page tabs (admin_page_form.html): sections of fields on a grid, two fields a row
-	   in the sidebar and more when it spans the screen */
-	.lutece-site-form { display: grid; gap: 1rem; }
-	.lutece-site-form-section { display: grid; grid-template-columns: repeat( auto-fill, minmax( 8.5rem, 1fr ) ); gap: .5rem .75rem; align-items: start; min-width: 0; margin: 0; padding: 0; border: 0; }
-	.lutece-site-form-section > legend, .lutece-site-form-more > summary { float: none; width: auto; margin: 0 0 .5rem; padding: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-site-muted ); }
-	.lutece-site-form-more > summary { cursor: pointer; }
-	.lutece-site-field-wide { grid-column: 1 / -1; }
-	.lutece-site-form .form-label { margin-bottom: .25rem; font-size: .8rem; }
-	.lutece-site-form .form-check { margin-bottom: .25rem; }
-	.lutece-site-form textarea { min-height: 0; }
-	.lutece-site-date { display: grid; gap: .25rem; }
-	.lutece-site-templates { display: grid; grid-template-columns: repeat( auto-fill, minmax( 4.5rem, 1fr ) ); gap: .375rem; }
-	.lutece-site-template { position: relative; display: grid; justify-items: center; gap: .25rem; margin: 0; padding: .375rem .25rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); font-size: .7rem; text-align: center; cursor: pointer; }
-	.lutece-site-template img { width: 2.5rem; height: 2.5rem; }
-	.lutece-site-template span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var( --lutece-site-muted ); }
-	/* The radio button stays in the page for the keyboard and the screen readers, its label shows the choice */
-	.lutece-site-template-input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-	.lutece-site-template:hover { border-color: var( --tblr-primary ); }
-	.lutece-site-template:has( :checked ) { border-color: var( --tblr-primary ); background: var( --tblr-primary-lt, #e7f0fc ); }
-	.lutece-site-template:has( :checked ) span { color: var( --tblr-body-color ); font-weight: 600; }
-	.lutece-site-template:has( :focus-visible ) { outline: 2px solid var( --tblr-primary ); outline-offset: 2px; }
-	.lutece-site-image { display: grid; grid-template-columns: 4rem minmax( 0, 1fr ) auto; gap: .5rem; align-items: center; }
-	.lutece-site-image img { width: 4rem; height: 4rem; object-fit: cover; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); cursor: pointer; }
-	.lutece-site-image-fields { display: grid; gap: .25rem; min-width: 0; }
-	/* The page forms (properties, child page) fill the sidebar and scroll with the page, not inside the panel: their buttons, centered at the
-	   bottom of the sidebar, stay in sight at the bottom of the screen, as those of the portlet edition (portal_portlet_admin.min.css) */
-	.lutece-site-panel:has( .lutece-site-form-actions ) { display: flex; flex-direction: column; max-height: none; overflow: visible; }
-	.lutece-site-panel:has( .lutece-site-form-actions ) > .lutece-site-panel-body,
-	.lutece-site-panel-body > :has( .lutece-site-form-actions ),
-	.lutece-site-panel-body form:has( .lutece-site-form-actions ),
-	.lutece-site-form:has( > .lutece-site-form-actions ) { flex: 1 1 auto; display: flex; flex-direction: column; }
-	.lutece-site-form > .lutece-site-form-section, .lutece-site-form > details { flex: none; }
-	.lutece-site-form-actions { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: auto -1rem -1rem; padding: .75rem; background: var( --tblr-bg-surface, #fff ); border-top: 1px solid var( --lutece-site-line ); }
-	.lutece-site-portlets { display: grid; gap: .375rem; }
-	.lutece-site-portlets li { display: flex; align-items: center; gap: .5rem; padding: .375rem .5rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
-	.lutece-site-portlets form { margin: 0; }
-	.lutece-site-column { display: grid; gap: .375rem; }
-	#lutece-site-columns { display: grid; gap: .75rem; }
-	/* A column left empty stays a place to drop a portlet in */
-	.lutece-site-portlets:empty { min-height: 2.5rem; border: 1px dashed var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
-	.lutece-site-portlets li[draggable] { cursor: grab; background: var( --tblr-bg-surface, #fff ); }
-	.lutece-site-portlets li.lutece-site-dragging { opacity: .5; border-style: dashed; border-color: var( --tblr-primary ); }
-	.lutece-site-portlet-grip { flex: none; color: var( --lutece-site-muted ); }
-	.lutece-site-portlets .btn-group .btn:disabled { opacity: .35; }
-	.lutece-site-portlet-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-	.lutece-site-types { display: grid; grid-template-columns: repeat( auto-fill, minmax( 9rem, 1fr ) ); gap: .375rem; }
-	.lutece-site-types a { display: flex; align-items: center; gap: .5rem; padding: .375rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .8rem; }
-	.lutece-site-types a:hover { border-color: var( --tblr-primary ); }
-	/* A long name keeps two lines next to the icon, the title of the link gives it whole */
-	.lutece-site-type-name { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }
-	.lutece-site-hint { margin: 0; font-size: .75rem; color: var( --lutece-site-muted ); }
-	/* The extensions tab: one row an extension, its name, then Add, or its state with Settings and Remove (create_extender_from_resource.html of plugin extend) */
-	.lutece-extend-actions { list-style: none; margin: 0; padding: 0; }
-	.lutece-extend-actions > li + li { border-top: 1px solid var( --lutece-site-line ); }
-	.lutece-extend-actions form { margin: 0; }
-	.lutece-extend-actions .extend-action-menu { display: flex; align-items: center; gap: .5rem; padding: .5rem 0; }
-	.lutece-extend-actions .extend-action-name { display: flex; flex-direction: column; gap: .125rem; min-width: 0; margin-inline-end: auto; }
-	.lutece-extend-actions .extend-action-name > span { display: inline-flex; align-items: center; gap: .5rem; }
-	.lutece-extend-actions .extend-action-link { font-size: .75rem; padding-inline-start: 1.5rem; }
-	/* The state, Settings and Remove each in their column, so that the rows line up whether an extension has settings or not */
-	.lutece-extend-actions .extend-action-buttons { display: grid; grid-template-columns: auto 2.25rem 2.25rem; align-items: center; justify-items: end; gap: .25rem; flex: none; }
-	.lutece-extend-actions .extend-action-buttons > button[value="remove"] { grid-column: 3; }
-	/* Settings and Remove are icon buttons as wide as their column: a btn-sm with its padding is wider and would spill over the state */
-	.lutece-extend-actions .extend-action-buttons > button:is( [value="configure"], [value="remove"] ) { width: 2.25rem; padding-inline: 0; justify-content: center; }
-	.lutece-extend-actions .extend-action-buttons > button[value="add"] { grid-column: 1 / -1; }
-	.lutece-site-type-icon { display: grid; place-items: center; flex: none; width: 1.75rem; height: 1.75rem; border-radius: .375rem; }
-	.lutece-site-tint-0 { background: #fdf0e6; color: #a8520e; } .lutece-site-tint-1 { background: #e9f3ee; color: #26734a; } .lutece-site-tint-2 { background: #efeafb; color: #5b3fb0; }
-	.lutece-site-tint-3 { background: #e6f4f7; color: #0f6b7c; } .lutece-site-tint-4 { background: #fbeaf0; color: #a1305c; } .lutece-site-tint-5 { background: #eef1f6; color: #3d4f6e; }
-	.lutece-site-danger { display: grid; gap: .5rem; justify-items: start; padding-top: .75rem; border-top: 1px solid var( --lutece-site-line ); }
-	.lutece-site-danger p { margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
-	@media ( max-width: 75rem ) {
-		.lutece-site-ws { grid-template-columns: minmax( 12rem, 15rem ) minmax( 0, 1fr ); }
-		.lutece-site-inspector { grid-column: 1 / -1; border-inline-start: 0; border-top: 1px solid var( --lutece-site-line ); }
-		.lutece-site-panel { max-height: none; }
-	}
-	@media ( max-width: 48rem ) {
-		.lutece-site-ws { grid-template-columns: minmax( 0, 1fr ); }
-		.lutece-site-tree { border-inline-end: 0; border-bottom: 1px solid var( --lutece-site-line ); }
-		.lutece-site-pages { max-height: 14rem; overflow-y: auto; }
-	}
-	.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: 3rem minmax( 0, 1fr ) minmax( 18rem, 22rem ); }
-	/* Without any tab for the user (no right on the page nor on the portlets), the sidebar is left out: the preview takes its place */
-	@media ( min-width: 75.01rem ) {
-		.lutece-site-ws:not( :has( > .lutece-site-inspector ) ) { grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ); }
-		.lutece-site-ws.lutece-site-tree-collapsed:not( :has( > .lutece-site-inspector ) ) { grid-template-columns: 3rem minmax( 0, 1fr ); }
-	}
-	@media ( max-width: 75rem ) {
-		.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: 3rem minmax( 0, 1fr ); }
-	}
-	@media ( max-width: 48rem ) {
-		.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: minmax( 0, 1fr ); }
-		.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: space-between; }
-		.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
-	}
-	/* The preview in a browser window: it fills the height left under the head (set by the script), at the width of the chosen device */
-	#lutece-admin-site-preview-wrapper { padding: .25rem; }
-	#lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; }
-	/* On a narrow device the address starts after the window dots instead of being centered under them */
-	#lutece-admin-site-preview-frame[data-device="phone"] .mockup-browser-toolbar { padding-inline: 5rem 1rem; }
-	#lutece-admin-site-preview-frame .mockup-browser-body { position: relative; display: flex; }
-	#lutece-admin-site-preview-frame .mockup-browser-body > iframe { width: 100%; height: 100%; }
-	/* Fullscreen: the minimize button, then the window in the height left */
-	#lutece-admin-page-preview:fullscreen { justify-content: flex-start; height: 100vh; background: var( --tblr-bg-surface, #fff ); }
-	#lutece-admin-site-preview-wrapper.lutece-admin-maximize { flex: 1; height: auto !important; min-height: 0 !important; padding: 0 .25rem .25rem; }
-	#lutece-admin-site-preview-frame.mockup-browser.lutece-admin-maximize { height: auto !important; min-height: 0 !important; max-height: none !important; align-self: stretch; }
-	#lutece-admin-site-preview.lutece-admin-maximize { height: 100% !important; min-height: 0 !important; }
-	/* The preview while it reloads: a veil over its last state, then a cover until the new page has loaded with its styles */
-	.lutece-site-preview-busy { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; line-height: normal; text-shadow: none; cursor: progress; background: color-mix( in srgb, var( --tblr-bg-surface, #fff ) 55%, transparent ); transition: background-color .15s ease-out; }
-	.lutece-site-preview-busy[hidden] { display: none; }
-	.lutece-site-preview-busy[data-state="cover"] { background: var( --tblr-bg-surface, #fff ); }
-	/* The spinner shows only when the reload lasts, a quick one does not blink */
-	.lutece-site-preview-spinner { opacity: 0; transition: opacity .2s ease-out .25s; }
-	.lutece-site-preview-busy:not([hidden]) .lutece-site-preview-spinner { opacity: 1; }
+.lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
+.lutece-site-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; font-size: .8rem; color: var( --lutece-site-muted ); }
+.lutece-site-crumbs a { color: inherit; }
+.lutece-site-meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
+.lutece-site-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.lutece-site-actions .btn-preview.active { background: var( --tblr-primary-lt, #e7f0fc ); color: var( --tblr-primary ); }
+/* The tabs share the width of the sidebar, whatever their number (up to five: add, properties, extensions, portlets, child page):
+	an icon above a short label, which may wrap rather than push a tab out of sight */
+.lutece-site-tabs { display: grid; grid-auto-columns: minmax( 0, 1fr ); grid-auto-flow: column; border-bottom: 1px solid var( --lutece-site-line ); padding: 0 .25rem; }
+.lutece-site-tabs button { display: flex; flex-direction: column; align-items: center; gap: .25rem; min-width: 0; border: 0; background: none; padding: .625rem .125rem .5rem; margin-bottom: -1px; color: var( --lutece-site-muted ); border-bottom: 2px solid transparent; font-size: .75rem; line-height: 1.2; text-align: center; overflow-wrap: break-word; hyphens: auto; }
+.lutece-site-tabs button > .ti { font-size: 1.25rem; }
+.lutece-site-tabs button:hover { color: var( --tblr-body-color ); }
+.lutece-site-tabs button[aria-selected="true"] { color: var( --tblr-body-color ); font-weight: 600; border-bottom-color: var( --tblr-primary ); }
+.lutece-site-tabs button[aria-selected="true"] > .ti { color: var( --tblr-primary ); }
+.lutece-site-count { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
+.lutece-site-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; overflow-y: auto; max-height: calc( 100vh - 8rem ); }
+.lutece-site-panel-body .page-header, .lutece-site-panel-body .page-body { margin: 0; padding: 0; }
+.lutece-site-panel-body .container, .lutece-site-panel-body .container-xl, .lutece-site-panel-body .container-fluid { padding: 0; max-width: none; }
+.lutece-site-panel-body .row > [class*="col"] { flex: 0 0 100%; max-width: 100%; }
+/* The page forms of the properties and the child page tabs (admin_page_form.html): sections of fields on a grid, two fields a row
+	in the sidebar and more when it spans the screen */
+.lutece-site-form { display: grid; gap: 1rem; }
+.lutece-site-form-section { display: grid; grid-template-columns: repeat( auto-fill, minmax( 8.5rem, 1fr ) ); gap: .5rem .75rem; align-items: start; min-width: 0; margin: 0; padding: 0; border: 0; }
+.lutece-site-form-section > legend, .lutece-site-form-more > summary { float: none; width: auto; margin: 0 0 .5rem; padding: 0; font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var( --lutece-site-muted ); }
+.lutece-site-form-more > summary { cursor: pointer; }
+.lutece-site-field-wide { grid-column: 1 / -1; }
+.lutece-site-form .form-label { margin-bottom: .25rem; font-size: .8rem; }
+.lutece-site-form .form-check { margin-bottom: .25rem; }
+.lutece-site-form textarea { min-height: 0; }
+.lutece-site-date { display: grid; gap: .25rem; }
+.lutece-site-templates { display: grid; grid-template-columns: repeat( auto-fill, minmax( 4.5rem, 1fr ) ); gap: .375rem; }
+.lutece-site-template { position: relative; display: grid; justify-items: center; gap: .25rem; margin: 0; padding: .375rem .25rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); font-size: .7rem; text-align: center; cursor: pointer; }
+.lutece-site-template img { width: 2.5rem; height: 2.5rem; }
+.lutece-site-template span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var( --lutece-site-muted ); }
+/* The radio button stays in the page for the keyboard and the screen readers, its label shows the choice */
+.lutece-site-template-input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.lutece-site-template:hover { border-color: var( --tblr-primary ); }
+.lutece-site-template:has( :checked ) { border-color: var( --tblr-primary ); background: var( --tblr-primary-lt, #e7f0fc ); }
+.lutece-site-template:has( :checked ) span { color: var( --tblr-body-color ); font-weight: 600; }
+.lutece-site-template:has( :focus-visible ) { outline: 2px solid var( --tblr-primary ); outline-offset: 2px; }
+.lutece-site-image { display: grid; grid-template-columns: 4rem minmax( 0, 1fr ) auto; gap: .5rem; align-items: center; }
+.lutece-site-image img { width: 4rem; height: 4rem; object-fit: cover; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); cursor: pointer; }
+.lutece-site-image-fields { display: grid; gap: .25rem; min-width: 0; }
+/* The page forms (properties, child page) fill the sidebar and scroll with the page, not inside the panel: their buttons, centered at the
+	bottom of the sidebar, stay in sight at the bottom of the screen, as those of the portlet edition (portal_portlet_admin.min.css) */
+.lutece-site-panel:has( .lutece-site-form-actions ) { display: flex; flex-direction: column; max-height: none; overflow: visible; }
+.lutece-site-panel:has( .lutece-site-form-actions ) > .lutece-site-panel-body,
+.lutece-site-panel-body > :has( .lutece-site-form-actions ),
+.lutece-site-panel-body form:has( .lutece-site-form-actions ),
+.lutece-site-form:has( > .lutece-site-form-actions ) { flex: 1 1 auto; display: flex; flex-direction: column; }
+.lutece-site-form > .lutece-site-form-section, .lutece-site-form > details { flex: none; }
+.lutece-site-form-actions { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: auto -1rem -1rem; padding: .75rem; background: var( --tblr-bg-surface, #fff ); border-top: 1px solid var( --lutece-site-line ); }
+.lutece-site-portlets { display: grid; gap: .375rem; }
+.lutece-site-portlets li { display: flex; align-items: center; gap: .5rem; padding: .375rem .5rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
+.lutece-site-portlets form { margin: 0; }
+.lutece-site-column { display: grid; gap: .375rem; }
+#lutece-site-columns { display: grid; gap: .75rem; }
+/* A column left empty stays a place to drop a portlet in */
+.lutece-site-portlets:empty { min-height: 2.5rem; border: 1px dashed var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
+.lutece-site-portlets li[draggable] { cursor: grab; background: var( --tblr-bg-surface, #fff ); }
+.lutece-site-portlets li.lutece-site-dragging { opacity: .5; border-style: dashed; border-color: var( --tblr-primary ); }
+.lutece-site-portlet-grip { flex: none; color: var( --lutece-site-muted ); }
+.lutece-site-portlets .btn-group .btn:disabled { opacity: .35; }
+.lutece-site-portlet-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lutece-site-types { display: grid; grid-template-columns: repeat( auto-fill, minmax( 9rem, 1fr ) ); gap: .375rem; }
+.lutece-site-types a { display: flex; align-items: center; gap: .5rem; padding: .375rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .8rem; }
+.lutece-site-types a:hover { border-color: var( --tblr-primary ); }
+/* A long name keeps two lines next to the icon, the title of the link gives it whole */
+.lutece-site-type-name { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }
+.lutece-site-hint { margin: 0; font-size: .75rem; color: var( --lutece-site-muted ); }
+/* The extensions tab: one row an extension, its name, then Add, or its state with Settings and Remove (create_extender_from_resource.html of plugin extend) */
+.lutece-extend-actions { list-style: none; margin: 0; padding: 0; }
+.lutece-extend-actions > li + li { border-top: 1px solid var( --lutece-site-line ); }
+.lutece-extend-actions form { margin: 0; }
+.lutece-extend-actions .extend-action-menu { display: flex; align-items: center; gap: .5rem; padding: .5rem 0; }
+.lutece-extend-actions .extend-action-name { display: flex; flex-direction: column; gap: .125rem; min-width: 0; margin-inline-end: auto; }
+.lutece-extend-actions .extend-action-name > span { display: inline-flex; align-items: center; gap: .5rem; }
+.lutece-extend-actions .extend-action-link { font-size: .75rem; padding-inline-start: 1.5rem; }
+/* The state, Settings and Remove each in their column, so that the rows line up whether an extension has settings or not */
+.lutece-extend-actions .extend-action-buttons { display: grid; grid-template-columns: auto 2.25rem 2.25rem; align-items: center; justify-items: end; gap: .25rem; flex: none; }
+.lutece-extend-actions .extend-action-buttons > button[value="remove"] { grid-column: 3; }
+/* Settings and Remove are icon buttons as wide as their column: a btn-sm with its padding is wider and would spill over the state */
+.lutece-extend-actions .extend-action-buttons > button:is( [value="configure"], [value="remove"] ) { width: 2.25rem; padding-inline: 0; justify-content: center; }
+.lutece-extend-actions .extend-action-buttons > button[value="add"] { grid-column: 1 / -1; }
+.lutece-site-type-icon { display: grid; place-items: center; flex: none; width: 1.75rem; height: 1.75rem; border-radius: .375rem; }
+.lutece-site-tint-0 { background: #fdf0e6; color: #a8520e; } .lutece-site-tint-1 { background: #e9f3ee; color: #26734a; } .lutece-site-tint-2 { background: #efeafb; color: #5b3fb0; }
+.lutece-site-tint-3 { background: #e6f4f7; color: #0f6b7c; } .lutece-site-tint-4 { background: #fbeaf0; color: #a1305c; } .lutece-site-tint-5 { background: #eef1f6; color: #3d4f6e; }
+.lutece-site-danger { display: grid; gap: .5rem; justify-items: start; padding-top: .75rem; border-top: 1px solid var( --lutece-site-line ); }
+.lutece-site-danger p { margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
+@media ( max-width: 75rem ) {
+	.lutece-site-ws { grid-template-columns: minmax( 12rem, 15rem ) minmax( 0, 1fr ); }
+	.lutece-site-inspector { grid-column: 1 / -1; border-inline-start: 0; border-top: 1px solid var( --lutece-site-line ); }
+	.lutece-site-panel { max-height: none; }
+}
+@media ( max-width: 48rem ) {
+	.lutece-site-ws { grid-template-columns: minmax( 0, 1fr ); }
+	.lutece-site-tree { border-inline-end: 0; border-bottom: 1px solid var( --lutece-site-line ); }
+	.lutece-site-pages { max-height: 14rem; overflow-y: auto; }
+}
+.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: 3rem minmax( 0, 1fr ) minmax( 18rem, 22rem ); }
+/* Without any tab for the user (no right on the page nor on the portlets), the sidebar is left out: the preview takes its place */
+@media ( min-width: 75.01rem ) {
+	.lutece-site-ws:not( :has( > .lutece-site-inspector ) ) { grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ); }
+	.lutece-site-ws.lutece-site-tree-collapsed:not( :has( > .lutece-site-inspector ) ) { grid-template-columns: 3rem minmax( 0, 1fr ); }
+}
+@media ( max-width: 75rem ) {
+	.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: 3rem minmax( 0, 1fr ); }
+}
+@media ( max-width: 48rem ) {
+	.lutece-site-ws.lutece-site-tree-collapsed { grid-template-columns: minmax( 0, 1fr ); }
+	.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: space-between; }
+	.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+}
+/* The preview in a browser window: it fills the height left under the head (set by the script), at the width of the chosen device */
+#lutece-admin-site-preview-wrapper { padding: .25rem; }
+#lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; }
+/* On a narrow device the address starts after the window dots instead of being centered under them */
+#lutece-admin-site-preview-frame[data-device="phone"] .mockup-browser-toolbar { padding-inline: 5rem 1rem;}
+#lutece-admin-site-preview-frame .mockup-browser-body { position: relative; display: flex; }
+#lutece-admin-site-preview-frame .mockup-browser-body > iframe { width: 100%; height: 100%; }
+/* Fullscreen: the minimize button, then the window in the height left */
+#lutece-admin-page-preview:fullscreen { justify-content: flex-start; height: 100vh; background: var( --tblr-bg-surface, #fff ); }
+#lutece-admin-site-preview-wrapper.lutece-admin-maximize { flex: 1; height: auto !important; min-height: 0 !important; padding: 0 .25rem .25rem; }
+#lutece-admin-site-preview-frame.mockup-browser.lutece-admin-maximize { height: auto !important; min-height: 0 !important; max-height: none !important; align-self: stretch; }
+#lutece-admin-site-preview.lutece-admin-maximize { height: 100% !important; min-height: 0 !important; }
+/* The preview while it reloads: a veil over its last state, then a cover until the new page has loaded with its styles */
+.lutece-site-preview-busy { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; line-height: normal; text-shadow: none; cursor: progress; background: color-mix( in srgb, var( --tblr-bg-surface, #fff ) 55%, transparent ); transition: background-color .15s ease-out; }
+.lutece-site-preview-busy[hidden] { display: none; }
+.lutece-site-preview-busy[data-state="cover"] { background: var( --tblr-bg-surface, #fff ); }
+/* The spinner shows only when the reload lasts, a quick one does not blink */
+.lutece-site-preview-spinner { opacity: 0; transition: opacity .2s ease-out .25s; }
+.lutece-site-preview-busy:not([hidden]) .lutece-site-preview-spinner { opacity: 1; }
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
