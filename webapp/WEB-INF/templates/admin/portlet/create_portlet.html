@@ -12,7 +12,7 @@
 <input type="hidden" name="display_on_large_device" value="1">
 <input type="hidden" name="display_on_xlarge_device" value="1">
 <@box class='manage-portlet'>
-	<@boxHeader title='${portletType.name}' boxTools=true >
+	<@boxHeader title='${portletType.name}' class='py-1' boxTools=true >
 	<#if hasContent>
 		<@button buttonIcon='layout-sidebar-left-collapse' id='btn-toggle-properties' size='sm' color='default' title='#i18n{portal.site.modify_portlet.buttonHideProperties}' hideTitle=['all'] params='aria-expanded="true" aria-controls="portlet-properties" data-label-hide="#i18n{portal.site.modify_portlet.buttonHideProperties}" data-label-show="#i18n{portal.site.modify_portlet.buttonShowProperties}"'/>
 	</#if>

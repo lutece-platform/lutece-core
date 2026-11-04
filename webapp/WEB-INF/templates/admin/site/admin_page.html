@@ -69,26 +69,13 @@
 						<nav class="lutece-site-crumbs" aria-label="#i18n{portal.site.admin_page.tabAdminMapSite}">
 						<#list pagePath as item><#if item?has_next><a href="jsp/admin/site/AdminSite.jsp?page_id=${item.pageId?c}">${item.pageName}</a><i class="ti ti-chevron-right" aria-hidden="true"></i></#if></#list>
 						</nav>
-						<h2 id="lutece-site-page-title">${page.name}</h2>
+						<h2 id="lutece-site-page-title">${page.name} - <small class="fw-normal">#i18n{portal.site.adminFeature.admin_site.name}</small></h2>
 						<p class="lutece-site-meta">
 							<#if page_template_info??><span><i class="ti ti-layout" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelPageTemplateList} : ${page_template_info.description}</span></#if>
 							<#if page_update_date_info?has_content><span><i class="ti ti-clock" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelUpdated} ${page_update_date_info}</span></#if>
 							<#if page.role?? && page.role != 'none'><span><i class="ti ti-lock" aria-hidden="true"></i> #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${page.role}</span></#if>
 							<span>#${page.id}</span>
 						</p>
-					</div>
-					<div class="lutece-site-actions">
-						<div class="btn-group btn-group-sm" role="group" aria-label="#i18n{portal.site.admin_page.labelPreviewSize}">
-							<@button id='display-desktop' title='#i18n{portal.site.admin_page.buttonXLargeScreen}' buttonIcon='device-desktop' color='light' class='btn-preview active' hideTitle=['all'] size='sm' />
-							<@button id='display-laptop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='device-laptop' color='light' class='btn-preview' hideTitle=['all'] size='sm' />
-							<@button id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='device-tablet' color='light' class='btn-preview' hideTitle=['all'] size='sm' />
-							<@button id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='device-mobile' color='light' class='btn-preview' hideTitle=['all'] size='sm' />
-						</div>
-						<#if page.id != rootPageId>
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='light' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' />
-						</#if>
-						<@aButton href='jsp/site/Portal.jsp?page_id=${page.id}' title='#i18n{portal.site.admin_page.buttonViewPage}' buttonIcon='external-link' color='light' size='sm' target='_blank' />
-						<@button id='iframe-fullscreen' color='light' buttonIcon='maximize' size='sm' title='#i18n{portal.site.admin_page.buttonFullscreen}' hideTitle=['all'] />
 					</div>
 				</div>
 				<@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
@@ -99,7 +86,31 @@
 						<div id="lutece-admin-site-preview-frame" class="mockup-browser" data-device="desktop">
 							<div class="mockup-browser-toolbar">
 								<span class="mockup-browser-controls"></span>
-								<div class="mockup-browser-url"><i class="ti ti-world" aria-hidden="true"></i><span id="lutece-admin-site-preview-url">jsp/site/Portal.jsp?page_id=${page.id}</span></div>
+								<span class="mockup-browser-home">
+									<a class="btn btn-action" href="jsp/admin/site/AdminSite.jsp" title="#i18n{portal.site.admin_page.buttonViewPage}" aria-label="#i18n{portal.site.page_home.label}" >
+										<i class="ti ti-home" aria-hidden="true"></i>
+									</a>
+								</span>	
+								<div class="mockup-browser-url">
+									<a class="badge bg-white text-bg-white border-1 border-secondary py-1 px-3" href="jsp/site/Portal.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.buttonViewPage}" target="_blank">
+										<i class="ti ti-world" aria-hidden="true"></i>
+										<span id="lutece-admin-site-preview-url">jsp/site/Portal.jsp?page_id=${page.id}</span>
+										<i class="ti ti-external-link" aria-hidden="true"></i>
+									</a>
+									<@button id='iframe-reload' color='action' buttonIcon='reload' title='#i18n{portal.site.admin_page.buttonReloadPreview}' hideTitle=['all'] size='sm' />
+									<#if page.id != rootPageId>
+										<@aButton id='parent-page' href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='action' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] size='sm' />
+									</#if>
+								</div>
+								<div class="mockup-browser-actions">
+									<div class="btn-group" role="group" aria-label="#i18n{portal.site.admin_page.labelPreviewSize}">
+										<@button id='display-desktop' title='#i18n{portal.site.admin_page.buttonXLargeScreen}' buttonIcon='device-desktop' color='action' class='btn-preview active' hideTitle=['all'] size='sm' />
+										<@button id='display-laptop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='device-laptop' color='action' class='btn-preview' hideTitle=['all'] size='sm' />
+										<@button id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='device-tablet' color='action' class='btn-preview' hideTitle=['all'] size='sm' />
+										<@button id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='device-mobile' color='action' class='btn-preview' hideTitle=['all'] size='sm' />
+									</div>
+									<@button id='iframe-fullscreen' color='action' buttonIcon='maximize' title='#i18n{portal.site.admin_page.buttonFullscreen}' hideTitle=['all'] size='sm' />
+								</div>
 							</div>
 							<div class="mockup-browser-body">
 								<iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
@@ -127,7 +138,7 @@
 					<#if page.id != rootPageId>
 					<div class="lutece-site-danger">
 						<p>#i18n{portal.site.admin_page.labelDeleteWarning}</p>
-						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' />
+						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' class='w-100' title='#i18n{portal.site.admin_page.buttonDeletePage}' />
 					</div>
 					</#if>
 				</div>
@@ -144,7 +155,7 @@
 					<#list page_portlets?sort_by( 'column' ) as portlet><#if !portletColumns?seq_contains( portlet.column )><#assign portletColumns = portletColumns + [ portlet.column ] /></#if></#list>
 					<#assign portletTypeIcons = {} />
 					<#list portlet_types_list as portlet_type><#assign portletTypeIcons = portletTypeIcons + { portlet_type.id: portlet_type.iconName!'puzzle' } /></#list>
-					<h3>#i18n{portal.site.admin_page.labelPortlets} <span class="lutece-site-count badge text-bg-secondary ms-2">${( page_portlets![] )?size}</span></h3>
+					<h3 class="d-flex align-items-center">#i18n{portal.site.admin_page.labelPortlets} <span class="lutece-site-count badge text-bg-secondary ms-2">${( page_portlets![] )?size}</span></h3>
 					<p class="lutece-site-hint">#i18n{portal.site.admin_page.labelReorderPortlets}</p>
 					<#-- The columns, each one a list a portlet can be dragged to; luteceSitePortlets in the script below saves the moves -->
 					<div id="lutece-site-columns" data-moved-message="#i18n{portal.site.admin_page.labelPortletMoved}" data-position-token="${position_token!}">
@@ -215,6 +226,7 @@
 </@initToast>
 </#if>
 <style>
+#admin-content-header{ display: none }
 .lutece-site-ws { --lutece-site-line: var( --tblr-border-color, #dce1e7 ); --lutece-site-muted: var( --tblr-secondary, #6c757d ); display: grid; width: 100%; grid-template-columns: minmax( 13rem, 16rem ) minmax( 0, 1fr ) minmax( 18rem, 22rem ); gap: 0; min-height: calc( 100vh - 4rem ); background: var( --tblr-bg-surface, #fff ); }
 .lutece-site-ws > aside, .lutece-site-center { min-width: 0; }
 .lutece-site-tree { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; padding: 1rem; border-inline-end: 1px solid var( --lutece-site-line ); }
@@ -257,7 +269,7 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 /* One column no wider than the room: a preview wider than it (laptop width) is cut down instead of pushing the inspector away */
 .lutece-site-center { display: grid; grid-template-columns: minmax( 0, 1fr ); grid-template-rows: auto 1fr; }
 .lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .75rem 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
-	.lutece-site-title { display: grid; gap: .125rem; flex: 1; min-width: 12rem; }
+.lutece-site-title { display: flex; align-items: center; justify-content: space-between; gap: .125rem; flex: 1; min-width: 12rem; }
 .lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
 .lutece-site-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; font-size: .8rem; color: var( --lutece-site-muted ); }
 .lutece-site-crumbs a { color: inherit; }
@@ -371,22 +383,38 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 	.lutece-site-tree-collapsed .lutece-site-tree-head { justify-content: space-between; }
 	.lutece-site-tree-collapsed .lutece-site-tree-head .lutece-site-label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 }
+
 /* The preview in a browser window: it fills the height left under the head (set by the script), at the width of the chosen device */
 #lutece-admin-site-preview-wrapper { padding: .25rem; }
 #lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; }
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar {  display: flex; justify-content: space-between; padding-inline: 1.5rem; }
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-home{ position: absolute; inset-inline-start: calc(var(--tblr-mockup-browser-control-offset)*5);}
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar .mockup-browser-actions { display: flex; }
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar .mockup-browser-actions .btn.active { border-radius:var(--tblr-btn-border-radius) }
+
 /* On a narrow device the address starts after the window dots instead of being centered under them */
 #lutece-admin-site-preview-frame[data-device="phone"] .mockup-browser-toolbar { padding-inline: 5rem 1rem;}
+#lutece-admin-site-preview-frame[data-device="phone"] :is( #parent-page, #iframe-reload, #iframe-fullscreen, #display-phone, .mockup-browser-home ) { display: none; }
+/* No reload button on a small screen */
+@media ( max-width: 767.98px ) { #iframe-reload { display: none; } }
+#lutece-admin-site-preview-frame[data-device="tablet"] .mockup-browser-toolbar .mockup-browser-url { margin-inline-start: 3.5rem;}
+#lutece-admin-site-preview-frame:is([data-device="tablet"],[data-device="phone"]) .mockup-browser-toolbar #lutece-admin-site-preview-url{text-overflow: ellipsis; min-width: 2rem; overflow: hidden; white-space: nowrap;}
+
 #lutece-admin-site-preview-frame .mockup-browser-body { position: relative; display: flex; }
 #lutece-admin-site-preview-frame .mockup-browser-body > iframe { width: 100%; height: 100%; }
+
 /* Fullscreen: the minimize button, then the window in the height left */
 #lutece-admin-page-preview:fullscreen { justify-content: flex-start; height: 100vh; background: var( --tblr-bg-surface, #fff ); }
 #lutece-admin-site-preview-wrapper.lutece-admin-maximize { flex: 1; height: auto !important; min-height: 0 !important; padding: 0 .25rem .25rem; }
 #lutece-admin-site-preview-frame.mockup-browser.lutece-admin-maximize { height: auto !important; min-height: 0 !important; max-height: none !important; align-self: stretch; }
+#lutece-admin-site-preview-frame.mockup-browser.lutece-admin-maximize #iframe-fullscreen { display: none; }
 #lutece-admin-site-preview.lutece-admin-maximize { height: 100% !important; min-height: 0 !important; }
+
 /* The preview while it reloads: a veil over its last state, then a cover until the new page has loaded with its styles */
 .lutece-site-preview-busy { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; line-height: normal; text-shadow: none; cursor: progress; background: color-mix( in srgb, var( --tblr-bg-surface, #fff ) 55%, transparent ); transition: background-color .15s ease-out; }
 .lutece-site-preview-busy[hidden] { display: none; }
 .lutece-site-preview-busy[data-state="cover"] { background: var( --tblr-bg-surface, #fff ); }
+
 /* The spinner shows only when the reload lasts, a quick one does not blink */
 .lutece-site-preview-spinner { opacity: 0; transition: opacity .2s ease-out .25s; }
 .lutece-site-preview-busy:not([hidden]) .lutece-site-preview-spinner { opacity: 1; }
@@ -416,6 +444,16 @@ document.addEventListener("DOMContentLoaded", function() {
     previewIframe.addEventListener( 'load', ( ) => {
         clearTimeout( previewBusyTimer );
         previewBusy.hidden = true;
+    } );
+    // The reload button shows the preview again, under the veil
+    document.getElementById( 'iframe-reload' ).addEventListener( 'click', ( ) => {
+        window.luteceSitePreviewBusy( 'veil' );
+        try {
+            previewIframe.contentWindow.location.reload( );
+        } catch ( e ) {
+            // The preview shows a page of another origin: it starts again from its own address
+            previewIframe.src = previewIframe.getAttribute( 'src' );
+        }
     } );
     const btnPreview = document.querySelectorAll( '.btn-preview' );
 
