@@ -4,28 +4,26 @@
     <#if results_list?? && results_list?size gt 0>
         <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' },{ 'title': '#i18n{portal.search.search_results.title}', 'url': 'jsp/site/Portal.jsp?page=search&query=${query!}'}]>
         <@cBlock class='d-md-flex justify-content-between align-items-center'>
-            <@cBreadCrumb home='Home' items=breadcrumbItems listClass='ms-md-m' />
+            <@cBreadCrumb items=breadcrumbItems listClass='ms-md-m' />
             <@cBlock class='result-stats'>
-                <@cInline><@cInline type='strong'>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
+                <@cInline><@cInline type='strong'>${paginator.itemsCount} #i18n{portal.search.search_results.labelResults}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query?has_content?then(query, selected_tag!"")}' />
             </@cBlock>
         </@cBlock>
     <#else>
         <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' }]>
-        <@cBreadCrumb home='Home' items=breadcrumbItems />
+        <@cBreadCrumb items=breadcrumbItems />
     </#if>
 </@cContainer>    
 <@cForm action='jsp/site/Portal.jsp' role='search'>
 <@cSection class='search-hero'>
   <@cContainer class='search-hero__inner'>
-    <@cInline class='search-hero__kicker'>Recherche globale</@cInline>
-    <@cTitle level=2 class='h1' params='hidden'>Tous les services de votre collectivité, en un seul endroit</@cTitle>
-    <@cText class='search-hero__sub' params='hidden'>Démarches, rendez-vous, documents, actualités, contacts — tapez ce que vous cherchez, nous trouvons le reste.</@cText>
+    <@cInline class='search-hero__kicker'>#i18n{portal.search.search_results.labelSearchKicker}</@cInline>
     <@cBlock class='search-bar'>
         <@cBlock class='search-box'>
             <@cInput type='hidden' name='page' value='search' class='' />
             <svg class="icon-search" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <@cInput type='search' id='q' name='query' value='${query!}' autocomplete='off' placeholder='Démarche, rendez-vous, contact, document…' />
-            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=' aria-label="Effacer"'>
+            <@cInput type='search' id='q' name='query' value='${query!}' autocomplete='off' placeholder='#i18n{portal.search.search_results.labelQueryPlaceholder}' />
+            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=' aria-label="#i18n{portal.search.search_results.buttonClearQuery}"'>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
             </@cBtn>
             <@cBtn type='submit' label='#i18n{portal.search.search_results.buttonSearch}' />
@@ -37,14 +35,24 @@
 <@cContainer class='search-body'>
      <@cBlock class='layout'>
         <#-- ====== FILTERS ====== -->
-            <@cBlock type='aside' class='filter-panel' params='aria-label="Filtres"'>
+            <#-- Filters enabled in the back office (search advanced parameters) -->
+            <#assign hasTypeFilter = ( type_filter!'none' ) != 'none' />
+            <#assign hasTagFilter = ( tag_filter!'0' ) == '1' && ( taglist!'' )?trim != '' />
+            <#assign hasDateFilter = ( date_filter!'0' ) == '1' />
+            <#assign nbFilters = [ hasTypeFilter, hasTagFilter, hasDateFilter ]?filter( f -> f )?size />
+            <#-- The operator set in the back office: a choice for the visitor only when at least two filters are enabled -->
+            <#assign operatorField>
+            <@cInput type='hidden' name='default_operator' value='${default_operator!}' class='' />
+            </#assign>
+            <#if nbFilters gt 0>
+            <@cBlock type='aside' class='filter-panel' params='aria-label="#i18n{portal.search.search_results.labelFilters}"'>
                 <@cBlock class='filter-panel__head'>
-                    <@cInline>Affiner</@cInline>
-                    <@cBtn type='button' noclass=true class='filter-reset' label='Tout effacer' />
+                    <@cInline>#i18n{portal.search.search_results.labelRefine}</@cInline>
+                    <@cBtn type='button' noclass=true class='filter-reset' label='#i18n{portal.search.search_results.buttonResetFilters}' />
                 </@cBlock>
+                <#if hasTypeFilter>
                 <@cBlock class='filter-group'>
-                  <@cBlock class='filter-group-title'>Type de contenu</@cBlock>
-                    <#if type_filter != "none">
+                    <@cBlock class='filter-group-title'>#i18n{portal.search.search_results.labelContentType}</@cBlock>
                     <#-- type_filter -->
                     <@cLabel for='type_filter' label='#i18n{portal.search.search_results.typeFilter}' />
                     <#if type_filter == "option">
@@ -62,7 +70,10 @@
                             </#if>
                         </#list>
                     </#if>
-                    </#if>
+                </@cBlock>
+                </#if>
+                <#if nbFilters gt 1>
+                <@cBlock class='filter-group'>
                     <#-- default_operator and/or -->
                     <@cLabel for='default_operator' label='#i18n{portal.search.search_results.operator}' />
                     <@cSelect id='default_operator' name='default_operator' class='sort-select'>
@@ -71,57 +82,56 @@
                         </#list>
                     </@cSelect>
                 </@cBlock>
-                <#if taglist?has_content>
-                <#if tag_filter == "1" && taglist?trim != ''>
+                <#else>
+                ${operatorField}
+                </#if>
+                <#if hasTagFilter>
                 <@cBlock class='filter-group'>
-                    <@cBlock class='filter-group-title'>Tags</@cBlock>
-                    <#-- tag_filter -->
+                    <@cBlock class='filter-group-title'>#i18n{portal.search.search_results.labelTags}</@cBlock>
+                    <#-- tag_filter: each tag runs the search on that tag (SearchApp reads the tag_filter parameter) -->
+                    <@cBlock class='filter-tags d-flex flex-wrap gap-2'>
                     <#list taglist?split(" ") as tag>
-                        <#if tag?? && tag?trim != ''>
-                            <@cFormCheck type='checkbox' checked=true labelClass='filter-check' label='${tag?lower_case?capitalize}' />
+                        <#if tag?trim != ''>
+                            <#assign isCurrentTag = ( selected_tag!'' ) == tag />
+                            <@cLink href='jsp/site/Portal.jsp?page=search&tag_filter=${tag?url("UTF-8")}' label=tag?lower_case?capitalize class='badge${isCurrentTag?then(" active", "")}' params=isCurrentTag?then('aria-current="true"', '') />
                         </#if>
                     </#list>
+                    </@cBlock>
                 </@cBlock>
                 </#if>
-                </#if>
-                <#if date_filter == '1'>
+                <#if hasDateFilter>
                 <#-- date_filter 0/1 -->
                 <@cBlock class='filter-group'>
-                  <@cBlock class='filter-group-title'>Mise à jour</@cBlock>
-                    <@cFormCheck type='radio' labelClass='filter-check' id='filter-seven' name='datefilter' value='seven' checked=(selected_datefilter!'') == 'seven' label='7 derniers jours' />
-                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-month" name="datefilter" value="month" checked=(selected_datefilter!'') == 'month' label='Ce mois-ci' />
-                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-year" name="datefilter" value="year" checked=(selected_datefilter!'') == 'year' label='Cette année' />
-                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-all" name="datefilter" value="all" checked=(selected_datefilter!'') == 'all' label='Toutes dates' />
+                  <@cBlock class='filter-group-title'>#i18n{portal.search.search_results.labelLastUpdate}</@cBlock>
+                    <@cFormCheck type='radio' labelClass='filter-check' id='filter-seven' name='datefilter' value='seven' checked=(selected_datefilter!'') == 'seven' label='#i18n{portal.search.search_results.dateFilterSevenDays}' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-month" name="datefilter" value="month" checked=(selected_datefilter!'') == 'month' label='#i18n{portal.search.search_results.dateFilterMonth}' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-year" name="datefilter" value="year" checked=(selected_datefilter!'') == 'year' label='#i18n{portal.search.search_results.dateFilterYear}' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-all" name="datefilter" value="all" checked=(selected_datefilter!'') == 'all' label='#i18n{portal.search.search_results.dateFilterAll}' />
                     <@cFieldset id='date_filter' legend='#i18n{portal.search.search_results.dateFilter}' >
                         <@cField label='#i18n{portal.search.search_results.dateFilterAfter}' for='date_after'>
-                            <@cInputDate name='date_after' label='#i18n{portal.search.search_results.dateFilterAfter}' value='${date_after_value!""}' />
+                            <@cInputDate name='date_after' value='${date_after_value!""}' />
                         </@cField>
                         <@cField label='#i18n{portal.search.search_results.dateFilterBefore}' for='date_before' >
-                            <@cInputDate name='date_before' label='#i18n{portal.search.search_results.dateFilterBefore}' value='${date_before_value!""}' />
+                            <@cInputDate name='date_before' value='${date_before_value!""}' />
                         </@cField>
                     </@cFieldset>
                 </@cBlock>
                 </#if>
           </@cBlock>
+            <#else>
+            <#-- No filter enabled: no panel, the operator set in the back office still applies -->
+            ${operatorField}
+            </#if>
         <@cSection class='results-col'>
         <#-- Toolbar -->
             <@cBlock class='toolbar'>
               <#if query?? && query?trim != ''>
               <@cBlock class='toolbar__right ms-auto'>
-                <@cBlock type='label' params='style="display:flex;align-items:center;gap:8px;"'>
-                  <@cInline>Trier :</@cInline>
-                  <@cSelect name='sort' class='sort-select' params='aria-label="Trier par"'>
-                    <@cOption value='relevance' label='Pertinence' />
-                    <@cOption value='date' label='Date (récent)' />
-                    <@cOption value='alpha' label='Alphabétique (A → Z)' />
-                    <@cOption value='duration' label='Durée' />
-                  </@cSelect>
-                </@cBlock>
-                <@cBlock class='view-toggle' params='role="group" aria-label="Affichage"'>
-                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="true" aria-label="Vue liste" title="Vue liste" data-view="list"'>
+                <@cBlock class='view-toggle' params='role="group" aria-label="#i18n{portal.search.search_results.labelView}"'>
+                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="true" aria-label="#i18n{portal.search.search_results.labelViewList}" title="#i18n{portal.search.search_results.labelViewList}" data-view="list"'>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
                   </@cBtn>
-                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="false" aria-label="Vue grille" title="Vue grille" data-view="grid"'>
+                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="false" aria-label="#i18n{portal.search.search_results.labelViewGrid}" title="#i18n{portal.search.search_results.labelViewGrid}" data-view="grid"'>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
                   </@cBtn>
                 </@cBlock>
@@ -152,15 +162,6 @@
                                     </@cBlock>
                                     <@cTitle level=2 class='result-card__title'>${resultTitle}</@cTitle>
                                     <@cText class='result-card__desc'>${resultDescription}</@cText>
-                                    <@cBlock class='result-card__crumb' params='hidden'>
-                                        <@cInline>Accueil</@cInline>
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                        <@cInline>Démarches</@cInline>
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                        <@cInline>Papiers d'identité</@cInline>
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                        <@cInline>Carte nationale d'identité</@cInline>
-                                    </@cBlock>
                                 </@cBlock>
                                 <@cInline class='result-card__arrow' params='aria-hidden="true"'>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
@@ -258,20 +259,6 @@
     } );
 })();
 
-// Theme toggle (same KEY as homepage for cross-page consistency)
-(function(){
-  const root = document.documentElement;
-  const KEY = 'demo-homepage-theme';
-  const saved = localStorage.getItem(KEY);
-  if (saved === 'dark') root.setAttribute('data-theme', 'dark');
-  const btn = document.getElementById('themeToggle');
-  if (btn) btn.addEventListener('click', () => {
-      const isDark = root.getAttribute('data-theme') === 'dark';
-      if (isDark) { root.removeAttribute('data-theme'); localStorage.setItem(KEY, 'light'); }
-      else { root.setAttribute('data-theme', 'dark'); localStorage.setItem(KEY, 'dark'); }
-  });
-})();
-
 document.addEventListener('DOMContentLoaded', () => {
   // Search interactions
   const q = document.getElementById('q');
@@ -282,12 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     b.addEventListener('click', (e) => { q.value = ''; q.focus(); });
   });
 
-  // Pills: remove active filters
-  document.querySelectorAll('.pill button').forEach(b => {
-    b.addEventListener('click', (e) => { e.preventDefault(); b.closest('.pill').remove(); });
-  });
-
-  // "Tout effacer": reset every filter then re-run the search without filters
+  // Reset button: reset every filter then re-run the search without filters
   document.querySelectorAll('.filter-reset').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();

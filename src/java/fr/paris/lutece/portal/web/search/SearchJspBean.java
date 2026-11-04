@@ -81,6 +81,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
     private static final String PARAMETER_HELP_MESSAGE = "help_message";
     private static final String PARAMETER_TAG_FILTER = "tag_filter";
+    private static final String PARAMETER_TAGLIST = "taglist";
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
 
     /**
@@ -113,6 +114,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             String strHelpMessage = request.getParameter( PARAMETER_HELP_MESSAGE );
             String strDateFilter = request.getParameter( PARAMETER_DATE_FILTER );
             String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
+            String strTagList = request.getParameter( PARAMETER_TAGLIST );
 
             // mandatory field
             if ( StringUtils.isBlank( strTypeFilter ) || StringUtils.isBlank( strDefaultOperator ) || StringUtils.isBlank( strDateFilter )
@@ -145,6 +147,15 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             param.setCode( PARAMETER_TAG_FILTER );
             param.setName( strTagFilter );
             SearchParameterHome.update( param );
+
+            // Tags of the tag cloud, separated by spaces: optional, kept as is when the form does not send it
+            if ( strTagList != null )
+            {
+                param = new ReferenceItem( );
+                param.setCode( PARAMETER_TAGLIST );
+                param.setName( StringUtils.normalizeSpace( strTagList ) );
+                SearchParameterHome.update( param );
+            }
         }
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
