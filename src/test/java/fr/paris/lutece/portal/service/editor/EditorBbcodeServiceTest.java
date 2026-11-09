@@ -33,33 +33,15 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
-import java.io.File;
-
 import org.jsoup.Jsoup;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import junit.framework.TestCase;
+import fr.paris.lutece.test.LuteceTestCase;
 
 /**
  * Tests for {@link EditorBbcodeService} comment parsing.
  */
-public class EditorBbcodeServiceTest extends TestCase
+public class EditorBbcodeServiceTest extends LuteceTestCase
 {
-    @Override
-    protected void setUp( ) throws Exception
-    {
-        File webappDirectory = new File( "webapp" ).getAbsoluteFile( );
-        AppPathService.init( webappDirectory.getPath( ) );
-        AppPropertiesService.init( "/WEB-INF/conf/" );
-
-        if ( SpringContextService.getContext( ) == null )
-        {
-            SpringContextService.init( null );
-        }
-    }
-
     /**
      * A plain-text comment is preserved unchanged.
      */
