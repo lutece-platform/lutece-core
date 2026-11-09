@@ -61,7 +61,7 @@ Snippet:
 <#macro cRadio name label type='radio' button=false class='form-check' labelClass='' btnClass='' id='' value='' errorMsg='' helpMsg='' params={} inline=false selectionButton=false selectionLabel='' textCenter=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cButton = button || type == 'button' />
-<#local cType><#if type == 'button'>radio<#else>${type}</#if></#local>
+<#local cType = ( type == 'button' )?then( 'radio', type ) />
 <#assign nestedContent><#nested></#assign>
 <@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel nestedContent=nestedContent />
 </#macro>

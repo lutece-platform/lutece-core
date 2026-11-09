@@ -73,7 +73,7 @@ Snippet:
 </div>
 <#if hasAccordion><@cTableResponsive id=id collapsed=collapsed collapsedClass=collapsedClass collapsedTitleLevel=collapsedTitleLevel collapseHeader=collapseHeader collapseFooter=collapseFooter/></#if>
 </#macro>
-<#macro sortSite jsp_url attribute asc=false desc=true id='' columnLabel='' class='' params=''>
+<#macro sortSite jsp_url attribute asc=false desc=true id='' columnLabel='' class='' params={}>
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&sorted_attribute_name=" + attribute + "&asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&asc_sort=" /></#if>
 <#if asc>
 <a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}<#if columnLabel?has_content> ${columnLabel}</#if>" class="btn btn-link btn-sort p-0 text-decoration-none<#if class?has_content> ${class}</#if>"<@commonAttrs params=params />>

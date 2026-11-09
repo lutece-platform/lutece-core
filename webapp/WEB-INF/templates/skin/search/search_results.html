@@ -94,7 +94,7 @@
                     <#list taglist?split(" ") as tag>
                         <#if tag?trim != ''>
                             <#assign isCurrentTag = ( selected_tag!'' ) == tag />
-                            <@cLink href='jsp/site/Portal.jsp?page=search&tag_filter=${tag?url("UTF-8")}' label=tag?lower_case?capitalize class='badge${isCurrentTag?then(" active", "")}' params=isCurrentTag?then('aria-current="true"', '') />
+                            <@cLink href='jsp/site/Portal.jsp?page=search&tag_filter=${tag?url("UTF-8")}' label=tag?lower_case?capitalize class='badge${isCurrentTag?then(" active", "")}' params=isCurrentTag?then( { 'aria-current': 'true' }, {} ) />
                         </#if>
                     </#list>
                     </@cBlock>

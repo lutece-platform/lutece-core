@@ -55,7 +55,7 @@ Snippet:
 <#macro cCheckbox name label type='checkbox' button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cButton = button || type == 'button' />
-<#local cType><#if type == 'button'>checkbox<#else>${type}</#if></#local>
+<#local cType = ( type == 'button' )?then( 'checkbox', type ) />
 <@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel />
 </#macro>
 <#--
@@ -99,7 +99,7 @@ Snippet:
 <#macro cCheckboxList name label  type='checkbox' button=false class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cButton = button || type == 'button' />
-<#local cType><#if type == 'button'>checkbox<#else>${type}</#if></#local>
+<#local cType = ( type == 'button' )?then( 'checkbox', type ) />
 <@cFormCheck name=name label=label type=cType button=cButton class=class labelClass=labelClass btnClass=btnClass id=id value=value errorMsg=errorMsg helpMsg=helpMsg params=params inline=inline selectionButton=selectionButton selectionLabel=selectionLabel textCenter=textCenter disabled=disabled readonly=readonly checked=checked required=required html5Required=html5Required showRequiredLabel=showRequiredLabel>
 <#nested>
 </@cFormCheck>
