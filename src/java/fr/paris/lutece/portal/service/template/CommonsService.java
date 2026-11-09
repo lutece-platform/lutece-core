@@ -200,6 +200,13 @@ public class CommonsService
      */
     public static String getCurrentCommonsKey( )
     {
+        String strStoredKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, null );
+
+        if ( strStoredKey != null && ( getCommonsInclude( strStoredKey ) != null || getCommonsImport( strStoredKey ) != null ) )
+        {
+            return strStoredKey;
+        }
+
         String strCurrentKey = null;
 
         CommonsInclude comIncCurrent = getCurrentCommonsInclude( );
@@ -326,9 +333,12 @@ public class CommonsService
         }
 
         CommonsInclude ci = getDefaultCommonsInclude( );
-        if ( ci != null )
+        if ( ci != null && strCurrentCommonsKey == null )
         {
             setNewCommonsKey( ci.getKey( ) );
+        }
+        if ( ci != null )
+        {
             return ci;
         }
 
@@ -354,9 +364,12 @@ public class CommonsService
         }
 
         CommonsImport ci = getDefaultCommonsImport( );
-        if ( ci != null )
+        if ( ci != null && strCurrentCommonsKey == null )
         {
             setNewCommonsKey( ci.getKey( ) );
+        }
+        if ( ci != null )
+        {
             return ci;
         }
 
@@ -371,7 +384,7 @@ public class CommonsService
      */
     private static void setNewCommonsKey( String strNewKey )
     {
-        DatastoreService.setDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, strNewKey );
+        DatastoreService.setInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, strNewKey );
     }
 
 }
