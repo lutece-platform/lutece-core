@@ -49,6 +49,8 @@ public class RedirectScopeManager {
     public static final String DEFAULT_COOKIE_NAME = "fr.paris.lutece.redirect.Cookie";
 
     public static final String SCOPE_ID = "fr.paris.lutece.redirect.attribute.ScopeId";
+    // Set on the request that redirected: its scope is for the next request
+    private static final String REDIRECTED = "fr.paris.lutece.redirect.attribute.Redirected";
     private static final String INSTANCE = "Instance-";
     private static final String CREATIONAL = "Creational-";
 	/**
@@ -152,6 +154,7 @@ public class RedirectScopeManager {
      * @param event the event.
      */
     public void beforeProcessControllerEvent(@Observes @Priority(1) BeforeControllerEvent event) {
+        request.removeAttribute(REDIRECTED);
         if (usingCookies()) {
             final Cookie[] cookies = request.getCookies();
             if (null != cookies) {
@@ -179,6 +182,11 @@ public class RedirectScopeManager {
      * @param event the event.
      */
     public void afterProcessViewEvent(@Observes AfterProcessViewEvent event) {
+        // A view can redirect (unlike Krazo, where a redirect renders no view): the scope it filled is kept for the
+        // request that follows the redirect, and ends after the view of that request
+        if (Boolean.TRUE.equals(request.getAttribute(REDIRECTED))) {
+            return;
+        }
         if (request.getAttribute(SCOPE_ID) != null) {
             String scopeId = (String) request.getAttribute(SCOPE_ID);
             HttpSession session = request.getSession();
@@ -208,6 +216,7 @@ public class RedirectScopeManager {
     public void controllerRedirectEvent(@Observes @Priority(Interceptor.Priority.APPLICATION + 1000) ControllerRedirectEvent event) {
     	Object scopeId = request.getAttribute(SCOPE_ID);
         if (scopeId != null) {
+            request.setAttribute(REDIRECTED, Boolean.TRUE);
             HttpServletResponse response = LocalVariables.getResponse( );
             if (usingCookies()) {            	
             	String cookieName= AppPropertiesService.getProperty(REDIRECT_SCOPE_COOKIE_NAME,DEFAULT_COOKIE_NAME);

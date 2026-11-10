@@ -30,42 +30,53 @@ public class RedirectScopeTest extends LuteceTestCase{
      * <p>
      * The test simulates the following steps:
      * <ol>
-     *   <li>Initialization of the context before the controller execution.</li>
-     *   <li>Modification of the {@code @RedirectScoped} bean's value.</li>
-     *   <li>Triggering of a redirect event.</li>
-     *   <li>Verification that the value is retained after the redirect.</li>
-     *   <li>Triggering of the post-view processing event.</li>
-     *   <li>Verification that the bean is reset after the view is processed.</li>
+     *   <li>Request that redirects: modification of the {@code @RedirectScoped} bean's value, then a redirect event.</li>
+     *   <li>The view that redirected ends: the value is retained, the next request needs it.</li>
+     *   <li>Request that follows the redirect: the value is retained during the controller processing.</li>
+     *   <li>Its view ends: the bean is reset.</li>
      * </ol>
      * </p>
      */
 	@Test
     public void testGetPage( )
     {
-         UrlItem url = new UrlItem( "/Portal.jsp" );
-         // Simulate the start of controller processing
-         try
-         {
-             _eventDispatcher.fireBeforeControllerEvent( this.getClass( ).getMethod( "mockControllerViewMethod" ), true, ControllerInvocationType.VIEW, false );
-         }
-         catch( Exception e )
-         {
-             // This case should not happen
-         }
+        UrlItem url = new UrlItem( "/Portal.jsp" );
+        // Request that redirects: a view sets a value, then redirects
+        fireBeforeControllerEvent( );
+        bean.setValue( "test-through-redirect" );
+        _eventDispatcher.fireControllerRedirectEvent( url );
+        String valueAfterRedirect = bean.getValue( );
+        // The view that redirected ends: the scope must survive until the next request
+        _eventDispatcher.fireAfterProcessViewEvent( );
+        String valueAfterRedirectingView = bean.getValue( );
 
-        // Set a value in the bean
-        bean.setValue("test-through-redirect");
-        // Simulate a redirect
-        _eventDispatcher.fireControllerRedirectEvent(url);
-        // Verify that the value is retained after the redirect
-        String valueAfterRedirect= bean.getValue();
-        // Simulate post-view processing
-        _eventDispatcher.fireAfterProcessViewEvent();
-        String valueAfterProcessView=bean.getValue();
+        // Request that follows the redirect
+        fireBeforeControllerEvent( );
+        String valueInNextRequest = bean.getValue( );
+        _eventDispatcher.fireAfterProcessViewEvent( );
+        String valueAfterProcessView = bean.getValue( );
 
-        assertEquals(valueAfterRedirect,"test-through-redirect");  
-        assertEquals(valueAfterProcessView,"init");        
+        assertEquals( "test-through-redirect", valueAfterRedirect );
+        assertEquals( "test-through-redirect", valueAfterRedirectingView );
+        assertEquals( "test-through-redirect", valueInNextRequest );
+        assertEquals( "init", valueAfterProcessView );
     }
+
+	/**
+	 * Simulate the start of controller processing
+	 */
+	private void fireBeforeControllerEvent( )
+	{
+        try
+        {
+            _eventDispatcher.fireBeforeControllerEvent( this.getClass( ).getMethod( "mockControllerViewMethod" ), true, ControllerInvocationType.VIEW, false );
+        }
+        catch( Exception e )
+        {
+            // This case should not happen
+        }
+	}
+
 	/**
      * Test bean with the {@code @RedirectScoped} scope.
      * <p>
