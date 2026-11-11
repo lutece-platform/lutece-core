@@ -364,18 +364,6 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * The maximum length of the title of a portlet: the setting of the site, at most the length of the column
-     *
-     * @return the maximum length
-     */
-    private static int getNameMaxLength( )
-    {
-        int nMaxLength = NumberUtils.toInt( DatastoreService.getDataValue( DSKEY_NAME_MAX_LENGTH, null ), NAME_COLUMN_LENGTH );
-
-        return ( nMaxLength > 0 ) ? Math.min( nMaxLength, NAME_COLUMN_LENGTH ) : NAME_COLUMN_LENGTH;
-    }
-
-    /**
      * Puts in the model the token of the creation or of the modification of a portlet, posted by the common form as _csrftoken (the
      * specific part of a portlet form may post its own token)
      *
