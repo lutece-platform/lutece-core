@@ -63,7 +63,8 @@ Snippet:
 <#if consentPlatform == 'tac' || consentPlatform == 'tarte_au_citron'>
     <@cConsentTac title=title lang=lang privacyLink=privacyLink showIcon=showIcon iconPosition=iconPosition cookieMenu=cookieMenu cookiePolicyLink=cookiePolicyLink alertConfidentialityLabel=alertConfidentialityLabel alertConfidentialityLink=alertConfidentialityLink hashtag=hashtag cookiename=cookiename nocredit=nocredit>
         <@cConsentTacService  />
-        <@cConsentTacService code='matomohightrack'>${matomo!}</@cConsentTacService>
+        <#-- matomo: the tracking script of the plugin-matomo page include, written as markup (a String from a plugin not migrated yet, or HtmlMarkup) -->
+        <@cConsentTacService code='matomohightrack'><#if matomo??>${matomo?is_markup_output?then(matomo, matomo?no_esc)}</#if></@cConsentTacService>
     </@cConsentTac>
 <#elseif consentPlatform == 'orejime'>
     <@cConsentOrejime title=title privacyLink=privacyLink cookieMenu=cookieMenu cookiePolicyLink=cookiePolicyLink alertConfidentialityLabel=alertConfidentialityLabel alertConfidentialityLink=alertConfidentialityLink cookiename=cookiename nocredit=nocredit />
