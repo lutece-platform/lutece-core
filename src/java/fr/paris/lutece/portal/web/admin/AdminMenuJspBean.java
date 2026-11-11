@@ -64,6 +64,7 @@ import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvid
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.admin.HomeShortcutService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -467,8 +468,10 @@ public class AdminMenuJspBean implements Serializable
         }
         String strLanguage = request.getParameter( PARAMETER_LANGUAGE );
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = new Locale( strLanguage );
-        user.setLocale( locale );
+
+        // Only a language of the back office: the code is written in the pages
+        I18nService.getAdminAvailableLocales( ).stream( ).filter( locale -> locale.getLanguage( ).equals( strLanguage ) ).findFirst( )
+                .ifPresent( user::setLocale );
 
         return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( );
     }

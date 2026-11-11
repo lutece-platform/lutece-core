@@ -148,6 +148,22 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         assertNotSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
     }
     @Test
+    public void testDoChangeLanguageUnknownLanguage( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_LANGUAGE, "\"><b>x</b>" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) );
+
+        getUser( request );
+        AdminUserUtils.registerAdminUser( request, _user );
+        _user.setLocale( Locale.FRANCE );
+
+        instance.doChangeLanguage( request );
+        assertEquals( Locale.FRANCE, _user.getLocale( ) );
+    }
+
+    @Test
     public void testDoChangeLanguageInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

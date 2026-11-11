@@ -30,9 +30,13 @@ Snippet:
 </#list>
 <#list languages?filter( language -> language.code != lang ) as language>
 <div class="dropdown-item justify-content-center">
-	<a href="${action}?token=${token}&language=${language.code}" title="#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}" class="nav-link" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
-		<div style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position:center;height:25px;width:25px;border-radius:25px"></div>
-	</a>
+	<form method="post" action="${action}" class="d-inline">
+		<input type="hidden" name="token" value="${token}">
+		<input type="hidden" name="language" value="${language.code}">
+		<button type="submit" title="#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}" class="nav-link btn btn-link p-0" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
+			<div style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position:center;height:25px;width:25px;border-radius:25px"></div>
+		</button>
+	</form>
 </div>
 </#list>
 </#macro>
