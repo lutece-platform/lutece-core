@@ -140,6 +140,7 @@ public final class AdminAuthenticationService
             {
                 // User is not registered by Lutece, but it may be authenticated by another system
                 user = _authentication.getHttpAuthenticatedUser( request );
+                renewSessionId( request );
                 registerUser( request, user );
                 AdminUserService.updateDateLastLogin( user.getUserId( ) );
 
@@ -159,6 +160,7 @@ public final class AdminAuthenticationService
                     if ( !newUser.getAccessCode( ).equals( user.getAccessCode( ) ) )
                     {
                         unregisterUser( request );
+                        renewSessionId( request );
                         registerUser( request, newUser );
                         AdminUserService.updateDateLastLogin( newUser.getUserId( ) );
 
@@ -199,6 +201,8 @@ public final class AdminAuthenticationService
         AccessLogService accessLogService = CDI.current( ).select( AccessLogService.class ).get( );
         accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_ADMINUSER, user, null, CONSTANT_BO );
 
+        renewSessionId( request );
+
         try
         {
             registerUser( request, user );
@@ -209,6 +213,20 @@ public final class AdminAuthenticationService
         }
 
         AdminUserService.updateDateLastLogin( user.getUserId( ) );
+    }
+
+    /**
+     * Give the session a new id once the user is authenticated, so that a session id known before the login is no longer valid
+     * 
+     * @param request
+     *            The Http request
+     */
+    private static void renewSessionId( HttpServletRequest request )
+    {
+        if ( request.getSession( false ) != null )
+        {
+            request.changeSessionId( );
+        }
     }
 
     /**
