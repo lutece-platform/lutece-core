@@ -152,6 +152,15 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     }
 
     /**
+     * Register a user with the right of the site administration in the request and the bean
+     */
+    private void loginUser( MockHttpServletRequest request, AdminUser user ) throws AccessDeniedException
+    {
+        AdminUserUtils.registerAdminUserWithRight( request, user, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+    }
+
+    /**
      * Remove objects persisted with the test user
      * 
      * @param user
@@ -214,6 +223,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoRemovePageNoArgs( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         _bean.doRemovePage( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -223,6 +233,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoRemovePageNotANumber( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         request.addParameter( Parameters.PAGE_ID, "foo" );
         _bean.doRemovePage( request );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -233,6 +244,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoRemovePageNotExisting( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( 314159265 ) );
         _bean.doRemovePage( request );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -252,6 +264,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             childPage.setName( childPageName );
             pageService.createPage( childPage );
             MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
             request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
             _bean.doRemovePage( request );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -281,6 +294,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoRemovePage( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) );
@@ -291,6 +305,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoRemovePageNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
         try
         {
@@ -306,6 +321,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoRemovePageInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) + "b" );
@@ -333,6 +349,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoModifyPage( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         String descriptionMod = _page.getDescription( ) + "_mod";
         assertEquals( _randomPageName, _page.getDescription( ) );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -370,9 +387,77 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( descriptionMod, page.getDescription( ) );
     }
     @Test
+    public void testDoModifyPageWithoutPermission( ) throws AccessDeniedException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserWithPermissions( Page.RESOURCE_TYPE, PageResourceIdService.PERMISSION_VIEW );
+        PageHome.updateAuthorizationNode( _page.getId( ), _page.getId( ) );
+        try
+        {
+            loginUser( request, user );
+            Map<String, String [ ]> parameters = new HashMap<>( );
+            parameters.put( Parameters.PAGE_ID, new String [ ] {
+                    Integer.toString( _page.getId( ) )
+            } );
+            parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
+                    _page.getDescription( ) + "_mod"
+            } );
+            parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
+                    Integer.toString( _page.getPageTemplateId( ) )
+            } );
+            parameters.put( Parameters.META_KEYWORDS, new String [ ] {
+                    _page.getMetaKeywords( )
+            } );
+            parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
+                    _page.getMetaDescription( )
+            } );
+            parameters.put( "node_status", new String [ ] {
+                    Integer.toString( _page.getNodeStatus( ) )
+            } );
+            parameters.put( Parameters.PAGE_NAME, new String [ ] {
+                    _page.getName( )
+            } );
+            parameters.put( Parameters.PARENT_ID, new String [ ] {
+                    Integer.toString( _page.getParentPageId( ) )
+            } );
+            parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+                    _securityTokenService.getToken( request, "admin/site/admin_page_block_property.html" )
+            } );
+            MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
+            assertThrows( AccessDeniedException.class, ( ) -> _bean.doModifyPage( multipartRequest ) );
+            assertEquals( _randomPageName, PageHome.findByPrimaryKey( _page.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            removeUser( user );
+        }
+    }
+
+    @Test
+    public void testDoRemovePageWithoutPermission( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserWithPermissions( Page.RESOURCE_TYPE, PageResourceIdService.PERMISSION_VIEW );
+        PageHome.updateAuthorizationNode( _page.getId( ), _page.getId( ) );
+        try
+        {
+            loginUser( request, user );
+            request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) );
+            assertThrows( AccessDeniedException.class, ( ) -> _bean.doRemovePage( request ) );
+            assertTrue( PageHome.checkPageExist( _page.getId( ) ) );
+        }
+        finally
+        {
+            removeUser( user );
+        }
+    }
+
+    @Test
     public void testDoModifyPagePageDataError( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )
@@ -414,6 +499,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     {
         int origParentPageId = _page.getParentPageId( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )
@@ -453,6 +539,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoModifyPagePictureError( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )
@@ -501,6 +588,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoModifyPageInvalidToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         String descriptionMod = _page.getDescription( ) + "_mod";
         assertEquals( _randomPageName, _page.getDescription( ) );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -546,6 +634,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoModifyPageNoToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         String descriptionMod = _page.getDescription( ) + "_mod";
         assertEquals( _randomPageName, _page.getDescription( ) );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -588,6 +677,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoModifyPageUpdateDateError( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )
@@ -656,6 +746,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoCreateChildPage( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )
@@ -715,6 +806,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoCreateChildPageInvalidToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )
@@ -768,6 +860,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testDoCreateChildPageNoToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
                 Integer.toString( _page.getId( ) )

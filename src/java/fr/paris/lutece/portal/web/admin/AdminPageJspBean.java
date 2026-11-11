@@ -254,7 +254,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
         int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
 
+        checkManagePage( nPageId );
+
         Page page = PageHome.getPage( nPageId );
+        int nOldParentPageId = page.getParentPageId( );
 
         String strErrorUrl = getPageData( mRequest, page );
 
@@ -268,6 +271,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
+        }
+
+        if ( page.getParentPageId( ) != nOldParentPageId )
+        {
+            checkManagePage( page.getParentPageId( ) );
         }
 
         strErrorUrl = updatePicture( mRequest, page );
@@ -289,6 +297,22 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         // Displays again the current page with the modifications
         return getUrlPage( nPageId );
+    }
+
+    /**
+     * Refuse the action when the current user may not manage a page
+     * 
+     * @param nPageId
+     *            the page identifier
+     * @throws AccessDeniedException
+     *             if the current user may not manage the page
+     */
+    private void checkManagePage( int nPageId ) throws AccessDeniedException
+    {
+        if ( !_pageService.isAuthorizedAdminPage( nPageId, PageResourceIdService.PERMISSION_MANAGE, getUser( ) ) )
+        {
+            throw new AccessDeniedException( "User " + getUser( ) + " may not manage the page " + nPageId );
+        }
     }
 
     /**
@@ -522,6 +546,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "Invalid CSRF token" );
         }
 
+        checkManagePage( nPageId );
+
         int nParentPageId = page.getParentPageId( );
 
         // Delete the page
@@ -545,6 +571,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         String strParentPageId = mRequest.getParameter( Parameters.PAGE_ID );
         int nParentPageId = Integer.parseInt( strParentPageId );
+
+        checkManagePage( nParentPageId );
 
         Page page = new Page( );
         page.setParentPageId( nParentPageId );
