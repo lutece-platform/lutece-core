@@ -128,8 +128,9 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         }
         if ( !StringUtils.isNumeric( strId ) )
         {
-            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP,
-                    AppPathService.getBaseUrl( request ) + JSP_CREATE_LEVEL );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                    strId
+            }, AdminMessage.TYPE_STOP, AppPathService.getBaseUrl( request ) + JSP_CREATE_LEVEL );
         }
         if ( LevelHome.findByPrimaryKey( Integer.parseInt( strId ) ) != null )
         {

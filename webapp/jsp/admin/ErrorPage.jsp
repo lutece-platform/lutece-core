@@ -168,7 +168,7 @@ out.println(cw.toString());
 								</pre>
 								<p class="text-center">
 									<a class="btn btn-outline-primary" href="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>jsp/site/Portal.jsp">
-										<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
+										<%= I18nService.getLocalizedString(PROPERTY_HOME, locale ) %>
 									</a>
 								</p>
 							</details>
@@ -209,7 +209,7 @@ out.println(cw.toString());
                 <li class="list-inline-item">
                     <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="<%= I18nService.getLocalizedString(PROPERTY_LABELPORTAL, locale ) %>">
                         <span class="me-2"></span>
-                        <img src="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
+                        <img src="<%= StringEscapeUtils.escapeHtml4( AppPathService.getBaseUrl( request ) ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, locale ) %>">
                         <span class="visually-hidden">LUTECE</span>
                     </a>
                 </li>
