@@ -61,6 +61,12 @@ public class ImageServlet extends HttpServlet
     public static final String PARAMETER_ID = "id";
     private static final String PROPERTY_PATH_IMAGES = "path.images.root";
     private static final String PROPERTY_IMAGE_PAGE_DEFAULT = "image.page.default";
+    private static final String MIME_TYPE_IMAGE_PREFIX = "image/";
+    private static final String MIME_TYPE_DEFAULT = "application/octet-stream";
+    private static final String HEADER_CONTENT_TYPE_OPTIONS = "X-Content-Type-Options";
+    private static final String HEADER_CONTENT_SECURITY_POLICY = "Content-Security-Policy";
+    private static final String HEADER_CONTENT_DISPOSITION = "Content-Disposition";
+    private static final String CONTENT_SECURITY_POLICY = "default-src 'none'; style-src 'unsafe-inline'; sandbox";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -93,7 +99,7 @@ public class ImageServlet extends HttpServlet
                 // Test the field image value
                 if ( getImageExist( image ) )
                 {
-                    response.setContentType( image.getMimeType( ) );
+                    setContentHeaders( response, image.getMimeType( ) );
                     try
                     {
                         OutputStream out = response.getOutputStream( );
@@ -144,6 +150,31 @@ public class ImageServlet extends HttpServlet
         finally
         {
         	LocalVariables.remove( );
+        }
+    }
+
+    /**
+     * Set the headers of a stored image. The stored MIME type is only kept for an image, any other content is sent as a file to download, and the
+     * browser never runs the content as a page.
+     * 
+     * @param response
+     *            servlet response
+     * @param strMimeType
+     *            the stored MIME type of the image
+     */
+    static void setContentHeaders( HttpServletResponse response, String strMimeType )
+    {
+        response.setHeader( HEADER_CONTENT_TYPE_OPTIONS, "nosniff" );
+        response.setHeader( HEADER_CONTENT_SECURITY_POLICY, CONTENT_SECURITY_POLICY );
+
+        if ( ( strMimeType != null ) && strMimeType.trim( ).toLowerCase( ).startsWith( MIME_TYPE_IMAGE_PREFIX ) )
+        {
+            response.setContentType( strMimeType );
+        }
+        else
+        {
+            response.setContentType( MIME_TYPE_DEFAULT );
+            response.setHeader( HEADER_CONTENT_DISPOSITION, "attachment" );
         }
     }
 
