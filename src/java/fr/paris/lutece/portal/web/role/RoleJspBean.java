@@ -213,6 +213,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+
+        checkWorkgroupOffered( strPageWorkgroup );
         Role role = new Role( );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
@@ -238,7 +240,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         Role role = RoleHome.findByPrimaryKey( strPageRole );
 
-        if ( role == null )
+        if ( ( role == null ) || !AdminWorkgroupService.isAuthorized( role, (User) getUser( ) ) )
         {
             return getManagePageRole( request );
         }
@@ -278,6 +280,9 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
+        checkRoleAuthorized( strPageRole );
+        checkWorkgroupOffered( strPageWorkgroup );
+
         Role role = new Role( );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
@@ -304,7 +309,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             }, AdminMessage.TYPE_STOP );
         }
         Role role = RoleHome.findByPrimaryKey( strPageRole );
-        if ( role == null || !strPageRole.equals( role.getRole( ) ) )
+        if ( role == null || !strPageRole.equals( role.getRole( ) ) || !AdminWorkgroupService.isAuthorized( role, (User) getUser( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     strPageRole
@@ -347,8 +352,46 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        checkRoleAuthorized( strPageRole );
         RoleHome.remove( strPageRole );
 
         return getHomeUrl( request );
+    }
+
+    /**
+     * Refuse the action when the role does not exist or its workgroup is not one of the current user
+     * 
+     * @param strPageRole
+     *            the role key
+     * @throws AccessDeniedException
+     *             if the current user may not manage the role
+     */
+    private void checkRoleAuthorized( String strPageRole ) throws AccessDeniedException
+    {
+        Role role = RoleHome.findByPrimaryKey( strPageRole );
+
+        if ( ( role == null ) || !AdminWorkgroupService.isAuthorized( role, (User) getUser( ) ) )
+        {
+            throw new AccessDeniedException( "The current user may not manage the role " + strPageRole );
+        }
+    }
+
+    /**
+     * Refuse the action when the workgroup is not one of those the forms offer: the workgroups of the current user, or all groups
+     * 
+     * @param strWorkgroupKey
+     *            the workgroup key
+     * @throws AccessDeniedException
+     *             if the workgroup is not offered to the current user
+     */
+    private void checkWorkgroupOffered( String strWorkgroupKey ) throws AccessDeniedException
+    {
+        boolean bOffered = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ).stream( )
+                .anyMatch( item -> item.getCode( ).equals( strWorkgroupKey ) );
+
+        if ( !bOffered )
+        {
+            throw new AccessDeniedException( "The workgroup " + strWorkgroupKey + " is not offered to the current user" );
+        }
     }
 }
