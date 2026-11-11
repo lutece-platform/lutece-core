@@ -5,6 +5,7 @@
 <#assign fieldCols = hasContent?then( 12, 6 ) />
 <#include "/admin/portlet/portlet_form_macros.html" />
 <@tform id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
+<input type="hidden" name="_csrftoken" value="${portlet_token!}">
 <@input type='hidden' name='portlet_id' value='${portlet.id}' />
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <#-- The device flags have no field on this form: they keep their values -->

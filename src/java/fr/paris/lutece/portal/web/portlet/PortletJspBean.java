@@ -58,6 +58,8 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
+import jakarta.enterprise.inject.spi.CDI;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.admin.AdminMapJspBean;
 import fr.paris.lutece.portal.web.admin.AdminPagePortletJspBean;
@@ -107,6 +109,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_STATUS_PUBLISHED = "portlet_status_published";
     private static final String MARK_STATUS_UNPUBLISHED = "portlet_status_unpublished";
     private static final String MARK_STATUS_TOKEN = "status_token";
+    private static final String MARK_PORTLET_TOKEN = "portlet_token";
     private static final String VALUE_CHECKED = "checked=\"checked\"";
     private static final String VALUE_UNCHECKED = "";
 
@@ -319,6 +322,15 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
             nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE;
         }
 
+        // The common form of the portlet carries a token of the creation or of the modification; checked last, so that a form sent back
+        // after an error can be sent again
+        String strTokenKey = ( portlet.getId( ) == 0 ) ? TEMPLATE_CREATE_PORTLET : TEMPLATE_MODIFY_PORTLET;
+
+        if ( !CDI.current( ).select( SecurityTokenHandler.class ).get( ).validate( request, strTokenKey ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
+        }
+
         portlet.setName( strName );
         portlet.setOrder( nOrder );
         portlet.setColumn( nColumn );
@@ -332,6 +344,25 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setDeviceDisplayFlags( nDeviceDisplayFlags );
 
         return strErrorKey;
+    }
+
+    /**
+     * Puts in the model the token of the creation or of the modification of a portlet, posted by the common form as _csrftoken (the
+     * specific part of a portlet form may post its own token)
+     *
+     * @param model
+     *            the model
+     * @param strTokenKey
+     *            the key of the token
+     */
+    private void putPortletToken( Map<String, Object> model, String strTokenKey )
+    {
+        HttpServletRequest request = LocalVariables.getRequest( );
+
+        if ( request != null )
+        {
+            model.put( MARK_PORTLET_TOKEN, getSecurityTokenService( ).getToken( request, strTokenKey ) );
+        }
     }
 
     /**
@@ -371,6 +402,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
         portletType.setLocale( locale );
 
+        putPortletToken( model, TEMPLATE_CREATE_PORTLET );
         model.put( MARK_PORTLET_TYPE, portletType );
         model.put( MARK_PORTLET_PAGE_ID, strPageId );
         model.put( MARK_PORTLET_ORDER_COMBO, getOrdersList( ) );
@@ -433,6 +465,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         putCheckBox( model, MARK_NORMAL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ) );
         putCheckBox( model, MARK_LARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ) );
         putCheckBox( model, MARK_XLARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
+        putPortletToken( model, TEMPLATE_MODIFY_PORTLET );
         model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
         model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
         // The switch of the status saves it at once: the form gets the security token of its first change, when the request is known

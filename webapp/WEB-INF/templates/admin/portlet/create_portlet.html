@@ -5,6 +5,7 @@
 <#include "/admin/portlet/portlet_form_macros.html" />
 <@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>
 <@input type='hidden' name='page_id' value='${portlet_page_id}' />
+<input type="hidden" name="_csrftoken" value="${portlet_token!}">
 <@input type='hidden' name='portlet_type_id' value='${portletType.id}' />
 <#-- The device flags have no field on this form: a new portlet shows on every device -->
 <input type="hidden" name="display_on_small_device" value="1">
