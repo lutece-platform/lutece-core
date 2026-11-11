@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
@@ -123,9 +125,12 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
         if ( strCacheIndex != null )
         {
-            int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
-            cs.resetCache( );
+            // An index that is not the one of a cache resets nothing
+            int nCacheIndex = NumberUtils.toInt( strCacheIndex, -1 );
+            if ( ( nCacheIndex >= 0 ) && ( nCacheIndex < CacheService.getCacheableServicesList( ).size( ) ) )
+            {
+                CacheService.getCacheableServicesList( ).get( nCacheIndex ).resetCache( );
+            }
         }
         else
         {
@@ -149,9 +154,11 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         List<CacheableService<?,?>> list;
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
-        if ( strCacheIndex != null )
+        int nCacheIndex = NumberUtils.toInt( strCacheIndex, -1 );
+
+        // An index that is not the one of a cache shows all the caches
+        if ( ( nCacheIndex >= 0 ) && ( nCacheIndex < CacheService.getCacheableServicesList( ).size( ) ) )
         {
-            int nCacheIndex = Integer.parseInt( strCacheIndex );
             CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             list = new ArrayList<>( );
             list.add( cs );

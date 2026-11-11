@@ -44,6 +44,7 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -88,6 +89,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     public static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_PATH = "jsp/admin/site/";
+    // The page of the messages, as a path the jsp of jsp/admin/ forward to
+    private static final String JSP_ADMIN_MESSAGE = "AdminMessage.jsp";
     @Inject 
     @Named(BeanUtils.BEAN_PORTLET_REMOVAL_SERVICE)
     private RemovalListenerService _removalListenerService;
@@ -100,13 +103,36 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
      *            The http request
      * @return The jsp url of the process result
      */
+    /**
+     * Registers the message of an invalid entry and gives the page that shows it, as a path the jsp forwards to
+     *
+     * @param request
+     *            The http request
+     * @param strEntry
+     *            The invalid entry
+     * @return The path of the message page
+     */
+    private String getInvalidEntryMessage( HttpServletRequest request, String strEntry )
+    {
+        AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                StringUtils.defaultString( strEntry )
+        }, JSP_PATH + JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
+
+        return JSP_ADMIN_MESSAGE;
+    }
+
     public String doModifyPortlet( HttpServletRequest request )
     {
         String strUrl = null;
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
 
-        int nPortletId = Integer.parseInt( strPortletId );
-        Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
+        int nPortletId = NumberUtils.toInt( strPortletId, -1 );
+        Portlet portlet = ( nPortletId > 0 ) ? PortletHome.findByPrimaryKey( nPortletId ) : null;
+
+        if ( portlet == null )
+        {
+            return getInvalidEntryMessage( request, strPortletId );
+        }
 
         for ( PortletType portletType : PortletTypeHome.getPortletTypesList( getLocale( ) ) )
         {
@@ -145,7 +171,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return strUrl;
+        return ( strUrl != null ) ? strUrl : getInvalidEntryMessage( request, strPortletTypeId );
     }
 
     /**

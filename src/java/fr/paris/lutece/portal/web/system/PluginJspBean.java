@@ -286,6 +286,11 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             plugin = PluginService.getPlugin( strPluginName );
         }
 
+        if ( plugin == null )
+        {
+            return getManagePlugins( request );
+        }
+
         // set the locale for the feature labels
         I18nService.localizeCollection( plugin.getRights( ), getLocale( ) );
         // set the locale for the portlet types labels

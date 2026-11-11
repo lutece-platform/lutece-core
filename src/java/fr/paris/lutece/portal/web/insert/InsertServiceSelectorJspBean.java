@@ -122,7 +122,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         String strMode = request.getParameter( PARAMETER_MODE );
 
         // Encode the HTML code to insert
-        strText = EncodingService.encodeUrl( strText );
+        strText = EncodingService.encodeUrl( StringUtils.defaultString( strText ) );
 
         Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList( );
         User user = getUser( );

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -92,7 +94,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         String map = getMapTemplate( request );
 
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
-        int nPageId = ( strPageId != null ) ? Integer.parseInt( strPageId ) : 1;
+        int nPageId = NumberUtils.toInt( strPageId, 1 );
         Page page = PageHome.getPage( nPageId );
 
         Map<String, Object> model = new HashMap<>( );
