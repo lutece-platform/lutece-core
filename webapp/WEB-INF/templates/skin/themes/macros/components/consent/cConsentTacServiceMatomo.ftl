@@ -21,7 +21,7 @@ Snippet:
 -->
 <#macro cConsentTacServiceMatomo id=0 host=''>
 <@cConsentTacService code='matomo'>
-tarteaucitron.user.matomoId = ${id};
-tarteaucitron.user.matomoHost = '${host}';
+tarteaucitron.user.matomoId = ${id?is_number?then( id, id?number )?c};
+tarteaucitron.user.matomoHost = '${host?js_string?no_esc}';
 </@cConsentTacService>
 </#macro>

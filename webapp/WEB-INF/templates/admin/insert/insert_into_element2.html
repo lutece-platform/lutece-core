@@ -1,7 +1,6 @@
-<div id="tag">${insert}</div>
 <script>
 	// TinyMCE insert
-	var textToInsert = document.getElementById("tag").innerHTML.replace(/\r|\n|\r\n/g, "");
+	var textToInsert = '${( insert! )?js_string?no_esc}'.replace(/\r|\n|\r\n/g, "");
 	var t1 = '${.data_model.input?js_string?no_esc}';
 	// An editor other than TinyMCE (Autumn Note) receives the insert through luteceEditorInsert, set by the dialog it opened
 	if ( parent !== window && parent.luteceEditorInsert ) {

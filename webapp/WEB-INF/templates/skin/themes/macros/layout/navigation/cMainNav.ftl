@@ -68,8 +68,9 @@ Snippet:
 <#if mainSidebarMenuCols?? && mainSidebarMenuCols?has_content><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=(sidebarCol!'3')?number /></#if>
 <#local mainCalcCol=12 - sidebarCol />
 <#local asideCol>col-md-${sidebarCol+1} col-lg-${sidebarCol}</#local>
-<#local mainCol>col-md-${mainCalcCol-1} col-lg-${mainCalcCol}</#local>
-<#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}</#if><#if mainClass?has_content> ${mainClass!}</#if></#assign>
+<#local mainCol = 'col-md-' + ( mainCalcCol - 1 )?c + ' col-lg-' + mainCalcCol?c />
+<#-- A string, page_frameset.html compares it -->
+<#assign mainNavClass = 'col-12 ' + mainCol + mainClass?has_content?then( ' ' + mainClass, '' ) />
 <#else>
 <header class="sticky-top navigation<#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if>" id="main-banner-${page_id!'theme'}" role="banner">
 </#if>

@@ -20,7 +20,7 @@ Parameters:
 - showTitleSm (boolean, optional): whether to show the button title on SM breakpoint.
 - showTitleMd (boolean, optional): whether to show the button title on MD breakpoint.
 - showTitleLg (boolean, optional): whether to show the button title on LG breakpoint.
-- buttonIcon (string, optional): the icon to display in the button.
+- buttonIcon (string or markup, optional): the icon to display in the button: a Tabler icon name, or an SVG given as markup (a capture) or as a string literal of the template starting with <svg.
 - disabled (boolean, optional): whether the button is disabled.
 - iconPosition (string, optional): the position of the icon, either 'left' or 'right'.
 - dropdownMenu (boolean, optional): whether the button is part of a dropdown menu.
@@ -74,7 +74,7 @@ Snippet:
 				document.addEventListener('DOMContentLoaded', function() {
 					var targetEl = document.querySelector('${buttonTargetId?js_string?no_esc}');
 					if (targetEl) {
-					<#if buttonIcon = 'minus'>
+					<#if !buttonIcon?is_markup_output && buttonIcon = 'minus'>
 						targetEl.classList.add('show');
 					<#else>
 						targetEl.classList.add('collapse');
@@ -105,8 +105,10 @@ Snippet:
 	<#if dropdownMenu><div class="dropdown"></#if>
 	<button<@commonAttrs id=id classBase=classBase class=class params=params /> type="${type}"<#if tooltip?has_content> title="${tooltip}"<#elseif title?has_content> title="${title}"</#if><#if name?has_content> name="${name}"</#if><#if value?has_content> value="${value}"</#if><#if sizeStyle?has_content> ${sizeStyle}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction?has_content><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId?has_content> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId?has_content> form="${formId}"</#if>>
 		<#if buttonIcon?has_content && iconPosition='left'>
-			<#if buttonIcon?starts_with('<svg')>
-				${buttonIcon!}
+			<#if buttonIcon?is_markup_output>
+				${buttonIcon}
+			<#elseif buttonIcon?starts_with('<svg')>
+				${buttonIcon?no_esc}
 			<#else>
 			<@icon style=buttonIcon />
 			</#if>
@@ -117,8 +119,10 @@ Snippet:
 		<#if hasNested && !dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass?has_content></span></#if></#if>
 		<#if title?has_content && dropdownMenu><#if displayTitleClass?has_content><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass?has_content></span></#if></#if>
 		<#if buttonIcon?has_content && iconPosition='right'>
-			<#if buttonIcon?starts_with('<svg')>
-				${buttonIcon!}
+			<#if buttonIcon?is_markup_output>
+				${buttonIcon}
+			<#elseif buttonIcon?starts_with('<svg')>
+				${buttonIcon?no_esc}
 			<#else>
 			<@icon style=buttonIcon />
 			</#if>

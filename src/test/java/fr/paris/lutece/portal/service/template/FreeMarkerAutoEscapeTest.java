@@ -98,6 +98,8 @@ public class FreeMarkerAutoEscapeTest
             "admin/themes/tabler/javascript/charcounter/charCounter.ftl", "skin/themes/macros/components/javascript/charCounter.ftl",
             "skin/themes/macros/components/title/cSetPageTitle.ftl", "admin/util/calendar/macro_datetimepicker.html",
             "skin/themes/macros/forms/layout/cForm.ftl",
+            // consent services, written into the script of the consent platform
+            "skin/themes/macros/components/consent/cConsentOrejimeService.ftl", "skin/themes/macros/components/consent/cConsentTacServiceMatomo.ftl",
     };
 
     /** An HTML start tag; FreeMarker tags and quoted values are read as a whole. */
@@ -126,6 +128,12 @@ public class FreeMarkerAutoEscapeTest
             Pattern.compile( "groupItem\\.label|groupItem\\.help!''" ),
             // HTML of a user attribute type (core or plugin), rendered by its own template
             Pattern.compile( "attribute\\.getHtml\\w+\\(.*\\)" ),
+            // the config of a text editor profile: JSON validated when the profile is saved, '<' written as \u003c, in a script
+            Pattern.compile( "textEditorProfile\\.config\\?replace\\( '<', '\\\\\\\\u003c' \\)" ),
+            // the labels of a paginator: entities set in Java (AbstractPaginator) or i18n messages of the application
+            Pattern.compile( "paginator\\.label(First|Previous|Next|Last)" ),
+            // an SVG icon given as a string literal by the template that calls the button macro
+            Pattern.compile( "buttonIcon" ),
     };
 
     /**

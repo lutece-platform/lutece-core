@@ -9,7 +9,7 @@ Snippet:
 
 -->
 <#-- The link of a shortcut, as the menu entry: the plugin name on an internal feature, the URL as it is on an external one -->
-<#macro homeShortcutUrl right><#if right.externalFeature>${right.url}<#else>${right.url}${right.url?contains( '?' )?then( '&amp;', '?' )}plugin_name=${right.pluginName!}</#if></#macro>
+<#macro homeShortcutUrl right><#if right.externalFeature>${right.url}<#else>${right.url}${right.url?contains( '?' )?then( '&', '?' )}plugin_name=${right.pluginName!}</#if></#macro>
 <#-- The icon of a menu entry, as in the menu (adminFeatureIcon, adminHeader.ftl): a Tabler class, or an image (the icon of a plugin) -->
 <#macro homeShortcutIcon right><@adminFeatureIcon icon=right.iconUrl! /></#macro>
 <#-- A chosen shortcut in the dialog; without a right, the empty model the script fills when an entry is ticked -->

@@ -228,7 +228,7 @@ public class AdminMenuJspBean implements Serializable
         Locale locale = ( user != null ) ? user.getLocale( ) : LocaleService.getDefault( );
         model.put( Markers.VERSION, strFooterVersion );
         model.put( MARK_SITE_NAME, strFooterSiteName );
-        model.put( MARK_JAVASCRIPT_FILES, getAdminJavascripts( ) );
+        model.put( MARK_JAVASCRIPT_FILES, HtmlMarkup.of( getAdminJavascripts( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale, model );
 
