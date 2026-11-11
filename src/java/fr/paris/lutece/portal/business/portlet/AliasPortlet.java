@@ -34,10 +34,14 @@
 package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.xml.XmlUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -82,11 +86,43 @@ public class AliasPortlet extends Portlet
     /**
      * {@inheritDoc}
      */
+    /**
+     * Finds the portlet this alias shows: the alias of an alias is followed. An alias whose chain comes back to a portlet already met, or ends
+     * on a missing portlet, shows nothing
+     *
+     * @return the portlet shown, or null if there is none
+     */
+    private Portlet getTargetPortlet( )
+    {
+        Set<Integer> setVisited = new HashSet<>( );
+        setVisited.add( getId( ) );
+
+        Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
+
+        while ( portlet instanceof AliasPortlet )
+        {
+            if ( !setVisited.add( portlet.getId( ) ) )
+            {
+                AppLogService.error( "The alias portlet {} is in a loop of aliases", getId( ) );
+                return null;
+            }
+            portlet = PortletHome.findByPrimaryKey( ( (AliasPortlet) portlet ).getAliasId( ) );
+        }
+
+        if ( ( portlet == null ) || !setVisited.add( portlet.getId( ) ) )
+        {
+            AppLogService.error( "The alias portlet {} shows no portlet", getId( ) );
+            return null;
+        }
+
+        return portlet;
+    }
+
     @Override
     public boolean isContentGeneratedByXmlAndXsl( )
     {
-        Portlet portletParent = PortletHome.findByPrimaryKey( getAliasId( ) );
-        return portletParent.isContentGeneratedByXmlAndXsl( );
+        Portlet portletParent = getTargetPortlet( );
+        return ( portletParent != null ) && portletParent.isContentGeneratedByXmlAndXsl( );
     }
 
     /**
@@ -99,7 +135,11 @@ public class AliasPortlet extends Portlet
     @Override
     public String getHtmlContent( HttpServletRequest request )
     {
-        Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
+        Portlet portlet = getTargetPortlet( );
+        if ( portlet == null )
+        {
+            return StringUtils.EMPTY;
+        }
         if(this.getDisplayPortletTitle() == 1){
             portlet.setName(StringUtils.EMPTY);
         }
@@ -118,14 +158,24 @@ public class AliasPortlet extends Portlet
     public String getXml( HttpServletRequest request ) throws SiteMessageException
     {
         // gets the portlet parent
-        Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
+        Portlet portlet = getTargetPortlet( );
+        StringBuffer buffXml = new StringBuffer( );
+
+        if ( portlet == null )
+        {
+            XmlUtil.beginElement( buffXml, TAG_PORTLET );
+            XmlUtil.addElement( buffXml, TAG_PORTLET_NAME, getName( ) );
+            XmlUtil.endElement( buffXml, TAG_PORTLET );
+
+            return buffXml.toString( );
+        }
+
         String strXmlAlias = portlet.getXml( request );
         String strTagPortletName = "</" + TAG_PORTLET_NAME + ">";
         int indexDeb = strXmlAlias.indexOf( strTagPortletName );
         int indexFin = strXmlAlias.indexOf( "</" + TAG_PORTLET + ">" );
         strXmlAlias = strXmlAlias.substring( indexDeb + strTagPortletName.length( ), indexFin );
 
-        StringBuffer buffXml = new StringBuffer( );
         XmlUtil.beginElement( buffXml, TAG_PORTLET );
         XmlUtil.addElement( buffXml, TAG_PORTLET_NAME, getName( ) );
         buffXml.append( strXmlAlias );
@@ -158,9 +208,9 @@ public class AliasPortlet extends Portlet
     {
 
         // gets the portlet parent
-        Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
+        Portlet portlet = getTargetPortlet( );
 
-        return portlet.getXslParams( );
+        return ( portlet != null ) ? portlet.getXslParams( ) : new HashMap<>( );
     }
 
     /**

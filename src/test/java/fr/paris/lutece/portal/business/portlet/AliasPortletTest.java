@@ -35,7 +35,10 @@ package fr.paris.lutece.portal.business.portlet;
 
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * AliasPortletTest Test Class
@@ -67,5 +70,39 @@ public class AliasPortletTest extends LuteceTestCase
         AliasPortletHome.getAcceptAliasPortletRefList( );
         AliasPortletHome.getAcceptAliasPortletList( );
         AliasPortletHome.getPortletsByTypeList( TEST_PORTLET_TYPE_ID );
+    }
+
+    /**
+     * An alias of itself, or of a missing portlet, shows nothing instead of failing
+     */
+    @Test
+    public void testAliasLoopAndMissingTarget( ) throws SiteMessageException
+    {
+        AliasPortlet alias = new AliasPortlet( );
+        alias.setName( "junit alias" );
+        alias.setPageId( PortalService.getRootPageId( ) );
+        alias.setColumn( 1 );
+        alias.setOrder( 1 );
+        AliasPortletHome.getInstance( ).create( alias );
+        try
+        {
+            for ( int nTargetId : new int [ ] {
+                    alias.getId( ), 999999
+            } )
+            {
+                alias.setAliasId( nTargetId );
+                AliasPortletHome.getInstance( ).update( alias );
+
+                Portlet portlet = PortletHome.findByPrimaryKey( alias.getId( ) );
+                assertFalse( portlet.isContentGeneratedByXmlAndXsl( ) );
+                assertEquals( "", portlet.getHtmlContent( new MockHttpServletRequest( ) ) );
+                assertTrue( portlet.getXml( new MockHttpServletRequest( ) ).contains( "junit alias" ) );
+                assertTrue( portlet.getXslParams( ).isEmpty( ) );
+            }
+        }
+        finally
+        {
+            AliasPortletHome.getInstance( ).remove( alias );
+        }
     }
 }
