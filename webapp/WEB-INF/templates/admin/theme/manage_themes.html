@@ -41,6 +41,7 @@
 						<@p class='text-center mt-4'>
                      	 	<@tform action='jsp/admin/theme/ManageThemes.jsp' method='post' class='d-inline'>
                      	 		<@input type='hidden' name='action' value='modifyGlobalTheme' />
+                     	 		<@input type='hidden' name='_csrftoken' value='${modify_global_theme_token}' />
                      	 		<@input type='hidden' name='theme' value='${theme.codeTheme}' />
                      	 		<@input type='hidden' name='theme_version' value='${theme.themeVersion}' />
                      	 		<@button type='submit' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />

@@ -90,5 +90,6 @@ public class AutoIncludeAdminDashboardComponentTest extends LuteceTestCase
         String strHtml = new AutoIncludeAdminDashboardComponent( ).getDashboardData( newUser( AutoIncludeJspBean.RIGHT_MANAGEAUTOINCLUDES ),
                 new MockHttpServletRequest( ) );
         assertFalse( strHtml.isEmpty( ) );
+        assertTrue( strHtml.contains( "name=\"_csrftoken\"" ) );
     }
 }

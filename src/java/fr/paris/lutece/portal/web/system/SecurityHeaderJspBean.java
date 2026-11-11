@@ -80,6 +80,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     
     // Markers
     private static final String MARK_SECURITY_HEADERS_LIST = "security_headers_list";
+    private static final String MARK_ACTIVATION_TOKEN = "activation_token";
     private static final String MARK_SECURITY_HEADER = "securityheader";
     private static final String MARK_TYPES_LIST = "types_list";
     private static final String MARK_TYPE_SELECTED = "selected_type";
@@ -119,6 +120,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String ACTION_REMOVE_SECURITYHEADER = "removeSecurityHeader";
     private static final String ACTION_ENABLE_SECURITYHEADER = "enableSecurityHeader";
     private static final String ACTION_DISABLE_SECURITYHEADER = "disableSecurityHeader";
+    // Token shared by the enable and disable actions posted from the list
+    private static final String TOKEN_ACTIVATION = "activateSecurityHeader";
     
     // Parameters
     private static final String PARAMETER_SECURITY_HEADER_ID = "id_securityheader";
@@ -171,6 +174,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private Models createModelForHeadersList( HttpServletRequest request )
     {
         _model.put( MARK_SECURITY_HEADERS_LIST, _securityHeaderService.findAllSorted( getLocale( ) ) );
+        _model.put( MARK_ACTIVATION_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_ACTIVATION ) );
         
         return _model;
     }
@@ -659,7 +663,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HTTP request
      * @return The forward URL
      */
-    @Action( value = ACTION_ENABLE_SECURITYHEADER, securityTokenDisabled = true )
+    @Action( value = ACTION_ENABLE_SECURITYHEADER, securityTokenAction = TOKEN_ACTIVATION )
     public String doEnableSecurityHeaderAction( HttpServletRequest request )
     {
         _securityHeaderService.enable( Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) ) );
@@ -674,7 +678,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HTTP request
      * @return The forward URL
      */
-    @Action( value = ACTION_DISABLE_SECURITYHEADER, securityTokenDisabled = true )
+    @Action( value = ACTION_DISABLE_SECURITYHEADER, securityTokenAction = TOKEN_ACTIVATION )
     public String doDisableSecurityHeaderAction( HttpServletRequest request )
     {
         _securityHeaderService.disable( Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) ) );

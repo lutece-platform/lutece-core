@@ -72,7 +72,7 @@ import fr.paris.lutece.portal.util.mvc.binding.BindingResult;
  */
 @RequestScoped
 @Named
-@Controller( controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_THEME_MANAGEMENT" )
+@Controller( controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/theme/", right = "CORE_THEME_MANAGEMENT", securityTokenEnabled = true )
 public class ThemeJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 3959917474602825328L;
@@ -101,6 +101,7 @@ public class ThemeJspBean extends MVCAdminJspBean
     public static final String MARK_THEMES_LIST = "themes_list";
     public static final String MARK_THEME_DEFAULT = "theme_default";
     public static final String MARK_BASE_URL = "base_url";
+    public static final String MARK_MODIFY_GLOBAL_THEME_TOKEN = "modify_global_theme_token";
     
     @Inject
     private ThemeService _themeService;
@@ -119,6 +120,7 @@ public class ThemeJspBean extends MVCAdminJspBean
         model.put( MARK_THEMES_LIST, _listThemes );
         model.put( MARK_THEME_DEFAULT, _themeService.getGlobalTheme(  ) );
         model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_MODIFY_GLOBAL_THEME_TOKEN, getSecurityTokenService( ).getToken( request, ACTION_MODIFY_GLOBAL_THEME ) );
         
         setPageTitleProperty( PROPERTY_MANAGE_THEMES_PAGE_TITLE );
 

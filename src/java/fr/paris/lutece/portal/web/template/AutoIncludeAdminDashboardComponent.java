@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.template;
 import fr.paris.lutece.portal.business.template.AutoInclude;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
@@ -45,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -59,6 +61,7 @@ public class AutoIncludeAdminDashboardComponent extends AdminDashboardComponent
     private static final String MARK_AUTOIMPORT_MAP = "autoimport_map";
     private static final String MARK_COMMONS_LIST = "commons_list";
     private static final String MARK_CURRENT_COMMONS = "current_commons";
+    private static final String MARK_ACTIVATE_TOKEN = "activate_token";
 
     /**
      * {@inheritDoc} Only the administrators allowed to manage the auto includes see the configuration
@@ -76,6 +79,7 @@ public class AutoIncludeAdminDashboardComponent extends AdminDashboardComponent
         model.put( MARK_AUTOIMPORT_MAP, fmtService.getAutoImportsMap( ) );
         model.put( MARK_COMMONS_LIST, CommonsService.getCommonsList( ) );
         model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey( ) );
+        model.put( MARK_ACTIVATE_TOKEN, CDI.current( ).select( ISecurityTokenService.class ).get( ).getToken( request, AutoIncludeJspBean.ACTION_ACTIVATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_AUTOINCLUDES, user.getLocale( ), model );
         return template.getHtml( );

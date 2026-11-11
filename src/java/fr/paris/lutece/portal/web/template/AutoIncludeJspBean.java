@@ -47,7 +47,7 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @SessionScoped
 @Named
-@Controller( controllerJsp = "ManageAutoIncludes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT" )
+@Controller( controllerJsp = "ManageAutoIncludes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT", securityTokenEnabled = true )
 public class AutoIncludeJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 3045411044102177294L;
@@ -59,7 +59,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     private static final String PARAMETER_COMMONS_KEY = "commons_key";
 
     // Actions
-    private static final String ACTION_ACTIVATE = "activate";
+    public static final String ACTION_ACTIVATE = "activate";
 
     // Infos
     private static final String INFO_COMMONS_ACTIVATE = "portal.templates.info.commons.activated";

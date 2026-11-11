@@ -15,6 +15,7 @@
 			<@boxBody>
 				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
 				<@input type='hidden' name='action' value='activate' />
+				<@input type='hidden' name='_csrftoken' value='${activate_token}' />
 				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
 					<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
 				</@formGroup>

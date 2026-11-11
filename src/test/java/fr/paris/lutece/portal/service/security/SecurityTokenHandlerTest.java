@@ -54,7 +54,7 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
 {
     private static final String ADMIN_CONTROLLER = "/jsp/admin/system/ManageSecurityHeaders.jsp";
     private static final String ACTION_WITH_TOKEN = "removeSecurityHeader";
-    private static final String ACTION_WITHOUT_TOKEN = "enableSecurityHeader";
+    private static final String ACTION_DISABLED = "doDisabled";
     private static final String VIEW_DEFAULT = "defaultView";
     private static final String VIEW_CREATE = "createSecurityHeader";
     private static final String NO_TOKEN_CONTROLLER = "/jsp/admin/test/ManageNoToken.jsp";
@@ -130,13 +130,15 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     @Test
     public void testGetActionRefused( )
     {
+        _handler.registerMvcController( SHARED_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
+        _handler.registerActions( SHARED_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
         _handler.setGetActionPolicy( GetActionPolicy.REFUSE );
         for ( String strMethod : new String [ ] {
                 "GET", "HEAD"
         } )
         {
             assertTrue( _handler.isRefusedMvcActionWithoutPost( request( strMethod, ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
-            assertTrue( _handler.isRefusedMvcActionWithoutPost( request( strMethod, ADMIN_CONTROLLER, ACTION_WITHOUT_TOKEN ) ) );
+            assertTrue( _handler.isRefusedMvcActionWithoutPost( request( strMethod, SHARED_CONTROLLER, ACTION_DISABLED ) ) );
         }
         assertFalse( _handler.isRefusedMvcActionWithoutPost( post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
         assertFalse( _handler.isRefusedActionWithoutPost( post( ADMIN_CONTROLLER, ACTION_WITH_TOKEN ) ) );
@@ -269,9 +271,23 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
         request.setParameter( "view", "confirmRemoveSecurityHeader" );
         assertTrue( _handler.shouldNotFilter( request ) );
 
-        MockHttpServletRequest requestDisabled = post( ADMIN_CONTROLLER, ACTION_WITHOUT_TOKEN );
+        _handler.registerActions( SHARED_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
+        MockHttpServletRequest requestDisabled = post( SHARED_CONTROLLER, ACTION_DISABLED );
         requestDisabled.setMethod( "GET" );
         assertTrue( _handler.shouldNotFilter( requestDisabled ) );
+    }
+
+    /**
+     * The actions that change the security headers, the global theme and the commons of the back office need a token.
+     */
+    @Test
+    public void testSettingsActionsChecked( )
+    {
+        assertFalse( _handler.shouldNotFilter( post( ADMIN_CONTROLLER, "enableSecurityHeader" ) ) );
+        assertFalse( _handler.shouldNotFilter( post( ADMIN_CONTROLLER, "disableSecurityHeader" ) ) );
+        assertEquals( "activateSecurityHeader", _handler.resolveTokenAction( post( ADMIN_CONTROLLER, "disableSecurityHeader" ), "disableSecurityHeader" ) );
+        assertFalse( _handler.shouldNotFilter( post( "/jsp/admin/theme/ManageThemes.jsp", "modifyGlobalTheme" ) ) );
+        assertFalse( _handler.shouldNotFilter( post( "/jsp/admin/templates/ManageAutoIncludes.jsp", "activate" ) ) );
     }
 
     /**
@@ -291,7 +307,8 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
     @Test
     public void testDisabledActionNotChecked( )
     {
-        assertTrue( _handler.shouldNotFilter( post( ADMIN_CONTROLLER, ACTION_WITHOUT_TOKEN ) ) );
+        _handler.registerActions( SHARED_CONTROLLER_NAME, SharedTokenController.class.getDeclaredMethods( ) );
+        assertTrue( _handler.shouldNotFilter( post( SHARED_CONTROLLER, ACTION_DISABLED ) ) );
     }
 
     /**
@@ -414,6 +431,12 @@ public class SecurityTokenHandlerTest extends LuteceTestCase
 
         @Action( value = ACTION_OWN_TOKEN )
         private String doOwnToken( )
+        {
+            return null;
+        }
+
+        @Action( value = ACTION_DISABLED, securityTokenDisabled = true )
+        private String doDisabled( )
         {
             return null;
         }
