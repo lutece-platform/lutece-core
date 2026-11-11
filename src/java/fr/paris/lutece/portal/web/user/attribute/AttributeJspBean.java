@@ -53,6 +53,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -97,6 +98,37 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     @Inject
     private AttributeService _attributeService;
+    @Inject
+    private AttributeTypeService _attributeTypeService;
+
+    /**
+     * Create an attribute of one of the declared attribute types
+     * 
+     * @param strAttributeTypeClassName
+     *            The class name of the attribute type
+     * @return a new attribute, or null if the class name is not the one of a declared attribute type
+     */
+    private IAttribute newAttribute( String strAttributeTypeClassName )
+    {
+        boolean bDeclaredType = _attributeTypeService.getAttributeTypes( getLocale( ) ).stream( )
+                .anyMatch( type -> type.getClassName( ).equals( strAttributeTypeClassName ) );
+
+        if ( !bDeclaredType )
+        {
+            return null;
+        }
+
+        try
+        {
+            return (IAttribute) Class.forName( strAttributeTypeClassName ).getDeclaredConstructor( ).newInstance( );
+        }
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+        }
+
+        return null;
+    }
     
     /**
      * Get user attribute creation interface
@@ -109,16 +141,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     {
         String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
 
-        IAttribute attribute = null;
-
-        try
-        {
-            attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).getDeclaredConstructor().newInstance( );
-        }
-        catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
+        IAttribute attribute = newAttribute( strAttributeTypeClassName );
 
         if ( attribute == null )
         {
@@ -156,16 +179,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isEmpty( strActionCancel ) )
         {
-            IAttribute attribute = null;
-
-            try
-            {
-                attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).getDeclaredConstructor().newInstance( );
-            }
-            catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
+            IAttribute attribute = newAttribute( strAttributeTypeClassName );
 
             if ( attribute == null )
             {

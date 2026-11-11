@@ -123,6 +123,20 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( instance.getCreateAttribute( request ) );
     }
     @Test
+    public void testGetCreateAttributeUnknownType( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "attribute_type_class_name", "java.util.ArrayList" );
+
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        String strUrl = instance.getCreateAttribute( request );
+        assertTrue( strUrl.contains( "attributes_management" ) );
+    }
+
+    @Test
     public void testDoCreateAttribute( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
