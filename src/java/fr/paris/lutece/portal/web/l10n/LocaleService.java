@@ -159,11 +159,15 @@ public final class LocaleService
                 return userSessionLocale;
             }
 
-            // consider the browser language
-            Locale locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
-            if ( isSupported( locale ) )
+            // consider the browser language: a header language may be shorter than two letters, or empty
+            String strLanguage = ( request.getLocale( ) != null ) ? request.getLocale( ).getLanguage( ) : "";
+            if ( strLanguage.length( ) >= 2 )
             {
-                return locale;
+                Locale locale = new Locale( strLanguage.substring( 0, 2 ) );
+                if ( isSupported( locale ) )
+                {
+                    return locale;
+                }
             }
         }
 
