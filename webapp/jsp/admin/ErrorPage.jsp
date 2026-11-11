@@ -3,6 +3,8 @@
 <%@ page isErrorPage="true" %>
 <%@ page import="fr.paris.lutece.portal.web.constants.Messages" %>
 <%@ page import="fr.paris.lutece.portal.service.admin.AdminAuthenticationService" %>
+<%@ page import="fr.paris.lutece.portal.service.admin.AdminUserService" %>
+<%@ page import="java.util.Locale" %>
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
@@ -33,6 +35,7 @@
 	private final static String PROPERTY_WINDOW = "portal.site.portal_footer.newWindow";
 	private final static String PROPERTY_LABELMADEBY = "portal.site.portal_footer.labelMadeBy";
 	private final static String PROPERTY_LABELPORTAL = "portal.site.portal_footer.labelPortal";
+	private final static String PROPERTY_TITLE = "portal.util.error.page.title";
 
 %>
 <%
@@ -69,9 +72,16 @@
     else
     {
 		String strBase = AppPathService.getBaseUrl( request );
+		// The language of the administrator, the one of the back office pages
+		Locale locale = AdminUserService.getLocale( request );
+		// An error page, not a page of the site: the status says so, while the response is still open
+		if ( !response.isCommitted( ) )
+		{
+			response.setStatus( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
+		}
 %>
 <!DOCTYPE html>
-<html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr">
+<html lang="<%= locale.getLanguage() %>" dir="ltr">
 <head>
 <base href="<%= strBase %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
@@ -118,7 +128,7 @@ document.documentElement.classList.add('loaded');
                         </svg>
                       </div>
                       <div>
-                        <h3 class="alert-heading">Internal error</h4>
+                        <h3 class="alert-heading"><%= I18nService.getLocalizedString( PROPERTY_TITLE, locale ) %></h3>
                         <div class="alert-description">
                         <%
 							if ( exception instanceof AppException )
@@ -143,7 +153,7 @@ document.documentElement.classList.add('loaded');
 							</p>
 							<details>
   								<summary>
-								<%= I18nService.getLocalizedString(PROPERTY_DETAIL, request.getLocale() ) %>
+								<%= I18nService.getLocalizedString(PROPERTY_DETAIL, locale ) %>
 								</summary>
 								<pre>
 									<code>
@@ -157,7 +167,7 @@ out.println(cw.toString());
 								</pre>
 								<p class="text-center">
 									<a class="btn btn-outline-primary" href="<%= AppPathService.getBaseUrl( request ) %>jsp/site/Portal.jsp">
-										<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
+										<%= I18nService.getLocalizedString(PROPERTY_HOME, locale ) %>
 									</a>
 								</p>
 							</details>
@@ -165,10 +175,10 @@ out.println(cw.toString());
 								
 								} else {
 							%>
-							<p><%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %></p>
+							<p><%= I18nService.getLocalizedString(PROPERTY_MESSAGE, locale ) %></p>
 							<p class="text-center">
 								<a class="btn btn-outline-primary" href="<%= AppPathService.getAdminMenuUrl() %>">
-									<%= I18nService.getLocalizedString(PROPERTY_ADMIN_HOME_LABEL, request.getLocale() ) %>
+									<%= I18nService.getLocalizedString(PROPERTY_ADMIN_HOME_LABEL, locale ) %>
 								</a>
 							</p>
 						<%
@@ -196,11 +206,10 @@ out.println(cw.toString());
             <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <ul class="list-inline list-inline-dots mb-0">
                 <li class="list-inline-item">
-                    <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="<%= I18nService.getLocalizedString(PROPERTY_LABELPORTAL, request.getLocale() ) %>">
+                    <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="<%= I18nService.getLocalizedString(PROPERTY_LABELPORTAL, locale ) %>">
                         <span class="me-2"></span>
-                        <img src="<%= AppPathService.getBaseUrl( request ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
+                        <img src="<%= AppPathService.getBaseUrl( request ) %>themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, locale ) %>">
                         <span class="visually-hidden">LUTECE</span>
-                        <!-- <span class="text-muted ms-2" rel="noopener">Version</span> -->
                     </a>
                 </li>
             </ul>

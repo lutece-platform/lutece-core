@@ -38,6 +38,7 @@ import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -216,6 +217,28 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         {
             assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
             assertEquals( TEST_PAGE_TEMPLATE_ID, message.getRequestParameters( ).get( Parameters.PAGE_TEMPLATE_ID ) );
+        }
+    }
+
+    @Test
+    public void testGetConfirmRemovePageTemplateNamesTheFiles( )
+    {
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( getRandomName( ) );
+        pageTemplate.setFile( "junit_file.html" );
+        pageTemplate.setPicture( "junit_picture.png" );
+        PageTemplateHome.create( pageTemplate );
+        try
+        {
+            request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
+            instance.getConfirmRemovePageTemplate( request );
+            String strText = AdminMessageService.getMessage( request ).getText( Locale.FRENCH );
+            assertTrue( strText.contains( "junit_file.html" ) && strText.contains( "junit_picture.png" ) );
+            assertFalse( strText.contains( "{0}" ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }
 

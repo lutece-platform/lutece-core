@@ -183,7 +183,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, new Object [ ] {}, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
+        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( nId );
+        Object [ ] args = {
+                ( pageTemplate != null ) ? pageTemplate.getFile( ) : "", ( pageTemplate != null ) ? pageTemplate.getPicture( ) : ""
+        };
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
                 AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 

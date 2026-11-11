@@ -49,6 +49,7 @@ import java.util.Map.Entry;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -184,7 +185,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             m = MVCUtils.findDefaultViewMethod( methods );
             if ( m == null )
             {
-                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP ) );
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                        StringUtils.defaultString( MVCUtils.getView( request ) )
+                }, AdminMessage.TYPE_STOP ) );
             }
         	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.DEFAULT_VIEW, _controller.securityTokenEnabled( ));
             return (String) processView(m, request);
