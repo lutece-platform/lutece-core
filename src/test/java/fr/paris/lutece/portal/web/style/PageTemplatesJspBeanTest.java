@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.style;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,12 +45,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.AdminUserUtils;
@@ -235,6 +239,38 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         }
         finally
         {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
+    }
+
+    @Test
+    public void testDoRemovePageTemplateUsed( ) throws AccessDeniedException
+    {
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( getRandomName( ) );
+        pageTemplate.setFile( "junit" );
+        pageTemplate.setPicture( "junit" );
+        PageTemplateHome.create( pageTemplate );
+        Page page = new Page( );
+        page.setParentPageId( PortalService.getRootPageId( ) );
+        page.setPageTemplateId( pageTemplate.getId( ) );
+        page.setName( pageTemplate.getDescription( ) );
+        page.setDescription( pageTemplate.getDescription( ) );
+        page.setDateUpdate( new Timestamp( System.currentTimeMillis( ) ) );
+        PageHome.create( page );
+
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) );
+        try
+        {
+            instance.doRemovePageTemplate( request );
+            assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
+            assertEquals( AdminMessage.TYPE_STOP, AdminMessageService.getMessage( request ).getType( ) );
+        }
+        finally
+        {
+            PageHome.remove( page.getId( ) );
             PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }

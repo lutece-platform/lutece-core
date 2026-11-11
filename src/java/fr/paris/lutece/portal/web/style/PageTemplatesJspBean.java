@@ -206,6 +206,12 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
         int nId = Integer.parseInt( strId );
 
+        // The confirmation checks it too, but its token is not bound to the template: check again that no page uses the template
+        if ( !PageTemplateHome.checkStylePageTemplateIsUsed( nId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
+        }
+
         PageTemplateHome.remove( nId );
 
         return getHomeUrl( request );
