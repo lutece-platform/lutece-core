@@ -68,4 +68,22 @@ public class SearchAppTest extends LuteceTestCase
 
         assertNotNull( instance.getPage( request, nMode, plugin ) );
     }
+
+    /**
+     * A number of results per page that is not a number gives the default one
+     */
+    @Test
+    public void testGetPageInvalidItemsPerPage( ) throws SiteMessageException
+    {
+        for ( String strItemsPerPage : new String [ ] {
+                "abc", "-1", "0"
+        } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( "query", "lutece" );
+            request.addParameter( "items_per_page", strItemsPerPage );
+
+            assertNotNull( instance.getPage( request, 0, null ) );
+        }
+    }
 }

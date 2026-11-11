@@ -57,6 +57,7 @@ import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -210,8 +211,14 @@ public class SearchApp implements XPageApplication
         }
 
         String strDefaultNbItemPerPage = AppPropertiesService.getProperty( PROPERTY_RESULTS_PER_PAGE, DEFAULT_RESULTS_PER_PAGE );
-        String strNbItemPerPage = Optional.ofNullable( request.getParameter( PARAMETER_NB_ITEMS_PER_PAGE ) ).orElse( strDefaultNbItemPerPage );
-        int nNbItemsPerPage = Integer.parseInt( strNbItemPerPage );
+        int nDefaultNbItemsPerPage = NumberUtils.toInt( strDefaultNbItemPerPage, Integer.parseInt( DEFAULT_RESULTS_PER_PAGE ) );
+        // A number of results per page that is not a positive number gives the default one
+        int nNbItemsPerPage = NumberUtils.toInt( request.getParameter( PARAMETER_NB_ITEMS_PER_PAGE ), nDefaultNbItemsPerPage );
+        if ( nNbItemsPerPage <= 0 )
+        {
+            nNbItemsPerPage = nDefaultNbItemsPerPage;
+        }
+        String strNbItemPerPage = Integer.toString( nNbItemsPerPage );
 
         String strCurrentPageIndex = Optional.ofNullable( request.getParameter( PARAMETER_PAGE_INDEX ) ).orElse( DEFAULT_PAGE_INDEX );
 
