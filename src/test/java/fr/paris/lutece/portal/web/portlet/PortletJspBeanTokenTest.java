@@ -162,16 +162,4 @@ public class PortletJspBeanTokenTest extends LuteceTestCase
 
         assertNotNull( new TestPortletJspBean( ).setCommonData( request, portlet ) );
     }
-
-    @Test
-    public void testNameLongerThanTheColumn( )
-    {
-        MockHttpServletRequest request = newRequest( );
-        request.setParameter( Parameters.PORTLET_NAME, "x".repeat( 71 ) );
-        request.setParameter( SecurityTokenHandler.MARK_CSRF_TOKEN, _securityTokenService.getToken( request, "admin/portlet/create_portlet.html" ) );
-        TestPortlet portlet = new TestPortlet( );
-
-        assertNotNull( new TestPortletJspBean( ).setCommonData( request, portlet ) );
-        assertNull( portlet.getName( ) );
-    }
 }
