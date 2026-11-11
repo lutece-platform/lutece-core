@@ -472,6 +472,12 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strIdRight = request.getParameter( PARAMETER_ID_RIGHT );
+        Right right = RightHome.findByPrimaryKey( strIdRight );
+
+        if ( right == null )
+        {
+            throw new AccessDeniedException( "Unknown right " + strIdRight );
+        }
 
         // retrieve the selected portlets ids
         String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
@@ -482,6 +488,13 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             {
                 int nUserId = Integer.parseInt( arrayUsersId );
                 AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+                // Only the users the form offers: a lower level than the current user, and a level that may hold the right
+                if ( ( user == null ) || !isUserHigherThanConnectedUser( user ) || ( user.getUserLevel( ) > right.getLevel( ) ) )
+                {
+                    throw new AccessDeniedException( "The right " + strIdRight + " may not be given to the user " + nUserId );
+                }
+
                 if ( !AdminUserHome.hasRight( user, strIdRight ) )
                 {
                     AdminUserHome.createRightForUser( nUserId, strIdRight );
@@ -513,7 +526,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
 
         AdminUser adminUser = AdminUserHome.findByPrimaryKey( nIdUser );
 
-        if ( adminUser != null )
+        if ( ( adminUser != null ) && isUserHigherThanConnectedUser( adminUser ) )
         {
             AdminUserHome.removeRightForUser( nIdUser, strIdRight );
         }
