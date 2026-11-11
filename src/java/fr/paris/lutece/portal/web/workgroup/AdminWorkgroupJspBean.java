@@ -146,6 +146,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_WORKGROUP_ALREADY_USED = "portal.workgroup.message.workgroupAlreadyUsed";
     private static final String MESSAGE_CANNOT_REMOVE_WORKGROUP = "portal.workgroup.message.cannotRemoveWorkgroup";
     private static final String MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER = "portal.workgroup.message.accentuatedCharacter";
+    private static final String MESSAGE_WORKGROUP_NOT_AUTHORIZED = "The current user is not a member of the workgroup";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -331,6 +332,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             }, JSP_PATH + JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
         }
 
+        if ( !isWorkgroupAuthorized( strWorkgroupKey ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, JSP_PATH + JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
+        }
+
         String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
@@ -352,6 +358,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         ArrayList<String> listErrors = new ArrayList<>( );
+
+        checkWorkgroupAuthorized( strWorkgroupKey );
 
         if ( CollectionUtils.isNotEmpty( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) ) )
         {
@@ -392,7 +400,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         AdminWorkgroup workgroup = AdminWorkgroupHome.findByPrimaryKey( strWorkgroupKey );
 
-        if ( workgroup == null )
+        if ( ( workgroup == null ) || !isWorkgroupAuthorized( strWorkgroupKey ) )
         {
             return getManageWorkgroups( request );
         }
@@ -428,6 +436,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
+        checkWorkgroupAuthorized( strWorgroupKey );
+
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup( );
         adminWorkgroup.setKey( strWorgroupKey );
         adminWorkgroup.setDescription( strDescription );
@@ -455,7 +465,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         AdminWorkgroup adminWorkgroup = AdminWorkgroupHome.findByPrimaryKey( strWorkgroupKey );
 
-        if ( adminWorkgroup == null )
+        if ( ( adminWorkgroup == null ) || !isWorkgroupAuthorized( strWorkgroupKey ) )
         {
             return getManageWorkgroups( request );
         }
@@ -564,6 +574,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
+        checkWorkgroupAuthorized( strWorkgroupKey );
+
         // retrieve the selected portlets ids
         String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );
 
@@ -573,6 +585,12 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             {
                 int nUserId = Integer.parseInt( arrayUsersIds [i] );
                 AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+                // Only the users the form offers: users of a lower level than the current user
+                if ( ( user == null ) || !isUserHigherThanConnectedUser( user ) )
+                {
+                    throw new AccessDeniedException( Messages.USER_ACCESS_DENIED );
+                }
 
                 if ( !AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroupKey ) )
                 {
@@ -603,14 +621,58 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );
         String strAnchor = request.getParameter( PARAMETER_ANCHOR );
 
+        checkWorkgroupAuthorized( strWorkgroupKey );
+
         AdminUser adminUser = AdminUserHome.findByPrimaryKey( nIdUser );
 
-        if ( adminUser != null )
+        if ( ( adminUser != null ) && isUserHigherThanConnectedUser( adminUser ) )
         {
             AdminWorkgroupHome.removeUserFromWorkgroup( adminUser, strWorkgroupKey );
         }
 
         return JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey + "#" + strAnchor;
+    }
+
+    /**
+     * Check if the current user may manage a workgroup: an administrator, or a member of the workgroup
+     * 
+     * @param strWorkgroupKey
+     *            the workgroup key
+     * @return true if the current user may manage the workgroup
+     */
+    private boolean isWorkgroupAuthorized( String strWorkgroupKey )
+    {
+        AdminUser user = getUser( );
+
+        if ( user == null )
+        {
+            return false;
+        }
+
+        if ( user.isAdmin( ) )
+        {
+            return true;
+        }
+
+        AdminWorkgroup workgroup = AdminWorkgroupHome.findByPrimaryKey( strWorkgroupKey );
+
+        return ( workgroup != null ) && AdminWorkgroupService.isAuthorized( workgroup, (User) user );
+    }
+
+    /**
+     * Refuse the action when the current user may not manage the workgroup
+     * 
+     * @param strWorkgroupKey
+     *            the workgroup key
+     * @throws AccessDeniedException
+     *             if the current user may not manage the workgroup
+     */
+    private void checkWorkgroupAuthorized( String strWorkgroupKey ) throws AccessDeniedException
+    {
+        if ( !isWorkgroupAuthorized( strWorkgroupKey ) )
+        {
+            throw new AccessDeniedException( MESSAGE_WORKGROUP_NOT_AUTHORIZED );
+        }
     }
 
     /**
