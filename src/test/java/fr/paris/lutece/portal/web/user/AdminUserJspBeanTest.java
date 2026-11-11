@@ -982,6 +982,69 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             disposeOfUser( user );
         }
     }
+    private AdminUser getLevel1AdminUserWithLevelManagementRight( )
+    {
+        AdminUser user = getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( );
+        user.getRights( ).put( "CORE_LEVEL_MANAGEMENT", new Right( ) );
+        return user;
+    }
+
+    private AdminUser getLevel3UserToModify( )
+    {
+        AdminUser user = getUserToModify( );
+        user.setUserLevel( 3 );
+        AdminUserHome.update( user );
+        return AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+    }
+
+    @Test
+    public void testDoModifyAdminUserRightsAboveUserLevel( ) throws AccessDeniedException
+    {
+        AdminUser user = getLevel3UserToModify( );
+        try
+        {
+            Right rightAboveLevel = RightHome.getRightsList( ).stream( ).filter( right -> right.getLevel( ) < 3 ).findFirst( ).orElseThrow( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( "right", rightAboveLevel.getId( ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "jsp/admin/user/ManageUserRights.jsp" ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.doModifyAdminUserRights( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertFalse( AdminUserHome.hasRight( stored, rightAboveLevel.getId( ) ) );
+            assertTrue( AdminUserHome.hasRight( stored, RIGHT_CORE_USERS_MANAGEMENT ) );
+        }
+        finally
+        {
+            disposeOfUser( user );
+        }
+    }
+
+    @Test
+    public void testDoModifyAdminUserLevelAboveOwnLevel( )
+    {
+        AdminUser user = getLevel3UserToModify( );
+        try
+        {
+            for ( String strLevel : new String [ ] {
+                    "0", "1"
+            } )
+            {
+                MockHttpServletRequest request = new MockHttpServletRequest( );
+                request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithLevelManagementRight( ) );
+                request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+                request.addParameter( "user_level", strLevel );
+                assertThrows( AccessDeniedException.class, ( ) -> bean.doModifyAdminUser( request ) );
+            }
+            assertEquals( 3, AdminUserHome.findByPrimaryKey( user.getUserId( ) ).getUserLevel( ) );
+        }
+        finally
+        {
+            disposeOfUser( user );
+        }
+    }
+
     @Test
     public void testDoModifyAdminUserRightsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {

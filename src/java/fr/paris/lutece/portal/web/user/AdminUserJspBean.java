@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
@@ -876,10 +878,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             for ( Level levelItem : LevelHome.getLevelsList( ) )
             {
-                filteredLevels.add( levelItem.getReferenceItem( ) );
+                if ( isUserLevelAssignable( currentUser, levelItem.getId( ) ) )
+                {
+                    filteredLevels.add( levelItem.getReferenceItem( ) );
+                }
             }
-            ;
-            filteredLevels.removeIf( levelItem -> levelItem.getCode( ).equals( "0" ) );
         }
 
         // ITEM NAVIGATION
@@ -938,7 +941,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         // Check if the current user is trying to modify another user's right level.
         // If that's the case, then make sure they have the required authorization to do it
-        if ( isUserLevelModified( userToModify, strUserLevel ) && !isUserAuthorizedToChangeUserLevel( currentUser, userToModify ) )
+        if ( isUserLevelModified( userToModify, strUserLevel )
+                && ( !isUserAuthorizedToChangeUserLevel( currentUser, userToModify ) || !isUserLevelAssignable( currentUser, Integer.parseInt( strUserLevel ) ) ) )
         {
             throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
@@ -1744,6 +1748,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
         {
             throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
+        // Only the rights offered by the form can be given: the rights of the user level or a lower level
+        if ( arrayRights != null )
+        {
+            Set<String> assignableRights = RightHome.getRightsList( user.getUserLevel( ) ).stream( ).map( Right::getId ).collect( Collectors.toSet( ) );
+
+            for ( String strRight : arrayRights )
+            {
+                if ( !assignableRights.contains( strRight ) )
+                {
+                    throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+                }
+            }
         }
 
         AdminUserHome.removeAllOwnRightsForUser( user );
@@ -2773,6 +2791,21 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return false;
         }
         return currentUser.checkRight( "CORE_LEVEL_MANAGEMENT" ) && userToModify.getUserLevel( ) != 0;
+    }
+
+    /**
+     * Check if a user can give a right level to another user. The level 0 is never given, and a user who is not an administrator only gives
+     * a level lower than its own.
+     * 
+     * @param currentUser
+     *            The user doing the modification
+     * @param nLevel
+     *            The right level to give
+     * @return true if the right level can be given, false otherwise
+     */
+    private boolean isUserLevelAssignable( AdminUser currentUser, int nLevel )
+    {
+        return ( nLevel != 0 ) && ( LevelHome.findByPrimaryKey( nLevel ) != null ) && ( currentUser.isAdmin( ) || currentUser.hasRights( nLevel ) );
     }
 
     /**
