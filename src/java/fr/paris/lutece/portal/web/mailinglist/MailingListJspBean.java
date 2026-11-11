@@ -64,6 +64,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -247,6 +248,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
+        checkWorkgroupOffered( mailinglist.getWorkgroup( ) );
+
         MailingListHome.create( mailinglist );
 
         // Forward to modify page to enter users filters
@@ -281,7 +284,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         int nMailingListId = Integer.parseInt( strMailingListId );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nMailingListId );
 
-        if ( mailinglist == null )
+        if ( ( mailinglist == null ) || !isMailingListAuthorized( mailinglist ) )
         {
             AppLogService.error( "{} is not a valid mailing list id.", ( ) -> SecurityUtil.logForgingProtect( strMailingListId ) );
 
@@ -313,6 +316,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         int nId = Integer.parseInt( strId );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nId );
 
+        checkMailingListAuthorized( mailinglist );
+
         String strErrors = processFormData( request, mailinglist );
 
         if ( strErrors != null )
@@ -323,6 +328,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+
+        checkWorkgroupOffered( mailinglist.getWorkgroup( ) );
 
         MailingListHome.update( mailinglist );
 
@@ -341,6 +348,15 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
         if ( StringUtils.isBlank( strId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                    PARAMETER_MAILINGLIST_ID
+            }, JSP_URL_MANAGE_MAILINGLISTS, AdminMessage.TYPE_STOP );
+        }
+
+        MailingList mailinglist = StringUtils.isNumeric( strId ) ? MailingListHome.findByPrimaryKey( Integer.parseInt( strId ) ) : null;
+
+        if ( ( mailinglist == null ) || !isMailingListAuthorized( mailinglist ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     PARAMETER_MAILINGLIST_ID
@@ -383,6 +399,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         int nId = Integer.parseInt( strId );
 
+        checkMailingListAuthorized( MailingListHome.findByPrimaryKey( nId ) );
+
         MailingListHome.remove( nId );
 
         return getHomeUrl( request );
@@ -406,13 +424,15 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         if ( strId != null )
         {
             int nIdMailingList = Integer.parseInt( strId );
-            listRecipients = AdminMailingListService.getRecipients( nIdMailingList );
+            MailingList mailinglist = MailingListHome.findByPrimaryKey( nIdMailingList );
+            listRecipients = ( ( mailinglist != null ) && isMailingListAuthorized( mailinglist ) ) ? AdminMailingListService.getRecipients( nIdMailingList )
+                    : new ArrayList<>( );
         }
         else
         {
             String strWorkgroup = request.getParameter( PARAMETER_WORKGROUP );
             String strRole = request.getParameter( PARAMETER_ROLE );
-            listRecipients = AdminMailingListService.getRecipients( strWorkgroup, strRole );
+            listRecipients = isWorkgroupOffered( strWorkgroup ) ? AdminMailingListService.getRecipients( strWorkgroup, strRole ) : new ArrayList<>( );
         }
 
         model.put( MARK_RECIPIENTS_LIST, listRecipients );
@@ -437,7 +457,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         int nId = Integer.parseInt( strId );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nId );
 
-        if ( mailinglist == null )
+        if ( ( mailinglist == null ) || !isMailingListAuthorized( mailinglist ) )
         {
             return getManageMailinglists( request );
         }
@@ -483,6 +503,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
+            checkMailingListAuthorized( MailingListHome.findByPrimaryKey( nId ) );
+            checkWorkgroupOffered( strWorkgroup );
             MailingListHome.addFilterToMailingList( filter, nId );
 
             // Forward to modify page to enter users filters
@@ -516,6 +538,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strRole = request.getParameter( PARAMETER_ROLE );
 
         int nId = Integer.parseInt( strId );
+        checkMailingListAuthorized( MailingListHome.findByPrimaryKey( nId ) );
         MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setWorkgroup( strWorkgroup );
         filter.setRole( strRole );
@@ -526,6 +549,64 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
         return urlModify.getUrl( );
+    }
+
+    /**
+     * Check if the workgroup of a mailing list is all groups or one of the workgroups of the current user, as in the list of the mailing
+     * lists
+     * 
+     * @param mailinglist
+     *            the mailing list
+     * @return true if the current user may manage the mailing list
+     */
+    private boolean isMailingListAuthorized( MailingList mailinglist )
+    {
+        return AdminWorkgroupService.ALL_GROUPS.equals( mailinglist.getWorkgroup( ) ) || AdminWorkgroupHome.getUserWorkgroups( getUser( ) ).stream( )
+                .anyMatch( item -> item.getCode( ).equals( mailinglist.getWorkgroup( ) ) );
+    }
+
+    /**
+     * Refuse the action when the mailing list does not exist or the current user may not manage it
+     * 
+     * @param mailinglist
+     *            the mailing list
+     * @throws AccessDeniedException
+     *             if the current user may not manage the mailing list
+     */
+    private void checkMailingListAuthorized( MailingList mailinglist ) throws AccessDeniedException
+    {
+        if ( ( mailinglist == null ) || !isMailingListAuthorized( mailinglist ) )
+        {
+            throw new AccessDeniedException( "The current user may not manage this mailing list" );
+        }
+    }
+
+    /**
+     * Check if a workgroup is one of those the forms offer: the workgroups of the current user, or all groups
+     * 
+     * @param strWorkgroupKey
+     *            the workgroup key
+     * @return true if the workgroup is offered to the current user
+     */
+    private boolean isWorkgroupOffered( String strWorkgroupKey )
+    {
+        return AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ).stream( ).anyMatch( item -> item.getCode( ).equals( strWorkgroupKey ) );
+    }
+
+    /**
+     * Refuse the action when the workgroup is not offered to the current user
+     * 
+     * @param strWorkgroupKey
+     *            the workgroup key
+     * @throws AccessDeniedException
+     *             if the workgroup is not offered to the current user
+     */
+    private void checkWorkgroupOffered( String strWorkgroupKey ) throws AccessDeniedException
+    {
+        if ( !isWorkgroupOffered( strWorkgroupKey ) )
+        {
+            throw new AccessDeniedException( "The workgroup " + strWorkgroupKey + " is not offered to the current user" );
+        }
     }
 
     /**

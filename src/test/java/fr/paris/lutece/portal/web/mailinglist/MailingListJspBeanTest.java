@@ -42,8 +42,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
+import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -51,6 +56,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -85,6 +91,94 @@ public class MailingListJspBeanTest extends LuteceTestCase
         }
     }
 
+    private void login( MockHttpServletRequest request ) throws AccessDeniedException
+    {
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), MailingListJspBean.RIGHT_MANAGE_MAILINGLISTS );
+        bean.init( request, MailingListJspBean.RIGHT_MANAGE_MAILINGLISTS );
+    }
+
+    private MailingList createMailingListOfOtherWorkgroup( )
+    {
+        MailingList other = new MailingList( );
+        other.setName( getRandomName( ) );
+        other.setDescription( other.getName( ) );
+        other.setWorkgroup( getRandomName( ) );
+        MailingListHome.create( other );
+        return other;
+    }
+
+    @Test
+    public void testDoModifyMailingListOtherWorkgroup( ) throws AccessDeniedException
+    {
+        MailingList other = createMailingListOfOtherWorkgroup( );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            login( request );
+            request.setParameter( "id_mailinglist", Integer.toString( other.getId( ) ) );
+            request.setParameter( "name", other.getName( ) + "_mod" );
+            request.setParameter( "description", other.getDescription( ) );
+            request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
+
+            assertThrows( AccessDeniedException.class, ( ) -> bean.doModifyMailingList( request ) );
+            MailingList stored = MailingListHome.findByPrimaryKey( other.getId( ) );
+            assertEquals( other.getName( ), stored.getName( ) );
+            assertEquals( other.getWorkgroup( ), stored.getWorkgroup( ) );
+        }
+        finally
+        {
+            MailingListHome.remove( other.getId( ) );
+        }
+    }
+
+    @Test
+    public void testGetViewUsersOtherWorkgroup( ) throws AccessDeniedException
+    {
+        AdminWorkgroup workgroup = new AdminWorkgroup( );
+        workgroup.setKey( getRandomName( ) );
+        workgroup.setDescription( workgroup.getKey( ) );
+        AdminWorkgroupHome.create( workgroup );
+        AdminUser admin = AdminUserHome.findUserByLogin( "admin" );
+        AdminWorkgroupHome.addUserForWorkgroup( admin, workgroup.getKey( ) );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            login( request );
+            request.setParameter( "workgroup", workgroup.getKey( ) );
+            request.setParameter( "role", AdminMailingListService.ALL_ROLES );
+
+            String strHtml = bean.getViewUsers( request );
+
+            assertFalse( strHtml.contains( admin.getEmail( ) ) );
+        }
+        finally
+        {
+            AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
+            AdminWorkgroupHome.remove( workgroup.getKey( ) );
+        }
+    }
+
+    @Test
+    public void testGetUserMailingListsWideSearch( ) throws AccessDeniedException
+    {
+        MailingList other = createMailingListOfOtherWorkgroup( );
+        try
+        {
+            MailingListFilter filter = new MailingListFilter( );
+            filter.setName( other.getName( ) );
+            filter.setWideSearch( true );
+
+            assertTrue( AdminMailingListService.getUserMailingListsByFilter( new AdminUser( ), filter ).stream( )
+                    .noneMatch( list -> list.getId( ) == other.getId( ) ) );
+        }
+        finally
+        {
+            MailingListHome.remove( other.getId( ) );
+        }
+    }
+
     private String getRandomName( )
     {
         Random rand = new SecureRandom( );
@@ -95,6 +189,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoAddUsers( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
@@ -114,6 +209,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoAddUsersInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
@@ -138,6 +234,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoAddUsersNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
@@ -160,6 +257,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoCreateMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         final String name = getRandomName( );
         request.setParameter( "name", name );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
@@ -190,6 +288,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoCreateMailingListInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         final String name = getRandomName( );
         request.setParameter( "name", name );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
@@ -224,6 +323,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoCreateMailingListNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         final String name = getRandomName( );
         request.setParameter( "name", name );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
@@ -263,6 +363,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         MailingListHome.addFilterToMailingList( filter, mailingList.getId( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
@@ -284,6 +385,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         MailingListHome.addFilterToMailingList( filter, mailingList.getId( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
@@ -312,6 +414,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         MailingListHome.addFilterToMailingList( filter, mailingList.getId( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
@@ -331,6 +434,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoModifyMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "name", mailingList.getName( ) + "_mod" );
         request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
@@ -352,6 +456,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoModifyMailingListInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "name", mailingList.getName( ) + "_mod" );
         request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
@@ -378,6 +483,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoModifyMailingListNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "name", mailingList.getName( ) + "_mod" );
         request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
@@ -399,9 +505,10 @@ public class MailingListJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testGetConfirmRemoveMailingList( )
+    public void testGetConfirmRemoveMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
 
         bean.getConfirmRemoveMailingList( request );
@@ -415,9 +522,10 @@ public class MailingListJspBeanTest extends LuteceTestCase
         assertTrue( _securityTokenService.validate( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) );
     }
     @Test
-    public void testGetConfirmRemoveMailingListWithoutId( )
+    public void testGetConfirmRemoveMailingListWithoutId( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         bean.getConfirmRemoveMailingList( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -425,20 +533,22 @@ public class MailingListJspBeanTest extends LuteceTestCase
     }
 
     @Test
-    public void testGetConfirmRemoveMailingListUnknownId( )
+    public void testGetConfirmRemoveMailingListUnknownId( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) + 1000 ) );
         bean.getConfirmRemoveMailingList( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
-        assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
     }
 
     @Test
     public void testDoRemoveMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) );
@@ -451,6 +561,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoRemoveMailingListInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) + "b" );
@@ -470,6 +581,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
     public void testDoRemoveMailingListNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        login( request );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
 
         assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );

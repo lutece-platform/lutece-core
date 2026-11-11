@@ -118,20 +118,30 @@ public final class AdminMailingListService
      */
     public static List<MailingList> getUserMailingListsByFilter( AdminUser user, MailingListFilter filter )
     {
-        MailingListFilter mailingListFilter = new MailingListFilter( filter );
-        // First get mailinglist by workgroup 'all'
-        mailingListFilter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+        // The mailing lists of the workgroup 'all', then of the user's workgroups. A wide search joins the criteria with OR, the workgroup
+        // too: only the lists of the workgroup searched are kept
+        List<String> listWorkgroupKeys = new ArrayList<>( );
+        listWorkgroupKeys.add( AdminWorkgroupService.ALL_GROUPS );
 
-        List<MailingList> listMailingLists = MailingListHome.findsByFilter( mailingListFilter );
-
-        // Add mailing list of the user's workgroups
-        ReferenceList listWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
-
-        for ( ReferenceItem workgroup : listWorkgroups )
+        for ( ReferenceItem workgroup : AdminWorkgroupHome.getUserWorkgroups( user ) )
         {
-            mailingListFilter = new MailingListFilter( filter );
-            mailingListFilter.setWorkgroup( workgroup.getCode( ) );
-            listMailingLists.addAll( MailingListHome.findsByFilter( mailingListFilter ) );
+            listWorkgroupKeys.add( workgroup.getCode( ) );
+        }
+
+        List<MailingList> listMailingLists = new ArrayList<>( );
+
+        for ( String strWorkgroupKey : listWorkgroupKeys )
+        {
+            MailingListFilter mailingListFilter = new MailingListFilter( filter );
+            mailingListFilter.setWorkgroup( strWorkgroupKey );
+
+            for ( MailingList mailingList : MailingListHome.findsByFilter( mailingListFilter ) )
+            {
+                if ( strWorkgroupKey.equals( mailingList.getWorkgroup( ) ) )
+                {
+                    listMailingLists.add( mailingList );
+                }
+            }
         }
 
         return listMailingLists;
