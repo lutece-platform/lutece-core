@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.admin;
 
 import fr.paris.lutece.portal.service.template.HtmlMarkup;
+import org.apache.commons.lang3.math.NumberUtils;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
