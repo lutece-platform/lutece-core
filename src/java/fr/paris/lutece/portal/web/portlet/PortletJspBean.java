@@ -71,6 +71,9 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
 /**
  * This class represents user interface Portlet. It is the base class of all user interface portlets. It is abstract and the implementation of the interface
@@ -125,6 +128,11 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     // Messages
     private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
     private static final String MESSAGE_INVALID_TEMPLATE = "portal.site.message.portletTemplateInvalid";
+    private static final String MESSAGE_NAME_TOO_LONG = "portal.site.message.portletNameTooLong";
+
+    // The title is stored in a column of 70 characters: the setting of the site may not ask for more
+    private static final String DSKEY_NAME_MAX_LENGTH = "portal.site.site_property.portlet.title.maxlength";
+    private static final int NAME_COLUMN_LENGTH = 70;
 
     // Jsp
     private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
@@ -242,6 +250,15 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
+        int nNameMaxLength = getNameMaxLength( );
+
+        if ( strName.length( ) > nNameMaxLength )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_NAME_TOO_LONG, new Object [ ] {
+                    nNameMaxLength
+            }, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
+        }
+
         // style id is not mandatory if the content is not generated from XML and XSL
         if ( portlet.isContentGeneratedByXmlAndXsl( ) && ( strStyleId == null || strStyleId.trim( ).equals( "" ) ) )
         {
@@ -344,6 +361,18 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setDeviceDisplayFlags( nDeviceDisplayFlags );
 
         return strErrorKey;
+    }
+
+    /**
+     * The maximum length of the title of a portlet: the setting of the site, at most the length of the column
+     *
+     * @return the maximum length
+     */
+    private static int getNameMaxLength( )
+    {
+        int nMaxLength = NumberUtils.toInt( DatastoreService.getDataValue( DSKEY_NAME_MAX_LENGTH, null ), NAME_COLUMN_LENGTH );
+
+        return ( nMaxLength > 0 ) ? Math.min( nMaxLength, NAME_COLUMN_LENGTH ) : NAME_COLUMN_LENGTH;
     }
 
     /**

@@ -40,7 +40,7 @@
 		<@row class='g-2'>
 			<@columns xs=12 sm=fieldCols>
 				<@formGroup labelFor='portlet_name' labelKey='#i18n{portal.site.create_portlet.labelPortletTitle}' rows=2 mandatory=true>
-					<@input type='text' name='portlet_name' value='${portlet.name}' maxlength=dskey('portal.site.site_property.portlet.title.maxlength')?number!70 />
+					<@input type='text' name='portlet_name' value='${portlet.name}' maxlength=[ dskey('portal.site.site_property.portlet.title.maxlength')?number!70, 70 ]?min />
 				</@formGroup>
 			</@columns>
 			<@columns xs=12 sm=fieldCols>
