@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.util.Collection;
 import java.util.List;
 
 import jakarta.enterprise.context.RequestScoped;
@@ -57,7 +58,7 @@ import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
-import fr.paris.lutece.util.ErrorMessage;
+import fr.paris.lutece.portal.util.mvc.binding.ParamError;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -292,8 +293,10 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         
     	if( !validateBean( securityHeader, VALIDATION_ATTRIBUTES_PREFIX ) )
     	{
-    		List<ErrorMessage> listErrors = ( List<ErrorMessage> ) _model.get( MARK_ERRORS );
-    		return listErrors.get( 0 ).getMessage( );
+    		// The errors of the validation are kept in a set
+    		Collection<?> errors = (Collection<?>) _model.get( MARK_ERRORS );
+    		Object error = errors.iterator( ).next( );
+    		return ( error instanceof ParamError ) ? ( (ParamError) error ).getMessage( ) : String.valueOf( error );
     	}
 
     	if( !isTypeBelongsToReferenceList ( securityHeader.getType( ) ) )
