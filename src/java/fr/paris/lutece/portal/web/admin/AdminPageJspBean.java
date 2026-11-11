@@ -261,6 +261,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         Page page = PageHome.getPage( nPageId );
         String strReturnUrl = getAdminPageBlockUrl( request, nPageId, BLOCK_PROPERTY );
+        int nOldParentPageId = page.getParentPageId( );
 
         String strErrorUrl = getPageData( mRequest, page, strReturnUrl );
 
@@ -274,6 +275,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
+        }
+
+        if ( page.getParentPageId( ) != nOldParentPageId )
+        {
+            checkManagePage( page.getParentPageId( ) );
         }
 
         strErrorUrl = updatePicture( mRequest, page, strReturnUrl );
