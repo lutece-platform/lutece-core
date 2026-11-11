@@ -88,6 +88,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
+import fr.paris.lutece.util.sql.TransactionManager;
 import fr.paris.lutece.util.url.UrlItem;
 
 /**
@@ -588,27 +589,42 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        // Create the page
-        _pageService.createPage( page );
+        // The image is optional
+        var item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
 
-        // set the authorization node
+        if ( item != null )
+        {
+            page.setImageContent( item.get( ) );
+            page.setMimeType( item.getContentType( ) );
+        }
+
+        // A page that inherits its authorization node is created with it
         if ( page.getNodeStatus( ) != 0 )
         {
             Page parentPage = PageHome.getPage( page.getParentPageId( ) );
             page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode( ) );
         }
-        else
+
+        // The page and its own authorization node are saved together: a page is never left without authorization node
+        TransactionManager.beginTransaction( null );
+
+        try
         {
-            page.setIdAuthorizationNode( page.getId( ) );
+            _pageService.createPage( page );
+
+            if ( page.getNodeStatus( ) == 0 )
+            {
+                page.setIdAuthorizationNode( page.getId( ) );
+                PageHome.updateAuthorizationNode( page.getId( ), page.getId( ) );
+            }
+
+            TransactionManager.commitTransaction( null );
         }
-
-        var item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
-
-        byte [ ] bytes = item.get( );
-        String strMimeType = item.getContentType( );
-
-        page.setImageContent( bytes );
-        page.setMimeType( strMimeType );
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
 
         _pageService.updatePage( page );
 

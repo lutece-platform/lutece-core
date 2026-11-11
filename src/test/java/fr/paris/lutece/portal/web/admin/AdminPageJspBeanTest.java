@@ -803,6 +803,57 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertTrue( children.stream( ).allMatch( page -> page.getParentPageId( ) == _page.getId( ) && page.getName( ).equals( _page.getName( ) + "_child" ) ) );
     }
     @Test
+    public void testDoCreateChildPageWithoutImage( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        loginUser( request, _adminUser );
+        Map<String, String [ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String [ ] {
+                Integer.toString( _page.getId( ) )
+        } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
+                _page.getDescription( )
+        } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
+                Integer.toString( _page.getPageTemplateId( ) )
+        } );
+        parameters.put( Parameters.META_KEYWORDS, new String [ ] {
+                ""
+        } );
+        parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
+                ""
+        } );
+        parameters.put( "node_status", new String [ ] {
+                "0"
+        } );
+        parameters.put( Parameters.PAGE_NAME, new String [ ] {
+                _page.getName( ) + "_child"
+        } );
+        parameters.put( Parameters.PARENT_ID, new String [ ] {
+                Integer.toString( _page.getParentPageId( ) )
+        } );
+        parameters.put( Parameters.PARAMETER_DISPLAY_UPDATE_DATE, new String [ ] {
+                Boolean.toString( _page.getDisplayDateUpdate( ) )
+        } );
+        parameters.put( Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE, new String [ ] {
+                Boolean.toString( _page.getIsManualDateUpdate( ) )
+        } );
+        parameters.put( Parameters.PARAMETER_MANUAL_UPDATE_DATE, new String [ ] {
+                "01/01/2017"
+        } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+                _securityTokenService.getToken( request, "admin/site/admin_page_block_childpage.html" )
+        } );
+
+        _bean.doCreateChildPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+
+        Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
+        assertEquals( 1, children.size( ) );
+        Page child = PageHome.findByPrimaryKey( children.iterator( ).next( ).getId( ) );
+        assertEquals( Integer.valueOf( child.getId( ) ), child.getIdAuthorizationNode( ) );
+    }
+
+    @Test
     public void testDoCreateChildPageInvalidToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
