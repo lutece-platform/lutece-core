@@ -14,7 +14,7 @@
 	if ( typeof tinymce === 'undefined' ) {
 		return;
 	}
-	const profileConfig = ${textEditorProfile.config?replace( '<', '\\u003c' )};
+	const profileConfig = ${textEditorProfile.config?replace( '<', '\\u003c' )?no_esc};
 	const init = tinymce.init.bind( tinymce );
 	tinymce.init = function ( config ) {
 		const merged = Object.assign( {}, config, profileConfig );

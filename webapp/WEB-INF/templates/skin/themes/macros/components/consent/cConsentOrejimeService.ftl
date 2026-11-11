@@ -25,9 +25,9 @@ Snippet:
 <#if code?has_content>
 <#nested>
 {
-    id: '${code}',
-    title: '${title}',
-    description: "${description}",
+    id: '${code?js_string?no_esc}',
+    title: '${title?js_string?no_esc}',
+    description: "${description?js_string?no_esc}",
     isMandatory: ${required?c},
     isExempt: ${exempt?c},
 },

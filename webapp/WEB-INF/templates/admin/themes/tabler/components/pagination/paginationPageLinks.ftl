@@ -28,19 +28,19 @@ Snippet:
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<@li class='page-item'>
 		<@link href='${paginator.firstPageLink}' class='page-link'>
-			${paginator.labelFirst}
+			${paginator.labelFirst?no_esc}
 		</@link>
 	</@li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<@li class='page-item'>
 		<@link href='${paginator.previousPageLink}' class='page-link'>
-			${paginator.labelPrevious}
+			${paginator.labelPrevious?no_esc}
 		</@link>
 	</@li>
 <#else>
 	<@li class='page-item disabled'>
-		<@link href='${paginator.firstPageLink}' class='page-link'>${paginator.labelPrevious}</@link>
+		<@link href='${paginator.firstPageLink}' class='page-link'>${paginator.labelPrevious?no_esc}</@link>
 	</@li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
@@ -67,19 +67,19 @@ Snippet:
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<@li class='page-item next'>
 		<@link href="${paginator.nextPageLink}" class='page-link'>
-			${paginator.labelNext}
+			${paginator.labelNext?no_esc}
 		</@link>
 	</@li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<@li class='page-item next'>
 			<@link href='${paginator.lastPageLink}' class='page-link'>
-				${paginator.labelLast}
+				${paginator.labelLast?no_esc}
 			</@link>
 		</@li>
 	</#if>
 <#else>
 	<@li class='page-item disabled'>
-		<@link href='${paginator.lastPageLink}' class='page-link'>${paginator.labelNext}</@link>
+		<@link href='${paginator.lastPageLink}' class='page-link'>${paginator.labelNext?no_esc}</@link>
 	</@li>
 </#if>
 </@ul>
