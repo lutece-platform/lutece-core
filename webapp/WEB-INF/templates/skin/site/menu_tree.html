@@ -1,10 +1,10 @@
 <@cTpl>
-<#if menuItems?has_content>
+<#if items?has_content>
 <div id="lutece-main-menu-tree">
     <ul class="list-unstyled">
-    <#list menuItems as menu>
+    <#list items as menu>
         <li class="nav-item lutece-tree-node" id="node-${menu.pageId}">
-            <a href="${site_path}?page_id=${menu.pageId}" target="_top" aria-current="<#if page?? &&menu.pageId == page.id>true<#else>false</#if>" class="nav-link">
+            <a href="${site_path}?page_id=${menu.pageId}" target="_top" aria-current="<#if menu.pageId == current_page_id>true<#else>false</#if>" class="nav-link">
                 ${menu.pageName}
             </a>
             <br />
@@ -13,7 +13,7 @@
             <ul class="list-unstyled">
             <#list menu.children as child>
                 <li class="nav-item lutece-tree-node" id="node-${child.pageId}">
-                    <a href="${site_path}?page_id=${child.pageId}" target="_top" aria-current="<#if page?? &&child.pageId == page.id>true<#else>false</#if>" class="nav-link" >
+                    <a href="${site_path}?page_id=${child.pageId}" target="_top" aria-current="<#if child.pageId == current_page_id>true<#else>false</#if>" class="nav-link" >
                         ${child.pageName!}
                     </a>
                 </li>
@@ -28,7 +28,7 @@
 import LuteceTree from './themes/shared/modules/luteceTree.js';
 const tree = document.querySelector("#lutece-main-menu-tree");
 const mapTree = new LuteceTree( tree );
-mapTree.selectTreeNode( '#node-${page.id}' )
+mapTree.selectTreeNode( '#node-${current_page_id?c}' )
 </script>
 </#if>
 </@cTpl>

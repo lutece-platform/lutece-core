@@ -67,6 +67,7 @@ public class TreeMenuInclude implements PageInclude
     private static final String TEMPLATE_TREE_MENU = "skin/site/menu_tree.html";
     private static final String MARK_SITE_PATH = "site_path";
     private static final String MARK_MENU_ITEMS = "items";
+    private static final String MARK_CURRENT_PAGE_ID = "current_page_id";
 
     /**
      * Substitue specific Freemarker markers in the page template.
@@ -172,6 +173,7 @@ public class TreeMenuInclude implements PageInclude
 
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_MENU_ITEMS, menuItems );
+        model.put( MARK_CURRENT_PAGE_ID, nIdPage );
         model.put( MARK_SITE_PATH, nMode != PortalMenuService.MODE_ADMIN ? AppPathService.getPortalUrl( ) : AppPathService.getAdminPortalUrl( ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_MENU, null, model );
         return template.getHtml( );
