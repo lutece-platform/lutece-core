@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.security;
 
 import java.io.IOException;
 
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import jakarta.inject.Inject;
 import jakarta.servlet.Filter;
@@ -80,7 +79,10 @@ public class SecurityTokenFilterSite implements Filter
         String action = MVCUtils.getAction( httpServletRequest );
         if ( !_securityTokenHandler.validate( httpServletRequest, _securityTokenHandler.resolveTokenAction( httpServletRequest, action ) ) )
         {
-            throw new ServletException( new AccessDeniedException( "Invalid security token for action: " + action ) );
+            // A refused request, not an error of the application: 403 and a line in the log
+            _securityTokenHandler.logInvalidToken( httpServletRequest );
+            ( (HttpServletResponse) response ).sendError( HttpServletResponse.SC_FORBIDDEN );
+            return;
         }
 
         chain.doFilter( request, response );

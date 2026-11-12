@@ -1,0 +1,8 @@
+<#include "minimal_header.html" />
+<@cTpl>
+<#assign errorTitle>#i18n{portal.theme.error403.title}</#assign>
+<#assign errorText>#i18n{portal.theme.error403.text}</#assign>
+<#assign backLabel>#i18n{portal.theme.error403.back}</#assign>
+<@cErrorMessage title=errorTitle text=errorText linkUrl=back_url linkLabelUrl=backLabel />
+</@cTpl>
+<#include "minimal_footer.html" />

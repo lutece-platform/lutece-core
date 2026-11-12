@@ -102,6 +102,7 @@ public class SecurityTokenHandler
     private static final Logger _logger = LogManager.getLogger( "lutece.security" );
     private static final String ATTRIBUTE_GET_ACTION_REFUSED = SecurityTokenHandler.class.getName( ) + "_GET_ACTION_REFUSED";
     private static final String MESSAGE_GET_ACTION = "{} on @Action '{}' of {} (referer {}) : should be POST, policy {}";
+    private static final String MESSAGE_INVALID_TOKEN = "{} on @Action '{}' of {} (referer {}) : missing or invalid security token, refused (403)";
 
     /**
      * What happens when an MVC {@code @Action} is requested with another method than POST (a link, a GET fetch, a HEAD request).
@@ -411,6 +412,19 @@ public class SecurityTokenHandler
      *            The request
      * @return The controller name
      */
+    /**
+     * Writes in the log of lutece.security a request refused because its security token is missing or invalid, with the controller, the action
+     * and the referer, to find the forms and the links to fix.
+     *
+     * @param request
+     *            The HTTP request
+     */
+    public void logInvalidToken( HttpServletRequest request )
+    {
+        _logger.warn( MESSAGE_INVALID_TOKEN, request.getMethod( ), MVCUtils.getAction( request ), getControllerName( request ),
+                request.getHeader( HEADER_REFERER ) );
+    }
+
     private String getControllerName( HttpServletRequest request )
     {
         String strPageName = request.getParameter( PARAMETER_PAGE );

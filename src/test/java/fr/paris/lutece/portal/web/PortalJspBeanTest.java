@@ -157,4 +157,17 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         LocalVariables.setLocal( null, null, null );
     }
+
+    /**
+     * The 403 page explains the refusal and offers to go back
+     */
+    @Test
+    public void testGetError403Page( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String strHtml = new PortalJspBean( ).getError403Page( request );
+
+        assertNotNull( strHtml );
+        assertFalse( strHtml.contains( "#i18n{" ) );
+    }
 }

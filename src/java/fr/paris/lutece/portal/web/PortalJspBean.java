@@ -101,6 +101,8 @@ public class PortalJspBean
     private static final String PROPERTY_PAGE_TITLE_ERROR404 = "portal.util.error404.title";
     private static final String PROPERTY_PAGE_TITLE_ERROR405 = "portal.util.error405.title";
     private static final String TEMPLATE_PAGE_ERROR405 = "skin/site/page_error405.html";
+    private static final String PROPERTY_PAGE_TITLE_ERROR403 = "portal.util.error403.title";
+    private static final String TEMPLATE_PAGE_ERROR403 = "skin/site/page_error403.html";
     private static final String MARK_BACK_URL = "back_url";
     private static final String HEADER_REFERER = "Referer";
     private static final String PATH_ADMIN = "/jsp/admin/";
@@ -329,6 +331,25 @@ public class PortalJspBean
         model.put( MARK_BACK_URL, getError405BackUrl( request ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR405, request.getLocale( ), model );
+
+        return template.getHtml( );
+    }
+
+    /**
+     * Returns the 403 Error page, displayed when an operation is sent without its security token, or with an expired one.
+     *
+     * @param request
+     *            The HTTP request
+     * @return The page
+     */
+    public String getError403Page( HttpServletRequest request )
+    {
+        HashMap<String, Object> model = new HashMap<>( );
+        fillPageModel( request, model );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR403, request.getLocale( ) ) );
+        model.put( MARK_BACK_URL, getError405BackUrl( request ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR403, request.getLocale( ), model );
 
         return template.getHtml( );
     }

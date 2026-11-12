@@ -43,7 +43,6 @@ import java.util.stream.StreamSupport;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
-import fr.paris.lutece.portal.service.admin.AdminTokenAccessDeniedException;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.web.LocalVariables;
 import jakarta.inject.Inject;
@@ -109,7 +108,10 @@ public class SecurityTokenFilterAdmin implements Filter
         String action = MVCUtils.getAction( httpServletRequest );
         if ( !_securityTokenHandler.validate( httpServletRequest, _securityTokenHandler.resolveTokenAction( httpServletRequest, action ) ) )
         {
-            throw new ServletException( new AdminTokenAccessDeniedException( "Invalid security token for action: " + action ) );
+            // A refused request, not an error of the application: 403 and a line in the log
+            _securityTokenHandler.logInvalidToken( httpServletRequest );
+            httpServletResponse.sendError( HttpServletResponse.SC_FORBIDDEN );
+            return;
         }
 
         chain.doFilter( request, response );
