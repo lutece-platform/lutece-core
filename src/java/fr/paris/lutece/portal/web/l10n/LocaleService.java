@@ -44,6 +44,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * LocaleService
  */
@@ -166,7 +168,7 @@ public final class LocaleService
             }
 
             // consider the browser language
-            Locale locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
+            Locale locale = new Locale( StringUtils.substring( request.getLocale( ).getLanguage( ), 0, 2 ) );
             if ( isSupported( locale ) )
             {
                 return locale;
