@@ -86,7 +86,7 @@ ${rss?default("<!-- no RSS feed -->")}
 ${page_path}
 <!-- breadcrumb -->
 </#if>
-<#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
+<#assign optMainContentHeader=.get_optional_template('theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
 <main id="main"<#if mainNavClass !=''> class="${mainNavClass!}"</#if> role="main">
 <#if hasBanner?boolean>
