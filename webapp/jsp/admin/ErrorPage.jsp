@@ -41,6 +41,8 @@
 %>
 <%
 	TransactionManager.rollBackEveryTransaction( exception.getCause(  ) );
+	// The language of the administrator, the one of the back office pages; used down to the footer, outside the error branch
+	Locale locale = AdminUserService.getLocale( request );
     if( exception.getCause(  ) instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
     {
     	if ( exception.getMessage(  ) != null )
@@ -73,8 +75,6 @@
     else
     {
 		String strBase = AppPathService.getBaseUrl( request );
-		// The language of the administrator, the one of the back office pages
-		Locale locale = AdminUserService.getLocale( request );
 		// An error page, not a page of the site: the status says so, while the response is still open
 		if ( !response.isCommitted( ) )
 		{
