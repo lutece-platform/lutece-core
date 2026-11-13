@@ -58,6 +58,12 @@ Snippet:
 	delete: {url, icon, title, confirm}
 
 -->
+<#-- Writes a flag of paginationAjax, given as a boolean, as a string "true" / "false" or not given, as a JavaScript boolean. -->
+<#function paginationJsFlag value default>
+  <#if value?is_boolean><#return value?c></#if>
+  <#if value?has_content><#return (value?string == 'true')?c></#if>
+  <#return default?c>
+</#function>
 <#macro paginationAjax paginator columns ajaxUrl tableId="ajaxTable" combo=1 showcount=1 actions={}>
   <#-- Container principal avec card HTML standard -->
   <div class="card mb-4">
@@ -171,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
           offcanvas: {
             targetElement: '${actions.edit.offcanvas.targetElement!'#modify-form'?js_string?no_esc}',
             position: '${actions.edit.offcanvas.position!'end'?js_string?no_esc}',
-            redirectForm: ${actions.edit.offcanvas.redirectForm!'false'?c}
+            redirectForm: ${paginationJsFlag((actions.edit.offcanvas.redirectForm)!'', false)}
           }</#if>
         }<#if actions.delete??>,</#if>
       </#if>
@@ -182,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
           title: '${actions.delete.title!'Supprimer'?js_string?no_esc}',
           btnClass: '${actions.delete.btnClass!'danger'?js_string?no_esc}',
           size: '${actions.delete.size!'sm'?js_string?no_esc}',
-          confirm: ${actions.delete.confirm!'true'?c}<#if actions.delete.confirmMessage??>,
+          confirm: ${paginationJsFlag((actions.delete.confirm)!'', true)}<#if actions.delete.confirmMessage??>,
           confirmMessage: '${actions.delete.confirmMessage?js_string?no_esc}'</#if>
         }
       </#if>

@@ -226,4 +226,47 @@ public class AutoEscapeRenderingTest
         assertTrue( strHtml.contains( "title: 'L\\'a'," ), strHtml );
         assertTrue( strHtml.contains( "description: \"d \\\"q\\\"\"," ), strHtml );
     }
+
+    /**
+     * Renders paginationAjax with a delete action and an edit action in an off-canvas, both flags given as the
+     * expression says.
+     */
+    private static String renderAjaxActions( String strConfirm, String strRedirectForm ) throws IOException, TemplateException
+    {
+        Map<String, Object> model = new HashMap<>( );
+        model.put( "paginator", new Paginator<>( Collections.nCopies( 30, "x" ), 10, "jsp/admin/List.jsp", "page_index", "1" ) );
+        String strActions = "{ 'edit': { 'url': 'jsp/admin/Edit.jsp', 'offcanvas': { 'targetElement': '#f'" + strRedirectForm + " } }, "
+                + "'delete': { 'url': 'jsp/admin/Delete.jsp'" + strConfirm + " } }";
+        return renderBackOffice( "<@paginationAjax paginator=paginator columns=[ { 'name': 'Name', 'property': 'name' } ] "
+                + "ajaxUrl='jsp/admin/List.jsp?action=getItems' showcount=0 actions=" + strActions + " />", model );
+    }
+
+    /**
+     * The confirm flag of the delete action and the redirectForm flag of the edit off-canvas of paginationAjax are
+     * written as JavaScript booleans whether they are absent, booleans or strings.
+     */
+    @Test
+    public void testPaginationAjaxFlagsAreJavaScriptBooleans( ) throws Exception
+    {
+        String strHtml = renderAjaxActions( "", "" );
+        assertTrue( strHtml.contains( "confirm: true" ), strHtml );
+        assertTrue( strHtml.contains( "redirectForm: false" ), strHtml );
+        assertFalse( strHtml.contains( "&quot;" ), strHtml );
+
+        strHtml = renderAjaxActions( ", 'confirm': false", ", 'redirectForm': true" );
+        assertTrue( strHtml.contains( "confirm: false" ), strHtml );
+        assertTrue( strHtml.contains( "redirectForm: true" ), strHtml );
+
+        strHtml = renderAjaxActions( ", 'confirm': true", ", 'redirectForm': false" );
+        assertTrue( strHtml.contains( "confirm: true" ), strHtml );
+        assertTrue( strHtml.contains( "redirectForm: false" ), strHtml );
+
+        strHtml = renderAjaxActions( ", 'confirm': 'false'", ", 'redirectForm': 'true'" );
+        assertTrue( strHtml.contains( "confirm: false" ), strHtml );
+        assertTrue( strHtml.contains( "redirectForm: true" ), strHtml );
+
+        strHtml = renderAjaxActions( ", 'confirm': 'true'", ", 'redirectForm': 'false'" );
+        assertTrue( strHtml.contains( "confirm: true" ), strHtml );
+        assertTrue( strHtml.contains( "redirectForm: false" ), strHtml );
+    }
 }
