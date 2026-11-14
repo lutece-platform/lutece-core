@@ -40,7 +40,7 @@ Snippet:
 			<div class="col">
 				<#-- The day, in the language of the user -->
 				<div class="page-pretitle">${.now?string[ 'EEEE d MMMM yyyy' ]?cap_first}</div>
-				<h2 class="page-title"><#if user?? && user.firstName?has_content>${i18n( 'portal.admin.admin_home.welcomeUser', user.firstName )}<#else>#i18n{portal.admin.admin_home.welcome}</#if></h2>
+				<h1 class="page-title"><#if user?? && user.firstName?has_content>${i18n( 'portal.admin.admin_home.welcomeUser', user.firstName )}<#else>#i18n{portal.admin.admin_home.welcome}</#if></h1>
 				<div class="text-secondary" id="feature-title">${favourite!}</div>
 			</div>
 			<div class="page-header-buttons col-auto ms-auto d-print-none">
