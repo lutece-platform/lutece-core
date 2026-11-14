@@ -103,6 +103,11 @@ public class AdminMenuJspBean implements Serializable
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     public static final String PROPERTY_MENU_DEFAULT_POS = "top";
     public static final String PROPERTY_MENU_DATASTORE_POS = "portal.site.site_property.menu.position";
+    private static final String DEFAULT_FEATURE_GROUP_ID = "DEFAULT";
+    private static final String DEFAULT_FEATURE_GROUP_LABEL_KEY = "portal.features.group.default.label";
+    private static final String DEFAULT_FEATURE_GROUP_DESCRIPTION_KEY = "portal.features.group.default.description";
+    private static final String DEFAULT_FEATURE_GROUP_ICON = "ti ti-dots";
+    private static final int DEFAULT_FEATURE_GROUP_ORDER = 99;
     private static final long serialVersionUID = -8939026727319948581L;
 
     // Markers
@@ -388,18 +393,49 @@ public class AdminMenuJspBean implements Serializable
             features = aLeftFeatures;
         }
 
-        // add the features with no group to the last group
-        if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
+        if ( CollectionUtils.isNotEmpty( features ) )
         {
-            FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
+            FeatureGroup targetFeatureGroup;
+
+            if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
+            {
+                targetFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
+            }
+            else
+            {
+                targetFeatureGroup = buildDefaultFeatureGroup( user.getLocale( ) );
+                aOutFeatureGroupList.add( targetFeatureGroup );
+            }
 
             for ( Right right : features )
             {
-                lastFeatureGroup.addFeature( right );
+                targetFeatureGroup.addFeature( right );
             }
         }
 
         return aOutFeatureGroupList;
+    }
+
+    /**
+     * Builds a fallback feature group that receives the features whose feature group is null or matches no declared
+     * group, so that a user whose rights all fall outside every declared group still sees those features in the
+     * administration menu instead of an empty menu.
+     *
+     * @param locale
+     *            the locale used to localize the group label and description
+     * @return a feature group ready to receive the features that match no declared group
+     */
+    private FeatureGroup buildDefaultFeatureGroup( Locale locale )
+    {
+        FeatureGroup featureGroup = new FeatureGroup( );
+        featureGroup.setId( DEFAULT_FEATURE_GROUP_ID );
+        featureGroup.setLabelKey( DEFAULT_FEATURE_GROUP_LABEL_KEY );
+        featureGroup.setDescriptionKey( DEFAULT_FEATURE_GROUP_DESCRIPTION_KEY );
+        featureGroup.setIcon( DEFAULT_FEATURE_GROUP_ICON );
+        featureGroup.setOrder( DEFAULT_FEATURE_GROUP_ORDER );
+        featureGroup.setLocale( locale );
+
+        return featureGroup;
     }
 
     /**
