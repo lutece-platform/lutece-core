@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.cdi.mvc.event.AfterProcessViewEvent;
@@ -215,7 +216,7 @@ public class RedirectScopeManager {
      */
     public void controllerRedirectEvent(@Observes @Priority(Interceptor.Priority.APPLICATION + 1000) ControllerRedirectEvent event) {
     	Object scopeId = request.getAttribute(SCOPE_ID);
-        if (scopeId != null) {
+        if (scopeId != null && isInternalLocation( event.getLocation( ).getUrl( ) )) {
             request.setAttribute(REDIRECTED, Boolean.TRUE);
             HttpServletResponse response = LocalVariables.getResponse( );
             if (usingCookies()) {            	
@@ -234,6 +235,55 @@ public class RedirectScopeManager {
              }
         }
     }
+    /**
+     * Tells whether a redirect location stays inside this web application, so that the internal ScopeId must not be
+     * appended to a third-party URL (which would leak a session scope identifier and alter the external return URL).
+     * A relative location is internal, even when it carries an absolute URL in its query string; an absolute location
+     * is internal only when it targets this web application base URL or production URL. A location that browsers treat
+     * as authority-based (starting with {@code //}, {@code /\}, {@code \\} or {@code \}) is treated as external.
+     *
+     * @param strLocation the redirect location URL.
+     * @return {@code true} if the location is internal to this web application, {@code false} otherwise.
+     */
+    private boolean isInternalLocation(String strLocation) {
+        if (strLocation == null || strLocation.isEmpty()) {
+            return false;
+        }
+        char firstChar = strLocation.charAt(0);
+        boolean authorityBased = firstChar == '\\'
+                || (firstChar == '/' && strLocation.length() > 1
+                        && (strLocation.charAt(1) == '/' || strLocation.charAt(1) == '\\'));
+        if (!authorityBased && !hasScheme(strLocation)) {
+            return true;
+        }
+        String baseUrl = AppPathService.getBaseUrl(request);
+        if (baseUrl != null && !baseUrl.isEmpty() && strLocation.startsWith(baseUrl)) {
+            return true;
+        }
+        String prodUrl = AppPathService.getProdUrl(request);
+        return prodUrl != null && !prodUrl.isEmpty() && strLocation.startsWith(prodUrl);
+    }
+
+    /**
+     * Tells whether a location begins with a URI scheme, looking only at the characters before the first {@code /},
+     * {@code ?} or {@code #}, so that an absolute URL carried in a query string parameter does not count as a scheme.
+     *
+     * @param strLocation the redirect location URL.
+     * @return {@code true} if the location begins with a scheme, {@code false} otherwise.
+     */
+    private boolean hasScheme(String strLocation) {
+        for (int i = 0; i < strLocation.length(); i++) {
+            char currentChar = strLocation.charAt(i);
+            if (currentChar == '/' || currentChar == '?' || currentChar == '#') {
+                return false;
+            }
+            if (currentChar == ':') {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Generate the scope id.
      *

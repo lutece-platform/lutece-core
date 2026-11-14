@@ -63,6 +63,40 @@ public class RedirectScopeTest extends LuteceTestCase{
     }
 
 	/**
+	 * The scope parameter is appended to a redirect within the webapp only: an external or protocol-relative
+	 * location is left as it is.
+	 */
+	@Test
+	public void testScopeParameterOnlyOnInternalRedirect( )
+	{
+	    assertTrue( redirectTo( "jsp/admin/plugins/forms/ManageForms.jsp?view=manageForms" ).contains( RedirectScopeManager.DEFAULT_QUERY_PARAM_NAME ) );
+	    assertTrue( redirectTo( "Portal.jsp?page=z&back_url=https://return.example.org/x" ).contains( RedirectScopeManager.DEFAULT_QUERY_PARAM_NAME ) );
+	    assertEquals( "https://return.example.org/back", redirectTo( "https://return.example.org/back" ) );
+	    assertEquals( "//return.example.org/back", redirectTo( "//return.example.org/back" ) );
+	    assertEquals( "/\\return.example.org/back", redirectTo( "/\\return.example.org/back" ) );
+	    assertEquals( "\\\\return.example.org/back", redirectTo( "\\\\return.example.org/back" ) );
+	}
+
+	/**
+	 * Runs a request that sets a value of the redirect scope then redirects to a location
+	 *
+	 * @param strLocation
+	 *            the redirect location
+	 * @return the location after the redirect event
+	 */
+	private String redirectTo( String strLocation )
+	{
+	    UrlItem url = new UrlItem( strLocation );
+	    fireBeforeControllerEvent( );
+	    bean.setValue( "test-through-redirect" );
+	    _eventDispatcher.fireControllerRedirectEvent( url );
+	    _eventDispatcher.fireAfterProcessViewEvent( );
+	    fireBeforeControllerEvent( );
+	    _eventDispatcher.fireAfterProcessViewEvent( );
+	    return url.getUrl( );
+	}
+
+	/**
 	 * Simulate the start of controller processing
 	 */
 	private void fireBeforeControllerEvent( )
