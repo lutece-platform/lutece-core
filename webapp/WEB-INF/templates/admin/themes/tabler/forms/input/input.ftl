@@ -123,7 +123,7 @@ Snippet:
 <#elseif type='html5date' || type='html5datetime' || type='html5time' || type='html5month'>
 	<input class="form-control<#if size?has_content> form-control-${size}</#if><#if type='color'> input-color</#if><#if class?has_content> ${class}</#if>"<#if describedBy?has_content> aria-describedby="${describedBy}"</#if><#if isInvalid> aria-invalid="true"</#if> type="<#if type='html5date'>date<#elseif type='html5datetime'>datetime-local<#elseif type='html5time'>time<#elseif type='html5month'>month<#else>unsupported date type</#if>" name="${name}" value="${value}"<#if tabIndex?has_content && ( tabIndex?trim == '0' || tabIndex?trim?starts_with( '-' ) )> tabindex="${tabIndex?trim}"</#if><#if placeHolder?has_content> placeholder="${placeHolder}"</#if><#if title?has_content> title="${title}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs id=inputId params=params /><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if isRequired> required </#if>>
 <#elseif type='hidden'>
-	<input type="hidden"<@commonAttrs id=inputId class=class params=params /> name="${name}" value="${value}" />
+	<input type="hidden"<@commonAttrs id=id class=class params=params /> name="${name}" value="${value}" />
 <#else><@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
 </#if>
 </#macro>
