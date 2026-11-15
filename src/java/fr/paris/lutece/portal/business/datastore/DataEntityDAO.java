@@ -52,7 +52,7 @@ public final class DataEntityDAO implements IDataEntityDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_datastore WHERE entity_key = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_datastore SET entity_value = ? WHERE entity_key = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT entity_key, entity_value FROM core_datastore";
-    private static final String SQL_QUERY_SELECTBYPREFIX = "SELECT entity_key, entity_value FROM core_datastore WHERE entity_key LIKE ?";
+    private static final String SQL_QUERY_SELECTBYPREFIX = "SELECT entity_key, entity_value FROM core_datastore WHERE entity_key LIKE ? ESCAPE '!'";
 
     /**
      * Insert a new record in the table.
@@ -240,7 +240,8 @@ public final class DataEntityDAO implements IDataEntityDAO
         List<DataEntity> entityList = new ArrayList<>( );
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTBYPREFIX ) )
         {
-            daoUtil.setString( 1, strPrefix + "%" );
+            String strEscapedPrefix = strPrefix.replace( "!", "!!" ).replace( "%", "!%" ).replace( "_", "!_" );
+            daoUtil.setString( 1, strEscapedPrefix + "%" );
             daoUtil.executeQuery( );
 
             while ( daoUtil.next( ) )

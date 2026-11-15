@@ -67,6 +67,44 @@ public class DatastoreServicePrefixTest extends LuteceTestCase
         assertFalse( entities.stream( ).anyMatch( e -> e.getCode( ).startsWith( PREFIX_B ) ) );
     }
 
+    public void testGetDataByPrefixDoesNotTreatUnderscoreAsWildcard( )
+    {
+        DatastoreService.setDataValue( "a_1_x", "v1" );
+        DatastoreService.setDataValue( "a_10_x", "v2" );
+        try
+        {
+            ReferenceList entities = DatastoreService.getDataByPrefix( "a_1_" );
+            assertEquals( 1, entities.stream( ).filter( e -> "a_1_x".equals( e.getCode( ) ) ).count( ) );
+            assertEquals( 0, entities.stream( ).filter( e -> "a_10_x".equals( e.getCode( ) ) ).count( ) );
+        }
+        finally
+        {
+            DatastoreService.removeData( "a_1_x" );
+            DatastoreService.removeData( "a_10_x" );
+        }
+    }
+
+    public void testGetDataByPrefixEscapesTheEscapeCharacter( )
+    {
+        DatastoreService.setDataValue( "a!x", "v1" );
+        DatastoreService.setDataValue( "a!y", "v2" );
+        DatastoreService.setDataValue( "abx", "v3" );
+        try
+        {
+            ReferenceList entities = DatastoreService.getDataByPrefix( "a!" );
+            assertEquals( 2, entities.size( ) );
+            assertEquals( 1, entities.stream( ).filter( e -> "a!x".equals( e.getCode( ) ) ).count( ) );
+            assertEquals( 1, entities.stream( ).filter( e -> "a!y".equals( e.getCode( ) ) ).count( ) );
+            assertEquals( 0, entities.stream( ).filter( e -> "abx".equals( e.getCode( ) ) ).count( ) );
+        }
+        finally
+        {
+            DatastoreService.removeData( "a!x" );
+            DatastoreService.removeData( "a!y" );
+            DatastoreService.removeData( "abx" );
+        }
+    }
+
     @Override
     protected void tearDown( ) throws Exception
     {
