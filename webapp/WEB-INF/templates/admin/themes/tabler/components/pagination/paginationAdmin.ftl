@@ -128,7 +128,7 @@ Snippet:
           <div class="col-md-6 text-end">
             <#-- Liens de pagination -->
             <nav aria-label="#i18n{portal.util.labelPagination}">
-              <ul id="${tableId}-pagination" class="pagination pagination-sm mb-0 justify-content-end">
+              <ul id="${tableId}-pagination" class="pagination pagination-sm mb-0 justify-content-end" data-label-first="#i18n{portal.util.labelFirstPage}" data-label-previous="#i18n{portal.util.labelPreviousPage}" data-label-next="#i18n{portal.util.labelNextPage}" data-label-last="#i18n{portal.util.labelLastPage}">
                 <#-- Les liens seront générés dynamiquement -->
               </ul>
             </nav>
@@ -427,29 +427,40 @@ document.addEventListener('DOMContentLoaded', function() {
         startPage = Math.max(1, endPage - maxLinks + 1);
       }
       
-      const addLink = (text, page, isDisabled = false, isActive = false) => {
+      const labels = paginationContainer.dataset;
+      const addLink = (text, page, isDisabled = false, isActive = false, ariaLabel = null) => {
         const li = document.createElement('li');
         li.className = 'page-item' + (isDisabled ? ' disabled' : '') + (isActive ? ' active' : '');
-        
+
         const a = document.createElement('a');
         a.className = 'page-link';
         a.href = '#';
         a.innerHTML = text;
-        
+        if (ariaLabel) {
+          a.setAttribute('aria-label', ariaLabel);
+        }
+        if (isActive) {
+          a.setAttribute('aria-current', 'page');
+        }
+        if (isDisabled) {
+          a.setAttribute('aria-disabled', 'true');
+          a.setAttribute('tabindex', '-1');
+        }
+
         if (!isDisabled && !isActive && page) {
           a.addEventListener('click', function(e) {
             e.preventDefault();
             loadPage(page);
           });
         }
-        
+
         li.appendChild(a);
         paginationContainer.appendChild(li);
       };
       
       // Navigation
-      addLink('<i class="ti ti-chevrons-left"></i>', 1, currentPage === 1);
-      addLink('<i class="ti ti-chevron-left"></i>', currentPage - 1, currentPage === 1);
+      addLink('<i class="ti ti-chevrons-left" aria-hidden="true"></i>', 1, currentPage === 1, false, labels.labelFirst);
+      addLink('<i class="ti ti-chevron-left" aria-hidden="true"></i>', currentPage - 1, currentPage === 1, false, labels.labelPrevious);
       
       if (startPage > 1) {
         addLink('...', null, true);
@@ -463,8 +474,8 @@ document.addEventListener('DOMContentLoaded', function() {
         addLink('...', null, true);
       }
       
-      addLink('<i class="ti ti-chevron-right"></i>', currentPage + 1, currentPage === totalPages);
-      addLink('<i class="ti ti-chevrons-right"></i>', totalPages, currentPage === totalPages);
+      addLink('<i class="ti ti-chevron-right" aria-hidden="true"></i>', currentPage + 1, currentPage === totalPages, false, labels.labelNext);
+      addLink('<i class="ti ti-chevrons-right" aria-hidden="true"></i>', totalPages, currentPage === totalPages, false, labels.labelLast);
     }
     
     // Gérer le tri
