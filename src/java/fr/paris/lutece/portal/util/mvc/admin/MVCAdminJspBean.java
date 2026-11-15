@@ -97,6 +97,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private static Logger _logger = MVCUtils.getLogger( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private transient HttpServletResponse _response;
+    private transient HttpServletRequest _request;
     @Inject
     private SecurityTokenHandler _securityTokenHandler;
     @Inject 
@@ -136,6 +137,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     public String processController( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
     {
         _response = response;
+        _request = request;
         init( request, _controller.right( ) );
 
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
@@ -170,6 +172,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
                 if ( getSecurityTokenHandler( ).isRefusedActionWithoutPost( request ) )
                 {
                     refuseMethod( response );
+                    MVCUtils.markResponseWritten( request );
                     return null;
                 }
             	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION, _controller.securityTokenEnabled( ));
@@ -330,6 +333,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
  	                out.print(jsonResult);
                  }
              }
+
+             MVCUtils.markResponseWritten( request );
+             // Close the response so that the controller JSP (header, content, footer) that runs after this
+             // method writes into a closed writer and is ignored, leaving only the @ResponseBody content.
+             out.close( );
 
          } catch (IOException e) {
              AppLogService.error("Error writing @ResponseBody content to response", e);
@@ -629,6 +637,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             _logger.debug("Redirecting to final target: {}", finalUrl);        
             
             _response.sendRedirect( finalUrl );
+            MVCUtils.markResponseWritten( request );
         }
         catch( IOException e )
         {
@@ -787,6 +796,10 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         {
             PrintWriter out = response.getWriter( );
             out.print( strData );
+            MVCUtils.markResponseWritten( _request );
+            // Close the response so the controller JSP that runs after the download writes into a closed
+            // writer and is ignored, leaving only the downloaded data.
+            out.close( );
         }
         catch( IOException e )
         {
@@ -814,6 +827,10 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         {
             OutputStream os = response.getOutputStream( );
             os.write( data );
+            MVCUtils.markResponseWritten( _request );
+            // Close the response so the controller JSP that runs after the download writes into a closed
+            // stream and is ignored, leaving only the downloaded data.
+            os.close( );
         }
         catch( IOException e )
         {

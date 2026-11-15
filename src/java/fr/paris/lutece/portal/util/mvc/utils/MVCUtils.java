@@ -59,7 +59,16 @@ public final class MVCUtils
     public static final String PARAMETER_VIEW = "view";
     public static final String PARAMETER_ACTION = "action";
     public static final String PARAMETER_PAGE = "page";
-    
+
+    /**
+     * Request attribute set by the controller when it has already written the full response by itself, for
+     * instance a {@code @ResponseBody} method, a redirect, a download or a refused method. The admin page
+     * template ({@code AdminHeader.jsp} and {@code AdminFooter.jsp}) reads it to skip the header and the
+     * footer, so that no HTML is appended after the response the controller already produced.
+     */
+    public static final String ATTRIBUTE_RESPONSE_WRITTEN = "fr.paris.lutece.portal.util.mvc.responseWritten";
+
+
     private static final String PREFIX_VIEW = "view_";
     private static final String PREFIX_ACTION = "action_";
     private static Logger _logger = LogManager.getLogger( "lutece.mvc" );
@@ -143,6 +152,34 @@ public final class MVCUtils
         }
 
         return strAction;
+    }
+
+    /**
+     * Marks the request to signal that the controller has already written the whole response (a
+     * {@code @ResponseBody} method, a redirect, a download or a refused method). The admin page template reads
+     * this mark with {@link #isResponseWritten(HttpServletRequest)} to skip the header and the footer.
+     *
+     * @param request
+     *            The HTTP request, may be {@code null} (then nothing is marked)
+     */
+    public static void markResponseWritten( HttpServletRequest request )
+    {
+        if ( request != null )
+        {
+            request.setAttribute( ATTRIBUTE_RESPONSE_WRITTEN, Boolean.TRUE );
+        }
+    }
+
+    /**
+     * Tells whether the controller has already written the whole response for this request.
+     *
+     * @param request
+     *            The HTTP request, may be {@code null}
+     * @return {@code true} if the response has already been written and the page header and footer must be skipped
+     */
+    public static boolean isResponseWritten( HttpServletRequest request )
+    {
+        return ( request != null ) && Boolean.TRUE.equals( request.getAttribute( ATTRIBUTE_RESPONSE_WRITTEN ) );
     }
 
     /**
