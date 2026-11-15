@@ -19,7 +19,7 @@
 			<@input type='hidden' name='resource_type' value='${resource_type}' />
 			<@input type='hidden' name='select_resources' value='${select_resources}' />
 			<@h level=2 class='mb-3'>${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label)}</@h>
-			<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList'>
+			<@formGroup labelKey=i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label) id='resourceList'>
 				<#list resource_id_list?sort_by('name') as item>
 					<@checkBox orientation='switch' name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' labelClass='searchable' params={"aria-labelledby": "resourceList", "data-role": (item.name)} />
 				</#list>

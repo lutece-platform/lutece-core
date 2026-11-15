@@ -603,6 +603,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        resourceType.setLocale( getLocale( ) );
         model.put( MARK_RESOURCE_LABEL, resourceType.getResourceTypeLabel( ) );
         model.put( MARK_RESOURCE_LIST_AVAILABLE, bResourceListAvailable );
 
@@ -674,6 +675,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_RESOURCE_ID_LIST, resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) ) );
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        resourceType.setLocale( getLocale( ) );
         model.put( MARK_RESOURCE_LABEL, resourceType.getResourceTypeLabel( ) );
         model.put( MARK_SELECT_RESOURCES_METHOD, strSelectionMethod );
 
