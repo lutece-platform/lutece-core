@@ -46,7 +46,7 @@ Snippet:
 	</label>
 	<#if orientation='vertical'></div></#if>
 <#else>
-	<label class="form-check form-switch<#if wrapperClass?has_content> ${wrapperClass!}</#if>" for="${checkboxId}" <#if title?has_content> title="${title}"</#if><@commonAttrs params=params />>
+	<label class="form-check form-switch<#if wrapperClass?has_content> ${wrapperClass!}</#if>" for="${checkboxId}" <#if title?has_content> title="${title}"</#if>>
     	<input class="form-check-input<#if class?has_content> ${class}</#if>" type="checkbox"  id="${checkboxId}" name="${name}" value="<#if value?has_content>${value}</#if>"<#if tabIndex?has_content> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><@commonAttrs params=params /><#if mandatory> required</#if>>
    		<#assign nestedLabel><#nested></#assign>
 		<#if labelKey?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass?has_content> ${labelClass!}</#if>">${nestedLabel}</span></#if>
