@@ -1,4 +1,4 @@
-Third-party software bundled in milkdown.min.js and milkdown.min.css (built from build/entry.js, see build/README.md)
+Third-party software bundled in milkdown.min.js and milkdown.min.css (built from src/milkdown-build/entry.js of lutece-core, see src/milkdown-build/README.md)
 
 @floating-ui/core 1.8.0 — MIT
 @floating-ui/dom 1.8.0 — MIT

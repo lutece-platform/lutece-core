@@ -10,6 +10,6 @@
     "esbuild": "0.28.2"
   },
   "scripts": {
-    "build": "esbuild entry.js --bundle --minify --format=iife --target=es2020 --loader:.svg=text --legal-comments=none --outfile=../milkdown.min.js"
+    "build": "esbuild entry.js --bundle --minify --format=iife --target=es2020 --loader:.svg=text --legal-comments=none --outfile=../../webapp/themes/admin/shared/js/editors/milkdown/milkdown.min.js"
   }
 }
