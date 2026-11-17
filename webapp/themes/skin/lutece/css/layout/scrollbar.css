@@ -1,14 +1,27 @@
 /*** 										***/
 /*** 	Scrollbars 							***/
 /*** 										***/
-::-webkit-scrollbar {
-    width: var( --lutece-ds-scrollbar-width )
+/* Colours are tokens from _variables.css ( dark value in themes/dark-theme.css ) */
+:root {
+    scrollbar-color: var( --lutece-ds-scrollbar-thumb ) var( --lutece-ds-scrollbar-track );
 }
 
-::-webkit-scrollbar-track {
-    border-radius: var( --lutece-ds-scrollbar-radius )
+* {
+    scrollbar-width: var( --lutece-ds-scrollbar-width );
 }
 
-::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, .186) !important;
+/* Browsers without scrollbar-color: the legacy WebKit pseudo-elements read the same variables */
+@supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+        width: var( --lutece-ds-scrollbar-width );
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: var( --lutece-ds-scrollbar-radius );
+        background: var( --lutece-ds-scrollbar-track );
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var( --lutece-ds-scrollbar-thumb ) !important;
+    }
 }

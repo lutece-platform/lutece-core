@@ -5,6 +5,32 @@
 var hasUserThemeSwitch=${hasUserThemeSwitch?string};
 var hasUserThemeDensity=${hasUserThemeDensity?string};
 var hasUserThemeColors=${hasUserThemeColors?string};
+<#-- Light / dark mode set in the back office ( Site properties > Dark theme by default ), kept before any    -->
+<#-- script applies the visitor's choice: without the user right to switch, every theme falls back to it -->
+<#-- The visitor's stored choice is applied here, before the first paint, so a dark page never flashes light. -->
+<#-- Same rules as getPreferredTheme() in shared.js, which takes over once loaded.                            -->
+(() => {
+    const root = document.documentElement;
+    if ( !root.hasAttribute( 'data-bs-theme-default' ) ) {
+        root.setAttribute( 'data-bs-theme-default', root.getAttribute( 'data-bs-theme' ) || 'light' );
+    }
+    const defaultTheme = root.getAttribute( 'data-bs-theme-default' ) === 'dark' ? 'dark' : 'light';
+    let theme = defaultTheme;
+    if ( hasUserThemeSwitch ) {
+        let stored = null;
+        try { stored = localStorage.getItem( 'theme' ); } catch ( e ) { /* storage blocked */ }
+        if ( stored === 'light' || stored === 'dark' ) {
+            theme = stored;
+        } else if ( stored === 'auto' || defaultTheme !== 'dark' ) {
+            theme = window.matchMedia( '(prefers-color-scheme: dark)' ).matches ? 'dark' : 'light';
+        }
+    }
+    root.setAttribute( 'data-bs-theme', theme );
+    const meta = document.querySelector( 'meta[name="color-scheme"]' );
+    if ( meta ) {
+        meta.content = theme;
+    }
+})();
 </script>
 <#-- Hide content before first paint to avoid the translation flash (FOUC) -->
 <@translationHead />

@@ -340,8 +340,8 @@
 	background-color: var(--lutece-ds-surface-page);
 }
 
-[data-bs-theme=dark] * ::-webkit-scrollbar-thumb {
-	background: rgba(255, 255, 255, .186) !important
+[data-bs-theme=dark] {
+	--lutece-ds-scrollbar-thumb: rgba(255, 255, 255, .4);
 }
 
 /* [data-bs-theme=dark] .btn, */

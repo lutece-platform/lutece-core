@@ -32,6 +32,8 @@
 </#if>
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<#-- Mode rendered by the server; theme_frameset_header_js.html switches it to the visitor's choice before the first paint -->
+<meta name="color-scheme" content="<#if isDark?? && isDark?boolean>dark<#else>light</#if>">
 <#-- The metadata of the sharing extension (opengraph) when it is added to the page -->
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>@Extender[${page_id},PAGE,opengraph,{header:true}]@</#if>
 <!-- Le style -->

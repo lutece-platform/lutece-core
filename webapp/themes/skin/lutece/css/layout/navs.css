@@ -27,7 +27,7 @@
 	align-items: center;
 	gap: 28px;
 	min-height: 72px;
-	padding-inline: calc(var(--bs-gutter-x) * .5);
+	padding-inline: 0;
 	background: transparent;
 	width: 100%;
 }

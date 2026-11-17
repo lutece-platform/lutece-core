@@ -134,6 +134,9 @@ Snippet:
                     <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                 </@cMainNavItem>
             </#if>
+            <#if hasUserThemeSwitch>
+                <@cThemeSwitcher nav=true />
+            </#if>
             <#if hasLogin>
                 <li class="nav-item navbar-user<#if loginClass?has_content > ${loginClass!}</#if> ms-md-auto">
                     ${pageinclude_userlogin?default("")}

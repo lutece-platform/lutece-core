@@ -45,6 +45,9 @@
 	/* Utilities - Scrollbar */
     --lutece-ds-scrollbar-width: auto;
     --lutece-ds-scrollbar-radius: 0;
+    /* Thumb keeps a 3:1 contrast with the page (WCAG 1.4.11); dark-theme.css sets the dark value */
+    --lutece-ds-scrollbar-thumb: rgba(0, 0, 0, .5);
+    --lutece-ds-scrollbar-track: transparent;
 
     /* Text */
 	--lutece-ds-text-underline-offset: calc( var( --lutece-ds-size-base, .4rem ) * .375 );
@@ -152,4 +155,10 @@
 [data-lutece-ds-density="compact"] {
   --lutece-ds-density: 0.9;
   --lutece-ds-size-base: .35rem;
+}
+
+/* Native controls, scrollbars and the page canvas follow the mode. Bootstrap declares
+   color-scheme for dark only: a light mode forced on a dark system needs its own rule. */
+[data-bs-theme=light] {
+  color-scheme: light;
 }
