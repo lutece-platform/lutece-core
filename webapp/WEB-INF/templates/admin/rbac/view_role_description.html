@@ -1,47 +1,53 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='${role.description} [${role.key}]' class='col-md-3'>
-			<@tform type='inline' align="middle" method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
-				<@input type='hidden' name='role_key' value='${role.key}' />
-				<@formGroup groupStyle='inline' formStyle='inline'>
-					<@inputGroup>
-						<@select name='resource_type' size=''>
+		<@pageHeader title='${role.description} [${role.key}]'>
+			<@button type='button' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm'] buttonIcon='plus' size='' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#add-control"} />
+			<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}' hideTitle=['xs','sm'] buttonIcon='user' size='' class='me-1' />
+			<@button type='button' title='#i18n{portal.rbac.modify_role.titleModifyRole}' hideTitle=['xs','sm'] buttonIcon='edit' color='primary' size='' params={"data-bs-toggle": "modal", "data-bs-target": "#edit-role"} />
+		</@pageHeader>
+		<@modal id='add-control'>
+			<@modalHeader modalTitle='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' />
+			<@modalBody>
+				<@tform method='post' id='form-add-control' action='jsp/admin/rbac/AddControlToRole.jsp'>
+					<@input type='hidden' name='role_key' value='${role.key}' />
+					<@formGroup labelKey='#i18n{portal.rbac.view_role_description.columnTitleResourceType}' labelFor='resource_type' rows=2>
+						<@select id='resource_type' name='resource_type' size=''>
 						<#list resource_type_list?sort_by('resourceTypeLabel') as resource_type>
 							<@option value=resource_type.resourceTypeKey label='${resource_type.resourceTypeLabel}' />
 						</#list>
 						</@select>
-						<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm'] buttonIcon='plus' size='' />
-					</@inputGroup>
-				</@formGroup>
-			</@tform>
-			<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
-			<@offcanvas id="edit-role" title="#i18n{portal.rbac.modify_role.titleModifyRole}" position="end" btnTitle="#i18n{portal.rbac.modify_role.titleModifyRole}" btnIcon="edit">
-				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
+					</@formGroup>
+				</@tform>
+			</@modalBody>
+			<@modalFooter>
+				<@button type='button' title='#i18n{portal.util.labelCancel}' buttonIcon='x' color='light' size='' params={"data-bs-dismiss": "modal"} />
+				<@button type='submit' formId='form-add-control' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' buttonIcon='arrow-right' iconPosition='right' color='primary' size='' />
+			</@modalFooter>
+		</@modal>
+		<@modal id='edit-role'>
+			<@modalHeader modalTitle='#i18n{portal.rbac.modify_role.titleModifyRole}' />
+			<@modalBody>
+				<@tform method='post' id='form-modify-role' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
 					<@input type='hidden' name='role_key_previous' value='${role.key}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
 						<@input type='text' id='role_key' name='role_key' value='${role.key}' readonly=true />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description' mandatory=true rows=2>
-						<@input type='text' id='role_description' name='role_description' value='${role.description}'
-							maxlength=255 />
+						<@input type='text' id='role_description' name='role_description' value='${role.description}' maxlength=255 />
 					</@formGroup>
 					<#if has_right_manage_front_role>
 						<@formGroup rows=2>
-							<@checkBox orientation='switch' name='can_be_assigned_to_user_front'
-								id='can_be_assigned_to_user_front' value='true'
-								labelKey='#i18n{portal.rbac.modify_role.labelCanBeAssignedToUserFront}' checked=exist_front_role />
+							<@checkBox orientation='switch' name='can_be_assigned_to_user_front' id='can_be_assigned_to_user_front' value='true' labelKey='#i18n{portal.rbac.modify_role.labelCanBeAssignedToUserFront}' checked=exist_front_role />
 						</@formGroup>
 					</#if>
-					<@formGroup rows=2 class='mt-3'>
-						<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='device-floppy'
-							color='primary' size='' />
-						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' title='#i18n{portal.admin.message.buttonCancel}'
-							buttonIcon='times' color='default' size='' />
-					</@formGroup>
 				</@tform>
-			</@offcanvas>
-		</@pageHeader>
+			</@modalBody>
+			<@modalFooter>
+				<@button type='button' title='#i18n{portal.util.labelCancel}' buttonIcon='x' color='light' size='' params={"data-bs-dismiss": "modal"} />
+				<@button type='submit' formId='form-modify-role' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='device-floppy' color='primary' size='' />
+			</@modalFooter>
+		</@modal>
 		<#if controled_resource_list?size gt 0>
 		<@manageFeature>
 		<#assign previousResourceTypeKey=''>
@@ -65,9 +71,9 @@
 		</#list>
 		</@manageFeature>
 	<#else>
-		<@box class='mt-3'>
-			<@empty />
-		</@box>
+		<@card>
+			<@empty title='#i18n{portal.rbac.view_role_description.noControl}' iconName='lock-off' subtitle='#i18n{portal.rbac.view_role_description.noControlHelp}' />
+		</@card>
 	</#if>
 	</@pageColumn>
 </@pageContainer>

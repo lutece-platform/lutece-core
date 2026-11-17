@@ -29,7 +29,7 @@
 		</@ul>
 		</@formGroup>
 		<@formGroup>
-			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='default' />
+			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key?url}&resource_type=${resource_type?url}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
 			<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
 		</@formGroup>
 		</@tform>
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		});
 	});
 	document.querySelector("#select_all").addEventListener('click', function() {
-		document.querySelectorAll(":checkbox").forEach(checkbox => {
+		document.querySelectorAll('[type=checkbox]').forEach(checkbox => {
 			checkbox.checked = false;
 		});
 	});

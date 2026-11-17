@@ -9,7 +9,7 @@
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
-            <@offcanvas targetUrl="jsp/admin/rbac/CreateRole.jsp" targetElement="#create-role-form" redirectForm=false id="template-create-role" title="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnTitle="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnIcon="plus me-1" position="end" />
+            <@aButton href='jsp/admin/rbac/CreateRole.jsp' title='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' buttonIcon='plus' color='primary' />
         </@pageHeader>
         <#if role_list?has_content>
             <@manageFeature>
@@ -31,9 +31,9 @@
                 </#list>
             </@manageFeature>
         <#else>
-            <@box>
-                <@empty />
-            </@box>
+            <@card>
+                <@empty title='#i18n{portal.rbac.manage_roles.noRole}' iconName='shield-off' subtitle='#i18n{portal.rbac.manage_roles.noRoleHelp}' actionTitle='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' actionUrl='jsp/admin/rbac/CreateRole.jsp' actionIcon='plus' />
+            </@card>
         </#if>
         <#if role_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if> 
     </@pageColumn>
