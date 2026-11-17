@@ -44,14 +44,17 @@ import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.datastore.LocalizedData;
 import fr.paris.lutece.portal.service.datastore.LocalizedDataGroup;
+import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
+import fr.paris.lutece.portal.service.site.properties.ThemeSitePropertiesFilter;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -75,6 +78,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
+    private static final String MARK_GLOBAL_THEME = "global_theme";
 
     // Template 
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
@@ -95,9 +99,14 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     public String getManageProperties( HttpServletRequest request )
     {   	
     	Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
+        Theme globalTheme = ThemesService.getGlobalThemeObject( );
+        List<LocalizedDataGroup> listGroups = SitePropertiesService.getGroups( getLocale( ) );
+        // The front office theme in use may hide the theme properties it does not read
+        ThemeSitePropertiesFilter.filter( listGroups, globalTheme );
+        model.put( MARK_PROPERTIES_GROUPS_LIST, listGroups );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
+        model.put( MARK_GLOBAL_THEME, globalTheme );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale( ), model );

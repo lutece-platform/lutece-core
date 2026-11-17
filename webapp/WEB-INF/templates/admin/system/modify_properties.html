@@ -24,7 +24,12 @@
                 <#assign groupList = []>
                 <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
                     <#if groupList?size gt 0>
-                    <@tabLink active=tabactive href='#group-${index}' title=group.description tabLabel=group.name />
+                    <#-- The theme group tab also names the front office theme currently in use -->
+                    <#assign tabLabel = group.name>
+                    <#if global_theme?? && group.localizedDataList?has_content && group.localizedDataList?first.key?starts_with('portal.theme.site_property.')>
+                        <#assign tabLabel = group.name?trim + ' : ' + ( global_theme.themeDescription?has_content?then( global_theme.themeDescription, global_theme.codeTheme ) )>
+                    </#if>
+                    <@tabLink active=tabactive href='#group-${index}' title=group.description tabLabel=tabLabel />
                     </#if>
                 </#list>
             </@tabList>
