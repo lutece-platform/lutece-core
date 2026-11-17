@@ -23,6 +23,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le style -->
 <#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#-- Structure shared by every theme (core macros), loaded before the theme CSS so the theme overrides it -->
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}alert.min.css" crossorigin="anonymous" rel="stylesheet">
 <#if themeCSSLinks?? >
 <@themeCSSLinks />
 <#else>
@@ -32,6 +34,8 @@
 <!-- Plugins CSS includes   -->
 <link href="js/jquery/plugins/toastr/toastr.min.css"  rel="stylesheet">
 </#if>
+<#-- Vertical rhythm shared by every theme, after the theme CSS: a theme tunes it with the --lutece-flow-* tokens -->
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}rhythm.min.css" crossorigin="anonymous" rel="stylesheet">
 <!-- Custom site styles include -->
 <link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
 ${plugins_css_links}

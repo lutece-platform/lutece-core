@@ -22,7 +22,6 @@
 @import url(layout/footer.min.css?ver=8.0.2);
 @import url(layout/scrollbar.min.css?ver=8.0.2);
 @import url(layout/login.min.css?ver=8.0.2);
-@import url(layout/search.min.css?ver=8.0.2);
 @import url(forms/breadcrumb.css?ver=8.0.2);
 @import url(forms/forms.min.css?ver=8.0.2);
 @import url(forms/inputs.min.css?ver=8.0.2);
@@ -63,5 +62,5 @@
 @import url(components/tooltip.min.css?ver=8.0.2);
 @import url(lib/osm.min.css?ver=8.0.2);
 @import url(lib/cookies.min.css?ver=8.0.2);
-@import url( _rhythm.min.css );
+
 /* @import url(styles.min.css?ver=8.0.2); */
