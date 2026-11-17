@@ -17,6 +17,8 @@
 <#else>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}lib/datepicker/locales/fr.js" charset="utf-8"></script>
 </#if>
+<#-- Error icon drawn by the theme icon set (cIcon): Tabler by default, the Paris sprite in the parisfr theme -->
+<#local errorIcon><@cIcon name='alert-triangle' class='main-danger-color me-xs' params={"aria-hidden": "true"} /></#local>
 <script>
 // Function to set date picker options (compat shim)
 function setDatePickerOptions( themeOption, customOptions, defaultOptions ) {
@@ -105,7 +107,7 @@ if (typeof themeDatepicker === 'undefined') { window.themeDatepicker = window.th
       fb = document.createElement('p');
       fb.className = 'invalid-feedback';
       fb.id = 'error_' + (input.id || '');
-      fb.innerHTML = '<svg class="paris-icon paris-icon-alert-error main-danger-color" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg> ';
+      fb.innerHTML = '${(errorIcon?is_markup_output)?then(errorIcon?markup_string, errorIcon)?trim?js_string?no_esc} ';
       fb.appendChild(document.createTextNode(''));
       var group = getGroup(input);
       group.parentNode.insertBefore(fb, group);

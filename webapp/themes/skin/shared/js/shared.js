@@ -56,6 +56,43 @@
         });
     });
 
+    // Paris.fr sprite icons in contributed content ( forms comments, html... ) :
+    // when the theme does not include the sprite, the <use> points to nothing.
+    // Replace those icons with the Tabler icon cAlert renders for the same type.
+    document.addEventListener('DOMContentLoaded', function() {
+        const tablerIcons = {
+            'alert-info': 'info-circle',
+            'alert-warning': 'alert-triangle',
+            'alert-triangle': 'alert-triangle',
+            'alert-danger': 'ban',
+            'alert-error': 'ban',
+            'alert-success': 'circle-check',
+            'alert-check': 'circle-check',
+            'alert-close': 'x'
+        };
+        document.querySelectorAll('svg.paris-icon').forEach(function(svg) {
+            const use = svg.querySelector('use');
+            const ref = use ? ( use.getAttribute('href') || use.getAttribute('xlink:href') ) : null;
+            if (!ref || !ref.startsWith('#') || document.getElementById(ref.slice(1))) {
+                return;
+            }
+            const name = Array.from(svg.classList).find(c => c.startsWith('paris-icon-'));
+            const tablerName = name ? tablerIcons[name.slice('paris-icon-'.length)] : null;
+            if (!tablerName) {
+                return;
+            }
+            const icon = document.createElement('span');
+            icon.className = 'ti ti-' + tablerName;
+            const title = svg.querySelector('title');
+            if (title && title.textContent.trim() !== '') {
+                icon.title = title.textContent.trim();
+            } else {
+                icon.setAttribute('aria-hidden', 'true');
+            }
+            svg.replaceWith(icon);
+        });
+    });
+
     // search
     document.addEventListener('DOMContentLoaded', function() {
         const searchBy = document.getElementById('search-by');
