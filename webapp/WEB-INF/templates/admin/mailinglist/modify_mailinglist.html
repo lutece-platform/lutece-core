@@ -1,21 +1,11 @@
 <@pageContainer>
-    <@pageColumn> 
-        <@pageHeader title='#i18n{portal.mailinglist.modify_mailinglist.title} ${mailinglist.name}' >
-            <#if mailinglist.filters?size gt 0>
-                <#list mailinglist.filters as filter>
-                <@tform method='post' action='jsp/admin/mailinglist/DoDeleteFilter.jsp'>
-                    <@input type='hidden' name='id_mailinglist' value='${mailinglist.id}' />
-                    <@input type='hidden' name='workgroup' value='${filter.workgroup}' />
-                    <@input type='hidden' name='role' value='${filter.role}' />
-                    <@input type='hidden' name='token' value='${token}' />
-                    <@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}'  color='danger w-100' />
-                </@tform>
-                <@offcanvas targetUrl="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id!}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-view-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"  btnIcon="eye" position="end" />
-                </#list>
-            <#else>
-                <@alert color='info' iconTitle='info-circle' titleLevel='h3' title='#i18n{portal.mailinglist.modify_mailinglist.message.noUsers}' />
+    <@pageColumn>
+        <@pageHeader title='#i18n{portal.mailinglist.modify_mailinglist.title} ${mailinglist.name}'>
+            <@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' class='me-1' params={'data-lutece-action': 'back'} />
+            <#if mailinglist.filters?has_content>
+            <@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' hideTitle=['xs','sm'] class='me-1' />
             </#if>
-            <@offcanvas targetUrl='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id!}' targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
+            <@aButton href='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' hideTitle=['xs','sm'] color='primary' />
         </@pageHeader>
         <@tform method='post' action='jsp/admin/mailinglist/DoModifyMailingList.jsp' boxed=true>
             <@input type='hidden' id='id_mailinglist' name='id_mailinglist' value='${mailinglist.id}' />
@@ -31,7 +21,36 @@
             </@formGroup>
             <@formGroup rows=2 class='mt-3'>
                 <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' size='' color='primary' />
+                <@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='light' size='' />
             </@formGroup>
         </@tform>
-	</@pageColumn>
+        <@h level=2 class='mt-4 mb-3'>#i18n{portal.mailinglist.add_users.title}</@h>
+        <#if mailinglist.filters?has_content>
+        <@manageFeature>
+            <#list mailinglist.filters as filter>
+            <@manageFeatureItem>
+                <@manageFeatureItemColumn auto=true flex=false>
+                    <@p class='mb-0'>#i18n{portal.mailinglist.modify_mailinglist.columnWorkgroup} : <strong>${filter.workgroup!}</strong></@p>
+                </@manageFeatureItemColumn>
+                <@manageFeatureItemColumn auto=true flex=false>
+                    <@p class='mb-0'>#i18n{portal.mailinglist.modify_mailinglist.columnRole} : <strong>${filter.role!}</strong></@p>
+                </@manageFeatureItemColumn>
+                <@manageFeatureItemColumn align='end'>
+                    <@tform method='post' action='jsp/admin/mailinglist/DoDeleteFilter.jsp'>
+                        <@input type='hidden' name='id_mailinglist' value='${mailinglist.id}' />
+                        <@input type='hidden' name='workgroup' value='${filter.workgroup}' />
+                        <@input type='hidden' name='role' value='${filter.role}' />
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' hideTitle=['xs','sm'] color='danger' />
+                    </@tform>
+                </@manageFeatureItemColumn>
+            </@manageFeatureItem>
+            </#list>
+        </@manageFeature>
+        <#else>
+        <@card>
+            <@empty title='#i18n{portal.mailinglist.modify_mailinglist.message.noUsers}' iconName='user-off' subtitle=' ' actionTitle='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' actionUrl='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}' actionIcon='plus' />
+        </@card>
+        </#if>
+    </@pageColumn>
 </@pageContainer>

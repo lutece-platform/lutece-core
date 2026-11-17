@@ -1,6 +1,8 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
+        <@pageHeader title='#i18n{portal.rbac.create_role.titleCreateRole}'>
+            <@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
+        </@pageHeader>
 		<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' id="create-role-form" name='create_role' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.rbac.create_role.labelKey}' labelFor='role_key' mandatory=true>
@@ -16,7 +18,7 @@
 			</#if>	
 			<@formGroup>
 				<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' color='primary'  />
-				<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='danger' title='#i18n{portal.admin.message.buttonCancel}' />
+				<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='x' color='light' title='#i18n{portal.util.labelCancel}' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

@@ -1,7 +1,9 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.workgroup.create_workgroup.titleCreationForm}' />
-		<@tform method='post' id="create-workgroup-form" action='jsp/admin/workgroup/DoCreateWorkgroup.jsp'>
+        <@pageHeader title='#i18n{portal.workgroup.create_workgroup.titleCreationForm}'>
+            <@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
+        </@pageHeader>
+		<@tform method='post' id="create-workgroup-form" action='jsp/admin/workgroup/DoCreateWorkgroup.jsp' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelKey}' labelFor='workgroup_key' mandatory=true rows=2>
 				<@input type='text' id='workgroup_key' name='workgroup_key' maxlength=50 />
@@ -11,7 +13,7 @@
 			</@formGroup>
 			<@formGroup rows=2>
 				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.workgroup.create_workgroup.buttonLabelCreate}' color='primary' size='' />
-				<@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' color='secondary' size='' />
+				<@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='light' size='' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

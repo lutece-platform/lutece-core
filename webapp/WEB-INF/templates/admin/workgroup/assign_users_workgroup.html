@@ -2,9 +2,18 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title=boxTitle>
-			<@offcanvas id='search-users' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' position='end' btnTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' btnIcon='search' size='auto'>
-				<@tform method='post' name='search_users' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
+			<@button type='button' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' hideTitle=['xs','sm'] buttonIcon='search' size='' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#search-users"} />
+			<@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
+			<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}'
+				title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' buttonIcon='trash' color='danger' />
+			<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' display='inline' />
+		</@pageHeader>
+		<@modal id='search-users'>
+			<@modalHeader modalTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' />
+			<@modalBody>
+				<@tform method='post' name='search_users' id='form-search-users' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
 					<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
+					<@input type='hidden' name='search_is_search' value='true' />
 					<#if (user_levels?has_content)>
 						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.userLevelLabel}'
 							labelFor='user_level' rows=2>
@@ -53,19 +62,12 @@
 					<#list attributes_list as attribute>
 						<#if attribute.shownInSearch>${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )?no_esc}</#if>
 					</#list>
-					<@formGroup rows=2>
-						<@button type='submit' name='search_is_search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' buttonIcon='search' color='primary' size='' style="w-100" />
-					</@formGroup>
 				</@tform>
-			</@offcanvas>
-			<@offcanvas targetUrl="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}"
-				targetElement="#modify_workgroup_form" redirectForm=false id="template-modify-workgroup"
-				title="#i18n{portal.workgroup.modify_workgroup.titleModificationForm}"
-				btnTitle="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" btnIcon="edit" position="end" />
-			<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}'
-				title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' buttonIcon='trash' color='danger' />
-			<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' display='inline' />
-		</@pageHeader>
+			</@modalBody>
+			<@modalFooter>
+				<@button type='submit' formId='form-search-users' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary' size='' />
+			</@modalFooter>
+		</@modal>
 		<@row>
 			<@columns sm=12 md=6 lg=4>
 				<@box>
@@ -86,7 +88,7 @@
 								</@row>
 							</@tform>
 						<#else>
-							<@empty title='#i18n{portal.workgroup.assign_users.noUserToAssign}' iconName='user-off' />
+							<@empty title='#i18n{portal.workgroup.assign_users.noUserToAssign}' subtitle=' ' iconName='user-off' />
 						</#if>
 					</@boxBody>
 				</@box>
