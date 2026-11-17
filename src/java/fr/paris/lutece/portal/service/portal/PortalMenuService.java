@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.menu.MenuItem;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -78,6 +79,10 @@ public class PortalMenuService
     private static final String TEMPLATE_MAIN_MENU = "skin/site/menu_main.html";
     private static final String MARK_SITE_PATH = "site_path";
     private static final String MARK_MENU_ITEMS = "items";
+    // Number of main menu levels, declared by the active theme in WEB-INF/conf/themes/<code>.properties
+    private static final String PROPERTY_THEME_MENU_DEPTH = "themes.%s.menu.depth";
+    private static final int DEFAULT_MENU_DEPTH = 2;
+    private static final int MAX_MENU_DEPTH = 4;
     @Inject
 	@LuteceCache(cacheName = SERVICE_NAME, keyType = String.class, valueType = String.class, enable = true)
 	private Lutece107Cache<String, String> _cachePortalMenu;
@@ -229,11 +234,65 @@ public class PortalMenuService
                     MenuItem subMenuItem = MenuItem.builder( ).pageId( subLevelMenuPage.getId( ) ).parentId( menuPage.getId( ) )
                             .name( subLevelMenuPage.getName( ) ).menuIndex( nMenuIndex ).subMenuIndex( nSubLevelMenuIndex ).currentPageId( nCurrentPageId )
                             .build( );
+                    addDeeperMenuItems( subLevelMenuPage, subMenuItem, 3, nMode, nMenuIndex, nSubLevelMenuIndex, nCurrentPageId, request );
                     menuItem.getChildren( ).add( subMenuItem );
                 }
             }
         }
         menuItems.add( menuItem );
+    }
+
+    /**
+     * Adds the visible child pages of a menu page as menu items of the given level, down to the depth declared by the
+     * active theme (property themes.&lt;code&gt;.menu.depth, default 2: no level added)
+     *
+     * @param parentPage
+     *            The parent page
+     * @param parentMenuItem
+     *            The menu item of the parent page
+     * @param nLevel
+     *            The level of the items to add (3 for the children of a second level page)
+     * @param nMode
+     *            The mode
+     * @param nMenuIndex
+     *            The first level menu index
+     * @param nSubLevelMenuIndex
+     *            The second level menu index
+     * @param nCurrentPageId
+     *            The current page id
+     * @param request
+     *            The HTTP request
+     */
+    private void addDeeperMenuItems( Page parentPage, MenuItem parentMenuItem, int nLevel, int nMode, int nMenuIndex, int nSubLevelMenuIndex,
+            int nCurrentPageId, HttpServletRequest request )
+    {
+        if ( nLevel > getMenuDepth( ) )
+        {
+            return;
+        }
+
+        for ( Page childPage : PageHome.getChildPagesMinimalData( parentPage.getId( ) ) )
+        {
+            if ( childPage.isVisible( request ) || ( nMode == MODE_ADMIN ) )
+            {
+                MenuItem childMenuItem = MenuItem.builder( ).pageId( childPage.getId( ) ).parentId( parentPage.getId( ) ).name( childPage.getName( ) )
+                        .level( nLevel ).menuIndex( nMenuIndex ).subMenuIndex( nSubLevelMenuIndex ).currentPageId( nCurrentPageId ).build( );
+                addDeeperMenuItems( childPage, childMenuItem, nLevel + 1, nMode, nMenuIndex, nSubLevelMenuIndex, nCurrentPageId, request );
+                parentMenuItem.getChildren( ).add( childMenuItem );
+            }
+        }
+    }
+
+    /**
+     * Returns the number of main menu levels declared by the active theme
+     *
+     * @return the menu depth, between 2 and 4 (2 when the theme declares nothing)
+     */
+    private int getMenuDepth( )
+    {
+        int nDepth = AppPropertiesService.getPropertyInt( String.format( PROPERTY_THEME_MENU_DEPTH, ThemesService.getGlobalTheme( ) ), DEFAULT_MENU_DEPTH );
+
+        return Math.max( DEFAULT_MENU_DEPTH, Math.min( nDepth, MAX_MENU_DEPTH ) );
     }
 
     /**
@@ -265,7 +324,8 @@ public class PortalMenuService
         }
 
         StringBuilder sbKey = new StringBuilder( );
-        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" ).append( strRoles ).append( ']' );
+        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" ).append( strRoles ).append( "][depth:" )
+                .append( getMenuDepth( ) ).append( ']' );
 
         return sbKey.toString( );
     }
