@@ -1,0 +1,46 @@
+/* Alert structure of the core @cAlert macro, shared by every front-office theme:
+   .alert > .alert-header (.alert-icon, .alert-text > .alert-title, .alert-dismiss) + .alert-content.
+   Layout only, no colors. Every rule sits in :where() (specificity 0), so a theme rule always wins:
+   a theme restyles the alert without having to undo this file. */
+:where(.alert:has(> .alert-header)) {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+}
+
+:where(.alert-header) {
+	display: flex;
+	align-items: flex-start;
+	gap: .5rem;
+	width: 100%;
+}
+
+:where(.alert-icon) {
+	flex: 0 0 auto;
+	font-size: 1.25em;
+	line-height: 1.2;
+}
+
+:where(.alert-text) {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+:where(.alert-title) {
+	margin: 0;
+	font-weight: 600;
+}
+
+:where(.alert-dismiss) {
+	flex: 0 0 auto;
+	margin-inline-start: auto;
+}
+
+/* The content lines up with the title: icon width (1.25em of the alert font size) + header gap */
+:where(.alert-content) {
+	padding-inline-start: calc(1.25em + .5rem);
+}
+
+:where(.alert-content > :last-child) {
+	margin-block-end: 0;
+}

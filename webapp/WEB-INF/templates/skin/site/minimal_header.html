@@ -21,6 +21,8 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <!-- Le style -->
 <!-- Theme CSS include -->
+<#-- Structure shared by every theme (core macros), loaded before the theme CSS so the theme overrides it -->
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}alert.min.css" crossorigin="anonymous" rel="stylesheet">
 <#if themeCSSLinks??>
 <@themeCSSLinks />
 <#else>
@@ -28,6 +30,8 @@
 <!-- Theme CSS include -->
 <link href="${thetheme.pathCss!}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#if>
+<#-- Vertical rhythm shared by every theme, after the theme CSS: a theme tunes it with the --lutece-flow-* tokens -->
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}rhythm.min.css" crossorigin="anonymous" rel="stylesheet">
 <!-- Custom site styles include -->
 <link rel="apple-touch-icon" sizes="180x180" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}apple-touch-icon.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="icon" type="image/png" sizes="32x32" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-32x32.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
