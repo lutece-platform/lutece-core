@@ -91,6 +91,8 @@ Parameters:
          faux pour un champ texte seul (validation et maintien du focus gérés ici)
 -->
 <#macro cInputDateTypingSeparator idField hasDatepicker=true>
+<#-- Error icon drawn by the theme icon set (cIcon): Tabler by default, the Paris sprite in the parisfr theme -->
+<#local errorIcon><@cIcon name='alert-triangle' class='main-danger-color me-xs' params={"aria-hidden": "true"} /></#local>
 <script>
 (function() {
 	<#-- The datepicker (themeDatepickerA11y) replaces the original input by a visible
@@ -189,7 +191,7 @@ Parameters:
 				feedback = document.createElement('p');
 				feedback.className = 'invalid-feedback';
 				feedback.id = 'error_${idField?js_string?no_esc}';
-				feedback.innerHTML = '<svg class="paris-icon paris-icon-alert-error main-danger-color" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg> ';
+				feedback.innerHTML = '${(errorIcon?is_markup_output)?then(errorIcon?markup_string, errorIcon)?trim?js_string?no_esc} ';
 				feedback.appendChild(document.createTextNode(msg));
 				const group = el.closest('.input-group') || el;
 				group.parentNode.insertBefore(feedback, group);
