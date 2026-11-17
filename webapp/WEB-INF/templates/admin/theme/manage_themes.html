@@ -1,60 +1,87 @@
+<#-- Theme gallery laid out like the Tabler pricing cards (preview.tabler.io/pricing.html) :     -->
+<#-- the running theme is the featured banner ( success border, ribbon ), then every other  -->
+<#-- theme is a card with its choose button.                                                -->
+<#macro themeThumbnail theme class=''>
+<div class="img-responsive img-responsive-16x9<#if class?has_content> ${class}</#if>" style="background-image:url('./themes/skin/${theme.codeTheme?url}/${theme.pathImages!}thumbnail.png');background-size:cover;background-position:top center" role="img" aria-label="${theme.codeTheme?capitalize}"></div>
+</#macro>
+<#macro themeFeatures theme class='' showVersion=true>
+<ul class="list-icon ${class}">
+	<li><@icon style='user' /><span><span class="text-secondary">#i18n{portal.theme.manage_themes.author}</span> <#if theme.themeAuthorUrl?has_content><@link class='link-offset-2' href=theme.themeAuthorUrl target='_author_url' label=theme.themeAuthor! /><#else>${theme.themeAuthor!}</#if></span></li>
+	<#if showVersion><li><@icon style='tag' /><span><span class="text-secondary">#i18n{portal.theme.manage_themes.version}</span> ${theme.themeVersion!}</span></li></#if>
+	<li><@icon style='license' /><span><span class="text-secondary">#i18n{portal.theme.manage_themes.licence}</span> ${theme.themeLicence!}</span></li>
+</ul>
+</#macro>
 <@pageContainer>
-	<@pageColumn class='overflow-hidden'>
+	<@pageColumn>
 		<@pageHeader title='#i18n{portal.theme.manage_themes.page_title}' />
-		<@row class='row-cards'>
-			<#list themes_list?filter( theme -> theme_default.codeTheme == theme.codeTheme) as theme>
-			<@columns sm=6 lg=3>
-				<@box class='card-md'>
-					<@div class='ribbon ribbon-top ribbon-bookmark bg-green'>
-                    	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873l-6.158 -3.245" /></svg>
-                  	</@div>
-					<@boxBody class='p-2 text-center'>
-						<@p class='display-5 fw-bold my-3'>${theme.codeTheme!?capitalize}</@p>
-						<@p class='my-2'>${theme.themeDescription!}</@p>
-						<@ul class='list-unstyled lh-lg'>
-							<@li><strong>#i18n{portal.theme.manage_themes.author}</strong> : <@link class='link-info link-offset-2' href=theme.themeAuthorUrl! target='_author_url' label='${theme.themeAuthor}' /></@li>
-							<@li><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</@li>
-							<@li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</@li>
-						</@ul>
-						<@p class='text-center mt-4'>
-						 	<@span class="ms-auto status status-green my-2"><@span class="status-dot status-dot-animated"></@span> #i18n{portal.theme.manage_themes.themeSelectedRunning}</@span>
-						</@p>
+		<@messages infos=infos![] errors=errors![] warnings=warnings![] />
+		<#if themes_list?has_content>
+		<#-- Running theme banner -->
+		<#list themes_list?filter( theme -> theme_default.codeTheme == theme.codeTheme ) as theme>
+		<@box class='border-success border-2'>
+			<@div class='ribbon ribbon-top ribbon-bookmark bg-success' params={"title": "#i18n{portal.theme.manage_themes.themeRunning}"}><@icon style='star' /></@div>
+			<@boxBody>
+				<@row class='align-items-center g-3'>
+					<@columns sm=4 md=3 xl=2>
+						<@themeThumbnail theme=theme class='rounded border' />
+					</@columns>
+					<@columns class='col'>
+						<@div class='text-uppercase text-secondary fw-medium small'>#i18n{portal.theme.manage_themes.globalTheme}</@div>
+						<h2 class="h2 fw-bold mb-1">${theme.codeTheme?capitalize}</h2>
+						<@p class='text-secondary mb-2'>${theme.themeDescription!}</@p>
+						<@themeFeatures theme=theme class='list-icon-inline mb-0' />
+					</@columns>
+					<@columns class='col-md-auto'>
+						<@span class='status status-green'><@span class='status-dot status-dot-animated'></@span>#i18n{portal.theme.manage_themes.themeSelectedRunning}</@span>
+					</@columns>
+				</@row>
+			</@boxBody>
+		</@box>
+		</#list>
+		<#-- Other themes : one card each, to switch the global theme (5 per line at most: row-cols, Bootstrap has no fifth of a row) -->
+		<#assign otherThemes = themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme ) />
+		<#if otherThemes?has_content>
+		<@row class='row-cards row-deck g-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5'>
+			<#list otherThemes as theme>
+			<@columns class='col'>
+				<@box class='mb-0'>
+					<#-- The preview is a submit button of the form below: a click selects the theme -->
+					<button type="submit" form="themeForm_${theme.codeTheme}" class="theme-select card-img-top" title="#i18n{portal.theme.manage_themes.themeSelection} : ${theme.codeTheme?capitalize}">
+						<@themeThumbnail theme=theme />
+						<span class="theme-select-label"><@icon style='click' /> #i18n{portal.theme.manage_themes.themeSelection}</span>
+					</button>
+					<@boxBody class='d-flex flex-column text-center p-3'>
+						<h3 class="h3 fw-bold mb-0 mt-0 text-break">${theme.codeTheme?capitalize}</h3>
+						<@div class='text-uppercase text-secondary fw-medium small mb-1'>#i18n{portal.theme.manage_themes.version} ${theme.themeVersion!}</@div>
+						<@p class='text-secondary small mb-2'>${theme.themeDescription!}</@p>
+						<@themeFeatures theme=theme class='text-start mx-auto small mb-0' showVersion=false />
+						<@div class='mt-auto pt-3'>
+							<@tform id='themeForm_${theme.codeTheme}' action='jsp/admin/theme/ManageThemes.jsp' method='post' class='m-0'>
+								<@input type='hidden' name='action' value='modifyGlobalTheme' />
+								<@input type='hidden' name='_csrftoken' value='${modify_global_theme_token}' />
+								<@input type='hidden' name='theme' value='${theme.codeTheme}' />
+								<@input type='hidden' name='theme_version' value='${theme.themeVersion!}' />
+								<@button type='submit' color='light' size='sm' class='w-100' buttonIcon='click' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' />
+							</@tform>
+						</@div>
 					</@boxBody>
-					<@div class='p-3 bg-light'>
-						<@img url='themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png' class='card-img-bottom img-fluid object-fit-contain' alt='' />
-					</@div>
 				</@box>
 			</@columns>
 			</#list>
-			<#if themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme)?size gt 0>
-			<#list themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme) as theme>
-			<@columns sm=6 lg=3>
-				<@box class='card-md'>
-					<@boxBody class='p-2 text-center'>
-						<@p class='display-5 fw-bold my-3'>${theme.codeTheme!?capitalize}</@p>
-						<@p class='my-2'>${theme.themeDescription!}</@p>
-                    	<@ul class='list-unstyled lh-lg'>
-							<@li><strong>#i18n{portal.theme.manage_themes.author}</strong> : <@link class='link-info link-offset-2' href=theme.themeAuthorUrl! target='_author_url' label='${theme.themeAuthor}' /></@li>
-							<@li><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</@li>
-							<@li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</@li>
-						</@ul>
-						<@p class='text-center mt-4'>
-                     	 	<@tform action='jsp/admin/theme/ManageThemes.jsp' method='post' class='d-inline'>
-                     	 		<@input type='hidden' name='action' value='modifyGlobalTheme' />
-                     	 		<@input type='hidden' name='_csrftoken' value='${modify_global_theme_token}' />
-                     	 		<@input type='hidden' name='theme' value='${theme.codeTheme}' />
-                     	 		<@input type='hidden' name='theme_version' value='${theme.themeVersion}' />
-                     	 		<@button type='submit' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />
-                     	 	</@tform>
-                    	</@p>
-					</@boxBody>
-					<@div class='p-3 bg-light'>
-						<@img url='themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png' class='card-img-bottom img-fluid object-fit-contain' alt='' />
-					</@div>
-				</@box>
-			</@columns>
-			</#list>
-			</#if>
 		</@row>
+		</#if>
+		<#else>
+		<@empty title='#i18n{portal.util.labelNoItem}' />
+		</#if>
 	</@pageColumn>
 </@pageContainer>
+<style>
+/* Theme preview used as the select button: an overlay with its label shows on hover and on keyboard focus */
+.theme-select { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; overflow: hidden; }
+.theme-select .img-responsive { transition: transform .2s ease; }
+.theme-select-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .5rem; color: #fff; font-weight: 600; text-align: center; background: rgba(var(--tblr-dark-rgb, 24, 36, 51), .6); opacity: 0; transition: opacity .2s ease; }
+.theme-select:hover .theme-select-label, .theme-select:focus-visible .theme-select-label { opacity: 1; }
+.theme-select:hover .img-responsive, .theme-select:focus-visible .img-responsive { transform: scale(1.04); }
+.theme-select:focus-visible { outline: 2px solid var(--tblr-primary); outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) { .theme-select .img-responsive, .theme-select-label { transition: none; } }
+</style>
