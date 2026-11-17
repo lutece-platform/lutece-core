@@ -1,0 +1,66 @@
+/* *************************************************************** */
+/* Countdown (cCountdown) : base style                             */
+/* *************************************************************** */
+.lutece-ds-countdown {
+	display: inline-flex;
+	flex-direction: column;
+	gap: .5rem;
+	margin-block-end: 1rem;
+}
+
+.lutece-ds-countdown .lutece-ds-countdown-label,
+.lutece-ds-countdown .lutece-ds-countdown-expired {
+	margin: 0;
+	font-weight: 600;
+}
+
+.lutece-ds-countdown .lutece-ds-countdown-units {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+}
+
+.lutece-ds-countdown .lutece-ds-countdown-unit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 4.5rem;
+	padding: .5rem .75rem;
+	border-radius: var(--bs-border-radius, .375rem);
+	background-color: var(--bs-primary, #0d6efd);
+	color: #fff;
+}
+
+.lutece-ds-countdown .lutece-ds-countdown-number {
+	font-size: clamp( 1.5rem, 1.25rem + .8vw, 2rem );
+	font-weight: 800;
+	line-height: 1.1;
+	font-variant-numeric: tabular-nums;
+}
+
+.lutece-ds-countdown .lutece-ds-countdown-name {
+	font-size: .7rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: .05em;
+}
+
+.lutece-ds-countdown.lutece-ds-countdown-light .lutece-ds-countdown-unit {
+	background-color: var(--bs-primary-bg-subtle, #cfe2ff);
+	color: var(--bs-emphasis-color, #000);
+	box-shadow: inset 0 0 0 1px var(--bs-primary, #0d6efd);
+}
+
+.lutece-ds-countdown.lutece-ds-countdown-sm .lutece-ds-countdown-unit {
+	min-width: 3rem;
+	padding: .25rem .5rem;
+}
+
+.lutece-ds-countdown.lutece-ds-countdown-sm .lutece-ds-countdown-number {
+	font-size: 1.25rem;
+}
+
+.lutece-ds-countdown:not(.is-expired) .lutece-ds-countdown-expired,
+.lutece-ds-countdown.is-expired .lutece-ds-countdown-units {
+	display: none;
+}

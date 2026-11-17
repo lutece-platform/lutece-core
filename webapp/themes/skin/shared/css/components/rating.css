@@ -1,0 +1,108 @@
+/* ************************************************************** */
+/* Rating (cRating, cRatingInput) : base style. The star is an    */
+/* SVG mask and its colour the background, like module-extend-    */
+/* rating : a theme changes --rating-on and --rating-off.         */
+/* ************************************************************** */
+:root {
+	--rating-on: var(--bs-warning, #ffc107);
+	--rating-off: var(--bs-border-color, #dee2e6);
+	--rating-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpolygon points='12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26'/%3E%3C/svg%3E");
+}
+
+.lutece-ds-rating {
+	display: inline-flex;
+	align-items: center;
+	gap: .5rem;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.lutece-ds-rating .lutece-ds-rating-stars {
+	display: inline-block;
+	width: calc( var(--rating-max, 5) * 1.25em );
+	height: 1.25em;
+	background: linear-gradient( 90deg, var(--rating-on) var(--rating-fill, 0%), var(--rating-off) var(--rating-fill, 0%) );
+	-webkit-mask: var(--rating-star) 0 0 / 1.25em 1.25em repeat-x;
+	mask: var(--rating-star) 0 0 / 1.25em 1.25em repeat-x;
+}
+
+.lutece-ds-rating .lutece-ds-rating-value {
+	font-weight: 600;
+}
+
+.lutece-ds-rating.lutece-ds-rating-sm { font-size: .875rem; }
+.lutece-ds-rating.lutece-ds-rating-lg { font-size: 1.25rem; }
+
+.lutece-ds-rating-input {
+	margin: 0 0 1rem;
+	padding: 0;
+	border: 0;
+}
+
+/* No gap between the stars, the mask leaves the space : hovering a gap would light every star */
+.lutece-ds-rating-input .lutece-ds-rating-input-stars {
+	--rating-input-size: 2rem;
+	display: inline-flex;
+	line-height: 1;
+}
+
+.lutece-ds-rating-input .lutece-ds-rating-input-star {
+	display: block;
+	width: var(--rating-input-size);
+	height: var(--rating-input-size);
+	margin: 0;
+	padding: 0;
+	cursor: pointer;
+	color: var(--rating-off);
+}
+
+.lutece-ds-rating-input .lutece-ds-rating-input-star::before {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: currentcolor;
+	transition: background-color .1s ease-in-out;
+	-webkit-mask: var(--rating-star) center / 80% 80% no-repeat;
+	mask: var(--rating-star) center / 80% 80% no-repeat;
+}
+
+/* Chosen star and every star before it, while the pointer is not over the stars */
+.lutece-ds-rating-input .lutece-ds-rating-input-stars:not(:hover):has( input:checked ) .lutece-ds-rating-input-star {
+	color: var(--rating-on);
+}
+
+.lutece-ds-rating-input .lutece-ds-rating-input-stars:not(:hover) input:checked + .lutece-ds-rating-input-star ~ .lutece-ds-rating-input-star {
+	color: var(--rating-off);
+}
+
+/* Hovered star and every star before it */
+.lutece-ds-rating-input .lutece-ds-rating-input-stars:hover .lutece-ds-rating-input-star {
+	color: var(--rating-on);
+}
+
+.lutece-ds-rating-input .lutece-ds-rating-input-stars .lutece-ds-rating-input-star:hover ~ .lutece-ds-rating-input-star {
+	color: var(--rating-off);
+}
+
+.lutece-ds-rating-input input:focus-visible + .lutece-ds-rating-input-star {
+	outline: 2px solid var(--bs-focus-ring-color, rgba(13, 110, 253, .25));
+	outline-offset: 2px;
+}
+
+.lutece-ds-rating-input input:disabled + .lutece-ds-rating-input-star {
+	cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+	.lutece-ds-rating .lutece-ds-rating-stars,
+	.lutece-ds-rating-input .lutece-ds-rating-input-star::before {
+		forced-color-adjust: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lutece-ds-rating-input .lutece-ds-rating-input-star::before {
+		transition: none;
+	}
+}
