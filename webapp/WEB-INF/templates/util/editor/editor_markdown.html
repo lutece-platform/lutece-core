@@ -1,0 +1,34 @@
+<#-- @macro initEditor                                                                                         -->
+<#-- @title Init the FO Markdown editor (markdown-text-editor)                                                  -->
+<#-- ---------------------------------------------------------------------------------------------------------- -->
+<#-- @tag | editor, front, markdown                                                                             -->
+<#-- ---------------------------------------------------------------------------------------------------------- -->
+<#-- @summary | Adds a Markdown editor to the textareas matching editorSelector. The textarea is kept: the form  -->
+<#-- posts Markdown, turned into HTML on the server by IEditorBbcodeService.parse (BBCode is still understood).  -->
+<#-- The bundle and its licenses are in themes/skin/shared/js/editors/markdown/.                                -->
+<#-- ---------------------------------------------------------------------------------------------------------- -->
+<#--  name           | type | default     | List of values      | Description                                   -->
+<#-- ---------------------------------------------------------------------------------------------------------- -->
+<#-- @param editorSelector | text | '.richtext' | | CSS selector of the textareas                               -->
+<#-- @param language | text | .lang | ['fr','en'] | Language of the toolbar                                       -->
+<#-- @param mode | text | 'hybrid' | ['hybrid','plain'] | hybrid styles the Markdown as it is typed            -->
+<#-- @param toolbar | text | '' | | JS array of tools, e.g. "['bold','italic','link','preview']"; '' default   -->
+<#-- Other parameters (skin, format, emo, icons, plugins of the former SCEditor) are accepted and ignored.      -->
+<#-- ---------------------------------------------------------------------------------------------------------- -->
+<#macro initEditor editorSelector='.richtext' language=.lang mode='hybrid' toolbar='' others...>
+<#if !( luteceMarkdownEditorLoaded!false )>
+<script src="themes/skin/shared/js/editors/markdown/markdown-text-editor.min.js"></script>
+<script src="themes/skin/shared/js/editors/markdown/lutece-markdown-editor.js"></script>
+<#global luteceMarkdownEditorLoaded = true>
+</#if>
+<script>
+LuteceMarkdownEditor.init( {
+	selector: '${editorSelector?js_string?no_esc}',
+	lang: '${( language?string?length >= 2 )?then( language?string?substring( 0, 2 ), "en" )?js_string?no_esc}',
+	mode: '${mode?js_string?no_esc}'<#if toolbar?has_content>,
+	<#-- toolbar: a list of tool names, or the former JS array text "['bold','italic']": written as escaped strings -->
+	<#local tools = toolbar?is_sequence?then( toolbar, toolbar?trim?remove_beginning( '[' )?remove_ending( ']' )?split( ',' ) )?map( t -> t?trim?remove_beginning( "'" )?remove_ending( "'" )?remove_beginning( '"' )?remove_ending( '"' ) )?filter( t -> t?has_content ) />
+	toolbar: [<#list tools as tool>'${tool?js_string?no_esc}'<#sep>, </#list>]</#if>
+} );
+</script>
+</#macro>

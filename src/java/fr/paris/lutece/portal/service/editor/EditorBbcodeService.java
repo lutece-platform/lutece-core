@@ -37,6 +37,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.commonmark.Extension;
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
@@ -76,6 +81,13 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static final String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
     private static final String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
     private static final String SEPARATOR = ",";
+    private static final String EDITOR_MARKDOWN = "markdown";
+    private static final List<Extension> MARKDOWN_EXTENSIONS = List.of( TablesExtension.create( ), StrikethroughExtension.create( ) );
+    private static final Parser MARKDOWN_PARSER = Parser.builder( ).extensions( MARKDOWN_EXTENSIONS ).build( );
+    private static final HtmlRenderer MARKDOWN_RENDERER = HtmlRenderer.builder( ).extensions( MARKDOWN_EXTENSIONS ).softbreak( "<br>\n" ).build( );
+    private static final Safelist SAFELIST_MARKDOWN = Safelist.basicWithImages( )
+            .addTags( "h1", "h2", "h3", "h4", "h5", "h6", "hr", "del", "s", "table", "thead", "tbody", "tr", "th", "td" )
+            .addAttributes( "th", "align" ).addAttributes( "td", "align" );
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 
@@ -90,34 +102,63 @@ public class EditorBbcodeService implements IEditorBbcodeService
     @Override
     public String parse( String strValue )
     {
-    	try {
-            // Parse BBCode and clean HTML using Jsoup with basic whitelisting of tags and attributes
-            return Jsoup.clean(BbcodeUtil.parse(strValue, _listParserElement, _listParserComplexElement),
-                    Safelist.basicWithImages());
-
-        } catch (Exception e) {
-            // Handle any exceptions that might occur during parsing or cleaning
-            // Log the error and return an appropriate error message or fallback value
-            AppLogService.error("Error occurred while parsing and cleaning the input string", e);
+        try
+        {
+            return Jsoup.clean( toHtml( strValue ), isMarkdownEditor( ) ? SAFELIST_MARKDOWN : Safelist.basicWithImages( ) );
+        }
+        catch( Exception e )
+        {
+            AppLogService.error( "Error occurred while parsing and cleaning the input string", e );
             return "Error occurred during processing. Please try again later.";
         }
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String parseAndClean( String strValue, Safelist safelist )
     {
-    	try {
-            // Parse BBCode and clean HTML using Jsoup with the provided Safelist
-            return Jsoup.clean(BbcodeUtil.parse(strValue, _listParserElement, _listParserComplexElement), safelist);
-
-        } catch (Exception e) {
-            // Handle any exceptions that might occur during parsing or cleaning
-            // Log the error and return an appropriate error message or fallback value
-            AppLogService.error("Error occurred while parsing and cleaning the input string", e);
+        try
+        {
+            return Jsoup.clean( toHtml( strValue ), safelist );
+        }
+        catch( Exception e )
+        {
+            AppLogService.error( "Error occurred while parsing and cleaning the input string", e );
             return "Error occurred during processing. Please try again later.";
-        }    
+        }
+    }
+
+    /**
+     * Converts the text posted by the front office editor to HTML, not yet cleaned. The BBCode is always converted. When the front office editor is the
+     * Markdown one, the result is then rendered as Markdown: the HTML produced by the BBCode passes through it, so the contents written with SCEditor
+     * still render.
+     *
+     * @param strValue
+     *            the posted text
+     * @return the HTML
+     */
+    private String toHtml( String strValue )
+    {
+        String strHtml = BbcodeUtil.parse( strValue, _listParserElement, _listParserComplexElement );
+
+        if ( isMarkdownEditor( ) )
+        {
+            strHtml = MARKDOWN_RENDERER.render( MARKDOWN_PARSER.parse( strHtml ) );
+        }
+
+        return strHtml;
+    }
+
+    /**
+     * Tells whether the rich text editor of the front office is the Markdown one
+     *
+     * @return true when the front office editor posts Markdown
+     */
+    private static boolean isMarkdownEditor( )
+    {
+        return EDITOR_MARKDOWN.equals( RichTextEditorService.getFrontOfficeDefaultEditor( ) );
     }
 
     /**
