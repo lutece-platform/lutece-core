@@ -19,7 +19,7 @@ Snippet:
  <!--  BEGIN FOOTER  -->
 <footer class="footer footer-transparent d-print-none">
     <div class="container-xl">
-        <div class="row text-center align-items-center flex-row-reverse">
+        <div class="row text-center align-items-center flex-row-reverse me-5">
             <div class="col-lg-auto ms-lg-auto">
             <ul class="list-inline list-inline-dots mb-0">
                 <li class="list-inline-item"><a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" class="nav-link">Documentation</a></li>
@@ -30,7 +30,7 @@ Snippet:
             </ul>
             </div>
             <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-            <ul class="list-inline list-inline-dots mb-0">
+            <ul class="list-inline list-inline-dots mb-0 me-5">
                 <li class="list-inline-item">
                     <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
                         <span class="me-2">${site_name}</span>
