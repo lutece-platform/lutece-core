@@ -46,7 +46,7 @@ Snippet:
 -->
 <#macro cModal title id size='lg' static=false pos='centered' role='' scrollable=false dismissible=true dismissLabel='#i18n{portal.theme.labelClose}' footer='' titleLevel=2 class='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="modal cmodal fade<#if class?has_content> ${class}</#if>" id="${id}Modal"<#if static> data-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <@commonAttrs params=params />>
+<div class="modal cmodal fade<#if class?has_content> ${class}</#if>" id="${id}Modal"<#if static> data-bs-backdrop="static"</#if> role="dialog" aria-labelledby="modal${id}Title" aria-hidden="true" <@commonAttrs params=params />>
     <div class="modal-dialog <#if pos?has_content>modal-dialog-${pos} </#if> <#if scrollable>modal-dialog-scrollable</#if><#if size?has_content>modal-${size}</#if>"<#if role?has_content> role="${role}"</#if>>
         <div class="modal-content">
             <div class="modal-header">
