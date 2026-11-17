@@ -1,0 +1,65 @@
+/*********************************************/
+/** Login form (mylutece login_form*.html)  **/
+/** Fields are not wrapped : the form itself **/
+/** spaces its children. Low specificity :  **/
+/** a theme login.css rule wins.            **/
+/*********************************************/
+:where(.login-form) {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+/* Label, help text and field read as one group */
+:where(.login-form) > .form-label {
+	margin-block-end: -.5rem;
+}
+
+:where(.login-form) > .helptext {
+	margin-block: 0 -.5rem;
+}
+
+:where(.login-form) > :where(.btn) {
+	align-self: flex-start;
+}
+
+/* Lost password / lost login links */
+:where(.lost-row) {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	align-items: center;
+	gap: .5rem 1rem;
+}
+
+/* Sign-up footer */
+:where(.signup-row) {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	gap: .75rem;
+	margin-block-start: .5rem;
+	padding: 1rem 1.125rem;
+	border: var(--bs-border-width, 1px) dashed var(--bs-border-color, currentColor);
+	border-radius: var(--bs-border-radius-lg, .5rem);
+	background-color: var(--bs-tertiary-bg, transparent);
+}
+
+:where(.signup-row) > p {
+	margin: 0;
+}
+
+:where(.signup-row__txt) {
+	color: var(--bs-secondary-color, inherit);
+}
+
+:where(.signup-row__txt) strong {
+	color: var(--bs-emphasis-color, inherit);
+}
+
+@media (max-width: 640px) {
+	:where(.lost-row) {
+		justify-content: flex-start;
+	}
+}

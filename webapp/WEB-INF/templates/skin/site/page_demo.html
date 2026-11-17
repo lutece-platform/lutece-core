@@ -491,6 +491,115 @@
     </div>
 </div>
 
+<#-- Catalogue of the core components (lutece-core theme_commons_macros.ftl) : the same block in every demo page -->
+<#assign demoCountdownEnd = ( .now?long + 2592000000 )?number_to_datetime />
+<@cSection class='lutece-demo-catalog pb-4' id='catalogue-lutece'>
+    <@cContainer>
+        <@cTitle level=2 class='mt-5'>Catalogue des composants Lutece</@cTitle>
+        <@cText>Composants fournis par les macros du core, disponibles dans tous les thèmes. Un thème les restyle par ses classes CSS ou les remplace par sa propre macro (<code>macros/components/&lt;groupe&gt;/&lt;macro&gt;.ftl</code>).</@cText>
+        <@cRow>
+            <@cCol cols='12 col-lg-6'>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Étiquette <code>cTag</code>, <code>cTagGroup</code></@cTitle>
+                    <@cTagGroup label='Thématiques'>
+                        <@cTag label='Culture' listItem=true />
+                        <@cTag label='Sport' href='#catalogue-lutece' listItem=true />
+                        <@cTag label='Solidarité' color='primary' listItem=true />
+                        <@cTag label='Petit' size='sm' listItem=true />
+                    </@cTagGroup>
+                    <@cTagGroup label='Filtres actifs'>
+                        <@cTag label='11e arrondissement' removable=true listItem=true />
+                        <@cTag label='Gratuit' removable=true listItem=true />
+                        <@cTag label='En famille' color='primary' removable=true listItem=true />
+                    </@cTagGroup>
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Avatar <code>cAvatar</code>, <code>cAvatarGroup</code></@cTitle>
+                    <@cBlock class='d-flex flex-wrap align-items-center gap-2 mb-3'>
+                        <@cAvatar name='Anne Martin' size='sm' />
+                        <@cAvatar name='Anne Martin' />
+                        <@cAvatar name='Anne Martin' size='lg' color='secondary' />
+                        <@cAvatar name='Anne Martin' size='xl' color='light' status='online' statusLabel='en ligne' decorative=false />
+                    </@cBlock>
+                    <@cAvatarGroup label='Participants'>
+                        <@cAvatar name='Anne Martin' decorative=false listItem=true />
+                        <@cAvatar name='Jean Dupont' color='secondary' decorative=false listItem=true />
+                        <@cAvatar name='Léa Bernard' color='light' decorative=false listItem=true />
+                        <@cAvatar initials='+3' name='3 autres participants' decorative=false listItem=true />
+                    </@cAvatarGroup>
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Frise chronologique <code>cTimeline</code>, <code>cTimelineItem</code></@cTitle>
+                    <@cTimeline label='Étapes du projet'>
+                        <@cTimelineItem date='Mars 2025' datetime='2025-03' title='Concertation' titleLevel=4 status='done' statusLabel='étape terminée'>
+                            <@cText>1 200 participants ont donné leur avis.</@cText>
+                        </@cTimelineItem>
+                        <@cTimelineItem date='Juin 2026' datetime='2026-06' title='Travaux' titleLevel=4 status='current' statusLabel='étape en cours'>
+                            <@cText>Les travaux de voirie ont commencé.</@cText>
+                        </@cTimelineItem>
+                        <@cTimelineItem date='2027' datetime='2027' title='Livraison' titleLevel=4 status='upcoming' statusLabel='étape à venir' />
+                    </@cTimeline>
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Note <code>cRating</code>, <code>cRatingInput</code></@cTitle>
+                    <@cText><@cRating value=3.5 count=12 /></@cText>
+                    <@cText><@cRating value=2 max=4 showValue=false size='sm' /></@cText>
+                    <@cRatingInput name='demo-catalog-rating' legend='Votre avis sur ce service' value=4 />
+                </@cBlock>
+            </@cCol>
+            <@cCol cols='12 col-lg-6'>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Indicateur <code>cIndicator</code></@cTitle>
+                    <@cBlock class='d-flex flex-wrap align-items-center gap-4'>
+                        <@cIndicator value='3' label='notifications non lues' id='demo-catalog-notif'>
+                            <@cBtn label='Notifications' class='outline-primary' type='button' params={"aria-describedby": "demo-catalog-notif"} />
+                        </@cIndicator>
+                        <@cIndicator value='12' color='primary' label='articles'>
+                            <@cBtn label='Panier' class='primary' type='button' />
+                        </@cIndicator>
+                        <@cIndicator color='success' position='bottom' label='en ligne'>
+                            <@cAvatar name='Jean Dupont' decorative=false />
+                        </@cIndicator>
+                    </@cBlock>
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Touches clavier <code>&lt;kbd&gt;</code></@cTitle>
+                    <@cText>Pour rechercher dans la page, appuyez sur <kbd>Ctrl</kbd> + <kbd>F</kbd>.</@cText>
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Chargement <code>cSpinner</code></@cTitle>
+                    <@cBlock class='d-flex flex-wrap align-items-center gap-4'>
+                        <@cSpinner />
+                        <@cSpinner type='grow' />
+                        <@cSpinner type='dots' showLabel=true />
+                        <@cSpinner size='sm' showLabel=true label='Envoi en cours' />
+                    </@cBlock>
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Compte à rebours <code>cCountdown</code></@cTitle>
+                    <@cCountdown date=demoCountdownEnd?string("yyyy-MM-dd'T'HH:mm:ss") label='Clôture des inscriptions dans' dateLabel='le ' + demoCountdownEnd?string('d MMMM yyyy') />
+                    <@cCountdown date='2020-01-01T00:00:00' label='Inscriptions 2020' light=true size='sm' />
+                </@cBlock>
+                <@cBlock class='mb-4'>
+                    <@cTitle level=3>Progression circulaire <code>cRadialProgress</code></@cTitle>
+                    <@cBlock class='d-flex flex-wrap align-items-center gap-4'>
+                        <@cRadialProgress value=72 label='Avancement des travaux' showLabel=true />
+                        <@cRadialProgress value=100 label='Dossier complet' size='sm' color='success' />
+                        <@cRadialProgress value=35 label='Budget consommé' color='danger' />
+                    </@cBlock>
+                </@cBlock>
+            </@cCol>
+        </@cRow>
+        <@cBlock class='mb-4'>
+            <@cTitle level=3>Chiffres clés <code>cStat</code>, <code>cStatGroup</code></@cTitle>
+            <@cStatGroup label='Chiffres clés'>
+                <@cStat value='170 000' label='arbres plantés' description='depuis 2020' listItem=true />
+                <@cStat value='1 000 km' label='de pistes cyclables' listItem=true />
+                <@cStat value='45 %' label='des déchets recyclés' description='Source : enquête 2025' icon='refresh' listItem=true />
+            </@cStatGroup>
+        </@cBlock>
+    </@cContainer>
+</@cSection>
 <#-- Avertissement affiché uniquement quand la page est chargée dans l'iframe d'aperçu du BO (id="lutece-admin-site-preview") -->
 <script>
 (function () {

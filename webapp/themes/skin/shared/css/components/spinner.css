@@ -1,0 +1,64 @@
+/* *************************************************************** */
+/* Loading (cSpinner) : the block around the Bootstrap spinners,   */
+/* and the three dots                                              */
+/* *************************************************************** */
+.lutece-ds-spinner {
+	display: inline-flex;
+	align-items: center;
+	gap: .75rem;
+	font-weight: 600;
+}
+
+.lutece-ds-spinner.lutece-ds-spinner-vertical {
+	flex-direction: column;
+}
+
+.lutece-ds-spinner.lutece-ds-spinner-block {
+	display: flex;
+	justify-content: center;
+	padding: 1.5rem;
+}
+
+.lutece-ds-spinner .spinner-border,
+.lutece-ds-spinner .spinner-grow,
+.lutece-ds-spinner-dots {
+	color: var(--bs-primary, #0d6efd);
+}
+
+.spinner-border.lutece-ds-spinner-lg,
+.spinner-grow.lutece-ds-spinner-lg {
+	--bs-spinner-width: 3.5rem;
+	--bs-spinner-height: 3.5rem;
+}
+
+.lutece-ds-spinner-dots {
+	display: inline-flex;
+	gap: .3em;
+}
+
+.lutece-ds-spinner-dots > span {
+	width: .6em;
+	height: .6em;
+	border-radius: 50%;
+	background-color: currentcolor;
+	animation: spinner-dots 1.2s infinite ease-in-out both;
+}
+
+.lutece-ds-spinner-dots > span:nth-child(1) { animation-delay: -.32s; }
+.lutece-ds-spinner-dots > span:nth-child(2) { animation-delay: -.16s; }
+
+@keyframes spinner-dots {
+	0%, 80%, 100% { transform: scale(.4); opacity: .5; }
+	40% { transform: scale(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lutece-ds-spinner-dots > span {
+		animation: spinner-dots-pulse 3s infinite ease-in-out both;
+	}
+
+	@keyframes spinner-dots-pulse {
+		0%, 100% { opacity: .4; }
+		50% { opacity: 1; }
+	}
+}

@@ -1,0 +1,57 @@
+/* *************************************************************** */
+/* Radial progress (cRadialProgress) : a ring filled to            */
+/* --radial-value (0 to 100), a mask cuts the hole                 */
+/* *************************************************************** */
+.lutece-ds-radial-progress {
+	--radial-value: 0;
+	--radial-size: 5rem;
+	--radial-thickness: calc( var(--radial-size) / 9 );
+	--radial-on: var(--bs-primary, #0d6efd);
+	--radial-off: var(--bs-secondary-bg, #e9ecef);
+	position: relative;
+	display: inline-grid;
+	place-items: center;
+	flex-shrink: 0;
+	width: var(--radial-size);
+	height: var(--radial-size);
+	vertical-align: middle;
+}
+
+.lutece-ds-radial-progress::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: conic-gradient( var(--radial-on) calc( var(--radial-value) * 1% ), var(--radial-off) 0 );
+	-webkit-mask: radial-gradient( farthest-side, transparent calc( 100% - var(--radial-thickness) - 1px ), #000 calc( 100% - var(--radial-thickness) ) );
+	mask: radial-gradient( farthest-side, transparent calc( 100% - var(--radial-thickness) - 1px ), #000 calc( 100% - var(--radial-thickness) ) );
+}
+
+.lutece-ds-radial-progress .lutece-ds-radial-progress-value {
+	position: relative;
+	font-size: calc( var(--radial-size) / 4.5 );
+	font-weight: 700;
+	line-height: 1;
+}
+
+.lutece-ds-radial-progress.lutece-ds-radial-progress-sm { --radial-size: 3rem; }
+.lutece-ds-radial-progress.lutece-ds-radial-progress-lg { --radial-size: 8rem; }
+.lutece-ds-radial-progress.lutece-ds-radial-progress-success { --radial-on: var(--bs-success, #198754); }
+.lutece-ds-radial-progress.lutece-ds-radial-progress-danger { --radial-on: var(--bs-danger, #dc3545); }
+
+.lutece-ds-radial-progress-wrapper {
+	display: inline-flex;
+	align-items: center;
+	gap: .75rem;
+}
+
+.lutece-ds-radial-progress-wrapper .lutece-ds-radial-progress-label {
+	margin: 0;
+	font-weight: 600;
+}
+
+@media (forced-colors: active) {
+	.lutece-ds-radial-progress::before {
+		forced-color-adjust: none;
+	}
+}

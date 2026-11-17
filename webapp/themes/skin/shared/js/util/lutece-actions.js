@@ -8,6 +8,8 @@
  *                                     cannot tell it: Lutece sends Referrer-Policy: no-referrer
  *   data-lutece-action="close"        on a link or a button: closes the window (a popup)
  *   data-lutece-action="hide-parent"  on a button: hides its parent element (a dismissible badge)
+ *   data-lutece-action="remove-tag"   on the remove button of a tag (cTag): removes the tag, or its list item, and
+ *                                     moves the focus to the next tag, or the previous one
  *   data-lutece-action="submit"       on a field: submits its form when its value changes
  *   data-lutece-action="skip"         on a link whose href ends with #id: moves the focus to that element of the
  *                                     page, as an in-page link would without the <base href> of the page
@@ -101,6 +103,21 @@
             case 'skip':
                 skipTo( element, event );
                 break;
+            case 'remove-tag': {
+                event.preventDefault( );
+                const label = element.closest( '.lutece-ds-tag' );
+                const item = label && label.parentElement;
+                const tag = item && item.matches( '.lutece-ds-tag-group > li' ) ? item : label;
+                if ( tag ) {
+                    const next = tag.nextElementSibling || tag.previousElementSibling;
+                    tag.remove( );
+                    const focusable = next && next.querySelector( 'a, button' );
+                    if ( focusable ) {
+                        focusable.focus( );
+                    }
+                }
+                break;
+            }
             case 'hide-parent':
                 event.preventDefault( );
                 if ( element.parentElement ) {

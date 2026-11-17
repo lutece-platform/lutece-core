@@ -1,0 +1,39 @@
+/*********************************************/
+/** Copy to clipboard                       **/
+/** Button injected by shared.js after each **/
+/** <code> : shown on <pre> blocks only     **/
+/*********************************************/
+pre:has(> code + .copy-to-clipboard) {
+	position: relative;
+	padding-inline-end: 4.5rem;
+}
+
+pre > .copy-to-clipboard {
+	position: absolute;
+	inset-block-start: .5rem;
+	inset-inline-end: .5rem;
+	padding: .25rem .5rem;
+	border: 1px solid var(--bs-primary, #0d6efd);
+	border-radius: var(--bs-border-radius-sm, .25rem);
+	background-color: var(--bs-primary, #0d6efd);
+	color: var(--bs-white, #fff);
+	font-family: var(--bs-body-font-family, system-ui, sans-serif);
+	font-size: .75rem;
+	font-weight: 500;
+	line-height: 1;
+	white-space: nowrap;
+	cursor: pointer;
+	user-select: none;
+	opacity: .85;
+	transition: opacity .15s ease-in-out;
+}
+
+pre > .copy-to-clipboard:hover,
+pre > .copy-to-clipboard:focus-visible {
+	opacity: 1;
+}
+
+/* Inline code : no copy button */
+:not(pre) > code + .copy-to-clipboard {
+	display: none;
+}
