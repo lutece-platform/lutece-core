@@ -113,7 +113,7 @@ Snippet:
             </button>
         </@cTitle>
         <#if hasCollapse>
-            <div id="collapseAcc${id}" class="m-0 collapse <#if state>show</#if>" role="region" aria-labelledby="headingAcc${id}"  data-parent="#acc${id!}">
+            <div id="collapseAcc${id}" class="m-0 collapse <#if state>show</#if>" role="region" aria-labelledby="headingAcc${id}"  data-bs-parent="#acc${id!}">
                 <div class="card-body"<#if iconType != 'info'> style="border-color:var(--main-${iconType}-color-text)"</#if>>
                     <#nested>
                 </div>

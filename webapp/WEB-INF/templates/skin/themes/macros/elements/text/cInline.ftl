@@ -25,7 +25,7 @@ Snippet:
 
     With custom attributes:
 
-    <@cInline type='em' params={'data-toggle': 'tooltip', 'title': 'Additional info'}>Hover for details</@cInline>
+    <@cInline type='em' params={'data-bs-toggle': 'tooltip', 'title': 'Additional info'}>Hover for details</@cInline>
 
 -->
 <#macro cInline type='span' class='' id='' params={} deprecated...>

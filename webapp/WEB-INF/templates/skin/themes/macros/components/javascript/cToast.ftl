@@ -39,8 +39,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // Récupérer le conteneur spécifique par son identifiant
     var container = document.getElementById('${id?js_string?no_esc}');
     var toastElList = [].slice.call(container.querySelectorAll('.toast'));
-    var option = { delay: ${duration?c}, animation: ${animation?c}, autohide: ${autohide?c} };
+    // Options passed in JS override data-bs-* attributes: a toast that sets its own delay keeps it
     var toastList = toastElList.map(function(toastEl) {
+        var option = { animation: ${animation?c} };
+        if ( !toastEl.hasAttribute('data-bs-autohide') ) {
+            option.autohide = ${autohide?c};
+            option.delay = ${duration?c};
+        }
         return new bootstrap.Toast(toastEl, option);
     });
 
@@ -103,12 +108,12 @@ Snippet:
 -->
 <#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
-<div<@commonAttrs id=id params=params /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true">
+<div<@commonAttrs id=id params=params /> class="toast<#if class?has_content> ${class}</#if><#if type?has_content> ${type}</#if>" role="alert" data-bs-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-bs-delay="${delay?c}"</#if> aria-live="assertive" aria-atomic="true">
   <#if title?has_content>
     <div class="toast-header">
-      <#if imgUrl?has_content><img src="${imgUrl}" class="rounded me-2"></#if>
+      <#if imgUrl?has_content><img src="${imgUrl}" class="rounded me-2" alt=""></#if>
       <@cTitle level=titleLevel class='me-auto my-0 ${titleClass}'>${title}</@cTitle>
-      <#if delay = 0><button type="button" class="ms-auto btn-close" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}">&times;</button></#if>
+      <#if delay = 0><button type="button" class="ms-auto btn-close" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}"></button></#if>
     </div>
     <div class="toast-body">
       ${content}
