@@ -1,5 +1,5 @@
 /*!
-* Tabler v1.7.3 (https://tabler.io)
+* Tabler v1.7.4 (https://tabler.io)
 * Copyright 2018-2026 The Tabler Authors
 * Copyright 2018-2026 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
@@ -3874,6 +3874,7 @@
 	var SELECTOR_DATA_TOGGLE_SHOWN = SELECTOR_DATA_TOGGLE$8.split(", ").map((selector) => `${selector}.${CLASS_NAME_SHOW$7}`).join(", ");
 	var SELECTOR_MENU$1 = ".dropdown-menu";
 	var SELECTOR_NAVBAR = ".navbar";
+	var SELECTOR_NAVBAR_VERTICAL = ".navbar-vertical";
 	var SELECTOR_NAVBAR_NAV = ".navbar-nav";
 	var SELECTOR_VISIBLE_ITEMS = ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)";
 	var PLACEMENT_TOP = isRTL() ? "top-end" : "top-start";
@@ -3946,6 +3947,11 @@
 			this._inNavbar = this._detectNavbar();
 			if (this._popper) this._popper.update();
 		}
+		_isStatic() {
+			if (this._config.display === "static") return true;
+			if (!this._inNavbar) return false;
+			return this._element.closest(SELECTOR_NAVBAR_VERTICAL) !== null || getComputedStyle(this._menu).position === "static";
+		}
 		_completeHide(relatedTarget) {
 			if (EventHandler.trigger(this._element, EVENT_HIDE$5, relatedTarget)?.defaultPrevented) return;
 			if ("ontouchstart" in document.documentElement) for (const element of Array.from(document.body.children)) EventHandler.off(element, "mouseover", noop);
@@ -4003,7 +4009,7 @@
 					options: { offset: this._getOffset() }
 				}]
 			};
-			if (this._inNavbar || this._config.display === "static") {
+			if (this._isStatic()) {
 				Manipulator.setDataAttribute(this._menu, "popper", "static");
 				defaultBsPopperConfig.modifiers = [{
 					name: "applyStyles",
