@@ -196,7 +196,7 @@ INSERT INTO core_datastore VALUES ('core.daemon.mailSender.interval', '86400');
 INSERT INTO core_datastore VALUES ('core.daemon.mailSender.onStartUp', 'true');
 INSERT INTO core_datastore VALUES ('core.daemon.threadLauncherDaemon.interval', '86400');
 INSERT INTO core_datastore VALUES ('core.daemon.threadLauncherDaemon.onStartUp', 'true');
-INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'sceeditor');
+INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markdown');
 INSERT INTO core_datastore VALUES ('core.plugins.status.core_extensions.installed', 'true');
 INSERT INTO core_datastore VALUES ('core.plugins.status.junitplugin.installed', 'false');
 INSERT INTO core_datastore VALUES ('core.plugins.status.lucene.installed', 'true');
@@ -396,7 +396,7 @@ INSERT INTO core_text_editor VALUES ('autumnnote', 'portal.admindashboard.editor
 INSERT INTO core_text_editor VALUES ('milkdown', 'portal.admindashboard.editors.labelBackMilkdown', 1);
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
-INSERT INTO core_text_editor VALUES ('sceeditor', 'portal.admindashboard.editors.labelFrontSceEditor', 0);
+INSERT INTO core_text_editor VALUES ('markdown', 'portal.admindashboard.editors.labelFrontMarkdown', 0);
 
 INSERT INTO core_admin_mailinglist (name,description,workgroup) VALUES( 'admin', 'admin', 'all' );
 INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );

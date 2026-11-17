@@ -357,3 +357,15 @@ UPDATE core_attribute_field SET DEFAULT_value = REPLACE(REPLACE(REPLACE(REPLACE(
 UPDATE core_admin_user_field SET user_field_value = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(user_field_value, '&#39;', ''''), '&#x27;', ''''), '&#34;', '"'), '&quot;', '"'), '&#96;', '`'), '&#61;', '='), '&#64;', '@'), '&#43;', '+'), '&lt;', '<'), '&gt;', '>'), '&amp;', '&') WHERE user_field_value LIKE '%&%;%';
 UPDATE core_page_template SET description = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(description, '&#39;', ''''), '&#x27;', ''''), '&#34;', '"'), '&quot;', '"'), '&#96;', '`'), '&#61;', '='), '&#64;', '@'), '&#43;', '+'), '&lt;', '<'), '&gt;', '>'), '&amp;', '&') WHERE description LIKE '%&%;%';
 UPDATE core_datastore SET entity_value = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(entity_value, '&#39;', ''''), '&#x27;', ''''), '&#34;', '"'), '&quot;', '"'), '&#96;', '`'), '&#61;', '='), '&#64;', '@'), '&#43;', '+'), '&lt;', '<'), '&gt;', '>'), '&amp;', '&') WHERE (entity_key LIKE 'portal.site.site_property.%' OR entity_key LIKE 'portal.theme.site_property.%') AND entity_key NOT LIKE '%.htmlblock' AND entity_key <> 'portal.theme.site_property.xss.xssMsg' AND entity_value LIKE '%&%;%';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev39.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment markdown-text-editor, the front office editor: the textarea posts Markdown, turned into HTML by the BBCode parser service (BBCode is still understood).
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_text_editor WHERE editor_name = 'markdown' AND backOffice = 0
+INSERT INTO core_text_editor VALUES ('markdown', 'portal.admindashboard.editors.labelFrontMarkdown', 0);
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev40.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment SCEditor is removed from the core: the front office moves to markdown-text-editor. The contents written in BBCode still render.
+UPDATE core_datastore SET entity_value = 'markdown' WHERE entity_key = 'core.frontOffice.defaultEditor' AND entity_value = 'sceeditor';
+DELETE FROM core_text_editor WHERE editor_name = 'sceeditor';
