@@ -8,6 +8,8 @@ Parameters:
 - class (string, optional): CSS classes for positioning the switcher. Default: 'start-0 mb-3 me-3'.
 - id (string, optional): HTML id attribute for the dropdown button. Default: ''.
 - params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
+- nav (boolean, optional): If true, renders the switcher as a navbar item (li.nav-item.dropdown) for cMainNav,
+  driven by shared.js (stored choice, auto mode); theme and the positioning class are then ignored. Default: false.
 
 Showcase:
 - desc: Theme Switcher - @cThemeSwitcher
@@ -25,9 +27,52 @@ Snippet:
 
     <@cThemeSwitcher theme='dark' class='end-0 mb-3 me-3' />
 
+    Theme switcher as a main navigation item:
+
+    <@cThemeSwitcher nav=true />
+
 -->
-<#macro cThemeSwitcher theme='light' class='start-0 mb-3 me-3' id='' params={} deprecated...>
+<#macro cThemeSwitcher theme='light' class='start-0 mb-3 me-3' id='' params={} nav=false deprecated...>
 <@deprecatedWarning args=deprecated />
+<#if nav>
+<#-- Navbar item: shared.js applies the mode, stores it and marks the active [data-bs-theme-value] button -->
+<#local modes = { 'light': { 'icon': 'sun', 'label': '#i18n{portal.users.admin_header.labelLightMode}' }, 'dark': { 'icon': 'moon', 'label': '#i18n{portal.users.admin_header.labelDarkMode}' }, 'auto': { 'icon': 'circle-half-2', 'label': 'Auto' } } />
+<li class="nav-item dropdown nav-theme-switcher<#if class?has_content && class !='start-0 mb-3 me-3'> ${class}</#if>"<@commonAttrs params=params />>
+    <button type="button" class="nav-link dropdown-toggle" id="<#if id !=''>${id}<#else>bd-theme</#if>" data-bs-toggle="dropdown" aria-expanded="false" aria-label="#i18n{portal.theme.labelToggleTheme}" title="#i18n{portal.theme.labelToggleTheme}">
+        <span class="ti ti-circle-half-2 theme-switcher-icon" aria-hidden="true"></span>
+        <span class="visually-hidden" id="bd-theme-text">#i18n{portal.theme.labelToggleTheme}</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="<#if id !=''>${id}<#else>bd-theme</#if>">
+        <#list modes as mode, def>
+        <li>
+            <button type="button" class="dropdown-item d-flex align-items-center gap-2" data-bs-theme-value="${mode}" aria-pressed="false">
+                <span class="ti ti-${def.icon}" aria-hidden="true"></span>
+                <span class="text-capitalize">${def.label}</span>
+            </button>
+        </li>
+        </#list>
+    </ul>
+</li>
+<script>
+document.addEventListener( 'DOMContentLoaded', ( ) => {
+    /* Toggle icon follows the chosen mode: the stored one, else the applied one ( as shared.js marks it active ) */
+    const icons = { light: 'ti-sun', dark: 'ti-moon', auto: 'ti-circle-half-2' };
+    const icon = document.querySelector( '.nav-theme-switcher .theme-switcher-icon' );
+    if ( !icon ) { return; }
+    const show = ( mode ) => {
+        Object.values( icons ).forEach( ( c ) => icon.classList.remove( c ) );
+        icon.classList.add( icons[ mode ] || icons.auto );
+    };
+    let stored = null;
+    try { stored = localStorage.getItem( 'theme' ); } catch ( e ) { /* storage blocked */ }
+    show( stored || document.documentElement.getAttribute( 'data-bs-theme' ) );
+    document.querySelectorAll( '.nav-theme-switcher [data-bs-theme-value]' ).forEach( ( button ) => {
+        button.addEventListener( 'click', ( ) => show( button.dataset.bsThemeValue ) );
+    });
+});
+</script>
+<#return>
+</#if>
 <#-- THEME Switcher button -->
 <div class="dropdown position-fixed bottom-0 ${class} bd-mode-toggle"<@commonAttrs params=params />>
   <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">

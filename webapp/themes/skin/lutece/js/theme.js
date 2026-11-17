@@ -390,19 +390,32 @@ document.addEventListener("DOMContentLoaded", function(){
           </li>
         `);
       }
-      const state = {
-        density: localStorage.getItem('lutece-ds-density') || 'cozy',
-        theme:   localStorage.getItem('lutece-ds-theme')   || 'light',
-        primary: localStorage.getItem('lutece-ds-primary') || 'blue',
+      // Storage can be blocked (private browsing, site data disabled): the choice then lasts for this page only
+      const read = (key, fallback) => {
+        try { return localStorage.getItem(key) || fallback; } catch (e) { return fallback; }
       };
-      
+      const write = (key, value) => {
+        try { localStorage.setItem(key, value); } catch (e) { /* storage blocked */ }
+      };
+      // Light / dark mode belongs to shared.js (one stored choice for every switcher, system mode included):
+      // this bar only keeps density and primary colour
+      const state = {
+        density: read('lutece-ds-density', 'cozy'),
+        primary: read('lutece-ds-primary', 'blue'),
+      };
+
       const apply = () => {
         const root = document.documentElement;
         root.setAttribute('data-lutece-ds-density', state.density);
-        root.setAttribute('data-bs-theme', state.theme);
         root.setAttribute('data-lutece-ds-primary', state.primary);
+        const mode = root.getAttribute('data-bs-theme') === 'dark' ? 'dark' : 'light';
         bar.querySelectorAll('button[data-tw]').forEach(b => {
-          b.setAttribute('aria-pressed', String(b.dataset.val === state[b.dataset.tw]));
+          if ( b.dataset.tw === 'theme' ) {
+            b.dataset.val = mode;
+            b.setAttribute('aria-pressed', String(mode === 'dark'));
+          } else {
+            b.setAttribute('aria-pressed', String(b.dataset.val === state[b.dataset.tw]));
+          }
         });
       };
 
@@ -410,14 +423,17 @@ document.addEventListener("DOMContentLoaded", function(){
         const b = e.target.closest('button[data-tw]');
         if (!b) return;
         if ( b.dataset.tw === 'theme' ) {
-          state[b.dataset.tw] = state[b.dataset.tw] === 'light' ? 'dark' : 'light';
-          b.dataset.val = state[b.dataset.tw] === 'dark' ? 'dark' : 'light' ;
+          if ( typeof window.toggleColorMode === 'function' ) {
+            window.toggleColorMode();
+          }
         } else {
           state[b.dataset.tw] = b.dataset.val;
+          write('lutece-ds-' + b.dataset.tw, b.dataset.val);
         }
-        localStorage.setItem('lutece-ds-' + b.dataset.tw, b.dataset.val);
         apply();
       });
+      // Keep the toggle state right when the mode changes elsewhere (navbar switcher, system, another tab)
+      new MutationObserver(apply).observe(document.documentElement, { attributes: true, attributeFilter: ['data-bs-theme'] });
       apply();
     });
   }

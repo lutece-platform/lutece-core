@@ -123,10 +123,17 @@
     const defaultThemeAtLoad = document.documentElement.getAttribute('data-bs-theme-default') || document.documentElement.getAttribute('data-bs-theme')
     const getDefaultTheme = () => defaultThemeAtLoad
 
+    // Back office right "the user can manage the light / dark mode" (theme_frameset_header_js.html).
+    // Without it the mode set in the back office stays: no stored choice, no system preference.
+    const canSwitchTheme = () => typeof hasUserThemeSwitch === 'undefined' || hasUserThemeSwitch === true
+
     const getPreferredTheme = () => {
         const defaultTheme = getDefaultTheme()
+        if (!canSwitchTheme()) {
+            return defaultTheme === 'dark' ? 'dark' : 'light'
+        }
         const storedTheme = getStoredTheme()
-        
+
         if ( !storedTheme && defaultTheme && defaultTheme === 'dark') {
             return defaultTheme
         }
@@ -138,11 +145,15 @@
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
     }
 
+    const getSystemTheme = () => window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+
     const setTheme = theme => {
-        if (theme === 'auto') {
-            document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
-        } else {
-            document.documentElement.setAttribute('data-bs-theme', theme)
+        const rendered = theme === 'auto' ? getSystemTheme() : theme
+        document.documentElement.setAttribute('data-bs-theme', rendered)
+        // Hint for the browser UI drawn before the CSS (page canvas, scrollbars)
+        const meta = document.querySelector('meta[name="color-scheme"]')
+        if (meta) {
+            meta.content = rendered
         }
     }
 
@@ -178,11 +189,35 @@
     }
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!canSwitchTheme()) {
+            return
+        }
         const storedTheme = getStoredTheme()
         if (storedTheme !== 'light' && storedTheme !== 'dark') {
             setTheme(getPreferredTheme())
         }
     })
+
+    // A choice made in another tab applies here too
+    window.addEventListener('storage', event => {
+        if (event.key === 'theme' && canSwitchTheme()) {
+            const theme = getPreferredTheme()
+            setTheme(theme)
+            showActiveTheme(theme)
+        }
+    })
+
+    // Two-state toggle (a single button in the page header): switch to the opposite of the
+    // rendered mode. Going back to the system's mode stores 'auto' rather than pinning it,
+    // so the page keeps following the system afterwards.
+    window.toggleColorMode = () => {
+        const target = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark'
+        const theme = target === getSystemTheme() ? 'auto' : target
+        setStoredTheme(theme)
+        setTheme(theme)
+        showActiveTheme(theme)
+        return target
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
         showActiveTheme(getPreferredTheme())
