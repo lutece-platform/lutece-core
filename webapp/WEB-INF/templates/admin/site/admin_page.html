@@ -268,7 +268,7 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 .lutece-site-nomatch, .lutece-site-empty { margin: 0; color: var( --lutece-site-muted ); }
 /* One column no wider than the room: a preview wider than it (laptop width) is cut down instead of pushing the inspector away */
 .lutece-site-center { display: grid; grid-template-columns: minmax( 0, 1fr ); grid-template-rows: auto 1fr; }
-.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem; padding: .75rem 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
+.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; padding: 0 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
 .lutece-site-title { display: flex; align-items: center; justify-content: space-between; gap: .125rem; flex: 1; min-width: 12rem; }
 .lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
 .lutece-site-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; font-size: .8rem; color: var( --lutece-site-muted ); }
@@ -385,8 +385,8 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 }
 
 /* The preview in a browser window: it fills the height left under the head (set by the script), at the width of the chosen device */
-#lutece-admin-site-preview-wrapper { padding: .25rem; }
-#lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; }
+#lutece-admin-site-preview-wrapper { padding: 0; }
+#lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; border-radius: 0; }
 #lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar {  display: flex; justify-content: space-between; padding-inline: 1.5rem; }
 #lutece-admin-site-preview-frame.mockup-browser .mockup-browser-home{ position: absolute; inset-inline-start: calc(var(--tblr-mockup-browser-control-offset)*5);}
 #lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar .mockup-browser-actions { display: flex; }
