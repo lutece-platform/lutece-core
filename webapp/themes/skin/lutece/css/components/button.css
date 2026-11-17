@@ -137,6 +137,15 @@
 	width: 100%;
 }
 
+/* btn-outline-* : the label takes the colour of the button, not the white of the filled buttons */
+.btn[class*="btn-outline-"] .btn-label,
+.btn[class*="btn-outline-"]:not(:disabled):active .btn-label,
+.btn[class*="btn-outline-"]:hover:not(:disabled) .btn-label,
+.btn[class*="btn-outline-"]:focus:not(:disabled) .btn-label,
+.btn[class*="btn-outline-"]:not(:disabled).active .btn-label {
+	color: inherit;
+}
+
 /* btn-secondary 					*/
 .btn-secondary {
 	background-color: var(--lutece-ds-white);
@@ -199,10 +208,15 @@
 	width: 3rem;
 	height: 3rem;
 	padding: var(--lutece-ds-sp-2xs) var(--lutece-ds-sp-xs) !important;
-	transition: width .5s ease, opacity .75s ease;
+	transition: width .5s ease, opacity .75s ease, visibility .75s;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+/* Hidden at the top of the page: out of the tab order and the accessibility tree, not only transparent */
+.btn-gototop:not(.active) {
+	visibility: hidden;
 }
 
 .btn-gototop:hover {

@@ -14,7 +14,7 @@ Parameters:
 - pmUrl (string, optional): URL to generate a password via AJAX. Default: ''.
 - pmConfirmFieldId (string, optional): ID of the confirmation password field to sync generated passwords. Default: ''.
 - placeholder (string, optional): the placeholder text. Default: ''.
-- autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- autocomplete (string, optional): the autocomplete attribute value. Default: '' which renders 'new-password' when passwordMeter or pmConfirmFieldId is set (a password being created, so the browser can suggest a strong one) and 'current-password' otherwise (a sign-in, so password managers can fill it). Pass 'new-password' on a confirmation field.
 - class (string, optional): CSS class for the input. Default: ''.
 - id (string, optional): the ID of the input. Default: ''.
 - size (string, optional): size suffix for form-control class, 'sm' or 'lg'. Default: ''.
@@ -50,13 +50,14 @@ Password with confirmation field sync:
 <#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId = ( id?has_content )?then( ( id!'' )?string, ( name!'' )?string ) />
+<#local passAutocomplete = autocomplete?has_content?then( autocomplete, ( passwordMeter || pmConfirmFieldId?has_content )?then( 'new-password', 'current-password' ) ) />
 <#local passLabel><#if pmLabel?has_content>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class?has_content> ${class!}</#if><#if size?has_content> form-control-${size!}</#if><#if errorMsg?has_content> is-invalid</#if></#local>
 <#if label?has_content><@cLabel label=label for=passId required=required class=labelClass /></#if>
 <#if helpMsg?has_content><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>
     <#if icon?has_content><@cIcon name='${icon!}' /></#if>
-    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=(autocomplete!='')?then(autocomplete,'off') params=params>
+    <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=passAutocomplete params=params>
     <#if btnShowPassword>
     <@cBtn class='secondary toggle-password' type='button' label='' params={"data-bs-toggle": "#${passId}", "aria-pressed": "false", "title": "#i18n{portal.theme.labelPasswordShow}", "tabindex": "0"}>
          <@cIcon name='eye-off' class='main-info-color' />
