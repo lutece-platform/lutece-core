@@ -87,7 +87,7 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
     private static final String MESSAGE_CUSTOM_VALUE_ALREADY_EXISTS_FOR_URL_PATTERN = "portal.securityheader.message.custom_value_already_exists_for_url_pattern";
 	
     // Validations
-    private static final String VALIDATION_ATTRIBUTES_PREFIX = "model.entity.security_header_config_item.attribute.";
+    private static final String VALIDATION_ATTRIBUTES_PREFIX = "portal.securityheader.model.entity.security_header_config_item.attribute.";
 	
     // Views
     private static final String VIEW_CREATE_SECURITYHEADER_CONFIG_ITEM = "createSecurityHeaderConfigItem";

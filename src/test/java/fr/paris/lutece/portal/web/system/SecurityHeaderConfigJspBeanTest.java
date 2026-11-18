@@ -176,4 +176,32 @@ public class SecurityHeaderConfigJspBeanTest extends LuteceTestCase
             SecurityHeaderConfigHome.remove( other.getIdConfigItem( ) );
         }
     }
+
+    /**
+     * The validation messages of a config item exist in English
+     */
+    @Test
+    public void testValidationMessagesInEnglish( ) throws Exception
+    {
+        MockHttpServletRequest request = newRequest( Locale.ENGLISH );
+        request.setParameter( "urlPattern", "/jsp/site/Portal.jsp?page=other*" );
+        request.setParameter( "headerCustomValue", "" );
+
+        _bean.doCreateSecurityHeaderConfigItem( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( "The field Value cannot be empty. Please fill it.", message.getText( Locale.ENGLISH ) );
+
+        request = newRequest( Locale.ENGLISH );
+        request.setParameter( "id_config_item", Integer.toString( _configItem.getIdConfigItem( ) ) );
+        request.setParameter( "urlPattern", "" );
+        request.setParameter( "headerCustomValue", "changed" );
+
+        _bean.doModifySecurityHeaderConfigItem( request );
+
+        message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( "The field URL pattern cannot be empty. Please fill it.", message.getText( Locale.ENGLISH ) );
+    }
 }
