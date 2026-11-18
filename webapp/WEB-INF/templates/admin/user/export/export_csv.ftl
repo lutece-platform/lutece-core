@@ -1,3 +1,4 @@
+<#ftl output_format="plainText"><#-- CSV file: the values must be written as they are, never HTML-escaped -->
 <#function escape val>
     <#local s = val?string>
     <#if s?contains(";") || s?contains('"') || s?contains("\n")>
