@@ -91,8 +91,9 @@ public class SecurityHeaderService
 	public Collection<SecurityHeader> findActive( String strType, String strPageCategory )
 	{
 		if( !_securityHeaderCache.isCacheEnable( ) )
-		{		
-			refreshActiveSecurityHeadersMapByType( SecurityHeaderHome.findAll( ) );
+		{
+			// Without cache, the headers are read with their URL config items, as they are when they are cached
+			refreshActiveSecurityHeadersMapByType( findAllWithConfigItems( ) );
 		} 
 		else
 		{
@@ -107,10 +108,7 @@ public class SecurityHeaderService
 			else if( !loaded.getValue( ).equals( _strLoadedStamp ) )
 			{
 				// Headers reloaded by another instance after a change
-				Collection<SecurityHeader> securityHeadersList = SecurityHeaderHome.findAll( );
-				securityHeadersList.forEach( securityHeader -> securityHeader
-						.setSecurityHeaderConfigItemList( SecurityHeaderConfigHome.findBySecurityHeaderId( securityHeader.getId( ) ) ) );
-				refreshActiveSecurityHeadersMapByType( securityHeadersList );
+				refreshActiveSecurityHeadersMapByType( findAllWithConfigItems( ) );
 				_strLoadedStamp = loaded.getValue( );
 			}
 		}
@@ -123,6 +121,20 @@ public class SecurityHeaderService
 		return null;
 	}
 	
+	/**
+	 * Returns all the security headers of the database with their URL config items.
+	 * 
+	 * @return collection of security headers
+	 */
+	private Collection<SecurityHeader> findAllWithConfigItems( )
+	{
+		Collection<SecurityHeader> securityHeadersList = SecurityHeaderHome.findAll( );
+		securityHeadersList.forEach( securityHeader -> securityHeader
+				.setSecurityHeaderConfigItemList( SecurityHeaderConfigHome.findBySecurityHeaderId( securityHeader.getId( ) ) ) );
+
+		return securityHeadersList;
+	}
+
 	/**
 	 * Returns a collection of all security headers.
 	 * Security headers are fetched from database (if data are stale) or from security headers map in memory (if the data in map are still up to date).

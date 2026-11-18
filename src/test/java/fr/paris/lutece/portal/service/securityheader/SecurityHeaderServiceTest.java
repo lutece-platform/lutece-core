@@ -43,6 +43,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
+import fr.paris.lutece.portal.business.securityheader.SecurityHeaderConfigHome;
+import fr.paris.lutece.portal.business.securityheader.SecurityHeaderConfigItem;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderPageCategory;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
@@ -132,5 +134,42 @@ public class SecurityHeaderServiceTest extends LuteceTestCase
         assertTrue( isActive( ) );
         assertTrue( _service.findAllSorted( Locale.FRENCH ).stream( ).noneMatch( header -> SecurityHeaderService.KEY_LOADED.equals( header.getName( ) ) ) );
         assertTrue( _service.findAllSorted( Locale.FRENCH ).stream( ).anyMatch( header -> header.getName( ).equals( _header.getName( ) ) ) );
+    }
+
+    /**
+     * The active headers carry their URL config items, with or without the cache.
+     */
+    @Test
+    public void testActiveHeaderHasItsConfigItems( )
+    {
+        SecurityHeaderConfigItem item = new SecurityHeaderConfigItem( );
+        item.setIdSecurityHeader( _header.getId( ) );
+        item.setUrlPattern( "/jsp/site/Portal.jsp?page=test*" );
+        item.setHeaderCustomValue( "custom" );
+        SecurityHeaderConfigHome.create( item );
+        boolean bCacheEnabled = _service.getSecurityHeaderCache( ).isCacheEnable( );
+
+        try
+        {
+            for ( boolean bEnable : new boolean [ ] {
+                    true, false
+            } )
+            {
+                _service.getSecurityHeaderCache( ).enableCache( bEnable );
+                _service.getSecurityHeaderCache( ).resetCache( );
+
+                SecurityHeader active = _service.findActive( TYPE, CATEGORY ).stream( )
+                        .filter( header -> header.getName( ).equals( _header.getName( ) ) ).findFirst( ).orElse( null );
+                assertNotNull( active );
+                assertNotNull( active.getSecurityHeaderConfigItemList( ) );
+                assertEquals( 1, active.getSecurityHeaderConfigItemList( ).size( ), "cache enabled: " + bEnable );
+                assertEquals( "custom", active.getSecurityHeaderConfigItemList( ).get( 0 ).getHeaderCustomValue( ) );
+            }
+        }
+        finally
+        {
+            _service.getSecurityHeaderCache( ).enableCache( bCacheEnabled );
+            SecurityHeaderConfigHome.remove( item.getIdConfigItem( ) );
+        }
     }
 }
