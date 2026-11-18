@@ -172,4 +172,22 @@ public class SecurityHeaderServiceTest extends LuteceTestCase
             SecurityHeaderConfigHome.remove( item.getIdConfigItem( ) );
         }
     }
+
+    /**
+     * Removing a header removes its URL config items.
+     */
+    @Test
+    public void testRemoveHeaderRemovesItsConfigItems( )
+    {
+        SecurityHeaderConfigItem item = new SecurityHeaderConfigItem( );
+        item.setIdSecurityHeader( _header.getId( ) );
+        item.setUrlPattern( "/jsp/site/Portal.jsp?page=test*" );
+        item.setHeaderCustomValue( "custom" );
+        SecurityHeaderConfigHome.create( item );
+
+        _service.remove( _header.getId( ) );
+
+        assertTrue( SecurityHeaderConfigHome.findBySecurityHeaderId( _header.getId( ) ).isEmpty( ) );
+        assertNull( SecurityHeaderConfigHome.findByPrimaryKey( item.getIdConfigItem( ) ) );
+    }
 }

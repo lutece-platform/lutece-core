@@ -85,6 +85,17 @@ public class SecurityHeaderConfigHome
     {
         _dao.delete( nSecurityHeaderConfigItemId );
     }
+
+    /**
+     * Remove all the config items of a security header
+     *
+     * @param nSecurityHeaderId
+     *            The security header Id
+     */
+    public static void removeForSecurityHeader( int nSecurityHeaderId )
+    {
+        _dao.deleteForSecurityHeaderId( nSecurityHeaderId );
+    }
     
     // /////////////////////////////////////////////////////////////////////////
     // Finders

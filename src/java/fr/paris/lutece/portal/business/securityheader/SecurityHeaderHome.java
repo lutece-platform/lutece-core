@@ -93,13 +93,14 @@ public final class SecurityHeaderHome
     }
     
     /**
-     * Remove the security header whose identifier is specified in parameter
+     * Remove the security header whose identifier is specified in parameter, with its URL config items
      *
      * @param nSecurityHeaderId
      *            The securityHeader Id
      */
     public static void remove( int nSecurityHeaderId )
     {
+        SecurityHeaderConfigHome.removeForSecurityHeader( nSecurityHeaderId );
         _dao.delete( nSecurityHeaderId );
     }
 
