@@ -16,7 +16,7 @@
         <#if pageRoles?has_content>
             <@manageFeature>
             <#list pageRoles as role>
-                    <@manageFeatureItem>
+                    <@manageFeatureItem class='item-labels'>
                         <@manageFeatureItemColumn auto=true class='searchable' >
                             <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleId} : <strong>${role.role}</strong></@p>
                         </@manageFeatureItemColumn>
