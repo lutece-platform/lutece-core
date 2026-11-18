@@ -317,7 +317,8 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     @Override
     public int getRangeMax( )
     {
-        return ( _nItemsCount < ( ( _nItemPerPage * _nPageCurrent ) - 1 ) ) ? _nItemsCount : ( _nItemPerPage * _nPageCurrent );
+        // The last item of the current page, or of the list on its last page
+        return Math.min( _nItemsCount, _nItemPerPage * _nPageCurrent );
     }
 
     /**

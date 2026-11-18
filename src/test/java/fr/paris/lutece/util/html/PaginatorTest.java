@@ -77,7 +77,7 @@ public class PaginatorTest
 
         assertEquals( ITEMS_COUNT, paginator.getItemsCount( ) );
         assertEquals( 11, paginator.getRangeMin( ) );
-        // assertEquals( 14 , paginator.getRangeMax() );
+        assertEquals( 14, paginator.getRangeMax( ) );
         assertEquals( 3, paginator.getPagesCount( ) );
         assertEquals( 3, paginator.getPageCurrent( ) );
         assertEquals( BASE_URL + "?" + PARAMETER_PAGE_INDEX + "=" + 2, paginator.getPreviousPageLink( ) );
@@ -112,5 +112,19 @@ public class PaginatorTest
             assertEquals( 5, paginator.getPageItems( 0 ).size( ) );
             assertEquals( 1, paginator.getPageCurrent( ) );
         }
+    }
+
+    /**
+     * The range of a page never goes past the last item
+     */
+    @Test
+    public void testRangeMaxOfASinglePage( )
+    {
+        List<String> list = new ArrayList<>( );
+        list.add( "Item" );
+
+        assertEquals( 1, new Paginator<>( list, 2, BASE_URL, PARAMETER_PAGE_INDEX, "1" ).getRangeMax( ) );
+        assertEquals( 1, new Paginator<>( list, 1, BASE_URL, PARAMETER_PAGE_INDEX, "1" ).getRangeMax( ) );
+        assertEquals( 1, new Paginator<>( list, 10, BASE_URL, PARAMETER_PAGE_INDEX, "1" ).getRangeMax( ) );
     }
 }
