@@ -272,4 +272,38 @@ public class PortalMenuServiceTest extends LuteceTestCase
     {
         return createPage( pageName, null );
     }
+
+    /**
+     * The menu marks the current page, also when it comes from the cache
+     */
+    @Test
+    public void testCurrentPageIsActive( ) throws IOException
+    {
+        final Random rand = new SecureRandom( );
+        Page pageA = createPage( "page.a." + rand.nextLong( ) );
+        Page pageB = createPage( "page.b." + rand.nextLong( ) );
+        boolean cacheStatus = enablePortalMenuServiceCache( );
+
+        try
+        {
+            // twice: the second menu of each page comes from the cache
+            for ( int i = 0; i < 2; i++ )
+            {
+                HttpServletRequest request = new MockHttpServletRequest( );
+                String menuA = portalMenuService.getMenuContent( pageA.getId( ), PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+                String menuB = portalMenuService.getMenuContent( pageB.getId( ), PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+
+                assertTrue( menuA.contains( "page_id=" + pageA.getId( ) + "\" aria-current=\"page\"" ), menuA );
+                assertTrue( menuA.contains( "page_id=" + pageB.getId( ) + "\" aria-current=\"false\"" ), menuA );
+                assertTrue( menuB.contains( "page_id=" + pageB.getId( ) + "\" aria-current=\"page\"" ), menuB );
+                assertTrue( menuB.contains( "page_id=" + pageA.getId( ) + "\" aria-current=\"false\"" ), menuB );
+            }
+        }
+        finally
+        {
+            restorePortalMenuServiceCache( cacheStatus );
+            pageService.removePage( pageA.getId( ) );
+            pageService.removePage( pageB.getId( ) );
+        }
+    }
 }

@@ -79,6 +79,7 @@ public class PortalMenuService
     private static final String TEMPLATE_MAIN_MENU = "skin/site/menu_main.html";
     private static final String MARK_SITE_PATH = "site_path";
     private static final String MARK_MENU_ITEMS = "items";
+    private static final String MARK_CURRENT_PAGE_ID = "current_page_id";
     // Number of main menu levels, declared by the active theme in WEB-INF/conf/themes/<code>.properties
     private static final String PROPERTY_THEME_MENU_DEPTH = "themes.%s.menu.depth";
     private static final int DEFAULT_MENU_DEPTH = 2;
@@ -138,7 +139,7 @@ public class PortalMenuService
      */
     public String getMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
-        String strKey = getKey( nMode, nPart, request );
+        String strKey = getKey( nCurrentPageId, nMode, nPart, request );
         String strMenu = null;
         if( _cachePortalMenu.isCacheEnable() && !_cachePortalMenu.isClosed( )) {
          strMenu =  _cachePortalMenu.get( strKey );
@@ -208,6 +209,7 @@ public class PortalMenuService
 
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_MENU_ITEMS, menuItems );
+        model.put( MARK_CURRENT_PAGE_ID, nCurrentPageId );
         model.put( MARK_SITE_PATH, nMode != PortalMenuService.MODE_ADMIN ? AppPathService.getPortalUrl( ) : AppPathService.getAdminPortalUrl( ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN_MENU, null, model );
         return template.getHtml( );
@@ -296,8 +298,10 @@ public class PortalMenuService
     }
 
     /**
-     * Returns the key corresponding to the part according to the selected mode
+     * Returns the key corresponding to the part according to the selected mode. The menu shows the current page: it is part of the key.
      *
+     * @param nCurrentPageId
+     *            The current page ID
      * @param nMode
      *            The mode
      * @param nPart
@@ -306,7 +310,7 @@ public class PortalMenuService
      *            The HTTP request
      * @return The key as a String
      */
-    private String getKey( int nMode, int nPart, HttpServletRequest request )
+    private String getKey( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
         String strRoles = "-";
 
@@ -324,7 +328,7 @@ public class PortalMenuService
         }
 
         StringBuilder sbKey = new StringBuilder( );
-        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" ).append( strRoles ).append( "][depth:" )
+        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][page:" ).append( nCurrentPageId ).append( "][roles:" ).append( strRoles ).append( "][depth:" )
                 .append( getMenuDepth( ) ).append( ']' );
 
         return sbKey.toString( );

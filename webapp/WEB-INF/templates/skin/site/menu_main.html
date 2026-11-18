@@ -1,7 +1,10 @@
 <@cTpl>
+<#-- current_page_id: the page displayed. A first level item is active when it is that page or one of its sub pages is -->
+<#assign currentPageId = current_page_id!0 />
 <#list items as menuitem>
 <#if menuitem.children?? && menuitem.children?size gt 0>
-<li class="nav-item dropdown<#if page?? && menuitem.pageId == page.id> active</#if>">
+<#assign isActive = menuitem.pageId == currentPageId || menuitem.children?filter( child -> child.pageId == currentPageId )?has_content />
+<li class="nav-item dropdown<#if isActive> active</#if>">
     <div class="dropdown-group">
         <button class="nav-link dropdown-toggle" id="navbarMainMenuLink${menuitem.pageId}" title="${menuitem.pageName!}" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           ${menuitem.pageName}
@@ -13,7 +16,7 @@
                   <ul class="list-unstyled">
                     <#list row as child>
                     <li>
-                      <a href="${site_path}?page_id=${child.pageId!}" data-comp="false" data-current="0" data-page="${child.pageId!}" target="_top" class="dropdown-item nav-link" aria-current="<#if page?? &&child.pageId == page.id>true<#else>false</#if>">
+                      <a href="${site_path}?page_id=${child.pageId!}" data-comp="false" data-current="0" data-page="${child.pageId!}" target="_top" class="dropdown-item nav-link" aria-current="<#if child.pageId == currentPageId>page<#else>false</#if>">
                         <span>${child.pageName!}</span>
                       </a>
                     </li>
@@ -26,8 +29,8 @@
     </div>
 </li>
 <#else>
-<li class="nav-item<#if page?? && menuitem.pageId == page.id> active</#if>">
-  <a class="nav-link" href="${site_path}?page_id=${menuitem.pageId}" aria-current="<#if page?? && menuitem.pageId == page.id>true<#else>false</#if>" target="_top">
+<li class="nav-item<#if menuitem.pageId == currentPageId> active</#if>">
+  <a class="nav-link" href="${site_path}?page_id=${menuitem.pageId}" aria-current="<#if menuitem.pageId == currentPageId>page<#else>false</#if>" target="_top">
   	${menuitem.pageName} 
   </a>
 </li>
