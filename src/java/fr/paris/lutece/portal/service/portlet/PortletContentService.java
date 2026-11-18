@@ -150,7 +150,8 @@ public class PortletContentService
 
     public String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams, int nMode ) throws SiteMessageException
     {
-        if ( ( request != null ) && !isPortletVisible( request, portlet, nMode ) )
+        // Also without request (page rendered for the search index): an unpublished or restricted portlet is not part of the content
+        if ( !isPortletVisible( request, portlet, nMode ) )
         {
             return StringUtils.EMPTY;
         }
@@ -256,7 +257,9 @@ public class PortletContentService
         }
 
         String strRole = portlet.getRole( );
-        boolean bUserInRole = SecurityService.isAuthenticationEnable( ) ? SecurityService.getInstance( ).isUserInRole( request, strRole ) : true;
+        // Without request (indexing), nobody is in the role: only the portlets without role are visible
+        boolean bUserInRole = !SecurityService.isAuthenticationEnable( )
+                || ( ( request != null ) && SecurityService.getInstance( ).isUserInRole( request, strRole ) );
 
         boolean [ ] conditions = new boolean [ ] {
                 strRole.equals( Page.ROLE_NONE ), // No role is required so the portlet is visible for anyone
