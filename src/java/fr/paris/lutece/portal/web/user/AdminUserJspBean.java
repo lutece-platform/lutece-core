@@ -1215,7 +1215,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getImportUsersFromFile( HttpServletRequest request )
     {
     	User currentUser = getUser( );
-        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS,
         		currentUser ) )
         {
             return getManageAdminUsers( request );
@@ -1255,7 +1255,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
         User currentUser = getUser( );
 
-        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS,
         		currentUser ) )
         {
             result.setHtmlContent( getManageAdminUsers( request ) );
@@ -1334,7 +1334,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getExportUsers( HttpServletRequest request )
     {
     	User currentUser = getUser( );
-        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS,
         		currentUser ) )
         {
             return getManageAdminUsers( request );
