@@ -78,7 +78,8 @@ public final class DatabaseTemplateService
         {
             try
             {
-                strTemplate = RichTextContentService.getContent( strTemplate );
+                // The template is a FreeMarker source written by an administrator: converted, not sanitized before its rendering
+                strTemplate = RichTextContentService.getTemplateSource( strTemplate );
             }
             catch( RichTextParsingException e )
             {

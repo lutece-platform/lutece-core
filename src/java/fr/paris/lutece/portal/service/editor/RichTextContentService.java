@@ -88,6 +88,27 @@ public class RichTextContentService
     }
 
     /**
+     * Converts a stored rich content to HTML, without sanitizing it: for a FreeMarker template source written by an administrator (a mail template
+     * stored in the database), which is rendered afterwards. The sanitizer would break the template: it encodes the markers of a link
+     * (<code>href="${url}"</code> becomes <code>href="$%7burl%7d"</code>).
+     *
+     * @param content
+     *            the stored content, may be null
+     * @return the HTML, empty for null
+     * @throws RichTextParsingException
+     *             if the parser of the content fails
+     */
+    public static String getTemplateSource( String content ) throws RichTextParsingException
+    {
+        if ( content == null )
+        {
+            return "";
+        }
+
+        return convert( content );
+    }
+
+    /**
      * Renders a stored rich content for a template: the sanitized HTML as a FreeMarker markup value, written as is by
      * <code>${content}</code>. If the content cannot be converted or sanitized, it is returned escaped: never as raw
      * HTML.
