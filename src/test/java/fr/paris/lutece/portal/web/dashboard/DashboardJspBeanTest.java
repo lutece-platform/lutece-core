@@ -354,4 +354,56 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/AdminTechnicalMenu.jsp?#adminHomePageManagement" ), message.getBackUrl( ) );
     }
+
+    /**
+     * Moving a dashboard up in its column shifts the dashboards it passes: no two dashboards share an order
+     */
+    @Test
+    public void testDoMoveDashboardShiftsTheOthers( )
+    {
+        int nZone = DashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) + 1;
+        IDashboardComponent [ ] dashboards = new IDashboardComponent [ 3];
+
+        try
+        {
+            for ( int i = 0; i < dashboards.length; i++ )
+            {
+                dashboards [i] = new TestDashboardComponent( );
+                dashboards [i].setName( getRandomName( ) );
+                dashboards [i].setRight( "ALL" );
+                dashboards [i].setZone( nZone );
+                dashboards [i].setOrder( i + 1 );
+                DashboardFactory.registerDashboardComponent( dashboards [i] );
+                DashboardHome.create( dashboards [i] );
+            }
+
+            // the third one moved to the first place
+            IDashboardComponent moved = dashboards [2];
+            moved.setOrder( 1 );
+            _dashboardService.doMoveDashboard( moved, nZone, 3, false );
+
+            assertEquals( 1, DashboardHome.findByPrimaryKey( dashboards [2].getName( ) ).getOrder( ) );
+            assertEquals( 2, DashboardHome.findByPrimaryKey( dashboards [0].getName( ) ).getOrder( ) );
+            assertEquals( 3, DashboardHome.findByPrimaryKey( dashboards [1].getName( ) ).getOrder( ) );
+
+            // then the first one (now second) moved to the last place
+            moved = dashboards [0];
+            moved.setOrder( 3 );
+            _dashboardService.doMoveDashboard( moved, nZone, 2, false );
+
+            assertEquals( 1, DashboardHome.findByPrimaryKey( dashboards [2].getName( ) ).getOrder( ) );
+            assertEquals( 2, DashboardHome.findByPrimaryKey( dashboards [1].getName( ) ).getOrder( ) );
+            assertEquals( 3, DashboardHome.findByPrimaryKey( dashboards [0].getName( ) ).getOrder( ) );
+        }
+        finally
+        {
+            for ( IDashboardComponent dashboard : dashboards )
+            {
+                if ( dashboard != null )
+                {
+                    DashboardHome.remove( dashboard.getName( ) );
+                }
+            }
+        }
+    }
 }

@@ -219,7 +219,8 @@ public class DashboardService
             }
             else
             {
-                updateDashboardComponents( dashboard, listColumnDashboards, nOldOrder );
+                // the dashboard is a singleton: reading the column reloaded its old order, the new one is nOrder
+                updateDashboardComponents( dashboard, listColumnDashboards, nOrder, nOldOrder );
 
                 // dashboard are singletons, values are modified by getting it from database
                 dashboard.setOrder( nOrder );
@@ -313,9 +314,8 @@ public class DashboardService
         }
     }
 
-    private void updateDashboardComponents( IDashboardComponent dashboard, List<IDashboardComponent> listColumnDashboards, int nOldOrder )
+    private void updateDashboardComponents( IDashboardComponent dashboard, List<IDashboardComponent> listColumnDashboards, int nOrder, int nOldOrder )
     {
-        int nOrder = dashboard.getOrder( );
         for ( IDashboardComponent dc : listColumnDashboards )
         {
             if ( dc.equals( dashboard ) )
