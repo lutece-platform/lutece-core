@@ -471,7 +471,7 @@ public final class AdminUserService
             return false;
         }
 
-        String strBannedDomainNames = AdminUserService.getSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
+        String strBannedDomainNames = AdminUserService.getLargeSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
 
         if ( StringUtils.isEmpty( strBannedDomainNames ) )
         {
@@ -583,7 +583,7 @@ public final class AdminUserService
             strMessage = sbMessage.toString( ).substring( 0, sbMessage.length( ) - 1 );
         }
 
-        String strBannedDomainNames = getSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
+        String strBannedDomainNames = getLargeSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
         String strMessageProperty;
 
         if ( !StringUtils.isEmpty( strBannedDomainNames ) )
