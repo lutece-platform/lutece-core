@@ -80,7 +80,8 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
             _nPageCurrent = 1;
         }
 
-        if ( _nPageCurrent > getPagesCount( ) )
+        // A page index out of the pages (0, negative or after the last page) shows the first page
+        if ( ( _nPageCurrent < 1 ) || ( _nPageCurrent > getPagesCount( ) ) )
         {
             _nPageCurrent = 1;
         }

@@ -79,7 +79,8 @@ public class Paginator<E> extends AbstractPaginator<E>
             _nPageCurrent = 1;
         }
 
-        if ( _nPageCurrent > getPagesCount( ) )
+        // A page index out of the pages (0, negative or after the last page) shows the first page
+        if ( ( _nPageCurrent < 1 ) || ( _nPageCurrent > getPagesCount( ) ) )
         {
             _nPageCurrent = 1;
         }
@@ -137,7 +138,7 @@ public class Paginator<E> extends AbstractPaginator<E>
 	public List<E> getPageItems(int nPage) {
     	
     	_nPageCurrent = nPage;
-        if ( _nPageCurrent > getPagesCount( ) )
+        if ( ( _nPageCurrent < 1 ) || ( _nPageCurrent > getPagesCount( ) ) )
         {
             _nPageCurrent = 1;
         }

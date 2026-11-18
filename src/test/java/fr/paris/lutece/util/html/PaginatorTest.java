@@ -86,4 +86,31 @@ public class PaginatorTest
         // List test
         paginator.getPagesLinks( );
     }
+
+    /**
+     * A page index of 0 or less shows the first page
+     */
+    @Test
+    public void testPageIndexBelowOne( )
+    {
+        List<String> list = new ArrayList<>( );
+
+        for ( int i = 0; i < ITEMS_COUNT; i++ )
+        {
+            list.add( "Item" + i );
+        }
+
+        for ( String strPageIndex : new String [ ] {
+                "0", "-1", "-100"
+        } )
+        {
+            Paginator<?> paginator = new Paginator<>( list, NB_ITEMS_PER_PAGE, BASE_URL, PARAMETER_PAGE_INDEX, strPageIndex );
+
+            assertEquals( 1, paginator.getPageCurrent( ) );
+            assertEquals( 1, paginator.getRangeMin( ) );
+            assertEquals( 5, paginator.getPageItems( ).size( ) );
+            assertEquals( 5, paginator.getPageItems( 0 ).size( ) );
+            assertEquals( 1, paginator.getPageCurrent( ) );
+        }
+    }
 }
