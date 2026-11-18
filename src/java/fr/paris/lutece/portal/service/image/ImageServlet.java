@@ -50,6 +50,8 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.LocalVariables;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 /**
  * Servlet serving document file resources
  */
@@ -93,8 +95,9 @@ public class ImageServlet extends HttpServlet
 
             if ( strResourceId != null )
             {
-                int nResourceId = Integer.parseInt( strResourceId );
-                image = ImageResourceManager.getImageResource( strResourceTypeId, nResourceId );
+                // An id that is not a number (or out of the int range) is the id of no image: the default image is sent, as for an unknown id
+                int nResourceId = NumberUtils.toInt( strResourceId, -1 );
+                image = ( nResourceId >= 0 ) ? ImageResourceManager.getImageResource( strResourceTypeId, nResourceId ) : null;
 
                 // Test the field image value
                 if ( getImageExist( image ) )
