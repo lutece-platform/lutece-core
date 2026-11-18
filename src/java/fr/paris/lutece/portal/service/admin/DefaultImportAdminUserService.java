@@ -66,6 +66,7 @@ import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerServi
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.ReferenceItem;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
@@ -184,6 +185,11 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
         AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
 
+        for ( ReferenceItem workgroup : AdminWorkgroupHome.getUserWorkgroups( user ) )
+        {
+            AdminWorkgroupHome.removeUserFromWorkgroup( user, workgroup.getCode( ) );
+        }
+
         AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
         auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
@@ -216,7 +222,10 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         // We create workgroups
         for ( String strWorkgoup : listAdminWorkgroups )
         {
-            AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgoup );
+            if ( !AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgoup ) )
+            {
+                AdminWorkgroupHome.addUserForWorkgroup( user, strWorkgoup );
+            }
         }
 
         List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( locale );
