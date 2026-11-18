@@ -51,6 +51,8 @@ import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.PortalJspBean;
 
@@ -64,9 +66,7 @@ public abstract class AbstractDownloadServlet extends HttpServlet
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         File file = null;
-        FileService fileService = CDI.current( ).select( FileService.class ).get( );
-        IFileStoreServiceProvider fileStoreServiceProvider = fileService
-                .getFileStoreServiceProvider( request.getParameter( FileService.PARAMETER_PROVIDER ) );
+        IFileStoreServiceProvider fileStoreServiceProvider = findFileStoreServiceProvider( request.getParameter( FileService.PARAMETER_PROVIDER ) );
 
         try
         {
@@ -127,4 +127,25 @@ public abstract class AbstractDownloadServlet extends HttpServlet
     }
 
     protected abstract boolean isFromBo( );
+
+    /**
+     * Finds the file store service provider of the request
+     *
+     * @param strProviderName
+     *            the name of the provider, or null for the default one
+     * @return the provider, or null if there is no such provider (the user gets the message of an unknown provider)
+     */
+    private static IFileStoreServiceProvider findFileStoreServiceProvider( String strProviderName )
+    {
+        try
+        {
+            return CDI.current( ).select( FileService.class ).get( ).getFileStoreServiceProvider( strProviderName );
+        }
+        catch( AppException e )
+        {
+            AppLogService.debug( "No file store service provider named {}", strProviderName );
+
+            return null;
+        }
+    }
 }
