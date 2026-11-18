@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import java.util.List;
+import java.util.Collection;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -56,8 +56,8 @@ import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.util.mvc.binding.ParamError;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
-import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
@@ -240,8 +240,7 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
     {
     	if( !validateBean( securityHeaderConfigItem, VALIDATION_ATTRIBUTES_PREFIX ) )
     	{
-    		List<ErrorMessage> listErrors = ( List<ErrorMessage> ) _model.get( MARK_ERRORS );
-    		return listErrors.get( 0 ).getMessage( );
+    		return getFirstValidationError( );
     	}
     	
     	if( !isUrlPatternUniqueOnCreation( securityHeaderConfigItem ) )
@@ -263,8 +262,7 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
     {
     	if( !validateBean( securityHeaderConfigItem, VALIDATION_ATTRIBUTES_PREFIX ) )
     	{
-    		List<ErrorMessage> listErrors = ( List<ErrorMessage> ) _model.get( MARK_ERRORS );
-    		return listErrors.get( 0 ).getMessage( );
+    		return getFirstValidationError( );
     	}
     	
     	if( !isUrlPatternUniqueOnModification( securityHeaderConfigItem ) )
@@ -275,6 +273,19 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
         return null;
     }
     
+    /**
+     * Returns the message of the first validation error. The errors of the model are kept in a set.
+     * 
+     * @return the message of the first validation error
+     */
+    private String getFirstValidationError( )
+    {
+        Collection<?> errors = (Collection<?>) _model.get( MARK_ERRORS );
+        Object error = errors.iterator( ).next( );
+
+        return ( error instanceof ParamError ) ? ( (ParamError) error ).getMessage( ) : String.valueOf( error );
+    }
+
     /**
      * Checks if the url pattern of security header config item already exists for the security header on config item creation.
      * It is used to prevent multiple values for the same URL pattern.
