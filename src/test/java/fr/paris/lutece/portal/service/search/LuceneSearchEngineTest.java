@@ -262,4 +262,31 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         }
         return status;
     }
+
+    /**
+     * A query that is not valid in the Lucene syntax is searched as plain words
+     */
+    @Test
+    public void testSearchInvalidSyntax( ) throws Exception
+    {
+        for ( String strQuery : new String [ ] {
+                "lutecefoo ?", "lutecefoo AND", "lutecefoo (", "lutecefoo OR", "\"lutecefoo", "lutecefoo ]"
+        } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            List<SearchResult> listResults = _engine.getSearchResults( strQuery, request );
+            assertTrue( listResults.size( ) >= 1, "results expected for " + strQuery );
+        }
+    }
+
+    /**
+     * The Lucene syntax still works
+     */
+    @Test
+    public void testSearchValidSyntax( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        assertTrue( _engine.getSearchResults( "lutecefoo AND lutecebadfoo", request ).isEmpty( ) );
+        assertTrue( _engine.getSearchResults( "lutecefoo OR lutecebadfoo", request ).size( ) >= 1 );
+    }
 }

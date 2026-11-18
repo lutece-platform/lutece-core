@@ -39,6 +39,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
@@ -86,6 +87,8 @@ public class LuceneSearchEngine implements SearchEngine
     private static final String PARAMETER_TAG_FILTER = "tag_filter";
     private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
     private static final String PARAMETER_OPERATOR_AND = "AND";
+    // The operators of the Lucene syntax, searched as words when the query is not valid
+    private static final Pattern PATTERN_OPERATORS = Pattern.compile( "\\b(AND|OR|NOT)\\b" );
 
     /**
      * Return search results
@@ -248,12 +251,12 @@ public class LuceneSearchEngine implements SearchEngine
 
                 String formatQuery = ( strQuery != null ) ? strQuery : "";
 
-                Query queryMetaData = parser.parse( formatQuery );
+                Query queryMetaData = parseQuery( parser, formatQuery );
                 bQueryBuilder.add( queryMetaData, BooleanClause.Occur.SHOULD );
 
                 parser = new QueryParser( SearchItem.FIELD_SUMMARY, IndexationService.getAnalyser( ) );
 
-                Query querySummary = parser.parse( formatQuery );
+                Query querySummary = parseQuery( parser, formatQuery );
                 bQueryBuilder.add( querySummary, BooleanClause.Occur.SHOULD );
             }
             else
@@ -267,7 +270,7 @@ public class LuceneSearchEngine implements SearchEngine
                     parser.setDefaultOperator( QueryParserBase.AND_OPERATOR );
                 }
 
-                Query queryContent = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
+                Query queryContent = parseQuery( parser, ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
                 bQueryBuilder.add( queryContent, BooleanClause.Occur.SHOULD );
             }
 
@@ -303,6 +306,32 @@ public class LuceneSearchEngine implements SearchEngine
             AppLogService.error( e.getMessage( ), e );
         }
         return convertList( listResults );
+    }
+
+    /**
+     * Parses the query typed by the user. A query that is not valid in the Lucene syntax (a lone operator, a wildcard first, an unclosed
+     * parenthesis...) is searched as plain words: its special characters are escaped and its operators become words.
+     *
+     * @param parser
+     *            the query parser
+     * @param strQuery
+     *            the query typed by the user
+     * @return the query
+     * @throws org.apache.lucene.queryparser.classic.ParseException
+     *             if even the plain words cannot be parsed
+     */
+    private Query parseQuery( QueryParser parser, String strQuery ) throws org.apache.lucene.queryparser.classic.ParseException
+    {
+        try
+        {
+            return parser.parse( strQuery );
+        }
+        catch( org.apache.lucene.queryparser.classic.ParseException e )
+        {
+            AppLogService.debug( "Query not valid in the Lucene syntax, searched as plain words : {}", strQuery );
+
+            return parser.parse( PATTERN_OPERATORS.matcher( QueryParserBase.escape( strQuery ) ).replaceAll( m -> m.group( ).toLowerCase( Locale.ROOT ) ) );
+        }
     }
 
     /**
