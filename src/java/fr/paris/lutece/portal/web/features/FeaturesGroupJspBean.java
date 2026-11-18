@@ -194,10 +194,11 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      */
     public String getCreateGroup( HttpServletRequest request )
     {
+        // The new group is placed at the end by default: its order is one more than the number of groups
         int nCount = FeatureGroupHome.getFeatureGroupsCount( ) + 1;
 
         Map<String, Serializable> model = new HashMap<>( );
-        model.put( MARK_ORDER_LIST, getOrderRefList( ) );
+        model.put( MARK_ORDER_LIST, getOrderRefList( nCount ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
@@ -225,7 +226,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         }
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_ORDER_LIST, getOrderRefList( ) );
+        model.put( MARK_ORDER_LIST, getOrderRefList( FeatureGroupHome.getFeatureGroupsCount( ) ) );
         model.put( MARK_FEATURE_GROUP, group );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
@@ -318,14 +319,15 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Generate an HTML combo of available group order
      * 
-     * @return The reference list of orders
+     * @param nMaxOrder
+     *            the last order of the list
+     * @return The reference list of orders, from 1 to nMaxOrder
      */
-    private ReferenceList getOrderRefList( )
+    private ReferenceList getOrderRefList( int nMaxOrder )
     {
-        int nGroupsCount = FeatureGroupHome.getFeatureGroupsCount( );
         ReferenceList listOrders = new ReferenceList( );
 
-        for ( int i = 0; i < nGroupsCount; i++ )
+        for ( int i = 0; i < nMaxOrder; i++ )
         {
             listOrders.addItem( i + 1, Integer.toString( i + 1 ) );
         }
