@@ -142,4 +142,38 @@ public class SecurityHeaderConfigJspBeanTest extends LuteceTestCase
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
         assertEquals( "junit-custom", SecurityHeaderConfigHome.findByPrimaryKey( _configItem.getIdConfigItem( ) ).getHeaderCustomValue( ) );
     }
+
+    /**
+     * A config item modified with the URL pattern of another item: the message is shown by a redirection, the page is not the URL of the
+     * message
+     */
+    @Test
+    public void testModifyWithDuplicatePatternRedirectsToTheMessage( ) throws Exception
+    {
+        SecurityHeaderConfigItem other = new SecurityHeaderConfigItem( );
+        other.setIdSecurityHeader( _securityHeader.getId( ) );
+        other.setUrlPattern( "/jsp/site/Portal.jsp?page=other*" );
+        other.setHeaderCustomValue( "other" );
+        SecurityHeaderConfigHome.create( other );
+
+        try
+        {
+            MockHttpServletRequest request = newRequest( Locale.FRENCH );
+            request.setParameter( "id_config_item", Integer.toString( _configItem.getIdConfigItem( ) ) );
+            request.setParameter( "urlPattern", other.getUrlPattern( ) );
+            request.setParameter( "headerCustomValue", "changed" );
+
+            // The response is a redirection: no content to display
+            assertNull( _bean.doModifySecurityHeaderConfigItem( request ) );
+
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+            assertEquals( "junit-custom", SecurityHeaderConfigHome.findByPrimaryKey( _configItem.getIdConfigItem( ) ).getHeaderCustomValue( ) );
+        }
+        finally
+        {
+            SecurityHeaderConfigHome.remove( other.getIdConfigItem( ) );
+        }
+    }
 }

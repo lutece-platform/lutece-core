@@ -373,8 +373,8 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
 
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
-                    getModifySecurityHeaderConfigItemUrl( request, nId ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, strErrors, AdminMessage.TYPE_STOP,
+                    getModifySecurityHeaderConfigItemUrl( request, nId ) ) );
         }
 
         _securityHeaderConfigService.update( securityHeaderConfigItem );
