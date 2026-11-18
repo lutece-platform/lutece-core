@@ -42,6 +42,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -203,7 +204,26 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
 
-        assertTrue( StringUtils.isNotEmpty( instance.getModifyLevel( request ) ) );
+        assertTrue( StringUtils.isNotEmpty( instance.getModifyLevel( request ).getHtmlContent( ) ) );
+    }
+
+    /**
+     * An unknown or invalid level identifier gives the URL of the levels list, no page
+     */
+    @Test
+    public void testGetModifyLevelUnknownId( ) throws AccessDeniedException
+    {
+        for ( String strId : new String [ ] {
+                "9999", "abc", "99999999999"
+        } )
+        {
+            MockHttpServletRequest unknownRequest = new MockHttpServletRequest( );
+            unknownRequest.addParameter( Parameters.LEVEL_ID, strId );
+
+            DefaultPluginActionResult result = instance.getModifyLevel( unknownRequest );
+            assertNull( result.getHtmlContent( ) );
+            assertTrue( result.getRedirect( ).contains( "AdminTechnicalMenu.jsp" ) );
+        }
     }
 
     /**

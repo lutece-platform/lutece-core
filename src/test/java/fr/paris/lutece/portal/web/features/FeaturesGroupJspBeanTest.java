@@ -41,6 +41,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.IRightDAO;
@@ -201,7 +202,23 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getModifyGroup( request ) );
+        assertNotNull( instance.getModifyGroup( request ).getHtmlContent( ) );
+    }
+
+    /**
+     * An unknown group identifier gives the URL of the feature groups list, no page
+     */
+    @Test
+    public void testGetModifyGroupUnknownId( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, "nope" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+
+        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        DefaultPluginActionResult result = instance.getModifyGroup( request );
+        assertNull( result.getHtmlContent( ) );
+        assertTrue( result.getRedirect( ).contains( "AdminTechnicalMenu.jsp" ) );
     }
 
     /**

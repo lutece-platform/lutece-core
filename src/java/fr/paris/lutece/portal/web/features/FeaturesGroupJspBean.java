@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 
 import java.io.Serializable;
 
@@ -212,17 +213,20 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * 
      * @param request
      *            The HTTP request
-     * @return The HTML page
+     * @return The HTML page, or the URL of the feature groups list when the group does not exist
      */
-    public String getModifyGroup( HttpServletRequest request )
+    public DefaultPluginActionResult getModifyGroup( HttpServletRequest request )
     {
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
 
         if ( group == null )
         {
-            return getDashboardUrl( request );
+            result.setRedirect( getDashboardUrl( request ) );
+
+            return result;
         }
 
         Map<String, Object> model = new HashMap<>( );
@@ -231,8 +235,9 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MODIFY_GROUP, getLocale( ), model );
+        result.setHtmlContent( getAdminPage( t.getHtml( ) ) );
 
-        return getAdminPage( t.getHtml( ) );
+        return result;
     }
 
     /**

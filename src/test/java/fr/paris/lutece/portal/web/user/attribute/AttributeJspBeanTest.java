@@ -47,6 +47,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
@@ -120,7 +121,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        assertNotNull( instance.getCreateAttribute( request ) );
+        assertNotNull( instance.getCreateAttribute( request ).getHtmlContent( ) );
     }
     @Test
     public void testGetCreateAttributeUnknownType( ) throws PasswordResetException, AccessDeniedException
@@ -132,8 +133,9 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        String strUrl = instance.getCreateAttribute( request );
-        assertTrue( strUrl.contains( "attributes_management" ) );
+        DefaultPluginActionResult result = instance.getCreateAttribute( request );
+        assertNull( result.getHtmlContent( ) );
+        assertTrue( result.getRedirect( ).contains( "attributes_management" ) );
     }
 
     @Test
@@ -279,7 +281,25 @@ public class AttributeJspBeanTest extends LuteceTestCase
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        assertNotNull( instance.getModifyAttribute( request ) );
+        assertNotNull( instance.getModifyAttribute( request ).getHtmlContent( ) );
+    }
+
+    @Test
+    public void testGetModifyAttributeUnknownId( ) throws PasswordResetException, AccessDeniedException
+    {
+        for ( String strId : new String [ ] {
+                "999999", "abc", "99999999999"
+        } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "id_attribute", strId );
+            AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+            instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+            DefaultPluginActionResult result = instance.getModifyAttribute( request );
+            assertNull( result.getHtmlContent( ) );
+            assertTrue( result.getRedirect( ).contains( "attributes_management" ) );
+        }
     }
     @Test
     public void testDoModifyAttribute( )

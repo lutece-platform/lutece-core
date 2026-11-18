@@ -45,6 +45,7 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -60,6 +61,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 
 /**
  *
@@ -139,17 +141,20 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * 
      * @param request
      *            HttpServletRequest
-     * @return the Html form
+     * @return the Html form, or the URL of the attributes list when the attribute type does not exist
      */
-    public String getCreateAttribute( HttpServletRequest request )
+    public DefaultPluginActionResult getCreateAttribute( HttpServletRequest request )
     {
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
         String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
 
         IAttribute attribute = newAttribute( strAttributeTypeClassName );
 
         if ( attribute == null )
         {
-            return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+            result.setRedirect( getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
+
+            return result;
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
@@ -162,8 +167,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
         template = AppTemplateService.getTemplate( attribute.getTemplateCreateAttribute( ), getLocale( ), model );
+        result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
-        return getAdminPage( template.getHtml( ) );
+        return result;
     }
 
     /**
@@ -222,19 +228,24 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * 
      * @param request
      *            HttpServletRequest
-     * @return the html form
+     * @return the html form, or the URL of the attributes list when the attribute does not exist
      */
-    public String getModifyAttribute( HttpServletRequest request )
+    public DefaultPluginActionResult getModifyAttribute( HttpServletRequest request )
     {
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
+        IAttribute attribute = null;
 
-        if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
+        // An identifier that is not a number is the one of no attribute
+        int nIdAttribute = NumberUtils.toInt( strIdAttribute, -1 );
+
+        if ( nIdAttribute > 0 )
         {
-            // Check if the ID attribute is correct
-            int nIdAttribute = Integer.parseInt( strIdAttribute );
+            attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
+        }
 
-            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
-
+        if ( attribute != null )
+        {
             setPageTitleProperty( attribute.getPropertyModifyPageTitle( ) );
 
             HtmlTemplate template;
@@ -244,12 +255,15 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
             template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute( ), getLocale( ), model );
+            result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
-            return getAdminPage( template.getHtml( ) );
+            return result;
         }
 
         // Otherwise, we redirect the user to the attribute management interface
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        result.setRedirect( getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
+
+        return result;
     }
 
     /**

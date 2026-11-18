@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 
 /**
  * This class provides the user interface to manage levels features ( manage, create, modify )
@@ -154,19 +155,22 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
      *
      * @param request
      *            The Http request
-     * @return the html code of the level form
+     * @return the html code of the level form, or the URL of the levels list when the level does not exist
      */
-    public String getModifyLevel( HttpServletRequest request )
+    public DefaultPluginActionResult getModifyLevel( HttpServletRequest request )
     {
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_LEVEL );
 
         String strId = request.getParameter( Parameters.LEVEL_ID );
 
-        Level level = LevelHome.findByPrimaryKey( Integer.parseInt( strId ) );
+        Level level = LevelHome.findByPrimaryKey( NumberUtils.toInt( strId, -1 ) );
 
         if ( level == null )
         {
-            return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
+            result.setRedirect( getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS ) );
+
+            return result;
         }
 
         HashMap<String, Object> model = new HashMap<>( );
@@ -174,8 +178,9 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale( ), model );
+        result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
-        return getAdminPage( template.getHtml( ) );
+        return result;
     }
 
     /**
