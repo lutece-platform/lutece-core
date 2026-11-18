@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.portlet.AliasPortlet;
 import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
@@ -47,6 +48,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
@@ -120,15 +123,36 @@ public class AliasPortletJspBean extends PortletJspBean
         int nDisplayPortletTitle= Integer.parseInt( strDisplayPortletTitle );
         aliasPortlet.setDisplayPortletTitle(nDisplayPortletTitle);
 
-        String strPageId = request.getParameter( PARAMETER_PAGE_ID );
-        int nPageId = Integer.parseInt( strPageId );
+        int nPageId = getPostedPageId( request );
+
+        if ( nPageId < 0 )
+        {
+            return getInvalidPageIdMessageUrl( request );
+        }
+
         int nAliasId = Integer.parseInt( strAliasId );
         aliasPortlet.setPageId( nPageId );
         aliasPortlet.setAliasId( nAliasId );
+        aliasPortlet.setRole( StringUtils.defaultIfBlank( request.getParameter( Parameters.ROLE ), Page.ROLE_NONE ) );
+        aliasPortlet.setDeviceDisplayFlags( getDeviceDisplayFlags( request ) );
 
         // gets the style of the parent portlet
         Portlet portlet = PortletHome.findByPrimaryKey( nAliasId );
+
+        if ( portlet == null )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH + JSP_ADMIN_SITE, AdminMessage.TYPE_STOP );
+        }
+
         aliasPortlet.setStyleId( portlet.getStyleId( ) );
+
+        // The common form carries the token of the creation: checked last, so that a form sent back after an error can be sent again
+        String strTokenError = checkPortletToken( request, aliasPortlet );
+
+        if ( strTokenError != null )
+        {
+            return strTokenError;
+        }
 
         // creates the alias portlet
         AliasPortletHome.getInstance( ).create( aliasPortlet );
@@ -178,8 +202,33 @@ public class AliasPortletJspBean extends PortletJspBean
         portlet.setDisplayPortletTitle(nDisplayPortletTitle);
 
 
+        int nPageId = getPostedPageId( request );
+
+        if ( nPageId < 0 )
+        {
+            return getInvalidPageIdMessageUrl( request );
+        }
+
         Portlet rub = PortletHome.findByPrimaryKey( nIdAlias );
+
+        if ( rub == null )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH + JSP_ADMIN_SITE, AdminMessage.TYPE_STOP );
+        }
+
+        // The common form carries the token of the modification: checked last, so that a form sent back after an error can be sent again
+        String strTokenError = checkPortletToken( request, portlet );
+
+        if ( strTokenError != null )
+        {
+            return strTokenError;
+        }
+
         portlet.setStyleId( rub.getStyleId( ) );
+        // The page, the role and the devices of the common form
+        portlet.setPageId( nPageId );
+        portlet.setRole( StringUtils.defaultIfBlank( request.getParameter( Parameters.ROLE ), portlet.getRole( ) ) );
+        portlet.setDeviceDisplayFlags( getDeviceDisplayFlags( request ) );
 
         // updates the portlet
         portlet.update( );

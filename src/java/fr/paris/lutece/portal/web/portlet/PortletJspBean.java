@@ -237,10 +237,6 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         String strAcceptPortletTitle = request.getParameter( Parameters.DISPLAY_PORTLET_TITLE );
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
         String strRole = request.getParameter( Parameters.ROLE );
-        String strDisplaySmall = request.getParameter( Parameters.DISPLAY_ON_SMALL_DEVICE );
-        String strDisplayNormal = request.getParameter( Parameters.DISPLAY_ON_NORMAL_DEVICE );
-        String strDisplayLarge = request.getParameter( Parameters.DISPLAY_ON_LARGE_DEVICE );
-        String strDisplayXLarge = request.getParameter( Parameters.DISPLAY_ON_XLARGE_DEVICE );
 
         strName = strName.replaceAll( "\"", "" );
 
@@ -317,35 +313,15 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
         int nStyleId = portlet.isContentGeneratedByXmlAndXsl( ) ? Integer.parseInt( strStyleId ) : 0;
 
-        int nDeviceDisplayFlags = 0;
-
-        if ( strDisplaySmall != null )
-        {
-            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE;
-        }
-
-        if ( strDisplayNormal != null )
-        {
-            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE;
-        }
-
-        if ( strDisplayLarge != null )
-        {
-            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE;
-        }
-
-        if ( strDisplayXLarge != null )
-        {
-            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE;
-        }
+        int nDeviceDisplayFlags = getDeviceDisplayFlags( request );
 
         // The common form of the portlet carries a token of the creation or of the modification; checked last, so that a form sent back
         // after an error can be sent again
-        String strTokenKey = ( portlet.getId( ) == 0 ) ? TEMPLATE_CREATE_PORTLET : TEMPLATE_MODIFY_PORTLET;
+        String strTokenError = checkPortletToken( request, portlet );
 
-        if ( !CDI.current( ).select( SecurityTokenHandler.class ).get( ).validate( request, strTokenKey ) )
+        if ( strTokenError != null )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
+            return strTokenError;
         }
 
         portlet.setName( strName );
@@ -361,6 +337,87 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         portlet.setDeviceDisplayFlags( nDeviceDisplayFlags );
 
         return strErrorKey;
+    }
+
+    /**
+     * Reads the device display flags posted by the common form of a portlet
+     *
+     * @param request
+     *            the HTTP request
+     * @return the device display flags
+     */
+    protected static int getDeviceDisplayFlags( HttpServletRequest request )
+    {
+        int nDeviceDisplayFlags = 0;
+
+        if ( request.getParameter( Parameters.DISPLAY_ON_SMALL_DEVICE ) != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE;
+        }
+
+        if ( request.getParameter( Parameters.DISPLAY_ON_NORMAL_DEVICE ) != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE;
+        }
+
+        if ( request.getParameter( Parameters.DISPLAY_ON_LARGE_DEVICE ) != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE;
+        }
+
+        if ( request.getParameter( Parameters.DISPLAY_ON_XLARGE_DEVICE ) != null )
+        {
+            nDeviceDisplayFlags |= Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE;
+        }
+
+        return nDeviceDisplayFlags;
+    }
+
+    /**
+     * Checks the token of the common form of a portlet: the token of the creation for a new portlet, of the modification otherwise
+     *
+     * @param request
+     *            the HTTP request
+     * @param portlet
+     *            the portlet created (id 0) or modified
+     * @return the URL of the access denied message, or null if the token is valid
+     */
+    protected static String checkPortletToken( HttpServletRequest request, Portlet portlet )
+    {
+        String strTokenKey = ( portlet.getId( ) == 0 ) ? TEMPLATE_CREATE_PORTLET : TEMPLATE_MODIFY_PORTLET;
+
+        if ( !CDI.current( ).select( SecurityTokenHandler.class ).get( ).validate( request, strTokenKey ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.USER_ACCESS_DENIED, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks the page id posted by the common form of a portlet
+     *
+     * @param request
+     *            the HTTP request
+     * @return the id of an existing page, or -1 if the page id is not valid or the page does not exist
+     */
+    protected static int getPostedPageId( HttpServletRequest request )
+    {
+        int nPageId = NumberUtils.toInt( request.getParameter( PARAMETER_PAGE_ID ), -1 );
+
+        return ( ( nPageId >= 0 ) && PageHome.checkPageExist( nPageId ) ) ? nPageId : -1;
+    }
+
+    /**
+     * Returns the URL of the message of an invalid page id
+     *
+     * @param request
+     *            the HTTP request
+     * @return the URL of the message
+     */
+    protected static String getInvalidPageIdMessageUrl( HttpServletRequest request )
+    {
+        return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
     }
 
     /**
