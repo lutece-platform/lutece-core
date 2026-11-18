@@ -696,6 +696,15 @@ public class AdminUserDAO implements IAdminUserDAO
                 user.setUserLevel( daoUtil.getInt( 9 ) );
                 user.setPasswordReset( daoUtil.getBoolean( 10 ) );
                 user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
+                user.setPasswordMaxValidDate( daoUtil.getTimestamp( 12 ) );
+
+                long accountTime = daoUtil.getLong( 13 );
+
+                if ( accountTime > 0 )
+                {
+                    user.setAccountMaxValidDate( new Timestamp( accountTime ) );
+                }
+
                 user.setWorkgroupKey( daoUtil.getString( 14 ) );
             }
         }
