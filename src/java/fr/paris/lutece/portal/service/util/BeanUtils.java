@@ -13,6 +13,7 @@ public class BeanUtils {
     public static final String BEAN_ROLE_REMOVAL_SERVICE = "roleRemovalService";
     public static final String BEAN_WORKFLOW_REMOVAL_SERVICE = "workflowRemovalService";
     public static final String BEAN_WORKGROUP_REMOVAL_SERVICE = "workgroupRemovalService";
+    public static final String BEAN_ADMIN_USER_REMOVAL_SERVICE = "adminUserRemovalService";
     
     public static final String BEAN_CAPTCHA_SERVICE = "captcha.captchaService";
 

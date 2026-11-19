@@ -59,4 +59,18 @@ public class RemovalListenerServiceProducer {
         return new RemovalListenerService( );
     }
 
+	/**
+	 * The removal service of the back office users: a plugin registers a listener to refuse the deletion of a user it still references (for example
+	 * a user to whom resources are assigned); the listeners receive the id of the user.
+	 *
+	 * @return the removal service of the back office users
+	 */
+	@Produces
+    @Named( BeanUtils.BEAN_ADMIN_USER_REMOVAL_SERVICE )
+    @ApplicationScoped
+    public RemovalListenerService adminUserRemovalServiceProducer( )
+    {
+        return new RemovalListenerService( );
+    }
+
 }

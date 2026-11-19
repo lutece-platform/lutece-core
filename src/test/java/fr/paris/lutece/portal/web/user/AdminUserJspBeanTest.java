@@ -73,6 +73,9 @@ import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListener;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -83,6 +86,7 @@ import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.test.mocks.MockMultipartItem;
 import fr.paris.lutece.test.mocks.TemporaryMultipartItemFactory;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -1655,6 +1659,101 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             disposeOfUser( user );
         }
     }
+    /**
+     * A plugin refusing the deletion of the user: the confirmation screen gives its reason instead of asking for the confirmation
+     */
+    @Test
+    public void testDoConfirmRemoveAdminUserRefusedByPlugin( ) throws AccessDeniedException, UserNotSignedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        RefusingRemovalListener.refuse( user.getUserId( ) );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
+            bean.doConfirmRemoveAdminUser( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+            assertTrue( message.getText( Locale.ENGLISH ).contains( RefusingRemovalListener.MESSAGE ), message.getText( Locale.ENGLISH ) );
+            assertTrue( message.getRequestParameters( ) == null || !message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        }
+        finally
+        {
+            RefusingRemovalListener.clear( );
+            disposeOfUser( user );
+        }
+    }
+
+    /**
+     * A plugin refusing the deletion of the user: a deletion posted with a valid token keeps the user
+     */
+    @Test
+    public void testDoRemoveAdminUserRefusedByPlugin( ) throws AccessDeniedException, UserNotSignedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        RefusingRemovalListener.refuse( user.getUserId( ) );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, "jsp/admin/user/DoRemoveUser.jsp" ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
+            bean.doRemoveAdminUser( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+            assertNotNull( AdminUserHome.findByPrimaryKey( user.getUserId( ) ) );
+        }
+        finally
+        {
+            RefusingRemovalListener.clear( );
+            disposeOfUser( user );
+        }
+    }
+
+    /**
+     * Refuses the deletion of the users given by the test, registered once in the admin user removal service
+     */
+    private static final class RefusingRemovalListener implements RemovalListener
+    {
+        static final String MESSAGE = "resources are still assigned to this user";
+        private static final java.util.Set<String> REFUSED_IDS = java.util.concurrent.ConcurrentHashMap.newKeySet( );
+        private static boolean _bRegistered;
+
+        static synchronized void refuse( int nIdUser )
+        {
+            if ( !_bRegistered )
+            {
+                CDI.current( ).select( RemovalListenerService.class, NamedLiteral.of( BeanUtils.BEAN_ADMIN_USER_REMOVAL_SERVICE ) ).get( )
+                        .registerListener( new RefusingRemovalListener( ) );
+                _bRegistered = true;
+            }
+            REFUSED_IDS.add( Integer.toString( nIdUser ) );
+        }
+
+        static void clear( )
+        {
+            REFUSED_IDS.clear( );
+        }
+
+        @Override
+        public boolean canBeRemoved( String strId )
+        {
+            return !REFUSED_IDS.contains( strId );
+        }
+
+        @Override
+        public String getRemovalRefusedMessage( String strId, Locale locale )
+        {
+            return MESSAGE;
+        }
+    }
+
     @Test
     public void testDoRemoveAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
     {

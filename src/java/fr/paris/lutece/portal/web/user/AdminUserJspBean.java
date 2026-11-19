@@ -95,6 +95,8 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -169,6 +171,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_IMPORT_USERS_FROM_FILE_PAGETITLE = "portal.users.import_users_from_file.pageTitle";
     private static final String PROPERTY_EXPORT_USERS_PAGETITLE = "portal.users.export_users.pageTitle";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE = "portal.users.message.confirmRemoveUser";
+    private static final String MESSAGE_CANNOT_REMOVE_USER = "portal.users.message.cannotRemoveUser";
     private static final String PROPERTY_USERS_PER_PAGE = "paginator.user.itemsPerPage";
     private static final String PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE = "portal.users.delegate_user_rights.pageTitle";
     private static final String PROPERTY_MANAGE_USER_WORKGROUPS_PAGETITLE = "portal.users.manage_user_workgroups.pageTitle";
@@ -386,6 +389,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private AccessLogService _accessLogService;
     @Inject
     private AttributeService _attributeService;
+    @Inject
+    @Named( BeanUtils.BEAN_ADMIN_USER_REMOVAL_SERVICE )
+    private RemovalListenerService _adminUserRemovalService;
     
     /**
      * Build the User list
@@ -1447,6 +1453,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
+        String strRefusedUrl = getRemovalRefusedUrl( request, currentUser, strUserId );
+        if ( strRefusedUrl != null )
+        {
+            return strRefusedUrl;
+        }
+
         String strUrlRemove = JSP_URL_REMOVE_USER;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_USER_ID, strUserId );
@@ -1488,6 +1500,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
+        String strRefusedUrl = getRemovalRefusedUrl( request, currentUser, strUserId );
+        if ( strRefusedUrl != null )
+        {
+            return strRefusedUrl;
+        }
+
         String strRemovedUserAccessCode = user.getAccessCode( );
 
         // Only level 0 users can physically delete a user.
@@ -1515,6 +1533,35 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_USER;
+    }
+
+    /**
+     * Asks the plugins whether the user can be deleted: only a level 0 user deletes a user physically, the others deactivate it, which keeps the
+     * references of the plugins valid. Called once the token and the authorization are checked, so that the reasons of a refusal are only shown
+     * to a user allowed to manage the deleted user.
+     *
+     * @param request
+     *            The Http request
+     * @param currentUser
+     *            The user who deletes
+     * @param strUserId
+     *            The id of the user to delete
+     * @return the URL of the message giving the reasons of the refusal, or null if the user can be deleted
+     */
+    private String getRemovalRefusedUrl( HttpServletRequest request, AdminUser currentUser, String strUserId )
+    {
+        List<String> listErrors = new ArrayList<>( );
+
+        if ( !currentUser.isAdmin( ) || _adminUserRemovalService.checkForRemoval( strUserId, listErrors, getLocale( ) ) )
+        {
+            return null;
+        }
+
+        Object [ ] args = {
+                AdminMessageService.getFormattedList( listErrors, getLocale( ) )
+        };
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_USER, args, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_STOP );
     }
 
     /**
