@@ -67,11 +67,67 @@ Password with confirmation field sync:
 </@cInputGroup>
 <#if errorMsg?has_content><@cFormError passId errorMsg /></#if>
 <#nested>
-<#if isScriptPasswordLoaded?? && isScriptPasswordLoaded>
-<#else>
 <#if passwordMeter><@cPasswordMeter id=passId label=passLabel url=pmUrl /></#if>
+<#-- The functions shared by the fields are written once per page; the meter and the generator of each field are set up for
+     each field (the first password field of a page may have no meter: change password) -->
+<#if !( isScriptPasswordLoaded!false )>
 <script>
+/* PASSWORD */
+<#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
+function togglePasswordIcon(field, show = false) {
+  const input = document.querySelector(field);
+  if (!input) return;
+  const btnToggle = input.parentElement.querySelector('.toggle-password');
+  const icon = btnToggle ? btnToggle.querySelector('${( iconDefaultPrefixSelector! )?js_string?no_esc}') : null;
+  if (!icon) return;
+
+  const reveal = () => {
+    input.setAttribute('type', 'text');
+    icon.classList.remove('ti-eye-off');
+    icon.classList.add('ti-eye');
+    btnToggle.setAttribute('aria-pressed', 'true');
+    btnToggle.setAttribute('title', '${i18n('portal.theme.labelPasswordHide')?js_string?no_esc}');
+  };
+  const hide = () => {
+    input.setAttribute('type', 'password');
+    icon.classList.remove('ti-eye');
+    icon.classList.add('ti-eye-off');
+    btnToggle.setAttribute('aria-pressed', 'false');
+    btnToggle.setAttribute('title', '${i18n('portal.theme.labelPasswordShow')?js_string?no_esc}');
+  };
+
+  if (show) {
+    reveal();
+  } else if (input.getAttribute('type') === 'password') {
+    reveal();
+  } else {
+    hide();
+  }
+}
+</#if>
+document.addEventListener( "DOMContentLoaded", function(e){
+<#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
+  document.querySelectorAll(".toggle-password").forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      const fieldId = this.getAttribute('data-bs-toggle');
+      togglePasswordIcon(fieldId);
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.keyCode === 32) {
+        e.preventDefault();
+        const fieldId = this.getAttribute('data-bs-toggle');
+        togglePasswordIcon(fieldId);
+      }
+    });
+  });
+</#if>
+});
+</script>
+<#assign isScriptPasswordLoaded = true />
+</#if>
 <#if passwordMeter>
+<#if !( isScriptPasswordMeterLoaded!false )>
+<script>
 /* PASSWORD */
 function passwordStrength(field, defaultLabel, labelStrength) {
   const password = document.getElementById(field);
@@ -241,42 +297,11 @@ function generateLocalPassword() {
   }
   return password;
 }
+</script>
+<#assign isScriptPasswordMeterLoaded = true />
 </#if>
-/* PASSWORD */
-<#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
-function togglePasswordIcon(field, show = false) {
-  const input = document.querySelector(field);
-  if (!input) return;
-  const btnToggle = input.parentElement.querySelector('.toggle-password');
-  const icon = btnToggle ? btnToggle.querySelector('${( iconDefaultPrefixSelector! )?js_string?no_esc}') : null;
-  if (!icon) return;
-
-  const reveal = () => {
-    input.setAttribute('type', 'text');
-    icon.classList.remove('ti-eye-off');
-    icon.classList.add('ti-eye');
-    btnToggle.setAttribute('aria-pressed', 'true');
-    btnToggle.setAttribute('title', '${i18n('portal.theme.labelPasswordHide')?js_string?no_esc}');
-  };
-  const hide = () => {
-    input.setAttribute('type', 'password');
-    icon.classList.remove('ti-eye');
-    icon.classList.add('ti-eye-off');
-    btnToggle.setAttribute('aria-pressed', 'false');
-    btnToggle.setAttribute('title', '${i18n('portal.theme.labelPasswordShow')?js_string?no_esc}');
-  };
-
-  if (show) {
-    reveal();
-  } else if (input.getAttribute('type') === 'password') {
-    reveal();
-  } else {
-    hide();
-  }
-}
-</#if>
+<script>
 document.addEventListener( "DOMContentLoaded", function(e){
-<#if passwordMeter>
     const btnGenerate = document.getElementById('password-${( passId! )?js_string?no_esc}-generator');
     const fieldDest = document.getElementById('${( passId! )?js_string?no_esc}');
     <#if pmConfirmFieldId?has_content>const fieldConfirmDest = document.getElementById('${( pmConfirmFieldId! )?js_string?no_esc}');</#if>
@@ -312,24 +337,7 @@ document.addEventListener( "DOMContentLoaded", function(e){
       </#if>  
     });
     passwordStrength( '${passId?js_string?no_esc}', '${pmLabel?js_string?no_esc}', '${i18n('portal.theme.labelPasswordStrength')?js_string?no_esc}' )
-</#if>
-<#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
-  document.querySelectorAll(".toggle-password").forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      const fieldId = this.getAttribute('data-bs-toggle');
-      togglePasswordIcon(fieldId);
-    });
-    btn.addEventListener('keydown', function(e) {
-      if (e.key === ' ' || e.keyCode === 32) {
-        e.preventDefault();
-        const fieldId = this.getAttribute('data-bs-toggle');
-        togglePasswordIcon(fieldId);
-      }
-    });
-  });
-</#if>
 });
 </script>
-<#assign isScriptPasswordLoaded = true />
 </#if>
 </#macro>
