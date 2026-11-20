@@ -16,16 +16,22 @@ class LuteceAutoComplete extends EventTarget {
     this.originalValue = '';
     this.open = false;
     this.listSize = 0;
+    // the value of the last search: a key that does not change the value (arrows, Enter, Tab...) does not reload the list
+    this.lastSearchedValue = null;
   }
 
   async updateAutocomplete( event ) {
     const input = event.target;
+    if ( input.value === this.lastSearchedValue ) {
+      return;
+    }
     if (input.value.length < this.minimumInputLength ) {
       if (input.value.length > 0) {
         this.resultList.innerHTML = '';
       }
       return;
     }
+    this.lastSearchedValue = input.value;
 
     this.dispatchEvent( new Event(LOADING_START) );
 
@@ -280,7 +286,10 @@ class LuteceAutoComplete extends EventTarget {
     } else {
       const count = this.resultList.childElementCount;
       this.ariaLive.textContent = count === 1 ? '1 résultat disponible' : `${count} résultats disponibles`;
-      this.showDropdown();
+      // a list that arrives after the focus left the field stays closed
+      if ( document.activeElement === this.searchInput ) {
+        this.showDropdown();
+      }
     }
   }
   
@@ -299,6 +308,8 @@ class LuteceAutoComplete extends EventTarget {
     item.setAttribute( 'data-label', this.itemTitleFieldNames.map( field => suggestion[field]).join(" ") );
     item.addEventListener('click', ({ currentTarget }) => {
       this.searchInput.value = currentTarget.getAttribute( 'data-value' );
+      // the chosen value is not searched again (keyup of Enter)
+      this.lastSearchedValue = this.searchInput.value;
       this.copyFields.forEach(item => {
         const copyField = document.querySelector('input[name=' + item.inputName + ']');
         if( copyField ) {
