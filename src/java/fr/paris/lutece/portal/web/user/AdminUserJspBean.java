@@ -1337,8 +1337,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             _importAdminUserService.setUpdateExistingUsers( bUpdateUsers );
 
-            List<CSVMessageDescriptor> listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false, bSkipFirstLine,
-                    AdminUserService.getLocale( request ), AppPathService.getBaseUrl( request ) );
+            List<CSVMessageDescriptor> listMessages;
+
+            // Each line is checked against what the current user may do: level, rights, roles, workgroups and users to update
+            _importAdminUserService.setImportingUser( getUser( ) );
+
+            try
+            {
+                listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false, bSkipFirstLine, AdminUserService.getLocale( request ),
+                        AppPathService.getBaseUrl( request ) );
+            }
+            finally
+            {
+                _importAdminUserService.setImportingUser( null );
+            }
 
             _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_IMPORT_ADMINUSERS, getUser( ), fileItem.getName( ),
                     CONSTANT_BO );

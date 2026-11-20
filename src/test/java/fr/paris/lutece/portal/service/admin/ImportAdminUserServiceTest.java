@@ -34,7 +34,10 @@
 package fr.paris.lutece.portal.service.admin;
 
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
@@ -82,6 +85,67 @@ public class ImportAdminUserServiceTest extends LuteceTestCase
         finally
         {
             AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    private static String [ ] line( String strLevel, String strEmail, String... attributes )
+    {
+        String [ ] lineData = new String [ ] {
+                "user" + new SecureRandom( ).nextLong( ), "lastName", "firstName", strEmail, Integer.toString( AdminUser.ACTIVE_CODE ), "fr", strLevel, "",
+                "false", "", "", ""
+        };
+        String [ ] result = Arrays.copyOf( lineData, lineData.length + attributes.length );
+        System.arraycopy( attributes, 0, result, lineData.length, attributes.length );
+
+        return result;
+    }
+
+    /**
+     * The lines are checked against what the importing user may do, and against the e-mail rules
+     */
+    @Test
+    public void testCheckLineOfCSVFileRefusesWhatTheImportingUserMayNotGive( )
+    {
+        ImportAdminUserService importAdminuser = new DefaultImportAdminUserService( _attributeService );
+        importAdminuser.setUpdateExistingUsers( false );
+        AdminUser manager = new AdminUser( );
+        manager.setUserLevel( 2 );
+        manager.setAccessCode( "manager" );
+        manager.setRoles( new HashMap<>( ) );
+        Locale locale = Locale.ENGLISH;
+
+        importAdminuser.setImportingUser( manager );
+        try
+        {
+            assertTrue( importAdminuser.checkLineOfCSVFile( line( "3", "ok@lutece.fr" ), 1, locale ).isEmpty( ), "an allowed line is accepted" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "0", "ok@lutece.fr" ), 1, locale ).isEmpty( ), "level 0 is refused" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "2", "ok@lutece.fr" ), 1, locale ).isEmpty( ), "own level is refused" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "3", "ok@lutece.fr", "right:CORE_RBAC_MANAGEMENT" ), 1, locale ).isEmpty( ),
+                    "a right of level 0 is refused" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "3", "ok@lutece.fr", "role:super_admin" ), 1, locale ).isEmpty( ),
+                    "a role the manager does not have is refused" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "3", "ok@lutece.fr", "workgroup:wg_not_mine" ), 1, locale ).isEmpty( ),
+                    "a workgroup the manager does not have is refused" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "3", "not an email" ), 1, locale ).isEmpty( ), "an invalid e-mail is refused" );
+            assertFalse( importAdminuser.checkLineOfCSVFile( line( "3", "" ), 1, locale ).isEmpty( ), "the e-mail is mandatory" );
+        }
+        finally
+        {
+            importAdminuser.setImportingUser( null );
+        }
+
+        // An administrator may give any level and role
+        AdminUser admin = new AdminUser( );
+        admin.setUserLevel( 0 );
+        importAdminuser.setImportingUser( admin );
+        try
+        {
+            assertTrue( importAdminuser.checkLineOfCSVFile( line( "0", "ok@lutece.fr", "right:CORE_RBAC_MANAGEMENT", "role:super_admin" ), 1, locale )
+                    .isEmpty( ) );
+        }
+        finally
+        {
+            importAdminuser.setImportingUser( null );
         }
     }
 }

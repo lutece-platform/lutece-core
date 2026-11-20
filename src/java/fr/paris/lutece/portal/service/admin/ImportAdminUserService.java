@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.csv.CSVMessageDescriptor;
 import fr.paris.lutece.portal.service.csv.CSVMessageLevel;
@@ -56,8 +57,38 @@ public abstract class ImportAdminUserService extends CSVReaderService
     private static final String CONSTANT_DEFAULT_IMPORT_EXPORT_USER_SEPARATOR = ":";
     private static final String MESSAGE_USERS_IMPORTED = "portal.users.import_users_from_file.usersImported";
 
+    private static final ThreadLocal<AdminUser> IMPORTING_USER = new ThreadLocal<>( );
     private Character _strAttributesSeparator;
     private boolean _bUpdateExistingUsers;
+
+    /**
+     * Set the user who imports the file in the current thread: the lines are checked against what this user may do. Must be reset to null
+     * once the import is done.
+     *
+     * @param user
+     *            The user who imports the file, or null to reset it
+     */
+    public void setImportingUser( AdminUser user )
+    {
+        if ( user == null )
+        {
+            IMPORTING_USER.remove( );
+        }
+        else
+        {
+            IMPORTING_USER.set( user );
+        }
+    }
+
+    /**
+     * Get the user who imports the file in the current thread
+     *
+     * @return The user who imports the file, or null if no user is set (import run by code)
+     */
+    public AdminUser getImportingUser( )
+    {
+        return IMPORTING_USER.get( );
+    }
 
     /**
      * {@inheritDoc}

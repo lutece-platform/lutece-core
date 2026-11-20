@@ -43,11 +43,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
@@ -62,11 +66,13 @@ import fr.paris.lutece.portal.service.csv.CSVMessageLevel;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
@@ -88,7 +94,18 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     private static final String MESSAGE_ERROR_IMPORTING_ATTRIBUTES = "portal.users.import_users_from_file.errorImportingAttributes";
     private static final String MESSAGE_NO_LEVEL = "portal.users.import_users_from_file.importNoLevel";
     private static final String MESSAGE_NO_STATUS = "portal.users.import_users_from_file.importNoStatus";
+    private static final String MESSAGE_MANDATORY_FIELDS = "portal.users.import_users_from_file.errorMandatoryFields";
+    private static final String MESSAGE_INVALID_EMAIL = "portal.users.import_users_from_file.errorEmail";
+    private static final String MESSAGE_LEVEL_NOT_AUTHORIZED = "portal.users.import_users_from_file.errorLevelNotAuthorized";
+    private static final String MESSAGE_USER_NOT_AUTHORIZED = "portal.users.import_users_from_file.errorUserNotAuthorized";
+    private static final String MESSAGE_RIGHT_NOT_AUTHORIZED = "portal.users.import_users_from_file.errorRightNotAuthorized";
+    private static final String MESSAGE_ROLE_NOT_AUTHORIZED = "portal.users.import_users_from_file.errorRoleNotAuthorized";
+    private static final String MESSAGE_WORKGROUP_NOT_AUTHORIZED = "portal.users.import_users_from_file.errorWorkgroupNotAuthorized";
     private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
+    private static final int CONSTANT_DEFAULT_LEVEL = 3;
+    private static final int INDEX_LAST_NAME = 1;
+    private static final int INDEX_EMAIL = 3;
+    private static final int INDEX_LEVEL = 6;
 
     // Template
     private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
@@ -108,6 +125,167 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     public DefaultImportAdminUserService( AttributeService attributeService )
     {
     	_attributeService = attributeService;
+    }
+
+    /**
+     * {@inheritDoc} A line is refused when its mandatory fields are missing, when its e-mail is not valid or has a banned domain, and when
+     * the user who imports the file may not give its level, rights, roles or workgroups, or may not modify the user it updates.
+     */
+    @Override
+    protected List<CSVMessageDescriptor> checkLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale )
+    {
+        List<CSVMessageDescriptor> listMessages = super.checkLineOfCSVFile( strLineDataArray, nLineNumber, locale );
+
+        if ( listMessages.isEmpty( ) )
+        {
+            String strError = getLineError( strLineDataArray, locale );
+
+            if ( strError != null )
+            {
+                listMessages.add( new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strError ) );
+            }
+        }
+
+        return listMessages;
+    }
+
+    /**
+     * Get the reason why a line can not be imported
+     *
+     * @param strLineDataArray
+     *            The line
+     * @param locale
+     *            The locale
+     * @return The localized reason, or null if the line can be imported
+     */
+    private String getLineError( String [ ] strLineDataArray, Locale locale )
+    {
+        String strAccessCode = getAccessCode( strLineDataArray );
+        String strEmail = getEmail( strLineDataArray );
+
+        if ( StringUtils.isAnyBlank( strAccessCode, strLineDataArray [INDEX_LAST_NAME], strEmail ) )
+        {
+            return I18nService.getLocalizedString( MESSAGE_MANDATORY_FIELDS, locale );
+        }
+
+        if ( !AdminUserService.checkEmail( strEmail ) )
+        {
+            return I18nService.getLocalizedString( MESSAGE_INVALID_EMAIL, new Object [ ] {
+                    strEmail
+            }, locale );
+        }
+
+        String strLevel = strLineDataArray [INDEX_LEVEL];
+        int nLevel = ( StringUtils.isNotEmpty( strLevel ) && StringUtils.isNumeric( strLevel ) ) ? Integer.parseInt( strLevel ) : CONSTANT_DEFAULT_LEVEL;
+        AdminUser importingUser = getImportingUser( );
+
+        if ( ( importingUser != null ) && !importingUser.isAdmin( ) && !importingUser.hasRights( nLevel ) )
+        {
+            return I18nService.getLocalizedString( MESSAGE_LEVEL_NOT_AUTHORIZED, new Object [ ] {
+                    nLevel
+            }, locale );
+        }
+
+        if ( ( importingUser != null ) && getUpdateExistingUsers( ) )
+        {
+            AdminUser userToUpdate = findUserToUpdate( strAccessCode, strEmail );
+
+            if ( ( userToUpdate != null ) && !isAuthorizedToModifyUser( importingUser, userToUpdate ) )
+            {
+                return I18nService.getLocalizedString( MESSAGE_USER_NOT_AUTHORIZED, new Object [ ] {
+                        userToUpdate.getAccessCode( )
+                }, locale );
+            }
+        }
+
+        List<String> listRights = new ArrayList<>( );
+        List<String> listRoles = new ArrayList<>( );
+        List<String> listWorkgroups = new ArrayList<>( );
+
+        for ( int nIndex = CONSTANT_MINIMUM_COLUMNS_PER_LINE; nIndex < strLineDataArray.length; nIndex++ )
+        {
+            readAttribute( strLineDataArray [nIndex], listRights, listRoles, listWorkgroups, new HashMap<>( ) );
+        }
+
+        // As in the rights screen: only the rights of the level of the user, or of a lower level, can be given
+        Set<String> setAssignableRights = RightHome.getRightsList( nLevel ).stream( ).map( Right::getId ).collect( Collectors.toSet( ) );
+
+        for ( String strRight : listRights )
+        {
+            if ( !setAssignableRights.contains( strRight ) )
+            {
+                return I18nService.getLocalizedString( MESSAGE_RIGHT_NOT_AUTHORIZED, new Object [ ] {
+                        strRight
+                }, locale );
+            }
+        }
+
+        if ( ( importingUser == null ) || importingUser.isAdmin( ) )
+        {
+            return null;
+        }
+
+        for ( String strRole : listRoles )
+        {
+            if ( !RBACService.isUserInRole( (User) importingUser, strRole ) )
+            {
+                return I18nService.getLocalizedString( MESSAGE_ROLE_NOT_AUTHORIZED, new Object [ ] {
+                        strRole
+                }, locale );
+            }
+        }
+
+        for ( String strWorkgroup : listWorkgroups )
+        {
+            if ( !AdminWorkgroupHome.isUserInWorkgroup( importingUser, strWorkgroup ) )
+            {
+                return I18nService.getLocalizedString( MESSAGE_WORKGROUP_NOT_AUTHORIZED, new Object [ ] {
+                        strWorkgroup
+                }, locale );
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Find the existing user a line updates: by access code, then by e-mail
+     */
+    private static AdminUser findUserToUpdate( String strAccessCode, String strEmail )
+    {
+        int nUserId = AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode );
+
+        if ( nUserId <= 0 )
+        {
+            nUserId = AdminUserHome.checkEmailAlreadyInUse( strEmail );
+        }
+
+        return ( nUserId > 0 ) ? AdminUserHome.findByPrimaryKey( nUserId ) : null;
+    }
+
+    /**
+     * Same rule as the user screens: an administrator, or a user of a higher level sharing a workgroup with the user (or the user has none)
+     */
+    private static boolean isAuthorizedToModifyUser( AdminUser currentUser, AdminUser userToModify )
+    {
+        if ( currentUser.isAdmin( ) )
+        {
+            return true;
+        }
+
+        if ( !currentUser.isParent( userToModify ) )
+        {
+            return false;
+        }
+
+        ReferenceList listWorkgroups = AdminWorkgroupHome.getUserWorkgroups( currentUser );
+
+        if ( listWorkgroups.isEmpty( ) || !AdminWorkgroupHome.checkUserHasWorkgroup( userToModify.getUserId( ) ) )
+        {
+            return true;
+        }
+
+        return listWorkgroups.stream( ).anyMatch( item -> AdminWorkgroupHome.isUserInWorkgroup( userToModify, item.getCode( ) ) );
     }
 
     /**
