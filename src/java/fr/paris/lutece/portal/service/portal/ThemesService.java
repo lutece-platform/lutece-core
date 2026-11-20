@@ -239,6 +239,12 @@ public final class ThemesService
             else
             {
                 theme = themeService.getTheme( strTheme );
+
+                if ( theme == null )
+                {
+                    // unknown code (a theme_test parameter typed in the URL, a removed theme): the global theme
+                    theme = themeService.getGlobalTheme( );
+                }
             }
         }
         catch( ThemeNotAvailableException e )
