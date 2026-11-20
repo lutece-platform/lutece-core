@@ -57,4 +57,15 @@ public interface IUserLogDAO
      * @return int
      */
     int selectLoginErrors( UserLog userLog, int nIntervalMinutes );
+
+    /**
+     * Calculate the number of failed connections with a given access code during the last minutes, whatever the ip address
+     * 
+     * @param userLog
+     *            The Log of connection, holding the access code
+     * @param nIntervalMinutes
+     *            The number of minutes since the last connection
+     * @return the number of failed connections
+     */
+    int selectLoginErrorsByAccessCode( UserLog userLog, int nIntervalMinutes );
 }

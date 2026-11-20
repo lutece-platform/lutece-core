@@ -43,6 +43,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.log.UserLogHome;
+import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.IAdminUserDAO;
 import fr.paris.lutece.portal.business.user.PasswordUpdateMode;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
@@ -121,6 +123,45 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+    }
+    @Test
+    public void testDoLoginRefusedDuringTheLockIsNotCountedAsAFailure( ) throws Exception
+    {
+        String strMaxFailed = AdminUserService.getSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        String strInterval = AdminUserService.getSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
+        try
+        {
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, "3" );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, "10" );
+            UserLog userLog = new UserLog( );
+            userLog.setAccessCode( user.getAccessCode( ) );
+            for ( int i = 0; i < 3; i++ )
+            {
+                UserLog failure = new UserLog( );
+                failure.setAccessCode( user.getAccessCode( ) );
+                failure.setIpAddress( "10.0.0." + i );
+                failure.setDateLogin( new java.sql.Timestamp( System.currentTimeMillis( ) - 60000L ) );
+                failure.setLoginStatus( UserLog.LOGIN_DENIED );
+                UserLogHome.addUserLog( failure );
+            }
+            assertEquals( 3, UserLogHome.getLoginErrorsByAccessCode( userLog, 10 ) );
+
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
+            request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
+            request.addParameter( Parameters.PASSWORD, PASSWORD );
+            bean.doLogin( request );
+
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message, "the locked access code is refused" );
+            assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+            assertEquals( 3, UserLogHome.getLoginErrorsByAccessCode( userLog, 10 ), "the refusal of the lock is not logged as a failure" );
+        }
+        finally
+        {
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, strMaxFailed );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, strInterval );
+        }
     }
     @Test
     public void testDoLoginNoCSRFToken( ) throws Exception

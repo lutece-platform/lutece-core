@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.user.authentication;
 
 import java.security.SecureRandom;
 
-import javax.security.auth.login.FailedLoginException;
+import javax.security.auth.login.AccountLockedException;
 import javax.security.auth.login.LoginException;
 
 import org.junit.jupiter.api.Test;
@@ -190,8 +190,14 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
             assertNotNull( adminAuth.login( randomUsername, PASSWORD, request ), "2 failures out of 3: the login is accepted" );
 
             addLoginFailure( randomUsername, strIp );
-            assertThrows( FailedLoginException.class, ( ) -> adminAuth.login( randomUsername, PASSWORD, request ),
+            assertThrows( AccountLockedException.class, ( ) -> adminAuth.login( randomUsername, PASSWORD, request ),
                     "3 failures out of 3: the login is refused" );
+
+            // the failures of the access code lock it from any address
+            MockHttpServletRequest otherRequest = new MockHttpServletRequest( );
+            otherRequest.setRemoteAddr( strIp + "1" );
+            assertThrows( AccountLockedException.class, ( ) -> adminAuth.login( randomUsername, PASSWORD, otherRequest ),
+                    "3 failures of the access code: the login is refused from another address" );
         }
         finally
         {

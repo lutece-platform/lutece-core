@@ -78,6 +78,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.security.auth.login.AccountLockedException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
@@ -440,6 +441,11 @@ public class AdminLoginJspBean implements Serializable
         try
         {
             AdminAuthenticationService.getInstance( ).loginUser( request, strAccessCode, strPassword );
+        }
+        catch( AccountLockedException ex )
+        {
+            // Too many failures: the attempt is refused without being counted as a new failure, so that the lock is not extended
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl, AdminMessage.TYPE_STOP );
         }
         catch( FailedLoginException ex )
         {

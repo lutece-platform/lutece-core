@@ -77,4 +77,18 @@ public final class UserLogHome
     {
         return _dao.selectLoginErrors( userLog, nIntervalMinutes );
     }
+
+    /**
+     * Calculate the number of failed connections with a given access code during the last minutes, whatever the ip address
+     * 
+     * @param userLog
+     *            the UserLog object, holding the access code
+     * @param nIntervalMinutes
+     *            The number of minutes
+     * @return the number of failed connections
+     */
+    public static int getLoginErrorsByAccessCode( UserLog userLog, int nIntervalMinutes )
+    {
+        return _dao.selectLoginErrorsByAccessCode( userLog, nIntervalMinutes );
+    }
 }

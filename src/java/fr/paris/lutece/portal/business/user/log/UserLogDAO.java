@@ -45,6 +45,8 @@ public final class UserLogDAO implements IUserLogDAO
     // Constants
     private static final String SQL_QUERY_SELECT_LOGIN_ERRORS = " SELECT COUNT(*) FROM core_connections_log  WHERE ip_address = ?  "
             + " AND date_login > ? AND date_login < ? ";
+    private static final String SQL_QUERY_SELECT_LOGIN_ERRORS_BY_ACCESS_CODE = " SELECT COUNT(*) FROM core_connections_log WHERE access_code = ? "
+            + " AND date_login > ? AND date_login < ? ";
     private static final String SQL_QUERY_INSERT_LOGS = " INSERT INTO core_connections_log ( access_code, ip_address, date_login, login_status ) "
             + " VALUES ( ?, ?, ?, ? )";
 
@@ -59,14 +61,39 @@ public final class UserLogDAO implements IUserLogDAO
      */
     public int selectLoginErrors( UserLog userLog, int nIntervalMinutes )
     {
+        return countLoginErrors( SQL_QUERY_SELECT_LOGIN_ERRORS, userLog.getIpAddress( ), nIntervalMinutes );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int selectLoginErrorsByAccessCode( UserLog userLog, int nIntervalMinutes )
+    {
+        return countLoginErrors( SQL_QUERY_SELECT_LOGIN_ERRORS_BY_ACCESS_CODE, userLog.getAccessCode( ), nIntervalMinutes );
+    }
+
+    /**
+     * Count the failed connections of an ip address or of an access code during the last minutes
+     *
+     * @param strQuery
+     *            the query
+     * @param strValue
+     *            the ip address or the access code
+     * @param nIntervalMinutes
+     *            the number of minutes
+     * @return the number of failed connections
+     */
+    private static int countLoginErrors( String strQuery, String strValue, int nIntervalMinutes )
+    {
         int nCount = 0;
         java.sql.Timestamp dateEnd = new java.sql.Timestamp( new java.util.Date( ).getTime( ) );
         java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime( ) - ( nIntervalMinutes * 1000L * 60L ) );
 
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strQuery ) )
         {
 
-            daoUtil.setString( 1, userLog.getIpAddress( ) );
+            daoUtil.setString( 1, strValue );
             daoUtil.setTimestamp( 2, dateBegin );
             daoUtil.setTimestamp( 3, dateEnd );
 

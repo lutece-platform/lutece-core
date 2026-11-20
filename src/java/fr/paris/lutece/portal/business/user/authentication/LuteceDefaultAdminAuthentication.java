@@ -48,6 +48,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import javax.security.auth.login.AccountLockedException;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
@@ -115,12 +116,12 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
             userLog.setIpAddress( SecurityUtil.getRealIp( request ) );
             userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date( ).getTime( ) ) );
 
-            int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
-
-            // The maximum number of failures is reached: the next attempt is refused
-            if ( nNbFailed >= nMaxFailed )
+            // The failures are counted per address and per access code: the access is locked when either reaches the maximum, until the
+            // failures are older than the interval (the refusals of the lock are not logged as failures: they do not extend it)
+            if ( ( UserLogHome.getLoginErrors( userLog, nIntervalMinutes ) >= nMaxFailed )
+                    || ( UserLogHome.getLoginErrorsByAccessCode( userLog, nIntervalMinutes ) >= nMaxFailed ) )
             {
-                throw new FailedLoginException( );
+                throw new AccountLockedException( );
             }
         }
 
