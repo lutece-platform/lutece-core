@@ -138,8 +138,9 @@ function passwordStrength(field, defaultLabel, labelStrength) {
   const dot = indicator.querySelector(".dot");
   const text = indicator.querySelector(".meter-text");
 
-  password.addEventListener("keydown", (e)=>{
-    showIndicator(field, defaultLabel, labelStrength, e.key );
+  // "input": the value already holds the typed character (and a pasted or generated value)
+  password.addEventListener("input", (e)=>{
+    showIndicator(field, defaultLabel, labelStrength );
   });
 }
 
@@ -152,12 +153,13 @@ function removeClassesPrefixedWith( element, prefix ) {
   element.className = newClasses.join(" ");
 }
 
-function showIndicator(field, defaultLabel, labelStrength, typedKey) {
+function showIndicator(field, defaultLabel, labelStrength) {
   const strength = {
-    1: { msg: "Faible", bar: "main-danger-bg-color", txt: "main-danger-color" },
-    2: { msg: "Moyen", bar: "main-warning-bg-color-text", txt: "main-warning-color-text"},
-    3: { msg: "Excellent", bar: "main-success-bg-color", txt: "main-success-color" },
+    1: { msg: "${i18n('portal.theme.labelPasswordStrengthWeak')?js_string?no_esc}", bar: "main-danger-bg-color", txt: "main-danger-color" },
+    2: { msg: "${i18n('portal.theme.labelPasswordStrengthMedium')?js_string?no_esc}", bar: "main-warning-bg-color-text", txt: "main-warning-color-text"},
+    3: { msg: "${i18n('portal.theme.labelPasswordStrengthExcellent')?js_string?no_esc}", bar: "main-success-bg-color", txt: "main-success-color" },
   };
+  const password = document.getElementById(field);
  <#noparse>const wrapper = document.getElementById(`password-${field}-wrapper`);</#noparse>
   const meter = wrapper.querySelector("[role=meter]");
   const output = wrapper.querySelector("output");
@@ -215,7 +217,7 @@ function getPasswordStrength(v) {
   if (/[a-z]/.test(v)) {
     hasLower = true;
   } else {
-    hasLower = true;
+    hasLower = false;
   }
   if (/\d/.test(v)) {
     hasDigit = true;
