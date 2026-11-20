@@ -245,7 +245,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>4.0.2-beta-03</version>
+            <version>4.0.2</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -266,7 +266,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-freemarker</artifactId>
-            <version>2.1.1-beta-01</version>
+            <version>2.1.1</version>
             <type>jar</type>            
         </dependency>
         <dependency>
@@ -287,7 +287,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-core-utils</artifactId>
-            <version>1.0.1-beta-01</version>
+            <version>1.0.1</version>
             <type>jar</type> 
         </dependency>
         <!-- LUT-33380 : ships the runAfter ordering (RunAfterOrdering, RunAfterResourceComparator) into WEB-INF/lib
