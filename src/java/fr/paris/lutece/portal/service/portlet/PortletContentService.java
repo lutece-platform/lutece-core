@@ -94,7 +94,7 @@ public class PortletContentService
     private static final String ADMIN_PORTLET_OPEN_TAG = AppPropertiesService.getProperty( "lutece.portlet.open.tag", DEFAULT_OPEN_TAG_PREFIX );
     private static final String ADMIN_PORTLET_CLOSE_TAG = AppPropertiesService.getProperty( "lutece.portlet.close.tag", DEFAULT_CLOSE_TAG_PREFIX );
     private static final int DEFAULT_PORTLET_ORDER_MAX = 15;
-    private static final int PORTLET_MAX_ORDER = AppPropertiesService.getPropertyInt( "lutece.list.order.max", DEFAULT_PORTLET_ORDER_MAX );
+    private static final int PORTLET_MAX_ORDER = AppPropertiesService.getPropertyInt( "list.order.max", DEFAULT_PORTLET_ORDER_MAX );
     
     // Specific for plugin-document
     private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
