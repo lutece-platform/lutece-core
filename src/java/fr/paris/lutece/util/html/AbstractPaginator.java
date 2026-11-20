@@ -41,6 +41,7 @@ import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * Abstract Paginator
@@ -347,10 +348,12 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     {
         int nItemsPerPage;
         String strItemsPerPage = request.getParameter( strParameter );
+        // a value typed in the URL may not be a positive number: it is then ignored, as an empty value
+        int nRequested = NumberUtils.toInt( StringUtils.trimToEmpty( strItemsPerPage ), 0 );
 
-        if ( !StringUtils.isBlank( strItemsPerPage ) )
+        if ( nRequested > 0 )
         {
-            nItemsPerPage = Integer.parseInt( strItemsPerPage );
+            nItemsPerPage = nRequested;
         }
         else
         {

@@ -43,6 +43,8 @@ import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * This class provide Attribute Comparator
  */
@@ -175,6 +177,13 @@ public class AttributeComparator implements Comparator<Object>, Serializable
     private Method getMethod( Object obj )
     {
         Method method = null;
+
+        if ( StringUtils.isEmpty( _strSortedAttribute ) )
+        {
+            // no attribute to sort on (empty parameter of the request): the order is kept
+            return method;
+        }
+
         String strFirstLetter = _strSortedAttribute.substring( 0, 1 ).toUpperCase( );
 
         String strMethodName = "get" + strFirstLetter + _strSortedAttribute.substring( 1, _strSortedAttribute.length( ) );

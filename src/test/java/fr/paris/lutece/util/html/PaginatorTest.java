@@ -40,6 +40,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+
 /**
  * Paginator Test Class
  *
@@ -126,5 +128,25 @@ public class PaginatorTest
         assertEquals( 1, new Paginator<>( list, 2, BASE_URL, PARAMETER_PAGE_INDEX, "1" ).getRangeMax( ) );
         assertEquals( 1, new Paginator<>( list, 1, BASE_URL, PARAMETER_PAGE_INDEX, "1" ).getRangeMax( ) );
         assertEquals( 1, new Paginator<>( list, 10, BASE_URL, PARAMETER_PAGE_INDEX, "1" ).getRangeMax( ) );
+    }
+
+    /**
+     * A number of items per page typed in the URL that is not a positive number keeps the current one, or the default
+     */
+    @Test
+    public void testItemsPerPageNotANumber( )
+    {
+        for ( String strValue : new String [ ] { "abc", "0", "-5", " " } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "items_per_page", strValue );
+
+            assertEquals( 20, AbstractPaginator.getItemsPerPage( request, "items_per_page", 20, 50 ) );
+            assertEquals( 50, AbstractPaginator.getItemsPerPage( request, "items_per_page", 0, 50 ) );
+        }
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "items_per_page", "10" );
+        assertEquals( 10, AbstractPaginator.getItemsPerPage( request, "items_per_page", 20, 50 ) );
     }
 }
