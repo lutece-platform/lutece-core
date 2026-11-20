@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -375,7 +376,10 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             {
                 daoUtil.setInt( nbCount++, userField.getAttribute( ).getIdAttribute( ) );
                 daoUtil.setInt( nbCount++, userField.getAttributeField( ).getIdField( ) );
-                daoUtil.setString( nbCount++, CONSTANT_PERCENT + userField.getValue( ) + CONSTANT_PERCENT );
+                // an option of a list, radio button or check box attribute is found by its id: the value stored for a user is the title of the
+                // option at the time of the save, and the option may have been renamed since
+                String strValue = isChoiceAttribute( userField.getAttribute( ) ) ? StringUtils.EMPTY : userField.getValue( );
+                daoUtil.setString( nbCount++, CONSTANT_PERCENT + strValue + CONSTANT_PERCENT );
             }
 
             daoUtil.executeQuery( );
@@ -567,5 +571,17 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         }
 
         return userField;
+    }
+
+    /**
+     * Tells whether an attribute stores the choice of one of its options
+     * 
+     * @param attribute
+     *            the attribute
+     * @return true for a list, radio button or check box attribute
+     */
+    private static boolean isChoiceAttribute( IAttribute attribute )
+    {
+        return ( attribute instanceof AttributeComboBox ) || ( attribute instanceof AttributeRadioButton ) || ( attribute instanceof AttributeCheckBox );
     }
 }
