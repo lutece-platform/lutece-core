@@ -120,7 +120,7 @@ if( storedSidebar === 'folded' || storedSidebar === 'folded-hover' ){
 					<a href="#" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false" aria-label="#i18n{portal.users.admin_header.labelUserMenu}">
 						<@adminHeaderAvatar />
 						<span class="nav-link-title">
-							${dashboard_zone_4!}
+							${user.firstName!} ${user.lastName!}
 							<span class="d-block small text-secondary">${user.dateLastLogin!}</span>
 						</span>
 					</a>
@@ -283,7 +283,7 @@ Description: Avatar of the connected admin user. Internal helper of adminHeader,
 <#if hasAdminAvatar>
 <span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>); "></span>
 <#else>
-<span class="avatar avatar-sm user-initials" data-username="${dashboard_zone_4!}"></span>
+<span class="avatar avatar-sm user-initials" data-username="${user.firstName!} ${user.lastName!}"></span>
 </#if>
 </#macro>
 <#--
@@ -294,7 +294,7 @@ Parameters:
 -->
 <#macro adminHeaderUserMenuItems vertical=false>
 <#if !vertical>
-<div class="dropdown-item text-muted">${dashboard_zone_4!}</div>
+<div class="dropdown-item text-muted">${user.firstName!} ${user.lastName!}</div>
 <div class="dropdown-item text-muted">${user.dateLastLogin!}</div>
 </#if>
 <#if userMenuItems?has_content><#list userMenuItems as item>${item.markup}</#list></#if>

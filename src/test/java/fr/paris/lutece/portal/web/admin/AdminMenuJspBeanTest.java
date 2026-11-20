@@ -68,6 +68,8 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.AdminUserUtils;
+import fr.paris.lutece.portal.business.dashboard.DashboardHome;
+import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.password.IPassword;
@@ -645,6 +647,59 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         catch( AccessDeniedException e )
         {
             assertFalse( AdminUserPreferencesService.instance( ).existsKey( Integer.toString( user.getUserId( ) ), "core.home.shortcuts" ) );
+        }
+    }
+
+    /**
+     * The header writes the name of the user, escaped, not the content of the last dashboard zone
+     */
+    @Test
+    public void testHeaderWritesTheUserName( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        user.setFirstName( "Bh\"<div class=\"card\">" );
+        user.setLastName( "Header" );
+        AdminUserUtils.registerAdminUser( request, user );
+
+        String strHeader = instance.getAdminMenuHeader( request ).toString( );
+
+        assertTrue( strHeader.contains( "data-username=\"Bh&quot;&lt;div class=&quot;card&quot;&gt; Header\"" ), strHeader );
+        assertFalse( strHeader.contains( "Bh\"<div class=\"card\">" ), strHeader );
+    }
+
+    /**
+     * A dashboard moved to the last zone (announced as not displayed) is not written in the header
+     */
+    @Test
+    public void testDashboardOfTheLastZoneNotInTheHeader( ) throws AccessDeniedException
+    {
+        IDashboardComponent dashboard = DashboardHome.findByPrimaryKey( "CORE_PAGES" );
+        int nZone = dashboard.getZone( );
+        int nOrder = dashboard.getOrder( );
+
+        try
+        {
+            dashboard.setZone( 4 );
+            dashboard.setOrder( 2 );
+            DashboardHome.update( dashboard );
+
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            AdminUser user = new AdminUser( );
+            user.setFirstName( "Bh" );
+            user.setLastName( "Zone" );
+            AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_ADMIN_SITE" );
+
+            String strHeader = instance.getAdminMenuHeader( request );
+
+            assertTrue( strHeader.contains( "data-username=\"Bh Zone\"" ), strHeader );
+            assertFalse( strHeader.contains( "site_page_dashboard" ), strHeader );
+        }
+        finally
+        {
+            dashboard.setZone( nZone );
+            dashboard.setOrder( nOrder );
+            DashboardHome.update( dashboard );
         }
     }
 }
