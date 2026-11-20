@@ -87,7 +87,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login, workgroup_key )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ?, level_user = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ?, level_user = ?  WHERE id_user = ?  ";
-    private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date "
+    private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date, a.level_user "
             + " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right < ?";
@@ -736,6 +736,7 @@ public class AdminUserDAO implements IAdminUserDAO
                 user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
                 user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
                 user.setPasswordMaxValidDate( daoUtil.getTimestamp( 9 ) );
+                user.setUserLevel( daoUtil.getInt( 10 ) );
                 userList.add( user );
             }
 

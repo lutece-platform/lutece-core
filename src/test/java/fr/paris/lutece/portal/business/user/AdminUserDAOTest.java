@@ -248,4 +248,32 @@ public class AdminUserDAOTest extends LuteceTestCase
             adminUserDAO.delete( user.getUserId( ) );
         }
     }
+
+    /**
+     * The users of a role are loaded with their level (the assignment screen compares it with the level of the connected user)
+     */
+    @Test
+    public void testSelectUsersByRoleLoadsTheLevel( )
+    {
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        user.setUserLevel( 3 );
+        adminUserDAO.insert( user );
+        adminUserDAO.insertRolesListForUser( user.getUserId( ), "all_site_manager" );
+        try
+        {
+            AdminUser loaded = adminUserDAO.selectUsersByRole( "all_site_manager" ).stream( ).filter( u -> u.getUserId( ) == user.getUserId( ) ).findFirst( )
+                    .orElseThrow( );
+            assertEquals( 3, loaded.getUserLevel( ) );
+        }
+        finally
+        {
+            adminUserDAO.deleteAllRolesForUser( user.getUserId( ) );
+            adminUserDAO.delete( user.getUserId( ) );
+        }
+    }
 }
