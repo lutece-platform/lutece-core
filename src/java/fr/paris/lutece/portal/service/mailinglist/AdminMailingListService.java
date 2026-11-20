@@ -47,7 +47,12 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * AdminMailingListService
@@ -156,16 +161,31 @@ public final class AdminMailingListService
      */
     public static Collection<Recipient> getRecipients( int nIdMailingList )
     {
-        Collection<Recipient> listRecipients = new ArrayList<>( );
+        // A user matched by several filters of the list is a recipient once: the recipients are kept by e-mail, in their order
+        Map<String, Recipient> mapRecipients = new LinkedHashMap<>( );
+        Collection<Recipient> listRecipientsWithoutEmail = new ArrayList<>( );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nIdMailingList );
 
         if ( mailinglist != null )
         {
             for ( MailingListUsersFilter filter : mailinglist.getFilters( ) )
             {
-                listRecipients.addAll( getRecipients( filter.getWorkgroup( ), filter.getRole( ) ) );
+                for ( Recipient recipient : getRecipients( filter.getWorkgroup( ), filter.getRole( ) ) )
+                {
+                    if ( StringUtils.isBlank( recipient.getEmail( ) ) )
+                    {
+                        listRecipientsWithoutEmail.add( recipient );
+                    }
+                    else
+                    {
+                        mapRecipients.putIfAbsent( recipient.getEmail( ).trim( ).toLowerCase( Locale.ROOT ), recipient );
+                    }
+                }
             }
         }
+
+        Collection<Recipient> listRecipients = new ArrayList<>( mapRecipients.values( ) );
+        listRecipients.addAll( listRecipientsWithoutEmail );
 
         return listRecipients;
     }
