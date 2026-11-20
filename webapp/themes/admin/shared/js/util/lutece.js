@@ -4,6 +4,7 @@
  * @return the Date format pattern
  **/
 function getFlatPickerDateFormat( lang ) {
+  lang = lang || navigator.language || 'fr';
   lang = lang.search(/-/) < 0 ? lang + '-' + lang.toUpperCase() : lang
   const dformats = {
     "ar-DZ": "d-M-y",

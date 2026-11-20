@@ -164,7 +164,8 @@ function updateInputDate(input,dateValue) {
 <#if !isEn?boolean ><script src="${libUrl}locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
 <script>
 // Get list of browser locale and filter to current locale
-const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0];
+// a browser without any language of the back office (en-US browser, French back office): the language of the back office
+const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0] || '<@getLanguageInLocale language=language />';
 loadStyle( '${libUrl?js_string?no_esc}bootstrap-flatpickr.min.css' );
 <#assign datePickerIsLoaded = true />
 </script>
