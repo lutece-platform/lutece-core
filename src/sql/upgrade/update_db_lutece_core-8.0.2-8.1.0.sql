@@ -89,3 +89,15 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.se
 -- preconditions onFail:MARK_RAN onError:WARN
 -- comment The Content Security Policy of the pages allows the hosts of the translation script (Google Translate), as the install script does. Only the policy still holding the default value of 8.0.0 and 8.0.1 is changed: a policy changed by the administrator is left as it is.
 UPDATE core_admin_security_header SET value = 'default-src ''self'' https://translate.googleapis.com ; script-src ''self'' ''unsafe-inline'' https://translate-pa.googleapis.com https://translate.googleapis.com https://translate.google.com/; style-src ''self'' ''unsafe-inline'' https://www.gstatic.com; img-src ''self'' data: blob: https://translate.google.com/ https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://fonts.gstatic.com https://www.google.com ; connect-src ''self'' blob: https://translate-pa.googleapis.com https://translate.googleapis.com https://translate.google.com/; object-src ''none''; font-src ''self'' data:;form-action ''self''; frame-ancestors ''self''; upgrade-insecure-requests' WHERE name = 'Content-Security-Policy' AND type = 'page' AND value = 'default-src ''self''; script-src ''self'' ''unsafe-inline''; style-src ''self'' ''unsafe-inline''; img-src ''self'' data: blob:; connect-src ''self'' blob:; object-src ''none''; font-src ''self'' data:;form-action ''self''; frame-ancestors ''self''; upgrade-insecure-requests';
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev11.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The back office site property choosing the display of the vertical menu, created by the install script only
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.layout.menu.sidebar.select'
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select', 'default');
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev12.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The options of the display of the vertical menu, created by the install script only
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.layout.menu.sidebar.select.options'
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select.options', 'default|folded|folded-hover');
