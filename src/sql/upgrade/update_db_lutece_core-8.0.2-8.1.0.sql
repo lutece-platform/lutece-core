@@ -66,3 +66,9 @@ UPDATE core_datastore SET entity_value = 'La valeur doit être un multiple de {s
 UPDATE core_datastore SET entity_value = 'Veuillez saisir un numéro de téléphone valide.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.tel' AND entity_value LIKE '%u00%';
 UPDATE core_datastore SET entity_value = 'Veuillez sélectionner un fichier valide.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.file' AND entity_value LIKE '%u00%';
 UPDATE core_datastore SET entity_value = 'Type de fichier non autorisé. Types acceptés : {accept}.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.filetype' AND entity_value LIKE '%u00%';
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev7.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The right of the management of the levels, created by the install script only since 8.0.2-beta-03. The upgrade creates the right without granting it: the administrators give it to the users who need it.
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_admin_right WHERE id_right = 'CORE_LEVEL_MANAGEMENT'
+INSERT INTO core_admin_right VALUES ('CORE_LEVEL_MANAGEMENT', 'portal.users.adminFeature.level_management.name', 0, NULL, 'portal.users.adminFeature.level_management.description', 1, '', 'SYSTEM', 'ti ti-gavel', NULL, 11, 0);
