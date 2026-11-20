@@ -2166,6 +2166,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
+     * Get the value of a check box of a form: "true" when it is checked, "false" otherwise (an unchecked box is not posted)
+     *
+     * @param request
+     *            The request
+     * @param strParameter
+     *            The name of the check box
+     * @return "true" or "false"
+     */
+    private static String getCheckBoxValue( HttpServletRequest request, String strParameter )
+    {
+        return Boolean.toString( Boolean.parseBoolean( request.getParameter( strParameter ) ) );
+    }
+
+    /**
      * Modify the default user parameter security values.
      * 
      * @param request
@@ -2191,8 +2205,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         Map logParametersMap = new HashMap( );
 
-        String strForceChangePasswordValue = request.getParameter( PARAMETER_FORCE_CHANGE_PASSWORD_REINIT );
-        strForceChangePasswordValue = StringUtils.isNotBlank( strForceChangePasswordValue ) ? strForceChangePasswordValue : StringUtils.EMPTY;
+        String strForceChangePasswordValue = getCheckBoxValue( request, PARAMETER_FORCE_CHANGE_PASSWORD_REINIT );
 
         DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, strForceChangePasswordValue );
         logParametersMap.put( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, strForceChangePasswordValue );
@@ -2204,8 +2217,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, request.getParameter( PARAMETER_RESET_TOKEN_VALIDITY ) );
         logParametersMap.put( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, request.getParameter( PARAMETER_RESET_TOKEN_VALIDITY ) );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION,
-                request.getParameter( PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
-        logParametersMap.put( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, request.getParameter( PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
+                getCheckBoxValue( request, PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
+        logParametersMap.put( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, getCheckBoxValue( request, PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
 
         boolean bUseAdvancedSecurityParameter = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
 
@@ -2213,14 +2226,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             // Parameter format
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE,
-                    request.getParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
-            logParametersMap.put( AdminUserService.DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE, request.getParameter( PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
-            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_NUMERO, request.getParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) );
-            logParametersMap.put( AdminUserService.DSKEY_PASSWORD_FORMAT_NUMERO, request.getParameter( PARAMETER_PASSWORD_FORMAT_NUMERO ) );
+                    getCheckBoxValue( request, PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+            logParametersMap.put( AdminUserService.DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE, getCheckBoxValue( request, PARAMETER_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_NUMERO, getCheckBoxValue( request, PARAMETER_PASSWORD_FORMAT_NUMERO ) );
+            logParametersMap.put( AdminUserService.DSKEY_PASSWORD_FORMAT_NUMERO, getCheckBoxValue( request, PARAMETER_PASSWORD_FORMAT_NUMERO ) );
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
-                    request.getParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
+                    getCheckBoxValue( request, PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
             logParametersMap.put( AdminUserService.DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
-                    request.getParameter( PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
+                    getCheckBoxValue( request, PARAMETER_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
 
             // Parameter password duration
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_DURATION, request.getParameter( PARAMETER_PASSWORD_DURATION ) );
@@ -2242,8 +2255,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             // Notify user when his password expires
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_NOTIFY_USER_PASSWORD_EXPIRED,
-                    request.getParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
-            logParametersMap.put( AdminUserService.DSKEY_NOTIFY_USER_PASSWORD_EXPIRED, request.getParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
+                    getCheckBoxValue( request, PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
+            logParametersMap.put( AdminUserService.DSKEY_NOTIFY_USER_PASSWORD_EXPIRED, getCheckBoxValue( request, PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) );
         }
 
         // Time of life of accounts

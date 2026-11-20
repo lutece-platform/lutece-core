@@ -2249,6 +2249,51 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
+    public void testDoModifyDefaultUserSecurityValuesStoresUncheckedBoxesAsFalse( ) throws AccessDeniedException, UserNotSignedException
+    {
+        String origForceChangePasswordReinit = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT );
+        String origLockResetTokenToSession = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION );
+        int origPasswordMinimumLength = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH );
+        int origResetTokenValidity = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY );
+        int origAccountLifeTime = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME );
+        int origTimeBeforeAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT );
+        int origNbAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT );
+        int origTimeBetweenAlertsAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT );
+        int origAccessFailuresMax = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        int origAccessFailuresInterval = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
+        String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        // the check boxes are not checked: they are not posted
+        request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength ) );
+        request.setParameter( "reset_token_validity", Integer.toString( origResetTokenValidity ) );
+        request.setParameter( "account_life_time", Integer.toString( origAccountLifeTime ) );
+        request.setParameter( "time_before_alert_account", Integer.toString( origTimeBeforeAlertAccount ) );
+        request.setParameter( "nb_alert_account", Integer.toString( origNbAlertAccount ) );
+        request.setParameter( "time_between_alerts_account", Integer.toString( origTimeBetweenAlertsAccount ) );
+        request.setParameter( "access_failures_max", Integer.toString( origAccessFailuresMax ) );
+        request.setParameter( "access_failures_interval", Integer.toString( origAccessFailuresInterval ) );
+        request.setParameter( "banned_domain_names", origBannedDomainNames );
+        try
+        {
+            bean.doModifyDefaultUserSecurityValues( request );
+            assertEquals( "false", DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
+            assertEquals( "false", DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, origForceChangePasswordReinit );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, origLockResetTokenToSession );
+            disposeOfUser( user );
+        }
+    }
+
+    @Test
     public void testDoModifyDefaultUserSecurityValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         assertFalse( "Test does not account for advanced security parameters",
