@@ -55,6 +55,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
@@ -1005,9 +1006,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setWorkgroupKey( strWorkgroupKey );
             user.setUserLevel( Integer.parseInt( strUserLevel ) );
 
-            int nStatus = Integer.parseInt( strStatus );
+            int nStatus = getPostedStatus( strStatus, userToModify );
 
-            if ( nStatus != user.getStatus( ) )
+            if ( nStatus != user.getRealStatus( ) )
             {
                 user.setStatus( nStatus );
                 AdminUserService.notifyUser( AppPathService.getBaseUrl( request ), user, PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS,
@@ -1033,7 +1034,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLastName( strLastName );
             user.setFirstName( strFirstName );
             user.setEmail( strEmail );
-            user.setStatus( Integer.parseInt( strStatus ) );
+            user.setStatus( getPostedStatus( strStatus, userToModify ) );
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
             user.setAccessibilityMode( strAccessibilityMode != null );
             user.setWorkgroupKey( strWorkgroupKey );
@@ -1056,6 +1057,28 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_USER;
+    }
+
+    /**
+     * Gets the status posted by the modification form. The form offers « enabled » and « disabled », and the current status of an expired or anonymized
+     * account, kept when the form is saved without choosing another one; any other value keeps the current status.
+     * 
+     * @param strStatus
+     *            The posted status
+     * @param userBeforeModification
+     *            The user as it was before the modification
+     * @return The status to store
+     */
+    static int getPostedStatus( String strStatus, AdminUser userBeforeModification )
+    {
+        int nStatus = NumberUtils.toInt( strStatus, userBeforeModification.getRealStatus( ) );
+
+        if ( ( nStatus == AdminUser.ACTIVE_CODE ) || ( nStatus == AdminUser.NOT_ACTIVE_CODE ) )
+        {
+            return nStatus;
+        }
+
+        return userBeforeModification.getRealStatus( );
     }
 
     /**

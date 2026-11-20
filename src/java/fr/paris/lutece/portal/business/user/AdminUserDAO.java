@@ -343,7 +343,7 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.setString( nIndex++, user.getLastName( ) );
             daoUtil.setString( nIndex++, user.getFirstName( ) );
             daoUtil.setString( nIndex++, user.getEmail( ) );
-            daoUtil.setInt( nIndex++, user.getStatus( ) );
+            daoUtil.setInt( nIndex++, user.getRealStatus( ) );
             daoUtil.setString( nIndex++, user.getLocale( ).toString( ) );
             daoUtil.setInt( nIndex++, user.getUserLevel( ) );
             daoUtil.setBoolean( nIndex++, user.getAccessibilityMode( ) );
@@ -380,7 +380,7 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.setString( 2, user.getLastName( ) );
             daoUtil.setString( 3, user.getFirstName( ) );
             daoUtil.setString( 4, user.getEmail( ) );
-            daoUtil.setInt( 5, user.getStatus( ) );
+            daoUtil.setInt( 5, user.getRealStatus( ) );
             daoUtil.setString( 6, user.getLocale( ).toString( ) );
             daoUtil.setBoolean( 7, user.isPasswordReset( ) );
             daoUtil.setBoolean( 8, user.getAccessibilityMode( ) );
@@ -604,7 +604,7 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.setString( nIndex++, user.getLastName( ) );
             daoUtil.setString( nIndex++, user.getFirstName( ) );
             daoUtil.setString( nIndex++, user.getEmail( ) );
-            daoUtil.setInt( nIndex++, user.getStatus( ) );
+            daoUtil.setInt( nIndex++, user.getRealStatus( ) );
             daoUtil.setString( nIndex++, user.getPassword( ).getStorableRepresentation( ) );
             daoUtil.setString( nIndex++, user.getLocale( ).toString( ) );
             daoUtil.setInt( nIndex++, user.getUserLevel( ) );
@@ -651,7 +651,7 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.setString( nArgIndex++, user.getLastName( ) );
             daoUtil.setString( nArgIndex++, user.getFirstName( ) );
             daoUtil.setString( nArgIndex++, user.getEmail( ) );
-            daoUtil.setInt( nArgIndex++, user.getStatus( ) );
+            daoUtil.setInt( nArgIndex++, user.getRealStatus( ) );
             if ( PasswordUpdateMode.UPDATE.equals( passwordMode ) )
             {
                 daoUtil.setString( nArgIndex++, user.getPassword( ).getStorableRepresentation( ) );

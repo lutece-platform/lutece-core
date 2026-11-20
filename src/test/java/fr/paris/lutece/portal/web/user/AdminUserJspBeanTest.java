@@ -2950,4 +2950,25 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             disposeOfUser( userToModify );
         }
     }
+
+    /**
+     * The modification form keeps the status of an expired or anonymized account unless « enabled » or « disabled » is chosen
+     */
+    @Test
+    public void testPostedStatusKeepsExpiredAndAnonymizedStatus( )
+    {
+        AdminUser expired = new AdminUser( );
+        expired.setStatus( AdminUser.EXPIRED_CODE );
+        AdminUser anonymized = new AdminUser( );
+        anonymized.setStatus( AdminUser.ANONYMIZED_CODE );
+
+        assertEquals( AdminUser.EXPIRED_CODE, AdminUserJspBean.getPostedStatus( "5", expired ) );
+        assertEquals( AdminUser.ANONYMIZED_CODE, AdminUserJspBean.getPostedStatus( "10", anonymized ) );
+        assertEquals( AdminUser.ANONYMIZED_CODE, AdminUserJspBean.getPostedStatus( null, anonymized ) );
+        // a forged status is ignored
+        assertEquals( AdminUser.EXPIRED_CODE, AdminUserJspBean.getPostedStatus( "10", expired ) );
+        // the administrator may still enable or disable the account
+        assertEquals( AdminUser.ACTIVE_CODE, AdminUserJspBean.getPostedStatus( "0", expired ) );
+        assertEquals( AdminUser.NOT_ACTIVE_CODE, AdminUserJspBean.getPostedStatus( "1", anonymized ) );
+    }
 }

@@ -216,4 +216,36 @@ public class AdminUserDAOTest extends LuteceTestCase
             adminUserDAO.delete( user.getUserId( ) );
         }
     }
+
+    /**
+     * Storing an expired account (password set by an administrator, reset by e-mail) keeps its status 5: it is not turned into « anonymized »
+     */
+    @Test
+    public void testStoreExpiredUserKeepsItsStatus( )
+    {
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        user.setStatus( AdminUser.EXPIRED_CODE );
+        adminUserDAO.insert( user );
+
+        try
+        {
+            assertEquals( AdminUser.EXPIRED_CODE, adminUserDAO.loadDefaultAdminUser( user.getUserId( ) ).getRealStatus( ) );
+
+            LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
+            storedUser.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername + "2" ) );
+            adminUserDAO.store( storedUser, PasswordUpdateMode.UPDATE );
+
+            assertEquals( AdminUser.EXPIRED_CODE, adminUserDAO.loadDefaultAdminUser( user.getUserId( ) ).getRealStatus( ) );
+        }
+        finally
+        {
+            adminUserDAO.delete( user.getUserId( ) );
+        }
+    }
 }

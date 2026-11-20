@@ -84,7 +84,13 @@
 									{"name":"#i18n{portal.users.modify_user.statusLabelEnabled}", "code": "0", "selected" : false, "disabled" : false },
 									{"name":"#i18n{portal.users.modify_user.statusLabelDisabled}", "code": "1", "selected" : false, "disabled" : false }
 								]>
-								<@options items=statusOptions selected=user.status?string />
+								<#-- an expired or anonymized account keeps its status unless another one is chosen -->
+								<#if user.realStatus == 5>
+									<#assign statusOptions = statusOptions + [ {"name":"#i18n{portal.users.modify_user.statusLabelExpired}", "code": "5", "selected" : false, "disabled" : false } ]>
+								<#elseif user.realStatus == 10>
+									<#assign statusOptions = statusOptions + [ {"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code": "10", "selected" : false, "disabled" : false } ]>
+								</#if>
+								<@options items=statusOptions selected=user.realStatus?string />
 								</@select>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>

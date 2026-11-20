@@ -29,6 +29,7 @@
                                 {"name":"#i18n{portal.users.manage_users.search_users.labelAllStatus}", "code" : "noValue" , "selected" : false, "disabled" : false },
                                 {"name":"#i18n{portal.users.create_user.statusLabelEnabled}", "code" : "0" , "selected" : false, "disabled" : false },
                                 {"name":"#i18n{portal.users.create_user.statusLabelDisabled}", "code" : "1" , "selected" : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.modify_user.statusLabelExpired}", "code" : "5" , "selected" : false, "disabled" : false },
                                 {"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code" : "10" , "selected" : false, "disabled" : false } 
                             ]>
                             <@options items=statusOptions selected=search_admin_user_filter.status?string />
@@ -70,16 +71,16 @@
                 <#list user_list as user>
                     <@manageFeatureItem>
                         <@manageFeatureItemColumn class='align-self-baseline' auto=true>
-                            <#if user.status==0><#assign userColor='success'><#assign userLabelStatus='#i18n{portal.users.modify_user.statusLabelEnabled}'><#else><#assign userColor='danger'><#assign userLabelStatus='#i18n{portal.users.modify_user.statusLabelDisabled}'></#if>
+                            <#if user.status==0><#assign userColor='success'><#assign userLabelStatus='#i18n{portal.users.modify_user.statusLabelEnabled}'><#elseif user.realStatus==5><#assign userColor='danger'><#assign userLabelStatus='#i18n{portal.users.modify_user.statusLabelExpired}'><#else><#assign userColor='danger'><#assign userLabelStatus='#i18n{portal.users.modify_user.statusLabelDisabled}'></#if>
                             <@p class='text-center'><#if adminAvatar><@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-${userColor} text-fg-${userColor} rounded lutece-mw-80' alt='${userLabelStatus}' title='${userLabelStatus}' /><#else><@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-${userColor} text-fg-${userColor} rounded' alt='${userLabelStatus}' title='${userLabelStatus}' /></#if></@p>
                         </@manageFeatureItemColumn>
                         <@manageFeatureItemColumn auto=true flex=false class='align-self-baseline'>
-                            <@p class='mb-1'>#i18n{portal.users.manage_users.columnTitleLastName}  #i18n{portal.users.manage_users.columnTitleFirstName} : <strong><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if> <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></strong></@p>
-                            <@p class='mb-0'>#i18n{portal.users.manage_users.columnTitleAccessCode} : <strong><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></strong></@p>
+                            <@p class='mb-1'>#i18n{portal.users.manage_users.columnTitleLastName}  #i18n{portal.users.manage_users.columnTitleFirstName} : <strong><#if user.realStatus=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if> <#if user.realStatus=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></strong></@p>
+                            <@p class='mb-0'>#i18n{portal.users.manage_users.columnTitleAccessCode} : <strong><#if user.realStatus=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></strong></@p>
                         </@manageFeatureItemColumn> 
                         <@manageFeatureItemColumn class='align-self-baseline'>
                             
-                            <@p>#i18n{portal.users.manage_users.columnTitleEmail} : <#if user.status=10><em>#i18n{portal.users.anonymize_user.statusLabelAnonymize}</em><#else><strong class="copy-content" data-title="#i18n{portal.util.labelCopy} #i18n{portal.users.manage_users.columnTitleEmail} ${user.email}">${user.email}</strong></#if></@p>
+                            <@p>#i18n{portal.users.manage_users.columnTitleEmail} : <#if user.realStatus=10><em>#i18n{portal.users.anonymize_user.statusLabelAnonymize}</em><#else><strong class="copy-content" data-title="#i18n{portal.util.labelCopy} #i18n{portal.users.manage_users.columnTitleEmail} ${user.email}">${user.email}</strong></#if></@p>
                         </@manageFeatureItemColumn>
                         <#assign list_user_fields=map_id_user_list_user_fields["" + user.userId]>
                         <#list attributes_list as attribute>
@@ -91,7 +92,7 @@
                                     <#if user_field.attribute.idAttribute==attribute.idAttribute>
                                         <#if index_user_field !=0><br /></#if>
                                             <#assign index_user_field=index_user_field + 1>
-                                            <#if user.status !=10><strong>${attribute.getHtmlValue( locale, user_field )?no_esc}</strong>
+                                            <#if user.realStatus !=10><strong>${attribute.getHtmlValue( locale, user_field )?no_esc}</strong>
                                         </#if>
                                     </#if>
                                 </#list>
