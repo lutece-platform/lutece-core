@@ -175,6 +175,7 @@ public final class AdminUserService
     private static final String MARK_ACCES_FAILURES_MAX = "access_failures_max";
     private static final String MARK_ACCES_FAILURES_INTERVAL = "access_failures_interval";
     private static final String MARK_NAME = "name";
+    private static final String MARK_LAST_NAME = "last_name";
     private static final String MARK_FIRST_NAME = "first_name";
     private static final String MARK_DATE_VALID = "date_valid";
     private static final String MARK_BANNED_DOMAIN_NAMES = "banned_domain_names";
@@ -1298,7 +1299,8 @@ public final class AdminUserService
         String strUserMail = user.getEmail( );
         int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( DSKEY_TIME_BEFORE_ALERT_ACCOUNT );
 
-        if ( maxValidDate != null )
+        // Without account life time (0 or empty) the account does not expire any more: nothing to announce
+        if ( ( maxValidDate != null ) && ( newExpirationDate != null ) )
         {
             Timestamp firstAlertMaxDate = new Timestamp( maxValidDate.getTime( ) - DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
             Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
@@ -1319,16 +1321,22 @@ public final class AdminUserService
 
                 DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
 
-                if ( newExpirationDate != null )
-                {
-                    String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
-                    model.put( MARK_DATE_VALID, accountMaxValidDate );
-                }
+                model.put( MARK_DATE_VALID, dateFormat.format( new Date( newExpirationDate.getTime( ) ) ) );
+                // last_name is the marker offered by the screen of this mail and used by the daemon; name is kept for the existing bodies
                 model.put( MARK_NAME, completeUser.getLastName( ) );
+                model.put( MARK_LAST_NAME, completeUser.getLastName( ) );
                 model.put( MARK_FIRST_NAME, completeUser.getFirstName( ) );
 
-                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault( ), model );
-                MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
+                // A body that cannot be rendered must not prevent the login
+                try
+                {
+                    HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault( ), model );
+                    MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
+                }
+                catch( RuntimeException e )
+                {
+                    AppLogService.error( "Unable to send the account reactivated mail to the user {}", user.getUserId( ), e );
+                }
             }
         }
     }
