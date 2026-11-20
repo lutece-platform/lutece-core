@@ -35,10 +35,12 @@ package fr.paris.lutece.portal.web.search;
 
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.ReferenceItem;
 import jakarta.inject.Inject;
 
 /**
@@ -108,5 +110,35 @@ public class SearchAppTest extends LuteceTestCase
         request.addParameter( "query", "<b>lutece" );
         String strContent = instance.getPage( request, 0, null ).getContent( );
         assertTrue( strContent.contains( "Invalid search term" ) || strContent.contains( "Terme(s) de recherche invalide(s)" ) );
+    }
+
+    /**
+     * The date pickers of the date filter post the date in the format the server parses (not the ISO default of the picker)
+     */
+    @Test
+    public void testDateFilterPostsTheServerFormat( ) throws SiteMessageException
+    {
+        ReferenceItem dateFilter = SearchParameterHome.findByKey( "date_filter" );
+        String strSaved = dateFilter.getName( );
+
+        try
+        {
+            dateFilter.setName( "1" );
+            SearchParameterHome.update( dateFilter );
+
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( "query", "lutece" );
+            request.addParameter( "date_after", "01/01/2020" );
+
+            String strContent = instance.getPage( request, 0, null ).getContent( );
+
+            assertTrue( strContent.contains( "name=\"date_after\"" ), "the date filter should be shown" );
+            assertFalse( strContent.contains( "let dataFormat='yyyy-m-d 00:00:00'" ), "the pickers should post the server format" );
+        }
+        finally
+        {
+            dateFilter.setName( strSaved );
+            SearchParameterHome.update( dateFilter );
+        }
     }
 }

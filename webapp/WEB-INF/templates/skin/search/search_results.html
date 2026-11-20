@@ -114,10 +114,10 @@
                     <@cFormCheck type="radio" labelClass='filter-check' id="filter-all" name="datefilter" value="all" checked=(selected_datefilter!'') == 'all' label='#i18n{portal.search.search_results.dateFilterAll}' />
                     <@cFieldset id='date_filter' legend='#i18n{portal.search.search_results.dateFilter}' >
                         <@cField label='#i18n{portal.search.search_results.dateFilterAfter}' for='date_after'>
-                            <@cInputDate name='date_after' value='${date_after_value!""}' />
+                            <@cInputDate name='date_after' value='${date_after_value!""}' format=( date_picker_format!'dd/mm/yyyy' ) />
                         </@cField>
                         <@cField label='#i18n{portal.search.search_results.dateFilterBefore}' for='date_before' >
-                            <@cInputDate name='date_before' value='${date_before_value!""}' />
+                            <@cInputDate name='date_before' value='${date_before_value!""}' format=( date_picker_format!'dd/mm/yyyy' ) />
                         </@cField>
                     </@cFieldset>
                 </@cBlock>

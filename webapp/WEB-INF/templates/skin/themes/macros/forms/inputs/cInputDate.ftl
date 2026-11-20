@@ -8,6 +8,7 @@ Parameters:
 - class - string -  Default 'custom-checkbox', classe css à ajouter à l'input
 - type - string - Default 'datepicker', type de l'input par default 'datepicker', sinon cela peut être la valeur 'date' pour un champ de type date HTML5 ou vide si on ne veux pas de datepicker ou de champs date html5.
 - icon - boolean - Default true, affiche l'icone "agenda" à droite de l'input
+- format - string - Default '', format de la date envoyée au serveur (dataFormat du datepicker, jetons vanillajs-datepicker, par exemple 'dd/mm/yyyy'), par défaut 'yyyy-m-d 00:00:00'
 - options - object - Default {} Voir les paramètres possibles disponible pour Vanilla JS Datepicker -https://mymth.github.io/vanillajs-datepicker/#/ -
 - value : - string - Default '', Valeur par défaut de l'input
 - placeholder- string - Default '' , placeholder de l'input
@@ -53,7 +54,7 @@ Snippet:
     </@cRow>
 
 -->
-<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params={} deprecated...>
+<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true format='' options={} value='' placeholder='' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=true params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal = ( id?has_content )?then( ( id )?string, ( name!'' )?string ) />
 <#local typeLocal = ( type='date' )?then( 'date', 'text' ) />
@@ -74,7 +75,7 @@ Snippet:
   </#if>
   <#nested>
 </@cInputGroup>
-<#if type='datepicker'><@getThemeDatePicker idField=idLocal options=options /></#if>
+<#if type='datepicker'><@getThemeDatePicker idField=idLocal format=format options=options /></#if>
 <#if separator && type != 'date'>
 <@cInputDateTypingSeparator idField=idLocal hasDatepicker=(type='datepicker') />
 </#if>
