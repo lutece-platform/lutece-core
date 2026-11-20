@@ -2,18 +2,19 @@
 <script src="themes/admin/shared/js/editors/tinymce6/tinymce.min.js"></script>
 <script src="themes/admin/shared/js/editors/lutece-editor-upload.js"></script>
 <#macro initEditor editorWidth=0 cssFiles='' type='' insert='"pagelinkservice","library"' selector='.richtext' config={}>
-<#assign editorLocale='fr_FR' />
+<#assign editorLocale='en' />
 <#assign themeEditorConfig={}>
 <#assign themeEditorExtraConfig=''>
 <#local toolbar='' />
-<#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
+<#-- Language packs installed in themes/admin/shared/js/editors/tinymce6/langs: fr_FR and es; English is built in. A wrong value stops tinyMCE -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
-<#-- Force it here because if it is a wrong value, tinyMCE does not load -->
-<#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")><#assign editorLocale='fr_FR' /></#if>
+<#-- The language of the page (locale of the model, or of the template): French and Spanish have a pack, English is built in -->
+<#local editorLanguage = ( ( locale?? )?then( locale?string, .locale?string ) + '  ' )?substring( 0, 2 ) />
+<#if editorLanguage == "fr"><#assign editorLocale='fr_FR' /><#elseif editorLanguage == "es"><#assign editorLocale='es' /></#if>
 <#local contentCss = cssFiles?has_content?then( cssFiles, "themes/skin/${commonsGlobalThemeCode}/css/theme.min.css, themes/skin/shared/css/site.css, themes/skin/shared/css/shared.css, css/site.css" ) />
 <#local optEditorConfig=.get_optional_template('editor_tinymce_theme.html')>
 <#if optEditorConfig.exists><@optEditorConfig.include /></#if>
-<script src="themes/admin/shared/js/editors/tinymce6/langs/${editorLocale}.js"></script>
+<#if editorLocale != 'en'><script src="themes/admin/shared/js/editors/tinymce6/langs/${editorLocale}.js"></script></#if>
 <script>
 <#-- themeEditorConfig set in optionnal template : editor_tinymce_theme.html -->
 const themeEditorConfig = {<#if optEditorConfig.exists && !themeEditorConfig?starts_with('DS Value')>${themeEditorConfig?no_esc}</#if>};
@@ -102,7 +103,7 @@ let editorConfig = {
   toolbar: tinyToolbar,
   quickbars_insert_toolbar: tinyQuickbarMenu,
   quickbars_selection_toolbar: selectionToolbar,
-  block_formats: 'Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5',
+  block_formats: '<#if editorLocale == 'fr_FR'>Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5<#else>Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5</#if>',
   language: '${editorLocale?js_string?no_esc}',
   promotion: false, // hides the "Upgrade" button of the menu bar
   document_base_url : '${webapp_url?js_string?no_esc}' || document.baseURI,
