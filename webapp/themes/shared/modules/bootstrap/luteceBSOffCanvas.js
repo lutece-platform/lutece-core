@@ -403,6 +403,16 @@ export default class LuteceBSOffCanvas {
                         body: isMultipart ? formData : new URLSearchParams(formData),
                     })
                     .then(data => {
+                        // A refused submission is a redirect to the message page (shown in place of the page, its button goes back), a
+                        // failure an error status: the page is only reloaded when the submission worked
+                        if (data.redirected && data.url.includes('AdminMessage.jsp')) {
+                            window.location.href = data.url;
+                            return;
+                        }
+                        if (!data.ok) {
+                            destinationElement.textContent = 'Error ' + data.status + ' ' + data.statusText;
+                            return;
+                        }
                         // remove from hierarchy;
                         const offcanvasHierarchy = this.getUrlParameter('offcanvasHierarchy');
                         const offcanvasIds = offcanvasHierarchy.split('.');

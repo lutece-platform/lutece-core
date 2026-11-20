@@ -254,6 +254,37 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         }
     }
     @Test
+    public void testDoCreateGroupWithAnExistingIdIsRefused( ) throws AccessDeniedException
+    {
+        String strGroupName = getRandomName( );
+        FeatureGroup existing = new FeatureGroup( );
+        existing.setId( strGroupName );
+        existing.setLabelKey( strGroupName );
+        existing.setDescriptionKey( strGroupName );
+        FeatureGroupHome.create( existing );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", strGroupName );
+        request.addParameter( "group_name", "other" );
+        request.addParameter( "group_description", "other" );
+        request.addParameter( "group_order", "1" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+
+        try
+        {
+            instance.doCreateGroup( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message, "a message tells the identifier is already used" );
+            assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+            assertEquals( strGroupName, FeatureGroupHome.findByPrimaryKey( strGroupName ).getLabelKey( ) );
+        }
+        finally
+        {
+            FeatureGroupHome.remove( strGroupName );
+        }
+    }
+    @Test
     public void testDoCreateGroupInvalidToken( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );

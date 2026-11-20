@@ -84,6 +84,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_CREATE_GROUP = "jsp/admin/features/CreateGroup.jsp";
     private static final String MESSAGE_CONFIRM_DELETE = "portal.features.message.confirmDeleteGroup";
     private static final String MESSAGE_RIGHT_ALREADY_ASSIGN = "portal.features.message.rightAlreadyAssign";
+    private static final String MESSAGE_GROUP_ALREADY_EXISTS = "portal.features.message.groupAlreadyExists";
     private static final String MARK_ORDER_LIST = "order_list";
     private static final String MARK_FEATURE_GROUP = "feature_group";
     private static final String MARK_DEFAULT_ORDER = "order_default";
@@ -261,6 +262,11 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
             return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + JSP_CREATE_GROUP );
+        }
+        if ( FeatureGroupHome.findByPrimaryKey( strGroupId ) != null )
+        {
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_GROUP_ALREADY_EXISTS, AdminMessage.TYPE_STOP,
                     AppPathService.getBaseUrl( request ) + JSP_CREATE_GROUP );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
