@@ -258,7 +258,7 @@ public final class BbcodeUtil
                             if ( acceptParam && ( seq._strParam != null ) )
                             {
                                 buffer.append( //
-                                        openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq._strParam ) );
+                                        openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", Matcher.quoteReplacement( seq._strParam ) ) );
                             }
                             else
                             {
