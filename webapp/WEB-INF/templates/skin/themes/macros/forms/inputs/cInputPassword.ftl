@@ -22,7 +22,7 @@ Parameters:
 - required (boolean, optional): marks the field as required. Default: true.
 - disabled (boolean, optional): disables the input. Default: false.
 - maxlength (number, optional): maximum character length. Default: 100.
-- helpMsg (string, optional): help message displayed below the input. Default: '#i18n{portal.theme.labelPasswordHelp}'.
+- helpMsg (string, optional): help message displayed below the input. Default: none. Give the rules the application really checks (portal.theme.labelPasswordHelp describes a fixed policy that a site may not enforce).
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 - params (map, optional): additional HTML attributes as name/value pairs, e.g. {'aria-label': label}. Names out of the allow list of htmlAttributes (event handlers, URLs, styles...) are refused and every value is escaped. Default: {}.
 
