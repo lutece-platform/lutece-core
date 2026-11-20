@@ -86,4 +86,27 @@ public class SearchAppTest extends LuteceTestCase
             assertNotNull( instance.getPage( request, 0, null ) );
         }
     }
+
+    /**
+     * A query with double quotes (a phrase of the Lucene syntax, or an unclosed quote) is searched, not refused as invalid; the other
+     * characters refused in the inputs still refuse the query
+     */
+    @Test
+    public void testGetPageQueryWithDoubleQuotes( ) throws SiteMessageException
+    {
+        for ( String strQuery : new String [ ] {
+                "\"lutece portal\"", "\"lutece"
+        } )
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( "query", strQuery );
+            String strContent = instance.getPage( request, 0, null ).getContent( );
+            assertFalse( strContent.contains( "Invalid search term" ) || strContent.contains( "Terme(s) de recherche invalide(s)" ), strQuery );
+        }
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "query", "<b>lutece" );
+        String strContent = instance.getPage( request, 0, null ).getContent( );
+        assertTrue( strContent.contains( "Invalid search term" ) || strContent.contains( "Terme(s) de recherche invalide(s)" ) );
+    }
 }

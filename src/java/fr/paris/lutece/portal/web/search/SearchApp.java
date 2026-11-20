@@ -132,6 +132,9 @@ public class SearchApp implements XPageApplication
     private static final String MARK_TYPE_LABELS = "type_labels";
     private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
     private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
+    private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
+    private static final String DEFAULT_XSS_CHARACTERS = "<>#\"";
+    private static final char QUOTE = '"';
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
     private static final String DEFAULT_DATE_PICKER_FORMAT = "dd/mm/yyyy";
     private static final boolean DEFAULT_ENCODE_URI = false;
@@ -198,8 +201,9 @@ public class SearchApp implements XPageApplication
         String strError = "";
         Locale locale = request.getLocale( );
 
-        // Check XSS characters
-        if ( ( strQuery != null ) && ( SecurityUtil.containsXssCharacters( request, strQuery ) ) )
+        // Check XSS characters. The double quote is allowed in a query: it delimits the phrases of the Lucene syntax, and the query is only
+        // written escaped by the templates
+        if ( ( strQuery != null ) && ( SecurityUtil.containsXssCharacters( request, strQuery, getQueryXssCharacters( ) ) ) )
         {
             strError = I18nService.getLocalizedString( MESSAGE_INVALID_SEARCH_TERMS, locale );
             strQuery = "";
@@ -310,6 +314,16 @@ public class SearchApp implements XPageApplication
         page.setContent( template.getHtml( ) );
 
         return page;
+    }
+
+    /**
+     * Gives the characters refused in a search query: the characters refused in the inputs of the site, but the double quote
+     *
+     * @return the characters refused in a search query
+     */
+    private static String getQueryXssCharacters( )
+    {
+        return StringUtils.remove( AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS, DEFAULT_XSS_CHARACTERS ), QUOTE );
     }
 
     /**
