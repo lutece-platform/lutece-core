@@ -34,13 +34,17 @@ Snippet:
 	</div>
 </div>
 <script>
+(function() {
+// the toasts of this container only (the container is the element just before this script)
+const toastContainer = document.currentScript.previousElementSibling;
 document.addEventListener("DOMContentLoaded", function() {
-    const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    const toastElList = [].slice.call(toastContainer.querySelectorAll('.toast'))
     const option = { delay: ${duration?c}, animation: ${animation?c}, autohide: ${autohide?c} }
-    const toastList = toastElList.map( function( toastEl, option ) {
-        return new bootstrap.Toast( toastEl )
+    const toastList = toastElList.map( function( toastEl ) {
+        return new bootstrap.Toast( toastEl, option )
     })
     <#if showAll>toastList.forEach( toast => toast.show())</#if>
 });
+})();
 </script>
 </#macro>
