@@ -61,7 +61,8 @@ Snippet:
             </div>
             <div class="modal-footer">
                 <#if dismissible>
-	                <@cBtn label='${dismissLabel}' class='tertiary m-1' params={"data-bs-dismiss": "modal"}/>
+	                <#-- type button: the modal may be inside a form (form step), the dismiss button must not submit it -->
+	                <@cBtn label='${dismissLabel}' class='tertiary m-1' type='button' params={"data-bs-dismiss": "modal"}/>
                 </#if>
                 ${footer!}
             </div>
