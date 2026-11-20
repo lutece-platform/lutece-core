@@ -67,8 +67,8 @@ window.addEventListener( "load", function() {
 <!-- ========================================================   -->
 <#assign bannerMessageDuration = ( dskey('portal.theme.site_property.bannerMessage.Duration')!'' )?string />
 <#assign bannerMessagePosition = ( dskey('portal.theme.site_property.bannerMessage.Position')!'' )?string />
-<@cInitToast showAll=true duration=bannerMessageDuration?number position=bannerMessagePosition >
-    <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock')?no_esc delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
+<@cInitToast id='bannerMessage' showAll=true duration=bannerMessageDuration?number position=( bannerMessagePosition?has_content )?then( bannerMessagePosition, 'position-fixed' ) >
+    <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock')?no_esc delay=bannerMessageDuration?number class='bg-${dskey(\'portal.theme.site_property.bannerMessage.Type\')}' />
 </@cInitToast>
 </#if>
 <#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>

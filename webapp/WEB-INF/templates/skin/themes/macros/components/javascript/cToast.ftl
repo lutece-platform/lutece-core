@@ -35,9 +35,12 @@ Snippet:
 <#nested>
 </div>
 <script>
+(function() {
+// The container: by its id, or the element just before this script when no id is given
+var toastContainer = <#if id?has_content>null<#else>document.currentScript.previousElementSibling</#if>;
 document.addEventListener("DOMContentLoaded", function() {
     // Récupérer le conteneur spécifique par son identifiant
-    var container = document.getElementById('${id?js_string?no_esc}');
+    var container = toastContainer || document.getElementById('${id?js_string?no_esc}');
     var toastElList = [].slice.call(container.querySelectorAll('.toast'));
     // Options passed in JS override data-bs-* attributes: a toast that sets its own delay keeps it
     var toastList = toastElList.map(function(toastEl) {
@@ -68,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     </#if>
 });
+})();
 </script>
 </#macro>
 <#--
