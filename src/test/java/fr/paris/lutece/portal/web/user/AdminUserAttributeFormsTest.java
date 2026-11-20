@@ -147,4 +147,34 @@ public class AdminUserAttributeFormsTest extends LuteceTestCase
         assertTrue( strHtml.contains( "onlyOption" ) );
     }
 
+    /**
+     * The input of a text attribute gets the width and the maximum length of the attribute
+     */
+    @Test
+    public void testTextAttributeInputHasItsSizeAndMaxLength( ) throws Exception
+    {
+        AttributeText text = new AttributeText( );
+        String strName = "junit" + new SecureRandom( ).nextLong( );
+        text.setTitle( strName );
+        text.setHelpMessage( strName );
+        AttributeField field = new AttributeField( );
+        field.setValue( "" );
+        field.setWidth( 17 );
+        field.setMaxSizeEnter( 7 );
+        List<AttributeField> listFields = new ArrayList<>( );
+        listFields.add( field );
+        text.setListAttributeFields( listFields );
+        _attributeService.createAttribute( text );
+        _listAttributes.add( text.getIdAttribute( ) );
+
+        String strHtml = _bean.getCreateAdminUser( getAdminRequest( ) );
+        int nInput = strHtml.indexOf( "name=\"attribute_" + text.getIdAttribute( ) + "\"" );
+        assertTrue( nInput > 0 );
+        String strInput = strHtml.substring( strHtml.lastIndexOf( "<input", nInput ), strHtml.indexOf( ">", nInput ) );
+
+        assertTrue( strInput.contains( "maxlength=\"7\"" ), strInput );
+        assertTrue( strInput.contains( "size=\"17\"" ), strInput );
+        assertFalse( strInput.contains( "attributeField.width" ), strInput );
+    }
+
 }

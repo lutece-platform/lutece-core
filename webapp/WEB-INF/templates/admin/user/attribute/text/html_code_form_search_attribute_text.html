@@ -1,6 +1,6 @@
 <@formGroup rows=2 labelKey='${attribute.title}' labelFor='attribute_${attribute.idAttribute}'>
 	<#list attribute.listAttributeFields as attributeField>
-		<#if attributeField.maxSizeEnter!=-1>
+		<#if ( attributeField.maxSizeEnter > 0 )>
 			<#assign maxlength = attributeField.maxSizeEnter>
 		</#if>
 		<#if default_values_list?exists && default_values_list?has_content>
@@ -11,6 +11,6 @@
 		<#else>
 			<#assign value = ''>
 		</#if>
-		<@input type='text' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' size='${attributeField.width}' maxlength=maxlength />
+		<@input type='text' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' inputSize=attributeField.width!0 maxlength=maxlength!0 value=value />
 	</#list>
 </@formGroup>

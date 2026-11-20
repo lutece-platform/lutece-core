@@ -4,8 +4,8 @@
 <@formGroup labelKey='${attribute.title}' labelFor='attribute_${attribute.idAttribute}' mandatory=attribute.mandatory helpKey=helpKey rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.width?? && ( attributeField.width > 0 )>
-			<#assign size = 'attributeField.width'>
-		</#if> 
+			<#assign inputSize = attributeField.width>
+		</#if>
 		<#if attributeField.value?exists && !default_values_list?has_content>
 			<#assign value = attributeField.value>
 		<#elseif default_values_list?has_content>
@@ -15,9 +15,9 @@
 		<#else>
 			<#assign value = ''>
 		</#if>
-		<#if ( attributeField.maxSizeEnter >= 0 )>
+		<#if ( attributeField.maxSizeEnter > 0 )>
 			<#assign maxlength = attributeField.maxSizeEnter>
 		</#if>
 	</#list>
-	<@input type='text' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' size=size value=value />
+	<@input type='text' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' inputSize=inputSize!0 maxlength=maxlength!0 value=value />
 </@formGroup>
