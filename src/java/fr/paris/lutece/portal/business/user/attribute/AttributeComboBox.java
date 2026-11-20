@@ -273,12 +273,16 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
                     attributeField.setValue( strValue );
                 }
 
-                userField.setUser( user );
-                userField.setAttribute( this );
-                userField.setAttributeField( attributeField );
-                userField.setValue( attributeField.getTitle( ) );
+                // an id that is not an option (stale link, forged request) gives no value
+                if ( attributeField != null )
+                {
+                    userField.setUser( user );
+                    userField.setAttribute( this );
+                    userField.setAttributeField( attributeField );
+                    userField.setValue( attributeField.getTitle( ) );
 
-                listUserFields.add( userField );
+                    listUserFields.add( userField );
+                }
             }
         }
         // If the combobox is multiple and nothing is selected, the request will have no paramater at all

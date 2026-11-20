@@ -177,4 +177,26 @@ public class AdminUserAttributeFormsTest extends LuteceTestCase
         assertFalse( strInput.contains( "attributeField.width" ), strInput );
     }
 
+    /**
+     * The links of a search on a list attribute carry the id of the option, and an unknown id gives no value instead of an error
+     */
+    @Test
+    public void testSearchUrlCarriesTheOptionId( )
+    {
+        AttributeComboBox comboBox = new AttributeComboBox( );
+        comboBox.setShownInSearch( true );
+        create( comboBox, "75" );
+        int nIdField = AttributeFieldHome.selectAttributeFieldsByIdAttribute( comboBox.getIdAttribute( ) ).stream( )
+                .filter( f -> "75".equals( f.getTitle( ) ) ).findFirst( ).orElseThrow( ).getIdField( );
+
+        AdminUserFieldFilter filter = new AdminUserFieldFilter( );
+        filter.setListUserFields( comboBox.getUserFieldsData( new String [ ] {
+                Integer.toString( nIdField )
+        }, null ) );
+
+        assertEquals( "&attribute_" + comboBox.getIdAttribute( ) + "=" + nIdField, filter.getUrlAttributes( ) );
+        assertTrue( comboBox.getUserFieldsData( new String [ ] {
+                Integer.toString( Integer.MAX_VALUE )
+        }, null ).isEmpty( ) );
+    }
 }

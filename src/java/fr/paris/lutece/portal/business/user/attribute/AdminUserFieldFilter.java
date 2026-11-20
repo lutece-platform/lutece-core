@@ -234,7 +234,7 @@ public class AdminUserFieldFilter
             try
             {
                 url.addParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + userField.getAttribute( ).getIdAttribute( ),
-                        URLEncoder.encode( userField.getValue( ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+                        URLEncoder.encode( getUrlValue( userField ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             }
             catch( UnsupportedEncodingException e )
             {
@@ -257,7 +257,7 @@ public class AdminUserFieldFilter
             try
             {
                 sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + userField.getAttribute( ).getIdAttribute( )
-                        + CONSTANT_EQUAL + URLEncoder.encode( userField.getValue( ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+                        + CONSTANT_EQUAL + URLEncoder.encode( getUrlValue( userField ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             }
             catch( UnsupportedEncodingException e )
             {
@@ -266,5 +266,27 @@ public class AdminUserFieldFilter
         }
 
         return sbUrlAttributes.toString( );
+    }
+
+    /**
+     * Get the value of a searched field as the search form posts it: the id of the option for a list, radio button or check box attribute
+     * (its title may be a number, or may be shared), the typed value otherwise
+     *
+     * @param userField
+     *            The searched field
+     * @return The value to put in the URL
+     */
+    private static String getUrlValue( AdminUserField userField )
+    {
+        IAttribute attribute = userField.getAttribute( );
+        boolean bChoice = ( attribute instanceof AttributeComboBox ) || ( attribute instanceof AttributeRadioButton )
+                || ( attribute instanceof AttributeCheckBox );
+
+        if ( bChoice && ( userField.getAttributeField( ) != null ) && ( userField.getAttributeField( ).getIdField( ) > 0 ) )
+        {
+            return Integer.toString( userField.getAttributeField( ).getIdField( ) );
+        }
+
+        return userField.getValue( );
     }
 }

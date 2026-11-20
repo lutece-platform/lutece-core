@@ -255,7 +255,6 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
                 {
                     int nIdField = Integer.parseInt( strValue );
                     attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
-                    
                 }
                 else
                 {
@@ -265,12 +264,16 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
                     attributeField.setValue( strValue );
                 }
 
-                userField.setUser( user );
-                userField.setAttribute( this );
-                userField.setAttributeField( attributeField );
-                userField.setValue( attributeField.getTitle( ) );
+                // an id that is not an option (stale link, forged request) gives no value
+                if ( attributeField != null )
+                {
+                    userField.setUser( user );
+                    userField.setAttribute( this );
+                    userField.setAttributeField( attributeField );
+                    userField.setValue( attributeField.getTitle( ) );
 
-                listUserFields.add( userField );
+                    listUserFields.add( userField );
+                }
             }
         }
         // If no checkbox is selected, the request will have no parameter at all
