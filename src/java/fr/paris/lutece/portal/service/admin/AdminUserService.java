@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.admin;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -56,7 +55,6 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.util.string.StringUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.ArrayUtils;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -208,7 +206,6 @@ public final class AdminUserService
     // CONSTANTS
     private static final String CONSTANT_DEFAULT_ENCRYPT_ALGO = "SHA-256";
     private static final String COMMA = ",";
-    private static final String SEMICOLON = ";";
     private static final String ZERO = "0";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UNDERSCORE = "_";
@@ -479,12 +476,15 @@ public final class AdminUserService
             return bIsValid;
         }
 
-        String [ ] strListBannedDomainNames = strBannedDomainNames.split( SEMICOLON );
-        String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + 1 );
+        // Domain names are case insensitive; the list may hold spaces or line breaks around the semicolons
+        String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + 1 ).trim( ).toLowerCase( Locale.ROOT );
 
-        if ( strDomainName != null && ArrayUtils.isNotEmpty( strListBannedDomainNames ) && Arrays.asList( strListBannedDomainNames ).contains( strDomainName ) )
+        for ( String strBannedDomainName : strBannedDomainNames.split( "[;\\s]+" ) )
         {
-            bIsValid = false;
+            if ( !strBannedDomainName.isEmpty( ) && strBannedDomainName.toLowerCase( Locale.ROOT ).equals( strDomainName ) )
+            {
+                return false;
+            }
         }
         return bIsValid;
     }
