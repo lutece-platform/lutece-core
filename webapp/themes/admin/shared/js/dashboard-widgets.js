@@ -487,7 +487,18 @@
 		try {
 			window.localStorage.removeItem(this.storageKey);
 		} catch (e) { /* ignore */ }
-		window.location.reload();
+		// The layout saved on the server at the last logout is reset too: the reload would restore it otherwise
+		var reload = function () { window.location.reload(); };
+		if (window.fetch) {
+			window.fetch(PREFERENCES_URL, {
+				method: 'POST',
+				credentials: 'same-origin',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(this.state)
+			}).catch(function () { /* ignore */ }).then(reload, reload);
+		} else {
+			reload();
+		}
 	};
 
 	/* ------------------------------------------------------------------ *
