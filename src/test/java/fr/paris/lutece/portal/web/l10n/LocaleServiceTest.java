@@ -37,6 +37,7 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
@@ -66,6 +67,29 @@ public class LocaleServiceTest extends LuteceTestCase
             };
 
             assertEquals( LocaleService.getDefault( ), LocaleService.getContextUserLocale( request ) );
+        }
+    }
+
+    /**
+     * The default language of the site follows its site property when it is modified
+     */
+    @Test
+    public void testDefaultFollowsTheSiteProperty( )
+    {
+        String strKey = "portal.site.site_property.locale.default";
+        String strSaved = DatastoreService.getInstanceDataValue( strKey, null );
+
+        try
+        {
+            DatastoreService.setInstanceDataValue( strKey, "en" );
+            assertEquals( "en", LocaleService.getDefault( ).getLanguage( ) );
+
+            DatastoreService.setInstanceDataValue( strKey, "fr" );
+            assertEquals( "fr", LocaleService.getDefault( ).getLanguage( ) );
+        }
+        finally
+        {
+            DatastoreService.setInstanceDataValue( strKey, ( strSaved != null ) ? strSaved : "fr" );
         }
     }
 }

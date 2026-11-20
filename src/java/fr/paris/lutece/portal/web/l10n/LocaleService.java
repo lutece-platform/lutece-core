@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -55,6 +56,7 @@ public final class LocaleService
     private static final String PROPERTY_LANG_LIST = "lutece.i18n.availableLocales";
     private static final String PROPERTY_LANG_DEFAULT = "lutece.i18n.defaultLocale";
     private static Locale _locale;
+    private static String _strDefaultLanguage;
     private static List<Locale> _supportedLocales;
 
     /**
@@ -109,13 +111,16 @@ public final class LocaleService
      */
     public static synchronized Locale getDefault( )
     {
-        if ( _locale != null )
+        // The site property can be modified in the back office: the locale is computed again when its value changes
+        String dsLang = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, null );
+
+        if ( ( _locale != null ) && Objects.equals( dsLang, _strDefaultLanguage ) )
         {
             return _locale;
         }
         else
         {
-            String dsLang = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, null );
+            _strDefaultLanguage = dsLang;
 
             if ( dsLang != null )
             {
