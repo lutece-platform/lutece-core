@@ -35,8 +35,10 @@ package fr.paris.lutece.portal.web.editor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -52,6 +54,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -289,9 +292,13 @@ public class EditorProfileJspBean extends MVCAdminJspBean
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_PROFILE ) );
         url.addParameter( PARAMETER_PROFILE_ID, profile.getId( ) );
 
+        // The token travels with the message: the confirmation page can be reloaded (the token of the page is only given to its first display)
+        Map<String, Object> mapParameters = new HashMap<>( );
+        mapParameters.put( SecurityTokenHandler.MARK_CSRF_TOKEN, getSecurityTokenService( ).getToken( request, ACTION_REMOVE_PROFILE ) );
+
         return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_PROFILE, new Object [ ] {
                 profile.getName( )
-        }, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION ) );
+        }, null, url.getUrl( ), "", AdminMessage.TYPE_CONFIRMATION, mapParameters ) );
     }
 
     /**
