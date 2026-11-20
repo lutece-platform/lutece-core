@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.resource;
 
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -175,8 +176,9 @@ public final class ExtendableResourcePluginActionManager
 		PluginActionManager.fillModel(request, adminUser, modelTmp,
 		IExtendableResourcePluginAction.class, MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS);
 		
+		// the language of the admin user, as the page that embeds the fragment
 		HtmlTemplate template = AppTemplateService.getTemplate(strTemplate,
-		request.getLocale(), modelTmp);
+		( adminUser != null ) ? adminUser.getLocale( ) : AdminUserService.getLocale( request ), modelTmp);
 		
 		if (model instanceof Map) {
 			((Map<String, Object>) model).put(MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, HtmlMarkup.of( template.getHtml( ) ));
