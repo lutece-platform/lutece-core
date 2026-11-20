@@ -246,4 +246,31 @@ public class AccountLifeTimeDaemonTest extends LuteceTestCase
             DatastoreService.setDataValue( strKey, strValue );
         }
     }
+
+    /**
+     * The reactivation link of the expiry mails is built from the production URL of the site
+     */
+    @Test
+    public void testReactivationUrlUsesTheProductionUrl( )
+    {
+        String strSaved = System.getProperty( "lutece.prod.url" );
+
+        try
+        {
+            System.setProperty( "lutece.prod.url", "https://site.example/lutece" );
+
+            assertEquals( "https://site.example/lutece/jsp/admin/user/ReactivateAccount.jsp", AccountLifeTimeDaemon.getReactivationUrl( ) );
+        }
+        finally
+        {
+            if ( strSaved != null )
+            {
+                System.setProperty( "lutece.prod.url", strSaved );
+            }
+            else
+            {
+                System.clearProperty( "lutece.prod.url" );
+            }
+        }
+    }
 }

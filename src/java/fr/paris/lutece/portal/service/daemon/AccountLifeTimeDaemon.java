@@ -53,6 +53,7 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
@@ -94,7 +95,7 @@ public class AccountLifeTimeDaemon extends Daemon
     private static final String MARK_DATE_VALID = "date_valid";
     private static final String MARK_URL = "url";
     private static final String PROPERTY_PROD_URL = "init.webapp.prod.url";
-    private static final String JSP_URL_REACTIVATE_ACCOUNT = "/jsp/admin/user/ReactivateAccount.jsp";
+    private static final String JSP_URL_REACTIVATE_ACCOUNT = "jsp/admin/user/ReactivateAccount.jsp";
 
     /**
      * {@inheritDoc}
@@ -386,6 +387,17 @@ public class AccountLifeTimeDaemon extends Daemon
     }
 
     /**
+     * Gets the URL of the reactivation page given in the mails: built from the production URL of the site (lutece.prod.url), and from
+     * init.webapp.prod.url only when the production URL is not set
+     *
+     * @return the URL of the reactivation page
+     */
+    static String getReactivationUrl( )
+    {
+        return AppPathService.getProdUrl( AppPropertiesService.getProperty( PROPERTY_PROD_URL ) ) + JSP_URL_REACTIVATE_ACCOUNT;
+    }
+
+    /**
      * Adds the parameters to model.
      *
      * @param model
@@ -403,7 +415,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
             String accountMaxValidDate = dateFormat.format( new Date( user.getAccountMaxValidDate( ).getTime( ) ) );
 
-            String activationURL = AppPropertiesService.getProperty( PROPERTY_PROD_URL ) + JSP_URL_REACTIVATE_ACCOUNT;
+            String activationURL = getReactivationUrl( );
 
             model.put( MARK_DATE_VALID, accountMaxValidDate );
             model.put( MARK_URL, activationURL );
