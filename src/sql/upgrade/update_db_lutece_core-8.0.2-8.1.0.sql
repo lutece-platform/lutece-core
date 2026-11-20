@@ -72,3 +72,20 @@ UPDATE core_datastore SET entity_value = 'Type de fichier non autorisé. Types a
 -- comment The right of the management of the levels, created by the install script only since 8.0.2-beta-03. The upgrade creates the right without granting it: the administrators give it to the users who need it.
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_admin_right WHERE id_right = 'CORE_LEVEL_MANAGEMENT'
 INSERT INTO core_admin_right VALUES ('CORE_LEVEL_MANAGEMENT', 'portal.users.adminFeature.level_management.name', 0, NULL, 'portal.users.adminFeature.level_management.description', 1, '', 'SYSTEM', 'ti ti-gavel', NULL, 11, 0);
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev8.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The languages of the translation menu, created by the install script only
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.translate.langs.textblock'
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.langs.textblock', 'en,es,it,da,nl,de,tr,ko,zh-CN');
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev9.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The search of the translation menu, created by the install script only
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.theme.site_property.menu.translate.search.checkbox'
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.search.checkbox', '1');
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev10.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The Content Security Policy of the pages allows the hosts of the translation script (Google Translate), as the install script does. Only the policy still holding the default value of 8.0.0 and 8.0.1 is changed: a policy changed by the administrator is left as it is.
+UPDATE core_admin_security_header SET value = 'default-src ''self'' https://translate.googleapis.com ; script-src ''self'' ''unsafe-inline'' https://translate-pa.googleapis.com https://translate.googleapis.com https://translate.google.com/; style-src ''self'' ''unsafe-inline'' https://www.gstatic.com; img-src ''self'' data: blob: https://translate.google.com/ https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://fonts.gstatic.com https://www.google.com ; connect-src ''self'' blob: https://translate-pa.googleapis.com https://translate.googleapis.com https://translate.google.com/; object-src ''none''; font-src ''self'' data:;form-action ''self''; frame-ancestors ''self''; upgrade-insecure-requests' WHERE name = 'Content-Security-Policy' AND type = 'page' AND value = 'default-src ''self''; script-src ''self'' ''unsafe-inline''; style-src ''self'' ''unsafe-inline''; img-src ''self'' data: blob:; connect-src ''self'' blob:; object-src ''none''; font-src ''self'' data:;form-action ''self''; frame-ancestors ''self''; upgrade-insecure-requests';
