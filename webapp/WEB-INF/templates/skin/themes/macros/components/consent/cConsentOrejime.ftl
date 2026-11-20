@@ -5,7 +5,8 @@ Description: Composant de gestion du consentement basé sur la librairie Orejime
 
 Parameters:
 
-- title - string - optional - le titre du consentement (par défaut: 'Ce site')
+- title - string - optional - le titre du consentement et du service nécessaire au site (par défaut: 'Ce site')
+- logo - string - optional - URL du logo du bandeau (par défaut: le logo de l'en-tête du thème, logoHeader, s'il est défini ; aucun sinon)
 - messages - string - optional - Messages personnalisés pour le consentement (par défaut: messages Paris.fr)
 - lang - string - optional - Objet JSON des traductions personnalisées pour remplacer les textes par défaut (par défaut: '')
 - privacyLink - string - optional - Lien vers la page de protection des données personnelles de Paris.fr (par défaut: '//www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees')
@@ -28,8 +29,13 @@ Showcase:
 Snippet:
  
  -->
-<#macro cConsentOrejime title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false deprecated...>
+<#macro cConsentOrejime title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false logo='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#-- The logo of the banner: the one given, else the header logo of the theme (no image of another theme) -->
+<#local bannerLogo = logo>
+<#if !bannerLogo?has_content && logoHeader??>
+	<#local bannerLogo = logoHeader?is_markup_output?then( logoHeader?markup_string, logoHeader )>
+</#if>
 <link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard.css" >
 <link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/orejime/orejime-parisfr.css" >
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard-fr.js"></script>
@@ -47,7 +53,7 @@ window.orejimeConfig = {
 	purposes: [
 		{
 			id: 'mandatory',
-			title: 'Mon Paris',
+			title: '${title?js_string?no_esc}',
 			description: "Ceci ne peut pas être désactivé car c'est requis pour le bon fonctionnement du service. ",
 			isMandatory: true
 		},
@@ -61,8 +67,8 @@ window.orejimeConfig = {
 	],
 	privacyPolicyUrl: '${privacyLink?js_string?no_esc}',
   forceModal: false,
-  forceBanner: false,
-  logo: './themes/skin/parisfr/images/header-logo-paris.svg'
+  forceBanner: false<#if bannerLogo?has_content>,
+  logo: '${bannerLogo?trim?js_string?no_esc}'</#if>
 };
 
 document.addEventListener('DOMContentLoaded', function() {
