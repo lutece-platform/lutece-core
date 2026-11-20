@@ -9,15 +9,7 @@
 <@formGroup labelKey='${attribute.title}' rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
-			<#if attribute.fieldInLine>
-				<#assign orientation = horizontal>
-			<#else>
-				<#assign orientation = vertical>
-			</#if>
-			<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
-				<#assign checked = true>
-			</#if>
-			<@checkBox orientation='switch' labelKey='${attributeField.title}' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked />
+			<@checkBox orientation='switch' labelKey='${attributeField.title}' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}_${attributeField.idField}' value='${attributeField.idField}' checked=( default_values_list?has_content && isSelected( attributeField.idField, default_values_list ) ) />
 		</#if>
 	</#list>
 </@formGroup>
