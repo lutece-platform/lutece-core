@@ -36,7 +36,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const themeOptions = {<#if !dtThemeOptions?starts_with('DS Value')>${dtThemeOptions?no_esc}</#if>};
   const dtLocale = navigator.language.split('-')[0] == 'en' ? 'en' : navigator.language.split('-')[0];
   
-  let showFormat=<#if !showFormat?has_content>getDatePickerDateFormat( dtLocale )<#else>'${showFormat?js_string?no_esc}'</#if>;
+  <#-- The display format follows the language of the page, as the format hint and the typing help of cInputDate: 31 December written by
+       the browser in that language gives the order and the separator (en: mm/dd/yyyy, fr: dd/mm/yyyy) -->
+  const dtPageLang = document.documentElement.lang || navigator.language;
+  const dtYear = new Date().getFullYear();
+  const dtSample = new Date(dtYear, 11, 31).toLocaleDateString(dtPageLang);
+  const dtPageFormat = /^[0-9]+[^0-9][0-9]+[^0-9][0-9]+$/.test(dtSample)
+      ? dtSample.replace('31', 'dd').replace('12', 'mm').replace(String(dtYear), 'yyyy') : getDatePickerDateFormat( dtLocale );
+  let showFormat=<#if !showFormat?has_content>dtPageFormat<#else>'${showFormat?js_string?no_esc}'</#if>;
   <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
   let dataFormat=<#if !format?has_content>'yyyy-m-d 00:00:00' // Default for most DB<#else>'${format?js_string?no_esc}'</#if>;
   const defaultOptions = {
