@@ -151,6 +151,7 @@ document.documentElement.classList.add('loaded');
 								<%
 								String strErrorMessage = (exception.getMessage() != null ) ? exception.getMessage() : exception.toString();
 								%>
+								<%= StringEscapeUtils.escapeHtml4( strErrorMessage ) %>
 							</p>
 							<details>
   								<summary>
@@ -162,7 +163,7 @@ document.documentElement.classList.add('loaded');
 java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
 java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
 exception.printStackTrace(pw);
-out.println(cw.toString());
+out.println( StringEscapeUtils.escapeHtml4( cw.toString() ) );
 %>
 									</code>
 								</pre>
