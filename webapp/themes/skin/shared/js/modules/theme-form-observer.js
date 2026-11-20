@@ -109,11 +109,23 @@ export class themeFormObserver {
      * @param {HTMLElement} element - The input element
      */
     removeInvalidFeedback(element) {
+        // Strategy 0: the message the field declares (aria-describedby)
+        const describedBy = (element.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean);
+        for (const id of describedBy) {
+            const describedFeedback = document.getElementById(id);
+            if (describedFeedback && describedFeedback.classList.contains('invalid-feedback')) {
+                describedFeedback.remove();
+                return;
+            }
+        }
+
         // Strategy 1: Check for sibling invalid-feedback (next sibling)
         let feedback = element.nextElementSibling;
         while (feedback) {
             if (feedback.classList.contains('invalid-feedback')) {
-                feedback.remove();
+                if (!this.belongsToAnotherField(feedback, element)) {
+                    feedback.remove();
+                }
                 return;
             }
             // Stop if we hit another form control
@@ -128,23 +140,46 @@ export class themeFormObserver {
 
         // Strategy 2: Check parent for invalid-feedback child
         const parent = element.parentElement;
-        if (parent) {
-            const parentFeedback = parent.querySelector('.invalid-feedback');
-            if (parentFeedback) {
-                parentFeedback.remove();
-                return;
-            }
+        if (parent && this.removeOwnFeedback(parent, element)) {
+            return;
         }
 
         // Strategy 3: Use closest to find containing form-group and look for feedback there
         const colGroup = element.closest('.col');
         if (colGroup) {
-            const groupFeedback = colGroup.querySelector('.invalid-feedback');
-            if (groupFeedback) {
-                groupFeedback.remove();
-                return;
-            }
+            this.removeOwnFeedback(colGroup, element);
         }
+    }
+
+    /**
+     * Remove the first invalid-feedback of a container that is not the message of another field
+     * @param {HTMLElement} container - The container to search
+     * @param {HTMLElement} element - The input element
+     * @returns {boolean} true if a message has been removed
+     */
+    removeOwnFeedback(container, element) {
+        const feedback = Array.from(container.querySelectorAll('.invalid-feedback'))
+            .find(candidate => !this.belongsToAnotherField(candidate, element));
+        if (feedback) {
+            feedback.remove();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Tell if an invalid-feedback is the message of another field (referenced by its aria-describedby):
+     * fields without wrapper share their parent, the message of a field must not be removed by another one
+     * @param {HTMLElement} feedback - The invalid-feedback element
+     * @param {HTMLElement} element - The input element
+     * @returns {boolean} true if another field declares this message
+     */
+    belongsToAnotherField(feedback, element) {
+        if (!feedback.id) {
+            return false;
+        }
+        return Array.from(document.querySelectorAll('[aria-describedby]'))
+            .some(other => other !== element && other.getAttribute('aria-describedby').split(/\s+/).includes(feedback.id));
     }
 
     /**
