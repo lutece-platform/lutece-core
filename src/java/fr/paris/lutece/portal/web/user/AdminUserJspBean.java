@@ -2394,8 +2394,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *            The request
      * @return The url of the admin message
      */
-    public String getChangeUseAdvancedSecurityParameters( HttpServletRequest request )
+    public String getChangeUseAdvancedSecurityParameters( HttpServletRequest request ) throws AccessDeniedException
     {
+        checkManageAdvancedParameters( );
         Map<String, Object> parameters = new HashMap<>( 1 );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
@@ -2424,6 +2425,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        checkManageAdvancedParameters( );
         AdminUserService.useAdvancedSecurityParameters( );
 
         _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_USE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
@@ -2447,6 +2449,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        checkManageAdvancedParameters( );
         AdminUserService.removeAdvancedSecurityParameters( );
 
         _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
@@ -2456,14 +2459,31 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
+     * Checks that the user holds the permission to manage the advanced parameters, as the screens of these settings
+     * 
+     * @throws AccessDeniedException
+     *             if the user does not hold the permission
+     */
+    private void checkManageAdvancedParameters( ) throws AccessDeniedException
+    {
+        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+                (User) getUser( ) ) )
+        {
+            throw new AccessDeniedException(
+                    CONSTANT_USER_MSG + getUser( ) + CONSTANT_NOT_AUTHORIZED + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+        }
+    }
+
+    /**
      * Get the page with the list of every anonymizable attribute
      * 
      * @param request
      *            The request
      * @return The admin page
      */
-    public String getChangeFieldAnonymizeAdminUsers( HttpServletRequest request )
+    public String getChangeFieldAnonymizeAdminUsers( HttpServletRequest request ) throws AccessDeniedException
     {
+        checkManageAdvancedParameters( );
         Map<String, Object> model = new HashMap<>( );
 
         List<IAttribute> listAllAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
@@ -2508,6 +2528,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        checkManageAdvancedParameters( );
 
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_ACCESS_CODE, Boolean.valueOf( request.getParameter( PARAMETER_ACCESS_CODE ) ) );
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_FIRST_NAME, Boolean.valueOf( request.getParameter( PARAMETER_FIRST_NAME ) ) );
@@ -2659,8 +2680,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *            The request
      * @return The html to display
      */
-    public String getModifyAccountLifeTimeEmails( HttpServletRequest request )
+    public String getModifyAccountLifeTimeEmails( HttpServletRequest request ) throws AccessDeniedException
     {
+        checkManageAdvancedParameters( );
         String strEmailType = request.getParameter( PARAMETER_EMAIL_TYPE );
 
         Map<String, Object> model = new HashMap<>( );
@@ -2745,6 +2767,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        checkManageAdvancedParameters( );
         String strEmailType = request.getParameter( PARAMETER_EMAIL_TYPE );
 
         String strSenderKey = StringUtils.EMPTY;

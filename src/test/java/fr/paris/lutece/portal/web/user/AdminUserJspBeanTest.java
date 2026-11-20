@@ -1505,9 +1505,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoChangeFieldAnonymizeAdminUsers( ) throws AccessDeniedException
+    public void testDoChangeFieldAnonymizeAdminUsers( ) throws AccessDeniedException, UserNotSignedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        // the user holds the permission to manage the advanced parameters
+        registerAdminUserAdmin( request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         Map<String, Boolean> origStatusMap = AdminUserHome.getAnonymizationStatusUserStaticField( );
         try
         {
@@ -1532,9 +1535,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoChangeFieldAnonymizeAdminUsersInvalidToken( ) throws AccessDeniedException
+    public void testDoChangeFieldAnonymizeAdminUsersInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        // the user holds the permission to manage the advanced parameters
+        registerAdminUserAdmin( request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         Map<String, Boolean> origStatusMap = AdminUserHome.getAnonymizationStatusUserStaticField( );
         try
         {
@@ -1563,9 +1569,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoChangeFieldAnonymizeAdminUsersNoToken( ) throws AccessDeniedException
+    public void testDoChangeFieldAnonymizeAdminUsersNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        // the user holds the permission to manage the advanced parameters
+        registerAdminUserAdmin( request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         Map<String, Boolean> origStatusMap = AdminUserHome.getAnonymizationStatusUserStaticField( );
         try
         {
@@ -1965,12 +1974,15 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoModifyAccountLifeTimeEmails( ) throws AccessDeniedException
+    public void testDoModifyAccountLifeTimeEmails( ) throws AccessDeniedException, UserNotSignedException
     {
         String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
         String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
         String origEmailBody = DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        // the user holds the permission to manage the advanced parameters
+        registerAdminUserAdmin( request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "email_type", "first" );
         request.setParameter( "email_sender", "junit" );
         request.setParameter( "email_subject", "junit" );
@@ -1992,12 +2004,15 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoModifyAccountLifeTimeEmailsInvalidToken( )
+    public void testDoModifyAccountLifeTimeEmailsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
         String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
         String origEmailBody = DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        // the user holds the permission to manage the advanced parameters
+        registerAdminUserAdmin( request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "email_type", "first" );
         request.setParameter( "email_sender", "junit" );
         request.setParameter( "email_subject", "junit" );
@@ -2023,12 +2038,15 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoModifyAccountLifeTimeEmailsNoToken( )
+    public void testDoModifyAccountLifeTimeEmailsNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
         String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
         String origEmailBody = DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        // the user holds the permission to manage the advanced parameters
+        registerAdminUserAdmin( request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "email_type", "first" );
         request.setParameter( "email_sender", "junit" );
         request.setParameter( "email_subject", "junit" );
@@ -2509,7 +2527,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testGetChangeUseAdvancedSecurityParametersToFalse( )
+    public void testGetChangeUseAdvancedSecurityParametersToFalse( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2517,6 +2535,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
     
             MockHttpServletRequest request = new MockHttpServletRequest( );
+    
+            // the user holds the permission to manage the advanced parameters
+    
+            registerAdminUserAdmin( request );
+    
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.getChangeUseAdvancedSecurityParameters( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -2535,7 +2559,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testGetChangeUseAdvancedSecurityParametersToTrue( )
+    public void testGetChangeUseAdvancedSecurityParametersToTrue( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2543,6 +2567,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
     
             MockHttpServletRequest request = new MockHttpServletRequest( );
+    
+            // the user holds the permission to manage the advanced parameters
+    
+            registerAdminUserAdmin( request );
+    
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.getChangeUseAdvancedSecurityParameters( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -2590,7 +2620,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoRemoveAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
+    public void testDoRemoveAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2598,6 +2628,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
     
             MockHttpServletRequest request = new MockHttpServletRequest( );
+    
+            // the user holds the permission to manage the advanced parameters
+    
+            registerAdminUserAdmin( request );
+    
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                     _securityTokenService.getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
             bean.doRemoveAdvancedSecurityParameters( request );
@@ -2620,7 +2656,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoRemoveAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
+    public void testDoRemoveAdvancedSecurityParametersNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2628,6 +2664,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
     
             MockHttpServletRequest request = new MockHttpServletRequest( );
+    
+            // the user holds the permission to manage the advanced parameters
+    
+            registerAdminUserAdmin( request );
+    
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doRemoveAdvancedSecurityParameters( request );
             fail( "should have thrown" );
         }
@@ -2677,7 +2719,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoUseAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
+    public void testDoUseAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2685,6 +2727,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
     
             MockHttpServletRequest request = new MockHttpServletRequest( );
+    
+            // the user holds the permission to manage the advanced parameters
+    
+            registerAdminUserAdmin( request );
+    
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                     _securityTokenService.getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
             bean.doUseAdvancedSecurityParameters( request );
@@ -2707,7 +2755,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoUseAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
+    public void testDoUseAdvancedSecurityParametersNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2715,6 +2763,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
     
             MockHttpServletRequest request = new MockHttpServletRequest( );
+    
+            // the user holds the permission to manage the advanced parameters
+    
+            registerAdminUserAdmin( request );
+    
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doUseAdvancedSecurityParameters( request );
             fail( "should have thrown" );
         }
@@ -2970,5 +3024,57 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         // the administrator may still enable or disable the account
         assertEquals( AdminUser.ACTIVE_CODE, AdminUserJspBean.getPostedStatus( "0", expired ) );
         assertEquals( AdminUser.NOT_ACTIVE_CODE, AdminUserJspBean.getPostedStatus( "1", anonymized ) );
+    }
+
+    /**
+     * A user manager without the permission to manage the advanced parameters can neither switch the advanced security parameters, nor change the
+     * anonymized fields, nor read or write the life time e-mails, even with a valid token
+     */
+    @Test
+    public void testAdvancedParametersActionsNeedThePermission( ) throws AccessDeniedException, UserNotSignedException
+    {
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( );
+        String randomName = "User_" + new SecureRandom( ).nextLong( );
+        user.setAccessCode( randomName );
+        user.setFirstName( randomName );
+        user.setLastName( randomName );
+        user.setEmail( randomName + "@lutece.fr" );
+        user.setUserLevel( 2 );
+        user.setStatus( AdminUser.ACTIVE_CODE );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( "PASSWORD" ) );
+        AdminUserHome.create( user );
+        AdminUserHome.createRightForUser( user.getUserId( ), RIGHT_CORE_USERS_MANAGEMENT );
+        boolean bUseAdvanced = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        String strSubject = DefaultUserParameterHome.findByKey( "core.advanced_parameters.first_alert_mail_subject" );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findByPrimaryKey( user.getUserId( ) ) );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
+
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.doUseAdvancedSecurityParameters( request ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.doRemoveAdvancedSecurityParameters( request ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.getChangeUseAdvancedSecurityParameters( request ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.getChangeFieldAnonymizeAdminUsers( request ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.doChangeFieldAnonymizeAdminUsers( request ) );
+            assertEquals( bUseAdvanced, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+
+            MockHttpServletRequest requestMail = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( requestMail, AdminUserHome.findByPrimaryKey( user.getUserId( ) ) );
+            requestMail.addParameter( "email_type", "first" );
+            requestMail.addParameter( "email_subject", "junit" );
+            requestMail.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( requestMail, "jsp/admin/user/ModifyAccountLifeTimeEmails.jsp" ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.getModifyAccountLifeTimeEmails( requestMail ) );
+            assertThrows( AccessDeniedException.class, ( ) -> bean.doModifyAccountLifeTimeEmails( requestMail ) );
+            assertEquals( strSubject, DefaultUserParameterHome.findByKey( "core.advanced_parameters.first_alert_mail_subject" ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user );
+            AdminUserHome.remove( user.getUserId( ) );
+        }
     }
 }
