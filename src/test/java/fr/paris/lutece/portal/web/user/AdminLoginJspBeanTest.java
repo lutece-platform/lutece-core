@@ -274,6 +274,19 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         }
     }
 
+    @Test
+    public void testDoResetPasswordClearsThePasswordResetFlag( )
+    {
+        LuteceDefaultAdminUser storedUser = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) );
+        storedUser.setPasswordReset( true );
+        AdminUserHome.update( storedUser );
+        assertTrue( AdminUserHome.findByPrimaryKey( user.getUserId( ) ).isPasswordReset( ) );
+
+        doResetPasswordTest( );
+
+        assertFalse( AdminUserHome.findByPrimaryKey( user.getUserId( ) ).isPasswordReset( ), "the password chosen by the user is not to be changed" );
+    }
+
     private void doResetPasswordTest( )
     {
 

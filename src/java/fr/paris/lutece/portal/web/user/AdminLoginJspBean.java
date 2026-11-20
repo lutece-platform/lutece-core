@@ -622,6 +622,8 @@ public class AdminLoginJspBean implements Serializable
         user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
         IPasswordFactory passwordFactory = CDI.current().select( IPasswordFactory.class ).get( );
         user.setPassword( passwordFactory.getPasswordFromCleartext( strNewPassword ) );
+        // the user chose this password: no change is asked at the next login
+        user.setPasswordReset( Boolean.FALSE );
         AdminUserHome.update( user );
         AdminUserHome.insertNewPasswordInHistory( user.getPassword( ), user.getUserId( ) );
 
