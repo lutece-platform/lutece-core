@@ -362,13 +362,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     {
         Integer nOldAutorisationNode = page.getIdAuthorizationNode( );
 
-        if ( page.getNodeStatus( ) != 0 )
+        Page parentPage = ( page.getNodeStatus( ) != 0 ) ? PageHome.getPage( page.getParentPageId( ) ) : null;
+
+        if ( ( parentPage != null ) && ( parentPage.getIdAuthorizationNode( ) != null ) )
         {
-            Page parentPage = PageHome.getPage( page.getParentPageId( ) );
             page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode( ) );
         }
         else
         {
+            // its own node, also when there is no node to inherit (the home page has no parent): a page is never left without
+            // authorization node
+            page.setNodeStatus( 0 );
             page.setIdAuthorizationNode( page.getId( ) );
         }
         if ( ( page.getIdAuthorizationNode( ) == null ) || !page.getIdAuthorizationNode( ).equals( nOldAutorisationNode ) )
