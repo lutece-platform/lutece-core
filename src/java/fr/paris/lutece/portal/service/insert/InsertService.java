@@ -44,6 +44,8 @@ import fr.paris.lutece.portal.web.insert.InsertServiceSelectionBean;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -215,11 +217,40 @@ public class InsertService implements RBACResource, Localizable
     {
         try
         {
-            return (InsertServiceSelectionBean) Class.forName( getActionBeanString( ) ).getDeclaredConstructor().newInstance( );
+            Class<?> classBean = Class.forName( getActionBeanString( ) );
+
+            // A CDI bean (its fields are injected): the instance of the container, not a new object
+            Instance<?> instance = getCdiInstance( classBean );
+
+            if ( ( instance != null ) && instance.isResolvable( ) )
+            {
+                return (InsertServiceSelectionBean) instance.get( );
+            }
+
+            return (InsertServiceSelectionBean) classBean.getDeclaredConstructor( ).newInstance( );
         }
         catch( ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e )
         {
             throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
+        }
+    }
+
+    /**
+     * Returns the CDI instance of a class
+     *
+     * @param classBean
+     *            the class
+     * @return the instance, or null if no CDI container is available
+     */
+    private static Instance<?> getCdiInstance( Class<?> classBean )
+    {
+        try
+        {
+            return CDI.current( ).select( classBean );
+        }
+        catch( IllegalStateException e )
+        {
+            return null;
         }
     }
 
