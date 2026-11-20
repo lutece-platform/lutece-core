@@ -170,10 +170,17 @@ export default class LuteceSessionTimeout {
   _startTimers() {
     this._clearAllTimers();
 
-    // Session timers
+    // Session timers: they follow the HTTP session, which only a request to the server extends (page load, "stay connected")
     const sessionWarningAt = (this.timeoutDuration - this.warningDelay) * 1000;
     this._warningTimer = setTimeout(() => this._showWarning(false), sessionWarningAt);
     this._expireTimer = setTimeout(() => this._onExpired(false), this.timeoutDuration * 1000);
+
+    this._startProcessTimers();
+  }
+
+  _startProcessTimers() {
+    clearTimeout(this._processWarningTimer);
+    clearTimeout(this._processExpireTimer);
 
     // Process timers (if shorter than session)
     if (this.processTimeoutDuration > 0 && this.processTimeoutDuration < this.timeoutDuration) {
@@ -199,7 +206,8 @@ export default class LuteceSessionTimeout {
   _resetTimers() {
     // Don't reset while a notification is visible
     if (this._notificationEl) return;
-    this._startTimers();
+    // Activity in the page sends nothing to the server: it postpones the process timers only, not the expiry of the session
+    this._startProcessTimers();
   }
 
   // ══════════════════════════════════════════════════════════════
