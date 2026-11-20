@@ -40,6 +40,7 @@ import javax.security.auth.login.LoginException;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.IAdminUserDAO;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -53,6 +54,8 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
     private IAdminUserDAO adminUserDAO;
     @Inject
     private AdminAuthentication adminAuth;
+    @Inject
+    private fr.paris.lutece.util.password.IPasswordFactory passwordFactory;
 
     @Test
     public void testLoginUpgradePassword( )
@@ -109,6 +112,49 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
         finally
         {
             adminUserDAO.delete( user.getUserId( ) );
+        }
+    }
+
+    /**
+     * The right password of an expired or disabled account does not renew its life time (the connection is refused afterwards); an active account is renewed
+     */
+    @Test
+    public void testLoginRenewsOnlyAnActiveAccount( ) throws LoginException
+    {
+        java.sql.Timestamp past = new java.sql.Timestamp( 1000L );
+        for ( int nStatus : new int [ ] {
+                AdminUser.EXPIRED_CODE, AdminUser.NOT_ACTIVE_CODE, AdminUser.ACTIVE_CODE
+        } )
+        {
+            String randomUsername = "user" + new SecureRandom( ).nextLong( );
+            LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
+            user.setPassword( passwordFactory.getPasswordFromCleartext( PASSWORD ) );
+            user.setFirstName( randomUsername );
+            user.setLastName( randomUsername );
+            user.setStatus( nStatus );
+            // no e-mail: no notification
+            user.setEmail( "" );
+            adminUserDAO.insert( user );
+            try
+            {
+                AdminUserHome.updateUserExpirationDate( user.getUserId( ), past );
+
+                adminAuth.login( randomUsername, PASSWORD, new MockHttpServletRequest( ) );
+
+                java.sql.Timestamp date = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) ).getAccountMaxValidDate( );
+                if ( nStatus == AdminUser.ACTIVE_CODE )
+                {
+                    assertFalse( past.equals( date ), "an active account is renewed" );
+                }
+                else
+                {
+                    assertEquals( past, date, "status " + nStatus );
+                }
+            }
+            finally
+            {
+                adminUserDAO.delete( user.getUserId( ) );
+            }
         }
     }
 }

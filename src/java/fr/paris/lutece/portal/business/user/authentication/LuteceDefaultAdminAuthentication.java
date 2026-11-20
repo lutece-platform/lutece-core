@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.user.authentication;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -143,7 +144,14 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
             _dao.updateResetPassword( user, Boolean.TRUE );
         }
 
-        AdminUserService.updateUserExpirationDate( user );
+        // Only an active account is renewed: the connection of an expired or disabled account is refused afterwards, it must not be
+        // « reactivated » by mail nor have its life time renewed
+        AdminUser userStatus = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+
+        if ( ( userStatus != null ) && userStatus.isStatusActive( ) )
+        {
+            AdminUserService.updateUserExpirationDate( user );
+        }
 
         return user;
     }
