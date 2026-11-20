@@ -1229,7 +1229,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             user.setPassword( AdminUserService.encryptPassword( strFirstPassword ) );
-            user.setPasswordReset( Boolean.FALSE );
+            // A password set by an administrator for another user is changed by this user at the next login when the security parameters ask so
+            user.setPasswordReset( ( user.getUserId( ) != currentUser.getUserId( ) ) && AdminUserService.isPasswordChangeForcedAfterReset( ) );
             user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
 
             AdminUserHome.update( user, PasswordUpdateMode.UPDATE );

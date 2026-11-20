@@ -768,6 +768,38 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
     @Test
+    public void testDoModifyAdminUserPasswordOfAnotherUserForcesTheChangeWhenAsked( ) throws AccessDeniedException, UserNotSignedException
+    {
+        String strOrigForce = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT );
+        AdminUser manager = getUserToModify( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( boolean bForce : new boolean [ ] {
+                    true, false
+            } )
+            {
+                DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, Boolean.toString( bForce ) );
+                MockHttpServletRequest request = new MockHttpServletRequest( );
+                AdminAuthenticationService.getInstance( ).registerUser( request, manager );
+                request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+                String password = bForce ? "CHANGEDCHANGED" : "CHANGEDAGAIN";
+                request.setParameter( "first_password", password );
+                request.setParameter( "second_password", password );
+                request.setParameter( "token", _securityTokenService.getToken( request, "portal.users.modify_user_password.pageTitle" ) );
+                bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
+                assertEquals( "ManageUsers.jsp", bean.doModifyAdminUserPassword( request ) );
+                assertEquals( bForce, AdminUserHome.findByPrimaryKey( user.getUserId( ) ).isPasswordReset( ), "force = " + bForce );
+            }
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, strOrigForce );
+            disposeOfUser( manager );
+            disposeOfUser( user );
+        }
+    }
+    @Test
     public void testDoModifyAdminUserPasswordNotFound( ) throws AccessDeniedException, UserNotSignedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

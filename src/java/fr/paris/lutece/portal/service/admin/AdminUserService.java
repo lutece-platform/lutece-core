@@ -861,6 +861,21 @@ public final class AdminUserService
     }
 
     /**
+     * Tell whether a user whose password was set by an administrator must change it at the next login: the security parameter
+     * « force the password change after a reset » is on and the passwords are managed by Lutece (default authentication module). With an external
+     * authentication (WSSO...) the password is not managed by Lutece and no change is ever forced.
+     *
+     * @return true if the user must change the password at the next login
+     */
+    public static boolean isPasswordChangeForcedAfterReset( )
+    {
+        AdminAuthenticationService authenticationService = AdminAuthenticationService.getInstance( );
+
+        return authenticationService.isDefaultModuleUsed( ) && !authenticationService.isExternalAuthentication( )
+                && getBooleanSecurityParameter( DSKEY_FORCE_CHANGE_PASSWORD_REINIT );
+    }
+
+    /**
      * Get a user parameter from its key.
      * 
      * @param strParameterkey
