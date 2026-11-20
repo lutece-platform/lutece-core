@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
@@ -52,15 +53,12 @@ import fr.paris.lutece.util.string.StringUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.literal.NamedLiteral;
@@ -286,60 +284,51 @@ public class AttributeImage extends AbstractAttribute
         String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
         List<AdminUserField> listUserFields = new ArrayList<>( );
 
-        try
+        if ( StringUtils.isNotBlank( strUpdateAttribute ) )
         {
-            if ( StringUtils.isNotBlank( strUpdateAttribute ) )
+            var multipartRequest = (MultipartHttpServletRequest) request;
+            var fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+
+            // only an image is stored (the forms check it before, with a message)
+            if ( ( fileItem != null ) && ( StringUtils.isNotEmpty( fileItem.getName( ) ) ) && AdminUserFieldService.isImage( fileItem.get( ) ) )
             {
-                var multipartRequest = (MultipartHttpServletRequest) request;
-                var fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+                File file = new File( );
+                PhysicalFile physicalFile = new PhysicalFile( );
+                physicalFile.setValue( fileItem.get( ) );
+                file.setTitle( FileUploadService.getFileNameOnly( fileItem ) );
+                file.setSize( (int) fileItem.getSize( ) );
+                file.setPhysicalFile( physicalFile );
+                file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
 
-                if ( ( fileItem != null ) && ( StringUtils.isNotEmpty( fileItem.getName( ) ) ) )
+                AdminUserField userField = new AdminUserField( );
+                userField.setUser( user );
+                userField.setAttribute( this );
+
+                this.setListAttributeFields(AttributeFieldHome.selectAttributeFieldsByIdAttribute( this.getIdAttribute( ) ));
+
+                if ( CollectionUtils.isNotEmpty( getListAttributeFields( ) ) )
                 {
-                    File file = new File( );
-                    PhysicalFile physicalFile = new PhysicalFile( );
-                    physicalFile.setValue( fileItem.get( ) );
-                    file.setTitle( FileUploadService.getFileNameOnly( fileItem ) );
-                    file.setSize( (int) fileItem.getSize( ) );
-                    file.setPhysicalFile( physicalFile );
-                    file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
-
-                    // verify that the file is an image
-                    ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile( ).getValue( ) ) );
-
-                    AdminUserField userField = new AdminUserField( );
-                    userField.setUser( user );
-                    userField.setAttribute( this );
-
-                    this.setListAttributeFields(AttributeFieldHome.selectAttributeFieldsByIdAttribute( this.getIdAttribute( ) ));
-
-                    if ( CollectionUtils.isNotEmpty( getListAttributeFields( ) ) )
-                    {
-                        userField.setAttributeField( getListAttributeFields( ).get( 0 ) );
-                        userField.setFile( file );
-                    }
-
-                    listUserFields.add( userField );
-                }
-            }
-            else
-            {
-                AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
-                auFieldFilter.setIdAttribute( getIdAttribute( ) );
-
-                String strIdUser = request.getParameter( PARAMETER_ID_USER );
-
-                if ( StringUtils.isNotBlank( strIdUser ) )
-                {
-                    auFieldFilter.setIdUser( StringUtil.getIntValue( strIdUser, 0 ) );
+                    userField.setAttributeField( getListAttributeFields( ).get( 0 ) );
+                    userField.setFile( file );
                 }
 
-                listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
-                listUserFields.stream( ).filter( a -> a.getFile( ) != null ).forEach( ( AdminUserField userField ) -> fillFileData( userField ) );
+                listUserFields.add( userField );
             }
         }
-        catch( IOException e )
+        else
         {
-            AppLogService.error( e.getMessage( ), e );
+            AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+            auFieldFilter.setIdAttribute( getIdAttribute( ) );
+
+            String strIdUser = request.getParameter( PARAMETER_ID_USER );
+
+            if ( StringUtils.isNotBlank( strIdUser ) )
+            {
+                auFieldFilter.setIdUser( StringUtil.getIntValue( strIdUser, 0 ) );
+            }
+
+            listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
+            listUserFields.stream( ).filter( a -> a.getFile( ) != null ).forEach( ( AdminUserField userField ) -> fillFileData( userField ) );
         }
 
         return listUserFields;

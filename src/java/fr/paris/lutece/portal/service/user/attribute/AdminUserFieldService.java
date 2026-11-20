@@ -33,11 +33,15 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.imageio.ImageIO;
 
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
@@ -64,6 +68,7 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 public final class AdminUserFieldService
 {
     // CONSTANTS
+    private static final String MESSAGE_NOT_AN_IMAGE = "portal.users.message.attributeImageNotAnImage";
     private static final String CONSTANT_EMPTY_STRING = "";
     private static final String CONSTANT_UNDERSCORE = "_";
 
@@ -122,6 +127,11 @@ public final class AdminUserFieldService
                 {
                     return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
                 }
+
+                if ( ( strUpdateAttribute != null ) && ( fileItem != null ) && ( fileItem.getSize( ) > 0 ) && !isImage( fileItem.get( ) ) )
+                {
+                    return getNotAnImageMessageUrl( request, attribute, strReturnUrl );
+                }
             }
             else
             {
@@ -135,6 +145,87 @@ public final class AdminUserFieldService
         }
 
         return null;
+    }
+
+    /**
+     * Check that the files of the image attributes posted by a form are images
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of the error message when there is no page to go back to; null to only go back
+     * @return null if there are no problem, the URL of the error message otherwise
+     */
+    public static String checkUserImageFields( HttpServletRequest request, Locale locale, String strReturnUrl )
+    {
+        if ( !( request instanceof MultipartHttpServletRequest ) )
+        {
+            return null;
+        }
+
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+
+        for ( IAttribute attribute : _attributeService.getAllAttributesWithoutFields( locale ) )
+        {
+            if ( attribute.isAttributeImage( )
+                    && ( request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) ) != null ) )
+            {
+                var fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
+
+                if ( ( fileItem != null ) && ( fileItem.getSize( ) > 0 ) && !isImage( fileItem.get( ) ) )
+                {
+                    return getNotAnImageMessageUrl( request, attribute, strReturnUrl );
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Tells whether a content is an image that the JDK can read
+     * 
+     * @param content
+     *            the content
+     * @return true if the content is an image
+     */
+    public static boolean isImage( byte [ ] content )
+    {
+        if ( content == null )
+        {
+            return false;
+        }
+
+        try
+        {
+            return ImageIO.read( new ByteArrayInputStream( content ) ) != null;
+        }
+        catch( IOException e )
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Gets the error message of a file that is not an image
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param attribute
+     *            the image attribute
+     * @param strReturnUrl
+     *            the URL of the screen of the form
+     * @return the URL of the error message
+     */
+    private static String getNotAnImageMessageUrl( HttpServletRequest request, IAttribute attribute, String strReturnUrl )
+    {
+        Object [ ] args = {
+                attribute.getTitle( )
+        };
+
+        return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_NOT_AN_IMAGE, args, AdminMessage.TYPE_STOP, strReturnUrl );
     }
 
     /**

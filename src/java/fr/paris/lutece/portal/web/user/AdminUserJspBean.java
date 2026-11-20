@@ -993,6 +993,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrlReturningTo( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
+        String strImageError = AdminUserFieldService.checkUserImageFields( request, getLocale( ), strReturnUrl );
+
+        if ( strImageError != null )
+        {
+            return strImageError;
+        }
+
         // modification in no-module mode : we manage the password
         if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
         {
