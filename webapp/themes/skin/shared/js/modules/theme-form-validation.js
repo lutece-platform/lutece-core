@@ -186,7 +186,38 @@ const FormValidation = (function() {
         if (input.type === 'file' && (!input.files || input.files.length === 0)) {
             return;
         }
+        // A group of checkboxes is one field: checking one box answers the question for every box of the group
+        const group = getCheckboxGroup(input);
+        if (group.length > 1) {
+            group.forEach(box => validateField(box));
+            return;
+        }
         validateField(input);
+    }
+
+    /**
+     * Returns the checkboxes sharing the name of a checkbox (the boxes of one question)
+     * @param {HTMLElement} input
+     * @returns {Array}
+     */
+    function getCheckboxGroup(input) {
+        if (input.type !== 'checkbox' || !input.name) {
+            return [];
+        }
+        const form = input.form || document;
+        return Array.from(form.querySelectorAll(`input[type="checkbox"][name="${CSS.escape(input.name)}"]`));
+    }
+
+    /**
+     * Returns the id of the error message of an input: one message for a group of checkboxes, named after the group
+     * @param {HTMLElement} input
+     * @returns {string}
+     */
+    function getErrorId(input) {
+        if (getCheckboxGroup(input).length > 1) {
+            return 'error_' + input.name;
+        }
+        return 'error_' + (input.id || input.name);
     }
 
     /**
@@ -601,7 +632,7 @@ const FormValidation = (function() {
         input.setAttribute('aria-invalid', 'true');
 
         // Create error message element
-        const errorId = 'error_' + (input.id || input.name);
+        const errorId = getErrorId(input);
         const errorElement = document.createElement('p');
         errorElement.className = config.errorFeedbackClass;
         errorElement.id = errorId;
@@ -667,7 +698,7 @@ const FormValidation = (function() {
             }
         }
         // Remove error message element
-        const errorId = 'error_' + (input.id || input.name);
+        const errorId = getErrorId(input);
         const errorElement = document.getElementById(errorId);
         if (errorElement) {
             errorElement.remove();
