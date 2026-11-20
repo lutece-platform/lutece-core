@@ -27,7 +27,8 @@
 <@cContainer>
 	<@cRow>
 		<@cCol class='d-flex flex-column justify-content-center align-items-center vh-50'>
-			<@cAlert title='${messageTitle!}${title!}' type=messageClass>${text}</@cAlert>
+			<#-- the title of the message (by default the label of its type), the label of the type otherwise: never both -->
+			<@cAlert title=( title?has_content )?then( title, messageTitle?trim ) type=messageClass>${text}</@cAlert>
 			<@cSection class='w-50 d-flex mt-l justify-content-evenly'>
 			<#if url?has_content>
 				<@cForm action='${url!}' params={"target": ( target! )}>
