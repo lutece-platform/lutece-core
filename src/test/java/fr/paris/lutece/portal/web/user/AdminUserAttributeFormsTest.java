@@ -132,4 +132,19 @@ public class AdminUserAttributeFormsTest extends LuteceTestCase
         assertTrue( strHtml.contains( "boxA" ) );
     }
 
+    /**
+     * A mandatory check box attribute with one option is rendered in the user creation form
+     */
+    @Test
+    public void testCreateFormWithOneOptionCheckBoxAttribute( ) throws Exception
+    {
+        AttributeCheckBox checkBox = new AttributeCheckBox( );
+        checkBox.setMandatory( true );
+        create( checkBox, "onlyOption" );
+
+        String strHtml = _bean.getCreateAdminUser( getAdminRequest( ) );
+
+        assertTrue( strHtml.contains( "onlyOption" ) );
+    }
+
 }

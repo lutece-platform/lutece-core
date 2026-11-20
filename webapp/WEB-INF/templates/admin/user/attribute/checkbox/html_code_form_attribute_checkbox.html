@@ -29,7 +29,7 @@ the 'default' attribute of the field to prefill the form
 <#if attributeField.title?exists && attributeField.value != ""><#if default_values_list?has_content && isSelected(attributeField.idField default_values_list)><#assign hasStoredValue = true></#if></#if>
 </#list>
 <#if default_values_list?has_content && isSelected(0 default_values_list)><#-- if the user has unchecked all checkboxes --><#assign hasStoredValue = true></#if>
-<#assign checkboxMandatory = (attribute.listAttributeFields?size == 1) && mandatory>
+<#assign checkboxMandatory = (attribute.listAttributeFields?size == 1) && attribute.mandatory>
 <#assign orientation = 'switch'>
 <#list attribute.listAttributeFields as attributeField>
 <#if attributeField.title?exists && attributeField.value != "">
