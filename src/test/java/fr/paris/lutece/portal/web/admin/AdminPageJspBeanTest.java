@@ -1092,4 +1092,17 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/site/AdminSite.jsp?page_id=" + _page.getId( ) + "&param_block=2" ), message.getBackUrl( ) );
     }
+
+    /**
+     * The order list of the properties form holds the current order of a page above the maximum of the property
+     */
+    @Test
+    public void testOrdersListHoldsTheCurrentOrder( )
+    {
+        int nMax = _bean.getOrdersList( 1 ).size( );
+
+        assertEquals( nMax, _bean.getOrdersList( nMax ).size( ) );
+        assertEquals( nMax + 5, _bean.getOrdersList( nMax + 5 ).size( ) );
+        assertEquals( String.valueOf( nMax + 5 ), _bean.getOrdersList( nMax + 5 ).get( nMax + 4 ).getCode( ) );
+    }
 }

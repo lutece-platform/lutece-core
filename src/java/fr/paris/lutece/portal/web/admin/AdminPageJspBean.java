@@ -804,7 +804,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     {
         model.put( MARK_PAGE, page );
         model.put( MARK_PAGE_INIT_ID, page.getId( ) );
-        model.put( MARK_PAGE_ORDER_LIST, getOrdersList( ) );
+        model.put( MARK_PAGE_ORDER_LIST, getOrdersList( page.getOrder( ) ) );
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList( getUser( ) ) );
         model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale( ) ) );
         model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId( ) ) ) );
@@ -987,14 +987,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Returns the list of the orders
+     * Gets the list of the orders: 1 to the maximum of the property, and up to the current order of the page when it is above (a page moved in a
+     * tree of more siblings), so that the form keeps it
      *
-     * @return The list of the orders in form of a ReferenceList object
+     * @param nCurrentOrder
+     *            the current order of the page
+     * @return the list of orders
      */
-    private ReferenceList getOrdersList( )
+    ReferenceList getOrdersList( int nCurrentOrder )
     {
         ReferenceList list = new ReferenceList( );
-        int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
+        int nOrderMax = Math.max( AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 ), nCurrentOrder );
 
         for ( int i = 1; i <= nOrderMax; i++ )
         {
