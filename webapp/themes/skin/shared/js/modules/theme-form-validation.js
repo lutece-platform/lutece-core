@@ -209,6 +209,15 @@ const FormValidation = (function() {
     }
 
     /**
+     * Tells if a checkbox or a radio is one of a group of choices (radios, or several checkboxes sharing a name)
+     * @param {HTMLElement} input
+     * @returns {boolean}
+     */
+    function isChoiceGroup(input) {
+        return input.type === 'radio' || getCheckboxGroup(input).length > 1;
+    }
+
+    /**
      * Returns the id of the error message of an input: one message for a group of checkboxes, named after the group
      * @param {HTMLElement} input
      * @returns {string}
@@ -666,8 +675,8 @@ const FormValidation = (function() {
             label.classList.add('main-danger-color');
         }
 
-        // Add error class to fieldset legend if in a fieldset (for checkbox/radio groups)
-        if (input.type === 'checkbox' || input.type === 'radio') {
+        // Add error class to fieldset legend if in a fieldset (for checkbox/radio groups; a single checkbox has no legend of its own)
+        if (isChoiceGroup(input)) {
             const fieldset = input.closest('fieldset');
             if (fieldset) {
                 const legend = fieldset.querySelector('legend');
@@ -724,7 +733,7 @@ const FormValidation = (function() {
 
         // Remove error class from fieldset legend
         if (input.type === 'checkbox' || input.type === 'radio') {
-            const fieldset = input.closest('fieldset');
+            const fieldset = isChoiceGroup(input) ? input.closest('fieldset') : null;
             if (fieldset) {
                 const legend = fieldset.querySelector('legend');
                 if (legend) {
@@ -757,7 +766,20 @@ const FormValidation = (function() {
      */
     function findErrorContainer(input) {
         const type = input.type;
-        const isGroupedField = ['checkbox', 'radio', 'date', 'time', 'datetime-local'].includes(type);
+        // A single checkbox (terms of service, question with one option) is not a group: the fieldset around it is the one of a
+        // group of questions, its message goes under the checkbox
+        const isGroupedField = ['radio', 'date', 'time', 'datetime-local'].includes(type) || isChoiceGroup(input);
+
+        if (type === 'checkbox' && !isGroupedField) {
+            const singleCheck = input.closest('.form-check');
+            if (singleCheck) {
+                const helpText = singleCheck.nextElementSibling;
+                if (helpText && helpText.classList.contains(config.helpClass)) {
+                    return helpText;
+                }
+                return singleCheck;
+            }
+        }
 
         // For grouped fields (radio, checkbox, date, time, datetime), use fieldset > legend
         if (isGroupedField) {
