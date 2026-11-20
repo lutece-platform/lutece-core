@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.jsoup.Jsoup;
 import org.jsoup.helper.W3CDom;
-import org.jsoup.safety.Safelist;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -114,10 +113,11 @@ public class HtmlDocument {
 	    this._strBaseUrl = (strBaseUrl != null) ? strBaseUrl : "";
 	    this._useAbsoluteUrl = useAbsoluteUrl;
 	    try {
-	        String cleanHtml = Jsoup.clean(strHtml, _strBaseUrl, Safelist.basic());
+	        // The document is only read to find the urls of its img, link and script elements: it is not cleaned
+	        // (a cleaning safelist removes these very elements), and it is never written out
 	        org.jsoup.nodes.Document jsoupDoc = (_useAbsoluteUrl && !_strBaseUrl.isEmpty()) 
-	            ? Jsoup.parse(cleanHtml, _strBaseUrl)
-	            : Jsoup.parse(cleanHtml);	            
+	            ? Jsoup.parse(strHtml, _strBaseUrl)
+	            : Jsoup.parse(strHtml);
 	        this._content = new W3CDom().fromJsoup(jsoupDoc);
 	    } catch (Exception e) {
 	        throw new IllegalArgumentException("Failed to parse HTML content", e);
@@ -142,17 +142,18 @@ public class HtmlDocument {
 
 			// Test if the element matches the required attribute
 			if (elementType.getTestedAttributeName() != null) {
-				String strRel = attributes.getNamedItem(elementType.getTestedAttributeName()).getNodeValue();
+				Node testedAttribute = attributes.getNamedItem(elementType.getTestedAttributeName());
 
-				if (!elementType.getTestedAttributeValue().equals(strRel)) {
+				if ((testedAttribute == null) || !elementType.getTestedAttributeValue().equals(testedAttribute.getNodeValue())) {
 					continue;
 				}
 			}
 
 			// Retrieve the url, then test if it matches the base url
-			String strSrc = attributes.getNamedItem(elementType.getAttributeName()).getNodeValue();
+			Node attributeSrc = attributes.getNamedItem(elementType.getAttributeName());
+			String strSrc = (attributeSrc != null) ? attributeSrc.getNodeValue() : null;
 
-			if (strSrc.startsWith(_strBaseUrl)) {
+			if ((strSrc != null) && strSrc.startsWith(_strBaseUrl)) {
 				try {
 					URL url = new URL(strSrc);
 					mapUrl.put(getUrlName(url), url);
@@ -183,9 +184,9 @@ public class HtmlDocument {
 
 			// Test if the element matches the required attribute
 			if (elementType.getTestedAttributeName() != null) {
-				String strRel = attributes.getNamedItem(elementType.getTestedAttributeName()).getNodeValue();
+				Node testedAttribute = attributes.getNamedItem(elementType.getTestedAttributeName());
 
-				if (!elementType.getTestedAttributeValue().equals(strRel)) {
+				if ((testedAttribute == null) || !elementType.getTestedAttributeValue().equals(testedAttribute.getNodeValue())) {
 					continue;
 				}
 			}
