@@ -558,30 +558,8 @@ public final class AdminUserService
         }
         else
         {
-            StringBuilder sbMessage = new StringBuilder( );
-            String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
-            String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
-
-            RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
-            for ( String strRegularExpressionId : regularExpressionIds )
-            {
-                String trimedId = strRegularExpressionId.trim( );
-
-                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
-                {
-                    int nRegularExpressionId = Integer.parseInt( trimedId );
-                    RegularExpression regularExpression = regularExpressionService.getRegularExpressionByKey( nRegularExpressionId );
-
-                    if ( regularExpression != null )
-                    {
-                        sbMessage.append( regularExpression.getValidExemple( ) );
-                        sbMessage.append( COMMA );
-                    }
-                }
-            }
-
-            // Get all message except the last character which is a comma
-            strMessage = sbMessage.toString( ).substring( 0, sbMessage.length( ) - 1 );
+            // The valid examples of the selected rules, separated by commas (none when no rule is selected)
+            strMessage = getSelectedRegularExpressions( ).stream( ).map( RegularExpression::getValidExemple ).collect( Collectors.joining( COMMA ) );
         }
 
         String strBannedDomainNames = getLargeSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
@@ -779,10 +757,10 @@ public final class AdminUserService
             {
                 String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
+                // "0" only means "rules chosen, none selected yet": it is not the id of a rule
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) && ( Integer.parseInt( trimedId ) > 0 ) )
                 {
-                    int nRegularExpressionId = Integer.parseInt( trimedId );
-                    RegularExpression expression = regularExpressionService.getRegularExpressionByKey( nRegularExpressionId );
+                    RegularExpression expression = getRegularExpression( regularExpressionService, Integer.parseInt( trimedId ) );
 
                     if ( expression != null )
                     {
@@ -793,6 +771,30 @@ public final class AdminUserService
         }
 
         return listRegularExpressions;
+    }
+
+    /**
+     * Get a rule of the plugin-regularexpression: a rule that no longer exists, or a failure of the plugin, gives no rule instead of breaking the
+     * screens that check an e-mail
+     *
+     * @param regularExpressionService
+     *            the service
+     * @param nRegularExpressionId
+     *            the id of the rule
+     * @return the rule, or null
+     */
+    private static RegularExpression getRegularExpression( RegularExpressionService regularExpressionService, int nRegularExpressionId )
+    {
+        try
+        {
+            return regularExpressionService.getRegularExpressionByKey( nRegularExpressionId );
+        }
+        catch( RuntimeException e )
+        {
+            AppLogService.error( "The regular expression {} of the e-mail pattern can not be read", nRegularExpressionId, e );
+
+            return null;
+        }
     }
 
     /**
