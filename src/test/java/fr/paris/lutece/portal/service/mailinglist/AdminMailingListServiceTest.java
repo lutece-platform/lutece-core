@@ -108,6 +108,30 @@ public class AdminMailingListServiceTest extends LuteceTestCase
         assertEquals( 1, listRecipients.size( ) );
     }
 
+    /**
+     * The disabled, expired and anonymized accounts are not recipients, whatever the filter
+     */
+    @Test
+    public void testOnlyActiveAccountsAreRecipients( )
+    {
+        AdminUser active = createUser( "on", AdminUser.ACTIVE_CODE );
+        AdminUser disabled = createUser( "off", AdminUser.NOT_ACTIVE_CODE );
+        AdminUser expired = createUser( "exp", AdminUser.EXPIRED_CODE );
+        AdminUser anonymized = createUser( "ano", AdminUser.ANONYMIZED_CODE );
+        String strWorkgroup = createWorkgroup( "w", active, disabled, expired, anonymized );
+        addFilter( strWorkgroup );
+
+        List<String> listEmails = AdminMailingListService.getRecipients( _mailingList.getId( ) ).stream( ).map( Recipient::getEmail ).toList( );
+        assertEquals( List.of( active.getEmail( ) ), listEmails );
+
+        List<String> listAllEmails = AdminMailingListService.getRecipients( "all", AdminMailingListService.ALL_ROLES ).stream( ).map( Recipient::getEmail )
+                .toList( );
+        assertTrue( listAllEmails.contains( active.getEmail( ) ) );
+        assertFalse( listAllEmails.contains( disabled.getEmail( ) ) );
+        assertFalse( listAllEmails.contains( expired.getEmail( ) ) );
+        assertFalse( listAllEmails.contains( anonymized.getEmail( ) ) );
+    }
+
     private AdminUser createUser( String strSuffix, int nStatus )
     {
         AdminUser user = new AdminUser( );

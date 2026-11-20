@@ -191,7 +191,7 @@ public final class AdminMailingListService
     }
 
     /**
-     * Gets all recipients corresponding to a filter based on a Workgroup and a role
+     * Gets all recipients corresponding to a filter based on a Workgroup and a role. Only the active accounts are recipients.
      * 
      * @param strWorkgroup
      *            The workgroup
@@ -215,6 +215,12 @@ public final class AdminMailingListService
 
         for ( AdminUser user : listUsers )
         {
+            if ( !user.isStatusActive( ) )
+            {
+                // a disabled, expired or anonymized account receives no mail
+                continue;
+            }
+
             if ( strRole != null && !strRole.equals( ALL_ROLES ) && !user.isInRole( strRole ) )
             {
                 // skip this user if it isn't in the role
