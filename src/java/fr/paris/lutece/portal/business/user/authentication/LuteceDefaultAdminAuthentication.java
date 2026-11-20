@@ -117,7 +117,8 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 
             int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
 
-            if ( nNbFailed > nMaxFailed )
+            // The maximum number of failures is reached: the next attempt is refused
+            if ( nNbFailed >= nMaxFailed )
             {
                 throw new FailedLoginException( );
             }

@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.user.authentication;
 
 import java.security.SecureRandom;
 
+import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,9 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.IAdminUserDAO;
+import fr.paris.lutece.portal.business.user.log.UserLog;
+import fr.paris.lutece.portal.business.user.log.UserLogHome;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.password.IPassword;
@@ -156,5 +160,54 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
                 adminUserDAO.delete( user.getUserId( ) );
             }
         }
+    }
+
+    @Test
+    public void testLoginRefusedOnceTheMaximumNumberOfFailuresIsReached( ) throws LoginException
+    {
+        String strMaxFailed = AdminUserService.getSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        String strInterval = AdminUserService.getSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
+        SecureRandom random = new SecureRandom( );
+        String strIp = "10." + random.nextInt( 256 ) + "." + random.nextInt( 256 ) + "." + random.nextInt( 256 );
+        String randomUsername = "user" + random.nextLong( );
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( PASSWORD ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( "" );
+        adminUserDAO.insert( user );
+        try
+        {
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, "3" );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, "10" );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setRemoteAddr( strIp );
+
+            for ( int i = 0; i < 2; i++ )
+            {
+                addLoginFailure( randomUsername, strIp );
+            }
+            assertNotNull( adminAuth.login( randomUsername, PASSWORD, request ), "2 failures out of 3: the login is accepted" );
+
+            addLoginFailure( randomUsername, strIp );
+            assertThrows( FailedLoginException.class, ( ) -> adminAuth.login( randomUsername, PASSWORD, request ),
+                    "3 failures out of 3: the login is refused" );
+        }
+        finally
+        {
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, strMaxFailed );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, strInterval );
+            adminUserDAO.delete( user.getUserId( ) );
+        }
+    }
+
+    private static void addLoginFailure( String strAccessCode, String strIp )
+    {
+        UserLog userLog = new UserLog( );
+        userLog.setAccessCode( strAccessCode );
+        userLog.setIpAddress( strIp );
+        userLog.setDateLogin( new java.sql.Timestamp( System.currentTimeMillis( ) - 60000L ) );
+        userLog.setLoginStatus( UserLog.LOGIN_DENIED );
+        UserLogHome.addUserLog( userLog );
     }
 }
