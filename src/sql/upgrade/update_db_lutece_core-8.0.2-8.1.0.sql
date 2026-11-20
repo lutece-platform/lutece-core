@@ -54,3 +54,15 @@ INSERT INTO core_text_editor VALUES ('markdown', 'portal.admindashboard.editors.
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM DATABASECHANGELOG WHERE ID = 'update_db_lutece_core-8.0.1-8.0.2-rev40.sql'
 UPDATE core_datastore SET entity_value = 'markdown' WHERE entity_key = 'core.frontOffice.defaultEditor' AND entity_value = 'sceeditor';
 DELETE FROM core_text_editor WHERE editor_name = 'sceeditor';
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev6.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The front office validation messages written with JavaScript escapes by update_db_lutece_core-8.0.0-8.0.1-rev4.sql (stored without the backslash, caractu00e8res) or by the init script of 8.0.1 (an escape with its backslash): written again in UTF-8. A value changed by the administrator (without escape) is left as it is.
+UPDATE core_datastore SET entity_value = 'La valeur doit être supérieure ou égale à {min}.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.min' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'La valeur doit être inférieure ou égale à {max}.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.max' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'Ce champ doit contenir au moins {minlength} caractères.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.minlength' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'Ce champ ne doit pas dépasser {maxlength} caractères.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.maxlength' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'La valeur doit être un multiple de {step}.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.step' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'Veuillez saisir un numéro de téléphone valide.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.tel' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'Veuillez sélectionner un fichier valide.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.file' AND entity_value LIKE '%u00%';
+UPDATE core_datastore SET entity_value = 'Type de fichier non autorisé. Types acceptés : {accept}.' WHERE entity_key = 'portal.theme.site_property.formvalidation.msg.filetype' AND entity_value LIKE '%u00%';
