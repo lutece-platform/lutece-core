@@ -33,12 +33,8 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
-import fr.paris.lutece.util.parser.BbcodeUtil;
-import fr.paris.lutece.portal.business.editor.ParserElement;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.inject.Inject;
 
@@ -77,13 +73,14 @@ public class EditorBbcodeServiceTest extends LuteceTestCase
     }
 
     /**
-     * An emoticon on its own is still replaced
+     * Emoticons are text: no image is substituted (the images of the former emoticons are not in the webapp)
      */
     @Test
-    public void testEmoticonOnItsOwn( )
+    public void testNoEmoticonReplacement( )
     {
-        ParserElement element = new ParserElement( "(?<!\\S):p(?!\\S)", "[tongue]" );
+        String strHtml = _editorBbcodeService.parse( "Hello :p :) ;) :D" );
 
-        assertEquals( "Hello [tongue] mailto:paul", BbcodeUtil.parse( "Hello :p mailto:paul", List.of( element ), null ) );
+        assertFalse( strHtml.contains( "<img" ), strHtml );
+        assertTrue( strHtml.contains( "Hello :p :) ;) :D" ), strHtml );
     }
 }
