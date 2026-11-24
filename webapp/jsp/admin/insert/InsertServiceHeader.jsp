@@ -18,7 +18,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
 <link href="themes/admin/shared/css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
-<link href="themes/admin/shared/css/vendor/tabler/tabler-icons.min.css" rel="stylesheet">
+<link href="themes/shared/css/vendor/tabler/tabler-icons.min.css" rel="stylesheet">
 <link href="themes/admin/shared/css/portal_admin.min.css" rel="stylesheet" >
 <!-- The visual language and the behaviours of the insert service screens -->
 <link href="themes/admin/shared/css/insert_service.min.css" rel="stylesheet">
