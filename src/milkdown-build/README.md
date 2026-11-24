@@ -1,7 +1,7 @@
 # Milkdown bundle of the back office
 
 `webapp/themes/admin/shared/js/editors/milkdown/milkdown.min.js` and `milkdown.min.css` are built from `entry.js` with the versions pinned in `package.json`
-(`@milkdown/crepe` and `@milkdown/kit` 7.22.2, esbuild 0.28.2), and the versions of their dependencies locked in `package-lock.json`. Milkdown is published as ES modules with about twenty dependencies, and
+(`@milkdown/crepe` and `@milkdown/kit` 7.23.0, esbuild 0.28.2), and the versions of their dependencies locked in `package-lock.json`. Milkdown is published as ES modules with about twenty dependencies, and
 the core has no npm build: the bundle is built by hand and committed, as the Tabler files are.
 
 The bundle holds the Crepe builder and the features Lutece uses (block edit, toolbar, top bar, link tooltip, image block, list item,
@@ -19,17 +19,19 @@ From the root of lutece-core:
 ```bash
 mkdir -p /tmp/milkdown-build && cp src/milkdown-build/entry.js src/milkdown-build/lutece.css src/milkdown-build/package.json src/milkdown-build/package-lock.json /tmp/milkdown-build/
 OUT="$PWD/webapp/themes/admin/shared/js/editors/milkdown"
+SRC="$PWD/src/milkdown-build"
 cd /tmp/milkdown-build
 npm ci
 npx esbuild entry.js --bundle --minify --format=iife --target=es2020 --loader:.svg=text --legal-comments=none \
     --metafile=meta.json --outfile="$OUT/milkdown.min.js"
+python3 "$SRC/notices.py" . "$OUT/THIRD-PARTY-NOTICES.txt"
 ```
 
 `npm ci` installs exactly the locked versions, so the bundle comes out the same byte for byte. To move to newer versions, change
 `package.json`, run `npm install` to update `package-lock.json`, and commit both with the new bundle.
 
-esbuild writes the CSS next to the JS (`milkdown.min.css`). Then regenerate `THIRD-PARTY-NOTICES.txt`, which stays next to the bundle, from `meta.json`: one line
-per bundled package (name, version, license), followed by the license file of each package.
+esbuild writes the CSS next to the JS (`milkdown.min.css`). `notices.py` then regenerates `THIRD-PARTY-NOTICES.txt`, which stays next to the bundle, from
+`meta.json` and the `node_modules` of the build: one line per bundled package (name, version, license), followed by the license file of each package.
 
 These build inputs are kept out of `webapp` so that they are not copied into the war nor served by the sites. Build in a temporary
 folder, so that `node_modules` never lands in the repository.

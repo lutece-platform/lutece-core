@@ -3,8 +3,8 @@
   "private": true,
   "description": "Builds milkdown.min.js and milkdown.min.css of the back office, see README.md",
   "dependencies": {
-    "@milkdown/crepe": "7.22.2",
-    "@milkdown/kit": "7.22.2"
+    "@milkdown/crepe": "7.23.0",
+    "@milkdown/kit": "7.23.0"
   },
   "devDependencies": {
     "esbuild": "0.28.2"
