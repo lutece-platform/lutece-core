@@ -47,5 +47,11 @@
 		} );
 	}
 
-	document.addEventListener( 'DOMContentLoaded', applySortState );
+	// The table macro injects this script once the page is parsed, often after DOMContentLoaded has fired:
+	// waiting for the event would then never apply the state.
+	if ( document.readyState === 'loading' ) {
+		document.addEventListener( 'DOMContentLoaded', applySortState );
+	} else {
+		applySortState();
+	}
 } )();
