@@ -174,9 +174,9 @@
 									</span>
 									<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params={"target": "preview"}>
 										<@input type='hidden' name='portlet_id' value=portlet.id />
-										<@button type='submit' color='light' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify} ${portlet.name}' hideTitle=['all'] />
+										<@button type='submit' color='light' class='btn-icon' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify} ${portlet.name}' hideTitle=['all'] />
 									</@tform>
-									<@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='light' buttonIcon='trash' size='sm' title='#i18n{portal.util.labelDelete} ${portlet.name}' hideTitle=['all'] />
+									<@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='light' class='btn-icon' buttonIcon='trash' size='sm' title='#i18n{portal.util.labelDelete} ${portlet.name}' hideTitle=['all'] />
 								</li>
 								</#list>
 							</ul>
@@ -285,7 +285,7 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 .lutece-site-tabs button[aria-selected="true"] { color: var( --tblr-body-color ); font-weight: 600; border-bottom-color: var( --tblr-primary ); }
 .lutece-site-tabs button[aria-selected="true"] > .ti { color: var( --tblr-primary ); }
 .lutece-site-count { color: var( --lutece-site-muted ); font-size: .75rem; font-variant-numeric: tabular-nums; }
-.lutece-site-panel { display: grid; gap: .75rem; align-content: start; padding: 1rem; overflow-y: auto; max-height: calc( 100vh - 8rem ); }
+.lutece-site-panel { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; align-content: start; padding: 1rem; overflow-y: auto; max-height: calc( 100vh - 8rem ); }
 .lutece-site-panel-body .page-header, .lutece-site-panel-body .page-body { margin: 0; padding: 0; }
 .lutece-site-panel-body .container, .lutece-site-panel-body .container-xl, .lutece-site-panel-body .container-fluid { padding: 0; max-width: none; }
 .lutece-site-panel-body .row > [class*="col"] { flex: 0 0 100%; max-width: 100%; }
@@ -322,18 +322,20 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 .lutece-site-form:has( > .lutece-site-form-actions ) { flex: 1 1 auto; display: flex; flex-direction: column; }
 .lutece-site-form > .lutece-site-form-section, .lutece-site-form > details { flex: none; }
 .lutece-site-form-actions { position: sticky; bottom: 0; z-index: 5; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin: auto -1rem -1rem; padding: .75rem; background: var( --tblr-bg-surface, #fff ); border-top: 1px solid var( --lutece-site-line ); }
-.lutece-site-portlets { display: grid; gap: .375rem; }
+.lutece-site-portlets { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .375rem; }
 .lutece-site-portlets li { display: flex; align-items: center; gap: .5rem; padding: .375rem .5rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
 .lutece-site-portlets form { margin: 0; }
-.lutece-site-column { display: grid; gap: .375rem; }
-#lutece-site-columns { display: grid; gap: .75rem; }
+.lutece-site-column { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .375rem; }
+#lutece-site-columns { display: grid; grid-template-columns: minmax( 0, 1fr ); gap: .75rem; }
 /* A column left empty stays a place to drop a portlet in */
 .lutece-site-portlets:empty { min-height: 2.5rem; border: 1px dashed var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); }
 .lutece-site-portlets li[draggable] { cursor: grab; background: var( --tblr-bg-surface, #fff ); }
 .lutece-site-portlets li.lutece-site-dragging { opacity: .5; border-style: dashed; border-color: var( --tblr-primary ); }
 .lutece-site-portlet-grip { flex: none; color: var( --lutece-site-muted ); }
+.lutece-site-portlets li > .btn-group, .lutece-site-portlets li > form, .lutece-site-portlets li > .btn { flex: none; }
 .lutece-site-portlets .btn-group .btn:disabled { opacity: .35; }
-.lutece-site-portlet-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A long name wraps on two lines at most, then ends with an ellipsis */
+.lutece-site-portlet-name { flex: 1; min-width: 0; overflow: hidden; overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; line-height: 1.25; }
 .lutece-site-types { display: grid; grid-template-columns: repeat( auto-fill, minmax( 9rem, 1fr ) ); gap: .375rem; }
 .lutece-site-types a { display: flex; align-items: center; gap: .5rem; padding: .375rem; border: 1px solid var( --lutece-site-line ); border-radius: var( --tblr-border-radius, .25rem ); color: inherit; text-decoration: none; font-size: .8rem; }
 .lutece-site-types a:hover { border-color: var( --tblr-primary ); }
