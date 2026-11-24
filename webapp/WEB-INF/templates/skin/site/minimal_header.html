@@ -41,6 +41,10 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
 <!-- Site JS Include -->
+<#-- The variables the theme script reads (hasUserThemeDensity...), declared as on page_frameset.html: -->
+<#-- minimal_footer.html loads that script on the site message and error pages too                   -->
+<#assign optHeaderJs=.get_optional_template('theme_frameset_header_js.html')>
+<#if optHeaderJs.exists><@optHeaderJs.include /></#if>
 <!-- Included JS Files 
 <script src="themes/skin/parisfr/js/vendor/jquery/jquery-1.11.3.min.js"></script>
 -->
