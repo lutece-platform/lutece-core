@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
@@ -72,6 +73,17 @@ public class MvcResponseWrittenTest extends LuteceTestCase
         response.getWriter( ).print( "<html>CHROME</html>" );
         assertEquals( TestResponseController.JSON_BODY, response.getContentAsString( ),
                 "nothing must be appended after the @ResponseBody content" );
+    }
+
+    @Test
+    public void testResponseBodyWithAccentsGivesItsLengthInBytes( ) throws Exception
+    {
+        MockHttpServletResponse response = process( TestResponseController.VIEW_JSON_ACCENTS );
+
+        assertEquals( StandardCharsets.UTF_8.name( ), response.getCharacterEncoding( ), "the body is declared in UTF-8" );
+        assertEquals( String.valueOf( TestResponseController.JSON_ACCENTS_BODY.getBytes( StandardCharsets.UTF_8 ).length ), response.getHeader( "Content-Length" ),
+                "the length counts the bytes of the body, an accent taking two" );
+        assertEquals( TestResponseController.JSON_ACCENTS_BODY, response.getContentAsString( ), "the whole body is written" );
     }
 
     @Test
