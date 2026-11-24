@@ -49,10 +49,11 @@ public class ThemeFramesetFooterJsTest extends LuteceTestCase
     private static final String KEY_BROWSER_WARNING = "portal.theme.site_property.bannerBrowserWarning.checkbox";
 
     /**
-     * The old browser banner does not redefine the XSS characters of the forms (they are defined by page_frameset.html)
+     * The old browser warning is removed from the front office: even a database not yet upgraded, which still has its site property
+     * on, gets neither the bowser script nor es5.js, and the XSS characters of the forms stay defined by page_frameset.html only
      */
     @Test
-    public void testBrowserWarningKeepsTheXssCharacters( )
+    public void testBrowserWarningIsGone( )
     {
         String strSaved = DatastoreService.getDataValue( KEY_BROWSER_WARNING, "0" );
 
@@ -63,7 +64,9 @@ public class ThemeFramesetFooterJsTest extends LuteceTestCase
             String strHtml = AppTemplateService.getTemplate( "skin/site/theme_frameset_footer_js.html", Locale.FRENCH, new HashMap<String, Object>( ) )
                     .getHtml( );
 
-            assertTrue( strHtml.contains( "bowser.getParser" ), strHtml );
+            assertFalse( strHtml.contains( "bowser" ), strHtml );
+            assertFalse( strHtml.contains( "es5.js" ), strHtml );
+            assertFalse( strHtml.contains( "browser-warning" ), strHtml );
             assertFalse( strHtml.contains( "var xssChars" ), strHtml );
             assertFalse( strHtml.contains( "DS Value Missing" ), strHtml );
         }

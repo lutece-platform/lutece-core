@@ -113,3 +113,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.notifi
 -- comment The site property that shows or hides the apps button of the BO header, the shortcuts of the user (shown by default)
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.layout.user.apps.show.checkbox'
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.apps.show.checkbox', '1');
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev15.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The old browser warning (site property bannerBrowserWarning and the bowser library) is removed from the front office
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.bannerBrowserWarning.checkbox';
