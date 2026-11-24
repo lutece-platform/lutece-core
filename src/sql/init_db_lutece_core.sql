@@ -283,7 +283,6 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.bgco
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.color', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.padding', '');
 
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerBrowserWarning.checkbox', '0');
 
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showBannerImg.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFormImg.checkbox', '0');

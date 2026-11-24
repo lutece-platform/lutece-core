@@ -10,7 +10,7 @@ Parameters:
 - beginHour (string, optional): default start time value. Default: '00:00'.
 - endHour (string, optional): default end time value. Default: '23:59'.
 - step (number, optional): step increment in seconds for the time input (e.g., 900 for 15-minute intervals). Default: 0.
-- btnAction (string, optional): CSS selector for the form submit button, used by the polyfill. Default: '[name="action_doSaveStep"]'.
+- btnAction (string, optional): no longer used (the time fields are native in every browser); kept so that existing calls still work. Default: '[name="action_doSaveStep"]'.
 - autocomplete (string, optional): the autocomplete attribute value. Default: ''.
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: false.
 - required (boolean, optional): marks the fields as required. Default: false.
@@ -59,50 +59,4 @@ Snippet:
 		</@cCol>
 	</@cRow>
 </@cFieldset>
-<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/input-time-polyfill.y11.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-	const browserInfo = getBrowserInfo();
-	// Polyfill for IE / FF / Safari
-	if ( browserInfo.name.includes( 'IE') || browserInfo.name.includes('Firefox') || browserInfo.name.includes('Safari') ) {
-		<#if btnAction?has_content>const btnSendStep = document.querySelector('${btnAction?js_string?no_esc}');</#if>
-		const timeInputs = document.querySelectorAll('input[type="time"]');
-		// Replace time inputs with text inputs with class "time-polyfill"
-		timeInputs.forEach( input => {
-			input.classList.add('time-polyfill');
-			input.type = 'text';
-		});
-
-		// Add event listener for keydown event to handle tabbing between inputs
-		document.addEventListener('keydown', function( e ) {
-			if( e.target.classList.contains('time-polyfill') ) {
-				switch (e.keyCode) {
-					case 9:
-						const inputName = e.target.name;
-						const nextInputName = inputName.endsWith('_begin') ? inputName.replace('_begin', '_end') : inputName.replace('_end', '_begin');
-						const nextInput = document.querySelector(<#noparse>`input[name="${nextInputName}"]`</#noparse>);
-						if (nextInput) {
-							nextInput.focus();
-						}
-						e.stopImmediatePropagation();
-						break;
-					default:	
-						break;
-				}
-			}
-        <#if btnAction?has_content>
-		// Validate before submitting the form
-		if( btnSendStep != null ){
-			btnSendStep.addEventListener('click', function(e) {
-				// Replace time inputs with text inputs with class "time-polyfill"
-				timeInputs.forEach( input => {
-					input.value = input.value === ('--:--') ? '' : input.value;
-				});
-			});
-		}
-        </#if>
-		});
-	}
-});
-</script>
 </#macro>
