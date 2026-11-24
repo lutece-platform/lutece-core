@@ -11,7 +11,7 @@ window.LuteceEditorUpload = window.LuteceEditorUpload || ( function () {
 	'use strict';
 
 	const UPLOAD_URL = 'jsp/admin/plugins/library/EditorUpload.jsp';
-	const CONFIG_URL = UPLOAD_URL + '?action=getUploadConfig';
+	const CONFIG_URL = UPLOAD_URL + '?view=getUploadConfig';
 	const NONE = Object.freeze( { image: false, pdf: false } );
 
 	let configSync = null;
