@@ -54,6 +54,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.service.template.HtmlMarkup;
+import freemarker.core.TemplateHTMLOutputModel;
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -119,6 +120,8 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_MENU_POS = "menu_pos";
     private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
+    private static final String MARK_DASHBOARD_ZONE_USER = "dashboard_zone_user";
+    private static final String MARK_DASHBOARD_ZONE_NOTIFICATION = "dashboard_zone_notification";
     private static final String MARK_JAVASCRIPT_FILE = "javascript_file";
     private static final String MARK_JAVASCRIPT_FILES = "javascript_files";
     private static final String MARK_PLUGIN_NAME = "plugin_name";
@@ -201,12 +204,25 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
         model.put( MARK_PROD_BASE_URL, AppPathService.getProdUrl( request ) );
         model.put( MARK_USER, user );
-       
+
+        // The Apps menu of the header: the shortcuts chosen by the user (or the default ones), and whether the user can change them
+        model.put( MARK_HOME_SHORTCUTS, _homeShortcutService.getShortcuts( user, aFeaturesGroupList ) );
+        model.put( MARK_HOME_SHORTCUTS_CAN_SET_DEFAULT, user.checkRight( DashboardJspBean.RIGHT_MANAGE_DASHBOARD ) );
+        model.put( MARK_HOME_SHORTCUTS_USER_ENABLED, _homeShortcutService.isUserShortcutsEnabled( ) );
+
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
 
-        int nZoneMax = _dashboardService.getZoneCount( );
-        setDashboardData( model, user, request, nZoneMax );
+        // The dashboards of the user menu and of the notifications menu
+        int nUserZone = _dashboardService.getUserZone( );
+        // HTML rendered by the dashboard templates: handed as markup, or the template would escape it
+        TemplateHTMLOutputModel userZoneData = HtmlMarkup.of( _dashboardService.getDashboardData( user, nUserZone, request ) );
+        model.put( MARK_DASHBOARD_ZONE_USER, userZoneData );
+        // Kept for the headers overridden by a site, written before the zone had a name
+        model.put( MARK_DASHBOARD_ZONE + nUserZone, userZoneData );
+        // Trimmed, so that a zone holding only blanks reads as empty to ?has_content
+        model.put( MARK_DASHBOARD_ZONE_NOTIFICATION,
+                HtmlMarkup.of( StringUtils.trim( _dashboardService.getDashboardData( user, _dashboardService.getNotificationZone( ), request ) ) ) );
 
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
         AdminUserMenuService registry = CDI.current().select(AdminUserMenuService.class ).get( );
@@ -312,23 +328,6 @@ public class AdminMenuJspBean implements Serializable
                 model.put( MARK_DASHBOARD_ZONE + i, HtmlMarkup.of( _dashboardService.getDashboardData( user, i, request ) ) );
             }
         }
-    }
-
-    /**
-     * Add a specific dashboard data to the template's model
-     * 
-     * @param model
-     *            The template's model
-     * @param user
-     *            The Admin User
-     * @param request
-     *            HttpServletRequest
-     * @param nDashboardZone
-     *            the dashboard zone
-     */
-    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request, int nDashboardZone )
-    {
-        model.put( MARK_DASHBOARD_ZONE + nDashboardZone, HtmlMarkup.of( _dashboardService.getDashboardData( user, nDashboardZone, request ) ) );
     }
 
     /**

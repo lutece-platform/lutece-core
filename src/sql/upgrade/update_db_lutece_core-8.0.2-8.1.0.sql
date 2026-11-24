@@ -101,3 +101,15 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sideba
 -- comment The options of the display of the vertical menu, created by the install script only
 -- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.layout.menu.sidebar.select.options'
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.sidebar.select.options', 'default|folded|folded-hover');
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev13.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The site property that shows or hides the notifications button of the BO header (shown by default)
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.layout.user.notification.show.checkbox'
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.notification.show.checkbox', '1');
+
+-- changeset core:update_db_lutece_core-8.0.2-8.1.0-rev14.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+-- comment The site property that shows or hides the apps button of the BO header, the shortcuts of the user (shown by default)
+-- precondition-sql-check expectedResult:0 SELECT COUNT(*) FROM core_datastore WHERE entity_key = 'portal.site.site_property.layout.user.apps.show.checkbox'
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.apps.show.checkbox', '1');

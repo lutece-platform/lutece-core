@@ -4,6 +4,12 @@
 	displayed. Each dashboard carries a hidden field named after its zone: moving it renames the field, and the form posts the whole layout
 	at once. Buttons on each dashboard do the same moves from the keyboard.
 -->
+<#-- The title of a zone: the two zones of the header have a name, the others their number -->
+<#function zoneTitle zone>
+	<#if zone == (user_zone!0)><#return i18n( 'portal.dashboard.manage.zone.user' )></#if>
+	<#if zone == (notification_zone!0)><#return i18n( 'portal.dashboard.manage.zone.notification' )></#if>
+	<#return i18n( 'portal.dashboard.manage.zone', zone?c )>
+</#function>
 <#macro layoutItem dashboard field>
 <#local label = dashboard.description?has_content?then( dashboard.description, dashboard.name )>
 <li class="list-group-item dashboard-layout-item" data-name="${dashboard.name}">
@@ -22,7 +28,7 @@
 				<div class="dropdown-menu dropdown-menu-end">
 					<span class="dropdown-header">#i18n{portal.dashboard.manage.moveTo}</span>
 					<#list zones as zone>
-					<button type="button" class="dropdown-item" data-move-to="dashboard_zone_${zone}">${i18n( 'portal.dashboard.manage.zone', zone?c )}</button>
+					<button type="button" class="dropdown-item" data-move-to="dashboard_zone_${zone}">${zoneTitle( zone )}</button>
 					</#list>
 					<div class="dropdown-divider"></div>
 					<button type="button" class="dropdown-item" data-move-to="dashboard_unset"><i class="ti ti-eye-off me-2" aria-hidden="true"></i>#i18n{portal.dashboard.manage.unset}</button>
@@ -45,11 +51,11 @@
 		<div class="dashboard-layout">
 			<#list zones as zone>
 			<#assign zoneDashboards = ( map_dashboards[zone?c]![] )?sort_by( 'order' )>
-			<section class="card dashboard-layout-zone dashboard-layout-zone-${( zone == 1 )?then( 'strip', ( zone lte 3 )?then( 'half', 'third' ) )}<#if zone gt displayed_zone_count> dashboard-layout-zone-hidden</#if>" aria-labelledby="dashboard-zone-title-${zone}">
+			<section class="card dashboard-layout-zone dashboard-layout-zone-${( zone == 1 )?then( 'strip', ( zone lte 3 )?then( 'half', 'third' ) )}<#if zone gt displayed_zone_count && zone != (user_zone!0) && zone != (notification_zone!0)> dashboard-layout-zone-hidden</#if>" aria-labelledby="dashboard-zone-title-${zone}">
 				<div class="card-header">
 					<div class="min-w-0">
-						<h3 class="card-title" id="dashboard-zone-title-${zone}">${i18n( 'portal.dashboard.manage.zone', zone?c )}</h3>
-						<p class="card-subtitle text-truncate"><#if zone gt displayed_zone_count>#i18n{portal.dashboard.manage.zone.notDisplayed}<#elseif zone == 1>#i18n{portal.dashboard.manage.zone.strip}<#elseif zone lte 3>#i18n{portal.dashboard.manage.zone.half}<#else>#i18n{portal.dashboard.manage.zone.third}</#if></p>
+						<h3 class="card-title" id="dashboard-zone-title-${zone}">${zoneTitle( zone )}</h3>
+						<p class="card-subtitle text-truncate"><#if zone == (user_zone!0)>#i18n{portal.dashboard.manage.zone.user.help}<#elseif zone == (notification_zone!0)>#i18n{portal.dashboard.manage.zone.notification.help}<#elseif zone gt displayed_zone_count>#i18n{portal.dashboard.manage.zone.notDisplayed}<#elseif zone == 1>#i18n{portal.dashboard.manage.zone.strip}<#elseif zone lte 3>#i18n{portal.dashboard.manage.zone.half}<#else>#i18n{portal.dashboard.manage.zone.third}</#if></p>
 					</div>
 					<div class="card-actions"><span class="badge bg-secondary-lt dashboard-layout-count">${zoneDashboards?size}</span></div>
 				</div>
@@ -80,7 +86,9 @@
 </@adminDashboardPanel>
 <style>
 .dashboard-layout { display: grid; grid-template-columns: repeat( 6, minmax( 0, 1fr ) ); gap: .75rem; }
-.dashboard-layout-zone { margin: 0; grid-column: span 6; }
+.dashboard-layout-zone { margin: 0; grid-column: span 6; min-width: 0; }
+/* Tabler has no min-w-0 utility: without it a flex child keeps its content width and a long title overflows the card */
+.dashboard-layout .min-w-0 { min-width: 0; }
 @media ( min-width: 992px ) {
 	.dashboard-layout-zone-half { grid-column: span 3; }
 	.dashboard-layout-zone-third { grid-column: span 2; }
@@ -95,7 +103,7 @@
 .dashboard-layout-list:not( :has( .dashboard-layout-item ) )::before { content: attr( data-empty ); display: block; padding: 1rem; text-align: center; font-size: .8125rem; color: var( --tblr-secondary ); }
 .dashboard-layout-item { padding: .5rem .75rem; background: var( --tblr-bg-surface ); }
 .dashboard-layout-handle { cursor: grab; font-size: 1.125rem; }
-.dashboard-layout-item .btn-actions { display: flex; align-items: center; gap: .125rem; opacity: .6; transition: opacity .15s; }
+.dashboard-layout-item .btn-actions { display: flex; align-items: center; gap: .125rem; flex-shrink: 0; opacity: .6; transition: opacity .15s; }
 .dashboard-layout-item:hover .btn-actions, .dashboard-layout-item:focus-within .btn-actions { opacity: 1; }
 .dashboard-layout-item .btn-action { width: 1.75rem; height: 1.75rem; display: inline-flex; align-items: center; justify-content: center; border: 0; background: transparent; box-shadow: none; }
 .dashboard-layout-item .btn-action:hover { background: var( --tblr-active-bg ); }

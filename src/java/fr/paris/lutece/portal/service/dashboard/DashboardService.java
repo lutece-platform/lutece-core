@@ -122,6 +122,28 @@ public class DashboardService
     }
 
     /**
+     * Returns the user zone: the dashboards shown in the user menu of the admin header, never displayed on the homepage. It is the last
+     * zone, {@link DashboardService#getZoneCount()}
+     * 
+     * @return the user zone
+     */
+    public int getUserZone( )
+    {
+        return getZoneCount( );
+    }
+
+    /**
+     * Returns the notification zone: the dashboards shown in the notifications menu of the admin header, never displayed on the homepage.
+     * It follows the user zone
+     * 
+     * @return the notification zone
+     */
+    public int getNotificationZone( )
+    {
+        return getUserZone( ) + 1;
+    }
+
+    /**
      * All known dashboards as declared in SpringContext
      * 
      * @return dashboards list

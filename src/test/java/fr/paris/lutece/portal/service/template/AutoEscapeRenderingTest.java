@@ -172,13 +172,13 @@ public class AutoEscapeRenderingTest
     @Test
     public void testHomeShortcutUrlHasOneAmpersand( ) throws Exception
     {
-        String strHome = Files.readString( Path.of( TEMPLATES_ROOT, "admin/themes/tabler/pages/home/adminHome.ftl" ), StandardCharsets.UTF_8 );
-        Matcher matcher = Pattern.compile( "<#macro homeShortcutUrl right>.*?</#macro>" ).matcher( strHome );
+        String strHome = Files.readString( Path.of( TEMPLATES_ROOT, "admin/themes/tabler/pages/header/adminHeader.ftl" ), StandardCharsets.UTF_8 );
+        Matcher matcher = Pattern.compile( "<#macro adminHeaderShortcutUrl right>.*?</#macro>" ).matcher( strHome );
         assertTrue( matcher.find( ) );
         Map<String, Object> model = new HashMap<>( );
         model.put( "right", Map.of( "externalFeature", false, "url", "jsp/admin/Feature.jsp?a=1", "pluginName", "myplugin" ) );
 
-        String strHtml = renderBackOffice( matcher.group( ) + "<a href=\"<@homeShortcutUrl right />\">", model );
+        String strHtml = renderBackOffice( matcher.group( ) + "<a href=\"<@adminHeaderShortcutUrl right />\">", model );
 
         assertTrue( strHtml.contains( "href=\"jsp/admin/Feature.jsp?a=1&amp;plugin_name=myplugin\"" ), strHtml );
     }

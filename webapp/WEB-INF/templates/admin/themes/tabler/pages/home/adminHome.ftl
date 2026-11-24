@@ -8,8 +8,6 @@ Snippet:
     <@adminHome />
 
 -->
-<#-- The link of a shortcut, as the menu entry: the plugin name on an internal feature, the URL as it is on an external one -->
-<#macro homeShortcutUrl right><#if right.externalFeature>${right.url}<#else>${right.url}${right.url?contains( '?' )?then( '&', '?' )}plugin_name=${right.pluginName!}</#if></#macro>
 <#-- The icon of a menu entry, as in the menu (adminFeatureIcon, adminHeader.ftl): a Tabler class, or an image (the icon of a plugin) -->
 <#macro homeShortcutIcon right><@adminFeatureIcon icon=right.iconUrl! /></#macro>
 <#-- A chosen shortcut in the dialog; without a right, the empty model the script fills when an entry is ticked -->
@@ -45,14 +43,6 @@ Snippet:
 			</div>
 			<div class="page-header-buttons col-auto ms-auto d-print-none">
 				<div class="btn-list">
-					<#-- The shortcuts: the menu entries chosen by the user, or the default ones (HomeShortcutService), and the button that changes them,
-					     for every user when the site property portal.site.site_property.bo.shortcuts.checkbox is on, else for the administrators of the default -->
-					<#list home_shortcuts![] as shortcut>
-					<a class="btn" href="<@homeShortcutUrl shortcut />" title="${shortcut.description!shortcut.name}"><@homeShortcutIcon shortcut />${shortcut.name}</a>
-					</#list>
-					<#if home_shortcut_groups?? && ( home_shortcuts_user_enabled || home_shortcuts_can_set_default )>
-					<button type="button" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#home-shortcuts-dialog" title="#i18n{portal.admin.admin_home.shortcuts.edit}"><i class="ti ti-pencil" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.admin.admin_home.shortcuts.edit}</span></button>
-					</#if>
 					<!-- Mount point for the admin-user-preferences plugin dashboard tools (restore hidden widgets / reset layout) -->
 					<#if manageDashboardWidgets>
 					<div id="dashboard-widgets-tools" class="d-inline-flex align-items-center"></div>
@@ -289,13 +279,35 @@ const homeShortcutIconFallback = img => {
 	icon.setAttribute( 'aria-hidden', 'true' );
 	img.replaceWith( icon );
 };
-document.querySelectorAll( '.page-header-buttons .btn img, #home-shortcuts-dialog img' ).forEach( img => {
+document.querySelectorAll( '#home-shortcuts-dialog img' ).forEach( img => {
 	if ( img.complete && img.naturalWidth === 0 ) {
 		homeShortcutIconFallback( img );
 	} else {
 		img.addEventListener( 'error', ( ) => homeShortcutIconFallback( img ), { once: true } );
 	}
 });
+
+// The dialog of the shortcuts is opened from the gear of the Apps menu of the header (adminHeader.ftl), a link to the admin home
+// ending with #home-shortcuts-dialog: on arrival from another page, and on this page without reloading it
+const homeShortcutsDialogHash = '#home-shortcuts-dialog';
+const openHomeShortcutsDialog = ( ) => {
+	const dialog = document.getElementById( 'home-shortcuts-dialog' );
+	if ( dialog && window.bootstrap ) {
+		bootstrap.Modal.getOrCreateInstance( dialog ).show( );
+	}
+};
+document.addEventListener( 'click', event => {
+	const link = event.target.closest( 'a[href$="' + homeShortcutsDialogHash + '"]' );
+	if ( link ) {
+		event.preventDefault( );
+		bootstrap.Dropdown.getInstance( link.closest( '.dropdown' )?.querySelector( '[data-bs-toggle="dropdown"]' ) )?.hide( );
+		openHomeShortcutsDialog( );
+	}
+});
+if ( window.location.hash === homeShortcutsDialogHash ) {
+	history.replaceState( null, '', window.location.pathname + window.location.search );
+	window.addEventListener( 'load', openHomeShortcutsDialog, { once: true } );
+}
 
 // The dialog of the shortcuts. Started once the page is read: SortableJS is loaded at its end
 document.addEventListener( 'DOMContentLoaded', ( ) => {
