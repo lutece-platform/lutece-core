@@ -57,10 +57,8 @@ ${plugins_css_links}
 <link rel="apple-touch-icon" sizes="180x180" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}apple-touch-icon.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="icon" type="image/png" sizes="32x32" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-32x32.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="icon" type="image/png" sizes="16x16" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-16x16.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
-<link rel="manifest" href="./site.webmanifest?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="mask-icon" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}safari-pinned-tab.svg?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" color="#333333">
 <meta name="msapplication-TileColor" content="#ffffff">
-<meta name="theme-color" content="#ffffff">
 <#if rss??>${rss}<#else><!-- no RSS feed --></#if>
 <!-- Site JS Include -->
 <#-- Template to add js to header in page_frameset.html theme template -->
@@ -79,6 +77,7 @@ ${plugins_css_links}
 <#else>
 <!-- jQuery JS is no more included ! -- USE optionnal lib Jquery if needed for compat purpose [https://github.com/lutece-platform/lutece-tech-library-theme-jquery] -->
 </#if>
+<#if pwa_head??>${pwa_head!}</#if> 
 </head>
 <body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if ((data.name)!'') != ''>${data.name?replace(' ','_')?lower_case}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if> dir="<#if isRtl?boolean>rtl<#else>ltr</#if>">
 <!-- Accessibility Skip Nav Menu-->
