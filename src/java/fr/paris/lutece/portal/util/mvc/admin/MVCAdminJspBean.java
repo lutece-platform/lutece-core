@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.util.mvc.admin;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -316,23 +317,31 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
          	String acceptHeader = request.getHeader("Accept");
              boolean isXml = acceptHeader != null && acceptHeader.contains(XmlUtil.CONTENT_TYPE_XML);
              response.setContentType(isXml ? XmlUtil.CONTENT_TYPE_XML : JsonUtil.CONTENT_TYPE_JSON);
-
-             PrintWriter out = response.getWriter();
+             // the body is built first, then written in UTF-8 with its length in bytes and flushed before the writer is closed: when it
+             // closes the writer of a response not yet committed, the server (Open Liberty) replaces the length with the number of
+             // characters written, and every accent cuts a byte off the end of the body.
+             // It goes through the writer, not the output stream: the controller JSP asks for the writer once the bean has answered,
+             // which throws an IllegalStateException when the output stream was taken.
+             String strBody;
 
              if (result instanceof String || result instanceof Number || result instanceof Boolean || result instanceof Character) {
                  // Write primitive types and their wrappers directly
-                 out.print(result.toString());
+                 strBody = result.toString();
+             } else if (isXml) {
+                 // Serialize to XML
+                 strBody = XmlMarshaller.serialize(result);
              } else {
-             	if (isXml) {
-                     // Serialize to XML
-                     String xmlResult = XmlMarshaller.serialize(result);
-                     out.print(xmlResult);
-                 } else {
- 	                // Serialize non-primitive objects using Jackson
- 	                String jsonResult = JsonUtil.serialize(result);
- 	                out.print(jsonResult);
-                 }
+                 // Serialize non-primitive objects using Jackson
+                 strBody = JsonUtil.serialize(result);
              }
+
+             byte [ ] body = strBody.getBytes( StandardCharsets.UTF_8 );
+             response.setCharacterEncoding( StandardCharsets.UTF_8.name( ) );
+             response.setContentLength( body.length );
+
+             PrintWriter out = response.getWriter( );
+             out.print( strBody );
+             out.flush( );
 
              MVCUtils.markResponseWritten( request );
              // Close the response so that the controller JSP (header, content, footer) that runs after this
