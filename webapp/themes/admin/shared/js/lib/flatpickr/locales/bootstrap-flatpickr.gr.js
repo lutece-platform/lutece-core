@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.gr = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.gr = {}));
 }(this, (function (exports) { 'use strict';
 
   var fp = typeof window !== "undefined" && window.flatpickr !== undefined
@@ -29,8 +29,8 @@
               "Μάρ",
               "Απρ",
               "Μάι",
-              "Ιού",
-              "Ιού",
+              "Ιούν",
+              "Ιούλ",
               "Αύγ",
               "Σεπ",
               "Οκτ",
@@ -61,6 +61,10 @@
       scrollTitle: "Μετακυλήστε για προσαύξηση",
       toggleTitle: "Κάντε κλικ για αλλαγή",
       amPM: ["ΠΜ", "ΜΜ"],
+      yearAriaLabel: "χρόνος",
+      monthAriaLabel: "μήνας",
+      hourAriaLabel: "ώρα",
+      minuteAriaLabel: "λεπτό",
   };
   fp.l10ns.gr = Greek;
   var gr = fp.l10ns;

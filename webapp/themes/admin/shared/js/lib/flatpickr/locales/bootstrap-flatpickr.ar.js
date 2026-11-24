@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.ar = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.ar = {}));
 }(this, (function (exports) { 'use strict';
 
   var fp = typeof window !== "undefined" && window.flatpickr !== undefined
@@ -39,7 +39,17 @@
               "ديسمبر",
           ],
       },
-      rangeSeparator: " - ",
+      firstDayOfWeek: 6,
+      rangeSeparator: " إلى ",
+      weekAbbreviation: "Wk",
+      scrollTitle: "قم بالتمرير للزيادة",
+      toggleTitle: "اضغط للتبديل",
+      amPM: ["ص", "م"],
+      yearAriaLabel: "سنة",
+      monthAriaLabel: "شهر",
+      hourAriaLabel: "ساعة",
+      minuteAriaLabel: "دقيقة",
+      time_24hr: false,
   };
   fp.l10ns.ar = Arabic;
   var ar = fp.l10ns;

@@ -1,5 +1,5 @@
 /*!
-* Tabler v1.7.4 (https://tabler.io)
+* Tabler v1.7.5 (https://tabler.io)
 * Copyright 2018-2026 The Tabler Authors
 * Copyright 2018-2026 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
@@ -147,13 +147,20 @@
 		return null;
 	};
 	var DOMContentLoadedCallbacks = [];
+	var runDOMContentLoadedCallback = (callback) => {
+		try {
+			callback();
+		} catch (error) {
+			console.error(error);
+		}
+	};
 	var onDOMContentLoaded = (callback) => {
 		if (document.readyState === "loading") {
 			if (!DOMContentLoadedCallbacks.length) document.addEventListener("DOMContentLoaded", () => {
-				for (const domCallback of DOMContentLoadedCallbacks) domCallback();
+				for (const domCallback of DOMContentLoadedCallbacks) runDOMContentLoadedCallback(domCallback);
 			});
 			DOMContentLoadedCallbacks.push(callback);
-		} else callback();
+		} else runDOMContentLoadedCallback(callback);
 	};
 	var defineJQueryPlugin = (plugin) => {
 		onDOMContentLoaded(() => {
@@ -681,7 +688,7 @@
 	*/
 	var NAME$28 = "autosize";
 	var EVENT_RESIZED = `resized${`.${`bs.${NAME$28}`}`}`;
-	var SELECTOR_DATA_TOGGLE$14 = `[data-bs-toggle="${NAME$28}"], [data-tblr-toggle="${NAME$28}"]`;
+	var SELECTOR_DATA_TOGGLE$15 = `[data-bs-toggle="${NAME$28}"], [data-tblr-toggle="${NAME$28}"]`;
 	var Default$25 = {};
 	var DefaultType$25 = {};
 	/**
@@ -759,7 +766,7 @@
 	/**
 	* Data API implementation
 	*/
-	initAll(SELECTOR_DATA_TOGGLE$14, Autosize);
+	initAll(SELECTOR_DATA_TOGGLE$15, Autosize);
 	// js/src/clipboard.ts
 	/**
 	* --------------------------------------------------------------------------
@@ -775,7 +782,7 @@
 	var EVENT_COPIED = `copied${EVENT_KEY$19}`;
 	var EVENT_ERROR = `error${EVENT_KEY$19}`;
 	var CLASS_NAME_COPIED = "copied";
-	var SELECTOR_DATA_TOGGLE$13 = `[data-bs-toggle="${NAME$27}"], [data-tblr-toggle="${NAME$27}"]`;
+	var SELECTOR_DATA_TOGGLE$14 = `[data-bs-toggle="${NAME$27}"], [data-tblr-toggle="${NAME$27}"]`;
 	var SELECTOR_LABEL = `.${NAME$27}-label`;
 	var SELECTOR_FEEDBACK = `.${NAME$27}-feedback`;
 	var ATTRIBUTE_TEXT = "data-bs-text";
@@ -889,7 +896,7 @@
 	/**
 	* Data API implementation
 	*/
-	initAll(SELECTOR_DATA_TOGGLE$13, Clipboard);
+	initAll(SELECTOR_DATA_TOGGLE$14, Clipboard);
 	// js/src/util/prefers-reduced-motion.ts
 	var prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	// js/src/confetti.ts
@@ -908,7 +915,7 @@
 	var EVENT_END = `end${EVENT_KEY$18}`;
 	var EVENT_CLICK_DATA_API$8 = `click${EVENT_KEY$18}.data-api`;
 	var CLASS_NAME_CANVAS = `${NAME$26}-canvas`;
-	var SELECTOR_DATA_TOGGLE$12 = `[data-bs-toggle="${NAME$26}"], [data-tblr-toggle="${NAME$26}"]`;
+	var SELECTOR_DATA_TOGGLE$13 = `[data-bs-toggle="${NAME$26}"], [data-tblr-toggle="${NAME$26}"]`;
 	var PALETTE = [
 		["blue", "#066fd1"],
 		["azure", "#4299e1"],
@@ -1160,7 +1167,7 @@
 	* A trigger bursts on its `data-bs-target` when it has one, otherwise on
 	* itself, so the events fire where the page can listen for them.
 	*/
-	EventHandler.on(document, EVENT_CLICK_DATA_API$8, SELECTOR_DATA_TOGGLE$12, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$8, SELECTOR_DATA_TOGGLE$13, function(event) {
 		if (["A", "AREA"].includes(this.tagName)) event.preventDefault();
 		if (isDisabled(this)) return;
 		const target = SelectorEngine.getElementFromSelector(this) || this;
@@ -1227,13 +1234,15 @@
 		}
 		return result;
 	};
-	var parseValue = (input, format) => {
+	var parseValue = (input, { format, separator, decimal }) => {
 		if (typeof input === "number") return input;
 		if (format === "time") {
 			const match = /^\D{0,32}(\d{1,4}):(\d{1,2})/.exec(input);
 			return match ? Number(match[1]) * 60 + Number(match[2]) : NaN;
 		}
-		return Number.parseFloat(input.replace(/[^0-9.-]/g, ""));
+		let text = separator ? input.split(separator).join("") : input;
+		if (decimal && decimal !== ".") text = text.split(decimal).join(".");
+		return Number.parseFloat(text.replace(/[^0-9.-]/g, ""));
 	};
 	var easeOut$1 = (t) => t >= 1 ? 1 : (1 - 2 ** (-10 * t)) * 1024 / 1023;
 	/**
@@ -1255,9 +1264,11 @@
 			this._running = false;
 			this._paused = false;
 			this._started = false;
+			this._parsed = false;
 			if (!this._element) return;
-			const value = parseValue(this._element.textContent ?? "", this._config.format);
+			const value = parseValue(this._element.textContent ?? "", this._config);
 			if (Number.isNaN(value)) return;
+			this._parsed = true;
 			this._endVal = value;
 			this._value = this._config.startVal;
 			this._print(this._value);
@@ -1291,7 +1302,7 @@
 			this._print(this._value);
 		}
 		update(value) {
-			const parsed = parseValue(value, this._config.format);
+			const parsed = parseValue(value, this._config);
 			if (Number.isNaN(parsed)) return;
 			this._endVal = parsed;
 			this._animate(this._value, this._endVal);
@@ -1308,6 +1319,7 @@
 		dispose() {
 			this._stop();
 			this._observer?.disconnect();
+			if (this._parsed) this._print(this._endVal);
 			super.dispose();
 		}
 		_mergeConfigObj(config, element) {
@@ -1405,7 +1417,8 @@
 	var EVENT_FOCUSIN$3 = `focusin${EVENT_KEY$16}`;
 	var EVENT_CLICK_DATA_API$7 = `click${EVENT_KEY$16}${DATA_API_KEY$7}`;
 	var EVENT_FOCUSIN_DATA_API = `focusin${EVENT_KEY$16}${DATA_API_KEY$7}`;
-	var SELECTOR_DATA_TOGGLE$11 = "[data-bs-toggle=\"datepicker\"], [data-tblr-toggle=\"datepicker\"]";
+	var SELECTOR_DATA_TOGGLE$12 = "[data-bs-toggle=\"datepicker\"], [data-tblr-toggle=\"datepicker\"]";
+	var SELECTOR_FOCUS_TRAP = ".modal, .offcanvas";
 	var SELECTOR_DISPLAY = "[data-bs-datepicker-display], [data-tblr-datepicker-display]";
 	var SELECTOR_INPUT_WRAPPER = ".input-icon, .input-group";
 	var SELECTOR_BOUND_INPUT = "input[type=\"hidden\"], input[name]";
@@ -1520,6 +1533,8 @@
 			this._themeObserver = null;
 			this._onFocusIn = null;
 			this._onResize = () => this._alignToPositionElement();
+			this._onPopupFocusIn = (event) => event.stopPropagation();
+			this._onInputChange = (event) => this._handleInputChange(event);
 			this._selectedDates = [];
 			if (!this._element || !window.VanillaCalendarPro) return;
 			this._initCalendar();
@@ -1577,6 +1592,7 @@
 			window.clearTimeout(this._hideTimeout);
 			this._themeObserver?.disconnect();
 			window.removeEventListener("resize", this._onResize);
+			this._element.removeEventListener("change", this._onInputChange);
 			if (this._onFocusIn) EventHandler.off(document, EVENT_FOCUSIN$3, this._onFocusIn);
 			if (this._calendar) {
 				this._calendar.destroy();
@@ -1613,6 +1629,7 @@
 			if (this._boundInput && !this._boundInput.isConnected) this._element.after(this._boundInput);
 			this._setupThemeObserver();
 			this._setupDismissOnFocus();
+			if (this._isInput) this._element.addEventListener("change", this._onInputChange);
 			if (this._isInput && this._element.value) this._parseInputValue();
 			const boundDates = this._boundInput?.value.split(",").filter((date) => DATE_PATTERN.test(date));
 			if (this._selectedDates.length === 0 && boundDates?.length) this._select(boundDates);
@@ -1670,14 +1687,14 @@
 			return this._getThemeAncestor()?.getAttribute("data-bs-theme") || null;
 		}
 		_syncThemeAttribute(element) {
-			if (!element) return;
+			if (!element || this._isInline && !this._config.datepickerTheme) return;
 			const theme = this._getEffectiveTheme();
 			if (theme) element.setAttribute("data-bs-theme", theme);
 			else element.removeAttribute("data-bs-theme");
 		}
 		_setupThemeObserver() {
-			const ancestor = this._getThemeAncestor();
-			if (!ancestor || this._config.datepickerTheme) return;
+			if (this._isInline || this._config.datepickerTheme) return;
+			const ancestor = this._getThemeAncestor() ?? document.documentElement;
 			this._themeObserver = new MutationObserver(() => {
 				this._syncThemeAttribute(this._calendar?.context?.mainElement);
 			});
@@ -1713,6 +1730,7 @@
 			}
 			const wasShown = this._isShown;
 			this._isShown = true;
+			if (this._element.closest(SELECTOR_FOCUS_TRAP)) calendar.context.mainElement.addEventListener("focusin", this._onPopupFocusIn);
 			this._syncThemeAttribute(calendar.context.mainElement);
 			this._alignToPositionElement();
 			window.removeEventListener("resize", this._onResize);
@@ -1750,6 +1768,7 @@
 			const calendarOptions = {
 				...vcpOptions,
 				...extensions.length > 0 ? { extensions } : {},
+				...this._isInput || vcpOptions.openOnFocus !== void 0 ? {} : { openOnFocus: false },
 				inputMode: !this._isInline,
 				positionToInput: this._config.placement,
 				firstWeekday: this._config.firstWeekday,
@@ -1832,17 +1851,46 @@
 				this._select(written.dates);
 				return;
 			}
-			const pattern = this._formatPattern();
-			if (pattern) {
-				const dates = (this._config.selectionMode === "single" ? [value] : value.split(this._dateSeparator())).map((part) => parsePattern(part.trim(), pattern));
-				if (dates.every(Boolean)) {
-					this._select(dates);
-					return;
-				}
+			const dates = this._readDates(value, this._formatPattern());
+			if (dates) {
+				this._select(dates);
+				return;
 			}
-			const date = DATE_PATTERN.test(value) ? this._parseDate(value) : new Date(value);
+			if (!DATE_PATTERN.test(value)) return;
+			const date = this._parseDate(value);
 			if (Number.isNaN(date.getTime())) return;
 			this._select([this._toIsoDate(date)]);
+		}
+		_readDates(value, pattern) {
+			if (!pattern) return null;
+			const dates = (this._config.selectionMode === "single" ? [value] : value.split(this._dateSeparator().trim())).map((part) => parsePattern(part.trim(), pattern));
+			return dates.every(Boolean) ? dates : null;
+		}
+		_localePattern() {
+			if (this._config.dateFormat !== null) return null;
+			const locale = this._config.locale === "default" ? void 0 : this._config.locale;
+			const tokens = {
+				day: "D",
+				month: "M",
+				year: "YYYY"
+			};
+			const pattern = new Intl.DateTimeFormat(locale).formatToParts(new Date(2e3, 10, 22)).map(({ type, value }) => tokens[type] ?? value).join("");
+			return parsePattern(this._formatDate("2000-11-22"), pattern) === "2000-11-22" ? pattern : null;
+		}
+		_handleInputChange(event) {
+			const value = this._element.value.trim();
+			const dates = value ? this._readDates(value, this._formatPattern() ?? this._localePattern()) ?? this._readDates(value, ISO_FORMAT) : [];
+			if (!dates) {
+				if (this._boundInput) this._writeSelection(this._selectedDates);
+				return;
+			}
+			this._select(dates);
+			this._writeSelection(dates);
+			const args = {
+				dates,
+				event
+			};
+			EventHandler.trigger(this._element, EVENT_CHANGE$3, args);
 		}
 		_select(dates) {
 			this._selectedDates = [...dates];
@@ -1870,16 +1918,16 @@
 	/**
 	* Data API implementation
 	*/
-	EventHandler.on(document, EVENT_CLICK_DATA_API$7, SELECTOR_DATA_TOGGLE$11, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$7, SELECTOR_DATA_TOGGLE$12, function(event) {
 		if (this.tagName === "INPUT" || this.dataset.bsInline === "true" || this.dataset.tblrInline === "true") return;
 		event.preventDefault();
 		Datepicker.getOrCreateInstance(this).toggle();
 	});
-	EventHandler.on(document, EVENT_FOCUSIN_DATA_API, SELECTOR_DATA_TOGGLE$11, function() {
+	EventHandler.on(document, EVENT_FOCUSIN_DATA_API, SELECTOR_DATA_TOGGLE$12, function() {
 		if (this.tagName !== "INPUT") return;
 		Datepicker.getOrCreateInstance(this).show();
 	});
-	initAll(SELECTOR_DATA_TOGGLE$11, Datepicker, (element) => {
+	initAll(SELECTOR_DATA_TOGGLE$12, Datepicker, (element) => {
 		const { dataset } = element;
 		return dataset.bsInline === "true" || dataset.tblrInline === "true" || "bsSelectedDates" in dataset || "tblrSelectedDates" in dataset || "bsBoundInput" in dataset || "tblrBoundInput" in dataset || Boolean(element.value);
 	});
@@ -3297,7 +3345,7 @@
 	var EVENT_KEY$14 = `.bs.button`;
 	var DATA_API_KEY$6 = ".data-api";
 	var CLASS_NAME_ACTIVE$6 = "active";
-	var SELECTOR_DATA_TOGGLE$10 = "[data-bs-toggle=\"button\"], [data-tblr-toggle=\"button\"]";
+	var SELECTOR_DATA_TOGGLE$11 = "[data-bs-toggle=\"button\"], [data-tblr-toggle=\"button\"]";
 	var EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$14}${DATA_API_KEY$6}`;
 	var Button = class Button extends BaseComponent {
 		static get NAME() {
@@ -3313,9 +3361,9 @@
 			});
 		}
 	};
-	EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$10, (event) => {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$11, (event) => {
 		event.preventDefault();
-		const target = event.target?.closest(SELECTOR_DATA_TOGGLE$10);
+		const target = event.target?.closest(SELECTOR_DATA_TOGGLE$11);
 		if (!target) return;
 		Button.getOrCreateInstance(target).toggle();
 	});
@@ -3711,7 +3759,7 @@
 	var WIDTH = "width";
 	var HEIGHT = "height";
 	var SELECTOR_ACTIVES = ".collapse.show, .collapse.collapsing";
-	var SELECTOR_DATA_TOGGLE$9 = "[data-bs-toggle=\"collapse\"], [data-tblr-toggle=\"collapse\"]";
+	var SELECTOR_DATA_TOGGLE$10 = "[data-bs-toggle=\"collapse\"], [data-tblr-toggle=\"collapse\"]";
 	var Default$17 = {
 		parent: null,
 		toggle: true
@@ -3725,7 +3773,7 @@
 			super(element, config);
 			this._isTransitioning = false;
 			this._triggerArray = [];
-			const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$9);
+			const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$10);
 			for (const elem of toggleList) {
 				const selector = SelectorEngine.getSelectorFromElement(elem);
 				const filterElement = SelectorEngine.find(selector).filter((foundElement) => foundElement === this._element);
@@ -3807,7 +3855,7 @@
 		}
 		_initializeChildren() {
 			if (!this._config.parent) return;
-			const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE$9);
+			const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE$10);
 			for (const element of children) {
 				const selected = SelectorEngine.getElementFromSelector(element);
 				if (selected) this._addAriaAndCollapsedClass([element], this._isShown(selected));
@@ -3836,7 +3884,7 @@
 			});
 		}
 	};
-	EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$9, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$4, SELECTOR_DATA_TOGGLE$10, function(event) {
 		const { delegateTarget } = event;
 		if (event.target.tagName === "A" || delegateTarget && delegateTarget.tagName === "A") event.preventDefault();
 		for (const element of SelectorEngine.getMultipleElementsFromSelector(this)) Collapse.getOrCreateInstance(element, { toggle: false }).toggle();
@@ -3870,8 +3918,8 @@
 	var CLASS_NAME_DROPSTART = "dropstart";
 	var CLASS_NAME_DROPUP_CENTER = "dropup-center";
 	var CLASS_NAME_DROPDOWN_CENTER = "dropdown-center";
-	var SELECTOR_DATA_TOGGLE$8 = "[data-bs-toggle=\"dropdown\"]:not(.disabled):not(:disabled), [data-tblr-toggle=\"dropdown\"]:not(.disabled):not(:disabled)";
-	var SELECTOR_DATA_TOGGLE_SHOWN = SELECTOR_DATA_TOGGLE$8.split(", ").map((selector) => `${selector}.${CLASS_NAME_SHOW$7}`).join(", ");
+	var SELECTOR_DATA_TOGGLE$9 = "[data-bs-toggle=\"dropdown\"]:not(.disabled):not(:disabled), [data-tblr-toggle=\"dropdown\"]:not(.disabled):not(:disabled)";
+	var SELECTOR_DATA_TOGGLE_SHOWN = SELECTOR_DATA_TOGGLE$9.split(", ").map((selector) => `${selector}.${CLASS_NAME_SHOW$7}`).join(", ");
 	var SELECTOR_MENU$1 = ".dropdown-menu";
 	var SELECTOR_NAVBAR = ".navbar";
 	var SELECTOR_NAVBAR_VERTICAL = ".navbar-vertical";
@@ -4050,7 +4098,7 @@
 			if (!isUpOrDownEvent && !isEscapeEvent) return;
 			if (isInput && !isEscapeEvent) return;
 			event.preventDefault();
-			const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$8) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$8)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$8)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$8, event.delegateTarget.parentNode);
+			const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$9) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$9)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$9)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$9, event.delegateTarget.parentNode);
 			const instance = Dropdown.getOrCreateInstance(getToggleButton);
 			if (isUpOrDownEvent) {
 				event.stopPropagation();
@@ -4073,11 +4121,11 @@
 			});
 		}
 	};
-	EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$8, Dropdown.dataApiKeydownHandler);
+	EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE$9, Dropdown.dataApiKeydownHandler);
 	EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU$1, Dropdown.dataApiKeydownHandler);
 	EventHandler.on(document, EVENT_CLICK_DATA_API$3, Dropdown.clearMenus);
 	EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
-	EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$8, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$3, SELECTOR_DATA_TOGGLE$9, function(event) {
 		event.preventDefault();
 		Dropdown.getOrCreateInstance(this).toggle();
 	});
@@ -4347,7 +4395,7 @@
 	var OPEN_SELECTOR$1 = ".modal.show";
 	var SELECTOR_DIALOG = ".modal-dialog";
 	var SELECTOR_MODAL_BODY = ".modal-body";
-	var SELECTOR_DATA_TOGGLE$7 = "[data-bs-toggle=\"modal\"], [data-tblr-toggle=\"modal\"]";
+	var SELECTOR_DATA_TOGGLE$8 = "[data-bs-toggle=\"modal\"], [data-tblr-toggle=\"modal\"]";
 	var Default$13 = {
 		backdrop: true,
 		focus: true,
@@ -4529,7 +4577,7 @@
 	/**
 	* Data API implementation
 	*/
-	EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$7, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$8, function(event) {
 		const target = SelectorEngine.getElementFromSelector(this);
 		if (["A", "AREA"].includes(this.tagName)) event.preventDefault();
 		if (!target) return;
@@ -4744,7 +4792,13 @@
 	var SELECTOR_MENU = ".dropdown-menu";
 	var SELECTOR_MENU_TOGGLE = "[data-bs-toggle=\"dropdown\"], [data-tblr-toggle=\"dropdown\"]";
 	var SELECTOR_ANY_TOGGLE = "[data-bs-toggle], [data-tblr-toggle]";
-	var SELECTOR_DATA_TOGGLE$6 = "[data-bs-toggle=\"nav-overflow\"], [data-tblr-toggle=\"nav-overflow\"]";
+	var SELECTOR_DATA_TOGGLE$7 = "[data-bs-toggle=\"nav-overflow\"], [data-tblr-toggle=\"nav-overflow\"]";
+	var ATTRIBUTES_TAB = [
+		"role",
+		"aria-selected",
+		"aria-controls",
+		"tabindex"
+	];
 	var DEFAULT_TEXT = "More";
 	var Default$12 = {
 		collapseBelow: 0,
@@ -4770,6 +4824,7 @@
 	var NavOverflow = class NavOverflow extends BaseComponent {
 		constructor(element, config) {
 			super(element, config);
+			this._onTabShown = () => this._syncStates();
 			const nav = SelectorEngine.findOne(SELECTOR_NAV, this._element);
 			if (!nav) throw new TypeError(`${this._element.outerHTML} has no child ${SELECTOR_NAV} to collapse`);
 			this._nav = nav;
@@ -4805,6 +4860,7 @@
 			this._resizeObserver?.disconnect();
 			if (this._resizeHandler) EventHandler.off(window, EVENT_RESIZE$1, this._resizeHandler);
 			EventHandler.off(this._element, EVENT_KEY$7);
+			EventHandler.off(this._element, EVENT_TAB_SHOWN, this._onTabShown);
 			this._restoreItems();
 			if (this._ownsToggle) this._overflowToggle?.closest(SELECTOR_NAV_ITEM)?.remove();
 			this._element.classList.remove(CLASS_NAME_INITIALIZED);
@@ -4819,7 +4875,7 @@
 				const link = SelectorEngine.findOne(SELECTOR_NAV_LINK, item);
 				if (link?.matches(SELECTOR_MENU_TOGGLE)) this._findItemMenu(item, link);
 			}
-			EventHandler.on(this._element, `${EVENT_TAB_SHOWN}${EVENT_KEY$7}`, () => this._syncStates());
+			EventHandler.on(this._element, EVENT_TAB_SHOWN, this._onTabShown);
 			this._collapseBelow = this._resolveCollapseBelow();
 			this._createOverflowMenu();
 			this._setupResizeObserver();
@@ -5008,6 +5064,7 @@
 			clonedLink.className = "dropdown-item";
 			clonedLink.removeAttribute("id");
 			this._clones.set(clonedLink, link);
+			if (clonedLink.getAttribute("role") === "tab") for (const name of ATTRIBUTES_TAB) clonedLink.removeAttribute(name);
 			if (this._isActive(link)) clonedLink.classList.add(CLASS_NAME_ACTIVE$4);
 			if (link.classList.contains("disabled") || link.hasAttribute("disabled")) clonedLink.classList.add("disabled");
 			if (submenu) {
@@ -5082,7 +5139,7 @@
 	* Data API implementation
 	*/
 	onDOMContentLoaded(() => {
-		for (const element of SelectorEngine.find(SELECTOR_DATA_TOGGLE$6)) NavOverflow.getOrCreateInstance(element);
+		initAll(SELECTOR_DATA_TOGGLE$7, NavOverflow);
 	});
 	/**
 	* jQuery
@@ -5116,7 +5173,7 @@
 	var EVENT_RESIZE = `resize${EVENT_KEY$6}`;
 	var EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$6}${DATA_API_KEY$1}`;
 	var EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$6}`;
-	var SELECTOR_DATA_TOGGLE$5 = "[data-bs-toggle=\"offcanvas\"], [data-tblr-toggle=\"offcanvas\"]";
+	var SELECTOR_DATA_TOGGLE$6 = "[data-bs-toggle=\"offcanvas\"], [data-tblr-toggle=\"offcanvas\"]";
 	var Default$11 = {
 		backdrop: true,
 		keyboard: true,
@@ -5237,7 +5294,7 @@
 	/**
 	* Data API implementation
 	*/
-	EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$5, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$6, function(event) {
 		const target = SelectorEngine.getElementFromSelector(this);
 		if (["A", "AREA"].includes(this.tagName)) event.preventDefault();
 		if (!target) return;
@@ -5845,7 +5902,7 @@
 	var SELECTOR_NAV_LINKS = ".nav-link";
 	var SELECTOR_LINK_ITEMS = `${SELECTOR_NAV_LINKS}, .nav-item > ${SELECTOR_NAV_LINKS}, .list-group-item`;
 	var SELECTOR_DROPDOWN = ".dropdown";
-	var SELECTOR_DROPDOWN_TOGGLE$1 = ".dropdown-toggle";
+	var SELECTOR_DROPDOWN_TOGGLE$2 = ".dropdown-toggle";
 	var Default$7 = {
 		offset: null,
 		rootMargin: "0px 0px -25%",
@@ -5980,7 +6037,7 @@
 		}
 		_activateParents(target) {
 			if (target.classList.contains(CLASS_NAME_DROPDOWN_ITEM)) {
-				SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$1, target.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$3);
+				SelectorEngine.findOne(SELECTOR_DROPDOWN_TOGGLE$2, target.closest(SELECTOR_DROPDOWN)).classList.add(CLASS_NAME_ACTIVE$3);
 				return;
 			}
 			for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) item.classList.add(CLASS_NAME_ACTIVE$3);
@@ -6029,14 +6086,16 @@
 	var CLASS_NAME_FADE$1 = "fade";
 	var CLASS_NAME_SHOW$1 = "show";
 	var CLASS_DROPDOWN = "dropdown";
-	var SELECTOR_DROPDOWN_TOGGLE = ".dropdown-toggle";
+	var SELECTOR_DROPDOWN_TOGGLE$1 = ".dropdown-toggle";
 	var SELECTOR_DROPDOWN_MENU = ".dropdown-menu";
-	var NOT_SELECTOR_DROPDOWN_TOGGLE = `:not(${SELECTOR_DROPDOWN_TOGGLE})`;
+	var SELECTOR_NAV_OVERFLOW_TOGGLE = ".nav-overflow-toggle";
+	var SELECTOR_NAV_OVERFLOW_MENU = ".nav-overflow-menu";
+	var NOT_SELECTOR_DROPDOWN_TOGGLE = `:not(${SELECTOR_DROPDOWN_TOGGLE$1})`;
 	var SELECTOR_TAB_PANEL = ".list-group, .nav, [role=\"tablist\"]";
 	var SELECTOR_OUTER = ".nav-item, .list-group-item";
 	var SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
-	var SELECTOR_DATA_TOGGLE$4 = "[data-bs-toggle=\"tab\"], [data-bs-toggle=\"pill\"], [data-bs-toggle=\"list\"], [data-tblr-toggle=\"tab\"], [data-tblr-toggle=\"pill\"], [data-tblr-toggle=\"list\"]";
-	var SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE$4}`;
+	var SELECTOR_DATA_TOGGLE$5 = "[data-bs-toggle=\"tab\"], [data-bs-toggle=\"pill\"], [data-bs-toggle=\"list\"], [data-tblr-toggle=\"tab\"], [data-tblr-toggle=\"pill\"], [data-tblr-toggle=\"list\"]";
+	var SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE$5}`;
 	var SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE$2}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE$2}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE$2}[data-bs-toggle="list"], .${CLASS_NAME_ACTIVE$2}[data-tblr-toggle="tab"], .${CLASS_NAME_ACTIVE$2}[data-tblr-toggle="pill"], .${CLASS_NAME_ACTIVE$2}[data-tblr-toggle="list"]`;
 	var Tab = class Tab extends BaseComponent {
 		constructor(element) {
@@ -6102,7 +6161,7 @@
 			].includes(event.key)) return;
 			event.stopPropagation();
 			event.preventDefault();
-			const children = this._getChildren().filter((element) => !isDisabled(element));
+			const children = this._getChildren().filter((element) => !isDisabled(element) && isVisible(element));
 			let nextActiveElement;
 			if ([HOME_KEY, END_KEY].includes(event.key)) nextActiveElement = children[event.key === HOME_KEY ? 0 : children.length - 1];
 			else {
@@ -6115,7 +6174,7 @@
 			}
 		}
 		_getChildren() {
-			return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent);
+			return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent).filter((child) => !child.matches(SELECTOR_NAV_OVERFLOW_TOGGLE) && !child.closest(SELECTOR_NAV_OVERFLOW_MENU));
 		}
 		_getActiveElem() {
 			return this._getChildren().find((child) => this._elemIsActive(child)) || null;
@@ -6147,7 +6206,7 @@
 				const el = SelectorEngine.findOne(selector, outerElem);
 				if (el) el.classList.toggle(className, open);
 			};
-			toggle(SELECTOR_DROPDOWN_TOGGLE, CLASS_NAME_ACTIVE$2);
+			toggle(SELECTOR_DROPDOWN_TOGGLE$1, CLASS_NAME_ACTIVE$2);
 			toggle(SELECTOR_DROPDOWN_MENU, CLASS_NAME_SHOW$1);
 			outerElem.setAttribute("aria-expanded", String(open));
 		}
@@ -6172,7 +6231,7 @@
 			});
 		}
 	};
-	EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE$4, function(event) {
+	EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE$5, function(event) {
 		if (["A", "AREA"].includes(this.tagName)) event.preventDefault();
 		if (isDisabled(this)) return;
 		Tab.getOrCreateInstance(this).show();
@@ -6334,18 +6393,19 @@
 		}
 	});
 	// js/src/sidebar.ts
+	var SELECTOR_DROPDOWN_TOGGLE = ":is([data-bs-toggle=\"dropdown\"], [data-tblr-toggle=\"dropdown\"])";
 	var syncSidebarToggles = (folded) => {
 		for (const toggle of document.querySelectorAll("[data-bs-toggle=\"sidebar-folded\"], [data-tblr-toggle=\"sidebar-folded\"]")) toggle.setAttribute("aria-pressed", String(folded));
 	};
 	var sidebarIsFolded = () => (document.documentElement.getAttribute("data-bs-sidebar") ?? "").startsWith("folded") || !!document.querySelector(".navbar-vertical.navbar-folded, .navbar-vertical.navbar-folded-hover");
 	var hideSidebarDropdowns = (except) => {
-		for (const toggle of document.querySelectorAll(".navbar-vertical [data-bs-toggle=\"dropdown\"][aria-expanded=\"true\"]")) if (toggle !== except) Dropdown.getInstance(toggle)?.hide();
+		for (const toggle of document.querySelectorAll(`.navbar-vertical ${SELECTOR_DROPDOWN_TOGGLE}[aria-expanded="true"]`)) if (toggle !== except) Dropdown.getInstance(toggle)?.hide();
 	};
 	document.addEventListener("click", (event) => {
 		if (!sidebarIsFolded()) return;
 		const target = event.target;
 		if (!(target instanceof Element) || target.closest(".navbar-vertical .dropdown-menu")) return;
-		hideSidebarDropdowns(target.closest(".navbar-vertical [data-bs-toggle=\"dropdown\"]"));
+		hideSidebarDropdowns(target.closest(`.navbar-vertical ${SELECTOR_DROPDOWN_TOGGLE}`));
 	});
 	document.addEventListener("mouseleave", (event) => {
 		const target = event.target;
@@ -6357,7 +6417,7 @@
 		syncSidebarToggles(folded);
 		if (folded) for (const menu of document.querySelectorAll(".navbar-vertical .dropdown-menu.show")) {
 			menu.classList.remove("show");
-			menu.parentElement?.querySelector("[data-bs-toggle=\"dropdown\"]")?.setAttribute("aria-expanded", "false");
+			menu.parentElement?.querySelector(SELECTOR_DROPDOWN_TOGGLE)?.setAttribute("aria-expanded", "false");
 		}
 	});
 	document.addEventListener("click", (event) => {
@@ -6422,7 +6482,7 @@
 	var CLASS_NAME_DISABLED = "disabled";
 	var CLASS_NAME_LOADING = "switch-icon-loading";
 	var SELECTOR_SWITCH_ICON = ".switch-icon";
-	var SELECTOR_DATA_TOGGLE$3 = `[data-bs-toggle="${NAME$5}"], [data-tblr-toggle="${NAME$5}"]`;
+	var SELECTOR_DATA_TOGGLE$4 = `[data-bs-toggle="${NAME$5}"], [data-tblr-toggle="${NAME$5}"]`;
 	var Default$5 = {};
 	var DefaultType$5 = {};
 	/**
@@ -6498,7 +6558,7 @@
 	/**
 	* Data API implementation
 	*/
-	initAll(SELECTOR_DATA_TOGGLE$3, SwitchIcon);
+	initAll(SELECTOR_DATA_TOGGLE$4, SwitchIcon);
 	// js/src/tab.ts
 	var EnableActivationTabsFromLocationHash = () => {
 		const locationHash = window.location.hash;
@@ -6514,17 +6574,14 @@
 	};
 	onDOMContentLoaded(EnableActivationTabsFromLocationHash);
 	// js/src/toast.ts
-	onDOMContentLoaded(() => {
-		for (const toastTriggerEl of document.querySelectorAll("[data-bs-toggle=\"toast\"], [data-tblr-toggle=\"toast\"]")) try {
-			const toastEl = SelectorEngine.getElementFromSelector(toastTriggerEl);
-			if (!toastEl) continue;
-			const toast = Toast.getOrCreateInstance(toastEl);
-			toastTriggerEl.addEventListener("click", () => {
-				toast.show();
-			});
-		} catch (error) {
-			console.error(error);
-		}
+	var SELECTOR_DATA_TOGGLE$3 = "[data-bs-toggle=\"toast\"], [data-tblr-toggle=\"toast\"]";
+	document.addEventListener("click", (event) => {
+		const trigger = event.target instanceof Element ? event.target.closest(SELECTOR_DATA_TOGGLE$3) : null;
+		if (!trigger) return;
+		if (["A", "AREA"].includes(trigger.tagName)) event.preventDefault();
+		if (isDisabled(trigger)) return;
+		const toastEl = SelectorEngine.getElementFromSelector(trigger);
+		if (toastEl) Toast.getOrCreateInstance(toastEl).show();
 	});
 	// js/src/sortable.ts
 	/**
@@ -6687,6 +6744,7 @@
 				this._composedValue = this._input.value;
 			};
 			this._onBeforeInput = (event) => this._handleBeforeInput(event);
+			this._onPaste = (event) => this._handlePaste(event);
 			this._onFocus = () => this._handleFocus();
 			this._onPointerDown = (event) => this._handlePointerDown(event);
 			this._onPointerEnd = () => {
@@ -6743,6 +6801,7 @@
 			}
 			this._input.removeEventListener("input", this._onInput);
 			this._input.removeEventListener("beforeinput", this._onBeforeInput);
+			this._input.removeEventListener("paste", this._onPaste);
 			this._input.removeEventListener("focus", this._onFocus);
 			this._input.removeEventListener("pointerdown", this._onPointerDown);
 			this._input.removeEventListener("compositionend", this._onCompositionEnd);
@@ -6801,6 +6860,7 @@
 		_addEventListeners() {
 			this._input.addEventListener("input", this._onInput);
 			this._input.addEventListener("beforeinput", this._onBeforeInput);
+			this._input.addEventListener("paste", this._onPaste);
 			this._input.addEventListener("focus", this._onFocus);
 			this._input.addEventListener("pointerdown", this._onPointerDown);
 			this._input.addEventListener("compositionend", this._onCompositionEnd);
@@ -6822,6 +6882,19 @@
 			const sanitized = this._sanitize(this._input.value);
 			if (sanitized !== this._input.value) this._input.value = sanitized;
 			if (document.activeElement === this._input) this._selectSlot(this._firstEmptyIndex());
+			this._afterValueChange();
+		}
+		_handlePaste(event) {
+			const text = event.clipboardData?.getData("text");
+			if (!text || this._input.readOnly) return;
+			event.preventDefault();
+			const clean = [...text.replace(this._type.filter, "")];
+			if (clean.length === 0) return;
+			const start = Math.min(this._input.selectionStart ?? 0, this._length - 1);
+			const chars = [...this._input.value];
+			chars.splice(start, clean.length, ...clean);
+			this._input.value = chars.join("").slice(0, this._length);
+			this._selectSlot(this._firstEmptyIndex());
 			this._afterValueChange();
 		}
 		_handleBeforeInput(event) {
@@ -7568,6 +7641,7 @@
 		"pointercancel",
 		"pointerleave"
 	];
+	var POINTER_ABORT_EVENTS = /* @__PURE__ */ new Set(["pointercancel", "pointerleave"]);
 	var Default = {
 		min: null,
 		max: null,
@@ -7617,7 +7691,7 @@
 			this._lastValue = "";
 			this._onClick = (event) => this._handleClick(event);
 			this._onPointerDown = (event) => this._handlePointerDown(event);
-			this._onPointerEnd = () => this._stopRepeat();
+			this._onPointerEnd = (event) => this._handlePointerEnd(event);
 			this._onKeyDown = (event) => this._handleKeyDown(event);
 			this._onBeforeInput = (event) => this._handleBeforeInput(event);
 			this._onInputChange = () => this._handleInputChange();
@@ -7748,14 +7822,23 @@
 			const button = event.currentTarget;
 			const action = this._actionOf(button);
 			this._stopRepeat();
+			this._held = false;
 			if (!this._config.repeat || !action || isDisabled(button) || this._isLocked()) return;
 			if (event.pointerType === "mouse") event.preventDefault();
+			const step = () => {
+				this._runAction(action);
+				if (isDisabled(button)) this._held = false;
+			};
 			this._holdTimer = setTimeout(() => {
 				this._holdTimer = null;
 				this._held = true;
-				this._runAction(action);
-				this._repeatTimer = setInterval(() => this._runAction(action), this._config.repeatInterval);
+				this._repeatTimer = setInterval(step, this._config.repeatInterval);
+				step();
 			}, this._config.repeatDelay);
+		}
+		_handlePointerEnd(event) {
+			this._stopRepeat();
+			if (POINTER_ABORT_EVENTS.has(event.type)) this._held = false;
 		}
 		_stopRepeat() {
 			if (this._holdTimer !== null) {
@@ -7778,7 +7861,7 @@
 				[KEY_HOME]: () => this._commit(this._min),
 				[KEY_END]: () => this._commit(this._max)
 			}[event.key];
-			if (!handler) return;
+			if (!handler || this._isLocked()) return;
 			if (event.key === KEY_HOME && !Number.isFinite(this._min) || event.key === KEY_END && !Number.isFinite(this._max)) return;
 			event.preventDefault();
 			handler();
@@ -7819,16 +7902,20 @@
 		}
 		_commit(value) {
 			const input = this._input;
-			const previousValue = this.getValue();
+			const previousValue = this._parse(this._lastValue);
 			const next = this._clamp(value);
 			const formatted = this._format(next);
-			const changed = input.value !== formatted;
+			const changed = this._lastValue !== formatted;
+			const rewritten = input.value !== formatted;
 			input.value = formatted;
 			this._lastValue = formatted;
 			this._update();
+			if (!changed && !rewritten) return;
+			if (rewritten) {
+				input.dispatchEvent(new Event("input", { bubbles: true }));
+				input.dispatchEvent(new Event("change", { bubbles: true }));
+			}
 			if (!changed) return;
-			input.dispatchEvent(new Event("input", { bubbles: true }));
-			input.dispatchEvent(new Event("change", { bubbles: true }));
 			EventHandler.trigger(this._element, EVENT_CHANGE, {
 				value: next,
 				previousValue

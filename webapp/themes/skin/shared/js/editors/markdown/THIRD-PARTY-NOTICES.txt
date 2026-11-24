@@ -1,5 +1,5 @@
 markdown-text-editor.min.js is the browser build (dist/markdown-text-editor.min.js) of the npm package
-markdown-text-editor 1.9.4, https://github.com/nezanuha/markdown-text-editor, without its source map comment.
+markdown-text-editor 1.9.5, https://github.com/nezanuha/markdown-text-editor, without its source map comment.
 To update it: npm pack markdown-text-editor@<version>, copy dist/markdown-text-editor.min.js here and remove the
 last line (//# sourceMappingURL=...).
 

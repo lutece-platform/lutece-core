@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.cat = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.cat = {}));
 }(this, (function (exports) { 'use strict';
 
   var fp = typeof window !== "undefined" && window.flatpickr !== undefined
@@ -70,6 +70,7 @@
           }
       },
       firstDayOfWeek: 1,
+      rangeSeparator: " a ",
       time_24hr: true,
   };
   fp.l10ns.cat = fp.l10ns.ca = Catalan;
