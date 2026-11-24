@@ -1,27 +1,32 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-purple-lt me-2" aria-hidden="true"><@icon style='layout' /></span>#i18n{portal.style.manage_page_templates.pageTitle}</#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.style.manage_page_templates.pageTitle}'>
-        </@pageHeader>
-        <#if page_templates_list?size gt 0>
-        <@manageFeature>
+        <@pageHeader title=pageTitle />
+        <@messages infos=infos![] errors=errors![] warnings=warnings![] />
+        <#if page_templates_list?has_content>
+        <@manageFeature layout='list' id='page-templates'>
             <#list page_templates_list as page_templates>
                 <@manageFeatureItem>
-                    <@manageFeatureItemColumn auto=true>
+                    <@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
                         <@img url='themes/admin/shared/images/page_templates/${page_templates.picture}' class='thumbnail-sm img-invert' alt='${i18n("portal.style.manage_page_templates.picturealt",page_templates.description)}' />
+                        <@div class='text-truncate'>
+                            <@link class='text-reset fw-semibold' href='jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}'>${page_templates.description}</@link>
+                            <@div class='text-secondary small text-truncate'><code>${page_templates.file}</code></@div>
+                        </@div>
                     </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>${page_templates.description}</@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>
-                        ${page_templates.file}
-                     </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn auto=true>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" />
-                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='' title='#i18n{portal.util.labelDelete}' hideTitle=['xs'] color='danger' />
+                    <@manageFeatureItemColumn auto=true align='end'>
+                        <@div class='btn-actions'>
+                            <@aButton href='jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}' style='btn-action' color='' buttonIcon='pencil' title='#i18n{portal.util.labelModify} ${page_templates.description}' hideTitle=['all'] />
+                            <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' style='btn-action text-danger' color='' buttonIcon='trash' title='#i18n{portal.util.labelDelete} ${page_templates.description}' hideTitle=['all'] />
+                        </@div>
                     </@manageFeatureItemColumn>
                 </@manageFeatureItem>
             </#list>
-            </@manageFeature>
+        </@manageFeature>
         <#else>
-           <@empty />
+        <@card>
+            <@empty title='#i18n{portal.util.labelNoItem}' iconName='layout-off' subtitle=' ' />
+        </@card>
         </#if>
     </@pageColumn>
 </@pageContainer>

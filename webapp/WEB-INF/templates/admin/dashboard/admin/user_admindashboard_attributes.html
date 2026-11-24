@@ -52,7 +52,7 @@
 				</@tform>
 			</#if>
 		</#if>
-		<@offcanvas id='offcanvasModifyAttr-${attribute.idAttribute}' targetUrl='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' useIframe=true title='#i18n{portal.users.manage_attributes.buttonLabelModify}' btnTitle='#i18n{portal.users.manage_attributes.buttonLabelModify}' btnIcon='edit' btnClass='me-1' hideTitle=['xs','md'] position='end' size='half' />
+		<@aButton href='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='edit' title='#i18n{portal.users.manage_attributes.buttonLabelModify}' class='me-1' hideTitle=['xs','md'] />
 		<@aButton  color='danger' href='jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='trash' title='#i18n{portal.users.manage_attributes.buttonLabelDelete}'  />
 		</@manageFeatureItemColumn>
 	</@manageFeatureItem>

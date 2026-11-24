@@ -5,16 +5,16 @@
 <@tform action='jsp/admin/DoModifyProperties.jsp' class='mt-2'>
 <@pageContainer>
     <@pageColumn> 
-        <@pageHeader title='#i18n{portal.system.modify_properties.boxTitle}'>
-        <@tform>
-            <@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+        <#assign pageTitle><span class="avatar avatar-sm bg-indigo-lt me-2" aria-hidden="true"><@icon style='adjustments' /></span>#i18n{portal.system.modify_properties.boxTitle}</#assign>
+        <@pageHeader title=pageTitle>
+            <@formGroup labelFor='search_prop' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
                 <@inputGroup>
                     <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' autoComplete='off' />
-                    <@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+                    <@inputGroupItem type='icon'><@icon style='filter' /></@inputGroupItem>
                 </@inputGroup>
             </@formGroup>
-        </@tform>
         </@pageHeader>
+        <@messages infos=infos![] errors=errors![] warnings=warnings![] />
         <@tabs>
             <@tabList>
                 <#list groups_list as group>

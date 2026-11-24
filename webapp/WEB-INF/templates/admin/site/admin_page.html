@@ -69,7 +69,7 @@
 						<nav class="lutece-site-crumbs" aria-label="#i18n{portal.site.admin_page.tabAdminMapSite}">
 						<#list pagePath as item><#if item?has_next><a href="jsp/admin/site/AdminSite.jsp?page_id=${item.pageId?c}">${item.pageName}</a><i class="ti ti-chevron-right" aria-hidden="true"></i></#if></#list>
 						</nav>
-						<h2 id="lutece-site-page-title">${page.name} - <small class="fw-normal">#i18n{portal.site.adminFeature.admin_site.name}</small></h2>
+						<h2 id="lutece-site-page-title"><span class="avatar avatar-sm bg-blue-lt me-2" aria-hidden="true"><i class="ti ti-sitemap"></i></span>${page.name} - <small class="fw-normal">#i18n{portal.site.adminFeature.admin_site.name}</small></h2>
 						<p class="lutece-site-meta">
 							<#if page_template_info??><span><i class="ti ti-layout" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelPageTemplateList} : ${page_template_info.description}</span></#if>
 							<#if page_update_date_info?has_content><span><i class="ti ti-clock" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelUpdated} ${page_update_date_info}</span></#if>

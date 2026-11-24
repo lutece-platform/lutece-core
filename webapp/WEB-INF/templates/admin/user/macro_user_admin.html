@@ -1,0 +1,53 @@
+<#--
+ # Shared pieces of the back office screens of the administrators (ManageUsers.jsp and the screens reached from it):
+ #   userBreadcrumb   the breadcrumb: the list of the users, then the current screen
+ #   userPageHeader   the page header, its title preceded by the avatar of the feature (or the avatar of the user)
+ #   userTabs         the tabs of a user (user, password, rights, roles, workgroups) around the nested content
+-->
+<#--
+ # param current  the label of the current screen (a capture or an already localised text); empty on the list itself
+-->
+<#macro userBreadcrumb current=''>
+<@breadcrumbs class='mb-1'>
+	<#if current?has_content>
+		<@breadcrumbItem><@link href='jsp/admin/user/ManageUsers.jsp' label='#i18n{portal.users.manage_users.titleUserList}' linkIcon='user-cog' /></@breadcrumbItem>
+		<@breadcrumbItem class='active' params={"aria-current": "page"}>${current}</@breadcrumbItem>
+	<#else>
+		<@breadcrumbItem class='active' params={"aria-current": "page"}><@icon style='user-cog' class='me-1' />#i18n{portal.users.manage_users.titleUserList}</@breadcrumbItem>
+	</#if>
+</@breadcrumbs>
+</#macro>
+
+<#--
+ # param title       the page title (a capture or an already localised text)
+ # param iconName    the Tabler icon of the avatar
+ # param breadcrumb  the breadcrumb (see userBreadcrumb)
+ # param userId      the id of the user a screen is about: its avatar replaces the one of the feature when the avatar plugin is there
+ # The nested content is the tools of the header (buttons, menus).
+-->
+<#macro userPageHeader title iconName='user-cog' breadcrumb='' userId=''>
+<#local pageTitle><#if userId?is_number && ( adminAvatar!false )?is_boolean && ( adminAvatar!false )><@img url='servlet/plugins/adminavatar/avatar?id_user=${userId?c}' class='avatar avatar-sm me-2' alt='' /><#else><span class="avatar avatar-sm bg-blue-lt me-2" aria-hidden="true"><@icon style=iconName /></span></#if>${title}</#local>
+<@pageHeader title=pageTitle breadcrumb=breadcrumb>
+<#nested>
+</@pageHeader>
+</#macro>
+
+<#--
+ # param active    the current tab: user, password, rights, roles or workgroups
+ # param userId    the id of the user
+ # param password  false when the authentication module manages the passwords (no password tab)
+-->
+<#macro userTabs active userId password=true>
+<@tabs>
+	<@tabList>
+		<@tabLink active=( active == 'user' ) href='jsp/admin/user/ModifyUser.jsp?id_user=${userId?c}' title='#i18n{portal.users.actions.labelUser}' />
+		<#if password><@tabLink active=( active == 'password' ) href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${userId?c}' title='#i18n{portal.users.actions.labelPassword}' /></#if>
+		<@tabLink active=( active == 'rights' ) href='jsp/admin/user/ModifyUserRights.jsp?id_user=${userId?c}' title='#i18n{portal.users.actions.labelRights}' />
+		<@tabLink active=( active == 'roles' ) href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${userId?c}' title='#i18n{portal.users.actions.labelRoles}' />
+		<@tabLink active=( active == 'workgroups' ) href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${userId?c}' title='#i18n{portal.users.actions.labelWorkgroups}' />
+	</@tabList>
+	<@tabContent>
+		<#nested>
+	</@tabContent>
+</@tabs>
+</#macro>

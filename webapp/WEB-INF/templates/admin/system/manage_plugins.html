@@ -1,6 +1,7 @@
 <@pageContainer>
     <@pageColumn>
-		<@pageHeader title='#i18n{portal.system.manage_plugins.labelTitleList}'>
+		<#assign pageTitle><span class="avatar avatar-sm bg-blue-lt me-2" aria-hidden="true"><@icon style='plug' /></span>#i18n{portal.system.manage_plugins.labelTitleList}</#assign>
+		<@pageHeader title=pageTitle>
 		<@div>
 			<@tform method='post' type='inline'>
 				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
@@ -16,49 +17,34 @@
 					hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
 						<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
-						<@button type='submit' color='primary' buttonIcon='search' title='Search' hideTitle=['all'] />
+						<@button type='submit' color='primary' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['all'] />
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
 		</@div>
 		</@pageHeader>
 		<#if plugins_list?has_content>
-			<@manageFeature id='plugins' class=''>
-				<@manageFeatureItem liClass='plugin-item'>
-					<@manageFeatureItemColumn class='searchable' flex=false>
-						<@h level=3 class='d-flex align-items-center'>
-							<@img url=core.iconUrl alt='' class='thumbnail thumbnail-sm me-2' params={"data-lutece-fallback-src": "themes/admin/shared/images/apps.svg"} />
-							<@span class='title'>${core.name}</@span>
-							<small class='ms-2 fw-normal'>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${core.version}</strong></small>
-						</@h>
-						<@p class='mb-2'>#i18n{${core.description}}</@p>
-						<@p class='mb-0'><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${core.provider}}</em></@p>
-						<@p class='mb-0'><@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em></@p>
+			<@manageFeature layout='list' id='plugins'>
+				<#assign pluginRows=[core]+plugins_list?sort_by('name') />
+				<#list pluginRows as plugin>
+				<#assign isCore=(plugin?index==0) />
+				<@manageFeatureItem liClass='plugin-item' id=isCore?then('', 'plugin_${plugin.name}_${plugin.version}')>
+					<@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+						<span class="avatar avatar-sm bg-blue-lt" aria-hidden="true"><@img url=plugin.iconUrl alt='' class='object-fit-contain w-100 h-100 img-invert' params={"data-lutece-fallback-src": "themes/admin/shared/images/apps.svg"} /></span>
+						<@div class='text-truncate searchable'>
+							<@span class='fw-semibold'>${plugin.name}</@span> <@span class='text-secondary small'>${plugin.version}</@span>
+							<@div class='text-secondary small text-truncate'>#i18n{${plugin.description}} &middot; #i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}<#if plugin.providerUrl?has_content> &middot; <@link href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></#if></@div>
+						</@div>
 					</@manageFeatureItemColumn>
-					<@manageFeatureItemColumn auto=true align='end'>
-						<@aButton href='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' color='info' hideTitle=['all'] />
-					</@manageFeatureItemColumn>
-				</@manageFeatureItem>
-				<#list plugins_list?sort_by('name') as plugin>
-				<@manageFeatureItem liClass='plugin-item' id='plugin_${plugin.name}_${plugin.version}'>
-					<@manageFeatureItemColumn class='searchable' flex=false>
-						<@h level=3 class='d-flex flex-wrap align-items-center'>
-							<@img url='${plugin.iconUrl}' alt='' class='thumbnail thumbnail-sm img-invert me-2' params={"data-lutece-fallback-src": "themes/admin/shared/images/apps.svg"} />
-							<@span class='title'>${plugin.name}</@span>
-							<small class='ms-2 me-2 fw-normal'>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${plugin.version}</strong></small>
-							<#if plugin.installed>
-								<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'><@icon style='circle-check' /> #i18n{portal.system.manage_caches.imgAltEnable}</@tag>
-							<#else>
-								<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'><@icon style='circle-x' /> #i18n{portal.system.manage_caches.imgAltDisable}</@tag>
-							</#if>
-						</@h>
-						<@p class='mb-2'>#i18n{${plugin.description}}</@p>
-						<@p class='mb-0'><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></@p>
-						<@p class='mb-0'><@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></em></@p>
-					</@manageFeatureItemColumn>
-					<@manageFeatureItemColumn auto=true align='end'>
+					<@manageFeatureItemColumn auto=true align='end' class='d-flex align-items-center gap-2'>
+						<#if !isCore>
+						<#if plugin.installed>
+							<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}' tagIcon='circle-check'>#i18n{portal.system.manage_caches.imgAltEnable}</@tag>
+						<#else>
+							<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}' tagIcon='circle-x'>#i18n{portal.system.manage_caches.imgAltDisable}</@tag>
+						</#if>
 						<#if plugin.installed && plugin.dbPoolRequired>
-							<@tform method='post' type='inline' align='middle' class='me-1' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+							<@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
 								<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 								<@input type='hidden' name='token' value='${token}' />
 								<@formGroup rows=2 groupStyle='inline' formStyle='inline'>
@@ -69,16 +55,21 @@
 								</@formGroup>
 							</@tform>
 						</#if>
-						<@aButton href='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' color='info' class='me-1' hideTitle=['all'] />
-						<#if plugin.installed>
-							<@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='player-stop me-1' hideTitle=['xs','sm'] color='danger' />
-						<#else>
-							<@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
-								<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-								<@input type='hidden' name='token' value='${token}' />
-								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='player-play me-1' hideTitle=['xs','sm'] color='success' />
-							</@tform>
 						</#if>
+						<@div class='btn-actions'>
+							<@aButton href='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' style='btn-action' color='' hideTitle=['all'] />
+							<#if !isCore>
+							<#if plugin.installed>
+								<@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='player-stop' style='btn-action text-danger' color='' hideTitle=['all'] />
+							<#else>
+								<@tform method='post' type='inline' class='d-inline-block' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
+									<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+									<@input type='hidden' name='token' value='${token}' />
+									<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='player-play' class='btn-icon' color='ghost-success' hideTitle=['all'] />
+								</@tform>
+							</#if>
+							</#if>
+						</@div>
 					</@manageFeatureItemColumn>
 				</@manageFeatureItem>
 				</#list>
@@ -102,6 +93,6 @@ new LuteceSearchList( searchInput, searchElementList, {
 	persistKey: "lutece-admin-plugins-search",
 	// Add a clear button next to the filter field.
 	clearButton: true,
-	clearButtonLabel: "${i18n('portal.util.labelReset')?js_string?no_esc}"
+	clearButtonLabel: "<#noautoesc>${i18n('portal.util.labelReset')?js_string}</#noautoesc>"
 });
 </script>

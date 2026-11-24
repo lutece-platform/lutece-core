@@ -1,9 +1,11 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-red-lt me-2" aria-hidden="true"><@icon style='shield-check' /></span>${role.description} [${role.key}]</#assign>
+<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/rbac/ManageRoles.jsp'>#i18n{portal.rbac.manage_roles.pageTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>${role.description} [${role.key}]</@breadcrumbItem></@breadcrumbs></#assign>
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='${role.description} [${role.key}]'>
-			<@button type='button' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm'] buttonIcon='plus' size='' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#add-control"} />
-			<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}' hideTitle=['xs','sm'] buttonIcon='user' size='' class='me-1' />
-			<@button type='button' title='#i18n{portal.rbac.modify_role.titleModifyRole}' hideTitle=['xs','sm'] buttonIcon='edit' color='primary' size='' params={"data-bs-toggle": "modal", "data-bs-target": "#edit-role"} />
+		<@pageHeader title=pageTitle breadcrumb=bc>
+			<@button type='button' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm','md'] buttonIcon='plus' size='' color='light' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#add-control"} />
+			<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}' hideTitle=['xs','sm','md'] buttonIcon='user' size='' color='light' class='me-1' />
+			<@button type='button' title='#i18n{portal.rbac.modify_role.titleModifyRole}' hideTitle=['xs','sm','md'] buttonIcon='edit' color='primary' size='' params={"data-bs-toggle": "modal", "data-bs-target": "#edit-role"} />
 		</@pageHeader>
 		<@modal id='add-control'>
 			<@modalHeader modalTitle='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' />
@@ -49,21 +51,21 @@
 			</@modalFooter>
 		</@modal>
 		<#if controled_resource_list?size gt 0>
-		<@manageFeature>
+		<@manageFeature layout='list'>
 		<#assign previousResourceTypeKey=''>
 		<#list controled_resource_list as controled_resource>
 		<@manageFeatureItem>
-			<@manageFeatureItemColumn>
-				<@p class='me-2'>#i18n{portal.rbac.view_role_description.columnTitleResourceType} <strong> ${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong></@p>
-				</@manageFeatureItemColumn>
-				<@manageFeatureItemColumn>
-				<@p class='me-2'>#i18n{portal.rbac.view_role_description.columnTitleResourceId} : <#if controled_resource.resourceId??><strong>${controled_resource.resourceIdLabel}  (${controled_resource.resourceId})</strong></#if></@p>
-				<@p>#i18n{portal.rbac.view_role_description.columnTitlePermission} : <#if controled_resource.permissionKey??><strong>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</strong></#if></@p>
+			<@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+				<span class="avatar avatar-sm bg-red-lt" aria-hidden="true"><@icon style='lock' /></span>
+				<@div class='text-truncate'>
+					<@div class='fw-semibold text-truncate'>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</@div>
+					<@div class='text-secondary small text-truncate'>#i18n{portal.rbac.view_role_description.columnTitleResourceId} : <#if controled_resource.resourceId??>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</#if> &middot; #i18n{portal.rbac.view_role_description.columnTitlePermission} : <#if controled_resource.permissionKey??>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</#if></@div>
+				</@div>
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn auto=true>
 				<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
 					<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
-					<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' color='danger' />
+					<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' hideTitle=['all'] color='ghost-danger' class='btn-icon' />
 				</@tform>
 			</@manageFeatureItemColumn>
 		</@manageFeatureItem>

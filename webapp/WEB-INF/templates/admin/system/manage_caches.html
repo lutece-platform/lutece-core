@@ -1,6 +1,7 @@
 <@pageContainer>
 <@pageColumn>
-	<@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}'>
+	<#assign pageTitle><span class="avatar avatar-sm bg-orange-lt me-2" aria-hidden="true"><@icon style='database-cog' /></span>#i18n{portal.system.manage_caches.titleCacheList}</#assign>
+	<@pageHeader title=pageTitle>
 		<@tform method='post' type='inline'>
 			<@formGroup labelFor='search_cache' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 				<@inputGroup>
@@ -18,51 +19,59 @@
 		<@alert class='alert-minor' title='#i18n{portal.system.manage_caches.featureDescription}' iconTitle='info-circle'/>
 		<@alert class='alert-warning alert-important' color='danger' title='#i18n{portal.system.manage_caches.cautionTitle}' iconTitle='exclamation-circle'>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
 	</@div>
-	<@manageFeature>
+	<#if services_list?has_content>
+	<@manageFeature layout='list'>
 	<#assign id=0>
 		<#list services_list as service>
 		<@manageFeatureItem liClass='item-labels' id='cache_${id}'>
-			<@manageFeatureItemColumn auto=true>
-			<#if service.cacheEnable>
-				<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'><@icon style='check' /></@tag>
-			<#else>
-				<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'><@icon style='times' /></@tag>
-			</#if>
-			</@manageFeatureItemColumn>
-			<@manageFeatureItemColumn class='searchable' flex=false>
-				<strong>${service.name}</strong>
-				<@p class='text-secondary small mb-0'>#i18n{portal.system.manage_caches.columnTitleCacheSize} : ${service.cacheSize!}</@p>
+			<@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+				<#if service.cacheEnable>
+					<span class="avatar avatar-sm bg-success-lt" title="#i18n{portal.system.manage_caches.imgAltEnable}"><@icon style='check' /></span>
+				<#else>
+					<span class="avatar avatar-sm bg-danger-lt" title="#i18n{portal.system.manage_caches.imgAltDisable}"><@icon style='x' /></span>
+				</#if>
+				<@div class='text-truncate searchable'>
+					<@span class='fw-semibold'>${service.name}</@span>
+					<@div class='text-secondary small text-truncate'>#i18n{portal.system.manage_caches.columnTitleCacheSize} : ${service.cacheSize!}</@div>
+				</@div>
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn auto=true align='end'>
-				<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' title='#i18n{portal.util.labelMore}' buttonIcon='eye' color='default' class='btn-icon me-1' hideTitle=['all'] />
+				<@div class='btn-actions'>
+				<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' title='#i18n{portal.util.labelMore}' buttonIcon='eye' style='btn-action' color='' hideTitle=['all'] />
 				<#-- a required cache is never disabled, a cache whose reset is prevented is never cleared: a disabled button keeps the place of the action -->
 				<#if (service.required)!false>
-					<@span class='d-inline-block me-1' params={"title": "#i18n{portal.system.manage_caches.labelRequired}"}><@button class='btn-icon' buttonIcon='lock' color='default' title='#i18n{portal.system.manage_caches.labelRequired}' hideTitle=['all'] disabled=true /></@span>
+					<@span class='d-inline-block' params={"title": "#i18n{portal.system.manage_caches.labelRequired}"}><@button class='btn-icon' buttonIcon='lock' color='ghost-secondary' title='#i18n{portal.system.manage_caches.labelRequired}' hideTitle=['all'] disabled=true /></@span>
 				<#else>
-				<@tform method='post' type='inline' class='me-1' action='jsp/admin/system/ConfirmToggleCache.jsp'>
+				<@tform method='post' type='inline' class='d-inline-block' action='jsp/admin/system/ConfirmToggleCache.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<#if service.cacheEnable>
-						<@button type='submit' class='btn-icon' buttonIcon='player-stop' title='#i18n{portal.system.manage_caches.actionDisable}' color='danger' hideTitle=['all'] />
+						<@button type='submit' class='btn-icon' buttonIcon='player-stop' title='#i18n{portal.system.manage_caches.actionDisable}' color='ghost-danger' hideTitle=['all'] />
 					<#else>
-						<@button type='submit' class='btn-icon' buttonIcon='player-play' title='#i18n{portal.system.manage_caches.actionEnable}' color='success' hideTitle=['all'] />
+						<@button type='submit' class='btn-icon' buttonIcon='player-play' title='#i18n{portal.system.manage_caches.actionEnable}' color='ghost-success' hideTitle=['all'] />
 					</#if>
 				</@tform>
 				</#if>
 				<#if (service.preventReset)!false>
-					<@span class='d-inline-block' params={"title": "#i18n{portal.system.manage_caches.labelPreventReset}"}><@button class='btn-icon' buttonIcon='trash-off' color='default' title='#i18n{portal.system.manage_caches.labelPreventReset}' hideTitle=['all'] disabled=true /></@span>
+					<@span class='d-inline-block' params={"title": "#i18n{portal.system.manage_caches.labelPreventReset}"}><@button class='btn-icon' buttonIcon='trash-off' color='ghost-secondary' title='#i18n{portal.system.manage_caches.labelPreventReset}' hideTitle=['all'] disabled=true /></@span>
 				<#else>
-				<@tform method='post' type='inline' action='jsp/admin/system/DoResetCaches.jsp'>
+				<@tform method='post' type='inline' class='d-inline-block' action='jsp/admin/system/DoResetCaches.jsp'>
 					<@input type='hidden' name='id_cache' value='${id}' />
 					<@input type='hidden' name='token' value='${token}' />
-					<@button type='submit' class='btn-icon' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' color='danger' hideTitle=['all'] />
+					<@button type='submit' class='btn-icon' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' color='ghost-danger' hideTitle=['all'] />
 				</@tform>
 				</#if>
+				</@div>
 			</@manageFeatureItemColumn>
 		</@manageFeatureItem>
 		<#assign id=id + 1>
 	</#list>
 	</@manageFeature>
+	<#else>
+	<@card>
+		<@empty title='#i18n{portal.util.labelNoItem}' iconName='database-off' subtitle=' ' />
+	</@card>
+	</#if>
 </@pageColumn>
 </@pageContainer>
 <script type="module">
@@ -77,6 +86,6 @@ new LuteceSearchList( searchInput, searchElementList, {
     persistKey: "lutece-admin-caches-search",
     // Add a clear button next to the filter field.
     clearButton: true,
-    clearButtonLabel: "${i18n('portal.util.labelReset')?js_string?no_esc}",
+    clearButtonLabel: "<#noautoesc>${i18n('portal.util.labelReset')?js_string}</#noautoesc>",
 });
 </script>

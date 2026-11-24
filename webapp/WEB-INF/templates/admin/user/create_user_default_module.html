@@ -11,15 +11,18 @@
 	</#if>
 	<#return false>
 </#function>
+<#include "/admin/user/macro_user_admin.html" />
+<#assign pageLabel>#i18n{portal.users.create_user.pageTitle}</#assign>
+<#assign breadcrumbHtml><@userBreadcrumb current=pageLabel /></#assign>
 <@pageContainer>
 <@pageColumn>
-	<@pageHeader title='#i18n{portal.users.create_user.pageTitle}' />
-		<@box color='success'>
-			<@boxBody>
-				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' enctype="multipart/form-data">
+	<@userPageHeader title=pageLabel breadcrumb=breadcrumbHtml>
+		<@aButton href='jsp/admin/user/ManageUsers.jsp' title='#i18n{portal.util.labelBack}' buttonIcon='arrow-left' color='light' hideTitle=['xs','sm','md'] />
+	</@userPageHeader>
+				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' enctype="multipart/form-data" boxed=true>
 					<@input type='hidden' name='token' value='${token}' />
 					<@row>
-						<@columns md=4 lg=3>
+						<@columns md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}' >
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 								<@inputGroup>
@@ -47,7 +50,7 @@
 							</@formGroup>
 							</@fieldSet>
 						</@columns>
-						<@columns md=4 lg=3>
+						<@columns md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
@@ -64,9 +67,9 @@
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' size='' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' />
 									<@inputGroupItem type='btn' pos='is-expanded'>
-										<@button type='button' title='#i18n{portal.admin.admin_login.passwordShow}' hideTitle=['all'] id='lutece-password-toggler' buttonIcon='eye' color='secondary' />
+										<@button type='button' title='#i18n{portal.admin.admin_login.passwordShow}' hideTitle=['all'] id='lutece-password-toggler' buttonIcon='eye' color='light' />
 									</@inputGroupItem>
-									<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
+									<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='light' />
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 mandatory=true>
@@ -92,7 +95,7 @@
 							</@fieldSet>
 							</@fieldSet>
 						</@columns>
-						<@columns md=4 lg=3>
+						<@columns md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 								<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
 									<@select id='status' name='status'>
@@ -118,7 +121,7 @@
 									</#if>
 									<#list attributes_list as attribute>
 										<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
-											${attribute.getHtmlFormAttribute( locale )?no_esc}
+											<#noautoesc>${attribute.getHtmlFormAttribute( locale )}</#noautoesc>
 											<#break>
 										</#if>
 									</#list>
@@ -126,7 +129,7 @@
 								<#if attributes_list?has_content>
 									<#list attributes_list as attribute>
 										<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
-											${attribute.getHtmlFormAttribute( locale )?no_esc}
+											<#noautoesc>${attribute.getHtmlFormAttribute( locale )}</#noautoesc>
 										</#if>
 									</#list>
 								</#if>
@@ -140,13 +143,11 @@
 						<@columns md=4 lg=4>
 							<@formGroup rows=2>
 								<@button  type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' color='primary' size='' />
-								<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+								<@aButton href='jsp/admin/user/ManageUsers.jsp' color='light' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 							</@formGroup>
 						</@columns>
 					</@row>
-				</@tform>	
-			</@boxBody>
-		</@box>
+				</@tform>
 	</@pageColumn>
 </@pageContainer>
 <script type="module">

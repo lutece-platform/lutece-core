@@ -1,16 +1,18 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='#i18n{portal.features.create_level.boxTitle}' />
-		<@tform id="create-level-form" method='post' name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
+		<#assign pageTitle><span class="avatar avatar-sm bg-orange-lt me-2" aria-hidden="true"><@icon style='key' /></span>#i18n{portal.features.create_level.boxTitle}</#assign>
+		<@pageHeader title=pageTitle />
+		<@tform boxed=true id="create-level-form" method='post' name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
-			<@formGroup labelKey='#i18n{portal.features.create_level.labelId}' labelFor='level_id' mandatory=true>
+			<@formGroup rows=2 labelKey='#i18n{portal.features.create_level.labelId}' labelFor='level_id' mandatory=true>
 				<@input type='text' name='level_id' id='level_id' value='${level_id}' maxlength=3 />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.features.create_level.labelName}' labelFor='level_name' mandatory=true>
+			<@formGroup rows=2 labelKey='#i18n{portal.features.create_level.labelName}' labelFor='level_name' mandatory=true>
 				<@input type='text' name='level_name' id='level_name' value='' maxlength=80 />
 			</@formGroup>
-			<@formGroup>
-				<@button type='submit' buttonIcon='edit' title='#i18n{portal.features.create_level.buttonLabelValidate}'color='primary' />
+			<@formGroup rows=2>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.features.create_level.buttonLabelValidate}' color='primary' />
+				<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#right_levels' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='light' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

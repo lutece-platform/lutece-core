@@ -1,6 +1,8 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-teal-lt me-2" aria-hidden="true"><@icon style='users-group' /></span>#i18n{portal.workgroup.modify_workgroup.titleModificationForm}</#assign>
+<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/workgroup/ManageWorkgroups.jsp'>#i18n{portal.workgroup.manage_workgroups.pageTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>#i18n{portal.workgroup.modify_workgroup.titleModificationForm}</@breadcrumbItem></@breadcrumbs></#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.workgroup.modify_workgroup.titleModificationForm}'>
+        <@pageHeader title=pageTitle breadcrumb=bc>
             <@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
         </@pageHeader>
 		<@tform method='post' id='modify_workgroup_form' action='jsp/admin/workgroup/DoModifyWorkgroup.jsp' boxed=true>

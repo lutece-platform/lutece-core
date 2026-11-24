@@ -1,11 +1,13 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-azure-lt me-2" aria-hidden="true"><@icon style='mail' /></span>#i18n{portal.mailinglist.modify_mailinglist.title} ${mailinglist.name}</#assign>
+<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/mailinglist/ManageMailingLists.jsp'>#i18n{portal.mailinglist.manage_mailinglists.boxTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>#i18n{portal.mailinglist.modify_mailinglist.title} ${mailinglist.name}</@breadcrumbItem></@breadcrumbs></#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.mailinglist.modify_mailinglist.title} ${mailinglist.name}'>
+        <@pageHeader title=pageTitle breadcrumb=bc>
             <@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' class='me-1' params={'data-lutece-action': 'back'} />
             <#if mailinglist.filters?has_content>
             <@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' hideTitle=['xs','sm'] class='me-1' />
             </#if>
-            <@aButton href='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' hideTitle=['xs','sm'] color='primary' />
+            <@aButton href='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' hideTitle=['xs','sm','md'] color='primary' />
         </@pageHeader>
         <@tform method='post' action='jsp/admin/mailinglist/DoModifyMailingList.jsp' boxed=true>
             <@input type='hidden' id='id_mailinglist' name='id_mailinglist' value='${mailinglist.id}' />
@@ -26,22 +28,23 @@
         </@tform>
         <@h level=2 class='mt-4 mb-3'>#i18n{portal.mailinglist.add_users.title}</@h>
         <#if mailinglist.filters?has_content>
-        <@manageFeature>
+        <@manageFeature layout='list'>
             <#list mailinglist.filters as filter>
             <@manageFeatureItem>
-                <@manageFeatureItemColumn auto=true flex=false>
-                    <@p class='mb-0'>#i18n{portal.mailinglist.modify_mailinglist.columnWorkgroup} : <strong>${filter.workgroup!}</strong></@p>
+                <@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+                    <span class="avatar avatar-sm bg-azure-lt" aria-hidden="true"><@icon style='users-group' /></span>
+                    <@div class='text-truncate'>
+                        <@div class='fw-semibold text-truncate'>${filter.workgroup!}</@div>
+                        <@div class='text-secondary small text-truncate'>#i18n{portal.mailinglist.modify_mailinglist.columnRole} : ${filter.role!}</@div>
+                    </@div>
                 </@manageFeatureItemColumn>
-                <@manageFeatureItemColumn auto=true flex=false>
-                    <@p class='mb-0'>#i18n{portal.mailinglist.modify_mailinglist.columnRole} : <strong>${filter.role!}</strong></@p>
-                </@manageFeatureItemColumn>
-                <@manageFeatureItemColumn align='end'>
+                <@manageFeatureItemColumn auto=true align='end'>
                     <@tform method='post' action='jsp/admin/mailinglist/DoDeleteFilter.jsp'>
                         <@input type='hidden' name='id_mailinglist' value='${mailinglist.id}' />
                         <@input type='hidden' name='workgroup' value='${filter.workgroup}' />
                         <@input type='hidden' name='role' value='${filter.role}' />
                         <@input type='hidden' name='token' value='${token}' />
-                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' hideTitle=['xs','sm'] color='danger' />
+                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' hideTitle=['all'] color='ghost-danger' class='btn-icon' />
                     </@tform>
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>

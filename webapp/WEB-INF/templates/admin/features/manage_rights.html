@@ -14,9 +14,10 @@
         <#list sortOptions as sortOption>
             <#if sortOption.attribute == sortAttr && sortOption.asc == sortAsc><#assign currentSortLabel = sortOption.label /></#if>
         </#list>
-        <@pageHeader title='#i18n{portal.features.manage_rights.pageTitle}'>
+        <#assign pageTitle><span class="avatar avatar-sm bg-orange-lt me-2" aria-hidden="true"><@icon style='key' /></span>#i18n{portal.features.manage_rights.pageTitle}</#assign>
+        <@pageHeader title=pageTitle>
             <div class="dropdown">
-                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     <@icon style='arrows-sort' class='me-1' /> #i18n{portal.util.sort.label}<#if currentSortLabel?has_content> : ${currentSortLabel}</#if>
                 </button>
                 <@dropdownMenu class='dropdown-menu-end'>
@@ -31,7 +32,7 @@
             <@div class='row g-2 align-items-center mb-3'>
                 <@div class='col-12 col-md-4'>
                     <@inputGroup>
-                        <@button type='submit' color='default' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['all'] />
+                        <@button type='submit' color='light' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['all'] />
                         <@input type='search' name='search' id='rights-search' value=searchValue placeHolder='#i18n{portal.features.manage_rights.filterSearchPlaceholder}' autoComplete='off' title='#i18n{portal.features.manage_rights.filterSearchPlaceholder}' />
                     </@inputGroup>
                 </@div>
@@ -42,36 +43,37 @@
                     <@select name='level' id='filter-level' items=levels_list default_value=selected_level title='#i18n{portal.features.manage_rights.filterAllLevels}' />
                 </@div>
                 <@div class='col-auto'>
-                    <@aButton href='jsp/admin/features/ManageRights.jsp?search=&level=&plugin=' color='default' buttonIcon='refresh' title='#i18n{portal.util.labelReset}' />
+                    <@aButton href='jsp/admin/features/ManageRights.jsp?search=&level=&plugin=' color='light' buttonIcon='refresh' title='#i18n{portal.util.labelReset}' />
                 </@div>
             </@div>
         </@tform>
         <#if rights_list?has_content>
         <@paginationItemCount paginator=paginator showcount=1 />
-        <@manageFeature class='mt-0'>
+        <@manageFeature layout='list' id='rights-list' class='mt-0'>
             <#list rights_list as right >
-            <@manageFeatureItem>            
-                <@manageFeatureItemColumn>
-                    <@h level=3>${right.name}</@h>
+            <@manageFeatureItem>
+                <@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+                    <span class="avatar avatar-sm bg-orange-lt" aria-hidden="true"><@icon style='key' /></span>
+                    <@div class='text-truncate'>
+                        <@link href='jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}' class='text-reset fw-semibold'>${right.name}</@link>
+                        <@div class='text-secondary small text-truncate'><em>${right.description}</em></@div>
+                    </@div>
                 </@manageFeatureItemColumn>
-                <@manageFeatureItemColumn>
-                    <@p>#i18n{portal.features.manage_rights.columnTitlePlugin} : <strong><span class="badge bg-secondary-lt"><#if (right.pluginName)?has_content>${right.pluginName}<#else>#i18n{portal.features.manage_rights.coreLabel}</#if></span></strong></@p>
-                </@manageFeatureItemColumn>
-                <@manageFeatureItemColumn auto=true>
-                    <@p>#i18n{portal.features.manage_rights.columnTitleLevel} : <strong>${right.level}</strong></@p>
-                </@manageFeatureItemColumn> 
-                <@manageFeatureItemColumn>
-                    <@p><em>${right.description}</em></@p>
-                </@manageFeatureItemColumn>
-                <@manageFeatureItemColumn auto=true>
-                    <@aButton href='jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}' buttonIcon='user' color='primary' title='#i18n{portal.features.manage_rights.buttonLabelAssignUsers}' hideTitle=['all'] />
+                <@manageFeatureItemColumn auto=true align='end'>
+                    <@tag color='' class='bg-secondary-lt' tagIcon='puzzle'><#if (right.pluginName)?has_content>${right.pluginName}<#else>#i18n{portal.features.manage_rights.coreLabel}</#if></@tag>
+                    <@tag color='' class='bg-orange-lt' tagIcon='shield'>#i18n{portal.features.manage_rights.columnTitleLevel} ${right.level}</@tag>
+                    <@div class='btn-actions'>
+                        <@aButton href='jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}' style='btn-action' color='' buttonIcon='user' title='#i18n{portal.features.manage_rights.buttonLabelAssignUsers}' hideTitle=['all'] />
+                    </@div>
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>
             </#list>
         </@manageFeature>
         <@paginationAdmin paginator=paginator combo=1 showcount=0 />
         <#else>
-        <@alert color='info'>#i18n{portal.features.manage_rights.filterNoResult}</@alert>
+        <@card>
+            <@empty title='#i18n{portal.features.manage_rights.filterNoResult}' iconName='key-off' subtitle=' ' actionTitle='#i18n{portal.util.labelReset}' actionUrl='jsp/admin/features/ManageRights.jsp?search=&level=&plugin=' />
+        </@card>
         </#if>
     </@pageColumn>
 </@pageContainer>

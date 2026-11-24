@@ -1,33 +1,42 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='#i18n{portal.search.manage_indexer.labelIndexersList}'>
-			<@tform method='get' name='doIndexing' action='jsp/admin/search/DoIndexing.jsp'>
+		<#assign pageTitle><span class="avatar avatar-sm bg-cyan-lt me-2" aria-hidden="true"><@icon style='search' /></span>#i18n{portal.search.manage_indexer.labelIndexersList}</#assign>
+		<@pageHeader title=pageTitle>
+			<@tform method='get' name='doIndexing' type='inline' action='jsp/admin/search/DoIndexing.jsp'>
 				<@input type='hidden' name='token' value='${token}' />
-				<@button type='submit' buttonIcon='redo' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' />
-				<@button type='submit' buttonIcon='sync' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' />
+				<@button type='submit' buttonIcon='redo' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' color='primary' hideTitle=['xs','sm'] />
+				<@button type='submit' buttonIcon='sync' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' color='light' hideTitle=['xs','sm'] />
 			</@tform>
 		</@pageHeader>
-		<@manageFeature>
+		<#if indexers_list?has_content>
+		<@manageFeature layout='list'>
 			<#list indexers_list as indexer>
 			<@manageFeatureItem>
-				<@manageFeatureItemColumn auto=true>
-				<#if indexer.enable>
-					<@tag color='success' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}'>
-						#i18n{portal.search.manage_indexer.IndexerEnable}
-					</@tag>
-				<#else>
-					<@tag color='danger' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}'>
-						#i18n{portal.search.manage_indexer.IndexerDisable}
-					</@tag>
-				</#if>
+				<@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+					<#if indexer.enable>
+						<span class="avatar avatar-sm bg-success-lt" aria-hidden="true"><@icon style='check' /></span>
+					<#else>
+						<span class="avatar avatar-sm bg-danger-lt" aria-hidden="true"><@icon style='x' /></span>
+					</#if>
+					<@div class='text-truncate'>
+						<@span class='fw-semibold'>${indexer.name}</@span>
+						<@div class='text-secondary small text-truncate'>#i18n{portal.search.manage_indexer.columnIndexerVersion} ${indexer.version} &middot; ${indexer.description}</@div>
+					</@div>
 				</@manageFeatureItemColumn>
-				<@manageFeatureItemColumn>
-					<@p>#i18n{portal.search.manage_indexer.columnIndexerName} : <strong>${indexer.name}</strong></@p>
-					<@p>#i18n{portal.search.manage_indexer.columnIndexerVersion} : <strong>${indexer.version}</strong></@p>
-					<@p>#i18n{portal.search.manage_indexer.columnIndexerDescription} : <strong>${indexer.description}</strong></@p>
+				<@manageFeatureItemColumn auto=true align='end'>
+					<#if indexer.enable>
+						<@tag color='success' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}'>#i18n{portal.search.manage_indexer.IndexerEnable}</@tag>
+					<#else>
+						<@tag color='danger' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}'>#i18n{portal.search.manage_indexer.IndexerDisable}</@tag>
+					</#if>
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 			</#list>
 		</@manageFeature>
+		<#else>
+		<@card>
+			<@empty title='#i18n{portal.util.labelNoItem}' iconName='search-off' subtitle=' ' />
+		</@card>
+		</#if>
 	</@pageColumn>
 </@pageContainer>

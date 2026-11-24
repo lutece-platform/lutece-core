@@ -1,59 +1,68 @@
-<#assign boxtitle>
-#i18n{portal.users.import_module_user.searchBoxTitle}
-</#assign>
-<@row>
-    <@columns>
-        <@box>
-            <@boxHeader title=boxtitle />
-            <@boxBody>
-				<@tform name='searchUsers' id='searchUsers' action='jsp/admin/user/ImportUser.jsp' >
-					<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}'>
-						<#if user??><#assign value = user.lastName /></#if>
-						<@input type='text' name='last_name' id='last_name' value=value! />
-					</@formGroup> 
-					<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}'>
-						<#if user??><#assign value = user.firstName /></#if>
-						<@input type='text' name='first_name' id='first_name' value=value! />
-					</@formGroup> 
-					<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}'>
-						<#if user??><#assign value = user.email /></#if>
-						<@input type='email' name='email' id='email' value=value! />
-					</@formGroup>
-					<@formGroup>
-						<@button type='submit' buttonIcon='search' title='#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}' />
-					</@formGroup>	
-				</@tform>
-			</@boxBody>
-		</@box>
-		<#if import_user_list?has_content>
-		<@box>
-			<#assign boxtitle>#i18n{portal.users.import_module_user.resultBoxTitle}</#assign>
-			<@boxHeader title=boxtitle />
-			<@boxBody>
-				<@table headBody=true>
-				<@tr>
-					<@th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</@th>
-					<@th>#i18n{portal.users.import_module_user.resultColumnTitleFirstName}</@th>
-					<@th>#i18n{portal.users.import_module_user.resultColumnTitleEmail}</@th>
-					<@th>#i18n{portal.users.import_module_user.resultColumnTitleActions}</@th>
-				</@tr>
-				<@tableHeadBodySeparator />
-				<#list import_user_list as user >
-				<@tr>
-					<@td>${user.lastName!}</@td>
-					<@td>${user.firstName!}</@td>
-					<@td>${user.email!}</@td>
-					<@td>
-						<@tform name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
-							<@input type='hidden' name='access_code' value='${user.accessCode!}' />
-							<@button type='submit' title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' buttonIcon='file-import' color='primary' size='' />
-						</@tform>
-					</@td>
-				</@tr>
-				</#list>
-				</@table>
-			</@boxBody>
-		</@box>
-		</#if>
-	</@columns>
-</@row>
+<#include "/admin/user/macro_user_admin.html" />
+<#assign pageLabel>#i18n{portal.users.import_module_user.pageTitle}</#assign>
+<#assign breadcrumbHtml><@userBreadcrumb current=pageLabel /></#assign>
+<@pageContainer>
+    <@pageColumn>
+        <@userPageHeader title=pageLabel breadcrumb=breadcrumbHtml>
+            <@aButton href='jsp/admin/user/ManageUsers.jsp' title='#i18n{portal.util.labelBack}' buttonIcon='arrow-left' color='light' hideTitle=['xs','sm','md'] />
+        </@userPageHeader>
+        <@row>
+            <@columns lg=4>
+                <@box>
+                    <@boxHeader title='#i18n{portal.users.import_module_user.searchBoxTitle}' />
+                    <@boxBody>
+                        <@tform name='searchUsers' id='searchUsers' action='jsp/admin/user/ImportUser.jsp'>
+                            <@formGroup labelFor='last_name' labelKey='#i18n{portal.users.modify_user.labelLastName}' rows=2>
+                                <@input type='text' name='last_name' id='last_name' value=(last_name!'') />
+                            </@formGroup>
+                            <@formGroup labelFor='first_name' labelKey='#i18n{portal.users.modify_user.labelFirstName}' rows=2>
+                                <@input type='text' name='first_name' id='first_name' value=(first_name!'') />
+                            </@formGroup>
+                            <@formGroup labelFor='email' labelKey='#i18n{portal.users.modify_user.labelEmail}' rows=2>
+                                <@input type='email' name='email' id='email' value=(email!'') />
+                            </@formGroup>
+                            <@formGroup rows=2>
+                                <@button type='submit' buttonIcon='search' title='#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}' color='primary' />
+                            </@formGroup>
+                        </@tform>
+                    </@boxBody>
+                </@box>
+            </@columns>
+            <@columns lg=8>
+                <#if import_user_list??>
+                    <#if import_user_list?has_content>
+                        <@box>
+                            <@boxHeader title='#i18n{portal.users.import_module_user.resultBoxTitle}' />
+                            <@table headBody=true>
+                                <@tr>
+                                    <@th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</@th>
+                                    <@th>#i18n{portal.users.import_module_user.resultColumnTitleFirstName}</@th>
+                                    <@th>#i18n{portal.users.import_module_user.resultColumnTitleEmail}</@th>
+                                    <@th>#i18n{portal.users.import_module_user.resultColumnTitleActions}</@th>
+                                </@tr>
+                                <@tableHeadBodySeparator />
+                                <#list import_user_list as importUser>
+                                <@tr>
+                                    <@td>${importUser.lastName!}</@td>
+                                    <@td>${importUser.firstName!}</@td>
+                                    <@td>${importUser.email!}</@td>
+                                    <@td>
+                                        <@tform name='importUsers' id='importUsers_${importUser?index}' action='jsp/admin/user/DoSelectImportUser.jsp'>
+                                            <@input type='hidden' name='access_code' value='${importUser.accessCode!}' />
+                                            <@button type='submit' title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' buttonIcon='file-import' color='primary' size='' />
+                                        </@tform>
+                                    </@td>
+                                </@tr>
+                                </#list>
+                            </@table>
+                        </@box>
+                    <#else>
+                        <@card>
+                            <@empty title='#i18n{portal.util.labelNoItem}' iconName='users-minus' subtitle=' ' />
+                        </@card>
+                    </#if>
+                </#if>
+            </@columns>
+        </@row>
+    </@pageColumn>
+</@pageContainer>

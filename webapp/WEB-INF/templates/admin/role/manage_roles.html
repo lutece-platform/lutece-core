@@ -1,44 +1,47 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-green-lt me-2" aria-hidden="true"><@icon style='user-shield' /></span>#i18n{portal.role.manage_roles.boxTitle}</#assign>
 <@pageContainer>
-    <@pageColumn> 
-        <@pageHeader title='#i18n{portal.role.manage_roles.boxTitle}'>
+    <@pageColumn>
+        <@pageHeader title=pageTitle>
             <@tform method='post' type='inline'>
-				<@formGroup labelFor='search_role' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
-					<@inputGroup>
-						<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' autoComplete='off' />
-						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
-					</@inputGroup>
-				</@formGroup>
-			</@tform>
-            <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" btnClass="ms-2" position="end" />
+                <@formGroup labelFor='search_role' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+                    <@inputGroup>
+                        <@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' autoComplete='off' />
+                        <@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+                    </@inputGroup>
+                </@formGroup>
+            </@tform>
+            <@aButton href='jsp/admin/role/CreatePageRole.jsp' color='primary' buttonIcon='plus' title='#i18n{portal.role.manage_roles.buttonLabelCreate}' hideTitle=['xs','sm','md'] class='ms-2' />
         </@pageHeader>
+        <@messages infos=infos![] errors=errors![] warnings=warnings![] />
         <#-- The list always holds the default role 'none' (RoleHome.findAll), which is not shown: the empty state is for a list without any other -->
         <#assign pageRoles = roles_list?filter( role -> role.role != "none" ) />
         <#if pageRoles?has_content>
-            <@manageFeature>
+            <@manageFeature layout='list' id='manage-roles'>
             <#list pageRoles as role>
-                    <@manageFeatureItem class='item-labels'>
-                        <@manageFeatureItemColumn auto=true class='searchable' >
-                            <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleId} : <strong>${role.role}</strong></@p>
-                        </@manageFeatureItemColumn>
-                         <@manageFeatureItemColumn auto=true class='searchable' >
-                            <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleDescription} : <strong>${role.roleDescription}</strong></@p>
-                        </@manageFeatureItemColumn>
-                        <@manageFeatureItemColumn auto=true class='searchable' >
-                            <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleWorkgroup} : <strong>${role.workgroup}</strong></@p>
-                        </@manageFeatureItemColumn>
-                        <@manageFeatureItemColumn align='end'>
-                            <@offcanvas targetUrl="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" targetElement="#modify_page_role_form" redirectForm=false id="template-modify-page-role-${role?index}" title="#i18n{portal.util.labelModify} (${role.role})" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" btnClass=" me-1" position="end"  />
-                            <#if exist_rbac_map?has_content && exist_rbac_map[role.role]>
-                               <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' title='#i18n{portal.role.manage_roles.labelViewRbacRole}' buttonIcon='link' color='primary me-1' />
-                            </#if>    
-                            <@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' />
-                        </@manageFeatureItemColumn>
-                    </@manageFeatureItem>    
+                <@manageFeatureItem class='item-labels'>
+                    <@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate searchable'>
+                        <span class="avatar avatar-sm bg-green-lt" aria-hidden="true"><@icon style='user-shield' /></span>
+                        <@div class='text-truncate'>
+                            <@link class='text-reset fw-semibold' href='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelModify} ${role.role}'>${role.role}</@link>
+                            <@div class='text-secondary small text-truncate'>${role.roleDescription!}</@div>
+                        </@div>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn auto=true align='end'>
+                        <#if role.workgroup?has_content><@tag color='' class='bg-blue-lt' tagIcon='users'>${role.workgroup}</@tag></#if>
+                        <@div class='btn-actions'>
+                            <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' style='btn-action' color='' buttonIcon='pencil' title='#i18n{portal.util.labelModify} ${role.role}' hideTitle=['all'] />
+                            <#if exist_rbac_map?has_content && (exist_rbac_map[role.role])!false>
+                                <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' style='btn-action' color='' buttonIcon='link' title='#i18n{portal.role.manage_roles.labelViewRbacRole}' hideTitle=['all'] />
+                            </#if>
+                            <@aButton href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' style='btn-action text-danger' color='' buttonIcon='trash' title='#i18n{portal.util.labelDelete} ${role.role}' hideTitle=['all'] />
+                        </@div>
+                    </@manageFeatureItemColumn>
+                </@manageFeatureItem>
             </#list>
             </@manageFeature>
         <#else>
             <@card>
-                <@empty iconName='lock' title='#i18n{portal.role.manage_roles.noRole}' subtitle='#i18n{portal.role.manage_roles.noRoleHelp}' />
+                <@empty iconName='lock' title='#i18n{portal.role.manage_roles.noRole}' subtitle='#i18n{portal.role.manage_roles.noRoleHelp}' actionTitle='#i18n{portal.role.manage_roles.buttonLabelCreate}' actionUrl='jsp/admin/role/CreatePageRole.jsp' />
             </@card>
         </#if>
     </@pageColumn>
