@@ -68,12 +68,12 @@ Snippet:
 
 -->
 <#macro cList items={} type='default' itemsShown=0 indexShown=false labelMore=i18n("portal.theme.labelShowMore") labelClose=i18n("portal.theme.labelClose") class='' id='' params={} deprecated...>
-<@deprecatedWarning args=deprecated />        
+<@deprecatedWarning args=deprecated />          
 <ul class="custom-list list-${type!}<#if class?has_content> ${class}</#if><#if type='more'> more-list</#if>" <@commonAttrs id=id params=params /> >
 <#if items?has_content>
     <#list items as i>
         <li class="custom-list-item <#if i.class?? && i.class !=''>${i.class}</#if><#if type='more' && i?index &gt; itemsShown>extra hidden</#if>">
-            <a class="list-info" href="${i.url!'return false;'}" title="${i.title}" <#if i.target !=''> target="${i.target}"</#if><#if type='files'> download="${i.title!?replace(' ','_')?replace('"','_')?replace('\'','_')}"</#if>>
+            <a class="list-info" href="${i.url!'return false;'}"<#if i.linkTitle??><#if i.linkTitle!=''> title="${i.linkTitle}"</#if><#else> title="${i.title}"</#if><#if i.target !=''> target="${i.target}"</#if><#if type='files'> download="${i.title!?replace(' ','_')?replace('"','_')?replace('\'','_')}"</#if><#if i.params?? && i.params!=''> ${i.params}</#if>>
                 <span>${i.title!} <#if indexShown>${i?index}</#if></span>
                 <#if type='files'>
                 <div class="files-info">
