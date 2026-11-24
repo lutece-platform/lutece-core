@@ -1,6 +1,8 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-azure-lt me-2" aria-hidden="true"><@icon style='mail' /></span>#i18n{portal.mailinglist.view_users.boxTitle}</#assign>
+<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/mailinglist/ManageMailingLists.jsp'>#i18n{portal.mailinglist.manage_mailinglists.boxTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>#i18n{portal.mailinglist.view_users.boxTitle}</@breadcrumbItem></@breadcrumbs></#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.mailinglist.view_users.boxTitle}'>
+        <@pageHeader title=pageTitle breadcrumb=bc>
             <@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' params={'data-lutece-action': 'back'} />
         </@pageHeader>
         <#if recipients_list?size gt 0>

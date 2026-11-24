@@ -1,8 +1,15 @@
-<#assign boxTitle> ${right.name} <small>[ #i18n{portal.features.assign_users.right.level} : ${right.level} ]</small></#assign>
+<#assign boxTitle><span class="avatar avatar-sm bg-orange-lt me-2" aria-hidden="true"><@icon style='key' /></span><span class="me-2">${right.name}</span> <small>[ #i18n{portal.features.assign_users.right.level} : ${right.level} ]</small></#assign>
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='${boxTitle}'>
-			<@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}" position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search" size="auto">
+		<@pageHeader title=boxTitle>
+			<@aButton href='jsp/admin/features/ManageRights.jsp' color='light' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' hideTitle=['xs','sm','md'] />
+			<@button type='button' buttonIcon='search' color='light' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' hideTitle=['xs','sm','md'] params={ 'data-bs-toggle': 'modal', 'data-bs-target': '#search-users' } />
+			<@item_navigation item_navigator=item_navigator id="item-navigator-assigned" display="inline" />
+		</@pageHeader>
+		<@messages infos=infos![] errors=errors![] warnings=warnings![] />
+		<@modal id='search-users'>
+			<@modalHeader modalTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' />
+			<@modalBody>
 				<@tform method='post' name='search_users' action='jsp/admin/features/AssignUsersRight.jsp'>
 					<@input type='hidden' name='id_right' value='${right.id}' />
 					<#if (user_levels?has_content)>
@@ -51,16 +58,15 @@
 					</@formGroup>
 					<#list attributes_list as attribute>
 						<#if attribute.shownInSearch>
-							${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )?no_esc}
+							<#noautoesc>${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}</#noautoesc>
 						</#if>
 					</#list>
 					<@formGroup>
 						<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary' size='' style="w-100" />
 					</@formGroup>
 				</@tform>
-			</@offcanvas>
-			<@item_navigation item_navigator=item_navigator id="item-navigator-assigned" display="inline" />
-		</@pageHeader>
+			</@modalBody>
+		</@modal>
 		<@row>
 			<@columns md=4>
 				<@box>
@@ -108,33 +114,36 @@
 					<@boxHeader title='#i18n{portal.features.assign_users.labelAssignedUser} (${assigned_users_number})' />
 					<@boxBody class='p-2'>
 					<#if assigned_users_list?size gt 8><@paginationAdmin paginator=paginator combo=0 showcount=1 /></#if>
-					<@manageFeature>
 					<#if assigned_users_list?size gt 0>
+					<@manageFeature layout='list' id='assigned-users-list'>
 						<#list assigned_users_list as assigned_user>
 							<#if assigned_user_has_next><#assign anchor=assigned_user_index><#else><#assign anchor=assigned_user_index - 1></#if>
 								<@manageFeatureItem id='anchor-${assigned_user_index}'>
-									<@manageFeatureItemColumn auto=true flex=false>
-										<@p class='mb-1'>#i18n{portal.users.manage_users.columnTitleLastName} : ${assigned_user.lastName} - #i18n{portal.users.manage_users.columnTitleFirstName} : ${assigned_user.firstName}</@p>
-										<@p class='mb-0'>#i18n{portal.users.manage_users.columnTitleAccessCode} : <em>${assigned_user.accessCode}</em> - #i18n{portal.users.manage_users.columnTitleEmail} : <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@p>
+									<@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+										<span class="avatar avatar-sm bg-orange-lt" aria-hidden="true"><@icon style='user' /></span>
+										<@div class='text-truncate'>
+											<@link href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' class='text-reset fw-semibold'>${assigned_user.lastName} ${assigned_user.firstName}</@link>
+											<@div class='text-secondary small text-truncate'><em>${assigned_user.accessCode}</em> &middot; <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'>${assigned_user.email}</@link></@div>
+										</@div>
 									</@manageFeatureItemColumn>
-									<@manageFeatureItemColumn align='end'>
-										<@tform method='post' action='jsp/admin/features/DoUnassignUserRight.jsp'>
+									<@manageFeatureItemColumn auto=true align='end'>
+										<@tform method='post' action='jsp/admin/features/DoUnassignUserRight.jsp' class='m-0'>
 											<@input type='hidden' name='id_user' value='${assigned_user.userId}' />
 											<@input type='hidden' name='id_right' value='${right.id}' />
 											<@input type='hidden' name='anchor' value='anchor-${anchor}' />
 											<@input type='hidden' name='token' value='${token}' />
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.features.assign_users.actionModify}' color='primary' />
-											<@button type='submit' buttonIcon='playlist-x' title='#i18n{portal.features.assign_users.actionUnassign}' color='danger' />
+											<@div class='btn-actions'>
+												<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' style='btn-action' color='' buttonIcon='pencil' title='#i18n{portal.features.assign_users.actionModify}' hideTitle=['all'] />
+												<@button type='submit' style='btn-action text-danger' color='' buttonIcon='playlist-x' title='#i18n{portal.features.assign_users.actionUnassign}' hideTitle=['all'] />
+											</@div>
 										</@tform>
 									</@manageFeatureItemColumn>
 								</@manageFeatureItem>
-							</#list>
-						<#else>
-							<@box>
-								<@empty />
-							</@box>
-						</#if>
+						</#list>
 					</@manageFeature>
+					<#else>
+						<@empty title='#i18n{portal.features.assign_users.noUserToAssign}' iconName='users-minus' subtitle=' ' />
+					</#if>
 					</@boxBody>
 				</@box>
 				<#if assigned_users_list?size gt 8><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>

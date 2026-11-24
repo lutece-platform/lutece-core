@@ -18,9 +18,10 @@
 </#if>
 <#return sortSearchAttribute + "&session=sesssion" />
 </#function>
+<#assign pageTitle><span class="avatar avatar-sm bg-azure-lt me-2" aria-hidden="true"><@icon style='mail' /></span>#i18n{portal.mailinglist.manage_mailinglists.boxTitle}</#assign>
 <@pageContainer>
     <@pageColumn> 
-        <@pageHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}'>
+        <@pageHeader title=pageTitle>
             <@tform type='inline' align="middle" method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
                 <@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] groupStyle='inline' formStyle="inline" >
                     <@inputGroup>
@@ -29,25 +30,25 @@
                     </@inputGroup>
                 </@formGroup>
             </@tform>
-            <@aButton href='jsp/admin/mailinglist/CreateMailingList.jsp' title='#i18n{portal.mailinglist.create_mailinglist.title}' hideTitle=['xs','sm'] buttonIcon='plus' color='primary' />
+            <@aButton href='jsp/admin/mailinglist/CreateMailingList.jsp' title='#i18n{portal.mailinglist.create_mailinglist.title}' hideTitle=['xs','sm','md'] buttonIcon='plus' color='primary' />
         </@pageHeader>
         <#if mailinglists_list?size gt 0>
-            <@manageFeature>
+            <@manageFeature layout='list' id='mailinglists-list'>
             <#list mailinglists_list as mailinglist>
                 <@manageFeatureItem>
-                    <@manageFeatureItemColumn>
-                        <@p class='mb-0'>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName}: <strong>${mailinglist.name}</strong></@p>
+                    <@manageFeatureItemColumn class='d-flex align-items-center gap-2 text-truncate'>
+                        <span class="avatar avatar-sm bg-azure-lt" aria-hidden="true"><@icon style='mail' /></span>
+                        <@div class='text-truncate'>
+                            <@link href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' class='text-reset fw-semibold'>${mailinglist.name}</@link>
+                            <@div class='text-secondary small text-truncate'>${mailinglist.description} &middot; ${mailinglist.workgroup}</@div>
+                        </@div>
                     </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>
-                        <@p class='mb-0'>#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription}: <strong>${mailinglist.description}</strong></@p>
-                    </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>
-                        <@p class='mb-0'>#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}: <strong>${mailinglist.workgroup}</strong></@p>
-                    </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn auto=true>
-                        <@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' hideTitle=['xs'] />
-                        <@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' hideTitle=['xs'] />
-                        <@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' color='danger' hideTitle=['xs'] />
+                    <@manageFeatureItemColumn auto=true align='end'>
+                        <@div class='btn-actions'>
+                            <@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' style='btn-action' color='' buttonIcon='pencil' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' hideTitle=['all'] />
+                            <@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' style='btn-action' color='' buttonIcon='users' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' hideTitle=['all'] />
+                            <@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' style='btn-action text-danger' color='' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' hideTitle=['all'] />
+                        </@div>
                     </@manageFeatureItemColumn>
                 </@manageFeatureItem>
             </#list>
@@ -61,6 +62,6 @@
             </#if>
             </@card>
         </#if>
-		<#if mailinglists_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
+		<#if paginator?? && ( paginator.pagesCount gt 1 || paginator.itemsCount gt 10 )><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
 	</@pageColumn>
 </@pageContainer>

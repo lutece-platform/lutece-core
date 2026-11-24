@@ -1,6 +1,7 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-red-lt me-2" aria-hidden="true"><@icon style='shield-check' /></span>#i18n{portal.rbac.manage_roles.pageTitle}</#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.rbac.manage_roles.pageTitle}'>
+        <@pageHeader title=pageTitle>
             <@tform method='post' type='inline'>
 				<@formGroup labelFor='search_role' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
@@ -9,23 +10,28 @@
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
-            <@aButton href='jsp/admin/rbac/CreateRole.jsp' title='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' buttonIcon='plus' color='primary' />
+            <@aButton href='jsp/admin/rbac/CreateRole.jsp' title='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' buttonIcon='plus' color='primary' hideTitle=['xs','sm','md'] />
         </@pageHeader>
         <#if role_list?has_content>
-            <@manageFeature>
+            <@manageFeature layout='list' id='roles-list'>
                 <#list role_list as role>
                     <@manageFeatureItem class='item-labels'>
-                        <@manageFeatureItemColumn class='searchable' >
-                            <@p>#i18n{portal.rbac.manage_roles.columnTitleKey}: <strong>${role.key}</strong></@p>
-                            <@p class='ms-2'>#i18n{portal.rbac.manage_roles.columnTitleDescription}: <strong>${role.description}</strong></@p>
+                        <@manageFeatureItemColumn class='searchable d-flex align-items-center gap-2 text-truncate'>
+                            <span class="avatar avatar-sm bg-red-lt" aria-hidden="true"><@icon style='shield-check' /></span>
+                            <@div class='text-truncate'>
+                                <@link href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' class='text-reset fw-semibold'>${role.key}</@link>
+                                <@div class='text-secondary small text-truncate'>${role.description}</@div>
+                            </@div>
                         </@manageFeatureItemColumn>
-                        <@manageFeatureItemColumn align='end'>
-                            <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription}'  buttonIcon='edit' color='primary' />
-                            <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
-                            <#if exist_front_role_map?has_content && exist_front_role_map[role.key]>
-                                <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} ' buttonIcon='link'  color='primary' />
-                            </#if> 
-                            <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} ' buttonIcon='trash' color='danger' />
+                        <@manageFeatureItemColumn auto=true align='end'>
+                            <@div class='btn-actions'>
+                                <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' style='btn-action' color='' buttonIcon='pencil' title='#i18n{portal.rbac.view_role_description.labelDescription}' hideTitle=['all'] />
+                                <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' style='btn-action' color='' buttonIcon='users' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers}' hideTitle=['all'] />
+                                <#if exist_front_role_map?has_content && exist_front_role_map[role.key]>
+                                    <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' style='btn-action' color='' buttonIcon='link' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole}' hideTitle=['all'] />
+                                </#if>
+                                <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' style='btn-action text-danger' color='' buttonIcon='trash' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['all'] />
+                            </@div>
                         </@manageFeatureItemColumn>
                     </@manageFeatureItem>
                 </#list>
@@ -35,7 +41,7 @@
                 <@empty title='#i18n{portal.rbac.manage_roles.noRole}' iconName='shield-off' subtitle='#i18n{portal.rbac.manage_roles.noRoleHelp}' actionTitle='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' actionUrl='jsp/admin/rbac/CreateRole.jsp' actionIcon='plus' />
             </@card>
         </#if>
-        <#if role_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if> 
+        <#if paginator?? && ( paginator.pagesCount gt 1 || paginator.itemsCount gt 10 )><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
     </@pageColumn>
 </@pageContainer>
 <script type="module">

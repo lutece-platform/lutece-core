@@ -1,7 +1,9 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='#i18n{portal.role.create_role.boxTitle}' />
-		<@tform action='jsp/admin/role/DoCreatePageRole.jsp' id='create_page_role_form' name='create_page_role'>
+		<@pageHeader title='#i18n{portal.role.create_role.boxTitle}'>
+			<@aButton href='jsp/admin/role/ManagePageRole.jsp' color='light' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' hideTitle=['xs','sm','md'] />
+		</@pageHeader>
+		<@tform boxed=true action='jsp/admin/role/DoCreatePageRole.jsp' id='create_page_role_form' name='create_page_role'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.role.create_role.labelName}' mandatory=true rows=2>
 				<@input type='text' name='role' maxlength=50 />
@@ -13,8 +15,8 @@
 				<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
 			</@formGroup>
 			<@formGroup rows=2>
-				<@button type='submit' title='#i18n{portal.role.modify_role.buttonLabelValidate}' hideTitle=['xs'] buttonIcon='check' size='' />
-				<@aButton href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.admin.message.buttonCancel}' hideTitle=['xs'] buttonIcon='times' color='secondary' size='' />
+				<@button type='submit' color='primary' title='#i18n{portal.role.modify_role.buttonLabelValidate}' hideTitle=['xs'] buttonIcon='check' size='' />
+				<@aButton href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.util.labelCancel}' hideTitle=['xs'] buttonIcon='x' color='light' size='' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

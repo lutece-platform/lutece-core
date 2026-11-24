@@ -1,6 +1,11 @@
+<#include "/admin/user/macro_user_admin.html" />
+<#assign pageLabel>#i18n{portal.users.import_users_from_file.labelImportUsers}</#assign>
+<#assign breadcrumbHtml><@userBreadcrumb current=pageLabel /></#assign>
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='#i18n{portal.users.import_users_from_file.labelImportUsers}' />
+		<@userPageHeader title=pageLabel breadcrumb=breadcrumbHtml>
+			<@aButton href='jsp/admin/user/ManageUsers.jsp' title='#i18n{portal.util.labelBack}' buttonIcon='arrow-left' color='light' hideTitle=['xs','sm','md'] />
+		</@userPageHeader>
 		<@tabs>
 			<@tform enctype="multipart/form-data" method='post' name='import_users_from_file' action='jsp/admin/user/DoImportUsersFromFile.jsp'>
 				<@input type='hidden' name='token' value='${token}' />
@@ -23,21 +28,20 @@
 						</@formGroup>
 						<#if csv_messages?? && csv_messages?has_content>
 							<#list csv_messages as csv_message>
-								<#if csv_message.messageLevel?string == "ERROR">
-									<#assign alertClass="alert-danger">
-								</#if>
-								<@alert class=alertClass>
+								<#assign alertColor = 'info' />
+								<#if csv_message.messageLevel?string == "ERROR"><#assign alertColor = 'danger' /><#elseif csv_message.messageLevel?string == "WARN" || csv_message.messageLevel?string == "WARNING"><#assign alertColor = 'warning' /></#if>
+								<@alert color=alertColor>
 									<#if 0 < csv_message.lineNumber >#i18n{portal.users.import_users_from_file.lineNumber} ${csv_message.lineNumber} - </#if>${csv_message.messageContent}
 								</@alert>
 							</#list>
 						</#if>
 						<@formGroup>
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' size='' color='primary' />
-							<@aButton color='secondary' href='jsp/admin/user/ManageUsers.jsp' buttonIcon='times' title='#i18n{portal.util.labelBack}' size=''  />
+							<@aButton color='light' href='jsp/admin/user/ManageUsers.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' size='' />
 						</@formGroup>
 						</@columns>
 						<@columns>
-						<@alert title='#i18n{portal.users.import_users_from_file.labelImportUsers}' class='alert-minor' iconTitle='info-circle' >
+						<@alert title='#i18n{portal.users.import_users_from_file.labelImportUsers}' color='info' iconTitle='info-circle' >
 							<@p>#i18n{portal.users.import_users_from_file.labelCSVSeparator} <@span class="fw-bolder fs-3">"${csv_separator}"</@span>.</@p>
 							<@p>#i18n{portal.users.import_users_from_file.labelListColumns}</@p>
 							<@p>#i18n{portal.users.import_users_from_file.labelComplementaryAttributes} <@span class="fw-bolder fs-3">"${attributes_separator}"</@span>.</@p>

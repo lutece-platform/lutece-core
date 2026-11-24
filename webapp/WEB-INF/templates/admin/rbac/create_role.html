@@ -1,6 +1,8 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-red-lt me-2" aria-hidden="true"><@icon style='shield-check' /></span>#i18n{portal.rbac.create_role.titleCreateRole}</#assign>
+<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/rbac/ManageRoles.jsp'>#i18n{portal.rbac.manage_roles.pageTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>#i18n{portal.rbac.create_role.titleCreateRole}</@breadcrumbItem></@breadcrumbs></#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.rbac.create_role.titleCreateRole}'>
+        <@pageHeader title=pageTitle breadcrumb=bc>
             <@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
         </@pageHeader>
 		<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' id="create-role-form" name='create_role' boxed=true>

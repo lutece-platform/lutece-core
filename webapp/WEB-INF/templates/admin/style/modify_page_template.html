@@ -1,24 +1,23 @@
-<#assign imageHelpKey>#i18n{portal.style.modify_page_template.labelCurrentPicture}</#assign>
-<@row>
-    <@columns>
-        <@box color='info'>
-            <#assign boxTitle>#i18n{portal.style.modify_page_template.boxTitle} <strong>${page_template.description}</strong></#assign>
-            <@boxHeader title=boxTitle skipHeader=true boxTools=true>
-                <@img url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='' title='${i18n("portal.style.manage_page_templates.picturealt",page_template.description)}' />
-            </@boxHeader>
-            <@boxBody>
-                <@tform method='post' enctype="multipart/form-data" id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
-                    <@input type='hidden' name='page_template_id' value='${page_template.id}' />
-                    <@input type='hidden' name='token' value='${token}' />
-                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
-                        <@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description}' maxlength=50 />
-                    </@formGroup>
-                    <@formGroup>
-                        <@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}' size='' />
-                        <@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='danger' />
-                    </@formGroup>
-                </@tform>
-            </@boxBody>
-        </@box>
-    </@columns>
-</@row>
+<#assign pageTitle><span class="avatar avatar-sm bg-purple-lt me-2" aria-hidden="true"><@icon style='layout' /></span>#i18n{portal.style.modify_page_template.boxTitle}</#assign>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title=pageTitle>
+            <@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
+        </@pageHeader>
+        <@messages errors=errors![] />
+        <@tform method='post' enctype="multipart/form-data" id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template' boxed=true>
+            <@input type='hidden' name='page_template_id' value='${page_template.id}' />
+            <@input type='hidden' name='token' value='${token}' />
+            <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelCurrentPicture}' rows=2>
+                <@img url='themes/admin/shared/images/page_templates/${page_template.picture}' class='img-invert' alt='' title='${i18n("portal.style.manage_page_templates.picturealt",page_template.description)}' />
+            </@formGroup>
+            <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true rows=2>
+                <@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description}' maxlength=50 mandatory=true />
+            </@formGroup>
+            <@formGroup rows=2>
+                <@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}' color='primary' />
+                <@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='light' />
+            </@formGroup>
+        </@tform>
+    </@pageColumn>
+</@pageContainer>

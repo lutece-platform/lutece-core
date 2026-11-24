@@ -11,9 +11,10 @@
 	<li><@icon style='license' /><span><span class="text-secondary">#i18n{portal.theme.manage_themes.licence}</span> ${theme.themeLicence!}</span></li>
 </ul>
 </#macro>
+<#assign pageTitle><span class="avatar avatar-sm bg-pink-lt me-2" aria-hidden="true"><@icon style='palette' /></span>#i18n{portal.theme.manage_themes.page_title}</#assign>
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='#i18n{portal.theme.manage_themes.page_title}' />
+		<@pageHeader title=pageTitle />
 		<@messages infos=infos![] errors=errors![] warnings=warnings![] />
 		<#if themes_list?has_content>
 		<#-- Running theme banner -->
@@ -71,7 +72,9 @@
 		</@row>
 		</#if>
 		<#else>
-		<@empty title='#i18n{portal.util.labelNoItem}' />
+		<@card>
+			<@empty title='#i18n{portal.util.labelNoItem}' iconName='palette-off' subtitle=' ' />
+		</@card>
 		</#if>
 	</@pageColumn>
 </@pageContainer>

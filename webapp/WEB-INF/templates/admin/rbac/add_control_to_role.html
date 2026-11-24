@@ -1,6 +1,8 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-red-lt me-2" aria-hidden="true"><@icon style='shield-check' /></span>${i18n('portal.rbac.add_control_to_role.titleAddControl', role_key)}</#assign>
+<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/rbac/ManageRoles.jsp'>#i18n{portal.rbac.manage_roles.pageTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>${i18n('portal.rbac.add_control_to_role.titleAddControl', role_key)}</@breadcrumbItem></@breadcrumbs></#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=i18n('portal.rbac.add_control_to_role.titleAddControl', role_key) />
+        <@pageHeader title=pageTitle breadcrumb=bc />
 		<@ul class='steps steps-counter mt-4'>
 			<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</@li>
 			<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</@li>

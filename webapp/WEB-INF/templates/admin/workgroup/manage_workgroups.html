@@ -1,6 +1,7 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-teal-lt me-2" aria-hidden="true"><@icon style='users-group' /></span>#i18n{portal.workgroup.manage_workgroups.pageTitle}</#assign>
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}'>
+        <@pageHeader title=pageTitle>
             <#if workgroups_list?size gt 0>
             <@tform method='post' type='inline'>
                 <@formGroup labelFor='search_workgroup' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
@@ -12,9 +13,9 @@
             </@tform>
             </#if>
             <#if workgroups_list?size gt 0 || search_is_search>
-            <@button type='button' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' hideTitle=['xs','sm'] buttonIcon='search' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#search-workgroups"} />
+            <@button type='button' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' hideTitle=['xs','sm'] buttonIcon='search' color='light' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#search-workgroups"} />
             </#if>
-            <@aButton href='jsp/admin/workgroup/CreateWorkgroup.jsp' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' buttonIcon='plus' color='primary' />
+            <@aButton href='jsp/admin/workgroup/CreateWorkgroup.jsp' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' buttonIcon='plus' color='primary' hideTitle=['xs','sm','md'] />
         </@pageHeader>
         <#if workgroups_list?size gt 0 || search_is_search>
         <@modal id='search-workgroups'>
@@ -36,14 +37,22 @@
         </@modal>
         </#if>
         <#if workgroups_list?size gt 0>
-            <@manageFeature>
+            <@manageFeature layout='list' id='workgroups-list'>
                 <#list workgroups_list as workgroup>
                 <@manageFeatureItem class='item-labels'>
-                    <@manageFeatureItemColumn class='searchable' auto=true><strong>${workgroup.key}</strong> - ${workgroup.description}</@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn align='end'>
-                        <@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' class='me-1' />
-                        <@aButton href='jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}' buttonIcon='user' />
-                        <@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' buttonIcon='trash' color='danger' class='ms-1' />
+                    <@manageFeatureItemColumn class='searchable d-flex align-items-center gap-2 text-truncate'>
+                        <span class="avatar avatar-sm bg-teal-lt" aria-hidden="true"><@icon style='users-group' /></span>
+                        <@div class='text-truncate'>
+                            <@link href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' class='text-reset fw-semibold'>${workgroup.key}</@link>
+                            <@div class='text-secondary small text-truncate'>${workgroup.description}</@div>
+                        </@div>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn auto=true align='end'>
+                        <@div class='btn-actions'>
+                            <@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' style='btn-action' color='' buttonIcon='pencil' title='#i18n{portal.util.labelModify}' hideTitle=['all'] />
+                            <@aButton href='jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}' style='btn-action' color='' buttonIcon='users' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers}' hideTitle=['all'] />
+                            <@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' style='btn-action text-danger' color='' buttonIcon='trash' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' hideTitle=['all'] />
+                        </@div>
                     </@manageFeatureItemColumn>
                 </@manageFeatureItem>
                 </#list>
@@ -57,7 +66,7 @@
             </#if>
             </@card>
         </#if>
-        <#if workgroups_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>
+        <#if paginator?? && ( paginator.pagesCount gt 1 || paginator.itemsCount gt 10 )><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>
     </@pageColumn>
 </@pageContainer>
 <#if workgroups_list?size gt 0>

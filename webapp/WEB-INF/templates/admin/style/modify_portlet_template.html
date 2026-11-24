@@ -1,7 +1,8 @@
+<#assign pageTitle><span class="avatar avatar-sm bg-indigo-lt me-2" aria-hidden="true"><@icon style='layout-grid' /></span>#i18n{portal.style.modify_portlet_template.pageTitle}</#assign>
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='#i18n{portal.style.modify_portlet_template.pageTitle}'>
-			<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' />
+		<@pageHeader title=pageTitle>
+			<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='light' />
 		</@pageHeader>
 		<@messages errors=errors![] />
 		<@tform method='post' name='modify_portlet_template' action='jsp/admin/style/ManagePortletTemplates.jsp' boxed=true>
@@ -18,7 +19,7 @@
 			</@formGroup>
 			<@formGroup rows=2>
 				<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' color='primary' />
-				<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='danger' />
+				<@aButton href='jsp/admin/style/ManagePortletTemplates.jsp' buttonIcon='x' title='#i18n{portal.util.labelCancel}' color='light' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

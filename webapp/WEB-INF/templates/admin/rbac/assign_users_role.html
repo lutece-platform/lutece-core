@@ -1,7 +1,8 @@
 <@pageContainer>
 	<@pageColumn>
-		<#assign pageTitle>${role.description} <strong>[${role.key}]</strong></#assign>
-		<@pageHeader title=pageTitle>
+		<#assign pageTitle><span class="avatar avatar-sm bg-red-lt me-2" aria-hidden="true"><@icon style='shield-check' /></span>${role.description} <strong>[${role.key}]</strong></#assign>
+		<#assign bc><@breadcrumbs><@breadcrumbItem><a href='jsp/admin/rbac/ManageRoles.jsp'>#i18n{portal.rbac.manage_roles.pageTitle}</a></@breadcrumbItem><@breadcrumbItem class='active' params={'aria-current': 'page'}>${role.description} [${role.key}]</@breadcrumbItem></@breadcrumbs></#assign>
+		<@pageHeader title=pageTitle breadcrumb=bc>
 			<@button type='button' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' hideTitle=['xs','sm'] buttonIcon='search' size='' class='me-1' params={"data-bs-toggle": "modal", "data-bs-target": "#search-users"} />
 			<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
 			<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='' class='me-1' />
@@ -58,7 +59,7 @@
 						</@select>
 					</@formGroup>
 					<#list attributes_list as attribute>
-						<#if attribute.shownInSearch>${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )?no_esc}</#if>
+						<#if attribute.shownInSearch><#noautoesc>${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}</#noautoesc></#if>
 					</#list>
 				</@tform>
 			</@modalBody>
@@ -78,7 +79,7 @@
 							<@input type='hidden' name='role_key' value='${role.key}' />
 							<@input type='hidden' name='token' value='${token}' />
 							<@formGroup rows=2>
-								<@select name='available_users_list' default_value=''items=available_users_list multiple=20 />
+								<@select name='available_users_list' default_value='' items=available_users_list multiple=20 />
 							</@formGroup>
 						<#else>
 							<@empty title='#i18n{portal.rbac.assign_users.noUserToAssign}' subtitle=' ' iconName='user-off' />
@@ -115,14 +116,16 @@
 						</#if>
 						<@input type='hidden' name='role_key' value='${role.key}' />
 						</@tform>
-						<@manageFeature>
+						<@manageFeature layout='list'>
 						<#list assigned_users_list as assigned_user>
 							<@manageFeatureItem>
 								<#if assigned_user_has_next><#assign anchor=assigned_user_index><#else><#assign anchor=assigned_user_index - 1></#if>
-								<@manageFeatureItemColumn id='anchor-${assigned_user_index}' flex=false>
-									<@p>#i18n{portal.users.manage_users.columnTitleLastName} : ${assigned_user.lastName} - #i18n{portal.users.manage_users.columnTitleFirstName} : ${assigned_user.firstName}</@p>
-									<@p>#i18n{portal.users.manage_users.columnTitleAccessCode} : <em>${assigned_user.accessCode}</em></@p>
-									<@p>#i18n{portal.users.manage_users.columnTitleEmail} : <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@p>
+								<@manageFeatureItemColumn id='anchor-${assigned_user_index}' class='d-flex align-items-center gap-2 text-truncate'>
+									<span class="avatar avatar-sm bg-red-lt" aria-hidden="true"><@icon style='user' /></span>
+									<@div class='text-truncate'>
+										<@link href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' class='text-reset fw-semibold'>${assigned_user.lastName} ${assigned_user.firstName}</@link>
+										<@div class='text-secondary small text-truncate'><em>${assigned_user.accessCode}</em> &middot; <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'>${assigned_user.email}</@link></@div>
+									</@div>
 								</@manageFeatureItemColumn>
 								<@manageFeatureItemColumn auto=true align='end'>
 									<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
@@ -130,8 +133,10 @@
 										<@input type='hidden' name='id_user' value='${assigned_user.userId}' />
 										<@input type='hidden' name='role_key' value='${role.key}' />
 										<@input type='hidden' name='anchor' value='anchor-${anchor}' />
-										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' buttonIcon='edit' size='' />
-										<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' buttonIcon='playlist-x' color='danger' size='' />
+										<@div class='btn-actions'>
+											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' style='btn-action' color='' title='#i18n{portal.rbac.assign_users.actionModify}' buttonIcon='pencil' hideTitle=['all'] />
+											<@button type='submit' style='btn-action text-danger' color='' title='#i18n{portal.rbac.assign_users.actionUnassign}' buttonIcon='playlist-x' hideTitle=['all'] />
+										</@div>
 									</@tform>
 								</@manageFeatureItemColumn>
 							</@manageFeatureItem>
