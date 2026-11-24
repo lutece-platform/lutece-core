@@ -30,6 +30,8 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local userReadMode = dsNumber( 'portal.site.site_property.layout.user.readmode.show.checkbox', 0 ) />
 <#local userDarkMode = dsNumber( 'portal.site.site_property.layout.user.darkmode.show.checkbox', 0 ) />
+<#local userNotification = dsNumber( 'portal.site.site_property.layout.user.notification.show.checkbox', 1 ) />
+<#local userApps = dsNumber( 'portal.site.site_property.layout.user.apps.show.checkbox', 1 ) />
 <#local adminDarkMode = dsNumber( 'portal.site.site_property.layout.darkmode.checkbox', 0 ) />
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local layoutBoxed><#attempt><#if dskey('portal.site.site_property.layout.menu.boxed.checkbox')?number==1> layout-boxed</#if><#recover></#attempt></#local>
@@ -138,7 +140,7 @@ if( storedSidebar === 'folded' || storedSidebar === 'folded-hover' ){
 			<!-- BEGIN NAVBAR SIDE : trailing tools, pinned to the bottom of the menu -->
 			<div class="navbar-side">
 				<ul class="navbar-nav">
-					<@adminHeaderTools userDarkMode=userDarkMode userReadMode=userReadMode showHome=(menuHome?number == 1) vertical=true />
+					<@adminHeaderTools userDarkMode=userDarkMode userReadMode=userReadMode userNotification=userNotification userApps=userApps showHome=(menuHome?number == 1) vertical=true />
 				</ul>
 			</div>
 			<!-- END NAVBAR SIDE -->
@@ -164,7 +166,7 @@ if( storedSidebar === 'folded' || storedSidebar === 'folded-hover' ){
 		<!-- BEGIN NAVBAR SIDE -->
 		<div id="main-nav" class="navbar-nav flex-row order-md-last">
 			<div class="d-none d-md-flex">
-				<@adminHeaderTools userDarkMode=userDarkMode userReadMode=userReadMode showHome=(menuHome?number == 1 && isCondensed) />
+				<@adminHeaderTools userDarkMode=userDarkMode userReadMode=userReadMode userNotification=userNotification userApps=userApps showHome=(menuHome?number == 1 && isCondensed) />
 			</div>
 			<div class="nav-item dropdown" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="#i18n{portal.users.admin_header.labelUserMenu}">
 				<a href="#" class="nav-link d-flex lh-1 p-0 px-2" data-bs-toggle="dropdown" aria-expanded="false" aria-label="#i18n{portal.users.admin_header.labelUserMenu}">
@@ -366,21 +368,30 @@ Parameters:
 	</#if>
 </#list>
 </ul>
-<#-- An image icon that cannot be loaded (a plugin declaring a file that does not exist) gives way to a generic icon -->
+<#-- An image icon that cannot be loaded (a plugin declaring a file that does not exist) gives way to a generic icon, in the menu and
+     in the Apps menu of the header (rendered after the menu in the sidebar layout: checked again once the page is read) -->
 <script>
-document.currentScript.previousElementSibling.querySelectorAll( 'img.admin-feature-icon' ).forEach( img => {
-	const fallback = ( ) => {
-		const icon = document.createElement( 'i' );
-		icon.className = 'ti ti-apps ' + img.className.replace( 'admin-feature-icon', '' ).trim( );
-		icon.setAttribute( 'aria-hidden', 'true' );
-		img.replaceWith( icon );
-	};
-	if ( img.complete && img.naturalWidth === 0 ) {
-		fallback( );
-	} else {
-		img.addEventListener( 'error', fallback, { once: true } );
-	}
-});
+( ( ) => {
+	const check = ( ) => document.querySelectorAll( '#main-menu img.admin-feature-icon, .lutece-apps img.admin-feature-icon' ).forEach( img => {
+		if ( img.dataset.iconChecked ) {
+			return;
+		}
+		img.dataset.iconChecked = 'true';
+		const fallback = ( ) => {
+			const icon = document.createElement( 'i' );
+			icon.className = 'ti ti-apps ' + img.className.replace( 'admin-feature-icon', '' ).trim( );
+			icon.setAttribute( 'aria-hidden', 'true' );
+			img.replaceWith( icon );
+		};
+		if ( img.complete && img.naturalWidth === 0 ) {
+			fallback( );
+		} else {
+			img.addEventListener( 'error', fallback, { once: true } );
+		}
+	});
+	check( );
+	document.addEventListener( 'DOMContentLoaded', check, { once: true } );
+} )( );
 </script>
 <style>
 img.admin-feature-icon { width: 1.25rem; height: 1.25rem; object-fit: contain; vertical-align: middle; }
@@ -393,19 +404,28 @@ img.admin-feature-icon { width: 1.25rem; height: 1.25rem; object-fit: contain; v
 #main-menu .dropdown-item { white-space: normal; overflow-wrap: anywhere; align-items: flex-start; line-height: 1.3; }
 /* The icons, images or glyphs, on the same width: the labels start at the same place */
 #main-menu .dropdown-item > .admin-feature-icon, #main-menu .dropdown-item > i { flex-shrink: 0; width: 1.25rem; text-align: center; }
+/* The Apps menu of the header: a grid of the shortcuts, their icons larger than in the menu */
+.lutece-apps .card { width: min( 20rem, 90vw ); }
+.lutece-apps .lutece-apps-icon { font-size: 1.75rem; line-height: 1; }
+.lutece-apps img.lutece-apps-icon { width: 2rem; height: 2rem; }
 </style>
 </#macro>
 <#--
 Macro: adminHeaderTools
-Description: Header tools (front office link, dark mode toggle, read direction toggle, and for level 0 users the debug loggers
-notification, the site properties and the technical menu). Internal helper of adminHeader.
+Description: Header tools (front office link, dark mode toggle, read direction toggle, the notifications menu, the apps menu, and for level 0 users
+the debug loggers in that menu, the site properties and the technical menu). Internal helper of adminHeader.
 Parameters:
 - userDarkMode (number, required): 1 when users can switch the dark mode.
 - userReadMode (number, required): 1 when users can switch the read direction.
+- userNotification (number, optional): 1 (default) to show the notifications button, 0 to hide it.
+- userApps (number, optional): 1 (default) to show the apps button (the shortcuts of the user), 0 to hide it.
 - showHome (boolean, required): whether to render the front office link.
 - vertical (boolean, optional): true in the sidebar, items are then li with icon + title so they fold with the sidebar.
 -->
-<#macro adminHeaderTools userDarkMode userReadMode showHome vertical=false>
+<#macro adminHeaderTools userDarkMode userReadMode showHome userNotification=1 userApps=1 vertical=false>
+<#local logItemsError='' >
+<#local logItemsWarning='' >
+<#local logItemsInfo='' >
 <#local tag = vertical?then('li', 'div')>
 <#if showHome>
 <${tag} class="nav-item">
@@ -450,25 +470,43 @@ Parameters:
 	<#if listLoggersInfo??>
 	<#local listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
 	<#if listLogDebug?has_content>
+	<#local logItemsError>
 	<#if vertical>
+		<#list listLogDebug as logInfo>
+			<span class="dropdown-item text-truncate" title="${logInfo.path!}"><strong>${logInfo.name!} - ${logInfo.level!}</strong></span>
+		</#list>
+	<#else>
+		<#list listLogDebug as logInfo>
+			<div class="d-block text-secondary text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!} - ${logInfo.level!}</strong> ${logInfo.path!}</div>
+		</#list>
+	</#if>
+	</#local>
+	</#if>
+</#if>
+</#if>
+<#if userNotification?number == 1>
+<#local notifBadgeType = logItemsError?has_content?then( 'red', logItemsWarning?has_content?then( 'warning', ( logItemsInfo?has_content || ( dashboard_zone_notification!'' )?has_content )?then( 'primary', '' ) ) ) />
+<#local notifBadge><#if notifBadgeType?has_content><span class="badge bg-${notifBadgeType}"></span></#if></#local>
+<#if vertical>
 	<li class="nav-item dropdown">
 		<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-haspopup="true" aria-expanded="false" aria-label="#i18n{portal.admin.notification.labelShow}">
 			<span class="nav-link-icon"><@adminHeaderIconBell /></span>
 			<span class="nav-link-title">#i18n{portal.admin.notification.title}</span>
-			<span class="badge bg-red"></span>
+			${notifBadge!}
 		</a>
-		<div class="dropdown-menu">
+		<div class="dropdown-menu lutece-notification">
+			<#if logItemsError?has_content>
 			<span class="dropdown-header">#i18n{portal.util.log.warningLevel}</span>
-			<#list listLogDebug as logInfo>
-			<span class="dropdown-item text-truncate" title="${logInfo.path!}"><strong>${logInfo.name!} - ${logInfo.level!}</strong></span>
-			</#list>
+			${logItemsError!}
+			</#if>
+			${dashboard_zone_notification!}
 		</div>
 	</li>
-	<#else>
+<#else>
 	<div class="nav-item dropdown d-none d-md-flex">
 		<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="#i18n{portal.admin.notification.labelShow}" data-bs-auto-close="outside" aria-expanded="false">
 			<@adminHeaderIconBell />
-			<span class="badge bg-red"></span>
+			${notifBadge!}
 		</a>
 		<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
 			<div class="card">
@@ -476,24 +514,86 @@ Parameters:
 					<h3 class="card-title">#i18n{portal.admin.notification.title}</h3>
 				</div>
 				<div class="list-group list-group-flush list-group-hoverable">
-					<div class="list-group-item">
-						<div class="row align-items-center">
-							<div class="col-auto align-self-baseline"><span class="status-dot status-dot-animated bg-red d-block"></span></div>
-							<div class="col text-truncate" style="max-height:80vh;overflow-y:auto;">
-								<a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a>
-							<#list listLogDebug as logInfo>
-								<div class="d-block text-secondary text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!} - ${logInfo.level!}</strong> ${logInfo.path!}</div>
-							</#list>
+					<div class="list-group-item lutece-notification">
+						<#if logItemsError?has_content>
+							<div class="row align-items-center ">
+								<div class="col-auto align-self-baseline"><span class="status-dot status-dot-animated bg-red d-block"></span></div>
+									<div class="col text-truncate" style="max-height:80vh;overflow-y:auto;">
+										<a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a>
+										${logItemsError!}
+									</div>
+								</div>
 							</div>
-						</div>
+						<#elseif !(dashboard_zone_notification!'')?has_content>
+							<div class="row align-items-center"><@empty title='#i18n{portal.admin.notification.empty}' subtitle=' ' /></div>
+						</#if>
+						${dashboard_zone_notification!}
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	</#if>
-	</#if>
-	</#if>
+</#if>
+</#if>
+<#-- The Apps menu: the shortcuts of the user (HomeShortcutService), its gear opens the dialog of the admin home that changes them -->
+<#local appsEditable = ( home_shortcuts_user_enabled!false ) || ( home_shortcuts_can_set_default!false ) />
+<#if userApps?number == 1 && ( ( home_shortcuts![] )?has_content || appsEditable )>
+<#local appsSettingsUrl = ( admin_url!'' ) + '#home-shortcuts-dialog' />
+<#if vertical>
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-haspopup="true" aria-expanded="false" aria-label="#i18n{portal.admin.apps.labelShow}">
+			<span class="nav-link-icon"><@adminHeaderIconApps /></span>
+			<span class="nav-link-title">#i18n{portal.admin.apps.title}</span>
+		</a>
+		<div class="dropdown-menu lutece-apps">
+			<#list home_shortcuts![] as shortcut>
+			<a class="dropdown-item" href="<@adminHeaderShortcutUrl shortcut />" title="${shortcut.description!shortcut.name}"><@adminFeatureIcon icon=shortcut.iconUrl! class='me-2' />${shortcut.name}</a>
+			<#else>
+			<span class="dropdown-item text-secondary">#i18n{portal.admin.apps.empty}</span>
+			</#list>
+			<#if appsEditable>
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="${appsSettingsUrl}"><i class="ti ti-settings me-2" aria-hidden="true"></i>#i18n{portal.admin.admin_home.shortcuts.edit}</a>
+			</#if>
+		</div>
+	</li>
+<#else>
+	<div class="nav-item dropdown d-none d-md-flex">
+		<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" data-bs-auto-close="outside" aria-label="#i18n{portal.admin.apps.labelShow}" aria-expanded="false">
+			<@adminHeaderIconApps />
+		</a>
+		<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card lutece-apps">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">#i18n{portal.admin.apps.title}</h3>
+					<#if appsEditable>
+					<div class="card-actions btn-actions">
+						<a href="${appsSettingsUrl}" class="btn-action" title="#i18n{portal.admin.admin_home.shortcuts.edit}"><i class="ti ti-settings" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.admin.admin_home.shortcuts.edit}</span></a>
+					</div>
+					</#if>
+				</div>
+				<div class="card-body scroll-y p-2" style="max-height:50vh">
+					<#if ( home_shortcuts![] )?has_content>
+					<div class="row g-0">
+						<#list home_shortcuts as shortcut>
+						<div class="col-4">
+							<a href="<@adminHeaderShortcutUrl shortcut />" class="d-flex flex-column flex-center text-center text-secondary py-2 px-2 link-hoverable" title="${shortcut.description!shortcut.name}">
+								<@adminFeatureIcon icon=shortcut.iconUrl! class='lutece-apps-icon mb-2' />
+								<span class="text-truncate w-100">${shortcut.name}</span>
+							</a>
+						</div>
+						</#list>
+					</div>
+					<#else>
+					<p class="text-secondary text-center my-3">#i18n{portal.admin.apps.empty}</p>
+					</#if>
+				</div>
+			</div>
+		</div>
+	</div>
+</#if>
+</#if>
+<#if user.userLevel == 0>
 <${tag} class="nav-item">
 	<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" aria-label="#i18n{portal.site.adminFeature.properties_management.name}"<#if !vertical> data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.site.adminFeature.properties_management.name}"</#if>>
 		<#if vertical><span class="nav-link-icon"></#if>
@@ -512,7 +612,18 @@ Parameters:
 </${tag}>
 </#if>
 </#macro>
+<#-- The link of a shortcut of the apps menu, as the menu entry: the plugin name on an internal feature, the URL as it is on an external one -->
+<#macro adminHeaderShortcutUrl right><#if right.externalFeature>${right.url}<#else>${right.url}${right.url?contains( '?' )?then( '&', '?' )}plugin_name=${right.pluginName!}</#if></#macro>
 <#-- Icons shared by the header helpers -->
+<#macro adminHeaderIconApps>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1" aria-hidden="true">
+	<path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+	<path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+	<path d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+	<path d="M14 7l6 0"></path>
+	<path d="M17 4l0 6"></path>
+</svg>
+</#macro>
 <#macro adminHeaderIconExternalLink>
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
 </#macro>

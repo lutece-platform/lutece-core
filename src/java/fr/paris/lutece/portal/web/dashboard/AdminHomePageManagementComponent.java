@@ -69,6 +69,8 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
     private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
     private static final String MARK_ZONES = "zones";
     private static final String MARK_DISPLAYED_ZONE_COUNT = "displayed_zone_count";
+    private static final String MARK_USER_ZONE = "user_zone";
+    private static final String MARK_NOTIFICATION_ZONE = "notification_zone";
 
     private DashboardService _service = CDI.current( ).select( DashboardService.class ).get( );
 
@@ -98,10 +100,13 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
         model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
 
-        // The zones to arrange: those of the homepage, and those beyond that still hold a dashboard, so that it can be moved back
+        // The zones to arrange: those of the homepage, the user and notifications menus of the header, and those beyond that still hold
+        // a dashboard, so that it can be moved back
+        int nNotificationZone = _service.getNotificationZone( );
         int nDisplayedZoneCount = Math.max( _service.getColumnCount( ),
                 _service.getZoneCount( ) - 1 );
-        int nLastZone = Math.max( nDisplayedZoneCount, DashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) );
+        int nLastZone = Math.max( Math.max( nDisplayedZoneCount, nNotificationZone ),
+                DashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) );
         List<Integer> listZones = new ArrayList<>( );
 
         for ( int nZone = 1; nZone <= nLastZone; nZone++ )
@@ -111,6 +116,8 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
 
         model.put( MARK_ZONES, listZones );
         model.put( MARK_DISPLAYED_ZONE_COUNT, nDisplayedZoneCount );
+        model.put( MARK_USER_ZONE, _service.getUserZone( ) );
+        model.put( MARK_NOTIFICATION_ZONE, nNotificationZone );
 
         model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
