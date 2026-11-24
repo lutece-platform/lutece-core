@@ -36,9 +36,12 @@ package fr.paris.lutece.portal.service.upload;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import jakarta.servlet.ServletException;
@@ -57,6 +60,9 @@ public abstract class AbstractMultipartHandler implements MultipartHandler
 
         Map<String, List<MultipartItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
+        // the parameters of the URL (e.g. the page of a front office form posted to Portal.jsp?page=…) come first, then the fields of the body,
+        // as for a request that is not multipart
+        addQueryStringParameters( request.getQueryString( ), mapParameters, encoding );
         for ( Part part : request.getParts( ) )
         {
             if ( null != part.getSubmittedFileName( ) )
@@ -75,6 +81,60 @@ public abstract class AbstractMultipartHandler implements MultipartHandler
 
     protected abstract void processFilePart( Part part, Map<String, List<MultipartItem>> mapFiles, String filename, boolean bActivateNormalizeFileName )
             throws IOException;
+
+    /**
+     * Adds the parameters of the query string of the request to the parameters of the multipart request
+     *
+     * @param strQueryString
+     *            the query string, may be null
+     * @param mapParameters
+     *            the parameters
+     * @param encoding
+     *            the encoding of the request
+     */
+    private static void addQueryStringParameters( String strQueryString, Map<String, String [ ]> mapParameters, String encoding )
+    {
+        if ( StringUtils.isEmpty( strQueryString ) )
+        {
+            return;
+        }
+        for ( String strPair : strQueryString.split( "&" ) )
+        {
+            if ( strPair.isEmpty( ) )
+            {
+                continue;
+            }
+            int nIndex = strPair.indexOf( '=' );
+            String strName = ( nIndex < 0 ) ? strPair : strPair.substring( 0, nIndex );
+            String strValue = ( nIndex < 0 ) ? StringUtils.EMPTY : strPair.substring( nIndex + 1 );
+            try
+            {
+                addValue( mapParameters, URLDecoder.decode( strName, encoding ), URLDecoder.decode( strValue, encoding ) );
+            }
+            catch( IllegalArgumentException | java.io.UnsupportedEncodingException e )
+            {
+                // a malformed pair of the query string is ignored, as the container does
+            }
+        }
+    }
+
+    private static void addValue( Map<String, String [ ]> mapParameters, String strName, String strValue )
+    {
+        String [ ] values = mapParameters.get( strName );
+        if ( values == null )
+        {
+            mapParameters.put( strName, new String [ ] {
+                    strValue
+            } );
+        }
+        else
+        {
+            String [ ] newValues = new String [ values.length + 1];
+            System.arraycopy( values, 0, newValues, 0, values.length );
+            newValues [values.length] = strValue;
+            mapParameters.put( strName, newValues );
+        }
+    }
 
     protected void processTextPart( Part part, Map<String, String [ ]> mapParameters, String encoding ) throws IOException
     {
