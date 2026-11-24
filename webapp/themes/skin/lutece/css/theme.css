@@ -2,7 +2,6 @@
 /*** DEV Theme Paris.fr styles				***/
 /*** 										***/
 @import url(vendor/bootstrap.min.css) layer;
-@import url(vendor/tabler-icons.min.css);
 @import url(_fonts.css?ver=8.0.2);
 @import url(_variables.css?ver=8.0.2);
 @import url(themes/light-theme.css?ver=8.0.2);   

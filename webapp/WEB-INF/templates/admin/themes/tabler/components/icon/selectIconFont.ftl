@@ -30,7 +30,7 @@ Snippet:
     <@selectIconFont id='categoryIcon' name='category_icon' defaultValue='folder' searchShow=false />
 
 -->
-<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='json' prefix='ti' iconsUrl='themes/admin/shared/css/vendor/tabler/tabler-icons.json' resources=true defaultValue='' deprecated...>
+<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='json' prefix='ti' iconsUrl='themes/shared/css/vendor/tabler/tabler-icons.json' resources=true defaultValue='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- Hidden input for form submission -->
 <input type="hidden" name="${name}" id="${id}" value="${defaultValue!}">
