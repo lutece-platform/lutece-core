@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.vn = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.vn = {}));
 }(this, (function (exports) { 'use strict';
 
   var fp = typeof window !== "undefined" && window.flatpickr !== undefined
@@ -48,8 +48,8 @@
               "Tháng tám",
               "Tháng chín",
               "Tháng mười",
-              "Tháng 11",
-              "Tháng 12",
+              "Tháng mười một",
+              "Tháng mười hai",
           ],
       },
       firstDayOfWeek: 1,

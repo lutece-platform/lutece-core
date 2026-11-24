@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.ko = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.ko = {}));
 }(this, (function (exports) { 'use strict';
 
   var fp = typeof window !== "undefined" && window.flatpickr !== undefined
@@ -56,6 +56,7 @@
           return "일";
       },
       rangeSeparator: " ~ ",
+      amPM: ["오전", "오후"],
   };
   fp.l10ns.ko = Korean;
   var ko = fp.l10ns;

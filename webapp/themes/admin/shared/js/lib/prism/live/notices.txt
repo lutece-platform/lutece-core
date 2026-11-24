@@ -1,0 +1,17 @@
+Below is a list of third party libraries shipped in this folder:
+----------------------------------------------------------------
+
+prism-live
+owner: Lea Verou
+repo: https://github.com/PrismJS/live
+version: commit d8e240028f52775d48a84b6245277197a328374a (2024-04-04, no release)
+license: MIT (LICENSE)
+local changes: the .mjs files are renamed .js (Open Liberty serves .mjs as text/plain, rejected for module scripts)
+               and their imports updated; util.js imports Bliss from ./vendor/bliss/.
+               prism-live-lutece.css is a Lutece addition (overrides of prism.css for the editor).
+
+bliss
+owner: Lea Verou
+repo: https://github.com/LeaVerou/bliss
+version: v2, commit 4f38d6effbbf7084f83ed3b686e3f8222a23527a
+license: MIT (src/vendor/bliss/LICENSE)

@@ -1,0 +1,31 @@
+/*
+ * Lutece adjustments of Prism Live, loaded by @codeHighLight live=true after prism.css.
+ * prism.css styles pre[class*="language-"] with a margin and its toolbar plugin wraps every highlighted pre in a div.code-toolbar:
+ * inside an editor the textarea then no longer lies exactly over the highlighted code, and the caret is drawn on another line.
+ */
+/* Same box as Prism Live gives them (prism-live.css), with a specificity that beats pre[class*="language-"] of prism.css */
+div.prism-live textarea.prism-live,
+div.prism-live pre.prism-live {
+	margin: 0;
+	padding: .2rem .5rem;
+}
+
+div.prism-live pre.prism-live {
+	padding-bottom: var(--scrollbar-width);
+	padding-right: var(--scrollbar-width);
+}
+
+div.prism-live > div.code-toolbar {
+	flex: 1;
+	display: flex;
+	flex-flow: column;
+}
+
+div.prism-live > div.code-toolbar > pre.prism-live {
+	flex: 1;
+}
+
+/* The copy and language buttons of the toolbar sit under the textarea of an editor: they cannot be used there */
+div.prism-live > div.code-toolbar > .toolbar {
+	display: none;
+}

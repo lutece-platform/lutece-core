@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.sq = {}));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.sq = {}));
 }(this, (function (exports) { 'use strict';
 
   var fp = typeof window !== "undefined" && window.flatpickr !== undefined
@@ -52,6 +52,13 @@
               "Dhjetor",
           ],
       },
+      firstDayOfWeek: 1,
+      rangeSeparator: " deri ",
+      weekAbbreviation: "Java",
+      yearAriaLabel: "Viti",
+      monthAriaLabel: "Muaji",
+      hourAriaLabel: "Ora",
+      minuteAriaLabel: "Minuta",
       time_24hr: true,
   };
   fp.l10ns.sq = Albanian;
