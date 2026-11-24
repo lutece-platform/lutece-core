@@ -33,11 +33,14 @@ public class TestResponseController extends MVCAdminJspBean
     public static final String VIEW_NORMAL = "normal";
     public static final String VIEW_NULL = "nullview";
     public static final String VIEW_JSON = "json";
+    public static final String VIEW_JSON_ACCENTS = "jsonaccents";
     public static final String VIEW_REDIRECT = "redir";
     public static final String VIEW_DOWNLOAD = "dl";
 
     public static final String PAGE_CONTENT = "PAGE-CONTENT";
     public static final String JSON_BODY = "JSON-BODY";
+    /** A body with accents: each one takes two bytes in UTF-8. */
+    public static final String JSON_ACCENTS_BODY = "{\"name\":\"contenu \u00e9ditorial \u00e9t\u00e9\"}";
     public static final String DOWNLOAD_DATA = "DOWNLOAD-DATA";
 
     @View( value = VIEW_NORMAL, defaultView = true )
@@ -57,6 +60,13 @@ public class TestResponseController extends MVCAdminJspBean
     public String json( )
     {
         return JSON_BODY;
+    }
+
+    @View( VIEW_JSON_ACCENTS )
+    @ResponseBody
+    public String jsonAccents( )
+    {
+        return JSON_ACCENTS_BODY;
     }
 
     @View( VIEW_REDIRECT )

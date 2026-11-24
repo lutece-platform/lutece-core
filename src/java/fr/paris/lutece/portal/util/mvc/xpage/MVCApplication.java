@@ -365,23 +365,24 @@ public abstract class MVCApplication implements XPageApplication
         	String acceptHeader = request.getHeader("Accept");
             boolean isXml = acceptHeader != null && acceptHeader.contains(XmlUtil.CONTENT_TYPE_XML);
             response.setContentType(isXml ? XmlUtil.CONTENT_TYPE_XML : JsonUtil.CONTENT_TYPE_JSON);
-
-            PrintWriter out = response.getWriter();
+            // the body is written in UTF-8, the charset the response declares; no length is given, the portal JSP writing after it
+            String strBody;
 
             if (result instanceof String || result instanceof Number || result instanceof Boolean || result instanceof Character) {
                 // Write primitive types and their wrappers directly
-                out.print(result.toString());
+                strBody = result.toString();
+            } else if (isXml) {
+                // Serialize to XML
+                strBody = XmlMarshaller.serialize(result);
             } else {
-            	if (isXml) {
-                    // Serialize to XML
-                    String xmlResult =  XmlMarshaller.serialize( result );
-                    out.print(xmlResult);
-                } else {
-	                // Serialize non-primitive objects using Jackson
-	                String jsonResult = JsonUtil.serialize(result);
-	                out.print(jsonResult);
-                }
+                // Serialize non-primitive objects using Jackson
+                strBody = JsonUtil.serialize(result);
             }
+
+            response.setCharacterEncoding( StandardCharsets.UTF_8.name( ) );
+
+            PrintWriter out = response.getWriter();
+            out.print(strBody);
 
         } catch (IOException e) {
             AppLogService.error("Error writing @ResponseBody content to response", e);
