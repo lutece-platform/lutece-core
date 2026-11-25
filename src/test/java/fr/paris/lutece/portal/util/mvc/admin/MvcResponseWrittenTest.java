@@ -40,13 +40,42 @@ public class MvcResponseWrittenTest extends LuteceTestCase
     private String _returned;
 
     /**
+     * The mock response of the testing library keeps no Content-Length (setContentLength is a no-op, getHeader returns null): this one
+     * records the length the controller sets.
+     */
+    private static final class LengthRecordingResponse extends MockHttpServletResponse
+    {
+        private long _lContentLength = -1;
+
+        @Override
+        public void setContentLength( int nLength )
+        {
+            _lContentLength = nLength;
+        }
+
+        @Override
+        public void setContentLengthLong( long lLength )
+        {
+            _lContentLength = lLength;
+        }
+
+        /**
+         * @return the length set by the controller, -1 when it set none
+         */
+        long getContentLength( )
+        {
+            return _lContentLength;
+        }
+    }
+
+    /**
      * Registers an admin user holding the controller right, then runs the controller for the given view.
      *
      * @param strView
      *            the value of the {@code view} request parameter
      * @return the response the controller wrote into
      */
-    private MockHttpServletResponse process( String strView ) throws Exception
+    private LengthRecordingResponse process( String strView ) throws Exception
     {
         _request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
@@ -55,7 +84,7 @@ public class MvcResponseWrittenTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRight( _request, user, TestResponseController.RIGHT );
         _request.setParameter( PARAMETER_VIEW, strView );
 
-        MockHttpServletResponse response = new MockHttpServletResponse( );
+        LengthRecordingResponse response = new LengthRecordingResponse( );
         _returned = _bean.processController( _request, response );
         return response;
     }
@@ -78,10 +107,10 @@ public class MvcResponseWrittenTest extends LuteceTestCase
     @Test
     public void testResponseBodyWithAccentsGivesItsLengthInBytes( ) throws Exception
     {
-        MockHttpServletResponse response = process( TestResponseController.VIEW_JSON_ACCENTS );
+        LengthRecordingResponse response = process( TestResponseController.VIEW_JSON_ACCENTS );
 
         assertEquals( StandardCharsets.UTF_8.name( ), response.getCharacterEncoding( ), "the body is declared in UTF-8" );
-        assertEquals( String.valueOf( TestResponseController.JSON_ACCENTS_BODY.getBytes( StandardCharsets.UTF_8 ).length ), response.getHeader( "Content-Length" ),
+        assertEquals( TestResponseController.JSON_ACCENTS_BODY.getBytes( StandardCharsets.UTF_8 ).length, response.getContentLength( ),
                 "the length counts the bytes of the body, an accent taking two" );
         assertEquals( TestResponseController.JSON_ACCENTS_BODY, response.getContentAsString( ), "the whole body is written" );
     }
