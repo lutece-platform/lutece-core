@@ -42,7 +42,7 @@
                     </@formGroup>
                     <#list attributes_list as attribute>
                         <#if attribute.shownInSearch>
-                            <#noautoesc>${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}</#noautoesc>
+                            ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )?no_esc}
                         </#if>
                     </#list>
                     <@formGroup rows=2>
@@ -82,10 +82,10 @@
                                             <#assign attributeValues = '' />
                                             <#list list_user_fields as user_field>
                                                 <#if user_field.attribute.idAttribute==attribute.idAttribute>
-                                                    <#assign attributeValues><#noautoesc>${attributeValues}<#if attributeValues?has_content>, </#if>${attribute.getHtmlValue( locale, user_field )}</#noautoesc></#assign>
+                                                    <#assign attributeValues>${attributeValues}<#if attributeValues?has_content>, </#if>${attribute.getHtmlValue( locale, user_field )?no_esc}</#assign>
                                                 </#if>
                                             </#list>
-                                            <#if attributeValues?has_content> &middot; ${attribute.title} : <#noautoesc>${attributeValues}</#noautoesc></#if>
+                                            <#if attributeValues?has_content> &middot; ${attribute.title} : ${attributeValues}</#if>
                                         </#if>
                                     </#list>
                                     <#if user.dateLastLogin?? && user.dateLastLogin?string!=''> &middot; #i18n{portal.users.manage_users.columnTitleDateLastLogin} : ${user.dateLastLogin!}</#if>
