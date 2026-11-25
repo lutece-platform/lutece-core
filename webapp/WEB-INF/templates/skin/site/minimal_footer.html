@@ -8,22 +8,24 @@
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <#if themeJSLinks?? >
+<#-- the theme scripts set the url of the skip links -->
 <@themeJSLinks />
 <#else>
 <script src="${thetheme.pathJs}/js/vendor/js/bootstrap.bundle.min.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
-</#if>
-<script src="themes/skin/shared/js/util/lutece-actions.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // Activate Bootstrap scrollspy on the main nav element
-    const skipLinks = document.querySelectorAll('.skip-links li a');
-    skipLinks.forEach(link => {
-        const windowUrl = window.location.href;
+    // Skip links: an anchor of this page, written once with the url of the page (without its own fragment)
+    const pageUrl = window.location.href.split('#')[0];
+    document.querySelectorAll('.skip-links li a').forEach(link => {
         const linkHref = link.getAttribute('href');
-        link.setAttribute('href', windowUrl + linkHref);
+        if ( linkHref && linkHref.startsWith('#') ) {
+            link.setAttribute('href', pageUrl + linkHref);
+        }
     });
 });
 </script>
+</#if>
+<script src="themes/skin/shared/js/util/lutece-actions.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
 </body>
 </html>
 </@cTpl>

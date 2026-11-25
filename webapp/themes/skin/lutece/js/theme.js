@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", function(){
-  /* Set skip links url */
-  var loc = window.location.href;
+  /* Set skip links url: an anchor of this page, written once with the url of the page (without its own fragment) */
+  var loc = window.location.href.split("#")[0];
   document.querySelectorAll(".skip-links li a").forEach(function (link) {
-    const currentHref = loc + link.getAttribute("href");
-    link.setAttribute("href", currentHref);
+    const linkHref = link.getAttribute("href");
+    if (linkHref && linkHref.charAt(0) === "#") {
+      link.setAttribute("href", loc + linkHref);
+    }
   });
 
   /* Set backUrl if nor defined */
