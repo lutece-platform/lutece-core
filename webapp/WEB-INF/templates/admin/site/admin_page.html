@@ -24,6 +24,7 @@
 		<div id="lutece-admin-site-preview-box" class="lutece-site-ws">
 			<#-- Tree of the site -->
 			<aside class="lutece-site-tree" aria-labelledby="lutece-site-tree-title">
+				<h1 class="h2"><span class="avatar avatar-sm bg-blue-lt me-2" aria-hidden="true"><i class="ti ti-sitemap"></i></span> #i18n{portal.site.adminFeature.admin_site.name}</h1>
 				<div class="lutece-site-tree-head">
 					<h2 class="lutece-site-label" id="lutece-site-tree-title">#i18n{portal.site.admin_page.tabAdminMapSite}</h2>
 					<button type="button" class="btn btn-sm btn-ghost-secondary btn-icon lutece-site-tree-toggle" id="lutece-site-tree-toggle" aria-expanded="true" aria-controls="lutece-site-tree-body" title="#i18n{portal.site.admin_page.buttonCollapseTree}" data-text-collapse="#i18n{portal.site.admin_page.buttonCollapseTree}" data-text-expand="#i18n{portal.site.admin_page.buttonExpandTree}"><i class="ti ti-layout-sidebar-left-collapse" aria-hidden="true"></i><span class="visually-hidden">#i18n{portal.site.admin_page.buttonCollapseTree}</span></button>
@@ -64,20 +65,8 @@
 
 			<#-- The page and its preview -->
 			<section class="lutece-site-center" aria-labelledby="lutece-site-page-title">
-				<div class="lutece-site-head">
-					<div class="lutece-site-title">
-						<nav class="lutece-site-crumbs" aria-label="#i18n{portal.site.admin_page.tabAdminMapSite}">
-						<#list pagePath as item><#if item?has_next><a href="jsp/admin/site/AdminSite.jsp?page_id=${item.pageId?c}">${item.pageName}</a><i class="ti ti-chevron-right" aria-hidden="true"></i></#if></#list>
-						</nav>
-						<h2 id="lutece-site-page-title"><span class="avatar avatar-sm bg-blue-lt me-2" aria-hidden="true"><i class="ti ti-sitemap"></i></span>${page.name} - <small class="fw-normal">#i18n{portal.site.adminFeature.admin_site.name}</small></h2>
-						<p class="lutece-site-meta">
-							<#if page_template_info??><span><i class="ti ti-layout" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelPageTemplateList} : ${page_template_info.description}</span></#if>
-							<#if page_update_date_info?has_content><span><i class="ti ti-clock" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelUpdated} ${page_update_date_info}</span></#if>
-							<#if page.role?? && page.role != 'none'><span><i class="ti ti-lock" aria-hidden="true"></i> #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${page.role}</span></#if>
-							<span>#${page.id}</span>
-						</p>
-					</div>
-				</div>
+				<#-- The name of the page names the region for assistive technologies; the page is seen in its preview -->
+				<h2 class="visually-hidden" id="lutece-site-page-title">${page.name}</h2>
 				<@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
 					<@p class='text-center' params={"hidden": true}><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' class='lutece-h-2rem mt-3' /></@p>
 					<!-- HTML iframe to show FO  -->
@@ -101,6 +90,11 @@
 									<#if page.id != rootPageId>
 										<@aButton id='parent-page' href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='action' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] size='sm' />
 									</#if>
+									<p class="lutece-site-meta">
+										<#if page_template_info??><span><i class="ti ti-layout" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelPageTemplateList} : ${page_template_info.description}</span></#if>
+										<#if page_update_date_info?has_content><span><i class="ti ti-clock" aria-hidden="true"></i> #i18n{portal.site.admin_page.labelUpdated} ${page_update_date_info}</span></#if>
+										<#if page.role?? && page.role != 'none'><span><i class="ti ti-lock" aria-hidden="true"></i> #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${page.role}</span></#if>
+									</p>
 								</div>
 								<div class="mockup-browser-actions">
 									<div class="btn-group" role="group" aria-label="#i18n{portal.site.admin_page.labelPreviewSize}">
@@ -268,11 +262,6 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 .lutece-site-nomatch, .lutece-site-empty { margin: 0; color: var( --lutece-site-muted ); }
 /* One column no wider than the room: a preview wider than it (laptop width) is cut down instead of pushing the inspector away */
 .lutece-site-center { display: grid; grid-template-columns: minmax( 0, 1fr ); grid-template-rows: auto 1fr; }
-.lutece-site-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1rem; padding: 0 1rem; border-bottom: 1px solid var( --lutece-site-line ); }
-.lutece-site-title { display: flex; align-items: center; justify-content: space-between; gap: .125rem; flex: 1; min-width: 12rem; }
-.lutece-site-title h2 { margin: 0; font-size: 1.25rem; }
-.lutece-site-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem; font-size: .8rem; color: var( --lutece-site-muted ); }
-.lutece-site-crumbs a { color: inherit; }
 .lutece-site-meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; margin: 0; font-size: .8rem; color: var( --lutece-site-muted ); }
 .lutece-site-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 .lutece-site-actions .btn-preview.active { background: var( --tblr-primary-lt, #e7f0fc ); color: var( --tblr-primary ); }
@@ -389,18 +378,19 @@ button.lutece-site-twisty[aria-expanded="false"] .ti { transform: rotate( -90deg
 /* The preview in a browser window: it fills the height left under the head (set by the script), at the width of the chosen device */
 #lutece-admin-site-preview-wrapper { padding: 0; }
 #lutece-admin-site-preview-frame.mockup-browser { flex: none; width: 100%; max-width: 100%; min-height: 20rem; transition: width .2s ease-out; border-radius: 0; }
-#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar {  display: flex; justify-content: space-between; padding-inline: 1.5rem; }
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar {  display: flex; justify-content: space-between; gap: .5rem; padding-inline: calc( var( --tblr-mockup-browser-control-offset ) * 5 + 3.25rem ) 1.5rem; }
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-url { min-width: 0; }
+#lutece-admin-site-preview-frame.mockup-browser .mockup-browser-url > .badge { display: inline-flex; align-items: center; gap: .25rem; min-width: 0; max-width: 100%; }
 #lutece-admin-site-preview-frame.mockup-browser .mockup-browser-home{ position: absolute; inset-inline-start: calc(var(--tblr-mockup-browser-control-offset)*5);}
 #lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar .mockup-browser-actions { display: flex; }
 #lutece-admin-site-preview-frame.mockup-browser .mockup-browser-toolbar .mockup-browser-actions .btn.active { border-radius:var(--tblr-btn-border-radius) }
 
 /* On a narrow device the address starts after the window dots instead of being centered under them */
 #lutece-admin-site-preview-frame[data-device="phone"] .mockup-browser-toolbar { padding-inline: 5rem 1rem;}
-#lutece-admin-site-preview-frame[data-device="phone"] :is( #parent-page, #iframe-reload, #iframe-fullscreen, #display-phone, .mockup-browser-home ) { display: none; }
+#lutece-admin-site-preview-frame[data-device="phone"] :is( #parent-page, #iframe-reload, #iframe-fullscreen, #display-phone, .mockup-browser-home, .lutece-site-meta ) { display: none; }
 /* No reload button on a small screen */
 @media ( max-width: 767.98px ) { #iframe-reload { display: none; } }
-#lutece-admin-site-preview-frame[data-device="tablet"] .mockup-browser-toolbar .mockup-browser-url { margin-inline-start: 3.5rem;}
-#lutece-admin-site-preview-frame:is([data-device="tablet"],[data-device="phone"]) .mockup-browser-toolbar #lutece-admin-site-preview-url{text-overflow: ellipsis; min-width: 2rem; overflow: hidden; white-space: nowrap;}
+#lutece-admin-site-preview-frame .mockup-browser-toolbar #lutece-admin-site-preview-url{text-overflow: ellipsis; min-width: 2rem; overflow: hidden; white-space: nowrap;}
 
 #lutece-admin-site-preview-frame .mockup-browser-body { position: relative; display: flex; }
 #lutece-admin-site-preview-frame .mockup-browser-body > iframe { width: 100%; height: 100%; }
