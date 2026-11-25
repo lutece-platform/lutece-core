@@ -1,4 +1,4 @@
-@import url(tabler-icons.min.css);
+@import url(vendor/tabler/tabler-icons.min.css);
 
 /* Dialog adding a portlet: the tiles of the "Add" tab of AdminSite.jsp */
 .lutece-dialog {
