@@ -3,6 +3,8 @@ import LuteceContentLoader from './luteceContentLoader.js';
 const LOADING_START = 'loading-start';
 const LOADING_END = 'loading-end';
 const LOADING_ERROR = 'loading-error';
+// number of the widgets of the page: the ids of their options must not collide
+let instanceCount = 0;
 
 class LuteceAutoComplete extends EventTarget {
   constructor(autocompleteElement, options = {}) {
@@ -18,6 +20,14 @@ class LuteceAutoComplete extends EventTarget {
     this.listSize = 0;
     // the value of the last search: a key that does not change the value (arrows, Enter, Tab...) does not reload the list
     this.lastSearchedValue = null;
+    // option ids unique in the page (two widgets on one page), named after the list when it has an id
+    instanceCount++;
+    this.optionIdPrefix = ( this.resultList && this.resultList.id ? this.resultList.id : 'lutece-autocomplete-' + instanceCount ) + '-option-';
+  }
+
+  /* The option of this widget with the given id (never an option of another widget of the page) */
+  getOption( id ) {
+    return id ? this.resultList.querySelector( '[id="' + id + '"]' ) : null;
   }
 
   async updateAutocomplete( event ) {
@@ -117,7 +127,7 @@ class LuteceAutoComplete extends EventTarget {
   /* Navigate to next/previous option with wrapping */
   moveActiveDescendant( direction ) {
     if ( this.listSize === 0 ) { return; }
-    const current = this.activeDescendantId ? document.getElementById( this.activeDescendantId ) : null;
+    const current = this.getOption( this.activeDescendantId );
     let next;
     if ( direction === 'down' ) {
       next = current && current.nextElementSibling ? current.nextElementSibling : this.resultList.firstElementChild;
@@ -179,7 +189,10 @@ class LuteceAutoComplete extends EventTarget {
       case 'Enter':
         event.preventDefault();
         if ( hasVisualFocus ) {
-          document.getElementById( this.activeDescendantId ).click();
+          const option = this.getOption( this.activeDescendantId );
+          if ( option ) {
+            option.click();
+          }
         }
         if ( this.open ) {
           this.closeDropdown();
@@ -296,7 +309,7 @@ class LuteceAutoComplete extends EventTarget {
   itemTemplate( suggestion, index ) {
     const idx = index + 1;
     const item = this.createEl( 'li', this.suggestionItemClass);
-    item.setAttribute( 'id', 'lutece-autocomplete-option-' + idx );
+    item.setAttribute( 'id', this.optionIdPrefix + idx );
     item.setAttribute( 'aria-posinset', idx );
     item.setAttribute( 'aria-setsize', this.listSize );
     item.setAttribute( 'aria-selected', 'false');
