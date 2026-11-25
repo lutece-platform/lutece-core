@@ -57,7 +57,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class HomeShortcutService
 {
     /** The highest number of shortcuts, so that the buttons hold on one line */
-    public static final int MAX_SHORTCUTS = 8;
+    public static final int MAX_SHORTCUTS = 6;
 
     private static final String PREFERENCE_KEY = "core.home.shortcuts";
     private static final String DATASTORE_KEY_DEFAULT = "core.home.shortcuts.default";
