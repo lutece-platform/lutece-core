@@ -92,9 +92,14 @@ Snippet:
             </li>
             <#if hasMenu>
                 <#assign menu=page_main_menu!>
-                <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
-                <#if customMenuMainPage??>${customMenuMainPage}</#if>
-                <#if customMenuInternalPage??>${customMenuInternalPage!customMenuMainPage}</#if>
+                <#-- A custom main menu (plugin-menus) replaces the menu of the core: plugin-menus also puts it in page_main_menu_html
+                     for the older page framesets, and in customMenuInternalPage when no internal menu exists; each menu is written once -->
+                <#if customMenuMainPage??>${customMenuMainPage}<#elseif showDefaultMenu>${page_main_menu_html!menu}</#if>
+                <#if customMenuInternalPage??>
+                    <#local internalMenuHtml = customMenuInternalPage?is_markup_output?then( customMenuInternalPage?markup_string, customMenuInternalPage?string ) />
+                    <#local mainMenuHtml = ( customMenuMainPage?? )?then( customMenuMainPage?is_markup_output?then( customMenuMainPage?markup_string, customMenuMainPage?string ), '' ) />
+                    <#if internalMenuHtml != mainMenuHtml>${customMenuInternalPage}</#if>
+                </#if>
             </#if>
             <#if hasNestedMenu>
             <#nested>
