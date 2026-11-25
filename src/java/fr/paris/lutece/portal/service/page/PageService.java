@@ -396,6 +396,8 @@ public class PageService implements IPageService, ImageResourceProvider
                 HtmlTemplate tAccessControled = AppTemplateService.getTemplate( strAccessControledTemplate, request.getLocale( ), model );
 
                 data.setContent( tAccessControled.getHtml( ) );
+                // no extender (feedback form, hit counter...) for a visitor who cannot see the page
+                data.setExtendersDisplayed( false );
 
                 return PortalService.buildPageContent( nIdPage, data, nMode, request );
             }
@@ -406,6 +408,7 @@ public class PageService implements IPageService, ImageResourceProvider
                 String strAccessDeniedTemplate = SecurityService.getInstance( ).getAccessDeniedTemplate( );
                 HtmlTemplate tAccessDenied = AppTemplateService.getTemplate( strAccessDeniedTemplate, request.getLocale( ) );
                 data.setContent( tAccessDenied.getHtml( ) );
+                data.setExtendersDisplayed( false );
 
                 return PortalService.buildPageContent( nIdPage, data, nMode, request );
             }

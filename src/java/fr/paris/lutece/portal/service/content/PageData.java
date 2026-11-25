@@ -62,6 +62,7 @@ public class PageData
     private boolean _bIsHomePage;
     private Timestamp _tsDateUpdate;
     private boolean _bDisplayDateUpdate;
+    private boolean _bExtendersDisplayed = true;
 
     /**
      * Returns the name of the page
@@ -461,5 +462,26 @@ public class PageData
     public void setDisplayDateUpdate( boolean bDisplayDateUpdate )
     {
         _bDisplayDateUpdate = bDisplayDateUpdate;
+    }
+
+    /**
+     * Tells whether the extenders of the page (plugin extend) are inserted in the page: false when the visitor cannot see the page
+     *
+     * @return true if the extenders are inserted
+     */
+    public boolean isExtendersDisplayed( )
+    {
+        return _bExtendersDisplayed;
+    }
+
+    /**
+     * Sets whether the extenders of the page (plugin extend) are inserted in the page
+     *
+     * @param bExtendersDisplayed
+     *            false when the visitor cannot see the page
+     */
+    public void setExtendersDisplayed( boolean bExtendersDisplayed )
+    {
+        _bExtendersDisplayed = bExtendersDisplayed;
     }
 }

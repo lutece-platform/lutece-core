@@ -305,7 +305,7 @@ public final class PortalService
 
         model.put( Markers.USER_CONTEXT_LANGUAGE, locale );
 
-        model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
+        model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) && data.isExtendersDisplayed( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
