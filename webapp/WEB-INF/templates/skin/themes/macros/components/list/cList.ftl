@@ -4,7 +4,9 @@ Macro: cList
 Description: Generates a customizable list component with support for default, expandable ('more'), and file download list styles.
 
 Parameters:
-- items (list, required): List of item objects with properties: url, title, target, class, size (for files).
+- items (list, required): List of item objects with properties: url, title, target, class, size (for files),
+  linkTitle (optional: the title attribute of the link instead of title, none when empty) and params (optional map:
+  additional HTML attributes of the link, written by htmlAttributes like the params of the macro).
 - type (string, optional): List display type ('default', 'more', 'files'). Default: 'default'.
 - itemsShown (number, optional): Number of items visible before requiring 'show more' (used with type='more'). Default: 0.
 - indexShown (boolean, optional): Whether to display the item index. Default: false.
@@ -73,7 +75,7 @@ Snippet:
 <#if items?has_content>
     <#list items as i>
         <li class="custom-list-item <#if i.class?? && i.class !=''>${i.class}</#if><#if type='more' && i?index &gt; itemsShown>extra hidden</#if>">
-            <a class="list-info" href="${i.url!'return false;'}"<#if i.linkTitle??><#if i.linkTitle!=''> title="${i.linkTitle}"</#if><#else> title="${i.title}"</#if><#if i.target !=''> target="${i.target}"</#if><#if type='files'> download="${i.title!?replace(' ','_')?replace('"','_')?replace('\'','_')}"</#if><#if i.params?? && i.params!=''> ${i.params}</#if>>
+            <a class="list-info" href="${i.url!'return false;'}"<#if i.linkTitle??><#if i.linkTitle!=''> title="${i.linkTitle}"</#if><#else> title="${i.title}"</#if><#if i.target !=''> target="${i.target}"</#if><#if type='files'> download="${i.title!?replace(' ','_')?replace('"','_')?replace('\'','_')}"</#if><#if i.params??>${htmlAttributes( {}, i.params )}</#if>>
                 <span>${i.title!} <#if indexShown>${i?index}</#if></span>
                 <#if type='files'>
                 <div class="files-info">
