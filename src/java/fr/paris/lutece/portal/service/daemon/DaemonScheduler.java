@@ -220,7 +220,8 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             DaemonManagedTask daemonTimerTask = _scheduledDaemons.get( entry.getId( ) );
             if ( daemonTimerTask == null )
             {
-                AppLogService.error( "Could not unschedule daemon {} which was not scheduled", ( ) -> entry.getId( ) );
+                // Already unscheduled (e.g. stopped while one of its runs was planned): nothing to do
+                AppLogService.debug( "Could not unschedule daemon {} which was not scheduled", ( ) -> entry.getId( ) );
             }
             else
             {

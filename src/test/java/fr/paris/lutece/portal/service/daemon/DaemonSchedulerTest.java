@@ -119,6 +119,25 @@ public class DaemonSchedulerTest extends LuteceTestCase
     }
     
     /**
+     * Unscheduling a daemon that is no longer scheduled (it was stopped while one of its runs was already planned) is a
+     * normal race: it must not be logged as an error.
+     */
+    @Test
+    public void testUnscheduleOfADaemonNotScheduledLogsNoError( ) throws Exception
+    {
+        DaemonScheduler scheduler = buildDaemonScheduler( );
+        try ( fr.paris.lutece.portal.service.util.ErrorLogCapture capture = new fr.paris.lutece.portal.service.util.ErrorLogCapture( ) )
+        {
+            scheduler.unSchedule( TestDaemon.makeDaemonEntry( "JUNIT-never-scheduled" ) );
+            assertTrue( capture.getErrors( ).isEmpty( ), "errors logged: " + capture.getErrors( ) );
+        }
+        finally
+        {
+            scheduler.shutdown( );
+        }
+    }
+
+    /**
      * Build DaemonScheduler
      * 
      * @return
