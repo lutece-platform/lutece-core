@@ -59,6 +59,7 @@ import org.apache.lucene.queryparser.classic.QueryParserBase;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchNoDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
@@ -322,6 +323,12 @@ public class LuceneSearchEngine implements SearchEngine
      */
     private Query parseQuery( QueryParser parser, String strQuery ) throws org.apache.lucene.queryparser.classic.ParseException
     {
+        if ( StringUtils.isBlank( strQuery ) )
+        {
+            // A search without words (search page opened empty) matches nothing: the parser would throw on an empty string
+            return new MatchNoDocsQuery( );
+        }
+
         try
         {
             return parser.parse( strQuery );
