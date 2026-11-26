@@ -357,13 +357,17 @@ public class LuceneSearchEngine implements SearchEngine
             SearchResult result = new SearchResult( );
             result.setId( item.getId( ) );
 
-            try
+            // A document may be indexed without date (e.g. the HTML pages): its result has no date
+            if ( StringUtils.isNotBlank( item.getDate( ) ) )
             {
-                result.setDate( DateTools.stringToDate( item.getDate( ) ) );
-            }
-            catch( ParseException e )
-            {
-                AppLogService.error( "Bad Date Format for indexed item \"{}\" : {}", item.getTitle( ), e.getMessage( ), e );
+                try
+                {
+                    result.setDate( DateTools.stringToDate( item.getDate( ) ) );
+                }
+                catch( ParseException e )
+                {
+                    AppLogService.error( "Bad Date Format for indexed item \"{}\" : {}", item.getTitle( ), e.getMessage( ), e );
+                }
             }
 
             result.setUrl( item.getUrl( ) );

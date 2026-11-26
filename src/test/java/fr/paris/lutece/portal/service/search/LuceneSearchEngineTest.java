@@ -289,4 +289,19 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( _engine.getSearchResults( "lutecefoo AND lutecebadfoo", request ).isEmpty( ) );
         assertTrue( _engine.getSearchResults( "lutecefoo OR lutecebadfoo", request ).size( ) >= 1 );
     }
+
+    /**
+     * A document indexed without date (e.g. the HTML pages of plugin-htmlpage) is returned without date, and no « Bad Date
+     * Format » error is logged for it at each search.
+     */
+    @Test
+    public void testResultWithoutDateLogsNoError( ) throws Exception
+    {
+        try ( fr.paris.lutece.portal.service.util.ErrorLogCapture capture = new fr.paris.lutece.portal.service.util.ErrorLogCapture( ) )
+        {
+            List<SearchResult> listResults = _engine.getSearchResults( "lutecebaz", new MockHttpServletRequest( ) );
+            assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
+            assertTrue( "errors logged: " + capture.getErrors( ), capture.getErrors( ).isEmpty( ) );
+        }
+    }
 }
