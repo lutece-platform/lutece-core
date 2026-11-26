@@ -238,8 +238,6 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
         String strRole = request.getParameter( Parameters.ROLE );
 
-        strName = strName.replaceAll( "\"", "" );
-
         // Check Mandatory fields
         if ( StringUtil.isAnyEmpty( strName, strOrder, strColumn, strAcceptAlias, strAcceptPortletTitle ) )
         {

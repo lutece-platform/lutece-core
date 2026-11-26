@@ -174,4 +174,17 @@ public class PortletJspBeanTokenTest extends LuteceTestCase
         assertNotNull( new TestPortletJspBean( ).setCommonData( request, portlet ) );
         assertNull( portlet.getName( ) );
     }
+
+    @Test
+    public void testNameKeepsDoubleQuotes( )
+    {
+        String strName = "junit \"cite\" l'apostrophe";
+        MockHttpServletRequest request = newRequest( );
+        request.setParameter( Parameters.PORTLET_NAME, strName );
+        request.setParameter( SecurityTokenHandler.MARK_CSRF_TOKEN, _securityTokenService.getToken( request, "admin/portlet/create_portlet.html" ) );
+        TestPortlet portlet = new TestPortlet( );
+
+        assertNull( new TestPortletJspBean( ).setCommonData( request, portlet ) );
+        assertEquals( strName, portlet.getName( ) );
+    }
 }
