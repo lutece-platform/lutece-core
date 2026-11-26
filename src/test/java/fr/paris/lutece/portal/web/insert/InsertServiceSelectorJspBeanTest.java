@@ -70,4 +70,20 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
 
         assertTrue( StringUtils.isNotEmpty( instance.displayService( request ) ) );
     }
+
+    /**
+     * An insert service type that is unknown (or whose plugin is disabled) gives a stop message, not a NullPointerException.
+     */
+    @Test
+    public void testDisplayServiceOfAnUnknownType( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "insert_service_type", "e2e_unknown_insert_service" );
+        InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
+
+        String strResult = instance.displayService( request );
+
+        assertTrue( StringUtils.isNotEmpty( strResult ) );
+        assertTrue( strResult.contains( "AdminMessage" ), strResult );
+    }
 }

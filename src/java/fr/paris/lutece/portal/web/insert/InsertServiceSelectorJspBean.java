@@ -259,12 +259,14 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         {
             InsertService is = InsertServiceManager.getInsertService( strInsertService );
 
-            return is.getSelectorUI( request );
+            if ( is != null )
+            {
+                return is.getSelectorUI( request );
+            }
         }
-        else
-        {
-            return AdminMessageService.getMessageUrl( request, MSG_NO_SERVICE_AVAILABLE, AdminMessage.TYPE_STOP );
-        }
+
+        // No type, or a type of no registered insert service (unknown, or its plugin is disabled)
+        return AdminMessageService.getMessageUrl( request, MSG_NO_SERVICE_AVAILABLE, AdminMessage.TYPE_STOP );
     }
 
     /**
