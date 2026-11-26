@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -281,8 +282,14 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         group.setIcon( strGroupIcon );
 
         FeatureGroupHome.create( group );
-        group.setOrder( Integer.parseInt( strGroupOrder ) );
-        FeatureGroupHome.update( group );
+
+        // The group is created at the last position; a valid order given by the form moves it
+        int nOrder = NumberUtils.toInt( strGroupOrder, -1 );
+        if ( nOrder > 0 )
+        {
+            group.setOrder( nOrder );
+            FeatureGroupHome.update( group );
+        }
 
         return getDashboardUrl( request );
     }
@@ -318,7 +325,12 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
         group.setLabelKey( strGroupName );
         group.setDescriptionKey( strGroupDescription );
-        group.setOrder( Integer.parseInt( strGroupOrder ) );
+        // An order that is missing or not numeric keeps the current order of the group
+        int nOrder = NumberUtils.toInt( strGroupOrder, -1 );
+        if ( nOrder > 0 )
+        {
+            group.setOrder( nOrder );
+        }
         group.setIcon( strGroupIcon );
 
         FeatureGroupHome.update( group );

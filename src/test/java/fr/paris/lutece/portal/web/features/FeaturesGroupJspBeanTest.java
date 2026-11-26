@@ -644,4 +644,77 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getBackUrl( ).endsWith( "jsp/admin/features/CreateGroup.jsp" ), message.getBackUrl( ) );
     }
+
+    /**
+     * A group created without (or with a non numeric) order keeps the order given at its creation (last position) instead of
+     * failing after the group has been inserted.
+     *
+     * @throws AccessDeniedException
+     */
+    @Test
+    public void testDoCreateGroupWithoutOrderKeepsTheLastPosition( ) throws AccessDeniedException
+    {
+        for ( String strOrder : new String [ ] { null, "", "abc" } )
+        {
+            String strGroupName = getRandomName( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( "group_id", strGroupName );
+            request.addParameter( "group_name", strGroupName );
+            request.addParameter( "group_description", strGroupName );
+            if ( strOrder != null )
+            {
+                request.addParameter( "group_order", strOrder );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+            try
+            {
+                instance.doCreateGroup( request );
+                FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupName );
+                assertNotNull( group );
+                assertEquals( FeatureGroupHome.getFeatureGroupsCount( ), group.getOrder( ), "order " + strOrder );
+            }
+            finally
+            {
+                FeatureGroupHome.remove( strGroupName );
+            }
+        }
+    }
+
+    /**
+     * A modification without (or with a non numeric) order keeps the current order of the group.
+     *
+     * @throws AccessDeniedException
+     */
+    @Test
+    public void testDoModifyGroupWithoutOrderKeepsTheOrder( ) throws AccessDeniedException
+    {
+        String strGroupName = getRandomName( );
+        FeatureGroup group = new FeatureGroup( );
+        group.setId( strGroupName );
+        group.setLabelKey( strGroupName );
+        group.setDescriptionKey( strGroupName );
+        FeatureGroupHome.create( group );
+        int nOrder = FeatureGroupHome.findByPrimaryKey( strGroupName ).getOrder( );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( "group_id", strGroupName );
+            request.addParameter( "group_name", strGroupName + "_modified" );
+            request.addParameter( "group_description", strGroupName );
+            request.addParameter( "group_order", "abc" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+
+            instance.doModifyGroup( request );
+
+            FeatureGroup modified = FeatureGroupHome.findByPrimaryKey( strGroupName );
+            assertEquals( strGroupName + "_modified", modified.getLabelKey( ) );
+            assertEquals( nOrder, modified.getOrder( ) );
+        }
+        finally
+        {
+            FeatureGroupHome.remove( strGroupName );
+        }
+    }
 }
