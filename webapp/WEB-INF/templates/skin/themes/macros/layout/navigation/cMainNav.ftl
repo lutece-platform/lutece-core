@@ -4,7 +4,7 @@ Macro: cMainNav
 Description: Generates the main site navigation bar with logo, menu items, optional search field, login button, and sidebar mode support.
 
 Parameters:
-- title (string, required): Site title displayed in the navbar. Default: favourite.
+- title (string, required): Site title displayed in the navbar. Default: favourite, empty when the page does not define it (a macro rendered outside a portal page).
 - logoImg (string, optional): URL of the logo image. Default: ''.
 - href (string, optional): URL linked to the logo/title. Default: '.'.
 - hasMenu (boolean, optional): If true, displays the site menu. Default: hasDefaultMenu?boolean.
@@ -58,7 +58,7 @@ Snippet:
     <@cMainNav title='Admin Portal' isSidebar=true isSibebarCollapsible=true isFixed=true hasSearchMenu=true />
 
 -->
-<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasNavOverflow=(hasMainNavOverflow!'false')?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params={} deprecated...>
+<#macro cMainNav title=favourite!'' logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasNavOverflow=(hasMainNavOverflow!'false')?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- The More menu of the top menu only: the sidebar is vertical, every item has its room -->
 <#local navOverflow = hasNavOverflow && !isSidebar />
