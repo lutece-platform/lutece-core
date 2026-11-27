@@ -54,7 +54,8 @@ public final class LocaleService
     private static final String PROPERTY_LANG_LIST = "lutece.i18n.availableLocales";
     private static final String PROPERTY_LANG_DEFAULT = "lutece.i18n.defaultLocale";
     private static Locale _locale;
-    private static List<Locale> _supportedLocales;
+    // volatile and only assigned once filled : isSupported reads it without the lock of getSupportedLangList
+    private static volatile List<Locale> _supportedLocales;
 
     /**
      * Private constructor
@@ -185,13 +186,15 @@ public final class LocaleService
      */
     public static boolean isSupported( Locale locale )
     {
-        if ( _supportedLocales == null )
+        List<Locale> listSupportedLocales = _supportedLocales;
+
+        if ( listSupportedLocales == null )
         {
-            getSupportedLangList( );
+            listSupportedLocales = getSupportedLangList( );
         }
 
         // check if the mandatory language is supported
-        for ( Locale supportedLocale : _supportedLocales )
+        for ( Locale supportedLocale : listSupportedLocales )
         {
             if ( supportedLocale.equals( locale ) )
             {
@@ -212,11 +215,13 @@ public final class LocaleService
         if ( _supportedLocales == null )
         {
             String [ ] strLangList = AppPropertiesService.getProperty( PROPERTY_LANG_LIST ).split( "," );
-            _supportedLocales = new ArrayList<>( );
+            // filled before it is published : published empty, the first requests after a start iterated it while it was filled
+            List<Locale> listSupportedLocales = new ArrayList<>( );
             for ( String lang : strLangList )
             {
-                _supportedLocales.add( new Locale( lang ) );
+                listSupportedLocales.add( new Locale( lang ) );
             }
+            _supportedLocales = listSupportedLocales;
         }
 
         return _supportedLocales;
